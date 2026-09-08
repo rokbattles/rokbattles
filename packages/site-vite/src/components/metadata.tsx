@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function Metadata({ title, description }: Props) {
-  const pageTitle = title ? `${title} | ROK Battles` : "ROK Battles";
+  const pageTitle = title ? `${title} - ROK Battles` : "ROK Battles";
   const pageDescription =
     description ||
     "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms";
