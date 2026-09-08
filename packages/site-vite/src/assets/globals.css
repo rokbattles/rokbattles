@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-zinc-950 text-white;
+  }
+}
+
 /* BaseUI recommendations: https://base-ui.com/react/overview/quick-start */
 #root {
   isolation: isolate;

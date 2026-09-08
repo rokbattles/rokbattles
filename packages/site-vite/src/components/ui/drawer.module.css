@@ -1,0 +1,131 @@
+.backdrop {
+  opacity: calc(1 - var(--drawer-swipe-progress, 0));
+  transition: opacity 300ms ease;
+}
+
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.panel {
+  --stack-depth: var(--nested-drawers, 0);
+  --stack-scale: max(0.8, calc(1 - var(--stack-depth) * 0.04));
+  --stack-offset: calc(min(var(--stack-depth), 5) * 1rem);
+
+  position: absolute;
+  width: calc(100% - 2.5rem);
+  transition:
+    transform 300ms ease,
+    height 300ms ease;
+}
+
+.panel[data-swipe-direction="right"],
+.panel[data-swipe-direction="left"] {
+  inset-block: 0;
+}
+
+.panel[data-swipe-direction="right"] {
+  right: 0;
+  border-radius: 1rem 0 0 1rem;
+  transform-origin: right center;
+  transform: translateX(
+      calc(
+        var(--drawer-swipe-movement-x, 0px) -
+        var(--stack-offset) -
+        (1 - var(--stack-scale)) *
+        100%
+      )
+    )
+    scale(var(--stack-scale));
+}
+
+.panel[data-swipe-direction="left"] {
+  left: 0;
+  border-radius: 0 1rem 1rem 0;
+  transform-origin: left center;
+  transform: translateX(
+      calc(
+        var(--drawer-swipe-movement-x, 0px) +
+        var(--stack-offset) +
+        (1 - var(--stack-scale)) *
+        100%
+      )
+    )
+    scale(var(--stack-scale));
+}
+
+.panel[data-swipe-direction="down"] {
+  inset-inline: 0;
+  bottom: 0;
+  margin-inline: auto;
+  width: 100%;
+  height: var(--drawer-height, auto);
+  max-height: calc(100% - 2.5rem);
+  border-radius: 1.5rem 1.5rem 0 0;
+  transform-origin: center bottom;
+  transform: translateY(
+      calc(
+        var(--drawer-snap-point-offset, 0px) +
+        var(--drawer-swipe-movement-y, 0px) -
+        var(--stack-offset) -
+        (1 - var(--stack-scale)) *
+        100%
+      )
+    )
+    scale(var(--stack-scale));
+}
+
+/* Align the rear sheets with the active sheet, even when their content heights differ. */
+.panel[data-swipe-direction="down"][data-nested-drawer-open] {
+  height: var(--drawer-frontmost-height, var(--drawer-height, auto));
+}
+
+.panel[data-swipe-direction="right"][data-starting-style],
+.panel[data-swipe-direction="right"][data-ending-style] {
+  transform: translateX(100%);
+}
+
+.panel[data-swipe-direction="left"][data-starting-style],
+.panel[data-swipe-direction="left"][data-ending-style] {
+  transform: translateX(-100%);
+}
+
+.panel[data-swipe-direction="down"][data-starting-style],
+.panel[data-swipe-direction="down"][data-ending-style] {
+  transform: translateY(100%);
+}
+
+.content {
+  padding-bottom: max(var(--gutter), env(safe-area-inset-bottom));
+  overflow: hidden;
+  transition: opacity 300ms ease;
+}
+
+.panel[data-nested-drawer-open] > .content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.panel[data-nested-drawer-swiping] > .content {
+  opacity: 1;
+}
+
+.panel[data-ending-style],
+.backdrop[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength, 1) * 300ms);
+}
+
+.panel[data-swiping],
+.panel[data-nested-drawer-swiping],
+.backdrop[data-swiping] {
+  transition-duration: 0ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .backdrop,
+  .content {
+    transition: none;
+  }
+}

@@ -1,11 +1,12 @@
 import { Fragment } from "react";
-import Metadata from "../components/Metadata";
+import Metadata from "../components/metadata";
+import { Heading } from "../components/ui/heading";
 
 export default function IndexRoute() {
   return (
     <Fragment>
       <Metadata />
-      <div>ROK Battles</div>
+      <Heading>ROK Battles</Heading>
     </Fragment>
   );
 }
