@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { Heading } from "../components/ui/heading";
 import { Text } from "../components/ui/text";
 
-export default function NotFound() {
+export default function NotFoundRoute() {
   return (
     <AuthLayout>
       <Metadata title="404 Page Not Found" />

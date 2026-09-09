@@ -1,18 +1,20 @@
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { AppLayout } from "./components/app-layout";
-import Index from "./pages/index.tsx";
-import NotFound from "./pages/not-found.tsx";
+import AppIndexRoute from "./pages/app/index.tsx";
+import IndexRoute from "./pages/index.tsx";
+import NotFoundRoute from "./pages/not-found.tsx";
 
 export default function App() {
   return (
     <BrowserRouter>
       <NuqsAdapter>
         <Routes>
-          <Route element={<AppLayout />}>
-            <Route index element={<Index />} />
+          <Route index element={<IndexRoute />} />
+          <Route path="app" element={<AppLayout />}>
+            <Route index element={<AppIndexRoute />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFoundRoute />} />
         </Routes>
       </NuqsAdapter>
     </BrowserRouter>

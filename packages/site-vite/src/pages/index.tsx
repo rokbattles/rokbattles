@@ -1,12 +1,5 @@
-import { Fragment } from "react";
-import Metadata from "../components/metadata";
-import { Heading } from "../components/ui/heading";
+import { Link } from "react-router";
 
 export default function IndexRoute() {
-  return (
-    <Fragment>
-      <Metadata />
-      <Heading>ROK Battles</Heading>
-    </Fragment>
-  );
+  return <Link to="/app">Go to app</Link>;
 }

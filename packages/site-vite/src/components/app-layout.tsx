@@ -13,26 +13,26 @@ import {
 import { SidebarLayout } from "./ui/sidebar-layout";
 
 export function AppLayout() {
-  const isIndex = useMatch({ path: "/", end: true }) !== null;
+  const isIndex = useMatch({ path: "/app", end: true }) !== null;
 
   return (
     <SidebarLayout
       navbar={
         <Navbar aria-label="Site">
-          <NavbarItem href="/">ROK Battles</NavbarItem>
+          <NavbarItem href="/app">ROK Battles</NavbarItem>
         </Navbar>
       }
       sidebar={
         <Sidebar aria-label="Main navigation">
           <SidebarHeader>
-            <SidebarItem href="/">
+            <SidebarItem href="/app">
               <SidebarLabel>ROK Battles</SidebarLabel>
             </SidebarItem>
           </SidebarHeader>
           <SidebarBody>
             <SidebarSection>
               <SidebarHeading>Community</SidebarHeading>
-              <SidebarItem href="/" current={isIndex}>
+              <SidebarItem href="/app" current={isIndex}>
                 <Flame aria-hidden="true" />
                 <SidebarLabel>Battle Reports</SidebarLabel>
               </SidebarItem>
