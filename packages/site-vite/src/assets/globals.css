@@ -11,16 +11,16 @@
     color-scheme: dark;
   }
 
+  html {
+    @apply scroll-smooth motion-reduce:scroll-auto;
+  }
+
   body {
     @apply bg-zinc-950 text-white;
+    position: relative;
   }
 }
 
-/* BaseUI recommendations: https://base-ui.com/react/overview/quick-start */
 #root {
   isolation: isolate;
-}
-
-body {
-  position: relative;
 }
