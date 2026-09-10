@@ -1,7 +1,6 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
 import clsx from "clsx";
 import type { ComponentProps } from "react";
-import styles from "./drawer.module.css";
 import { Text } from "./text";
 
 const sizes = {
@@ -41,14 +40,18 @@ export function DrawerPanel({
 }) {
   return (
     <BaseDrawer.Portal>
-      <BaseDrawer.Backdrop
-        className={clsx(styles.backdrop, "pointer-events-none absolute inset-0 bg-zinc-950/50")}
-      />
+      <BaseDrawer.Backdrop className="pointer-events-none absolute inset-0 bg-zinc-950/50 opacity-[calc(1-var(--drawer-swipe-progress,0))] transition-opacity duration-300 ease-[ease] data-starting-style:opacity-0 data-ending-style:opacity-0 data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*300ms)] data-swiping:duration-0 motion-reduce:transition-none" />
       <BaseDrawer.Viewport className="pointer-events-none fixed inset-0 overflow-hidden">
         <BaseDrawer.Popup
           {...props}
           className={clsx(
-            styles.panel,
+            "absolute w-[calc(100%-2.5rem)] transition-[transform,height] duration-300 ease-[ease] [--stack-depth:var(--nested-drawers,0)] [--stack-scale:max(0.8,calc(1-var(--stack-depth)*0.04))] [--stack-offset:calc(min(var(--stack-depth),5)*1rem)]",
+            "data-[swipe-direction=right]:inset-y-0 data-[swipe-direction=right]:right-0 data-[swipe-direction=right]:rounded-l-2xl data-[swipe-direction=right]:origin-right data-[swipe-direction=right]:[transform:translateX(calc(var(--drawer-swipe-movement-x,0px)-var(--stack-offset)-(1-var(--stack-scale))*100%))_scale(var(--stack-scale))]",
+            "data-[swipe-direction=left]:inset-y-0 data-[swipe-direction=left]:left-0 data-[swipe-direction=left]:rounded-r-2xl data-[swipe-direction=left]:origin-left data-[swipe-direction=left]:[transform:translateX(calc(var(--drawer-swipe-movement-x,0px)+var(--stack-offset)+(1-var(--stack-scale))*100%))_scale(var(--stack-scale))]",
+            "data-[swipe-direction=down]:inset-x-0 data-[swipe-direction=down]:bottom-0 data-[swipe-direction=down]:mx-auto data-[swipe-direction=down]:w-full data-[swipe-direction=down]:h-[var(--drawer-height,auto)] data-[swipe-direction=down]:max-h-[calc(100%-2.5rem)] data-[swipe-direction=down]:rounded-t-3xl data-[swipe-direction=down]:origin-bottom data-[swipe-direction=down]:[transform:translateY(calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y,0px)-var(--stack-offset)-(1-var(--stack-scale))*100%))_scale(var(--stack-scale))]",
+            "data-[swipe-direction=down]:data-nested-drawer-open:h-[var(--drawer-frontmost-height,var(--drawer-height,auto))]",
+            "data-[swipe-direction=right]:data-starting-style:[transform:translateX(100%)] data-[swipe-direction=right]:data-ending-style:[transform:translateX(100%)] data-[swipe-direction=left]:data-starting-style:[transform:translateX(-100%)] data-[swipe-direction=left]:data-ending-style:[transform:translateX(-100%)] data-[swipe-direction=down]:data-starting-style:[transform:translateY(100%)] data-[swipe-direction=down]:data-ending-style:[transform:translateY(100%)]",
+            "data-ending-style:duration-[calc(var(--drawer-swipe-strength,1)*300ms)] data-swiping:duration-0 data-nested-drawer-swiping:duration-0 motion-reduce:transition-none",
             "group/drawer pointer-events-auto flex min-h-0 flex-col bg-zinc-900 text-white shadow-xl ring-1 ring-white/10 scheme-dark outline-none forced-colors:outline",
             sizes[size],
             className
@@ -62,7 +65,7 @@ export function DrawerPanel({
           </div>
           <BaseDrawer.Content
             className={clsx(
-              styles.content,
+              "overflow-hidden pb-[max(var(--gutter),env(safe-area-inset-bottom))] transition-opacity duration-300 ease-[ease] group-data-nested-drawer-open/drawer:pointer-events-none group-data-nested-drawer-open/drawer:opacity-0 group-data-nested-drawer-swiping/drawer:opacity-100 motion-reduce:transition-none",
               "flex min-h-0 flex-1 flex-col p-(--gutter) [--gutter:--spacing(6)] sm:[--gutter:--spacing(8)]"
             )}
           >
