@@ -56,7 +56,7 @@ export function MarketingHeader() {
           <Link href="/" aria-label="ROK Battles home" className="shrink-0">
             <Logo />
           </Link>
-          <Link href="#" reloadDocument className="text-sm! max-md:hidden">
+          <Link href="/docs" className="text-sm! max-md:hidden">
             Docs
           </Link>
           <Link href="/#downloads" className="text-sm! max-md:hidden">
@@ -95,7 +95,7 @@ export function MarketingHeader() {
                 aria-label="Mobile navigation"
                 className="mt-10 mb-8 flex flex-col items-stretch gap-4"
               >
-                <Link href="#" reloadDocument onClick={() => setOpen(false)}>
+                <Link href="/docs" onClick={() => setOpen(false)}>
                   Docs
                 </Link>
                 <Link href="/#downloads" onClick={() => setOpen(false)}>

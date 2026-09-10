@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>DNSSettings</key>
+			<dict>
+				<key>DNSProtocol</key>
+				<string>HTTPS</string>
+				<key>ServerURL</key>
+				<string>https://dns.rokbattles.com/query</string>
+				<key>SupplementalMatchDomains</key>
+				<array>
+					<string>rocgate.lilithgame.com</string>
+				</array>
+			</dict>
+			<key>PayloadDescription</key>
+			<string>ROK Battles DNS over HTTPS resolver.</string>
+			<key>PayloadDisplayName</key>
+			<string>ROK Battles DNS Settings</string>
+			<key>PayloadIdentifier</key>
+			<string>com.rokbattles.dns.settings</string>
+			<key>PayloadType</key>
+			<string>com.apple.dnsSettings.managed</string>
+			<key>PayloadUUID</key>
+			<string>7327C1B8-D8DF-4507-8E2B-710BF566153F</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>ROK Battles DNS over HTTPS resolver.</string>
+	<key>PayloadDisplayName</key>
+	<string>ROK Battles DNS</string>
+	<key>PayloadIdentifier</key>
+	<string>com.rokbattles.dns</string>
+	<key>PayloadOrganization</key>
+	<string>ROK Battles</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>983B440F-4546-494C-B8C6-5BE291387FED</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

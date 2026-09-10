@@ -1,0 +1,23 @@
+# Install on SteamOS
+
+On SteamOS, install the Debian build of ROK Battles inside a Debian-based container using Distrobox or BoxBuddy.
+
+<DownloadOptions platform="steamos" />
+
+## Prepare a container
+
+1. Switch to Desktop Mode on your Steam Deck.
+2. Install [Distrobox](https://distrobox.it), or use BoxBuddy from the Discover store.
+3. Create a Debian-based container, such as Debian or Ubuntu.
+
+## Install ROK Battles
+
+In BoxBuddy, use **Install .deb file** for your container and select the downloaded package.
+
+With Distrobox, enter your container and open the folder containing the download. Install the package inside the container, replacing the filename below with your download's exact name:
+
+```bash
+sudo apt install ./ROK.Battles___VERSION___amd64.deb
+```
+
+The package should be installed inside the container, rather than directly on the SteamOS host.

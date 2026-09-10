@@ -5,7 +5,7 @@ repo_url="https://github.com/rokbattles/legal.git"
 legal_commit="ea81a5757427343a7c76359b2d17759d407848f3"
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 site_dir="$(cd "${script_dir}/.." && pwd)"
-destination="${site_dir}/src/_legal"
+destination="${site_dir}/src/content/legal"
 
 if [ ! -e "${destination}" ]; then
   mkdir -p "${destination}"

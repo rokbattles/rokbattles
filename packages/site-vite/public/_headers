@@ -5,3 +5,6 @@
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Robots-Tag: noindex
+
+/rokbattles.mobileconfig
+  Content-Type: application/x-apple-aspen-config

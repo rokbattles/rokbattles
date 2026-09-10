@@ -7,20 +7,20 @@ export const legalDocuments = [
     title: "Terms of Service",
     description: "The rules and conditions for using ROK Battles and its services.",
     icon: FileText,
-    Content: lazy(() => import("../_legal/terms-of-service.md")),
+    Content: lazy(() => import("../content/legal/terms-of-service.md")),
   },
   {
     id: "privacy-policy",
     title: "Privacy Policy",
     description: "How ROK Battles collects, uses, and protects personal data.",
     icon: ShieldCheck,
-    Content: lazy(() => import("../_legal/privacy-policy.md")),
+    Content: lazy(() => import("../content/legal/privacy-policy.md")),
   },
   {
     id: "cookie-policy",
     title: "Cookie Policy",
     description: "How ROK Battles uses cookies and similar technologies.",
     icon: Cookie,
-    Content: lazy(() => import("../_legal/cookie-policy.md")),
+    Content: lazy(() => import("../content/legal/cookie-policy.md")),
   },
 ];
