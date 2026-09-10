@@ -121,6 +121,41 @@ const communityTools = [
   },
 ];
 
+type CreatorTestimonial = {
+  name: string;
+  initials: string;
+  quote: string;
+  avatarUrl?: string;
+  channelUrl?: string;
+};
+
+const creatorTestimonials: CreatorTestimonial[] = [
+  {
+    name: "Sttuu",
+    initials: "S",
+    avatarUrl: "/sttuu.jpg",
+    channelUrl: "https://www.youtube.com/@Sttuuu",
+    quote:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  },
+  {
+    name: "WarDaddyChadski",
+    initials: "WC",
+    avatarUrl: "/wardaddychadski.jpg",
+    channelUrl: "https://www.youtube.com/@WarDaddyChadski",
+    quote:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  },
+  {
+    name: "Mr Siege",
+    initials: "MS",
+    avatarUrl: "/mrsiege.jpg",
+    channelUrl: "https://www.youtube.com/@MrSiegeOfficial",
+    quote:
+      "ROK Battles is my go-to for analyzing trade quality and overall results of my marches. The seamless setup and clean navigation make it a no-brainer tool for any creator or player.",
+  },
+];
+
 const releaseVersion = "1.6.1";
 const releaseUrl = `https://github.com/rokbattles/rokbattles/releases/download/${releaseVersion}`;
 const downloads = [
@@ -220,7 +255,7 @@ export default function IndexRoute() {
             <Heading level={1} size="hero" id="hero-heading">
               Every battle
               <br />
-              <span className="text-orange-400">tells a bigger story</span>
+              <span className="text-orange-400">tells a bigger story.</span>
             </Heading>
             <Text className="mx-auto mt-6 max-w-xl">
               ROK Battles turns Rise of Kingdoms battle reports into data you can explore, compare
@@ -239,12 +274,11 @@ export default function IndexRoute() {
 
         <section aria-label="Community metrics" className="relative border-b border-white/10">
           <GridMarkers />
-          <dl className="grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-4">
+          <dl className="grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-3">
             {[
-              { value: "40M+", label: "Battle reports" },
               { value: "1.5K+", label: "Users" },
-              { value: "X+", label: "Lorem ipsum" },
-              { value: "Y+", label: "Lorem ipsum" },
+              { value: "40M+", label: "Battle reports" },
+              { value: "400K+", label: "Governors seen" },
             ].map(({ value, label }) => (
               <div key={value} className={clsx(card, "flex flex-col-reverse gap-3")}>
                 <dt className={clsx(bodyText, "text-zinc-400")}>{label}</dt>
@@ -277,8 +311,9 @@ export default function IndexRoute() {
               <span className="text-orange-400">a battle report.</span>
             </Heading>
             <Text className="mt-6 max-w-md">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+              ROK Battles reads your Rise of Kingdoms mailcache directory and turns it into
+              structured data. That data powers everything from individual battle reports,
+              performance insights, and loot tracking to larger-scale analysis and community tools.
             </Text>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/app">
@@ -288,6 +323,68 @@ export default function IndexRoute() {
                 Explore duels <ArrowUpRight aria-hidden="true" />
               </Button>
             </div>
+          </div>
+        </section>
+
+        <section
+          id="creators"
+          aria-labelledby="creators-heading"
+          className="relative scroll-mt-8 border-b border-white/10"
+        >
+          <GridMarkers />
+          <div className={sectionHeading}>
+            <Heading id="creators-heading">
+              Used by creators across
+              <br />
+              <span className="text-orange-400">the community.</span>
+            </Heading>
+          </div>
+          <div className="grid gap-px border-t border-white/10 bg-white/10 lg:grid-cols-3">
+            {creatorTestimonials.map(({ name, initials, quote, avatarUrl, channelUrl }) => (
+              <figure key={name} className={clsx(card, "flex min-w-0 flex-col")}>
+                <span aria-hidden="true" className="h-12 font-serif text-7xl/none text-orange-400">
+                  “
+                </span>
+                <blockquote className="mt-4 flex-1 text-lg/8 text-zinc-200">
+                  <p>{quote}</p>
+                </blockquote>
+                <figcaption className="mt-8 flex items-center gap-4 border-t border-white/10 pt-6">
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt=""
+                      width={48}
+                      height={48}
+                      loading="lazy"
+                      className="size-12 shrink-0 rounded-full object-cover ring-1 ring-white/10"
+                    />
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className="flex size-12 shrink-0 items-center justify-center rounded-full bg-orange-400/10 font-mono text-sm text-orange-400 ring-1 ring-orange-400/20"
+                    >
+                      {initials}
+                    </span>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-medium wrap-break-word text-white">{name}</p>
+                    {channelUrl ? (
+                      <Link
+                        href={channelUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit ${name}'s channel (opens in a new tab)`}
+                        className="min-h-0!"
+                      >
+                        Visit channel <ArrowUpRight aria-hidden="true" />
+                      </Link>
+                    ) : (
+                      <p className="mt-1 text-sm/6 text-zinc-400">Channel coming soon</p>
+                    )}
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </section>
 
@@ -318,18 +415,20 @@ export default function IndexRoute() {
             <Heading id="drastc-heading">
               DRASTC.
               <br />
-              <span className="text-orange-400">Lorem ipsum dolor.</span>
+              <span className="text-orange-400">Beyond trade ratio.</span>
             </Heading>
             <Text className="mt-6 max-w-md">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+              DRASTC is a multi-dimensional scoring system that evaluates commander pairings using
+              real battle data across damage, rage/skill cycle efficiency, assist/support,
+              sustainability, trade efficiency, and consistency.
             </Text>
-            <Text className="mt-4 max-w-md">
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur.
-            </Text>
-            <Button href="https://buymeacoffee.com/davorrok/introducing-drastc" className="mt-8">
+            <Button
+              href="https://buymeacoffee.com/davorrok/introducing-drastc"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Learn more about DRASTC (opens in a new tab)"
+              className="mt-8"
+            >
               Learn more <ArrowUpRight aria-hidden="true" />
             </Button>
           </div>
@@ -360,7 +459,13 @@ export default function IndexRoute() {
                   {role}
                 </Text>
                 {href ? (
-                  <Link href={href} className="mt-4" aria-label={`Visit ${name} on Discord`}>
+                  <Link
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4"
+                    aria-label={`Visit ${name} on Discord (opens in a new tab)`}
+                  >
                     Visit community <ArrowUpRight className="size-4" aria-hidden="true" />
                   </Link>
                 ) : null}
@@ -422,13 +527,13 @@ export default function IndexRoute() {
         >
           <GridMarkers />
           <Heading id="community-heading" size="display">
-            Lorem ipsum dolor.
+            See the bigger story
             <br />
-            <span className="text-zinc-400">Consectetur adipiscing elit.</span>
+            <span className="text-zinc-400">behind every battle.</span>
           </Heading>
-          <Text className="mx-auto mt-6 max-w-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua.
+          <Text className="mx-auto mt-6 max-w-lg">
+            Dive into millions of battle reports, uncover performance trends, compare commander
+            pairings, and explore the community tools built from that data.
           </Text>
           <Button href="/app" variant="primary" className="mt-8">
             Explore battles <ArrowUpRight aria-hidden="true" />
