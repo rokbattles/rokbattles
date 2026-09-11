@@ -23,6 +23,7 @@
     "rules": {
       "preset": "recommended",
       "a11y": {
+        "noSvgWithoutTitle": "off",
         "useSemanticElements": "off"
       }
     }
