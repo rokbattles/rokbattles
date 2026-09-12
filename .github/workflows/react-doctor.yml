@@ -26,4 +26,4 @@ jobs:
           fetch-depth: 0
       - uses: millionco/react-doctor@013f7373f91a3b9e68bd1dc7d4d354f4b041b117 # v2.2.9
         with:
-          directory: packages/desktop-client
+          directory: packages/site-vite
