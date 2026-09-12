@@ -136,8 +136,8 @@ mod tests {
 
         let score = scores.get(&key).expect("drastc score");
         assert_eq!(score.samples, 2);
-        assert_eq!(score.breakdown.rage.value, 8.0);
-        assert_eq!(score.breakdown.assist.value, 14.24);
+        assert!((score.breakdown.rage.value - 8.0).abs() < 1e-9);
+        assert!((score.breakdown.assist.value - 14.24).abs() < 1e-9);
     }
 
     #[test]
@@ -172,6 +172,8 @@ mod tests {
             },
             PRESOC_RAGE_TABLE,
         );
-        assert_eq!(scores.get(&key).expect("Sun Tzu/YSG score").breakdown.rage.value, 7.5);
+        assert!(
+            (scores.get(&key).expect("Sun Tzu/YSG score").breakdown.rage.value - 7.5).abs() < 1e-9
+        );
     }
 }

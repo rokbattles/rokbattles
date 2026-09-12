@@ -301,18 +301,12 @@ fn minimize_to_tray(app: AppHandle) {
     tray::hide_main_window(&app);
 }
 
-#[expect(
-    clippy::unreachable,
-    reason = "Tauri generates an unreachable return-type check for async commands with borrowed state"
-)]
 mod watcher_commands {
     use super::*;
 
     #[tauri::command]
-    pub(super) async fn reprocess_all(
-        app: AppHandle,
-        watcher: tauri::State<'_, WatcherManager>,
-    ) -> Result<(), String> {
+    pub(super) async fn reprocess_all(app: AppHandle) -> Result<(), String> {
+        let watcher = app.state::<WatcherManager>();
         watcher.stop(&app).await;
         delete_processed(&app).map_err(|e| e.to_string())?;
         delete_upload_queue(&app).map_err(|e| e.to_string())?;
@@ -322,20 +316,16 @@ mod watcher_commands {
     }
 
     #[tauri::command]
-    pub(super) async fn pause_watcher(
-        app: AppHandle,
-        watcher: tauri::State<'_, WatcherManager>,
-    ) -> Result<(), String> {
+    pub(super) async fn pause_watcher(app: AppHandle) -> Result<(), String> {
+        let watcher = app.state::<WatcherManager>();
         watcher.stop(&app).await;
         tray::refresh_tray_menu(&app, watcher.is_paused());
         Ok(())
     }
 
     #[tauri::command]
-    pub(super) async fn resume_watcher(
-        app: AppHandle,
-        watcher: tauri::State<'_, WatcherManager>,
-    ) -> Result<(), String> {
+    pub(super) async fn resume_watcher(app: AppHandle) -> Result<(), String> {
+        let watcher = app.state::<WatcherManager>();
         watcher.start(&app).await;
         tray::refresh_tray_menu(&app, watcher.is_paused());
         Ok(())

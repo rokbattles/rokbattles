@@ -653,9 +653,9 @@ mod tests {
         assert_eq!(first.totals.enemy_atk_power_loss, -500);
         assert_eq!(first.totals.enemy_skill_power_loss, -700);
         assert_eq!(first.totals.dps, 48);
-        assert_eq!(first.totals.trade_percent, 125.0);
-        assert_eq!(first.totals.weighted_trade_percent, 80.0);
-        assert_eq!(first.totals.hps, 5.0);
+        assert!((first.totals.trade_percent - 125.0).abs() < 1e-9);
+        assert!((first.totals.weighted_trade_percent - 80.0).abs() < 1e-9);
+        assert!((first.totals.hps - 5.0).abs() < 1e-9);
 
         let serialized = to_document(&first.totals).expect("serialized pairing totals");
         assert_eq!(serialized.get_i64("powerLoss"), Ok(-600));

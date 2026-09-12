@@ -537,7 +537,7 @@ mod tests {
         let score = map_drastc(&value).expect("DRASTC");
 
         assert_eq!(score.samples, 10);
-        assert_eq!(score.breakdown.consistency.score, 4.0);
+        assert!((score.breakdown.consistency.score - 4.0).abs() < 1e-9);
         assert_eq!(score.confidence.unique_governors, 20);
     }
 
