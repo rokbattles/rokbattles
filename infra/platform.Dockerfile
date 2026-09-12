@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.27.0@sha256:bde3983e9c939224420ddaf6b784cc30e09b035a4dea01f581230c50809f372e
-FROM rust:1.98.0-alpine@sha256:a10e64dd139b7387337c7fbe8aca31b959b57b2fd4c8ae20a02cf1d6ea424dce AS container-wasm
+FROM rust:1.98.1-alpine@sha256:1716b3aa042d735f4566d14dc54e8037de9d69556e2d5dd58131d93a613d173d AS container-wasm
 RUN apk add --no-cache build-base openssl-dev pkgconfig
 RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
