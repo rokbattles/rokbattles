@@ -4,7 +4,7 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-[dependencies]
+[target.'cfg(target_os = "linux")'.dependencies]
 anyhow.workspace = true
 bytes.workspace = true
 libc.workspace = true
@@ -15,7 +15,7 @@ thiserror.workspace = true
 tracing.workspace = true
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-[dev-dependencies]
+[target.'cfg(target_os = "linux")'.dev-dependencies]
 tempfile.workspace = true
 
 [lints]
