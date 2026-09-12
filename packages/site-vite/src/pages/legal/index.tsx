@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowRight } from "lucide-react";
 import Metadata from "../../components/metadata";
 import { Button } from "../../components/ui/marketing/button";
@@ -17,7 +17,7 @@ export default function LegalRoute() {
         description="Policies, privacy, and cookie preferences for ROK Battles."
       />
 
-      <div className={clsx(gutter, "border-b border-white/10 py-12 sm:py-16")}>
+      <div className={cn(gutter, "border-b border-white/10 py-12 sm:py-16")}>
         <Heading level={1}>Legal</Heading>
         <Text className="mt-6 max-w-md">
           Policies, privacy, and cookie preferences for ROK Battles.
@@ -27,7 +27,7 @@ export default function LegalRoute() {
         <GridMarkers />
         <section aria-label="Legal documents" className="grid gap-px">
           {legalDocuments.map(({ id, title, description, icon: Icon }) => (
-            <article key={id} id={id} className={clsx(card, "scroll-mt-8")}>
+            <article key={id} id={id} className={cn(card, "scroll-mt-8")}>
               <div className="flex items-center gap-3">
                 <Icon
                   aria-hidden="true"
@@ -46,7 +46,7 @@ export default function LegalRoute() {
         <section
           id="cookie-settings"
           aria-labelledby="cookie-settings-heading"
-          className={clsx(card, "scroll-mt-8")}
+          className={cn(card, "scroll-mt-8")}
         >
           <Subheading level={2} id="cookie-settings-heading">
             Cookie settings

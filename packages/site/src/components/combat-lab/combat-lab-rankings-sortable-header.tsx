@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDownIcon, ArrowsUpDownIcon, ArrowUpIcon } from "@heroicons/react/16/solid";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { TableHeader } from "@/components/ui/table";
 import type {
   CombatLabRankingDirection,

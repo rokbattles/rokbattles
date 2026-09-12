@@ -2,7 +2,7 @@ import {
   Button as HeadlessButton,
   type ButtonProps as HeadlessButtonProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import Image from "next/image";
 import type React from "react";
 import { forwardRef } from "react";

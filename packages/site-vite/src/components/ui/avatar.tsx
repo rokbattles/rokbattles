@@ -1,6 +1,6 @@
 import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import { Button as BaseButton } from "@base-ui/react/button";
-import clsx from "clsx";
+import { cn } from "cn";
 import type React from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
@@ -25,7 +25,7 @@ export function Avatar({
     <BaseAvatar.Root
       data-slot="avatar"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "inline-grid shrink-0 align-middle [--avatar-radius:20%] *:col-start-1 *:row-start-1 outline -outline-offset-1 outline-white/10",
         square
@@ -73,7 +73,7 @@ export function AvatarButton({
     | ({ href?: never } & Omit<BaseButton.Props, "className">)
     | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
   ) & { ref?: React.Ref<HTMLAnchorElement | HTMLButtonElement> }) {
-  const classes = clsx(
+  const classes = cn(
     className,
     square ? "rounded-[20%]" : "rounded-full",
     "relative inline-grid focus:not-focus-visible:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"

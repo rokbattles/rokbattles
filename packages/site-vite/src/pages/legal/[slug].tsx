@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowLeft } from "lucide-react";
 import { Suspense } from "react";
 import { MarkdownDocument } from "../../components/markdown-document";
@@ -14,7 +14,7 @@ export default function LegalDocumentRoute({
   document: (typeof legalDocuments)[number];
 }) {
   return (
-    <div className={clsx(gutter, "border-b border-white/10 py-10 sm:py-12")}>
+    <div className={cn(gutter, "border-b border-white/10 py-10 sm:py-12")}>
       <div className="mx-auto max-w-3xl">
         <Link href="/legal" className="mb-8">
           <ArrowLeft aria-hidden="true" /> All legal documents

@@ -6,7 +6,7 @@ import {
   type RadioGroupProps as HeadlessRadioGroupProps,
   type RadioProps as HeadlessRadioProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 
 export function RadioGroup({
   className,

@@ -1,5 +1,5 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentProps, ReactNode } from "react";
 import { Text } from "./text";
 
@@ -40,7 +40,7 @@ export function Dialog({
             <BaseDialog.Popup
               initialFocus={initialFocus}
               finalFocus={finalFocus}
-              className={clsx(
+              className={cn(
                 "row-start-2 w-full min-w-0 rounded-t-3xl sm:rounded-2xl bg-zinc-900 p-(--gutter) text-white shadow-lg ring-1 ring-white/10 scheme-dark [--gutter:--spacing(8)] forced-colors:outline",
                 "transition duration-100 data-starting-style:translate-y-12 sm:data-starting-style:translate-y-0 sm:data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:opacity-0 motion-reduce:transition-none",
                 sizes[size],
@@ -65,7 +65,7 @@ export function DialogTitle({
   return (
     <BaseDialog.Title
       {...props}
-      className={clsx("text-lg/6 font-semibold text-balance text-white sm:text-base/6", className)}
+      className={cn("text-lg/6 font-semibold text-balance text-white sm:text-base/6", className)}
     />
   );
 }
@@ -78,20 +78,20 @@ export function DialogDescription({
     <BaseDialog.Description
       render={<Text />}
       {...props}
-      className={clsx("mt-2 text-pretty", className)}
+      className={cn("mt-2 text-pretty", className)}
     />
   );
 }
 
 export function DialogBody({ className, ...props }: ComponentProps<"div">) {
-  return <div {...props} className={clsx("mt-6", className)} />;
+  return <div {...props} className={cn("mt-6", className)} />;
 }
 
 export function DialogActions({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       {...props}
-      className={clsx(
+      className={cn(
         "mt-8 flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto",
         className
       )}

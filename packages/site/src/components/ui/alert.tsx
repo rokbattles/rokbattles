@@ -8,7 +8,7 @@ import {
   DialogTitle as HeadlessDialogTitle,
   type DialogTitleProps as HeadlessDialogTitleProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { Text } from "@/components/ui/text";
 

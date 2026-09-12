@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 
 type CommanderIconProps = {
   sprites: string[];
@@ -14,7 +14,7 @@ export function CommanderIcon({ sprites, alt, className }: CommanderIconProps) {
   return (
     <span
       aria-label={alt}
-      className={clsx("relative inline-grid size-8 shrink-0 align-middle", className)}
+      className={cn("relative inline-grid size-8 shrink-0 align-middle", className)}
       role="img"
     >
       {sprites.map((sprite) => (

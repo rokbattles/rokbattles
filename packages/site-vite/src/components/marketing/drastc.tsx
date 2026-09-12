@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/marketing/button";
 import { Heading } from "../ui/marketing/heading";
@@ -14,7 +14,7 @@ export function Drastc() {
       aria-labelledby="drastc-heading"
       className="grid scroll-mt-8 border-b border-white/10 lg:grid-cols-2"
     >
-      <div className={clsx(gutter, "py-12 sm:py-16")}>
+      <div className={cn(gutter, "py-12 sm:py-16")}>
         <Heading id="drastc-heading">
           DRASTC.
           <br />

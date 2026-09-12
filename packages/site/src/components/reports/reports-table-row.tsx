@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { usePathname, useSearchParams } from "next/navigation";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";

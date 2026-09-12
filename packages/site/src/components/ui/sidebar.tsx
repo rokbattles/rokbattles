@@ -5,7 +5,7 @@ import {
   type ButtonProps as HeadlessButtonProps,
   CloseButton as HeadlessCloseButton,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { LayoutGroup, motion } from "framer-motion";
 import type React from "react";
 import { forwardRef, useId } from "react";

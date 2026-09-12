@@ -1,10 +1,10 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { gutter } from "../ui/marketing/layout";
 import { Link } from "../ui/marketing/link";
 
 export function MarketingFooter() {
   return (
-    <footer className={clsx(gutter, "flex flex-wrap items-center justify-between gap-6 py-8")}>
+    <footer className={cn(gutter, "flex flex-wrap items-center justify-between gap-6 py-8")}>
       <Link href="/" className="shrink-0">
         <img
           src="/assets/marketing/logo.svg"

@@ -14,7 +14,7 @@
     "@base-ui/react": "^1.8.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tauri-apps/api": "^2.11.1",
-    "clsx": "^2.1.1",
+    "cn": "^0.2.6",
     "lucide-react": "^1.44.0",
     "motion": "^13.2.0",
     "nuqs": "^2.10.1",

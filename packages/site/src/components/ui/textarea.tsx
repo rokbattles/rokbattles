@@ -2,7 +2,7 @@ import {
   Textarea as HeadlessTextarea,
   type TextareaProps as HeadlessTextareaProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { forwardRef } from "react";
 

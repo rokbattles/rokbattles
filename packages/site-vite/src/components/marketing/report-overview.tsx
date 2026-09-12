@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/marketing/button";
 import { Heading } from "../ui/marketing/heading";
@@ -83,7 +83,7 @@ export function ReportOverview() {
         {reportVisual}
       </div>
       <div
-        className={clsx(
+        className={cn(
           gutter,
           "flex flex-col items-start justify-center bg-zinc-900 py-12 sm:py-16 lg:px-12"
         )}

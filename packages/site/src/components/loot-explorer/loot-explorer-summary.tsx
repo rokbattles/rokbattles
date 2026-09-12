@@ -1,4 +1,4 @@
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { useExtracted } from "next-intl";
 import { formatGeneratedAt, formatNumber } from "@/lib/loot-explorer/format";
 

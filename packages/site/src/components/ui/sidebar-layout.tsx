@@ -6,7 +6,7 @@ import {
   DialogBackdrop as HeadlessDialogBackdrop,
   DialogPanel as HeadlessDialogPanel,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { useState } from "react";
 import { NavbarItem } from "@/components/ui/navbar";

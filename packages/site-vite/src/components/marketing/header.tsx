@@ -1,5 +1,5 @@
 import { Dialog } from "@base-ui/react/dialog";
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/marketing/button";
@@ -51,7 +51,7 @@ export function MarketingHeader() {
 
   return (
     <div className="border-b border-white/10">
-      <header className={clsx(frame, gutter, "flex items-center justify-between gap-4 py-5")}>
+      <header className={cn(frame, gutter, "flex items-center justify-between gap-4 py-5")}>
         <nav aria-label="Main navigation" className="flex shrink-0 items-center gap-8">
           <Link href="/" aria-label="ROK Battles home" className="shrink-0">
             <Logo />

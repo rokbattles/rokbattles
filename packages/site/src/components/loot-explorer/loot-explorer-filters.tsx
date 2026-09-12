@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";

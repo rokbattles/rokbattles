@@ -1,4 +1,4 @@
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 
 export function DescriptionList({ className, ...props }: React.ComponentPropsWithoutRef<"dl">) {

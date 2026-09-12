@@ -1,5 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentProps, Ref } from "react";
 import { Link } from "react-router";
 
@@ -33,7 +33,7 @@ export function Button({
   ref,
   ...props
 }: ButtonProps) {
-  const classes = clsx(
+  const classes = cn(
     "inline-flex shrink-0 touch-manipulation items-center justify-center gap-2 rounded-sm border text-sm/6 font-semibold whitespace-nowrap transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-400 [&>svg]:shrink-0",
     size === "icon" ? "[&>svg]:size-5" : "[&>svg]:size-4",
     variants[variant],
@@ -58,7 +58,7 @@ export function Button({
     <BaseButton
       {...props}
       ref={ref}
-      className={clsx(
+      className={cn(
         classes,
         "cursor-pointer data-disabled:cursor-default data-disabled:opacity-50"
       )}

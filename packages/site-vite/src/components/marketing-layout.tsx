@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { Outlet } from "react-router";
 import { MarketingFooter } from "./marketing/footer";
 import { MarketingHeader } from "./marketing/header";
@@ -14,7 +14,7 @@ export function MarketingLayout() {
         Skip to content
       </a>
       <MarketingHeader />
-      <div className={clsx(frame, "flex flex-1 flex-col")}>
+      <div className={cn(frame, "flex flex-1 flex-col")}>
         <main id="main" className="flex flex-1 flex-col">
           <Outlet />
         </main>
