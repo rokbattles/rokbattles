@@ -10,10 +10,6 @@ if (isTauri() && import.meta.env.PROD) {
   });
 }
 
-if (isTauri() && window.location.pathname === "/") {
-  window.history.replaceState(null, "", `/app${window.location.search}${window.location.hash}`);
-}
-
 // biome-ignore lint/style/noNonNullAssertion: required for vite
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
