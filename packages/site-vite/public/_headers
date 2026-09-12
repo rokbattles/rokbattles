@@ -1,0 +1,10 @@
+# https://developers.cloudflare.com/pages/configuration/headers/
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Robots-Tag: noindex
+
+/rokbattles.mobileconfig
+  Content-Type: application/x-apple-aspen-config

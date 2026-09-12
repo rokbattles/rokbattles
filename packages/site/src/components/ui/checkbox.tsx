@@ -134,7 +134,6 @@ export function Checkbox({
       className={cn(className, "group inline-flex focus:outline-hidden")}
     >
       <span className={cn([base, colors[color]])}>
-        {/* biome-ignore lint/a11y/noSvgWithoutTitle: can safely ignore */}
         <svg
           className="size-4 stroke-(--checkbox-check) opacity-0 group-data-checked:opacity-100 sm:h-3.5 sm:w-3.5"
           fill="none"

@@ -1,0 +1,3 @@
+Contact: mailto:opensource@sylketech.com
+Expires: 2028-09-10T18:00:00.000Z
+Preferred-Languages: en

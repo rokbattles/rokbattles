@@ -51,7 +51,6 @@ export function GameAvatar({
       )}
     >
       {initials && !avatarOverride ? (
-        // biome-ignore lint/a11y/noSvgWithoutTitle: can safely ignore
         <svg
           aria-hidden={alt ? undefined : "true"}
           className={cn(
