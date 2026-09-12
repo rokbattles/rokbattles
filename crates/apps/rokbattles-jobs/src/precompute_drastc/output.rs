@@ -86,7 +86,7 @@ mod tests {
         );
 
         assert_eq!(document.len(), 4);
-        assert!(document.get_document("drastc").is_ok());
+        document.get_document("drastc").expect("operation should succeed");
         assert!(!document.contains_key("strategies"));
     }
 }

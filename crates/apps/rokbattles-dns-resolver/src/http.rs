@@ -146,7 +146,7 @@ fn decode_dns_parameter(encoded: &str) -> Result<Vec<u8>, HttpError> {
         return Err(HttpError::MessageTooLarge);
     }
     let wire_request =
-        URL_SAFE_NO_PAD.decode(encoded).map_err(|_| HttpError::InvalidDnsParameter)?;
+        URL_SAFE_NO_PAD.decode(encoded).map_err(|_error| HttpError::InvalidDnsParameter)?;
     if wire_request.len() > MAX_DNS_MESSAGE_BYTES {
         return Err(HttpError::MessageTooLarge);
     }

@@ -253,7 +253,7 @@ async fn read_performance_partition(
         let month = document_i64(&document, "m").ok_or_else(|| {
             JobsError::InvalidCombatLabData("performance chunk is missing its month".to_owned())
         })?;
-        let records = document.get_array("v").cloned().map_err(|_| {
+        let records = document.get_array("v").cloned().map_err(|_error| {
             JobsError::InvalidCombatLabData("performance chunk has no records".to_owned())
         })?;
         for record in &records {
@@ -326,7 +326,7 @@ async fn read_loadout_partition(
         let scenario = document_i64(&document, "c").ok_or_else(|| {
             JobsError::InvalidCombatLabData("loadout chunk is missing its scenario".to_owned())
         })?;
-        let records = document.get_array("v").map_err(|_| {
+        let records = document.get_array("v").map_err(|_error| {
             JobsError::InvalidCombatLabData("loadout chunk has no records".to_owned())
         })?;
         let mut month = MonthLoadouts { pairing, month: month_start, ..MonthLoadouts::default() };
@@ -685,7 +685,7 @@ mod tests {
             records,
         );
 
-        assert!(ensure_safe_size(&document).is_ok());
+        ensure_safe_size(&document).expect("operation should succeed");
     }
 
     #[test]

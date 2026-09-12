@@ -714,7 +714,7 @@ mod tests {
             Ok(cutoff_mail_time)
         );
         assert!(!matcher.contains_key("opponents"));
-        assert!(matcher.get_array("$or").is_ok());
+        matcher.get_array("$or").expect("operation should succeed");
     }
 
     #[test]
@@ -771,15 +771,13 @@ mod tests {
             "_reference_consistency_percentiles",
             "_reference_trade_percentiles",
         ] {
-            assert!(output.get_document(field).is_ok());
+            output.get_document(field).expect("operation should succeed");
         }
         let project = drastc_output_project_stage();
-        assert!(
-            project
-                .get_document("$project")
-                .and_then(|project| project.get_document("observed"))
-                .is_ok()
-        );
+        project
+            .get_document("$project")
+            .and_then(|project| project.get_document("observed"))
+            .expect("operation should succeed");
     }
 
     #[test]

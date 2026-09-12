@@ -83,9 +83,9 @@ impl DoHForwarder {
     /// Returns [`ForwardError::Client`] if the HTTP client cannot be constructed.
     pub fn new() -> Result<Self, ForwardError> {
         let primary = Url::parse(CLOUDFLARE_DOH_PRIMARY_URL)
-            .map_err(|_| ForwardError::EndpointConfiguration)?;
+            .map_err(|_error| ForwardError::EndpointConfiguration)?;
         let fallback = Url::parse(CLOUDFLARE_DOH_FALLBACK_URL)
-            .map_err(|_| ForwardError::EndpointConfiguration)?;
+            .map_err(|_error| ForwardError::EndpointConfiguration)?;
         Self::with_options(
             [primary, fallback],
             UPSTREAM_TIMEOUT,
@@ -146,7 +146,7 @@ impl DoHForwarder {
     /// large, or the upstream response does not match the request.
     pub async fn forward(&self, wire_request: &[u8]) -> Result<Vec<u8>, ForwardError> {
         let request =
-            Message::from_vec(wire_request).map_err(|_| ForwardError::InvalidDnsRequest)?;
+            Message::from_vec(wire_request).map_err(|_error| ForwardError::InvalidDnsRequest)?;
         let _permit = self.acquire_capacity()?;
         let result = tokio::time::timeout(
             self.total_timeout,
@@ -165,7 +165,7 @@ impl DoHForwarder {
         {
             info!("upstream DNS forwarding capacity recovered");
         }
-        Arc::clone(&self.capacity).try_acquire_owned().map_err(|_| {
+        Arc::clone(&self.capacity).try_acquire_owned().map_err(|_error| {
             if !self.overload_active.swap(true, Ordering::Relaxed) {
                 warn!("upstream DNS forwarding is at capacity; shedding query");
             }
@@ -193,7 +193,8 @@ impl DoHForwarder {
         request: &Message,
         wire_request: &[u8],
     ) -> Result<Vec<u8>, ForwardError> {
-        match self.forward_to(request, wire_request, &self.upstream_urls[0]).await {
+        let [primary_url, fallback_url] = self.upstream_urls.as_ref();
+        match self.forward_to(request, wire_request, primary_url).await {
             Ok(response) => {
                 if !self.primary_healthy.swap(true, Ordering::Relaxed) {
                     info!("primary upstream DoH endpoint recovered");
@@ -204,7 +205,7 @@ impl DoHForwarder {
                 if self.primary_healthy.swap(false, Ordering::Relaxed) {
                     warn!(error = %primary, "primary upstream DoH query failed; trying fallback");
                 }
-                match self.forward_to(request, wire_request, &self.upstream_urls[1]).await {
+                match self.forward_to(request, wire_request, fallback_url).await {
                     Ok(response) => Ok(response),
                     Err(fallback) => Err(ForwardError::AttemptsFailed {
                         primary: Box::new(primary),
@@ -269,7 +270,7 @@ fn has_dns_media_type(headers: &header::HeaderMap) -> bool {
 
 fn validate_response(request: &Message, wire_response: &[u8]) -> Result<(), ForwardError> {
     let response =
-        Message::from_vec(wire_response).map_err(|_| ForwardError::InvalidDnsResponse)?;
+        Message::from_vec(wire_response).map_err(|_error| ForwardError::InvalidDnsResponse)?;
     if response.metadata.message_type != MessageType::Response
         || response.metadata.id != request.metadata.id
         || response.queries != request.queries

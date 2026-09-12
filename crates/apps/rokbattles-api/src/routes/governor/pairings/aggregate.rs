@@ -487,14 +487,9 @@ fn parse_buff_pairs(raw: &str) -> Vec<(i64, f64)> {
         .map(str::trim)
         .filter(|token| !token.is_empty())
         .filter_map(|token| {
-            let parts =
-                token.split(|ch| ['_', ':'].contains(&ch)).map(str::trim).collect::<Vec<_>>();
-            if parts.len() < 2 {
-                return None;
-            }
-
-            let buff_id = parts[0].parse::<i64>().ok()?;
-            let buff_value = parts[1].parse::<f64>().ok()?;
+            let mut parts = token.split(|ch| ['_', ':'].contains(&ch)).map(str::trim);
+            let buff_id = parts.next()?.parse::<i64>().ok()?;
+            let buff_value = parts.next()?.parse::<f64>().ok()?;
             (buff_id > 0 && buff_value.is_finite()).then_some((buff_id, buff_value))
         })
         .collect::<Vec<_>>()

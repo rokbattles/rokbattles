@@ -62,9 +62,9 @@ mod tests {
 
     #[test]
     fn parse_governor_id_param_rejects_non_positive_or_invalid_values() {
-        assert!(parse_governor_id_param("0").is_err());
-        assert!(parse_governor_id_param("-1").is_err());
-        assert!(parse_governor_id_param("abc").is_err());
+        parse_governor_id_param("0").expect_err("input should be rejected");
+        parse_governor_id_param("-1").expect_err("input should be rejected");
+        parse_governor_id_param("abc").expect_err("input should be rejected");
     }
 
     #[test]

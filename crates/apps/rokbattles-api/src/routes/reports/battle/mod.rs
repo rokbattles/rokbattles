@@ -381,6 +381,6 @@ mod tests {
     #[test]
     fn trims_and_rejects_empty_report_id() {
         assert_eq!(parse_report_id("  mail-123  ").expect("id should parse"), "mail-123");
-        assert!(parse_report_id("   ").is_err());
+        parse_report_id("   ").expect_err("input should be rejected");
     }
 }

@@ -71,7 +71,7 @@ fn parse_i64(key: &'static str, value: Option<String>, default: i64) -> Result<i
     let Some(value) = value else {
         return Ok(default);
     };
-    let parsed = value.parse::<i64>().map_err(|_| ConfigError::Invalid { key, value })?;
+    let parsed = value.parse::<i64>().map_err(|_error| ConfigError::Invalid { key, value })?;
     if parsed <= 0 {
         return Err(ConfigError::Invalid { key, value: parsed.to_string() });
     }
@@ -86,7 +86,7 @@ fn parse_usize(
     let Some(value) = value else {
         return Ok(default);
     };
-    let parsed = value.parse::<usize>().map_err(|_| ConfigError::Invalid { key, value })?;
+    let parsed = value.parse::<usize>().map_err(|_error| ConfigError::Invalid { key, value })?;
     if parsed == 0 {
         return Err(ConfigError::Invalid { key, value: parsed.to_string() });
     }
@@ -101,7 +101,7 @@ fn parse_duration_secs(
     let Some(value) = value else {
         return Ok(Duration::from_secs(default_secs));
     };
-    let parsed = value.parse::<u64>().map_err(|_| ConfigError::Invalid { key, value })?;
+    let parsed = value.parse::<u64>().map_err(|_error| ConfigError::Invalid { key, value })?;
     if parsed == 0 {
         return Err(ConfigError::Invalid { key, value: parsed.to_string() });
     }
@@ -164,12 +164,12 @@ mod tests {
 
     #[test]
     fn parse_i64_rejects_zero() {
-        assert!(parse_i64("TEST", Some("0".into()), 42).is_err());
+        parse_i64("TEST", Some("0".into()), 42).expect_err("input should be rejected");
     }
 
     #[test]
     fn parse_usize_rejects_zero() {
-        assert!(parse_usize("TEST", Some("0".into()), 3).is_err());
+        parse_usize("TEST", Some("0".into()), 3).expect_err("input should be rejected");
     }
 
     #[test]
@@ -190,10 +190,11 @@ mod tests {
 
     #[test]
     fn numeric_settings_reject_invalid_values() {
-        assert!(parse_i64("I64", Some("bad".into()), 1).is_err());
-        assert!(parse_i64("I64", Some("-1".into()), 1).is_err());
-        assert!(parse_usize("USIZE", Some("bad".into()), 1).is_err());
-        assert!(parse_duration_secs("DURATION", Some("bad".into()), 1).is_err());
+        parse_i64("I64", Some("bad".into()), 1).expect_err("input should be rejected");
+        parse_i64("I64", Some("-1".into()), 1).expect_err("input should be rejected");
+        parse_usize("USIZE", Some("bad".into()), 1).expect_err("input should be rejected");
+        parse_duration_secs("DURATION", Some("bad".into()), 1)
+            .expect_err("input should be rejected");
     }
 
     #[test]
@@ -218,6 +219,6 @@ mod tests {
 
     #[test]
     fn parse_duration_secs_rejects_zero() {
-        assert!(parse_duration_secs("TEST", Some("0".into()), 1).is_err());
+        parse_duration_secs("TEST", Some("0".into()), 1).expect_err("input should be rejected");
     }
 }

@@ -81,7 +81,7 @@ impl Resolver {
     /// duplicate, cannot be reserved, or includes a non-public-unicast address.
     pub fn new(addresses: Vec<Ipv4Addr>) -> Result<Self, ResolverConfigError> {
         let mut seen = HashSet::new();
-        seen.try_reserve(addresses.len()).map_err(|_| ResolverConfigError::Allocation)?;
+        seen.try_reserve(addresses.len()).map_err(|_error| ResolverConfigError::Allocation)?;
         for &address in &addresses {
             if !is_public_unicast(address) {
                 return Err(ResolverConfigError::NonPublic { address });
@@ -140,7 +140,11 @@ impl Resolver {
     fn resolve_message(&self, request: &Message, request_wire_bytes: usize) -> Resolution {
         let mut response = response_for(request);
 
-        if request.metadata.message_type != MessageType::Query || request.queries.len() != 1 {
+        let [query] = request.queries.as_slice() else {
+            response.metadata.response_code = ResponseCode::FormErr;
+            return Resolution::Local(response);
+        };
+        if request.metadata.message_type != MessageType::Query {
             response.metadata.response_code = ResponseCode::FormErr;
             return Resolution::Local(response);
         }
@@ -150,7 +154,6 @@ impl Resolver {
             return Resolution::Local(response);
         }
 
-        let query = &request.queries[0];
         if query.query_class() != DNSClass::IN || !self.is_target(query.name()) {
             return Resolution::NonTarget(response);
         }
@@ -161,8 +164,7 @@ impl Resolver {
                 / COMPRESSED_A_ANSWER_BYTES;
             let answer_count = fleet_size.min(answer_capacity);
             let start = self.next_start.fetch_add(1, Ordering::Relaxed) % fleet_size;
-            for offset in 0..answer_count {
-                let address = self.gateway_ipv4s[(start + offset) % fleet_size];
+            for &address in self.gateway_ipv4s.iter().cycle().skip(start).take(answer_count) {
                 response.add_answer(Record::from_rdata(
                     query.name().clone(),
                     DNS_TTL_SECONDS,
@@ -341,7 +343,7 @@ mod tests {
 
     #[test]
     fn oversized_fleet_should_rotate_through_protocol_sized_response_windows() {
-        let gateways = (0..4_200)
+        let gateways = (0_u32..4_200)
             .map(|index| Ipv4Addr::new(11, ((index >> 8) & 0xff) as u8, (index & 0xff) as u8, 1))
             .collect();
         let resolver = Resolver::new(gateways).expect("all public gateways should be accepted");

@@ -238,7 +238,10 @@ fn conditional_entry(condition: Document, entry: Document) -> Document {
     }
 }
 
-#[allow(clippy::too_many_arguments)]
+#[expect(
+    clippy::too_many_arguments,
+    reason = "Each argument names a field in a battle perspective projection"
+)]
 fn perspective_entry(
     primary: &'static str,
     secondary: &'static str,

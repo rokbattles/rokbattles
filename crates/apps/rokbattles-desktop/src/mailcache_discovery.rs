@@ -1,15 +1,13 @@
-#![cfg_attr(not(any(test, target_os = "windows", target_os = "macos")), allow(dead_code))]
-
-use std::{
-    collections::BTreeSet,
-    fs,
-    path::{Path, PathBuf},
-};
+#[cfg(any(target_os = "windows", target_os = "macos"))]
+use std::collections::BTreeSet;
+#[cfg(any(test, target_os = "windows", target_os = "macos"))]
+use std::path::PathBuf;
 #[cfg(any(test, target_os = "windows"))]
 use std::{
     collections::VecDeque,
     time::{Duration, Instant},
 };
+use std::{fs, path::Path};
 
 #[cfg(any(test, target_os = "windows"))]
 const WINDOWS_MAILCACHE_SUFFIX_LOWER: &str = "\\rise of kingdoms game\\save\\mailcache";
@@ -29,6 +27,7 @@ const MAX_WINDOWS_FALLBACK_DURATION: Duration = Duration::from_secs(2);
 
 #[cfg(any(test, target_os = "macos"))]
 const MAX_MACOS_CONTAINERS: usize = 2048;
+#[cfg(any(test, target_os = "windows", target_os = "macos"))]
 const MAX_MAILCACHE_FILES_TO_CHECK: usize = 4096;
 
 #[cfg(any(test, target_os = "windows"))]
@@ -75,7 +74,7 @@ pub(crate) fn path_identity_key(path: &Path) -> String {
     }
 }
 
-#[allow(dead_code)]
+#[cfg(any(target_os = "windows", target_os = "macos"))]
 fn normalize_and_dedupe(paths: Vec<PathBuf>) -> Vec<String> {
     let mut set = BTreeSet::new();
     for path in paths {
@@ -291,6 +290,7 @@ fn path_matches_macos_container_pattern(path: &Path) -> bool {
     normalized.ends_with("/Data/Documents/mailcache") && normalized.contains("/Library/Containers/")
 }
 
+#[cfg(any(test, target_os = "windows", target_os = "macos"))]
 fn is_valid_mailcache_dir(path: &Path) -> bool {
     if !path.is_dir() {
         return false;
@@ -298,6 +298,7 @@ fn is_valid_mailcache_dir(path: &Path) -> bool {
     dir_has_persistent_mail_files(path)
 }
 
+#[cfg(any(test, target_os = "windows", target_os = "macos"))]
 fn dir_has_persistent_mail_files(path: &Path) -> bool {
     let Ok(read_dir) = fs::read_dir(path) else {
         return false;
@@ -319,6 +320,7 @@ fn dir_has_persistent_mail_files(path: &Path) -> bool {
     false
 }
 
+#[cfg(any(test, target_os = "windows", target_os = "macos"))]
 fn is_persistent_mail_filename(name: &str) -> bool {
     let Some(rest) = name.strip_prefix("Persistent.Mail.") else {
         return false;
