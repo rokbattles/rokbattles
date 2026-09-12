@@ -4,15 +4,15 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-[dev-dependencies]
-criterion.workspace = true
-
-[lints]
-workspace = true
-
 [lib]
 doctest = false
+
+[dev-dependencies]
+criterion.workspace = true
 
 [[bench]]
 name = "checksum"
 harness = false
+
+[lints]
+workspace = true

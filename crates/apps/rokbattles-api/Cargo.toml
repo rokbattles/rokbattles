@@ -4,6 +4,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[lib]
+doctest = false
+
 [dependencies]
 axum = { workspace = true, features = ["http1", "json", "query", "tokio", "tracing"] }
 base64 = { workspace = true }
@@ -26,5 +29,5 @@ yaml_serde = { workspace = true }
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
 mimalloc = { workspace = true, features = ["secure"] }
 
-[lib]
-doctest = false
+[lints]
+workspace = true

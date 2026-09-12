@@ -4,11 +4,11 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-[dependencies]
-serde = { workspace = true, features = ["derive"] }
-
 [lib]
 doctest = false
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
 
 [lints]
 workspace = true

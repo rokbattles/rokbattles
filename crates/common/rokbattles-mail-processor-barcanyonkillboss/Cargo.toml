@@ -4,12 +4,12 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[lib]
+doctest = false
+
 [dependencies]
 rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }
 serde_json = { workspace = true }
-
-[lib]
-doctest = false
 
 [lints]
 workspace = true

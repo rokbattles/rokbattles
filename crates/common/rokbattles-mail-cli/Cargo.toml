@@ -4,6 +4,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[lib]
+doctest = false
+
 [dependencies]
 clap = { workspace = true, features = ["derive"] }
 rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"] }
@@ -15,9 +18,6 @@ thiserror = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }
-
-[lib]
-doctest = false
 
 [lints]
 workspace = true

@@ -16,9 +16,6 @@ name = "rokbattles_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 doctest = false
 
-[build-dependencies]
-tauri-build = { workspace = true }
-
 [dependencies]
 tauri = { workspace = true, features = ["tray-icon"] }
 tauri-plugin-opener = { workspace = true }
@@ -37,5 +34,11 @@ notify = { workspace = true }
 tauri-plugin-autostart = { workspace = true }
 tauri-plugin-single-instance = { workspace = true }
 
+[build-dependencies]
+tauri-build = { workspace = true }
+
 [dev-dependencies]
 tempfile = { workspace = true }
+
+[lints]
+workspace = true

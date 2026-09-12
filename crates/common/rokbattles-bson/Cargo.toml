@@ -4,11 +4,11 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-[dependencies]
-mongodb = { workspace = true }
-
 [lib]
 doctest = false
+
+[dependencies]
+mongodb = { workspace = true }
 
 [lints]
 workspace = true

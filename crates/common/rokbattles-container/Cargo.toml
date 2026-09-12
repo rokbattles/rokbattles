@@ -24,9 +24,6 @@ serde_json = { workspace = true, optional = true }
 wasm-bindgen = { workspace = true, optional = true }
 js-sys = { workspace = true, optional = true }
 
-[lints]
-workspace = true
-
 [dev-dependencies]
 criterion.workspace = true
 
@@ -34,3 +31,6 @@ criterion.workspace = true
 name = "container"
 harness = false
 required-features = ["read", "write"]
+
+[lints]
+workspace = true

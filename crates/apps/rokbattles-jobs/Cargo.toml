@@ -4,6 +4,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[lib]
+doctest = false
+
 [dependencies]
 dotenvy = { workspace = true }
 rokbattles-drastc = { path = "../../common/rokbattles-drastc" }
@@ -23,8 +26,8 @@ yaml_serde = { workspace = true }
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
 mimalloc = { workspace = true, features = ["secure"] }
 
-[lib]
-doctest = false
-
 [dev-dependencies]
 regex = "1"
+
+[lints]
+workspace = true
