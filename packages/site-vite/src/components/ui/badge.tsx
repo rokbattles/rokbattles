@@ -1,5 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import clsx from "clsx";
+import { cn } from "cn";
 import type React from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
@@ -35,7 +35,7 @@ export function Badge({
   return (
     <span
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline",
         colors[color]
@@ -54,7 +54,7 @@ export function BadgeButton({
     | ({ href?: never } & Omit<BaseButton.Props, "className">)
     | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
   ) & { ref?: React.Ref<HTMLElement> }) {
-  const classes = clsx(
+  const classes = cn(
     className,
     "group relative inline-flex rounded-md focus:not-focus-visible:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
   );

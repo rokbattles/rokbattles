@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentPropsWithoutRef } from "react";
 
 const sizes = {
@@ -17,7 +17,7 @@ export function Heading({ level = 2, size = "section", className, ...props }: He
   return (
     <Element
       {...props}
-      className={clsx("text-balance font-medium text-white", sizes[size], className)}
+      className={cn("text-balance font-medium text-white", sizes[size], className)}
     />
   );
 }

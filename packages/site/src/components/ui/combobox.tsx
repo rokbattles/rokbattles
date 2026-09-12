@@ -9,7 +9,7 @@ import {
   ComboboxOptions as HeadlessComboboxOptions,
   type ComboboxProps as HeadlessComboboxProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { useState } from "react";
 

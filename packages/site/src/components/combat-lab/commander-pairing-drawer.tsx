@@ -6,7 +6,7 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/16/solid";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useExtracted, useLocale } from "next-intl";
 import { useDeferredValue, useMemo, useState } from "react";

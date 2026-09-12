@@ -1,6 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { Switch as BaseSwitch } from "@base-ui/react/switch";
-import clsx from "clsx";
+import { cn } from "cn";
 import type React from "react";
 
 export function SwitchGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
@@ -8,7 +8,7 @@ export function SwitchGroup({ className, ...props }: React.ComponentPropsWithout
     <div
       data-slot="control"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "space-y-3 **:data-[slot=label]:font-normal has-data-[slot=description]:space-y-6 has-data-[slot=description]:**:data-[slot=label]:font-medium"
       )}
@@ -24,7 +24,7 @@ export function SwitchField({
     <BaseField.Root
       data-slot="field"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "grid grid-cols-[1fr_auto] gap-x-8 gap-y-1 sm:grid-cols-[1fr_auto] *:data-[slot=control]:col-start-2 *:data-[slot=control]:self-start sm:*:data-[slot=control]:mt-0.5 *:data-[slot=label]:col-start-1 *:data-[slot=label]:row-start-1 *:data-[slot=description]:col-start-1 *:data-[slot=description]:row-start-2 has-data-[slot=description]:**:data-[slot=label]:font-medium"
       )}
@@ -81,7 +81,7 @@ export function Switch({
     <BaseSwitch.Root
       data-slot="control"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "group relative isolate inline-flex h-6 w-10 cursor-default rounded-full p-[3px] sm:h-5 sm:w-8 transition-colors duration-200 ease-in-out motion-reduce:transition-none forced-colors:outline ring-1 ring-inset focus:not-focus-visible:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 data-disabled:opacity-50 forced-colors:[--switch-bg:Highlight] bg-white/5 ring-white/15 data-checked:bg-(--switch-bg) data-checked:ring-(--switch-bg-ring) hover:ring-white/25 hover:data-checked:ring-(--switch-bg-ring) data-disabled:bg-white/15 data-disabled:data-checked:bg-white/15 data-disabled:data-checked:ring-white/15",
         colors[color]

@@ -1,5 +1,5 @@
 import { Input as BaseInput } from "@base-ui/react/input";
-import clsx from "clsx";
+import { cn } from "cn";
 import type React from "react";
 
 export function InputGroup({ children }: React.ComponentPropsWithoutRef<"span">) {
@@ -29,7 +29,7 @@ export function Input({
   return (
     <span
       data-slot="control"
-      className={clsx([
+      className={cn([
         className,
         "relative block w-full after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset sm:focus-within:after:ring-2 sm:focus-within:after:ring-blue-500 has-data-disabled:opacity-50",
       ])}
@@ -37,7 +37,7 @@ export function Input({
       <BaseInput
         ref={ref}
         {...props}
-        className={clsx([
+        className={cn([
           props.type &&
             dateTypes.includes(props.type) && [
               "[&::-webkit-datetime-edit-fields-wrapper]:p-0",

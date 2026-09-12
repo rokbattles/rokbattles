@@ -1,4 +1,4 @@
-import { cn } from "cnfast";
+import { cn } from "cn";
 import Image from "next/image";
 import { getCommanderSprites } from "@/lib/commander";
 

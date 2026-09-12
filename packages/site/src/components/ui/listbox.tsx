@@ -9,7 +9,7 @@ import {
   type ListboxProps as HeadlessListboxProps,
   ListboxSelectedOption as HeadlessListboxSelectedOption,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { Fragment } from "react";
 

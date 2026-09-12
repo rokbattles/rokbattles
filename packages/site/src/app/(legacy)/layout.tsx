@@ -5,7 +5,7 @@ import { PlatformLayout } from "@/components/platform-layout";
 import PlatformProviders from "@/components/platform-providers";
 import { getCurrentUser } from "@/lib/current-user";
 import "./globals.css";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";

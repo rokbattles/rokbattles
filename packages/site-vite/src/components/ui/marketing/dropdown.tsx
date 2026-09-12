@@ -1,5 +1,5 @@
 import { Menu } from "@base-ui/react/menu";
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentProps } from "react";
 import { Link } from "react-router";
 import { Button } from "./button";
@@ -24,7 +24,7 @@ export function DropdownMenu({ align = "end", className, ...props }: DropdownMen
       <Menu.Positioner align={align} sideOffset={8} collisionPadding={8} className="z-50">
         <Menu.Popup
           {...props}
-          className={clsx(
+          className={cn(
             "max-h-(--available-height) min-w-48 max-w-(--available-width) overflow-y-auto overscroll-contain rounded-sm border border-white/10 bg-zinc-900 p-1 text-white shadow-xl outline-none transition-opacity duration-100 data-starting-style:opacity-0 data-ending-style:opacity-0 motion-reduce:transition-none",
             className
           )}
@@ -44,7 +44,7 @@ export function DropdownItem({ href, className, ...props }: DropdownItemProps) {
     <Menu.Item
       {...props}
       render={<Link to={href} />}
-      className={clsx(
+      className={cn(
         "flex min-h-11 cursor-pointer touch-manipulation items-center rounded-sm px-3 py-2 text-sm/6 text-white outline-none data-highlighted:bg-orange-400 data-highlighted:text-zinc-950 forced-color-adjust-none forced-colors:data-highlighted:bg-[Highlight] forced-colors:data-highlighted:text-[HighlightText]",
         className
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "cn";
 import Image from "next/image";
 
 type ReportSkillSlotProps = {

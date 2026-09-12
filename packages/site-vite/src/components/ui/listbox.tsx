@@ -1,5 +1,5 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
-import clsx from "clsx";
+import { cn } from "cn";
 import { Check, ChevronsUpDown } from "lucide-react";
 import type { ComponentProps, ReactNode, Ref } from "react";
 
@@ -32,7 +32,7 @@ export function Listbox<Value>({
         autoFocus={autoFocus}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
-        className={clsx(
+        className={cn(
           "group relative block min-h-11 w-full rounded-lg border border-white/10 bg-white/5 py-[calc(--spacing(2.5)-1px)] pr-9 pl-[calc(--spacing(3.5)-1px)] text-left text-base/6 text-white scheme-dark hover:border-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:min-h-9 sm:py-[calc(--spacing(1.5)-1px)] sm:pl-[calc(--spacing(3)-1px)] sm:text-sm/6",
           "data-invalid:border-red-600 data-invalid:hover:border-red-600 data-disabled:border-white/15 data-disabled:bg-white/2.5 data-disabled:opacity-50 data-disabled:hover:border-white/15",
           className
@@ -78,7 +78,7 @@ export function ListboxOption<Value>({
   return (
     <BaseSelect.Item
       {...props}
-      className={clsx(
+      className={cn(
         "group/option grid cursor-default grid-cols-[--spacing(5)_1fr] items-baseline gap-x-2 rounded-lg py-2.5 pr-3.5 pl-2 text-base/6 text-white outline-hidden sm:grid-cols-[--spacing(4)_1fr] sm:py-1.5 sm:pr-3 sm:pl-1.5 sm:text-sm/6",
         "data-highlighted:bg-blue-500 data-highlighted:text-white data-disabled:opacity-50 forced-color-adjust-none forced-colors:text-[CanvasText] forced-colors:data-highlighted:bg-[Highlight] forced-colors:data-highlighted:text-[HighlightText]"
       )}
@@ -87,7 +87,7 @@ export function ListboxOption<Value>({
         <Check aria-hidden="true" className="size-5 sm:size-4" />
       </BaseSelect.ItemIndicator>
       <BaseSelect.ItemText
-        className={clsx(
+        className={cn(
           "col-start-2 row-start-1 flex min-w-0 items-center [&>svg]:size-5 [&>svg]:shrink-0 [&>svg]:text-zinc-400 group-data-highlighted/option:[&>svg]:text-white sm:[&>svg]:size-4 *:data-[slot=avatar]:-mx-0.5 *:data-[slot=avatar]:size-6 sm:*:data-[slot=avatar]:size-5",
           className
         )}

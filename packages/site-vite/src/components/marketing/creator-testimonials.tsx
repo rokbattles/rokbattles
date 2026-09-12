@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowUpRight, Pause, Play } from "lucide-react";
 import { useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
@@ -134,7 +134,7 @@ export function CreatorTestimonials() {
                 id={`creator-quote-${index}`}
                 aria-labelledby={`creator-trigger-${index}`}
                 hidden={!active}
-                className={clsx(
+                className={cn(
                   "min-w-0 flex-1 flex-col px-6 pt-4 pb-8 md:p-8 md:[animation-delay:150ms]",
                   active ? "flex motion-safe:animate-creator-reveal" : "hidden"
                 )}

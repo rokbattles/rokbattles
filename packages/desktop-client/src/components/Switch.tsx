@@ -1,4 +1,4 @@
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type { ReactNode } from "react";
 
 export type SwitchOption<T extends string> = {

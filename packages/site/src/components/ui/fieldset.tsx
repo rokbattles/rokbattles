@@ -10,7 +10,7 @@ import {
   Legend as HeadlessLegend,
   type LegendProps as HeadlessLegendProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 
 export function Fieldset({

@@ -1,5 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
-import clsx from "clsx";
+import { cn } from "cn";
 import type React from "react";
 import { Link } from "./link";
 
@@ -63,14 +63,14 @@ export function Button({
   children,
   ...props
 }: ButtonProps & { ref?: React.Ref<HTMLElement> }) {
-  const classes = clsx(
+  const classes = cn(
     className,
     styles.base,
     outline
       ? styles.outline
       : plain
         ? styles.plain
-        : clsx(styles.solid, styles.colors[color ?? "zinc"])
+        : cn(styles.solid, styles.colors[color ?? "zinc"])
   );
 
   return typeof props.href === "string" ? (
@@ -78,7 +78,7 @@ export function Button({
       <TouchTarget>{children}</TouchTarget>
     </Link>
   ) : (
-    <BaseButton {...props} className={clsx(classes, "cursor-default")} ref={ref}>
+    <BaseButton {...props} className={cn(classes, "cursor-default")} ref={ref}>
       <TouchTarget>{children}</TouchTarget>
     </BaseButton>
   );

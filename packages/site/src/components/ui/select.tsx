@@ -2,7 +2,7 @@ import {
   Select as HeadlessSelect,
   type SelectProps as HeadlessSelectProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { forwardRef } from "react";
 

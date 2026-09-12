@@ -1,6 +1,6 @@
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { Field as BaseField } from "@base-ui/react/field";
-import clsx from "clsx";
+import { cn } from "cn";
 import { Check, Minus } from "lucide-react";
 import type React from "react";
 
@@ -9,7 +9,7 @@ export function CheckboxGroup({ className, ...props }: React.ComponentPropsWitho
     <div
       data-slot="control"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "space-y-3 has-data-[slot=description]:space-y-6 has-data-[slot=description]:**:data-[slot=label]:font-medium"
       )}
@@ -25,7 +25,7 @@ export function CheckboxField({
     <BaseField.Root
       data-slot="field"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "grid grid-cols-[1.125rem_1fr] gap-x-4 gap-y-1 sm:grid-cols-[1rem_1fr] *:data-[slot=control]:col-start-1 *:data-[slot=control]:row-start-1 *:data-[slot=control]:mt-0.75 sm:*:data-[slot=control]:mt-1 *:data-[slot=label]:col-start-2 *:data-[slot=label]:row-start-1 *:data-[slot=description]:col-start-2 *:data-[slot=description]:row-start-2 has-data-[slot=description]:**:data-[slot=label]:font-medium"
       )}
@@ -74,9 +74,9 @@ export function Checkbox({
     <BaseCheckbox.Root
       data-slot="control"
       {...props}
-      className={clsx(className, "group inline-flex focus:outline-hidden")}
+      className={cn(className, "group inline-flex focus:outline-hidden")}
     >
-      <span className={clsx([base, colors[color]])}>
+      <span className={cn([base, colors[color]])}>
         <BaseCheckbox.Indicator
           keepMounted
           className="relative size-4 text-(--checkbox-check) sm:size-3.5"

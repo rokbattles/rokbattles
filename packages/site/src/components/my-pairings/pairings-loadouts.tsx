@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { useExtracted } from "next-intl";
 import { LoadoutArmamentList } from "@/components/my-pairings/loadout-armament-list";
 import { LoadoutEquipmentGrid } from "@/components/my-pairings/loadout-equipment-grid";

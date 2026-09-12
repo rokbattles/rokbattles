@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "../ui/marketing/button";
 import { Heading } from "../ui/marketing/heading";
@@ -10,7 +10,7 @@ export function CommunityCta() {
     <section
       id="community"
       aria-labelledby="community-heading"
-      className={clsx(
+      className={cn(
         gutter,
         "relative isolate border-b border-white/10 py-16 text-center sm:py-20 lg:py-24"
       )}

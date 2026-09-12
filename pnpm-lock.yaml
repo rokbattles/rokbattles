@@ -25,9 +25,9 @@ importers:
       '@tauri-apps/plugin-dialog':
         specifier: ^2.7.3
         version: 2.7.3
-      cnfast:
-        specifier: ^0.2.0
-        version: 0.2.0
+      cn:
+        specifier: ^0.2.6
+        version: 0.2.6
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -80,9 +80,9 @@ importers:
       '@wrksz/themes':
         specifier: ^1.2.0
         version: 1.2.0(next@16.3.5(@babel/core@7.29.7(supports-color@10.2.2))(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
-      cnfast:
-        specifier: ^0.2.0
-        version: 0.2.0
+      cn:
+        specifier: ^0.2.6
+        version: 0.2.6
       framer-motion:
         specifier: ^13.2.0
         version: 13.2.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -159,9 +159,9 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.11.1
         version: 2.11.1
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
+      cn:
+        specifier: ^0.2.6
+        version: 0.2.6
       lucide-react:
         specifier: ^1.44.0
         version: 1.44.0(react@19.3.0)
@@ -2807,11 +2807,6 @@ packages:
   cn@0.2.6:
     resolution: {integrity: sha512-+i4L0zUGgRcEnhsxueVrP7iBGxBx5iD0WOTYg1MwFEu2ZyCmH5Ov2V1cul2Ht5UchRQQgftCf4be/RxspuW6QQ==}
     engines: {node: '>=20'}
-    hasBin: true
-
-  cnfast@0.2.0:
-    resolution: {integrity: sha512-US4gOKGIylQWC7Nm+wNj+rOej6hJKyY4HwZYgtfRrduejEIFNNxcGKIWzCcQZxzgx6wKCZCCysWjnzsffiyhrw==}
-    engines: {node: '>=22'}
     hasBin: true
 
   collapse-white-space@2.1.0:
@@ -6523,8 +6518,6 @@ snapshots:
   clsx@2.1.1: {}
 
   cn@0.2.6: {}
-
-  cnfast@0.2.0: {}
 
   collapse-white-space@2.1.0: {}
 

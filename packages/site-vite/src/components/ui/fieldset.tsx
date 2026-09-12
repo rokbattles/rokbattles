@@ -1,6 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
-import clsx from "clsx";
+import { cn } from "cn";
 import type React from "react";
 
 export function Fieldset({
@@ -10,7 +10,7 @@ export function Fieldset({
   return (
     <BaseFieldset.Root
       {...props}
-      className={clsx(className, "*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6")}
+      className={cn(className, "*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6")}
     />
   );
 }
@@ -23,7 +23,7 @@ export function Legend({
     <BaseFieldset.Legend
       data-slot="legend"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "text-base/6 font-semibold data-disabled:opacity-50 sm:text-sm/6 text-white"
       )}
@@ -32,7 +32,7 @@ export function Legend({
 }
 
 export function FieldGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  return <div data-slot="control" {...props} className={clsx(className, "space-y-8")} />;
+  return <div data-slot="control" {...props} className={cn(className, "space-y-8")} />;
 }
 
 export function Field({
@@ -42,7 +42,7 @@ export function Field({
   return (
     <BaseField.Root
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "[&>[data-slot=label]+[data-slot=control]]:mt-3",
         "[&>[data-slot=label]+[data-slot=description]]:mt-1",
@@ -63,7 +63,7 @@ export function Label({
     <BaseField.Label
       data-slot="label"
       {...props}
-      className={clsx(
+      className={cn(
         className,
         "text-base/6 select-none data-disabled:opacity-50 sm:text-sm/6 text-white"
       )}
@@ -79,7 +79,7 @@ export function Description({
     <BaseField.Description
       data-slot="description"
       {...props}
-      className={clsx(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-zinc-400")}
+      className={cn(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-zinc-400")}
     />
   );
 }
@@ -93,7 +93,7 @@ export function ErrorMessage({
       data-slot="error"
       match={true}
       {...props}
-      className={clsx(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-red-500")}
+      className={cn(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-red-500")}
     />
   );
 }

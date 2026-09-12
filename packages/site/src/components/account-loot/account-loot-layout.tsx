@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "cn";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";

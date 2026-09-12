@@ -18,7 +18,7 @@ import {
   MenuSeparator as HeadlessMenuSeparator,
   type MenuSeparatorProps as HeadlessMenuSeparatorProps,
 } from "@headlessui/react";
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { Button } from "./button";
 import { Link } from "./link";

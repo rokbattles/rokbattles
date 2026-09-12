@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { BookOpen, ChevronDown } from "lucide-react";
 import { downloads, releaseUrl } from "../../lib/downloads";
 import { Button } from "../ui/marketing/button";
@@ -16,7 +16,7 @@ export function Downloads() {
       </div>
       <div className="grid gap-px border-t border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
         {downloads.map(({ id, name, icon: Icon, builds }) => (
-          <article key={name} className={clsx(card, "flex min-w-0 flex-col")}>
+          <article key={name} className={cn(card, "flex min-w-0 flex-col")}>
             <Icon className="mb-8 size-6 text-orange-400" strokeWidth={1.5} aria-hidden="true" />
             <Subheading>{name}</Subheading>
             <div className="mt-8 flex items-stretch gap-2">

@@ -1,4 +1,4 @@
-import { cn } from "cnfast";
+import { cn } from "cn";
 import { TableCell } from "@/components/ui/table";
 import { scoreFormatter } from "@/lib/combat-lab/format";
 

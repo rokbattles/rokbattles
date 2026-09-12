@@ -1,5 +1,5 @@
 import { Field } from "@base-ui/react/field";
-import clsx from "clsx";
+import { cn } from "cn";
 import { ChevronsUpDown } from "lucide-react";
 import type { ComponentProps } from "react";
 
@@ -22,7 +22,7 @@ export function Select({
   return (
     <span
       data-slot="control"
-      className={clsx(className, "group relative block w-full has-data-disabled:opacity-50")}
+      className={cn(className, "group relative block w-full has-data-disabled:opacity-50")}
     >
       <Field.Control
         ref={ref}
@@ -32,7 +32,7 @@ export function Select({
         defaultValue={defaultValue}
         onValueChange={onValueChange}
         render={<select multiple={multiple} {...props} />}
-        className={clsx(
+        className={cn(
           "relative block w-full appearance-none rounded-lg border border-white/10 bg-white/5 py-[calc(--spacing(2.5)-1px)] text-base/6 text-white scheme-dark hover:border-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:py-[calc(--spacing(1.5)-1px)] sm:text-sm/6 [&_optgroup]:font-semibold [&_option]:bg-zinc-800 [&_optgroup]:bg-zinc-800",
           "data-invalid:border-red-600 data-invalid:hover:border-red-600 data-disabled:border-white/15 data-disabled:bg-white/2.5 data-disabled:hover:border-white/15",
           multiple

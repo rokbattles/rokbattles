@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import { ArrowUpRight } from "lucide-react";
 import { Heading } from "../ui/marketing/heading";
 import { card, GridMarkers } from "../ui/marketing/layout";
@@ -14,14 +14,14 @@ export function ProjectSupport() {
       className="relative grid gap-px border-b border-white/10 bg-white/10 md:grid-cols-2"
     >
       <GridMarkers />
-      <div className={clsx(card, "md:row-span-2")}>
+      <div className={cn(card, "md:row-span-2")}>
         <Heading id="project-support-heading">Everything, for everyone.</Heading>
         <Text className="mt-6 max-w-md">
           No premium tiers, locked features, or paid upgrades. Everything we build is available to
           the entire Rise of Kingdoms community for free.
         </Text>
       </div>
-      <div className={clsx(card, "flex flex-col items-start")}>
+      <div className={cn(card, "flex flex-col items-start")}>
         <Subheading>Open source</Subheading>
         <Text className="mt-2">ROK Battles is dual-licensed under MIT or Apache 2.0.</Text>
         <Link
@@ -34,7 +34,7 @@ export function ProjectSupport() {
           View source <ArrowUpRight aria-hidden="true" />
         </Link>
       </div>
-      <div className={clsx(card, "flex flex-col items-start")}>
+      <div className={cn(card, "flex flex-col items-start")}>
         <Subheading>Support the project</Subheading>
         <Text className="mt-2">Help support ongoing development and infrastructure costs.</Text>
         <Link

@@ -1,5 +1,5 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer";
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentProps } from "react";
 import { Text } from "./text";
 
@@ -44,7 +44,7 @@ export function DrawerPanel({
       <BaseDrawer.Viewport className="pointer-events-none fixed inset-0 overflow-hidden">
         <BaseDrawer.Popup
           {...props}
-          className={clsx(
+          className={cn(
             "absolute w-[calc(100%-2.5rem)] transition-[transform,height] duration-300 ease-[ease] [--stack-depth:var(--nested-drawers,0)] [--stack-scale:max(0.8,calc(1-var(--stack-depth)*0.04))] [--stack-offset:calc(min(var(--stack-depth),5)*1rem)]",
             "data-[swipe-direction=right]:inset-y-0 data-[swipe-direction=right]:right-0 data-[swipe-direction=right]:rounded-l-2xl data-[swipe-direction=right]:origin-right data-[swipe-direction=right]:[transform:translateX(calc(var(--drawer-swipe-movement-x,0px)-var(--stack-offset)-(1-var(--stack-scale))*100%))_scale(var(--stack-scale))]",
             "data-[swipe-direction=left]:inset-y-0 data-[swipe-direction=left]:left-0 data-[swipe-direction=left]:rounded-r-2xl data-[swipe-direction=left]:origin-left data-[swipe-direction=left]:[transform:translateX(calc(var(--drawer-swipe-movement-x,0px)+var(--stack-offset)+(1-var(--stack-scale))*100%))_scale(var(--stack-scale))]",
@@ -64,7 +64,7 @@ export function DrawerPanel({
             <div className="h-1 w-10 rounded-full bg-zinc-600" />
           </div>
           <BaseDrawer.Content
-            className={clsx(
+            className={cn(
               "overflow-hidden pb-[max(var(--gutter),env(safe-area-inset-bottom))] transition-opacity duration-300 ease-[ease] group-data-nested-drawer-open/drawer:pointer-events-none group-data-nested-drawer-open/drawer:opacity-0 group-data-nested-drawer-swiping/drawer:opacity-100 motion-reduce:transition-none",
               "flex min-h-0 flex-1 flex-col p-(--gutter) [--gutter:--spacing(6)] sm:[--gutter:--spacing(8)]"
             )}
@@ -84,7 +84,7 @@ export function DrawerTitle({
   return (
     <BaseDrawer.Title
       {...props}
-      className={clsx(
+      className={cn(
         "shrink-0 text-lg/6 font-semibold text-balance text-white sm:text-base/6",
         className
       )}
@@ -100,7 +100,7 @@ export function DrawerDescription({
     <BaseDrawer.Description
       render={<Text />}
       {...props}
-      className={clsx("mt-2 shrink-0 text-pretty", className)}
+      className={cn("mt-2 shrink-0 text-pretty", className)}
     />
   );
 }
@@ -109,7 +109,7 @@ export function DrawerBody({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       {...props}
-      className={clsx("mt-6 min-h-0 flex-1 overflow-y-auto overscroll-contain", className)}
+      className={cn("mt-6 min-h-0 flex-1 overflow-y-auto overscroll-contain", className)}
     />
   );
 }
@@ -118,7 +118,7 @@ export function DrawerActions({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       {...props}
-      className={clsx(
+      className={cn(
         "mt-8 flex shrink-0 flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto",
         className
       )}

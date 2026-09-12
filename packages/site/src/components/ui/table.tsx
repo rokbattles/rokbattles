@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "cnfast";
+import { cn } from "cn";
 import type React from "react";
 import { createContext, use, useState } from "react";
 import { Link } from "./link";

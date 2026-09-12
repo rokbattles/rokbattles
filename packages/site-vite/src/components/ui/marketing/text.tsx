@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentPropsWithoutRef } from "react";
 
 export const bodyText = "text-base/7 sm:text-sm/7";
@@ -9,5 +9,5 @@ type TextProps = ComponentPropsWithoutRef<"p"> & {
 };
 
 export function Text({ tone = "muted", className, ...props }: TextProps) {
-  return <p {...props} className={clsx("text-pretty", bodyText, tones[tone], className)} />;
+  return <p {...props} className={cn("text-pretty", bodyText, tones[tone], className)} />;
 }

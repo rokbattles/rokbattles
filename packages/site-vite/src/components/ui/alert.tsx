@@ -1,5 +1,5 @@
 import { AlertDialog as BaseDialog } from "@base-ui/react/alert-dialog";
-import clsx from "clsx";
+import { cn } from "cn";
 import type { ComponentProps, ReactNode } from "react";
 import { Text } from "./text";
 
@@ -40,7 +40,7 @@ export function Alert({
             <BaseDialog.Popup
               initialFocus={initialFocus}
               finalFocus={finalFocus}
-              className={clsx(
+              className={cn(
                 "row-start-2 w-full min-w-0 rounded-2xl bg-zinc-900 p-(--gutter) text-white shadow-lg ring-1 ring-white/10 scheme-dark [--gutter:--spacing(8)] forced-colors:outline",
                 "transition duration-100 data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:opacity-0 motion-reduce:transition-none",
                 sizes[size],
@@ -65,7 +65,7 @@ export function AlertTitle({
   return (
     <BaseDialog.Title
       {...props}
-      className={clsx(
+      className={cn(
         "text-center text-base/6 font-semibold text-balance text-white sm:text-left sm:text-sm/6 sm:text-wrap",
         className
       )}
@@ -81,20 +81,20 @@ export function AlertDescription({
     <BaseDialog.Description
       render={<Text />}
       {...props}
-      className={clsx("mt-2 text-center text-pretty sm:text-left", className)}
+      className={cn("mt-2 text-center text-pretty sm:text-left", className)}
     />
   );
 }
 
 export function AlertBody({ className, ...props }: ComponentProps<"div">) {
-  return <div {...props} className={clsx("mt-4", className)} />;
+  return <div {...props} className={cn("mt-4", className)} />;
 }
 
 export function AlertActions({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       {...props}
-      className={clsx(
+      className={cn(
         "mt-6 flex flex-col-reverse items-center justify-end gap-3 *:w-full sm:flex-row sm:*:w-auto",
         className
       )}
