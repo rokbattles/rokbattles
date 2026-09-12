@@ -146,7 +146,7 @@ async fn validate_materialized_data(
 ) -> Result<u64, JobsError> {
     let count = validate_stored_documents(output).await?;
     let expected_count = u64::try_from(expected_count)
-        .map_err(|_| JobsError::InvalidDrastcData("document count overflowed u64".into()))?;
+        .map_err(|_error| JobsError::InvalidDrastcData("document count overflowed u64".into()))?;
     if count != expected_count {
         return Err(JobsError::InvalidDrastcData(format!(
             "wrote {expected_count} documents but collection contains {count}"

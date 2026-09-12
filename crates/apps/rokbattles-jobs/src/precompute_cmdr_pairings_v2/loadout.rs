@@ -31,30 +31,42 @@ pub(super) struct ProjectedLoadout {
 
 pub(super) fn map_projected_loadout(value: &Bson) -> Result<ProjectedLoadout, String> {
     let values = value.as_array().ok_or("loadout record is not an array")?;
-    if values.len() != 10 {
+    let [
+        day,
+        scenario,
+        governor,
+        formation,
+        equipment,
+        armaments,
+        primary_skills,
+        primary_expertise,
+        secondary_skills,
+        secondary_expertise,
+    ] = values.as_slice()
+    else {
         return Err(format!("loadout record has {} fields instead of 10", values.len()));
-    }
-    let integer = |index: usize, name: &str| {
-        bson_to_i64(&values[index]).ok_or_else(|| format!("loadout {name} is not an integer"))
     };
-    let e = match &values[4] {
+    let integer = |value: &Bson, name: &str| {
+        bson_to_i64(value).ok_or_else(|| format!("loadout {name} is not an integer"))
+    };
+    let e = match equipment {
         Bson::String(value) => Some(value.clone()),
         Bson::Null => None,
         _ => return Err("loadout equipment is not a string or null".to_owned()),
     };
-    let a = mongodb::bson::from_bson(values[5].clone())
+    let a = mongodb::bson::from_bson(armaments.clone())
         .map_err(|error| format!("invalid loadout armaments: {error}"))?;
     Ok(ProjectedLoadout {
-        d: integer(0, "day")?,
-        c: integer(1, "scenario")?,
-        u: integer(2, "governor")?,
-        f: integer(3, "formation")?,
+        d: integer(day, "day")?,
+        c: integer(scenario, "scenario")?,
+        u: integer(governor, "governor")?,
+        f: integer(formation, "formation")?,
         e,
         a,
-        ps: optional_field(&values[6], "primary skills")?,
-        pe: optional_field(&values[7], "primary expertise")?,
-        ss: optional_field(&values[8], "secondary skills")?,
-        se: optional_field(&values[9], "secondary expertise")?,
+        ps: optional_field(primary_skills, "primary skills")?,
+        pe: optional_field(primary_expertise, "primary expertise")?,
+        ss: optional_field(secondary_skills, "secondary skills")?,
+        se: optional_field(secondary_expertise, "secondary expertise")?,
     })
 }
 
@@ -175,15 +187,14 @@ fn accumulate_equipment(bucket: &mut LoadoutBucket, value: Option<&str>, catalog
         .into_iter()
         .filter(|token| (1..=8).contains(&token.slot))
         .collect::<Vec<_>>();
-    let mut accessories = tokens
+    let accessories = tokens
         .iter()
         .filter(|token| matches!(token.slot, 7 | 8))
         .map(|token| token.item_id)
         .collect::<Vec<_>>();
-    if accessories.len() == 2 {
-        accessories.sort_unstable();
+    if let &[first, second] = accessories.as_slice() {
         bucket.accessory_sample += 1;
-        *bucket.accessory_pairs.entry((accessories[0], accessories[1])).or_default() += 1;
+        *bucket.accessory_pairs.entry((first.min(second), first.max(second))).or_default() += 1;
     }
 
     for token in tokens {

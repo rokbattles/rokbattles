@@ -301,37 +301,35 @@ fn minimize_to_tray(app: AppHandle) {
     tray::hide_main_window(&app);
 }
 
-#[tauri::command]
-async fn reprocess_all(
-    app: AppHandle,
-    watcher: tauri::State<'_, WatcherManager>,
-) -> Result<(), String> {
-    watcher.stop(&app).await;
-    delete_processed(&app).map_err(|e| e.to_string())?;
-    delete_upload_queue(&app).map_err(|e| e.to_string())?;
-    watcher.start(&app).await;
-    tray::refresh_tray_menu(&app, watcher.is_paused());
-    Ok(())
-}
+mod watcher_commands {
+    use super::*;
 
-#[tauri::command]
-async fn pause_watcher(
-    app: AppHandle,
-    watcher: tauri::State<'_, WatcherManager>,
-) -> Result<(), String> {
-    watcher.stop(&app).await;
-    tray::refresh_tray_menu(&app, watcher.is_paused());
-    Ok(())
-}
+    #[tauri::command]
+    pub(super) async fn reprocess_all(app: AppHandle) -> Result<(), String> {
+        let watcher = app.state::<WatcherManager>();
+        watcher.stop(&app).await;
+        delete_processed(&app).map_err(|e| e.to_string())?;
+        delete_upload_queue(&app).map_err(|e| e.to_string())?;
+        watcher.start(&app).await;
+        tray::refresh_tray_menu(&app, watcher.is_paused());
+        Ok(())
+    }
 
-#[tauri::command]
-async fn resume_watcher(
-    app: AppHandle,
-    watcher: tauri::State<'_, WatcherManager>,
-) -> Result<(), String> {
-    watcher.start(&app).await;
-    tray::refresh_tray_menu(&app, watcher.is_paused());
-    Ok(())
+    #[tauri::command]
+    pub(super) async fn pause_watcher(app: AppHandle) -> Result<(), String> {
+        let watcher = app.state::<WatcherManager>();
+        watcher.stop(&app).await;
+        tray::refresh_tray_menu(&app, watcher.is_paused());
+        Ok(())
+    }
+
+    #[tauri::command]
+    pub(super) async fn resume_watcher(app: AppHandle) -> Result<(), String> {
+        let watcher = app.state::<WatcherManager>();
+        watcher.start(&app).await;
+        tray::refresh_tray_menu(&app, watcher.is_paused());
+        Ok(())
+    }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -425,9 +423,9 @@ pub fn run() {
             get_app_settings,
             request_app_quit,
             minimize_to_tray,
-            reprocess_all,
-            pause_watcher,
-            resume_watcher
+            watcher_commands::reprocess_all,
+            watcher_commands::pause_watcher,
+            watcher_commands::resume_watcher
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application");

@@ -59,14 +59,15 @@ fn parse_gateway_ipv4s(value: &str) -> Result<Vec<Ipv4Addr>, ConfigError> {
     let field_count = value.bytes().filter(|byte| *byte == b',').count().saturating_add(1);
     let mut addresses = Vec::new();
     let mut seen = HashSet::new();
-    addresses.try_reserve(field_count).map_err(|_| ConfigError::Allocation)?;
-    seen.try_reserve(field_count).map_err(|_| ConfigError::Allocation)?;
+    addresses.try_reserve(field_count).map_err(|_error| ConfigError::Allocation)?;
+    seen.try_reserve(field_count).map_err(|_error| ConfigError::Allocation)?;
     for field in value.split(',').map(str::trim) {
         if field.is_empty() {
             return Err(ConfigError::EmptyAddress);
         }
-        let address =
-            field.parse().map_err(|_| ConfigError::InvalidAddress { value: field.to_string() })?;
+        let address = field
+            .parse()
+            .map_err(|_error| ConfigError::InvalidAddress { value: field.to_string() })?;
         if !is_public_unicast(address) {
             return Err(ConfigError::NonPublic { address });
         }

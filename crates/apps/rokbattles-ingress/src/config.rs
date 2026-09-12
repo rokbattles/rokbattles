@@ -89,14 +89,14 @@ fn parse_u64(key: &'static str, value: Option<String>, default: u64) -> Result<u
     let Some(value) = value else {
         return Ok(default);
     };
-    value.parse::<u64>().map_err(|_| ConfigError::Invalid { key, value })
+    value.parse::<u64>().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 fn parse_i32(key: &'static str, value: Option<String>, default: i32) -> Result<i32, ConfigError> {
     let Some(value) = value else {
         return Ok(default);
     };
-    value.parse::<i32>().map_err(|_| ConfigError::Invalid { key, value })
+    value.parse::<i32>().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 fn parse_usize(
@@ -107,7 +107,7 @@ fn parse_usize(
     let Some(value) = value else {
         return Ok(default);
     };
-    value.parse::<usize>().map_err(|_| ConfigError::Invalid { key, value })
+    value.parse::<usize>().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 #[cfg(test)]

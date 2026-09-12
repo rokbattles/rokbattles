@@ -198,16 +198,9 @@ fn map_pairings(individual_results: Option<&Document>) -> Vec<ArkMatchDetailPair
 }
 
 fn nested_value<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
-    if path.is_empty() {
-        return None;
-    }
-
-    if path.len() == 1 {
-        return document.get(path[0]);
-    }
-
-    let parent = nested_document(document, &path[..path.len() - 1])?;
-    parent.get(path[path.len() - 1])
+    let (key, parents) = path.split_last()?;
+    let parent = nested_document(document, parents)?;
+    parent.get(*key)
 }
 
 fn parse_timestamp_millis(value: &Bson) -> Option<i64> {
@@ -233,6 +226,7 @@ fn parse_i64(value: Option<&Bson>) -> Option<i64> {
     }
 }
 
+#[expect(clippy::float_cmp, reason = "Numeric boolean encodings must be exactly 0 or 1")]
 fn parse_bool(value: Option<&Bson>) -> Option<bool> {
     match value? {
         Bson::Boolean(value) => Some(*value),

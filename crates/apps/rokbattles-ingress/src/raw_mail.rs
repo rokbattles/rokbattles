@@ -21,7 +21,7 @@ pub struct RawMailMetadata {
 /// Build the document inserted into `g_rok_mails`.
 pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, ApiError> {
     let size = i64::try_from(input.original_bytes.len())
-        .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
+        .map_err(|_error| ApiError::internal("mail binary is too large to store size"))?;
     let compressed = compress_raw_mail(input.original_bytes, input.zstd_level)?;
 
     let document = doc! {
@@ -198,7 +198,7 @@ mod tests {
     fn bounded_decompression_rejects_oversized_stored_mail() {
         let compressed = compress_raw_mail(b"mail", 3).expect("compress");
 
-        assert!(decompress_raw_mail(&compressed, 4, 3).is_err());
+        decompress_raw_mail(&compressed, 4, 3).expect_err("input should be rejected");
     }
 
     #[test]
@@ -231,7 +231,7 @@ mod tests {
             "receiver": "player_22"
         }]);
 
-        assert!(extract_raw_mail_metadata(&decoded).is_err());
+        extract_raw_mail_metadata(&decoded).expect_err("input should be rejected");
     }
 
     #[test]

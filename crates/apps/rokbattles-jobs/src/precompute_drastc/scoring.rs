@@ -16,11 +16,16 @@ pub(super) fn build_drastc_scores_from_aggregates(
         let Some(raw) = observed.get(key) else {
             continue;
         };
+        let (Ok(primary), Ok(secondary)) =
+            (u32::try_from(key.primary_commander_id), u32::try_from(key.secondary_commander_id))
+        else {
+            continue;
+        };
 
         let mut model = DrastcModel::new();
         model.set_rage_table(rage_table);
         model.set_reference_ranges(reference_ranges);
-        model.set_theoretical(key.primary_commander_id as u32, key.secondary_commander_id as u32);
+        model.set_theoretical(primary, secondary);
         model.push(raw.to_drastc_record());
 
         if let Some(score) = model.evaluate() {
@@ -76,6 +81,29 @@ mod tests {
     }
 
     #[test]
+    fn scores_should_skip_commander_ids_that_would_wrap_to_supported_ids() {
+        let wrap = i64::from(u32::MAX) + 1;
+        let keys = [
+            PairingKey { primary_commander_id: 579 - wrap, secondary_commander_id: 575 },
+            PairingKey { primary_commander_id: 579, secondary_commander_id: 575 + wrap },
+        ];
+        let observed = keys
+            .iter()
+            .map(|key| (*key, PairingRawTotals { total_battles: 2, ..Default::default() }))
+            .collect();
+        let ranges = DrastcReferenceRanges {
+            damage: ReferenceRange::new(10, 0.0, 4.0),
+            sustainability: ReferenceRange::new(10, -2.0, 2.0),
+            trade: ReferenceRange::new(10, 0.0, 2.0),
+            consistency: ReferenceRange::new(10, 0.0, 1.0),
+        };
+
+        let scores = build_drastc_scores_from_aggregates(&observed, &keys, ranges, SOC_RAGE_TABLE);
+
+        assert!(scores.is_empty());
+    }
+
+    #[test]
     fn build_drastc_scores_from_aggregates_scores_supported_observed_pairings() {
         let key = PairingKey { primary_commander_id: 579, secondary_commander_id: 575 };
         let observed = BTreeMap::from([(
@@ -108,8 +136,8 @@ mod tests {
 
         let score = scores.get(&key).expect("drastc score");
         assert_eq!(score.samples, 2);
-        assert_eq!(score.breakdown.rage.value, 8.0);
-        assert_eq!(score.breakdown.assist.value, 14.24);
+        assert!((score.breakdown.rage.value - 8.0).abs() < 1e-9);
+        assert!((score.breakdown.assist.value - 14.24).abs() < 1e-9);
     }
 
     #[test]
@@ -144,6 +172,8 @@ mod tests {
             },
             PRESOC_RAGE_TABLE,
         );
-        assert_eq!(scores.get(&key).expect("Sun Tzu/YSG score").breakdown.rage.value, 7.5);
+        assert!(
+            (scores.get(&key).expect("Sun Tzu/YSG score").breakdown.rage.value - 7.5).abs() < 1e-9
+        );
     }
 }

@@ -55,7 +55,7 @@ pub async fn scan_zstream(
         Ok::<Vec<u8>, std::io::Error>(response)
     })
     .await
-    .map_err(|_| ScanError::Timeout)??;
+    .map_err(|_error| ScanError::Timeout)??;
 
     parse_response(&response)
 }

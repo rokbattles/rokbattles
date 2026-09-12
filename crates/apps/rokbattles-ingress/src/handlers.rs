@@ -150,7 +150,7 @@ pub async fn upload_relay(
                         .await
                         .map_err(|error| ApiError::bad_request(error.to_string()))?
                         .parse::<i32>()
-                        .map_err(|_| ApiError::bad_request("server_id must be an i32"))?,
+                        .map_err(|_error| ApiError::bad_request("server_id must be an i32"))?,
                 );
             }
             Some("player_id") => {
@@ -160,7 +160,7 @@ pub async fn upload_relay(
                         .await
                         .map_err(|error| ApiError::bad_request(error.to_string()))?
                         .parse::<i64>()
-                        .map_err(|_| ApiError::bad_request("player_id must be an i64"))?,
+                        .map_err(|_error| ApiError::bad_request("player_id must be an i64"))?,
                 );
             }
             Some("mail") => {
@@ -331,16 +331,12 @@ async fn store_compressed_raw_mail(
     };
     let action = decide_compressed_raw_action(existing.as_ref(), &checksum, metadata_differs);
 
-    if matches!(action, UploadAction::Skip) {
-        return Ok(action);
-    }
-
-    let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
     let status = match action {
         UploadAction::Insert => insert_status_for_mail_type(mail_type),
         UploadAction::Update => update_status_for_mail_type(mail_type),
-        UploadAction::Skip => unreachable!("skip returned above"),
+        UploadAction::Skip => return Ok(action),
     };
+    let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
     let doc = raw_mail::build_raw_mail_doc(RawMailDocumentInput {
         original_bytes: buffer,
         user_agent,
@@ -523,8 +519,7 @@ fn ua_ok(user_agent: &str) -> bool {
 }
 
 fn is_probably_json(bytes: &[u8]) -> bool {
-    let sample_len = bytes.len().min(256);
-    let sample = &bytes[..sample_len];
+    let sample = bytes.get(..256).unwrap_or(bytes);
     let Ok(text) = std::str::from_utf8(sample) else {
         return false;
     };
@@ -560,7 +555,7 @@ mod tests {
     #[test]
     fn rejects_mail_type_from_singleton_array() {
         let decoded = json!([{ "type": "Battle" }]);
-        assert!(extract_mail_type(&decoded).is_err());
+        extract_mail_type(&decoded).expect_err("input should be rejected");
     }
 
     #[test]
@@ -841,7 +836,7 @@ mod tests {
         let mut headers = HeaderMap::new();
         headers.insert(header::AUTHORIZATION, HeaderValue::from_static("Bearer secret"));
 
-        assert!(authorize_relay(&headers, "secret").is_ok());
+        authorize_relay(&headers, "secret").expect("operation should succeed");
         assert!(matches!(authorize_relay(&headers, "different"), Err(ApiError::Unauthorized)));
     }
 
@@ -873,8 +868,8 @@ mod tests {
 
     #[test]
     fn rejects_invalid_filename() {
-        assert!(parse_mail_id_from_filename("battle.mail.1").is_err());
-        assert!(parse_mail_id_from_filename("Persistent.Mail.").is_err());
+        parse_mail_id_from_filename("battle.mail.1").expect_err("input should be rejected");
+        parse_mail_id_from_filename("Persistent.Mail.").expect_err("input should be rejected");
     }
 
     #[test]

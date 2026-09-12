@@ -4,6 +4,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[lib]
+doctest = false
+
 [dependencies]
 base64 = { workspace = true }
 flate2 = { workspace = true, features = ["zlib-rs"] }
@@ -12,9 +15,6 @@ serde_json = { workspace = true }
 thiserror = { workspace = true }
 rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["write"] }
 rokbattles-mail-registry = { path = "../rokbattles-mail-registry" }
-
-[lib]
-doctest = false
 
 [dev-dependencies]
 rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"] }
