@@ -4,6 +4,12 @@ import { createRoot } from "react-dom/client";
 import "./assets/globals.css";
 import App from "./app.tsx";
 
+if (isTauri() && import.meta.env.PROD) {
+  document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+}
+
 if (isTauri() && window.location.pathname === "/") {
   window.history.replaceState(null, "", `/app${window.location.search}${window.location.hash}`);
 }
