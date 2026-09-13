@@ -12,6 +12,7 @@ mod health;
 mod loot_explorer;
 mod reports;
 mod territory_planner;
+pub(crate) mod territory_planner_v2;
 
 /// Build the top-level API router.
 pub fn router() -> Router<Arc<AppState>> {
@@ -23,6 +24,7 @@ pub fn router() -> Router<Arc<AppState>> {
 
 fn v2_router() -> Router<Arc<AppState>> {
     Router::new()
+        .nest("/global/territory-planner", territory_planner_v2::router())
         .route("/global/combat-lab", get(combat_lab::get_pairing))
         .route("/global/combat-lab/rankings", get(combat_lab::get_rankings))
         .route("/global/combat-lab/presoc", get(combat_lab::get_pairing_presoc))

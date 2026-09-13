@@ -51,6 +51,10 @@ crc32fast = "1.5.1"
 wasm-bindgen = "=0.2.127"
 js-sys = "0.3.104"
 serde-wasm-bindgen = "0.6.5"
+wgpu = { version = "=29.0.4", default-features = false }
+wasm-bindgen-futures = "0.4.77"
+web-sys = "0.3.104"
+bytemuck = "1.25"
 
 [profile.release]
 opt-level = "z"

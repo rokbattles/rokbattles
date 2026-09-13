@@ -70,7 +70,7 @@ jobs:
         with:
           key: site-wasm
 
-      - name: Generate site WASM reader
+      - name: Generate site WASM modules
         run: pnpm -F @rokbattles/site generate:wasm
 
       - name: Build @rokbattles/site
