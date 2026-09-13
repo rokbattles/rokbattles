@@ -2089,12 +2089,6 @@ msgid "Olympian Arena"
 msgstr "Olympian Arena"
 
 #: src/components/platform-layout.tsx
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "NCnvW0"
-msgid "Territory Planner"
-msgstr ""
-
-#: src/components/platform-layout.tsx
 msgctxt "dr0ueW"
 msgid "My Data"
 msgstr "Dữ liệu của tôi"
@@ -2695,6 +2689,11 @@ msgstr ""
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "AzTP1q"
 msgid "No maps are available."
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "NCnvW0"
+msgid "Territory Planner"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx

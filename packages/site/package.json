@@ -9,7 +9,7 @@
     "sync:legal": "sh ./scripts/sync-legal-docs.sh",
     "generate:datasets": "node ./scripts/generate-datasets.mjs",
     "generate:messages": "node ./scripts/generate-messages.mjs",
-    "generate:wasm": "sh ./scripts/build-container.sh"
+    "generate:wasm": "sh ./scripts/build-container.sh && sh ./scripts/build-map-engine.sh"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",

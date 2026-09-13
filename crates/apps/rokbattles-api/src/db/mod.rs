@@ -5,6 +5,7 @@ mod game_localization_store;
 mod game_query_store;
 mod reports_store;
 mod territory_planner_store;
+mod territory_planner_v2_store;
 
 pub use auth_store::{
     AuthRepository, AuthStoreError, DiscordUserUpsert, MongoAuthStore, NewSessionRecord,
@@ -19,4 +20,10 @@ pub use game_query_store::{
 pub use reports_store::{ReportsStore, TEST_CLIENT_APP_ID, exclude_test_client_filter};
 pub use territory_planner_store::{
     TerritoryPlannerConfig, TerritoryPlannerMapSummary, TerritoryPlannerStore,
+};
+pub use territory_planner_v2_store::{
+    TerritoryAsset, TerritoryBuildingRule, TerritoryCollisionRule, TerritoryCostTier,
+    TerritoryMapCatalog, TerritoryMapSummary, TerritoryPlanSnapshot, TerritoryPlannerV2Store,
+    TerritoryResourceCost, TerritoryRuleset, TerritorySeason, TerritorySite,
+    TerritoryStructureRule,
 };

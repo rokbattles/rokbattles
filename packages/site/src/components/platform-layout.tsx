@@ -123,12 +123,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <ChartPieIcon />
                 <SidebarLabel>{t("Combat Lab")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem
-                href="/territory-planner"
-                current={pathname.startsWith("/territory-planner")}
-              >
+              <SidebarItem href="/territory-lab" current={pathname.startsWith("/territory-lab")}>
                 <MapIcon />
-                <SidebarLabel>{t("Territory Planner")}</SidebarLabel>
+                <SidebarLabel>Territory Lab</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (

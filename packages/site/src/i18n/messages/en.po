@@ -2080,12 +2080,6 @@ msgid "Olympian Arena"
 msgstr "Olympian Arena"
 
 #: src/components/platform-layout.tsx
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "NCnvW0"
-msgid "Territory Planner"
-msgstr "Territory Planner"
-
-#: src/components/platform-layout.tsx
 msgctxt "dr0ueW"
 msgid "My Data"
 msgstr "My Data"
@@ -2687,6 +2681,11 @@ msgstr "The shareable plan is now in the address bar."
 msgctxt "AzTP1q"
 msgid "No maps are available."
 msgstr "No maps are available."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "NCnvW0"
+msgid "Territory Planner"
+msgstr "Territory Planner"
 
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "zuqMfZ"
