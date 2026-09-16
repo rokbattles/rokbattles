@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import { useLayoutEffect, useRef } from "react";
 import { CombatLabRankingsScoreCell } from "@/components/combat-lab/combat-lab-rankings-score-cell";
 import { CombatLabRankingsSortableHeader } from "@/components/combat-lab/combat-lab-rankings-sortable-header";
 import { CommanderIcon } from "@/components/commander-icon";
@@ -52,10 +53,41 @@ export function CombatLabRankingsTable({
   onSort,
 }: CombatLabRankingsTableProps) {
   const locale = useLocale();
+  const headRef = useRef<HTMLTableSectionElement>(null);
+
+  useLayoutEffect(() => {
+    const head = headRef.current;
+    const table = head?.closest("table");
+    if (!head || !table) return;
+
+    let frame = 0;
+    const updatePosition = () => {
+      const { top, height } = table.getBoundingClientRect();
+      const offset = Math.max(0, Math.min(-top, height - head.offsetHeight));
+      head.style.transform = `translateY(${offset}px)`;
+    };
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updatePosition);
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { capture: true, passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    const observer = new ResizeObserver(scheduleUpdate);
+    observer.observe(table);
+    updatePosition();
+
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate, true);
+      window.removeEventListener("resize", scheduleUpdate);
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
     <Table dense>
-      <TableHead>
+      <TableHead ref={headRef} className="relative z-10 bg-white dark:bg-zinc-900">
         <TableRow>
           <TableHeader className="w-12 min-w-12 text-right">#</TableHeader>
           <TableHeader>Pairing</TableHeader>

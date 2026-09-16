@@ -51,7 +51,7 @@ export function Table({
   );
 }
 
-export function TableHead({ className, ...props }: React.ComponentPropsWithoutRef<"thead">) {
+export function TableHead({ className, ...props }: React.ComponentPropsWithRef<"thead">) {
   return <thead {...props} className={cn(className, "text-zinc-500 dark:text-zinc-400")} />;
 }
 
