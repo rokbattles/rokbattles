@@ -1,8 +1,8 @@
 use tauri::AppHandle;
 use tauri_plugin_updater::UpdaterExt;
 
-fn should_check_for_updates(enabled: bool, is_dev: bool) -> bool {
-    enabled && !is_dev
+fn should_check_for_updates(enabled: bool, is_dev: bool, is_flatpak: bool) -> bool {
+    enabled && !is_dev && !is_flatpak
 }
 
 // https://tauri.app/plugin/updater/#checking-for-updates
@@ -30,7 +30,7 @@ async fn install_update_if_available(app: AppHandle) -> tauri_plugin_updater::Re
 }
 
 pub(crate) async fn maybe_check_for_updates(app: AppHandle, enabled: bool) {
-    if !should_check_for_updates(enabled, tauri::is_dev()) {
+    if !should_check_for_updates(enabled, tauri::is_dev(), crate::is_flatpak()) {
         return;
     }
 
@@ -45,16 +45,21 @@ mod tests {
 
     #[test]
     fn checks_for_updates_when_enabled_outside_tauri_dev() {
-        assert!(should_check_for_updates(true, false));
+        assert!(should_check_for_updates(true, false, false));
     }
 
     #[test]
     fn skips_updates_when_disabled_by_config() {
-        assert!(!should_check_for_updates(false, false));
+        assert!(!should_check_for_updates(false, false, false));
     }
 
     #[test]
     fn skips_updates_during_tauri_dev() {
-        assert!(!should_check_for_updates(true, true));
+        assert!(!should_check_for_updates(true, true, false));
+    }
+
+    #[test]
+    fn skips_appimage_updates_inside_flatpak() {
+        assert!(!should_check_for_updates(true, false, true));
     }
 }

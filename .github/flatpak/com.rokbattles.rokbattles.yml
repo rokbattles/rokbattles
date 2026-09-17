@@ -1,0 +1,46 @@
+app-id: com.rokbattles.rokbattles
+runtime: org.gnome.Platform
+runtime-version: '50'
+sdk: org.gnome.Sdk
+command: rokbattles-desktop
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+modules:
+  - name: rokbattles
+    buildsystem: simple
+    sources:
+      - type: file
+        path: ../../target/flatpak/app.deb
+      - type: file
+        path: com.rokbattles.rokbattles.metainfo.xml
+      - type: file
+        path: ../../LICENSE-MIT
+      - type: file
+        path: ../../LICENSE-APACHE
+    build-commands:
+      - mkdir deb-extract
+      - ar -x app.deb --output deb-extract
+      - tar -C deb-extract -xf deb-extract/data.tar.*
+      - install -Dm755 deb-extract/usr/bin/rokbattles-desktop /app/bin/rokbattles-desktop
+      - sed -i -e 's/^Icon=.*/Icon=com.rokbattles.rokbattles/' -e 's/^Categories=.*/Categories=Game;Utility;/' deb-extract/usr/share/applications/*.desktop
+      - install -Dm644 deb-extract/usr/share/applications/*.desktop /app/share/applications/com.rokbattles.rokbattles.desktop
+      - |
+        for icon in deb-extract/usr/share/icons/hicolor/*/apps/*.png; do
+          size=$(basename "$(dirname "$(dirname "$icon")")")
+          install -Dm644 "$icon" "/app/share/icons/hicolor/$size/apps/com.rokbattles.rokbattles.png"
+        done
+      - install -Dm644 com.rokbattles.rokbattles.metainfo.xml /app/share/metainfo/com.rokbattles.rokbattles.metainfo.xml
+      - install -Dm644 LICENSE-MIT /app/share/licenses/com.rokbattles.rokbattles/LICENSE-MIT
+      - install -Dm644 LICENSE-APACHE /app/share/licenses/com.rokbattles.rokbattles/LICENSE-APACHE
+      - desktop-file-validate /app/share/applications/com.rokbattles.rokbattles.desktop
+      - appstreamcli validate --no-net /app/share/metainfo/com.rokbattles.rokbattles.metainfo.xml
+      - |
+        libraries=$(ldd /app/bin/rokbattles-desktop 2>&1)
+        printf '%s\n' "$libraries"
+        case "$libraries" in
+          *'not found'*) exit 1 ;;
+        esac

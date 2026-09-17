@@ -7,6 +7,7 @@ export type AppSettings = {
   auto_start: boolean;
   close_behavior: CloseBehavior;
   tray_supported: boolean;
+  flatpak: boolean;
 };
 
 export type DiscoverMailcacheResult = {

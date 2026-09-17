@@ -2,21 +2,54 @@
 title: Linux
 ---
 
-ROK Battles is available for Linux in both `AppImage` and `deb` formats.
+ROK Battles is available for Linux in `flatpak`, `AppImage` and `deb` formats.
 
 ## Choose a version
 
 ### x86_64
 
-* <DownloadVersion type="linux-x86_64">Linux x86_64 AppImage</DownloadVersion> - Recommended for most desktop Linux systems
+* <DownloadVersion type="linux-x86_64-flatpak">Linux x86_64 Flatpak</DownloadVersion> - Install with KDE Discover or the terminal
+* <DownloadVersion type="linux-x86_64">Linux x86_64 AppImage</DownloadVersion> - A portable option for desktop Linux
 * <DownloadVersion type="linux-x86_64-deb">Linux x86_64 .deb</DownloadVersion> - For Debian, Ubuntu, and other Debian-based distributions
 
 ### ARM64
 
+* <DownloadVersion type="linux-aarch64-flatpak">Linux ARM64 Flatpak</DownloadVersion> - Install with KDE Discover or the terminal
 * <DownloadVersion type="linux-aarch64">Linux ARM64 AppImage</DownloadVersion> - For ARM64 Linux devices
 * <DownloadVersion type="linux-aarch64-deb">Linux ARM64 .deb</DownloadVersion> - For Debian-based ARM64 systems
 
 ## Install
+
+### Flatpak
+
+Download the Flatpak for your architecture. If Flatpak is not installed on your distribution, follow the [Flatpak setup instructions](https://flatpak.org/setup/) first.
+
+#### Install with KDE Discover
+
+1. Double-click the downloaded `.flatpak` file to open it in KDE Discover with Flatpak support.
+2. Discover will ask to install the local package. Review the details and select Install.
+3. Once installation finishes, launch ROK Battles from Discover or your application menu.
+
+#### Install from the terminal
+
+If you do not have KDE Discover, open a terminal in the folder containing your download. Replace `VERSION` below with the version in the downloaded filename:
+
+```bash
+flatpak install --user ./com.rokbattles.rokbattles-VERSION-x86_64.flatpak
+flatpak run com.rokbattles.rokbattles
+```
+
+For ARM64, use the filename ending in `aarch64.flatpak` instead. Accept any prompt to install the required GNOME runtime from Flathub. ROK Battles itself is installed from the downloaded file.
+
+#### Update or uninstall
+
+To update, download the newer Flatpak and install it the same way, accepting replacement of the installed version. Updates are delivered as bundle files; the Flatpak build does not use the in-app updater or start automatically at login.
+
+To uninstall:
+
+```bash
+flatpak uninstall --user com.rokbattles.rokbattles
+```
 
 ### AppImage
 
@@ -44,5 +77,7 @@ sudo apt install ./ROK.Battles_*.deb
 
 ## Notes
 
+* Use the Flatpak build if you prefer installation through KDE Discover or the Flatpak command line.
+* In the Flatpak app, select Add to choose your `mailcache` folder. The file picker grants access to that folder. Enable Show Hidden Files to find `.local` or `.steam` (**Ctrl+H** in GTK, **Alt+.** in KDE), or press **Ctrl+L** to enter its full path.
 * Use the `AppImage` build if you want a portable option that works on many distributions.
 * Use the `.deb` package if you are on Ubuntu, Debian, or another Debian-based distro and want a standard package install.
