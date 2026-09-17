@@ -19,6 +19,10 @@ use crate::{
     watcher_manager::WatcherManager,
 };
 
+pub(crate) fn is_flatpak() -> bool {
+    cfg!(target_os = "linux") && Path::new("/.flatpak-info").exists()
+}
+
 fn tray_supported() -> bool {
     cfg!(any(target_os = "windows", target_os = "macos"))
 }
@@ -26,6 +30,11 @@ fn tray_supported() -> bool {
 #[cfg(desktop)]
 fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
     use tauri_plugin_autostart::MacosLauncher;
+
+    // The native plugin writes a host autostart entry with an /app executable path.
+    if is_flatpak() {
+        return Ok(());
+    }
 
     let handle = app.handle();
     handle.plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))?;
@@ -44,6 +53,10 @@ fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
 #[cfg(desktop)]
 fn apply_auto_start_setting(app: &AppHandle, enabled: bool) -> Result<(), String> {
     use tauri_plugin_autostart::ManagerExt;
+
+    if is_flatpak() {
+        return Err("Automatic startup is unavailable in the Flatpak package.".to_string());
+    }
 
     let autolaunch = app.autolaunch();
     if enabled {
@@ -176,6 +189,7 @@ struct AppSettings {
     auto_start: bool,
     close_behavior: CloseBehavior,
     tray_supported: bool,
+    flatpak: bool,
 }
 
 #[tauri::command]
@@ -265,11 +279,17 @@ fn set_close_behavior(app: AppHandle, behavior: CloseBehavior) -> Result<(), Str
 
 #[tauri::command]
 fn get_auto_update(app: AppHandle) -> Result<bool, String> {
+    if is_flatpak() {
+        return Ok(false);
+    }
     app_config::get_auto_update(&app).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 fn set_auto_update(app: AppHandle, enabled: bool) -> Result<(), String> {
+    if is_flatpak() {
+        return Err("Install a new Flatpak bundle to update this application.".to_string());
+    }
     app_config::set_auto_update(&app, enabled).map_err(|e| e.to_string())
 }
 
@@ -284,10 +304,12 @@ fn set_auto_start(app: AppHandle, enabled: bool) -> Result<(), String> {
 #[tauri::command]
 fn get_app_settings(app: AppHandle) -> Result<AppSettings, String> {
     Ok(AppSettings {
-        auto_update: app_config::get_auto_update(&app).map_err(|e| e.to_string())?,
-        auto_start: app_config::get_auto_start(&app).map_err(|e| e.to_string())?,
+        auto_update: !is_flatpak()
+            && app_config::get_auto_update(&app).map_err(|e| e.to_string())?,
+        auto_start: !is_flatpak() && app_config::get_auto_start(&app).map_err(|e| e.to_string())?,
         close_behavior: app_config::get_close_behavior(&app).map_err(|e| e.to_string())?,
         tray_supported: tray_supported(),
+        flatpak: is_flatpak(),
     })
 }
 

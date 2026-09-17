@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.rokbattles.rokbattles</id>
+  <name>ROK Battles</name>
+  <summary>Every battle tells a bigger story.</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <description>
+    <p>ROK Battles turns Rise of Kingdoms battle reports into data you can explore, compare and use across a growing set of community tools.</p>
+  </description>
+  <launchable type="desktop-id">com.rokbattles.rokbattles.desktop</launchable>
+  <url type="homepage">https://rokbattles.com</url>
+  <url type="bugtracker">https://github.com/rokbattles/rokbattles/issues</url>
+  <developer id="com.sylketech"><name>Sylke Technologies, LLC</name></developer>
+  <supports><control>keyboard</control><control>pointing</control></supports>
+</component>

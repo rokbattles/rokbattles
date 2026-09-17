@@ -43,13 +43,19 @@ export function SettingsPage(): ReactNode {
         <div className="py-6 text-sm text-zinc-400">Loading settings...</div>
       ) : (
         <div className="space-y-3">
+          {settings?.flatpak ? (
+            <p className="py-2 text-sm/6 text-zinc-400">
+              To update, install the latest Flatpak bundle. Automatic startup is unavailable in this
+              package.
+            </p>
+          ) : null}
           <div className="flex items-center justify-between gap-4 py-2">
             <span className="text-sm/6 font-medium text-white">Auto update</span>
             <Switch
               label="Auto update"
               value={toggleValue(settings?.auto_update ?? true)}
               options={toggleOptions}
-              disabled={isAutoUpdatePending}
+              disabled={isAutoUpdatePending || settings?.flatpak}
               onChange={(value) => updateAutoUpdate(value === "enabled")}
             />
           </div>
@@ -60,7 +66,7 @@ export function SettingsPage(): ReactNode {
               label="Auto start"
               value={toggleValue(settings?.auto_start ?? true)}
               options={toggleOptions}
-              disabled={isAutoStartPending}
+              disabled={isAutoStartPending || settings?.flatpak}
               onChange={(value) => updateAutoStart(value === "enabled")}
             />
           </div>

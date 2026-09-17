@@ -57,7 +57,7 @@ jobs:
         if: matrix.platform == 'ubuntu-22.04' || matrix.platform == 'ubuntu-22.04-arm'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev lld librsvg2-dev patchelf xdg-utils
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev lld librsvg2-dev patchelf xdg-utils flatpak flatpak-builder
 
       - name: Import Apple signing certificate
         if: matrix.platform == 'macos-latest' || matrix.platform == 'macos-15-intel'
@@ -76,6 +76,7 @@ jobs:
           security find-identity -v -p codesigning build.keychain
 
       - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1.0.0
+        id: tauri
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # macOS signing / notarization
@@ -91,39 +92,23 @@ jobs:
         with:
           tagName: __VERSION__
           releaseName: "ROK Battles v__VERSION__"
-          releaseBody: |
-            See the assets to download this version and install.
-      
-            ---
-      
-            ### Which file should I download?
-            Windows
-            `ROK.Battles___VERSION___x64-setup.exe`
-      
-            macOS (Apple Silicon)
-            `ROK.Battles___VERSION___aarch64.dmg`
-      
-            macOS (Intel)
-            `ROK.Battles___VERSION___x64.dmg`
-      
-            Linux (Debian-based distributions)
-            `ROK.Battles___VERSION___amd64.deb`
-      
-            Linux (portable version for most distributions)
-            `ROK.Battles___VERSION___amd64.AppImage`
-      
-            ---
-      
-            ### ARM Builds (Advanced)
-            Most computers use x64 (amd64) processors. If you're unsure which architecture your system uses, download the x64/amd64 version.
-      
-            Only download the ARM64 version if you know your device uses an ARM processor (such as Windows on ARM devices or certain ARM-based Linux systems).
-      
-            ---
-      
-            Signature files (`.sig`) are used by the updater to verify downloads. You do not need to download them manually.
+          releaseBody: See the assets to download this version and install.
           releaseDraft: true
           prerelease: false
           projectPath: crates/apps/rokbattles-desktop
           tauriScript: ../../../packages/desktop-client/node_modules/.bin/tauri
           args: ${{ matrix.args }}
+
+      - name: Build Flatpak
+        if: matrix.platform == 'ubuntu-22.04' || matrix.platform == 'ubuntu-22.04-arm'
+        id: flatpak
+        run: bash .github/flatpak/build.sh
+
+      - name: Upload Flatpak release asset
+        if: matrix.platform == 'ubuntu-22.04' || matrix.platform == 'ubuntu-22.04-arm'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.tauri.outputs.appVersion }}
+          FLATPAK_BUNDLE: ${{ steps.flatpak.outputs.bundle }}
+        run: gh release upload "$RELEASE_TAG" "$FLATPAK_BUNDLE" --clobber
