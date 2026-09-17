@@ -9,9 +9,11 @@ export type DownloadVersionType =
   | "linux-aarch64"
   | "linux-aarch64-appimage"
   | "linux-aarch64-deb"
+  | "linux-aarch64-flatpak"
   | "linux-x86_64"
   | "linux-x86_64-appimage"
   | "linux-x86_64-deb"
+  | "linux-x86_64-flatpak"
   | "windows-aarch64"
   | "windows-aarch64-nsis"
   | "windows-x86_64"
@@ -33,9 +35,11 @@ function getDownloadUrl(type: DownloadVersionType, version: string) {
     "linux-aarch64": `ROK.Battles_${version}_aarch64.AppImage`,
     "linux-aarch64-appimage": `ROK.Battles_${version}_aarch64.AppImage`,
     "linux-aarch64-deb": `ROK.Battles_${version}_arm64.deb`,
+    "linux-aarch64-flatpak": `com.rokbattles.rokbattles-${version}-aarch64.flatpak`,
     "linux-x86_64": `ROK.Battles_${version}_amd64.AppImage`,
     "linux-x86_64-appimage": `ROK.Battles_${version}_amd64.AppImage`,
     "linux-x86_64-deb": `ROK.Battles_${version}_amd64.deb`,
+    "linux-x86_64-flatpak": `com.rokbattles.rokbattles-${version}-x86_64.flatpak`,
     "windows-aarch64": `ROK.Battles_${version}_arm64-setup.exe`,
     "windows-aarch64-nsis": `ROK.Battles_${version}_arm64-setup.exe`,
     "windows-x86_64": `ROK.Battles_${version}_x64-setup.exe`,

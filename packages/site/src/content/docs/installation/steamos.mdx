@@ -2,27 +2,44 @@
 title: SteamOS
 ---
 
-SteamOS does not install `.deb` packages directly. On a Steam Deck or Steam Machine, you can run the Debian build of ROK Battles through Distrobox inside a Debian-based container.
+Use the Flatpak build of ROK Battles on Steam Deck and Steam Machine. SteamOS [supports Flatpak through KDE Discover](https://help.steampowered.com/en/faqs/view/671A-4453-E8D2-323C), so you can install the app in Desktop Mode using Discover or the terminal.
 
-## What to use
+## Download
 
-Use the Debian package:
+1. Switch to Desktop Mode.
+2. <DownloadVersion type="linux-x86_64-flatpak">Download the ROK Battles x86_64 Flatpak</DownloadVersion>.
 
-* <DownloadVersion type="linux-x86_64-deb">ROK Battles for Debian-based Linux</DownloadVersion>
+## Install with KDE Discover
 
-## Install with Distrobox
+1. Open the folder containing your download and double-click the `.flatpak` file.
+2. KDE Discover will open and ask to install the local package. Review the details and select Install.
+3. Once installation finishes, launch ROK Battles from Discover or the application menu.
 
-1. Install [Distrobox](https://distrobox.it), or install BoxBuddy from the Discover store.
-2. Create a Debian-based container such as Debian, Ubuntu, or Linux Mint.
-3. Install the ROK Battles `.deb` package inside that environment.
+## Install from the terminal
 
-## BoxBuddy
+If you prefer commands or do not have KDE Discover, open Konsole in the folder containing your download. Replace `VERSION` with the version in the downloaded filename:
 
-If you are using BoxBuddy, you can use the `Install .deb file` action instead of installing from the terminal manually.
+```bash
+flatpak install --user ./com.rokbattles.rokbattles-VERSION-x86_64.flatpak
+flatpak run com.rokbattles.rokbattles
+```
 
-After installation, ROK Battles should appear in the `View Applications` section in BoxBuddy, where you can launch it.
+Accept any prompt to install the required GNOME runtime from Flathub. ROK Battles itself is installed from the downloaded file.
 
-## Notes
+## Choose your mailcache folder
 
-* These steps are intended for Steam Deck and Steam Machine, where native `.deb` installation is not available.
-* Community members have confirmed these instructions work on both Steam Deck and Steam Machine.
+In ROK Battles, select Add and choose the game's `mailcache` folder. Automatic discovery is unavailable on Linux and SteamOS.
+
+Steam/Proton paths often include hidden directories. In KDE's folder picker, enable Show Hidden Files with **Alt+.**, or press **Ctrl+L** to enter the full path. GTK file pickers use **Ctrl+H** to show hidden files.
+
+## Update
+
+Download the newer Flatpak and install it using Discover or the same terminal command with the new filename. Accept replacement of the installed version. Updates are delivered as bundle files; the Flatpak build does not use the in-app updater.
+
+## Uninstall
+
+Remove ROK Battles through Discover, or run:
+
+```bash
+flatpak uninstall --user com.rokbattles.rokbattles
+```
