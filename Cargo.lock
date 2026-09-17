@@ -4747,7 +4747,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-api"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "axum",
  "base64 0.22.1",
@@ -4771,14 +4771,14 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-bson"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "mongodb",
 ]
 
 [[package]]
 name = "rokbattles-container"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "crc32fast",
  "criterion",
@@ -4793,11 +4793,11 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-container-simd"
-version = "1.6.1"
+version = "1.7.0"
 
 [[package]]
 name = "rokbattles-desktop"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "anyhow",
  "notify",
@@ -4819,14 +4819,14 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-djb2-simd"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "criterion",
 ]
 
 [[package]]
 name = "rokbattles-dns-resolver"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "axum",
  "base64 0.22.1",
@@ -4844,14 +4844,14 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-drastc"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "serde",
 ]
 
 [[package]]
 name = "rokbattles-gateway-protocol"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "bytes",
  "flate2",
@@ -4864,7 +4864,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-ingress"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "axum",
  "bytes",
@@ -4888,7 +4888,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-jobs"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "dotenvy",
  "futures",
@@ -4910,7 +4910,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-cli"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "clap",
  "rokbattles-mail-codec",
@@ -4924,7 +4924,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-codec"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-djb2-simd",
  "serde_json",
@@ -4933,7 +4933,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-alliance-aoo-battle-info"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4941,7 +4941,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-alliance-aoo-battle-results"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4949,7 +4949,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-alliance-aoo-individual-results"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4957,7 +4957,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-barcanyonkillboss"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4965,7 +4965,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-battle"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4973,7 +4973,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-duelbattle2"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4981,7 +4981,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-eventmemberlootreport"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4989,7 +4989,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-rss"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -4997,7 +4997,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-system-barbarianfort"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -5005,7 +5005,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-processor-system-kahartreasure"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-sdk",
  "serde_json",
@@ -5013,7 +5013,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-reconstructor"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "base64 0.22.1",
  "flate2",
@@ -5027,7 +5027,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-registry"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "rokbattles-mail-processor-alliance-aoo-battle-info",
  "rokbattles-mail-processor-alliance-aoo-battle-results",
@@ -5045,7 +5045,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-mail-sdk"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -5054,7 +5054,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-nat-gateway"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "anyhow",
  "bytes",
@@ -5070,7 +5070,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "dotenvy",
  "futures",
@@ -5091,7 +5091,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-webgpu-map-engine"
-version = "1.6.1"
+version = "1.7.0"
 dependencies = [
  "bytemuck",
  "js-sys",
