@@ -47,7 +47,7 @@ const creatorTestimonials: CreatorTestimonial[] = [
   },
 ];
 
-const rotationInterval = 8_000;
+const rotationInterval = 6_000;
 
 export function CreatorTestimonials() {
   const [activeIndex, setActiveIndex] = useState(0);

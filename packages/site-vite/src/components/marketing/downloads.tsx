@@ -20,7 +20,12 @@ export function Downloads() {
             <Icon className="mb-8 size-6 text-orange-400" strokeWidth={1.5} aria-hidden="true" />
             <Subheading>{name}</Subheading>
             <div className="mt-8 flex items-stretch gap-2">
-              {builds ? (
+              {builds?.length === 1 ? (
+                <Button href={`${releaseUrl}/${builds[0].file}`} className="w-full">
+                  Download for {name}
+                </Button>
+              ) : null}
+              {builds && builds.length > 1 ? (
                 <Dropdown>
                   <DropdownButton render={<Button className="w-full" />}>
                     Download for {name} <ChevronDown aria-hidden="true" />
@@ -33,11 +38,12 @@ export function Downloads() {
                     ))}
                   </DropdownMenu>
                 </Dropdown>
-              ) : (
+              ) : null}
+              {!builds ? (
                 <Button href={`/docs/installation/${id}`} className="w-full">
                   {name} install guide <BookOpen aria-hidden="true" />
                 </Button>
-              )}
+              ) : null}
             </div>
           </article>
         ))}

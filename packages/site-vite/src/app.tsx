@@ -1,6 +1,8 @@
 import { NuqsAdapter } from "nuqs/adapters/react-router/v8";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { AppLayout } from "./components/app-layout";
+import { CookieConsentBanner } from "./components/cookie-consent-banner";
+import { CookieConsentDrawer } from "./components/cookie-consent-drawer";
 import { DocsLayout } from "./components/docs/layout";
 import { MarketingLayout } from "./components/marketing-layout";
 import { ScrollToHash } from "./components/scroll-to-hash";
@@ -18,6 +20,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToHash />
+      <CookieConsentBanner />
+      <CookieConsentDrawer />
       <NuqsAdapter>
         <Routes>
           <Route element={<MarketingLayout />}>

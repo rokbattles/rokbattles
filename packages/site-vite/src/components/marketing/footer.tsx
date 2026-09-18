@@ -1,8 +1,12 @@
 import { cn } from "cn";
+import { use } from "react";
+import { CookieConsentContext } from "../../providers/cookie-consent-context";
 import { gutter } from "../ui/marketing/layout";
 import { Link } from "../ui/marketing/link";
 
 export function MarketingFooter() {
+  const { open } = use(CookieConsentContext);
+
   return (
     <footer className={cn(gutter, "flex flex-wrap items-center justify-between gap-6 py-8")}>
       <Link href="/" className="shrink-0">
@@ -15,14 +19,17 @@ export function MarketingFooter() {
         />
       </Link>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
-        {[
-          { label: "Legal", href: "/legal" },
-          { label: "Cookie settings", href: "#" },
-        ].map(({ label, href }) => (
-          <Link key={label} href={href}>
-            {label}
-          </Link>
-        ))}
+        <Link href="/legal">Legal</Link>
+        <Link
+          href="/legal#cookie-settings"
+          onClick={(event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            open();
+          }}
+        >
+          Cookie settings
+        </Link>
       </div>
     </footer>
   );

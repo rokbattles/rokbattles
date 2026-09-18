@@ -1,5 +1,6 @@
 import { cn } from "cn";
 import { ArrowRight } from "lucide-react";
+import { use } from "react";
 import Metadata from "../../components/metadata";
 import { Button } from "../../components/ui/marketing/button";
 import { Heading } from "../../components/ui/marketing/heading";
@@ -8,8 +9,11 @@ import { Link } from "../../components/ui/marketing/link";
 import { Subheading } from "../../components/ui/marketing/subheading";
 import { Text } from "../../components/ui/marketing/text";
 import { legalDocuments } from "../../lib/legal-documents";
+import { CookieConsentContext } from "../../providers/cookie-consent-context";
 
 export default function LegalRoute() {
+  const { open } = use(CookieConsentContext);
+
   return (
     <>
       <Metadata
@@ -52,7 +56,7 @@ export default function LegalRoute() {
             Cookie settings
           </Subheading>
           <Text className="mt-3 max-w-sm">Review and manage your cookie preferences.</Text>
-          <Button disabled className="mt-6">
+          <Button onClick={open} className="mt-6">
             Manage cookies
           </Button>
         </section>

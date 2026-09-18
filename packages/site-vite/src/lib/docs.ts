@@ -16,7 +16,7 @@ export const installationDocs = [
   {
     slug: "linux",
     title: "Linux",
-    description: "Install ROK Battles on Linux with an AppImage or Debian package.",
+    description: "Install ROK Battles on Linux with Flatpak, an AppImage, or a Debian package.",
     Content: lazy(() => import("../content/docs/installation/linux.mdx")),
   },
   {
@@ -34,7 +34,7 @@ export const installationDocs = [
   {
     slug: "steamos",
     title: "SteamOS",
-    description: "Install ROK Battles on SteamOS using a Debian-based container.",
+    description: "Install ROK Battles on SteamOS with Flatpak in Desktop Mode.",
     Content: lazy(() => import("../content/docs/installation/steamos.mdx")),
   },
 ];

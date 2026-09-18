@@ -6,8 +6,8 @@ Choose the installation guide for the device you use to play Rise of Kingdoms. E
 
 - [Windows](/docs/installation/windows) — Install on an Intel, AMD, or ARM-based PC.
 - [macOS](/docs/installation/macos) — Install on an Apple Silicon or Intel Mac.
-- [Linux](/docs/installation/linux) — Choose an AppImage or Debian package.
-- [SteamOS](/docs/installation/steamos) — Install in a Debian-based container.
+- [Linux](/docs/installation/linux) — Choose Flatpak, an AppImage, or a Debian package.
+- [SteamOS](/docs/installation/steamos) — Install Flatpak in Desktop Mode.
 
 ## Mobile
 
