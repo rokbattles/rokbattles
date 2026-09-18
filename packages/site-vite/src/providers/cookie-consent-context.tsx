@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useCallback, useState } from "react";
+import { createContext, type ReactNode, useCallback, useMemo, useState } from "react";
 
 export type OptionalCookiePreferences = {
   functional: boolean;
@@ -53,9 +53,10 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     setIsOpen(false);
   }, []);
 
-  return (
-    <CookieConsentContext value={{ consent, isOpen, open, close, update }}>
-      {children}
-    </CookieConsentContext>
+  const value = useMemo(
+    () => ({ consent, isOpen, open, close, update }),
+    [consent, isOpen, open, close, update]
   );
+
+  return <CookieConsentContext value={value}>{children}</CookieConsentContext>;
 }
