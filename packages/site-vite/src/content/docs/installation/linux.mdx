@@ -1,8 +1,45 @@
 # Install on Linux
 
-ROK Battles is available as an **AppImage** or a **Debian package**. Choose x64 for Intel or AMD systems, or ARM64 for an ARM-based device.
+ROK Battles is available as a **Flatpak**, an **AppImage**, or a **Debian package**. Choose x64 for Intel or AMD systems, or ARM64 for an ARM-based device.
 
 <DownloadOptions platform="linux" />
+
+## Flatpak
+
+Download the Flatpak for your architecture. If Flatpak is not installed on your distribution, follow the [Flatpak setup instructions](https://flatpak.org/setup/) first.
+
+### Install with KDE Discover
+
+1. Double-click the downloaded `.flatpak` file to open it in KDE Discover with Flatpak support.
+2. Review the local package details and select **Install**.
+3. Once installation finishes, launch ROK Battles from Discover or your application menu.
+
+### Install from the terminal
+
+Open a terminal in the folder containing your download and run:
+
+```bash
+flatpak install --user ./com.rokbattles.rokbattles-__VERSION__-x86_64.flatpak
+flatpak run com.rokbattles.rokbattles
+```
+
+For ARM64, use the filename ending in `aarch64.flatpak` instead. Accept any prompt to install the required GNOME runtime from Flathub. ROK Battles itself is installed from the downloaded file.
+
+### Choose your mailcache folder
+
+In ROK Battles, select **Add** and choose the game's `mailcache` folder. The file picker grants access to that folder. Automatic discovery is unavailable on Linux.
+
+Enable **Show Hidden Files** to find `.local` or `.steam`: use **Ctrl+H** in GTK or **Alt+.** in KDE. You can also press **Ctrl+L** to enter the full path.
+
+### Update or uninstall
+
+To update, download the newer Flatpak and install it the same way, accepting replacement of the installed version. Updates are delivered as bundle files; the Flatpak build does not use the in-app updater or start automatically at login.
+
+To uninstall, remove ROK Battles through Discover or run:
+
+```bash
+flatpak uninstall --user com.rokbattles.rokbattles
+```
 
 ## AppImage
 
