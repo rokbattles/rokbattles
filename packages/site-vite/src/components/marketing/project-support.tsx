@@ -37,15 +37,24 @@ export function ProjectSupport() {
       <div className={cn(card, "flex flex-col items-start")}>
         <Subheading>Support the project</Subheading>
         <Text className="mt-2">Help support ongoing development and infrastructure costs.</Text>
-        <Link
-          href="https://github.com/sponsors/rokbattles"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Support ROK Battles through GitHub Sponsors (opens in a new tab)"
-          className="mt-auto"
-        >
-          GitHub Sponsors <ArrowUpRight aria-hidden="true" />
-        </Link>
+        <div className="mt-auto flex flex-wrap gap-x-6">
+          <Link
+            href="https://www.patreon.com/cw/ROKBattles"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Support ROK Battles through Patreon (opens in a new tab)"
+          >
+            Patreon <ArrowUpRight aria-hidden="true" />
+          </Link>
+          <Link
+            href="https://github.com/sponsors/rokbattles"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Support ROK Battles through GitHub Sponsors (opens in a new tab)"
+          >
+            GitHub Sponsors <ArrowUpRight aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );
