@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "tauri": "cd ../../crates/apps/rokbattles-desktop && ../../../packages/site-vite/node_modules/.bin/tauri",
     "build": "pnpm sync:legal && tsc -b && vite build",
     "deploy": "pnpm build && wrangler pages deploy dist --project-name=rokbattles-site --branch=main",
     "preview": "vite preview",

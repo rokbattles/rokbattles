@@ -97,7 +97,7 @@ jobs:
           prerelease: false
           retryAttempts: 3
           projectPath: crates/apps/rokbattles-desktop
-          tauriScript: ../../../packages/desktop-client/node_modules/.bin/tauri
+          tauriScript: ../../../packages/site-vite/node_modules/.bin/tauri
           args: ${{ matrix.args }}
 
       - name: Build Flatpak

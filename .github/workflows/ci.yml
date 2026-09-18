@@ -76,8 +76,8 @@ jobs:
       - name: Build @rokbattles/site
         run: pnpm -F @rokbattles/site generate:datasets && pnpm -F @rokbattles/site build
 
-      - name: Build @rokbattles/desktop-client
-        run: pnpm -F @rokbattles/desktop-client build
+      - name: Build site-vite
+        run: pnpm -F site-vite build
 
   lint-rs:
     name: Lint Rust
