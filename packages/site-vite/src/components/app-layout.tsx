@@ -1,9 +1,12 @@
-import { Flame } from "lucide-react";
+import { Cookie, Flame } from "lucide-react";
+import { use } from "react";
 import { Outlet, useMatch } from "react-router";
+import { CookieConsentContext } from "../providers/cookie-consent-context";
 import { Navbar, NavbarItem } from "./ui/navbar";
 import {
   Sidebar,
   SidebarBody,
+  SidebarFooter,
   SidebarHeader,
   SidebarHeading,
   SidebarItem,
@@ -13,6 +16,7 @@ import {
 import { SidebarLayout } from "./ui/sidebar-layout";
 
 export function AppLayout() {
+  const { open } = use(CookieConsentContext);
   const isIndex = useMatch({ path: "/app", end: true }) !== null;
 
   return (
@@ -38,6 +42,12 @@ export function AppLayout() {
               </SidebarItem>
             </SidebarSection>
           </SidebarBody>
+          <SidebarFooter>
+            <SidebarItem onClick={open}>
+              <Cookie aria-hidden="true" />
+              <SidebarLabel>Cookie settings</SidebarLabel>
+            </SidebarItem>
+          </SidebarFooter>
         </Sidebar>
       }
     >
