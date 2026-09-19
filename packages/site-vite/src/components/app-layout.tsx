@@ -1,6 +1,7 @@
 import { Flame, FlaskConical, Gem, MapIcon, Swords } from "lucide-react";
 import { Outlet, useLocation } from "react-router";
-import { Navbar, NavbarItem } from "./ui/navbar";
+import { AppLogo } from "./app/logo";
+import { Navbar } from "./ui/navbar";
 import {
   Sidebar,
   SidebarBody,
@@ -19,16 +20,14 @@ export function AppLayout() {
   return (
     <SidebarLayout
       navbar={
-        <Navbar aria-label="Site">
-          <NavbarItem href="/app">ROK Battles</NavbarItem>
+        <Navbar aria-label="Site" className="pl-3">
+          <AppLogo />
         </Navbar>
       }
       sidebar={
         <Sidebar aria-label="Main navigation">
-          <SidebarHeader>
-            <SidebarItem href="/app">
-              <SidebarLabel>ROK Battles</SidebarLabel>
-            </SidebarItem>
+          <SidebarHeader className="max-lg:hidden">
+            <AppLogo />
           </SidebarHeader>
           <SidebarBody>
             <SidebarSection>
