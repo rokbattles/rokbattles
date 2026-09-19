@@ -102,7 +102,7 @@ export function ReportOverview() {
           <Button href="/app">
             Explore battles <ArrowUpRight aria-hidden="true" />
           </Button>
-          <Button disabled>
+          <Button href="/app/olympian-arena">
             Explore duels <ArrowUpRight aria-hidden="true" />
           </Button>
         </div>
