@@ -17,6 +17,12 @@ export default defineConfig({
             {
               name: "react-vendor",
               test: /\/node_modules\/(?:react|react-dom|scheduler)\//,
+              priority: 20,
+            },
+            {
+              name: "ui-vendor",
+              test: /\/node_modules\/(?:@base-ui\/|lucide-react\/)/,
+              priority: 10,
             },
           ],
         },
