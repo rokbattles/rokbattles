@@ -1,6 +1,6 @@
 import { cn } from "cn";
 import { NavLink, Outlet } from "react-router";
-import { installationDocs } from "../../lib/docs";
+import { installationDocs } from "../../content/metadata";
 import { gutter } from "../ui/marketing/layout";
 
 const navigationClass = ({ isActive }: { isActive: boolean }) =>
