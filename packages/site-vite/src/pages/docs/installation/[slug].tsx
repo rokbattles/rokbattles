@@ -3,7 +3,7 @@ import { DownloadOptions } from "../../../components/docs/download-options";
 import { MarkdownDocument } from "../../../components/markdown-document";
 import Metadata from "../../../components/metadata";
 import { Text } from "../../../components/ui/marketing/text";
-import type { installationDocs } from "../../../lib/docs";
+import type { installationDocs } from "../../../content/metadata";
 
 const components = { DownloadOptions };
 

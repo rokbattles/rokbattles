@@ -6,7 +6,7 @@ import Metadata from "../../components/metadata";
 import { gutter } from "../../components/ui/marketing/layout";
 import { Link } from "../../components/ui/marketing/link";
 import { Text } from "../../components/ui/marketing/text";
-import type { legalDocuments } from "../../lib/legal-documents";
+import type { legalDocuments } from "../../content/metadata";
 
 export default function LegalDocumentRoute({
   document,

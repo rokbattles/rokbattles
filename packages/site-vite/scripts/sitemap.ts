@@ -16,19 +16,16 @@ export function sitemap(): Plugin {
     async generateBundle() {
       // Runtime imports keep MDX out of Vite's config bundler. Node reads the
       // document lists without invoking their lazy content loaders.
-      const docsUrl = pathToFileURL(resolve(root, "src/lib/docs.ts")).href;
-      const legalUrl = pathToFileURL(resolve(root, "src/lib/legal-documents.ts")).href;
-      const [docs, legal]: [
-        typeof import("../src/lib/docs.ts"),
-        typeof import("../src/lib/legal-documents.ts"),
-      ] = await Promise.all([import(docsUrl), import(legalUrl)]);
+      const metadataUrl = pathToFileURL(resolve(root, "src/content/metadata.ts")).href;
+      const { installationDocs, legalDocuments }: typeof import("../src/content/metadata.ts") =
+        await import(metadataUrl);
 
       const publicPaths = [
         "/",
         "/docs",
-        ...docs.installationDocs.map((document) => `/docs/installation/${document.slug}`),
+        ...installationDocs.map((document) => `/docs/installation/${document.slug}`),
         "/legal",
-        ...legal.legalDocuments.map((document) => `/legal/${document.id}`),
+        ...legalDocuments.map((document) => `/legal/${document.id}`),
       ];
       const urls = publicPaths.map((path) => {
         const url = new URL(path, baseUrl).href.replaceAll("&", "&amp;");

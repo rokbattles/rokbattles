@@ -6,8 +6,7 @@ import { CookieConsentDrawer } from "./components/cookie-consent-drawer";
 import { DocsLayout } from "./components/docs/layout";
 import { MarketingLayout } from "./components/marketing-layout";
 import { ScrollToHash } from "./components/scroll-to-hash";
-import { installationDocs } from "./lib/docs";
-import { legalDocuments } from "./lib/legal-documents";
+import { installationDocs, legalDocuments } from "./content/metadata";
 import CombatLabRoute from "./pages/app/combat-lab.tsx";
 import AppIndexRoute from "./pages/app/index.tsx";
 import LootExplorerRoute from "./pages/app/loot-explorer.tsx";
@@ -30,24 +29,26 @@ export default function App() {
         <Routes>
           <Route element={<MarketingLayout />}>
             <Route index element={<IndexRoute />} />
-            <Route element={<DocsLayout />}>
-              <Route path="docs" element={<DocsRoute />} />
+            <Route path="docs" element={<DocsLayout />}>
+              <Route index element={<DocsRoute />} />
               {installationDocs.map((document) => (
                 <Route
                   key={document.slug}
-                  path={`docs/installation/${document.slug}`}
+                  path={`installation/${document.slug}`}
                   element={<InstallationRoute document={document} />}
                 />
               ))}
             </Route>
-            <Route path="legal" element={<LegalRoute />} />
-            {legalDocuments.map((document) => (
-              <Route
-                key={document.id}
-                path={`legal/${document.id}`}
-                element={<LegalDocumentRoute document={document} />}
-              />
-            ))}
+            <Route path="legal">
+              <Route index element={<LegalRoute />} />
+              {legalDocuments.map((document) => (
+                <Route
+                  key={document.id}
+                  path={document.id}
+                  element={<LegalDocumentRoute document={document} />}
+                />
+              ))}
+            </Route>
           </Route>
           <Route path="app" element={<AppLayout />}>
             <Route index element={<AppIndexRoute />} />

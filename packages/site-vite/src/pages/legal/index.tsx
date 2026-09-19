@@ -8,7 +8,7 @@ import { card, GridMarkers, gutter } from "../../components/ui/marketing/layout"
 import { Link } from "../../components/ui/marketing/link";
 import { Subheading } from "../../components/ui/marketing/subheading";
 import { Text } from "../../components/ui/marketing/text";
-import { legalDocuments } from "../../lib/legal-documents";
+import { legalDocuments } from "../../content/metadata";
 import { CookieConsentContext } from "../../providers/cookie-consent-context";
 
 export default function LegalRoute() {
