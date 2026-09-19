@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import packageJson from "./package.json" with { type: "json" };
+import { sitemap } from "./scripts/sitemap.ts";
 
 const tauri = process.env.TAURI_DEV_HOST;
 
@@ -12,6 +13,7 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(packageJson.version),
   },
   plugins: [
+    sitemap(),
     {
       name: "docs-package-version",
       enforce: "pre",
