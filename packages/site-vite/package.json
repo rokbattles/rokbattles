@@ -1,5 +1,5 @@
 {
-  "name": "site-vite",
+  "name": "@rokbattles/site-vite",
   "private": true,
   "version": "1.7.0",
   "type": "module",

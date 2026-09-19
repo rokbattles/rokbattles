@@ -8,7 +8,11 @@ import { MarketingLayout } from "./components/marketing-layout";
 import { ScrollToHash } from "./components/scroll-to-hash";
 import { installationDocs } from "./lib/docs";
 import { legalDocuments } from "./lib/legal-documents";
+import CombatLabRoute from "./pages/app/combat-lab.tsx";
 import AppIndexRoute from "./pages/app/index.tsx";
+import LootExplorerRoute from "./pages/app/loot-explorer.tsx";
+import OlympianArenaRoute from "./pages/app/olympian-arena.tsx";
+import TerritoryLabRoute from "./pages/app/territory-lab.tsx";
 import DocsRoute from "./pages/docs/index.tsx";
 import InstallationRoute from "./pages/docs/installation/[slug].tsx";
 import IndexRoute from "./pages/index.tsx";
@@ -47,6 +51,10 @@ export default function App() {
           </Route>
           <Route path="app" element={<AppLayout />}>
             <Route index element={<AppIndexRoute />} />
+            <Route path="olympian-arena" element={<OlympianArenaRoute />} />
+            <Route path="combat-lab" element={<CombatLabRoute />} />
+            <Route path="loot-explorer" element={<LootExplorerRoute />} />
+            <Route path="territory-lab" element={<TerritoryLabRoute />} />
           </Route>
           <Route path="*" element={<NotFoundRoute />} />
         </Routes>
