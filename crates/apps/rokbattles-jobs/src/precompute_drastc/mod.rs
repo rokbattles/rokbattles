@@ -81,6 +81,7 @@ async fn precompute_for_season(
     let confidences = read_pairing_confidences(
         reports_store.battle_collection(),
         &supported_pairings,
+        &commander_ids,
         cutoff_mail_time,
         season,
     )

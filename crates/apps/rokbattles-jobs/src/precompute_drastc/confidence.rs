@@ -17,10 +17,12 @@ use crate::{combat_lab_season::CombatLabSeason, error::JobsError};
 pub(super) async fn read_pairing_confidences(
     source: &Collection<Document>,
     supported_pairings: &[PairingKey],
+    commander_ids: &[i64],
     cutoff_mail_time: i64,
     season: CombatLabSeason,
 ) -> Result<BTreeMap<PairingKey, DrastcConfidence>, JobsError> {
-    let pipeline = build_confidence_pipeline(supported_pairings, cutoff_mail_time, season);
+    let pipeline =
+        build_confidence_pipeline(supported_pairings, commander_ids, cutoff_mail_time, season);
     let mut cursor =
         source.aggregate(pipeline).allow_disk_use(true).hint(season.source_hint()).await?;
     let mut confidences = BTreeMap::new();
@@ -36,11 +38,15 @@ pub(super) async fn read_pairing_confidences(
 
 pub(super) fn build_confidence_pipeline(
     supported_pairings: &[PairingKey],
+    commander_ids: &[i64],
     cutoff_mail_time: i64,
     season: CombatLabSeason,
 ) -> Vec<Document> {
-    let mut pipeline =
-        build_supported_pairing_entries_pipeline(supported_pairings, cutoff_mail_time);
+    let mut pipeline = build_supported_pairing_entries_pipeline(
+        supported_pairings,
+        commander_ids,
+        cutoff_mail_time,
+    );
     pipeline.extend([
         doc! {
             "$match": {
@@ -120,8 +126,12 @@ mod tests {
     fn confidence_pipeline_groups_open_field_battles_by_governor_then_pairing() {
         let pairing = PairingKey { primary_commander_id: 595, secondary_commander_id: 596 };
         let cutoff_mail_time = 1_755_000_000_000_000_i64;
-        let pipeline =
-            build_confidence_pipeline(&[pairing], cutoff_mail_time, CombatLabSeason::Soc);
+        let pipeline = build_confidence_pipeline(
+            &[pairing],
+            &[595, 596],
+            cutoff_mail_time,
+            CombatLabSeason::Soc,
+        );
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
         let pairing_match = pipeline
             .iter()
@@ -161,7 +171,7 @@ mod tests {
     #[test]
     fn presoc_confidence_uses_the_same_report_season_scope_as_scores() {
         let pairing = PairingKey { primary_commander_id: 3, secondary_commander_id: 6 };
-        let pipeline = build_confidence_pipeline(&[pairing], 100, CombatLabSeason::PreSoc);
+        let pipeline = build_confidence_pipeline(&[pairing], &[3, 6], 100, CombatLabSeason::PreSoc);
         assert_eq!(
             pipeline[0],
             doc! {
@@ -176,5 +186,24 @@ mod tests {
             pipeline[1].get_document("$match").expect("report match").get_bool("metadata.kvk"),
             Ok(true)
         );
+    }
+
+    #[test]
+    fn excludes_ineligible_commanders_on_both_sides_before_projecting_fights() {
+        use crate::commander_catalog::{combat_lab_commander_ids, eligible_battle_match};
+        for season in [CombatLabSeason::Soc, CombatLabSeason::PreSoc] {
+            let ids = combat_lab_commander_ids(season).expect("eligible commanders");
+            let pipeline = build_confidence_pipeline(
+                &[PairingKey { primary_commander_id: 3, secondary_commander_id: 6 }],
+                &ids,
+                100,
+                season,
+            );
+            let unwind = pipeline
+                .iter()
+                .position(|stage| stage.get_str("$unwind") == Ok("$opponents"))
+                .expect("unwind opponents");
+            assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids));
+        }
     }
 }

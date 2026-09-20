@@ -81,7 +81,8 @@ async fn precompute_for_season(
     let catalogs = Catalogs::load()?;
     let output = season.pairings_collection(reports_store);
     season.ensure_pairings_indexes(&output).await?;
-    let mut roots = read_stored_drastc(&season.drastc_collection(reports_store)).await?;
+    let mut roots =
+        read_stored_drastc(&season.drastc_collection(reports_store), &commander_ids).await?;
     let performance_partitions = time_partitions(cutoffs[0], now_ms, PERFORMANCE_CHUNK_MS);
     let mut documents_written = 0_usize;
     let mut max_document_bytes = 0_usize;
@@ -163,9 +164,13 @@ async fn precompute_for_season(
 
 async fn read_stored_drastc(
     source: &Collection<Document>,
+    commander_ids: &[i64],
 ) -> Result<BTreeMap<PairingKey, PairingRoot>, JobsError> {
     let mut cursor = source
-        .find(doc! {})
+        .find(doc! {
+            "primary_commander_id": { "$in": commander_ids },
+            "secondary_commander_id": { "$in": commander_ids },
+        })
         .projection(doc! {
             "_id": 0,
             "primary_commander_id": 1,

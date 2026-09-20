@@ -34,6 +34,7 @@ export function isCombatLabCommanderId(id: number, season: CombatLabSeason = "so
   const commander = commanderMap[String(id) as keyof typeof commanderMap];
   return (
     (commander?.rarity === "legendary" || commander?.rarity === "epic") &&
+    !commander.talents?.includes("gathering") &&
     (season === "soc" || commander.kvk_limit < 3)
   );
 }
