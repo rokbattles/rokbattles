@@ -306,6 +306,7 @@ msgstr "ไอเซ็ต"
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "5jeq8P"
 msgid "Unknown"
 msgstr ""
@@ -322,7 +323,6 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
 msgctxt "ug01Mk"
 msgid "Time"
 msgstr ""
@@ -1633,7 +1633,7 @@ msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "9bVtCz"
 msgid "Battles"
 msgstr ""
@@ -1761,6 +1761,7 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "ejEGdx"
 msgid "Home"
 msgstr ""
@@ -2440,9 +2441,30 @@ msgctxt "tQtRWX"
 msgid "Loading reports..."
 msgstr ""
 
+#: src/components/reports/reports-table-row.tsx
+msgctxt "juxgDa"
+msgid "View battle report"
+msgstr ""
+
+#: src/components/reports/reports-table-row.tsx
+msgctxt "eSihN1"
+msgid "{elapsed} ago"
+msgstr ""
+
+#: src/components/reports/reports-table.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "zuqMfZ"
+msgid "Map"
+msgstr ""
+
 #: src/components/reports/reports-table.tsx
 msgctxt "IuFETn"
 msgid "Duration"
+msgstr ""
+
+#: src/components/reports/reports-table.tsx
+msgctxt "McnLsx"
+msgid "When"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
@@ -2685,11 +2707,6 @@ msgstr ""
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "NCnvW0"
 msgid "Territory Planner"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "zuqMfZ"
-msgid "Map"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx

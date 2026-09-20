@@ -20,6 +20,8 @@ pub(crate) struct ReportByIdResponse {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct ReportListItem {
     pub mail_id: String,
+    pub kvk_mapcode: String,
+    pub kvk_banner: Option<String>,
     pub time_start: i64,
     pub time_end: i64,
     pub sender: ReportListParticipant,
@@ -76,6 +78,7 @@ pub(crate) struct TimelineSample {
 #[derive(Debug)]
 pub(crate) struct ReportRowWithCursor {
     pub mail_time: i64,
+    pub map_context: super::map_context::BattleMapContext,
     pub item: ReportListItem,
 }
 

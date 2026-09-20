@@ -18,6 +18,7 @@ pub fn exclude_test_client_filter() -> Document {
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
     mails_battle: Collection<Document>,
+    lostland_list: Collection<Document>,
     mails_duelbattle2: Collection<Document>,
     mails_alliance_aoobattleresults: Collection<Document>,
     mails_alliance_aoobattleinfo: Collection<Document>,
@@ -44,6 +45,7 @@ impl ReportsStore {
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             mails_battle: db.collection("mails_battle"),
+            lostland_list: db.collection("g_rok_lostland_list"),
             mails_duelbattle2: db.collection("mails_duelbattle2"),
             mails_alliance_aoobattleresults: db.collection("mails_alliance_aoobattleresults"),
             mails_alliance_aoobattleinfo: db.collection("mails_alliance_aoobattleinfo"),
@@ -495,6 +497,11 @@ impl ReportsStore {
     /// Access the battle reports collection.
     pub fn battle_collection(&self) -> &Collection<Document> {
         &self.mails_battle
+    }
+
+    /// Access the scheduled KvK snapshots, indexed by Id, OpenTime, and CloseTime.
+    pub fn lostland_collection(&self) -> &Collection<Document> {
+        &self.lostland_list
     }
 
     /// Access the Olympian Arena duel reports collection.

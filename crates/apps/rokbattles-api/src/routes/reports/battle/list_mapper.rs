@@ -15,6 +15,10 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "metadata.mail_id",
         "metadata.mail_time",
         "metadata.server_id",
+        "metadata.kvk",
+        "metadata.mail_role",
+        "sender.supreme_strife.battle_id",
+        "sender.supreme_strife.team_id",
         "timeline.start_timestamp",
         "timeline.end_timestamp",
         "timeline.sampling.tick",
@@ -138,6 +142,8 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
 
     let item = ReportListItem {
         mail_id,
+        kvk_mapcode: "Unknown".into(),
+        kvk_banner: None,
         time_start,
         time_end,
         sender: ReportListParticipant {
@@ -186,7 +192,11 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
         },
     };
 
-    Some(ReportRowWithCursor { mail_time, item })
+    Some(ReportRowWithCursor {
+        mail_time,
+        map_context: super::map_context::BattleMapContext::from_document(document, time_start),
+        item,
+    })
 }
 
 pub(crate) fn compute_trade_percent(sender_kill_points: i64, opponent_kill_points: i64) -> i64 {

@@ -34,27 +34,25 @@ export default function ParticipantCell({
     : null;
 
   return (
-    <div className="flex flex-col">
-      <span className="inline-flex items-center gap-2">
+    <span className="inline-flex items-center align-middle">
+      <span title={primaryName}>
         <CommanderIcon
           alt={t("{name} icon", { name: primaryName })}
           awakened={primaryAwakened}
-          className="size-8 rounded-full"
+          className="size-8"
           id={primaryId}
         />
-        <span>{primaryName}</span>
       </span>
       {hasSecondary ? (
-        <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+        <span title={secondaryName ?? undefined}>
           <CommanderIcon
             alt={t("{name} icon", { name: secondaryName })}
             awakened={secondaryAwakened}
-            className="size-8 rounded-full"
+            className="size-8"
             id={secondaryId}
           />
-          <span>{secondaryName}</span>
         </span>
       ) : null}
-    </div>
+    </span>
   );
 }

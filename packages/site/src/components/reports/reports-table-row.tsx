@@ -2,13 +2,22 @@
 
 import { cn } from "cn";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useExtracted } from "next-intl";
+import type { CSSProperties } from "react";
+import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
+import {
+  formatDurationShort,
+  formatElapsedShort,
+  formatUtcDateTime,
+  normalizeTimestampMillis,
+} from "@/lib/datetime";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ParticipantCell from "./participant-cell";
 
 type ReportsTableRowProps = {
   report: ReportsListItem;
+  now: Date | null;
   onOpenOverview: (report: ReportsListItem) => void;
 };
 
@@ -23,7 +32,8 @@ function isPreviewableViewport() {
   );
 }
 
-export default function ReportsTableRow({ report, onOpenOverview }: ReportsTableRowProps) {
+export default function ReportsTableRow({ report, now, onOpenOverview }: ReportsTableRowProps) {
+  const t = useExtracted();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const query = new URLSearchParams(searchParams.toString());
@@ -33,11 +43,16 @@ export default function ReportsTableRow({ report, onOpenOverview }: ReportsTable
   const queryString = query.toString();
   const encodedMailId = encodeURIComponent(report.mailId);
   const href = queryString ? `/report/${encodedMailId}?${queryString}` : `/report/${encodedMailId}`;
+  const mapcode = report.kvkMapcode || "Unknown";
+  const banner = mapcode === "Unknown" ? null : report.kvkBanner;
+  const timestamp = normalizeTimestampMillis(report.timeStart);
+  const elapsed = formatElapsedShort(report.timeStart, now);
 
   return (
     <TableRow
       href={href}
-      className={cn(report.battles > 1 && "cursor-pointer")}
+      title={t("View battle report")}
+      className={cn("relative isolate", report.battles > 1 && "cursor-pointer")}
       onClickCapture={(event) => {
         if (report.battles <= 1 || !isPreviewableViewport()) {
           return;
@@ -57,16 +72,26 @@ export default function ReportsTableRow({ report, onOpenOverview }: ReportsTable
         onOpenOverview(report);
       }}
     >
-      <TableCell className="font-medium text-zinc-950 dark:text-white">
-        {formatUtcDateTime(report.timeStart)}
+      <TableCell
+        className={cn(
+          "first:static w-1/8 tabular-nums",
+          banner &&
+            "before:content-[''] before:absolute before:inset-y-0 before:left-0 before:-z-10 before:w-[min(60%,24rem)] before:pointer-events-none before:bg-[image:var(--kvk-banner)] before:bg-left before:bg-cover before:bg-no-repeat before:opacity-30 dark:before:opacity-45 before:mask-[linear-gradient(to_right,black,transparent)]"
+        )}
+        style={banner ? ({ "--kvk-banner": `url("${banner}")` } as CSSProperties) : undefined}
+      >
+        {mapcode === "Unknown" ? t("Unknown") : mapcode === "Home" ? t("Home") : mapcode}
       </TableCell>
-      <TableCell>
+      <TableCell className="text-right">
         <ParticipantCell
           primaryAwakened={report.sender.primaryCommanderAwakened}
           primaryId={report.sender.primaryCommanderId}
           secondaryAwakened={report.sender.secondaryCommanderAwakened}
           secondaryId={report.sender.secondaryCommanderId}
         />
+      </TableCell>
+      <TableCell className="w-1/10 text-center tabular-nums">
+        {Math.round(report.tradePercent)}%
       </TableCell>
       <TableCell>
         <ParticipantCell
@@ -75,11 +100,30 @@ export default function ReportsTableRow({ report, onOpenOverview }: ReportsTable
           secondaryAwakened={report.opponent.secondaryCommanderAwakened}
           secondaryId={report.opponent.secondaryCommanderId}
         />
+        {report.battles > 1 ? (
+          <Badge className="ml-1 align-middle tabular-nums" title={t("Battles")}>
+            +{(report.battles - 1).toLocaleString()}
+          </Badge>
+        ) : null}
       </TableCell>
-      <TableCell>{report.battles.toLocaleString()}</TableCell>
-      <TableCell>+{Math.max(0, Math.round(report.killCount)).toLocaleString()}</TableCell>
-      <TableCell>{Math.round(report.tradePercent)}%</TableCell>
-      <TableCell>{formatDurationShort(report.timeStart, report.timeEnd)}</TableCell>
+      <TableCell className="hidden w-1/8 text-right tabular-nums sm:table-cell">
+        +{Math.max(0, Math.round(report.killCount)).toLocaleString()}
+      </TableCell>
+      <TableCell className="hidden w-1/8 text-right tabular-nums sm:table-cell">
+        {formatDurationShort(report.timeStart, report.timeEnd)}
+      </TableCell>
+      <TableCell className="w-1/8 text-right tabular-nums text-zinc-500 dark:text-zinc-400">
+        <time
+          dateTime={timestamp == null ? undefined : new Date(timestamp).toISOString()}
+          title={
+            timestamp == null
+              ? formatUtcDateTime(report.timeStart)
+              : new Date(timestamp).toUTCString()
+          }
+        >
+          {elapsed == null ? t("Unknown") : t("{elapsed} ago", { elapsed })}
+        </time>
+      </TableCell>
     </TableRow>
   );
 }

@@ -30,6 +30,7 @@ use crate::{
 
 mod detail_mapper;
 mod list_mapper;
+mod map_context;
 mod match_builder;
 mod query;
 mod stratagems;
@@ -76,7 +77,7 @@ pub async fn get(
         }
     }
 
-    let paged_rows = paginate_cursor_rows(
+    let mut paged_rows = paginate_cursor_rows(
         rows,
         dedupe_keys.len(),
         PAGE_SIZE,
@@ -84,6 +85,8 @@ pub async fn get(
         request.after_cursor,
         |row: &ReportRowWithCursor| row.mail_time,
     );
+
+    map_context::enrich_map_context(&state.reports_store, &mut paged_rows.items).await?;
 
     let response = ReportsResponse {
         items: paged_rows.items.into_iter().map(|row| row.item).collect(),

@@ -27,6 +27,8 @@ export type ReportsTimeline = {
 
 export type ReportsListItem = {
   mailId: string;
+  kvkMapcode: string;
+  kvkBanner: string | null;
   timeStart: number;
   timeEnd: number;
   sender: ReportsListParticipant;

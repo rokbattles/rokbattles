@@ -13,7 +13,8 @@ import ReportsOverviewDrawer from "./reports-overview-drawer";
 import ReportsSkeletonRows from "./reports-skeleton-rows";
 import ReportsTableRow from "./reports-table-row";
 
-const SkeletonWidths = ["w-24", "w-36", "w-36", "w-16", "w-20", "w-20", "w-24"] as const;
+const SkeletonWidths = ["w-24", "w-16", "w-16", "w-24", "w-20", "w-20", "w-24"] as const;
+const HiddenMobileColumns = new Set([4, 5]);
 
 type ReportsTableProps = {
   scope?: ReportsScope;
@@ -25,8 +26,16 @@ export default function ReportsTable({
   skeletonCount = 10,
 }: ReportsTableProps = {}) {
   const t = useExtracted();
-  const { data, loading, error, nextAfter, previousBefore, loadNextPage, loadPreviousPage } =
-    useReportsPage(scope);
+  const {
+    data,
+    loadedAt,
+    loading,
+    error,
+    nextAfter,
+    previousBefore,
+    loadNextPage,
+    loadPreviousPage,
+  } = useReportsPage(scope);
   const [overviewRow, setOverviewRow] = useState<ReportsListItem | null>(null);
 
   const handleNextPage = async () => {
@@ -41,24 +50,33 @@ export default function ReportsTable({
 
   return (
     <>
-      <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-36">{t("Time")}</TableHeader>
-            <TableHeader>{t("Sender")}</TableHeader>
+            <TableHeader>{t("Map")}</TableHeader>
+            <TableHeader className="text-right">{t("Sender")}</TableHeader>
+            <TableHeader className="text-center">{t("Trade %")}</TableHeader>
             <TableHeader>{t("Opponent")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Battles")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Kill Count")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Trade %")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Duration")}</TableHeader>
+            <TableHeader className="hidden text-right sm:table-cell">{t("Kill Count")}</TableHeader>
+            <TableHeader className="hidden text-right sm:table-cell">{t("Duration")}</TableHeader>
+            <TableHeader className="text-right">{t("When")}</TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((report) => (
-            <ReportsTableRow key={report.mailId} report={report} onOpenOverview={setOverviewRow} />
+            <ReportsTableRow
+              key={report.mailId}
+              report={report}
+              now={loadedAt}
+              onOpenOverview={setOverviewRow}
+            />
           ))}
           {loading && data.length === 0 ? (
-            <ReportsSkeletonRows count={skeletonCount} widths={SkeletonWidths} />
+            <ReportsSkeletonRows
+              count={skeletonCount}
+              widths={SkeletonWidths}
+              hiddenOnMobile={HiddenMobileColumns}
+            />
           ) : null}
           {!loading && !error && data.length === 0 ? <ReportsEmptyStateRow colSpan={7} /> : null}
           {error ? <ReportsErrorRow colSpan={7} error={error} /> : null}
@@ -72,6 +90,7 @@ export default function ReportsTable({
             onClick={() => void handlePreviousPage()}
             disabled={!previousBefore || loading}
             aria-label={t("Previous page")}
+            autoComplete="off"
           >
             {t("Previous")}
           </Button>
@@ -83,6 +102,7 @@ export default function ReportsTable({
             onClick={() => void handleNextPage()}
             disabled={!nextAfter || loading}
             aria-label={t("Next page")}
+            autoComplete="off"
           >
             {t("Next")}
           </Button>
