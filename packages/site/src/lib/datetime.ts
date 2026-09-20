@@ -156,12 +156,15 @@ export function formatElapsedShort(value: DateInput, now: DateInput): string | n
     (end.getUTCFullYear() - start.getUTCFullYear()) * 12 + end.getUTCMonth() - start.getUTCMonth();
   if (shiftMonths(months) > end) months -= 1;
   const years = Math.floor(months / 12);
-  const parts: string[] = [];
-  if (years) parts.push(`${years}y`);
-  if (months % 12) parts.push(`${months % 12}mo`);
-  const rest = formatDurationShort(shiftMonths(months), end);
-  if (rest !== "0s" || parts.length === 0) parts.push(rest);
-  return parts.join(" ");
+  if (years) return `${years}y`;
+  if (months) return `${months}mo`;
+
+  const elapsed = end.getTime() - start.getTime();
+  const days = Math.floor(elapsed / (24 * 60 * 60 * 1000));
+  if (days) return `${days}d`;
+  const hours = Math.floor(elapsed / (60 * 60 * 1000));
+  if (hours) return `${hours}h`;
+  return formatDurationShort(start, end);
 }
 
 export function formatLocalDateInput(date: Date): string {

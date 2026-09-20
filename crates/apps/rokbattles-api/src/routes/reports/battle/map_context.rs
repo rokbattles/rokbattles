@@ -11,27 +11,31 @@ const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/banners/";
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum BattleMapContext {
-    Home,
-    Ark,
-    Strife,
+    Home { kingdom: Option<i64> },
+    Ark { kingdom: Option<i64>, kind: Option<&'static str> },
+    Strife { kingdom: Option<i64> },
     Kvk { server_id: i64, time: i64 },
     Unknown,
 }
 
 impl BattleMapContext {
     pub(super) fn from_document(document: &Document, time: i64) -> Self {
+        let kingdom = nested_i64(document, &["sender", "kingdom_id"])
+            .filter(|id| *id > 0)
+            .and_then(|id| id.checked_add(1000));
         if nested_str(document, &["sender", "supreme_strife", "battle_id"])
             .is_some_and(|id| !id.is_empty())
             && nested_i64(document, &["sender", "supreme_strife", "team_id"])
                 .is_some_and(|id| id > 0)
         {
-            return Self::Strife;
+            return Self::Strife { kingdom };
         }
         if nested_str(document, &["metadata", "mail_role"]) == Some("dungeon") {
-            return Self::Ark;
+            let kind = nested_str(document, &["sender", "session"]).and_then(ark_kind);
+            return Self::Ark { kingdom, kind };
         }
         match nested_bool(document, &["metadata", "kvk"]) {
-            Some(false) => Self::Home,
+            Some(false) => Self::Home { kingdom },
             Some(true) => {
                 let Some(time) = report_time_millis(time) else {
                     return Self::Unknown;
@@ -46,9 +50,14 @@ impl BattleMapContext {
 
     fn resolve(self, snapshots: &[Document]) -> (String, Option<String>) {
         match self {
-            Self::Home => ("Home".into(), banner_url("preparation_season01_cover.png")),
-            Self::Ark => ("AOO".into(), None),
-            Self::Strife => ("Strife".into(), None),
+            Self::Home { kingdom } => {
+                (kingdom_label(kingdom, "Home"), banner_url("preparation_season01_cover.png"))
+            }
+            Self::Ark { kingdom, kind } => {
+                let label = kind.map_or_else(|| "Ark".into(), |kind| format!("Ark ({kind})"));
+                (kingdom_label(kingdom, &label), None)
+            }
+            Self::Strife { kingdom } => (kingdom_label(kingdom, "Strife"), None),
             Self::Unknown => ("Unknown".into(), None),
             Self::Kvk { server_id, time } => {
                 let mut matches = snapshots.iter().filter(|snapshot| {
@@ -70,6 +79,27 @@ impl BattleMapContext {
                 (code, banner)
             }
         }
+    }
+}
+
+fn kingdom_label(kingdom: Option<i64>, label: &str) -> String {
+    kingdom.map_or_else(|| label.into(), |kingdom| format!("#{kingdom} \u{00B7} {label}"))
+}
+
+fn ark_kind(session: &str) -> Option<&'static str> {
+    let parameter = |name| {
+        session
+            .split('&')
+            .filter_map(|part| part.split_once('='))
+            .find_map(|(key, value)| (key == name).then_some(value))
+    };
+    match (parameter("mode"), parameter("submode")) {
+        (_, Some("SilverEgypt")) => Some("SL"),
+        (Some("abl"), _) => Some("OL"),
+        (Some("ab"), Some("")) => Some("GL"),
+        (Some("abp"), Some("gvgn")) => Some("P"),
+        (Some("abp"), Some("DiyEgypt")) => Some("C"),
+        _ => None,
     }
 }
 
@@ -120,12 +150,12 @@ fn public_mapcode(snapshot: &Document) -> Option<String> {
     let id = nested_i64(snapshot, &["Id"])?;
     if (10_001..=11_000).contains(&id) {
         let rush_order = id - 10_010;
-        return Some(format!("SD{}", 1000 + rush_order));
+        return Some(format!("#SD{}", 1000 + rush_order));
     }
     let order = nested_i64(snapshot, &["Order"]).filter(|order| *order > 0)?;
     let mode = nested_i64(snapshot, &["Mode"]).filter(|mode| *mode > 0)?;
     let prefix = if mode > 8 { 'C' } else { 'S' };
-    Some(format!("{prefix}{order}"))
+    Some(format!("#{prefix}{order}"))
 }
 
 fn banner_url(filename: &str) -> Option<String> {
@@ -176,7 +206,7 @@ mod tests {
             "opponents": [{ "player_id": 1 }],
         };
         let row = map_battle_list_document(&report).expect("valid report");
-        assert_eq!(row.map_context.resolve(&[info]).0, "C13249");
+        assert_eq!(row.map_context.resolve(&[info]).0, "#C13249");
         assert_eq!(row.item.time_start, 1_789_929_193);
     }
 
@@ -201,10 +231,10 @@ mod tests {
         let snapshots = [first, second];
         for (time, expected) in [
             (999, "Unknown"),
-            (1000, "C13249"),
-            (1950, "C13249"),
+            (1000, "#C13249"),
+            (1950, "#C13249"),
             (2000, "Unknown"),
-            (3000, "C13300"),
+            (3000, "#C13300"),
             (4000, "Unknown"),
         ] {
             assert_eq!(
@@ -227,14 +257,14 @@ mod tests {
     #[test]
     fn public_prefix_uses_mode_and_rush_number_instead_of_internal_id() {
         let mut info = snapshot();
-        for (mode, expected) in [(2, "S13249"), (4, "S13249"), (8, "S13249"), (16, "C13249")] {
+        for (mode, expected) in [(2, "#S13249"), (4, "#S13249"), (8, "#S13249"), (16, "#C13249")] {
             info.insert("Mode", mode);
             assert_eq!(public_mapcode(&info).as_deref(), Some(expected));
         }
         info.insert("Id", 10011);
         info.remove("Order");
         info.remove("Mode");
-        assert_eq!(public_mapcode(&info).as_deref(), Some("SD1001"));
+        assert_eq!(public_mapcode(&info).as_deref(), Some("#SD1001"));
     }
 
     #[test]
@@ -248,7 +278,7 @@ mod tests {
             ("LostLand_Map_3_2_v2", "s19king_of_all_britain_cover.png"),
         ] {
             info.insert("MapName", map);
-            assert_eq!(context.resolve(&[info.clone()]), ("S13249".into(), banner_url(filename)));
+            assert_eq!(context.resolve(&[info.clone()]), ("#S13249".into(), banner_url(filename)));
         }
     }
 
@@ -257,9 +287,9 @@ mod tests {
         let context = BattleMapContext::Kvk { server_id: 16053, time: 1500 };
         let mut info = snapshot();
         info.insert("MapName", "LostLand_Map_5_v2");
-        assert_eq!(context.resolve(&[info.clone()]), ("C13249".into(), None));
+        assert_eq!(context.resolve(&[info.clone()]), ("#C13249".into(), None));
         info.remove("MapName");
-        assert_eq!(context.resolve(&[info]), ("C13249".into(), None));
+        assert_eq!(context.resolve(&[info]), ("#C13249".into(), None));
     }
 
     #[test]
@@ -268,7 +298,7 @@ mod tests {
             let mut report = doc! { "metadata": { "kvk": kvk, "mail_role": "dungeon" } };
             assert_eq!(
                 BattleMapContext::from_document(&report, 1500).resolve(&[]),
-                ("AOO".into(), None)
+                ("Ark".into(), None)
             );
             report.insert(
                 "sender",
@@ -300,6 +330,69 @@ mod tests {
     }
 
     #[test]
+    fn strife_uses_sender_kingdom_and_has_no_banner() {
+        let report = doc! {
+            "metadata": { "kvk": true, "mail_role": "dungeon", "server_id": 99 },
+            "sender": {
+                "kingdom_id": 1804,
+                "supreme_strife": { "battle_id": "match", "team_id": 1 },
+            },
+        };
+        assert_eq!(
+            BattleMapContext::from_document(&report, 1500).resolve(&[]),
+            ("#2804 \u{00B7} Strife".into(), None)
+        );
+    }
+
+    #[test]
+    fn home_uses_sender_kingdom_instead_of_report_server() {
+        let report = doc! {
+            "metadata": { "kvk": false, "server_id": 99 },
+            "sender": { "kingdom_id": 1804 },
+        };
+        assert_eq!(
+            BattleMapContext::from_document(&report, 1500).resolve(&[]),
+            ("#2804 \u{00B7} Home".into(), banner_url("preparation_season01_cover.png"))
+        );
+    }
+
+    #[test]
+    fn ark_labels_all_supported_match_types_with_sender_kingdom() {
+        for (session, kind) in [
+            ("cfg_id=4&id=3538&mode=ab&role_id=113&submode=", "GL"),
+            ("submode=SilverEgypt&mode=ab", "SL"),
+            ("mode=abl&submode=", "OL"),
+            ("mode=abp&submode=gvgn", "P"),
+            ("mode=abp&submode=DiyEgypt", "C"),
+        ] {
+            let report = doc! {
+                "metadata": { "mail_role": "dungeon", "server_id": 99 },
+                "sender": { "kingdom_id": 1804, "session": session },
+            };
+            assert_eq!(
+                BattleMapContext::from_document(&report, 1500).resolve(&[]),
+                (format!("#2804 \u{00B7} Ark ({kind})"), None)
+            );
+        }
+    }
+
+    #[test]
+    fn missing_kingdom_or_unrecognized_ark_session_does_not_invent_values() {
+        for kingdom in [0, -1, i64::MAX] {
+            let report = doc! {
+                "metadata": { "mail_role": "dungeon" },
+                "sender": { "kingdom_id": kingdom, "session": "mode=abp&submode=unknown" },
+            };
+            assert_eq!(
+                BattleMapContext::from_document(&report, 1500).resolve(&[]),
+                ("Ark".into(), None)
+            );
+        }
+        assert_eq!(ark_kind("othermode=ab&submode="), None);
+        assert_eq!(ark_kind("mode=ab"), None);
+    }
+
+    #[test]
     fn list_projection_and_serialization_keep_lookup_fields_private() {
         use super::super::list_mapper::{build_battle_list_projection, map_battle_list_document};
         let projection = build_battle_list_projection();
@@ -307,6 +400,8 @@ mod tests {
             "metadata.server_id",
             "metadata.kvk",
             "metadata.mail_role",
+            "sender.kingdom_id",
+            "sender.session",
             "sender.supreme_strife.battle_id",
             "sender.supreme_strife.team_id",
         ] {
@@ -319,7 +414,7 @@ mod tests {
         let mut row = map_battle_list_document(&report).expect("valid report");
         (row.item.kvk_mapcode, row.item.kvk_banner) = row.map_context.resolve(&[snapshot()]);
         let value = serde_json::to_value(row.item).expect("serializable item");
-        assert_eq!(value["kvkMapcode"], "C13249");
+        assert_eq!(value["kvkMapcode"], "#C13249");
         assert_eq!(value["kvkBanner"], format!("{BANNER_BASE}s4heroic_anthem_cover.png"));
         assert_eq!(value.as_object().expect("object").len(), 12);
         for private in ["serverId", "mapContext", "Order", "OpenTime", "CloseTime", "Mode"] {
