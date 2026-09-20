@@ -1,7 +1,7 @@
 use mongodb::bson::{Bson, Document, doc};
 use rokbattles_api::db::exclude_test_client_filter;
 
-use crate::combat_lab_season::CombatLabSeason;
+use crate::{combat_lab_season::CombatLabSeason, commander_catalog::eligible_battle_match};
 
 const DAY_MS: i64 = 24 * 60 * 60 * 1_000;
 const PERFORMANCE_CHUNK_MS: i64 = 32 * DAY_MS;
@@ -184,6 +184,7 @@ fn pairing_entries_pipeline(
         doc! { "$match": initial_match },
         doc! { "$set": { "_senderScenario": sender_scenario_expr() } },
         doc! { "$unwind": "$opponents" },
+        eligible_battle_match(commander_ids),
         doc! { "$match": { "opponents.player_id": { "$gt": 0_i64 } } },
         doc! { "$project": { "x": { "$concatArrays": [sender, opponent] } } },
         doc! { "$unwind": "$x" },
@@ -561,6 +562,24 @@ mod tests {
                 pipeline[1].get_document("$match").expect("report match").get_bool("metadata.kvk"),
                 Ok(true)
             );
+        }
+    }
+
+    #[test]
+    fn excludes_ineligible_commanders_on_both_sides_before_projecting_fights() {
+        use crate::commander_catalog::{combat_lab_commander_ids, eligible_battle_match};
+        for season in [CombatLabSeason::Soc, CombatLabSeason::PreSoc] {
+            let ids = combat_lab_commander_ids(season).expect("eligible commanders");
+            for pipeline in [
+                performance_pipeline(&ids, 0, 100, season),
+                loadout_pipeline(&ids, 0, 100, 50, season),
+            ] {
+                let unwind = pipeline
+                    .iter()
+                    .position(|stage| stage.get_str("$unwind") == Ok("$opponents"))
+                    .expect("unwind opponents");
+                assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids));
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ use mongodb::bson::{Bson, Document, doc};
 use rokbattles_api::db::exclude_test_client_filter;
 
 use super::model::{PairingKey, Strategy};
-use crate::combat_lab_season::CombatLabSeason;
+use crate::{combat_lab_season::CombatLabSeason, commander_catalog::eligible_battle_match};
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
@@ -77,11 +77,18 @@ fn build_pairing_entries_pipeline(commander_ids: &[i64], cutoff_mail_time: i64) 
         ),
     );
 
-    build_entries_pipeline(sender_entry, opponent_entry, pair_filters, cutoff_mail_time)
+    build_entries_pipeline(
+        sender_entry,
+        opponent_entry,
+        pair_filters,
+        cutoff_mail_time,
+        commander_ids,
+    )
 }
 
 pub(super) fn build_supported_pairing_entries_pipeline(
     supported_pairings: &[PairingKey],
+    commander_ids: &[i64],
     cutoff_mail_time: i64,
 ) -> Vec<Document> {
     let sender_condition = exact_pairing_condition(
@@ -143,7 +150,13 @@ pub(super) fn build_supported_pairing_entries_pipeline(
         ),
     );
 
-    build_entries_pipeline(sender_entry, opponent_entry, pair_filters, cutoff_mail_time)
+    build_entries_pipeline(
+        sender_entry,
+        opponent_entry,
+        pair_filters,
+        cutoff_mail_time,
+        commander_ids,
+    )
 }
 
 fn build_entries_pipeline(
@@ -151,6 +164,7 @@ fn build_entries_pipeline(
     opponent_entry: Document,
     pair_filters: Vec<Bson>,
     cutoff_mail_time: i64,
+    commander_ids: &[i64],
 ) -> Vec<Document> {
     let mut initial_match = exclude_test_client_filter();
     initial_match.extend(doc! {
@@ -168,6 +182,7 @@ fn build_entries_pipeline(
             }
         },
         doc! { "$unwind": "$opponents" },
+        eligible_battle_match(commander_ids),
         doc! { "$match": { "opponents.player_id": { "$gt": 0 } } },
         doc! {
             "$project": {
@@ -958,5 +973,19 @@ mod tests {
             Ok(true)
         );
         assert!(format!("{pipeline:?}").contains("$setWindowFields"));
+    }
+
+    #[test]
+    fn excludes_ineligible_commanders_on_both_sides_before_projecting_fights() {
+        use crate::commander_catalog::{combat_lab_commander_ids, eligible_battle_match};
+        for season in [CombatLabSeason::Soc, CombatLabSeason::PreSoc] {
+            let ids = combat_lab_commander_ids(season).expect("eligible commanders");
+            let pipeline = build_drastc_pipeline(&ids, 100, season);
+            let unwind = pipeline
+                .iter()
+                .position(|stage| stage.get_str("$unwind") == Ok("$opponents"))
+                .expect("unwind opponents");
+            assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids));
+        }
     }
 }
