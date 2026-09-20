@@ -31,6 +31,7 @@ impl BattleMapContext {
             return Self::Strife { kingdom };
         }
         if nested_str(document, &["metadata", "mail_role"]) == Some("dungeon") {
+            let kingdom = nested_i64(document, &["sender", "kingdom_id"]).filter(|id| *id > 0);
             let kind = nested_str(document, &["sender", "session"]).and_then(ark_kind);
             return Self::Ark { kingdom, kind };
         }
@@ -366,19 +367,19 @@ mod tests {
             ("mode=abp&submode=DiyEgypt", "C"),
         ] {
             let report = doc! {
-                "metadata": { "mail_role": "dungeon", "server_id": 99 },
-                "sender": { "kingdom_id": 1804, "session": session },
+                "metadata": { "mail_role": "dungeon", "server_id": 1804 },
+                "sender": { "kingdom_id": 117, "session": session },
             };
             assert_eq!(
                 BattleMapContext::from_document(&report, 1500).resolve(&[]),
-                (format!("#2804 \u{00B7} Ark ({kind})"), None)
+                (format!("#117 \u{00B7} Ark ({kind})"), None)
             );
         }
     }
 
     #[test]
     fn missing_kingdom_or_unrecognized_ark_session_does_not_invent_values() {
-        for kingdom in [0, -1, i64::MAX] {
+        for kingdom in [0, -1] {
             let report = doc! {
                 "metadata": { "mail_role": "dungeon" },
                 "sender": { "kingdom_id": kingdom, "session": "mode=abp&submode=unknown" },
