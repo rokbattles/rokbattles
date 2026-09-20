@@ -24,6 +24,8 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "timeline.sampling.tick",
         "timeline.sampling.count",
         "sender.player_id",
+        "sender.kingdom_id",
+        "sender.session",
         "sender.rally",
         "sender.alliance_building_id",
         "sender.structure_id",
