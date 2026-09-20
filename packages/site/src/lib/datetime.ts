@@ -135,6 +135,35 @@ function pad(value: number): string {
   return value.toString().padStart(2, "0");
 }
 
+export function formatElapsedShort(value: DateInput, now: DateInput): string | null {
+  const start = toDate(value);
+  const end = toDate(now);
+  if (!start || !end) return null;
+  if (end <= start) return "0s";
+
+  const shiftMonths = (months: number) => {
+    const shifted = new Date(start);
+    shifted.setUTCDate(1);
+    shifted.setUTCMonth(start.getUTCMonth() + months);
+    const lastDay = new Date(
+      Date.UTC(shifted.getUTCFullYear(), shifted.getUTCMonth() + 1, 0)
+    ).getUTCDate();
+    shifted.setUTCDate(Math.min(start.getUTCDate(), lastDay));
+    return shifted;
+  };
+
+  let months =
+    (end.getUTCFullYear() - start.getUTCFullYear()) * 12 + end.getUTCMonth() - start.getUTCMonth();
+  if (shiftMonths(months) > end) months -= 1;
+  const years = Math.floor(months / 12);
+  const parts: string[] = [];
+  if (years) parts.push(`${years}y`);
+  if (months % 12) parts.push(`${months % 12}mo`);
+  const rest = formatDurationShort(shiftMonths(months), end);
+  if (rest !== "0s" || parts.length === 0) parts.push(rest);
+  return parts.join(" ");
+}
+
 export function formatLocalDateInput(date: Date): string {
   const year = date.getFullYear();
   const month = pad(date.getMonth() + 1);

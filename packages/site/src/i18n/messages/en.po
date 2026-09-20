@@ -306,6 +306,7 @@ msgstr "Iset"
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "5jeq8P"
 msgid "Unknown"
 msgstr "Unknown"
@@ -322,7 +323,6 @@ msgstr "Unknown alliance"
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
 msgctxt "ug01Mk"
 msgid "Time"
 msgstr "Time"
@@ -1633,7 +1633,7 @@ msgstr "Loadout {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "9bVtCz"
 msgid "Battles"
 msgstr "Battles"
@@ -1761,6 +1761,7 @@ msgstr "Ark of Osiris"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "ejEGdx"
 msgid "Home"
 msgstr "Home"
@@ -2440,10 +2441,31 @@ msgctxt "tQtRWX"
 msgid "Loading reports..."
 msgstr "Loading reports..."
 
+#: src/components/reports/reports-table-row.tsx
+msgctxt "juxgDa"
+msgid "View battle report"
+msgstr "View battle report"
+
+#: src/components/reports/reports-table-row.tsx
+msgctxt "eSihN1"
+msgid "{elapsed} ago"
+msgstr "{elapsed} ago"
+
+#: src/components/reports/reports-table.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "zuqMfZ"
+msgid "Map"
+msgstr "Map"
+
 #: src/components/reports/reports-table.tsx
 msgctxt "IuFETn"
 msgid "Duration"
 msgstr "Duration"
+
+#: src/components/reports/reports-table.tsx
+msgctxt "McnLsx"
+msgid "When"
+msgstr "When"
 
 #: src/components/sidebar-governor-header.tsx
 msgctxt "JoFtLa"
@@ -2686,11 +2708,6 @@ msgstr "No maps are available."
 msgctxt "NCnvW0"
 msgid "Territory Planner"
 msgstr "Territory Planner"
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "zuqMfZ"
-msgid "Map"
-msgstr "Map"
 
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "P8QaSQ"

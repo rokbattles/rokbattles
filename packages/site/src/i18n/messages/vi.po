@@ -315,6 +315,7 @@ msgstr "Iset"
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "5jeq8P"
 msgid "Unknown"
 msgstr "Không xác định"
@@ -331,7 +332,6 @@ msgstr "Liên minh không xác định"
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
 msgctxt "ug01Mk"
 msgid "Time"
 msgstr "Thời gian"
@@ -1642,7 +1642,7 @@ msgstr "Thanh trang bị {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "9bVtCz"
 msgid "Battles"
 msgstr "Trận chiến"
@@ -1770,6 +1770,7 @@ msgstr "Chiếc rương của Thần Osiris"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
+#: src/components/reports/reports-table-row.tsx
 msgctxt "ejEGdx"
 msgid "Home"
 msgstr "Trang chủ"
@@ -2449,10 +2450,31 @@ msgctxt "tQtRWX"
 msgid "Loading reports..."
 msgstr "Đang tải báo cáo..."
 
+#: src/components/reports/reports-table-row.tsx
+msgctxt "juxgDa"
+msgid "View battle report"
+msgstr ""
+
+#: src/components/reports/reports-table-row.tsx
+msgctxt "eSihN1"
+msgid "{elapsed} ago"
+msgstr ""
+
+#: src/components/reports/reports-table.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "zuqMfZ"
+msgid "Map"
+msgstr ""
+
 #: src/components/reports/reports-table.tsx
 msgctxt "IuFETn"
 msgid "Duration"
 msgstr "Thời lượng"
+
+#: src/components/reports/reports-table.tsx
+msgctxt "McnLsx"
+msgid "When"
+msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
 msgctxt "JoFtLa"
@@ -2694,11 +2716,6 @@ msgstr ""
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "NCnvW0"
 msgid "Territory Planner"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "zuqMfZ"
-msgid "Map"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx

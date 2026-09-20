@@ -164,12 +164,13 @@ const styles = {
   },
 };
 
+// autoComplete lets callers disable Firefox's restoration of a button's disabled state.
 type ButtonProps = (
   | { color?: keyof typeof styles.colors; outline?: never; plain?: never }
   | { color?: never; outline: true; plain?: never }
   | { color?: never; outline?: never; plain: true }
 ) & { className?: string; children: React.ReactNode } & (
-    | Omit<HeadlessButtonProps, "as" | "className">
+    | (Omit<HeadlessButtonProps, "as" | "className"> & { autoComplete?: "off" })
     | Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
   );
 

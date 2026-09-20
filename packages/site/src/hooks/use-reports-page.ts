@@ -17,6 +17,7 @@ type CursorRequest = {
 
 export type UseReportsPageResult = {
   data: ReportsListResponse["items"];
+  loadedAt: Date | null;
   loading: boolean;
   error: string | null;
   nextAfter: string | null;
@@ -54,6 +55,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
   const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
   const [data, setData] = useState<ReportsListResponse["items"]>([]);
+  const [loadedAt, setLoadedAt] = useState<Date | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [nextAfter, setNextAfter] = useState<string | null>(null);
@@ -171,6 +173,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         }
 
         setData(payload.items);
+        setLoadedAt(new Date());
         setNextAfter(payload.nextAfter);
         setPreviousBefore(payload.previousBefore);
         setError(null);
@@ -245,6 +248,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
 
   return {
     data,
+    loadedAt,
     loading,
     error,
     nextAfter,

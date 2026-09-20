@@ -7,11 +7,16 @@ import { TableCell, TableRow } from "@/components/ui/table";
 type Props = {
   count?: number;
   widths?: readonly string[];
+  hiddenOnMobile?: ReadonlySet<number>;
 };
 
 const DefaultWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
 
-export default function ReportsSkeletonRows({ count = 10, widths = DefaultWidths }: Props) {
+export default function ReportsSkeletonRows({
+  count = 10,
+  widths = DefaultWidths,
+  hiddenOnMobile,
+}: Props) {
   const t = useExtracted();
   return (
     <>
@@ -23,7 +28,7 @@ export default function ReportsSkeletonRows({ count = 10, widths = DefaultWidths
         <TableRow key={r} aria-hidden>
           {widths.map((w, c) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: its okay
-            <TableCell key={c}>
+            <TableCell key={c} className={cn(hiddenOnMobile?.has(c) && "hidden sm:table-cell")}>
               <div
                 className={cn("h-4 animate-pulse rounded bg-zinc-200/80 dark:bg-zinc-700/60", w)}
               />
