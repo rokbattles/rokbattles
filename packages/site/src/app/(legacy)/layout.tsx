@@ -9,6 +9,7 @@ import { cn } from "cn";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
+import { DiscordEmbed } from "@/components/discord-embed";
 import { CookieConsentProvider } from "@/providers/cookie-consent-context";
 
 const inter = Inter({
@@ -57,6 +58,7 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
+        <DiscordEmbed />
         <link rel="dns-prefetch" href="https://plat-fau-global.lilithgame.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://imimg.lilithcdn.com" />
         <link rel="dns-prefetch" href="https://imv2-gl.lilithgame.com" />
