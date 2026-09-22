@@ -259,8 +259,7 @@ msgid "Battles (win/total)"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 msgctxt "Y3Z7jw"
 msgid "Kill Count"
 msgstr "عدد القتلى"
@@ -306,7 +305,8 @@ msgstr "ايسيت"
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-table-row.tsx
+#: src/components/reports/report-map-cell.tsx
+#: src/components/reports/report-time-cell.tsx
 msgctxt "5jeq8P"
 msgid "Unknown"
 msgstr ""
@@ -322,7 +322,6 @@ msgid "Unknown alliance"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
 msgctxt "ug01Mk"
 msgid "Time"
 msgstr ""
@@ -1633,6 +1632,7 @@ msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/olympian-arena/olympian-arena-row.tsx
 #: src/components/reports/reports-table-row.tsx
 msgctxt "9bVtCz"
 msgid "Battles"
@@ -1760,8 +1760,8 @@ msgid "Ark of Osiris"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/report-map-cell.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-#: src/components/reports/reports-table-row.tsx
 msgctxt "ejEGdx"
 msgid "Home"
 msgstr ""
@@ -2007,34 +2007,32 @@ msgid "Power"
 msgstr ""
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/report/report-battle-summary-tooltip.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 #: src/components/reports/reports-overview-drawer.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 msgctxt "nbwXXN"
 msgid "Sender"
 msgstr ""
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/report/report-battle-summary-tooltip.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 msgctxt "Mdj7Fr"
 msgid "Opponent"
 msgstr ""
 
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgctxt "c-sY33"
-msgid "Trade %"
+#: src/components/olympian-arena/olympian-arena-row.tsx
+#: src/components/reports/reports-table-row.tsx
+msgctxt "juxgDa"
+msgid "View battle report"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
-msgctxt "aXdZke"
-msgid "Win Streak"
-msgstr "سلسلة الانتصارات"
+msgctxt "XndZ-Z"
+msgid "Win Count"
+msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
@@ -2291,6 +2289,11 @@ msgctxt "x5Tz6M"
 msgid "Report"
 msgstr ""
 
+#: src/components/reports/report-time-cell.tsx
+msgctxt "eSihN1"
+msgid "{elapsed} ago"
+msgstr ""
+
 #: src/components/reports/reports-empty-state-row.tsx
 msgctxt "43CUrU"
 msgid "No reports found."
@@ -2441,30 +2444,25 @@ msgctxt "tQtRWX"
 msgid "Loading reports..."
 msgstr ""
 
-#: src/components/reports/reports-table-row.tsx
-msgctxt "juxgDa"
-msgid "View battle report"
-msgstr ""
-
-#: src/components/reports/reports-table-row.tsx
-msgctxt "eSihN1"
-msgid "{elapsed} ago"
-msgstr ""
-
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "zuqMfZ"
 msgid "Map"
 msgstr ""
 
-#: src/components/reports/reports-table.tsx
-msgctxt "IuFETn"
-msgid "Duration"
+#: src/components/reports/reports-table-head.tsx
+msgctxt "c-sY33"
+msgid "Trade %"
+msgstr ""
+
+#: src/components/reports/reports-table-head.tsx
+msgctxt "McnLsx"
+msgid "When"
 msgstr ""
 
 #: src/components/reports/reports-table.tsx
-msgctxt "McnLsx"
-msgid "When"
+msgctxt "IuFETn"
+msgid "Duration"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx

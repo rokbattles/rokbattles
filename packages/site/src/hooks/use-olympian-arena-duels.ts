@@ -13,6 +13,9 @@ export type OlympianArenaParticipant = {
 
 export type OlympianArenaDuelSummary = {
   duelId: number;
+  battles: number;
+  kvkMapcode: string;
+  kvkBanner: string | null;
   winStreak: number;
   mailTime: number;
   killCount: number;
@@ -36,6 +39,7 @@ type CursorRequest = {
 
 export type UseOlympianArenaDuelsResult = {
   data: OlympianArenaDuelSummary[];
+  loadedAt: Date | null;
   loading: boolean;
   error: string | null;
   nextAfter: string | null;
@@ -60,6 +64,7 @@ function buildQueryParams({ after, before }: CursorRequest = {}) {
 export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
   const t = useExtracted();
   const [data, setData] = useState<OlympianArenaDuelSummary[]>([]);
+  const [loadedAt, setLoadedAt] = useState<Date | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [nextAfter, setNextAfter] = useState<string | null>(null);
@@ -98,6 +103,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
         }
 
         setData(payload.items);
+        setLoadedAt(new Date());
         setNextAfter(payload.nextAfter);
         setPreviousBefore(payload.previousBefore);
         setError(null);
@@ -160,6 +166,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
 
   return {
     data,
+    loadedAt,
     loading,
     error,
     nextAfter,

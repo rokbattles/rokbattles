@@ -62,7 +62,7 @@ pub async fn get(
         }
     }
 
-    let paged_rows = paginate_cursor_rows(
+    let mut paged_rows = paginate_cursor_rows(
         rows,
         fetched_documents,
         PAGE_SIZE,
@@ -70,6 +70,15 @@ pub async fn get(
         request.after_cursor,
         |row: &DuelBattle2RowWithCursor| row.latest_mail_time,
     );
+
+    let snapshots = super::common::map_context::load_map_snapshots(
+        &state.reports_store,
+        paged_rows.items.iter().map(|row| row.map_context),
+    )
+    .await?;
+    for row in &mut paged_rows.items {
+        (row.item.kvk_mapcode, row.item.kvk_banner) = row.map_context.resolve(&snapshots);
+    }
 
     let response = DuelBattle2Response {
         items: paged_rows.items.into_iter().map(|row| row.item).collect(),

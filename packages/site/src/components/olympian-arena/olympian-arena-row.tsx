@@ -1,9 +1,12 @@
 "use client";
 
+import { useExtracted } from "next-intl";
 import ParticipantCell from "@/components/reports/participant-cell";
+import ReportMapCell from "@/components/reports/report-map-cell";
+import ReportTimeCell from "@/components/reports/report-time-cell";
+import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { OlympianArenaDuelSummary } from "@/hooks/use-olympian-arena-duels";
-import { formatUtcDateTime } from "@/lib/datetime";
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
@@ -27,19 +30,32 @@ function formatTradePercent(value: number): string {
   return `${Math.round(value)}%`;
 }
 
-export default function OlympianArenaRow({ duel }: { duel: OlympianArenaDuelSummary }) {
+export default function OlympianArenaRow({
+  duel,
+  now,
+}: {
+  duel: OlympianArenaDuelSummary;
+  now: Date | null;
+}) {
+  const t = useExtracted();
+
   return (
-    <TableRow href={`/olympian-arena/${duel.duelId}`}>
-      <TableCell className="font-medium text-zinc-950 dark:text-white">
-        {formatUtcDateTime(duel.mailTime)}
-      </TableCell>
-      <TableCell>
+    <TableRow
+      href={`/olympian-arena/${duel.duelId}`}
+      title={t("View battle report")}
+      className="relative isolate"
+    >
+      <ReportMapCell mapcode={duel.kvkMapcode} banner={duel.kvkBanner} />
+      <TableCell className="text-right">
         <ParticipantCell
           primaryAwakened={duel.entry.sender.primaryCommanderAwakened}
           primaryId={duel.entry.sender.primaryCommanderId}
           secondaryAwakened={duel.entry.sender.secondaryCommanderAwakened}
           secondaryId={duel.entry.sender.secondaryCommanderId}
         />
+      </TableCell>
+      <TableCell className="w-1/10 text-center tabular-nums">
+        {formatTradePercent(duel.tradePercent)}
       </TableCell>
       <TableCell>
         <ParticipantCell
@@ -48,10 +64,19 @@ export default function OlympianArenaRow({ duel }: { duel: OlympianArenaDuelSumm
           secondaryAwakened={duel.entry.opponent.secondaryCommanderAwakened}
           secondaryId={duel.entry.opponent.secondaryCommanderId}
         />
+        {duel.battles > 1 ? (
+          <Badge className="ml-1 align-middle tabular-nums" title={t("Battles")}>
+            +{(duel.battles - 1).toLocaleString()}
+          </Badge>
+        ) : null}
       </TableCell>
-      <TableCell>{formatKillCount(duel.killCount)}</TableCell>
-      <TableCell>{formatTradePercent(duel.tradePercent)}</TableCell>
-      <TableCell>{duel.winStreak.toLocaleString()}</TableCell>
+      <TableCell className="hidden w-1/8 text-right tabular-nums sm:table-cell">
+        {formatKillCount(duel.killCount)}
+      </TableCell>
+      <TableCell className="hidden w-1/8 text-right tabular-nums sm:table-cell">
+        {duel.winStreak.toLocaleString()}
+      </TableCell>
+      <ReportTimeCell time={duel.mailTime} now={now} />
     </TableRow>
   );
 }

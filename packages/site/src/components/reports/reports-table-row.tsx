@@ -3,17 +3,13 @@
 import { cn } from "cn";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
-import type { CSSProperties } from "react";
 import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
-import {
-  formatDurationShort,
-  formatElapsedShort,
-  formatUtcDateTime,
-  normalizeTimestampMillis,
-} from "@/lib/datetime";
+import { formatDurationShort } from "@/lib/datetime";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ParticipantCell from "./participant-cell";
+import ReportMapCell from "./report-map-cell";
+import ReportTimeCell from "./report-time-cell";
 
 type ReportsTableRowProps = {
   report: ReportsListItem;
@@ -43,10 +39,6 @@ export default function ReportsTableRow({ report, now, onOpenOverview }: Reports
   const queryString = query.toString();
   const encodedMailId = encodeURIComponent(report.mailId);
   const href = queryString ? `/report/${encodedMailId}?${queryString}` : `/report/${encodedMailId}`;
-  const mapcode = report.kvkMapcode || "Unknown";
-  const banner = mapcode === "Unknown" ? null : report.kvkBanner;
-  const timestamp = normalizeTimestampMillis(report.timeStart);
-  const elapsed = formatElapsedShort(report.timeStart, now);
 
   return (
     <TableRow
@@ -72,16 +64,7 @@ export default function ReportsTableRow({ report, now, onOpenOverview }: Reports
         onOpenOverview(report);
       }}
     >
-      <TableCell
-        className={cn(
-          "first:static w-1/8 tabular-nums",
-          banner &&
-            "before:content-[''] before:absolute before:inset-y-0 before:left-0 before:-z-10 before:w-[min(60%,24rem)] before:pointer-events-none before:bg-[image:var(--kvk-banner)] before:bg-left before:bg-cover before:bg-no-repeat before:opacity-30 dark:before:opacity-45 before:mask-[linear-gradient(to_right,black,transparent)]"
-        )}
-        style={banner ? ({ "--kvk-banner": `url("${banner}")` } as CSSProperties) : undefined}
-      >
-        {mapcode === "Unknown" ? t("Unknown") : mapcode === "Home" ? t("Home") : mapcode}
-      </TableCell>
+      <ReportMapCell mapcode={report.kvkMapcode} banner={report.kvkBanner} />
       <TableCell className="text-right">
         <ParticipantCell
           primaryAwakened={report.sender.primaryCommanderAwakened}
@@ -112,18 +95,7 @@ export default function ReportsTableRow({ report, now, onOpenOverview }: Reports
       <TableCell className="hidden w-1/8 text-right tabular-nums sm:table-cell">
         {formatDurationShort(report.timeStart, report.timeEnd)}
       </TableCell>
-      <TableCell className="w-1/8 text-right tabular-nums text-zinc-500 dark:text-zinc-400">
-        <time
-          dateTime={timestamp == null ? undefined : new Date(timestamp).toISOString()}
-          title={
-            timestamp == null
-              ? formatUtcDateTime(report.timeStart)
-              : new Date(timestamp).toUTCString()
-          }
-        >
-          {elapsed == null ? t("Unknown") : t("{elapsed} ago", { elapsed })}
-        </time>
-      </TableCell>
+      <ReportTimeCell time={report.timeStart} now={now} />
     </TableRow>
   );
 }

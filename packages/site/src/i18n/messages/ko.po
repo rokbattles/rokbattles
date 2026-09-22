@@ -259,8 +259,7 @@ msgid "Battles (win/total)"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 msgctxt "Y3Z7jw"
 msgid "Kill Count"
 msgstr "처치 수"
@@ -306,7 +305,8 @@ msgstr "이세트"
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-table-row.tsx
+#: src/components/reports/report-map-cell.tsx
+#: src/components/reports/report-time-cell.tsx
 msgctxt "5jeq8P"
 msgid "Unknown"
 msgstr "알 수 없음"
@@ -322,7 +322,6 @@ msgid "Unknown alliance"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
 msgctxt "ug01Mk"
 msgid "Time"
 msgstr "시간"
@@ -1633,6 +1632,7 @@ msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/olympian-arena/olympian-arena-row.tsx
 #: src/components/reports/reports-table-row.tsx
 msgctxt "9bVtCz"
 msgid "Battles"
@@ -1760,8 +1760,8 @@ msgid "Ark of Osiris"
 msgstr "오시리스의 함"
 
 #: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/report-map-cell.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-#: src/components/reports/reports-table-row.tsx
 msgctxt "ejEGdx"
 msgid "Home"
 msgstr "본국"
@@ -2007,34 +2007,32 @@ msgid "Power"
 msgstr "투력"
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/report/report-battle-summary-tooltip.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 #: src/components/reports/reports-overview-drawer.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 msgctxt "nbwXXN"
 msgid "Sender"
 msgstr "발신인"
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/report/report-battle-summary-tooltip.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 msgctxt "Mdj7Fr"
 msgid "Opponent"
 msgstr "상대방"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgctxt "c-sY33"
-msgid "Trade %"
+#: src/components/olympian-arena/olympian-arena-row.tsx
+#: src/components/reports/reports-table-row.tsx
+msgctxt "juxgDa"
+msgid "View battle report"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
-msgctxt "aXdZke"
-msgid "Win Streak"
-msgstr "연승 랭킹"
+msgctxt "XndZ-Z"
+msgid "Win Count"
+msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
@@ -2291,6 +2289,11 @@ msgctxt "x5Tz6M"
 msgid "Report"
 msgstr "보고서"
 
+#: src/components/reports/report-time-cell.tsx
+msgctxt "eSihN1"
+msgid "{elapsed} ago"
+msgstr ""
+
 #: src/components/reports/reports-empty-state-row.tsx
 msgctxt "43CUrU"
 msgid "No reports found."
@@ -2441,31 +2444,26 @@ msgctxt "tQtRWX"
 msgid "Loading reports..."
 msgstr "보고서 불러오는 중..."
 
-#: src/components/reports/reports-table-row.tsx
-msgctxt "juxgDa"
-msgid "View battle report"
-msgstr ""
-
-#: src/components/reports/reports-table-row.tsx
-msgctxt "eSihN1"
-msgid "{elapsed} ago"
-msgstr ""
-
-#: src/components/reports/reports-table.tsx
+#: src/components/reports/reports-table-head.tsx
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "zuqMfZ"
 msgid "Map"
+msgstr ""
+
+#: src/components/reports/reports-table-head.tsx
+msgctxt "c-sY33"
+msgid "Trade %"
+msgstr ""
+
+#: src/components/reports/reports-table-head.tsx
+msgctxt "McnLsx"
+msgid "When"
 msgstr ""
 
 #: src/components/reports/reports-table.tsx
 msgctxt "IuFETn"
 msgid "Duration"
 msgstr "지속 시간"
-
-#: src/components/reports/reports-table.tsx
-msgctxt "McnLsx"
-msgid "When"
-msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
 msgctxt "JoFtLa"
