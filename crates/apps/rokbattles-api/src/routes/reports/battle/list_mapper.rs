@@ -2,6 +2,7 @@ use std::cmp::Ordering;
 
 use mongodb::bson::{Bson, Document};
 use rokbattles_bson::{nested_bool, nested_document, nested_i64, nested_str};
+use sha2::{Digest, Sha256};
 
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
@@ -24,6 +25,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "timeline.sampling.tick",
         "timeline.sampling.count",
         "sender.player_id",
+        "sender.tracking_key",
         "sender.kingdom_id",
         "sender.session",
         "sender.rally",
@@ -46,6 +48,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "summary.opponent.remaining",
         "summary.opponent.troop_units",
         "opponents.player_id",
+        "opponents.tracking_key",
         "opponents.rally",
         "opponents.attack.id",
         "opponents.start_tick",
@@ -76,8 +79,9 @@ pub(crate) fn build_battle_list_projection() -> Document {
 
 pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
     if !is_shared_combat_report(document) {
-        return nested_str(document, &["metadata", "mail_id"])
-            .map(|mail_id| format!("mail:{mail_id}"));
+        return build_field_report_dedupe_key(document).or_else(|| {
+            nested_str(document, &["metadata", "mail_id"]).map(|mail_id| format!("mail:{mail_id}"))
+        });
     }
 
     let sender_player_id = nested_i64(document, &["sender", "player_id"]).unwrap_or(0);
@@ -102,6 +106,37 @@ pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
     Some(format!(
         "attacks:{}|sender:{sender_player_id}|server:{server_id}|start:{start_timestamp}|end:{end_timestamp}",
         attack_ids.join(",")
+    ))
+}
+
+fn build_field_report_dedupe_key(document: &Document) -> Option<String> {
+    let sender = field_participant_identity(nested_document(document, &["sender"])?)?;
+    let server = nested_i64(document, &["metadata", "server_id"]).filter(|id| *id > 0)?;
+    let start = nested_i64(document, &["timeline", "start_timestamp"])?;
+    let end = nested_i64(document, &["timeline", "end_timestamp"])?;
+    let opponents = document.get_array("opponents").ok()?;
+    if opponents.is_empty() {
+        return None;
+    }
+
+    let mut entries = Vec::with_capacity(opponents.len());
+    for opponent in opponents {
+        let opponent = opponent.as_document()?;
+        let attack_id = extract_attack_id(opponent).filter(|id| !id.is_empty())?;
+        let identity = field_participant_identity(opponent)?;
+        entries.push((attack_id, identity));
+    }
+    // Different marches can share every attack ID and the same battle window.
+    // Keep march identity and repeated entries; only ignore entry order.
+    entries.sort_unstable();
+    let identity = serde_json::to_vec(&(server, sender, start, end, entries)).ok()?;
+    Some(format!("field:{:x}", Sha256::digest(identity)))
+}
+
+fn field_participant_identity(participant: &Document) -> Option<(i64, &str)> {
+    Some((
+        nested_i64(participant, &["player_id"]).filter(|id| *id > 0)?,
+        nested_str(participant, &["tracking_key"]).filter(|key| !key.is_empty())?,
     ))
 }
 
@@ -408,6 +443,133 @@ mod tests {
         ];
 
         assert_eq!(keys, ["mail:46667158178428673715", "mail:46667147178428673715",]);
+    }
+
+    fn field_report(mail_id: &str) -> Document {
+        let opponent = doc! {
+            "player_id": 200,
+            "tracking_key": "200_march_1",
+            "attack": { "id": "attack-1" },
+        };
+        let mut second_opponent = opponent.clone();
+        second_opponent.insert("attack", doc! { "id": "attack-2" });
+        doc! {
+            "metadata": { "mail_id": mail_id, "server_id": 1 },
+            "sender": {
+                "player_id": 100,
+                "tracking_key": "100_march_1",
+            },
+            "timeline": { "start_timestamp": 100, "end_timestamp": 110 },
+            "opponents": [opponent, second_opponent],
+        }
+    }
+
+    #[test]
+    fn identical_field_report_copies_share_a_key_regardless_of_entry_order() {
+        let first = field_report("mail-1");
+        let mut second = field_report("mail-2");
+        second.get_array_mut("opponents").unwrap().reverse();
+        let keys =
+            [build_report_dedupe_key(&first).unwrap(), build_report_dedupe_key(&second).unwrap()];
+        assert!(keys[0].starts_with("field:"));
+        assert_eq!(keys.into_iter().collect::<std::collections::HashSet<_>>().len(), 1);
+    }
+
+    #[test]
+    fn simultaneous_field_marches_with_the_same_attack_ids_remain_distinct() {
+        let first = field_report("mail-1");
+        let mut second = field_report("mail-2");
+        second.get_document_mut("sender").unwrap().insert("tracking_key", "100_march_2");
+        assert_ne!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
+    }
+
+    #[test]
+    fn field_reports_with_different_context_remain_distinct() {
+        let first = field_report("mail-1");
+        for (section, field, value) in [
+            ("metadata", "server_id", 2),
+            ("sender", "player_id", 101),
+            ("timeline", "start_timestamp", 101),
+            ("timeline", "end_timestamp", 111),
+        ] {
+            let mut second = field_report("mail-2");
+            second.get_document_mut(section).unwrap().insert(field, value);
+            assert_ne!(
+                build_report_dedupe_key(&first),
+                build_report_dedupe_key(&second),
+                "{field}"
+            );
+        }
+    }
+
+    #[test]
+    fn field_reports_with_different_opponent_details_remain_distinct() {
+        let first = field_report("mail-1");
+        for (field, value) in [
+            ("tracking_key", Bson::from("200_march_2")),
+            ("player_id", Bson::from(201)),
+            ("attack", Bson::from(doc! { "id": "attack-3" })),
+        ] {
+            let mut second = field_report("mail-2");
+            second.get_array_mut("opponents").unwrap()[0]
+                .as_document_mut()
+                .unwrap()
+                .insert(field, value);
+            assert_ne!(
+                build_report_dedupe_key(&first),
+                build_report_dedupe_key(&second),
+                "{field}"
+            );
+        }
+    }
+
+    #[test]
+    fn field_dedupe_ignores_commanders_results_and_opponent_ticks() {
+        let first = field_report("mail-1");
+        let mut second = field_report("mail-2");
+        second
+            .get_document_mut("sender")
+            .unwrap()
+            .insert("commanders", doc! { "primary": { "id": 1 }, "secondary": { "id": 2 } });
+        let opponent = second.get_array_mut("opponents").unwrap()[0].as_document_mut().unwrap();
+        opponent.insert("commanders", doc! { "primary": { "id": 3 }, "secondary": { "id": 4 } });
+        opponent.insert("start_tick", 10);
+        opponent.insert("end_tick", 20);
+        opponent.insert("battle_results", doc! { "sender": { "severely_wounded": 51 } });
+        assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
+    }
+
+    #[test]
+    fn field_reports_preserve_partial_reports_and_repeated_entries() {
+        let first = field_report("mail-1");
+        let mut partial = field_report("mail-2");
+        partial.get_array_mut("opponents").unwrap().pop();
+        let mut repeated = field_report("mail-3");
+        let opponents = repeated.get_array_mut("opponents").unwrap();
+        opponents.push(opponents[0].clone());
+        let keys =
+            [&first, &partial, &repeated].map(|report| build_report_dedupe_key(report).unwrap());
+        assert_eq!(keys.into_iter().collect::<std::collections::HashSet<_>>().len(), 3);
+    }
+
+    #[test]
+    fn incomplete_field_reports_fall_back_to_mail_id() {
+        for field in ["attack", "tracking_key", "player_id"] {
+            let mut report = field_report("mail-1");
+            report.get_array_mut("opponents").unwrap()[0].as_document_mut().unwrap().remove(field);
+            assert_eq!(build_report_dedupe_key(&report).as_deref(), Some("mail:mail-1"), "{field}");
+        }
+        let mut report = field_report("mail-1");
+        report.get_document_mut("sender").unwrap().insert("tracking_key", "");
+        assert_eq!(build_report_dedupe_key(&report).as_deref(), Some("mail:mail-1"));
+    }
+
+    #[test]
+    fn list_projection_includes_field_identity() {
+        let projection = build_battle_list_projection();
+        for field in ["sender.tracking_key", "opponents.tracking_key"] {
+            assert_eq!(projection.get_i32(field), Ok(1), "{field}");
+        }
     }
 
     #[test]
