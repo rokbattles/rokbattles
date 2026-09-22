@@ -182,6 +182,10 @@
       },
       "supreme_strife": {
         "battle_id": "",
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": 0,
         "team_id": 0
       },
@@ -341,6 +345,10 @@
       },
       "supreme_strife": {
         "battle_id": "",
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": 0,
         "team_id": 0
       },
@@ -506,6 +514,10 @@
     },
     "supreme_strife": {
       "battle_id": "",
+      "ironhand_spawn_time": null,
+      "legion_id": null,
+      "match_id": null,
+      "period": null,
       "round": 0,
       "team_id": 0
     },

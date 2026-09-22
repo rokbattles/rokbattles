@@ -195,11 +195,19 @@ fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractE
     let battle_id = optional_string_field(titan, "BattleId")?;
     let team_id = optional_u64_field(titan, "TeamId")?;
     let round = optional_u64_field(titan, "Round")?;
+    let ironhand_spawn_time = optional_u64_field(titan, "IronHandSpawnTime")?;
+    let legion_id = optional_u64_field(titan, "LegionId")?;
+    let match_id = optional_u64_field(titan, "MatchId")?;
+    let period = optional_u64_field(titan, "Period")?;
 
     Ok(json!({
         "battle_id": battle_id.map(Value::String).unwrap_or(Value::Null),
         "team_id": team_id.map(Value::from).unwrap_or(Value::Null),
         "round": round.map(Value::from).unwrap_or(Value::Null),
+        "ironhand_spawn_time": ironhand_spawn_time.map(Value::from).unwrap_or(Value::Null),
+        "legion_id": legion_id.map(Value::from).unwrap_or(Value::Null),
+        "match_id": match_id.map(Value::from).unwrap_or(Value::Null),
+        "period": period.map(Value::from).unwrap_or(Value::Null),
     }))
 }
 
@@ -209,6 +217,10 @@ fn null_supreme_strife() -> Value {
         "battle_id": Value::Null,
         "team_id": Value::Null,
         "round": Value::Null,
+        "ironhand_spawn_time": Value::Null,
+        "legion_id": Value::Null,
+        "match_id": Value::Null,
+        "period": Value::Null,
     })
 }
 
@@ -675,7 +687,11 @@ mod tests {
             Some(&json!({
                 "battle_id": "battle-1",
                 "team_id": 12,
-                "round": 3
+                "round": 3,
+                "ironhand_spawn_time": null,
+                "legion_id": null,
+                "match_id": null,
+                "period": null
             }))
         );
     }
@@ -689,7 +705,11 @@ mod tests {
             Some(&json!({
                 "battle_id": null,
                 "team_id": null,
-                "round": null
+                "round": null,
+                "ironhand_spawn_time": null,
+                "legion_id": null,
+                "match_id": null,
+                "period": null
             }))
         );
     }
@@ -704,9 +724,45 @@ mod tests {
             Some(&json!({
                 "battle_id": "",
                 "team_id": 0,
-                "round": 0
+                "round": 0,
+                "ironhand_spawn_time": null,
+                "legion_id": null,
+                "match_id": null,
+                "period": null
             }))
         );
+    }
+
+    #[test]
+    fn extract_player_fields_reads_optional_titan_fields() {
+        for (wire_key, output_key) in [
+            ("IronHandSpawnTime", "ironhand_spawn_time"),
+            ("LegionId", "legion_id"),
+            ("MatchId", "match_id"),
+            ("Period", "period"),
+        ] {
+            for value in [json!(0), json!(1790097697), json!(u64::MAX), Value::Null] {
+                let mut player = base_player();
+                player.insert("Titan".to_string(), json!({ wire_key: value }));
+                let fields = extract_player_fields(&player).unwrap();
+                assert_eq!(fields["supreme_strife"][output_key], value, "{wire_key}");
+            }
+        }
+    }
+
+    #[test]
+    fn extract_player_fields_rejects_invalid_optional_titan_fields() {
+        for key in ["IronHandSpawnTime", "LegionId", "MatchId", "Period"] {
+            for value in [json!(-1), json!(1.5), json!("1"), json!(true), json!({})] {
+                let mut player = base_player();
+                player.insert("Titan".to_string(), json!({ key: value }));
+                assert!(matches!(
+                    extract_player_fields(&player),
+                    Err(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
+                        if field == key
+                ));
+            }
+        }
     }
 
     #[test]

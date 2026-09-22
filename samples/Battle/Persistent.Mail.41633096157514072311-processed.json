@@ -865,6 +865,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -1057,6 +1061,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -1228,6 +1236,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -1420,6 +1432,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -1591,6 +1607,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -1779,6 +1799,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -1967,6 +1991,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -2155,6 +2183,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -2343,6 +2375,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -2531,6 +2567,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -2723,6 +2763,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -2911,6 +2955,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -3107,6 +3155,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -3295,6 +3347,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -3491,6 +3547,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -3662,6 +3722,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -3854,6 +3918,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -4042,6 +4110,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -4230,6 +4302,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -4422,6 +4498,10 @@
       },
       "supreme_strife": {
         "battle_id": null,
+        "ironhand_spawn_time": null,
+        "legion_id": null,
+        "match_id": null,
+        "period": null,
         "round": null,
         "team_id": null
       },
@@ -5070,6 +5150,10 @@
     },
     "supreme_strife": {
       "battle_id": null,
+      "ironhand_spawn_time": null,
+      "legion_id": null,
+      "match_id": null,
+      "period": null,
       "round": null,
       "team_id": null
     },
