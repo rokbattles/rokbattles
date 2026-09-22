@@ -12,6 +12,9 @@ pub(crate) struct DuelBattle2Response {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct DuelBattle2ListItem {
     pub duel_id: i64,
+    pub battles: i64,
+    pub kvk_mapcode: String,
+    pub kvk_banner: Option<String>,
     pub win_streak: i64,
     pub mail_time: i64,
     pub kill_count: i64,
@@ -38,6 +41,7 @@ pub(crate) struct DuelBattle2Participant {
 #[derive(Debug)]
 pub(crate) struct DuelBattle2RowWithCursor {
     pub latest_mail_time: i64,
+    pub map_context: crate::routes::reports::common::map_context::BattleMapContext,
     pub item: DuelBattle2ListItem,
 }
 

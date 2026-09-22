@@ -2,9 +2,10 @@
 
 import { useExtracted } from "next-intl";
 import { useState } from "react";
+import ReportsTableHead from "@/components/reports/reports-table-head";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody } from "@/components/ui/table";
 import { type ReportsScope, useReportsPage } from "@/hooks/use-reports-page";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportsEmptyStateRow from "./reports-empty-state-row";
@@ -12,9 +13,6 @@ import ReportsErrorRow from "./reports-error-row";
 import ReportsOverviewDrawer from "./reports-overview-drawer";
 import ReportsSkeletonRows from "./reports-skeleton-rows";
 import ReportsTableRow from "./reports-table-row";
-
-const SkeletonWidths = ["w-24", "w-16", "w-16", "w-24", "w-20", "w-20", "w-24"] as const;
-const HiddenMobileColumns = new Set([4, 5]);
 
 type ReportsTableProps = {
   scope?: ReportsScope;
@@ -51,17 +49,7 @@ export default function ReportsTable({
   return (
     <>
       <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-        <TableHead>
-          <TableRow>
-            <TableHeader>{t("Map")}</TableHeader>
-            <TableHeader className="text-right">{t("Sender")}</TableHeader>
-            <TableHeader className="text-center">{t("Trade %")}</TableHeader>
-            <TableHeader>{t("Opponent")}</TableHeader>
-            <TableHeader className="hidden text-right sm:table-cell">{t("Kill Count")}</TableHeader>
-            <TableHeader className="hidden text-right sm:table-cell">{t("Duration")}</TableHeader>
-            <TableHeader className="text-right">{t("When")}</TableHeader>
-          </TableRow>
-        </TableHead>
+        <ReportsTableHead resultLabel={t("Duration")} />
         <TableBody>
           {data.map((report) => (
             <ReportsTableRow
@@ -71,13 +59,7 @@ export default function ReportsTable({
               onOpenOverview={setOverviewRow}
             />
           ))}
-          {loading && data.length === 0 ? (
-            <ReportsSkeletonRows
-              count={skeletonCount}
-              widths={SkeletonWidths}
-              hiddenOnMobile={HiddenMobileColumns}
-            />
-          ) : null}
+          {loading && data.length === 0 ? <ReportsSkeletonRows count={skeletonCount} /> : null}
           {!loading && !error && data.length === 0 ? <ReportsEmptyStateRow colSpan={7} /> : null}
           {error ? <ReportsErrorRow colSpan={7} error={error} /> : null}
         </TableBody>
