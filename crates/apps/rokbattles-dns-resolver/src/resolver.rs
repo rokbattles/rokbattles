@@ -1,4 +1,4 @@
-//! DNS wire-format request handling for `rocgate.lilithgame.com`.
+//! DNS wire-format request handling for the supported game gateway hostnames.
 
 use std::{
     collections::HashSet,
@@ -21,8 +21,8 @@ const DNS_TTL_SECONDS: u32 = 60;
 // A compressed A answer uses a two-byte name pointer, ten bytes of record
 // metadata, and four address bytes.
 const COMPRESSED_A_ANSWER_BYTES: usize = 16;
-/// The game hostname synthesized by every resolver instance.
-pub const ROCGATE_HOSTNAME: &str = "rocgate.lilithgame.com";
+/// Game hostnames routed through the same configured gateway fleet.
+pub const ROCGATE_HOSTNAMES: [&str; 2] = ["rocgate.lilithgame.com", "rocgate.lilithcdn.com"];
 
 /// A non-recursive resolver that synthesizes configured gateway A records.
 #[derive(Debug, Clone)]
@@ -70,7 +70,7 @@ enum Resolution {
 }
 
 impl Resolver {
-    /// Create a resolver from a finite, owned gateway list for [`ROCGATE_HOSTNAME`].
+    /// Create a resolver from a finite, owned gateway list for [`ROCGATE_HOSTNAMES`].
     ///
     /// Clones share one lightweight round-robin cursor so HTTP router state
     /// cloning does not restart answer rotation.
@@ -100,7 +100,7 @@ impl Resolver {
     /// Resolve one DNS wire-format request into a DNS wire-format response.
     ///
     /// The resolver never performs recursion or forwards a request. It returns
-    /// `REFUSED` for names other than [`ROCGATE_HOSTNAME`].
+    /// `REFUSED` for names outside [`ROCGATE_HOSTNAMES`].
     ///
     /// # Errors
     ///
@@ -177,7 +177,10 @@ impl Resolver {
     }
 
     fn is_target(&self, name: &hickory_proto::rr::Name) -> bool {
-        name.to_ascii().trim_end_matches('.').eq_ignore_ascii_case(ROCGATE_HOSTNAME)
+        let name = name.to_ascii();
+        ROCGATE_HOSTNAMES
+            .iter()
+            .any(|hostname| name.trim_end_matches('.').eq_ignore_ascii_case(hostname))
     }
 }
 
@@ -251,30 +254,36 @@ mod tests {
 
     #[test]
     fn a_query_should_return_all_gateway_addresses_and_ttl() {
-        let message = resolve(&resolver(), &query(ROCGATE_HOSTNAME, RecordType::A));
+        for hostname in ROCGATE_HOSTNAMES {
+            let message = resolve(&resolver(), &query(hostname, RecordType::A));
 
-        assert_eq!(
-            (
-                message.metadata.response_code,
-                message.answers.iter().map(|answer| (answer.ttl, &answer.data)).collect::<Vec<_>>(),
-            ),
-            (
-                ResponseCode::NoError,
-                vec![
-                    (DNS_TTL_SECONDS, &RData::A(A(GATEWAY_IPV4_A))),
-                    (DNS_TTL_SECONDS, &RData::A(A(GATEWAY_IPV4_B))),
-                ],
-            )
-        );
+            assert_eq!(
+                (
+                    message.metadata.response_code,
+                    message
+                        .answers
+                        .iter()
+                        .map(|answer| (answer.ttl, &answer.data))
+                        .collect::<Vec<_>>(),
+                ),
+                (
+                    ResponseCode::NoError,
+                    vec![
+                        (DNS_TTL_SECONDS, &RData::A(A(GATEWAY_IPV4_A))),
+                        (DNS_TTL_SECONDS, &RData::A(A(GATEWAY_IPV4_B))),
+                    ],
+                )
+            );
+        }
     }
 
     #[test]
     fn consecutive_a_queries_should_rotate_the_first_gateway() {
         let resolver = resolver();
 
-        let first = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
-        let second = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
-        let third = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
+        let first = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
+        let second = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
+        let third = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
 
         let addresses = |message: &Message| {
             message.answers.iter().map(|answer| answer.data.clone()).collect::<Vec<_>>()
@@ -294,8 +303,8 @@ mod tests {
         let resolver = resolver();
         let clone = resolver.clone();
 
-        let first = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
-        let second = resolve(&clone, &query(ROCGATE_HOSTNAME, RecordType::A));
+        let first = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
+        let second = resolve(&clone, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
 
         assert_eq!(first.answers[0].data, RData::A(A(GATEWAY_IPV4_A)));
         assert_eq!(second.answers[0].data, RData::A(A(GATEWAY_IPV4_B)));
@@ -305,9 +314,9 @@ mod tests {
     fn non_a_queries_should_not_advance_answer_rotation() {
         let resolver = resolver();
 
-        let first = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
-        let aaaa = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::AAAA));
-        let second = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
+        let first = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
+        let aaaa = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::AAAA));
+        let second = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
 
         assert_eq!(first.answers[0].data, RData::A(A(GATEWAY_IPV4_A)));
         assert!(aaaa.answers.is_empty());
@@ -336,7 +345,7 @@ mod tests {
     fn resolver_should_not_have_an_application_node_count_limit() {
         let gateways = (11..=32).map(|first_octet| Ipv4Addr::new(first_octet, 0, 0, 1)).collect();
         let resolver = Resolver::new(gateways).expect("all public gateways should be accepted");
-        let response = resolve(&resolver, &query(ROCGATE_HOSTNAME, RecordType::A));
+        let response = resolve(&resolver, &query(ROCGATE_HOSTNAMES[0], RecordType::A));
 
         assert_eq!(response.answers.len(), 22);
     }
@@ -347,7 +356,7 @@ mod tests {
             .map(|index| Ipv4Addr::new(11, ((index >> 8) & 0xff) as u8, (index & 0xff) as u8, 1))
             .collect();
         let resolver = Resolver::new(gateways).expect("all public gateways should be accepted");
-        let request = query(ROCGATE_HOSTNAME, RecordType::A);
+        let request = query(ROCGATE_HOSTNAMES[0], RecordType::A);
         let first = resolve(&resolver, &request);
         let second = resolve(&resolver, &request);
 
@@ -364,36 +373,43 @@ mod tests {
 
     #[test]
     fn aaaa_query_should_return_nodata() {
-        let message = resolve(&resolver(), &query(ROCGATE_HOSTNAME, RecordType::AAAA));
+        for hostname in ROCGATE_HOSTNAMES {
+            let message = resolve(&resolver(), &query(hostname, RecordType::AAAA));
 
-        assert_eq!(
-            (message.metadata.response_code, message.answers.is_empty()),
-            (ResponseCode::NoError, true)
-        );
+            assert_eq!(
+                (message.metadata.response_code, message.answers.is_empty()),
+                (ResponseCode::NoError, true)
+            );
+        }
     }
 
     #[test]
     fn unsupported_record_type_for_target_should_return_nodata() {
-        let message = resolve(&resolver(), &query(ROCGATE_HOSTNAME, RecordType::TXT));
+        for hostname in ROCGATE_HOSTNAMES {
+            let message = resolve(&resolver(), &query(hostname, RecordType::TXT));
 
-        assert_eq!(
-            (message.metadata.response_code, message.answers.is_empty()),
-            (ResponseCode::NoError, true)
-        );
+            assert_eq!(
+                (message.metadata.response_code, message.answers.is_empty()),
+                (ResponseCode::NoError, true)
+            );
+        }
     }
 
     #[test]
     fn target_name_matching_should_be_case_insensitive() {
-        let message = resolve(&resolver(), &query("RoCgAtE.LiLiThGaMe.CoM.", RecordType::A));
-
-        assert_eq!(message.answers.len(), 2);
+        for hostname in ["RoCgAtE.LiLiThGaMe.CoM.", "RoCgAtE.LiLiThCdN.CoM."] {
+            let message = resolve(&resolver(), &query(hostname, RecordType::A));
+            assert_eq!(message.answers.len(), 2);
+        }
     }
 
     #[test]
     fn target_name_without_textual_trailing_dot_should_match() {
-        let message = resolve(&resolver(), &query(ROCGATE_HOSTNAME, RecordType::A));
+        for hostname in ROCGATE_HOSTNAMES {
+            let message = resolve(&resolver(), &query(hostname, RecordType::A));
 
-        assert_eq!(message.answers.len(), 2);
+            assert_eq!(message.answers.len(), 2);
+        }
     }
 
     #[test]
@@ -412,7 +428,7 @@ mod tests {
 
     #[test]
     fn multiple_dns_questions_should_return_formerr() {
-        let mut message = query(ROCGATE_HOSTNAME, RecordType::A);
+        let mut message = query(ROCGATE_HOSTNAMES[0], RecordType::A);
         message.add_query(Query::query(
             Name::from_ascii("accounts.lilithgame.com.").expect("fixture should be valid"),
             RecordType::A,
@@ -426,7 +442,7 @@ mod tests {
     fn unsupported_dns_opcode_should_return_notimp() {
         let mut message = Message::new(0x1234, MessageType::Query, OpCode::Notify);
         message.add_query(Query::query(
-            Name::from_ascii(ROCGATE_HOSTNAME).expect("fixture should be valid"),
+            Name::from_ascii(ROCGATE_HOSTNAMES[0]).expect("fixture should be valid"),
             RecordType::A,
         ));
         let response = resolve(&resolver(), &message);

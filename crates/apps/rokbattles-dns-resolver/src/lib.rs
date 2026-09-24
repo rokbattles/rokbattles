@@ -1,8 +1,9 @@
 //! DNS-over-HTTPS resolution for the TCP gateway fleet.
 //!
 //! The iOS endpoint is non-recursive and only answers for
-//! `rocgate.lilithgame.com`. The separate Intra endpoint answers that hostname
-//! locally and forwards other queries to Cloudflare DNS-over-HTTPS.
+//! `rocgate.lilithgame.com` and `rocgate.lilithcdn.com`. The separate Intra endpoint
+//! answers these hostnames locally and forwards other queries to Cloudflare DNS-over-HTTPS.
+//! Both names use the same gateway fleet and its configured game upstream.
 
 #![forbid(unsafe_code)]
 
@@ -20,4 +21,4 @@ pub use forwarder::{
     MAX_CONCURRENT_UPSTREAM_QUERIES,
 };
 pub use http::router;
-pub use resolver::{ROCGATE_HOSTNAME, ResolveError, Resolver, ResolverConfigError};
+pub use resolver::{ROCGATE_HOSTNAMES, ResolveError, Resolver, ResolverConfigError};
