@@ -176,7 +176,7 @@ mod tests {
     use tower::ServiceExt;
 
     use super::*;
-    use crate::ROCGATE_HOSTNAME;
+    use crate::ROCGATE_HOSTNAMES;
 
     const GATEWAY_IPV4_A: Ipv4Addr = Ipv4Addr::new(93, 184, 216, 34);
     const GATEWAY_IPV4_B: Ipv4Addr = Ipv4Addr::new(1, 1, 1, 1);
@@ -355,7 +355,7 @@ mod tests {
     #[tokio::test]
     async fn ios_post_query_should_return_dns_wire_format_response() {
         let response =
-            send_post(app(), "/query", dns_query(ROCGATE_HOSTNAME), DNS_MEDIA_TYPE).await;
+            send_post(app(), "/query", dns_query(ROCGATE_HOSTNAMES[0]), DNS_MEDIA_TYPE).await;
         let status = response.status();
         let content_type = response.headers().get(CONTENT_TYPE).cloned();
         let message = decode_dns_response(response).await;
@@ -368,7 +368,7 @@ mod tests {
 
     #[tokio::test]
     async fn ios_get_query_should_return_dns_wire_format_response() {
-        let response = send_get(app(), "/query", &dns_query(ROCGATE_HOSTNAME)).await;
+        let response = send_get(app(), "/query", &dns_query(ROCGATE_HOSTNAMES[0])).await;
         let message = decode_dns_response(response).await;
 
         assert_eq!(message.answers.len(), 2);
@@ -378,11 +378,12 @@ mod tests {
     async fn cloned_http_router_should_share_gateway_rotation() {
         let app = app();
         let first = decode_dns_response(
-            send_get(app.clone(), "/query", &dns_query(ROCGATE_HOSTNAME)).await,
+            send_get(app.clone(), "/query", &dns_query(ROCGATE_HOSTNAMES[0])).await,
         )
         .await;
         let second =
-            decode_dns_response(send_get(app, "/query", &dns_query(ROCGATE_HOSTNAME)).await).await;
+            decode_dns_response(send_get(app, "/query", &dns_query(ROCGATE_HOSTNAMES[0])).await)
+                .await;
 
         assert_eq!(first.answers[0].data, RData::A(A(GATEWAY_IPV4_A)));
         assert_eq!(second.answers[0].data, RData::A(A(GATEWAY_IPV4_B)));
@@ -391,7 +392,7 @@ mod tests {
     #[tokio::test]
     async fn intra_post_target_query_should_return_local_answer() {
         let response =
-            send_post(app(), "/intra", dns_query(ROCGATE_HOSTNAME), DNS_MEDIA_TYPE).await;
+            send_post(app(), "/intra", dns_query(ROCGATE_HOSTNAMES[0]), DNS_MEDIA_TYPE).await;
         let message = decode_dns_response(response).await;
 
         assert_eq!(
@@ -402,7 +403,7 @@ mod tests {
 
     #[tokio::test]
     async fn intra_get_target_query_should_return_local_answer() {
-        let response = send_get(app(), "/intra", &dns_query(ROCGATE_HOSTNAME)).await;
+        let response = send_get(app(), "/intra", &dns_query(ROCGATE_HOSTNAMES[0])).await;
         let message = decode_dns_response(response).await;
 
         assert_eq!(
@@ -416,7 +417,7 @@ mod tests {
         let response = send_post(
             app(),
             "/intra",
-            dns_query_for(ROCGATE_HOSTNAME, RecordType::AAAA),
+            dns_query_for(ROCGATE_HOSTNAMES[0], RecordType::AAAA),
             DNS_MEDIA_TYPE,
         )
         .await;
@@ -425,6 +426,49 @@ mod tests {
         assert_eq!(
             (message.metadata.response_code, message.answers.is_empty()),
             (ResponseCode::NoError, true)
+        );
+    }
+
+    #[tokio::test]
+    async fn cdn_queries_should_be_answered_locally_on_both_endpoints() {
+        let primary = MockUpstream::start(Duration::ZERO).await;
+        let fallback = MockUpstream::start(Duration::ZERO).await;
+        for path in ["/query", "/intra"] {
+            for record_type in [RecordType::A, RecordType::AAAA] {
+                let app = app_with_upstreams(
+                    [primary.url.clone(), fallback.url.clone()],
+                    Duration::from_secs(1),
+                );
+                let query = dns_query_for("rocgate.lilithcdn.com", record_type);
+                for response in [
+                    send_get(app.clone(), path, &query).await,
+                    send_post(app, path, query, DNS_MEDIA_TYPE).await,
+                ] {
+                    let message = decode_dns_response(response).await;
+                    assert_eq!(message.metadata.response_code, ResponseCode::NoError);
+                    if record_type == RecordType::A {
+                        assert_eq!(message.answers.len(), 2);
+                        for address in [GATEWAY_IPV4_A, GATEWAY_IPV4_B] {
+                            assert!(
+                                message
+                                    .answers
+                                    .iter()
+                                    .any(|answer| answer.data == RData::A(A(address)))
+                            );
+                        }
+                    } else {
+                        assert!(message.answers.is_empty());
+                    }
+                }
+            }
+        }
+        assert_eq!(
+            primary.requests.try_recv().expect_err("CDN query should stay local"),
+            mpsc::TryRecvError::Empty
+        );
+        assert_eq!(
+            fallback.requests.try_recv().expect_err("CDN query should stay local"),
+            mpsc::TryRecvError::Empty
         );
     }
 
@@ -628,7 +672,7 @@ mod tests {
     #[tokio::test]
     async fn post_without_dns_media_type_should_be_rejected() {
         let response =
-            send_post(app(), "/query", dns_query(ROCGATE_HOSTNAME), "application/octet-stream")
+            send_post(app(), "/query", dns_query(ROCGATE_HOSTNAMES[0]), "application/octet-stream")
                 .await;
 
         assert_eq!(response.status(), StatusCode::UNSUPPORTED_MEDIA_TYPE);

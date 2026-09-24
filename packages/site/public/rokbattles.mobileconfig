@@ -14,6 +14,8 @@
 				<key>SupplementalMatchDomains</key>
 				<array>
 					<string>rocgate.lilithgame.com</string>
+					<string>rocgate.lilithcdn.com</string>
+					<string>dns-probe.rokbattles.com</string>
 				</array>
 			</dict>
 			<key>PayloadDescription</key>
