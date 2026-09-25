@@ -38,6 +38,7 @@ struct Vertex {
     position: [f32; 2],
     uv: [f32; 2],
     color: [f32; 4],
+    stroke: [f32; 4],
 }
 
 struct Texture {
@@ -68,6 +69,7 @@ pub struct Overlay {
     /// World-space center of the image or rectangle.
     pub position: [f32; 2],
     /// Full width and height, interpreted according to `world_size`.
+    /// With a stroke, one zero dimension draws a single boundary segment.
     pub size: [f32; 2],
     /// Uploaded image key, or `"white"` for solid fills and outlines.
     pub texture: String,
@@ -192,9 +194,9 @@ impl Gpu {
                 entry_point: Some("vs"),
                 compilation_options: Default::default(),
                 buffers: &[wgpu::VertexBufferLayout {
-                    array_stride: 32,
+                    array_stride: std::mem::size_of::<Vertex>() as u64,
                     step_mode: wgpu::VertexStepMode::Vertex,
-                    attributes: &wgpu::vertex_attr_array![0 => Float32x2, 1 => Float32x2, 2 => Float32x4],
+                    attributes: &wgpu::vertex_attr_array![0 => Float32x2, 1 => Float32x2, 2 => Float32x4, 3 => Float32x4],
                 }],
             },
             primitive: Default::default(),
@@ -548,6 +550,7 @@ impl Gpu {
                         position: [x / scene.width * 2.0 - 1.0, 1.0 - y / scene.height * 2.0],
                         uv: [-1.0, -1.0],
                         color: [1.0, 0.12, 0.06, 0.24 * detail_opacity],
+                        stroke: [0.0; 4],
                     });
                 }
             }
@@ -797,6 +800,7 @@ fn quad(vertices: &mut Vec<Vertex>, scene: &Scene, rect: [f32; 4], uv: [f32; 4],
             position: [x / scene.width * 2.0 - 1.0, 1.0 - y / scene.height * 2.0],
             uv: [u, w],
             color,
+            stroke: [0.0; 4],
         })
     }
 }
@@ -809,15 +813,50 @@ fn outline(
     dashed: bool,
     color: [f32; 4],
 ) {
-    let half = width / 2.0;
-    // Dash spacing is evaluated by the shader, keeping geometry bounded at any zoom.
-    let horizontal = if dashed { [-2.0, 0.0, -2.0, 0.0] } else { [0.0, 0.0, 1.0, 1.0] };
-    let vertical = if dashed { [-2.0, 1.0, -2.0, 1.0] } else { horizontal };
-    for y in [y0, y1] {
-        quad(vertices, scene, [x0, y - half, x1, y + half], horizontal, color);
+    // A zero-height/width rectangle is a single boundary segment, not two
+    // coincident edges. This also supports union outlines supplied by the host.
+    if x1 > x0 {
+        stroke(vertices, scene, [x0, y0, x1, y0], width, dashed, color);
+        if y1 > y0 {
+            stroke(vertices, scene, [x0, y1, x1, y1], width, dashed, color);
+        }
     }
-    for x in [x0, x1] {
-        quad(vertices, scene, [x - half, y0, x + half, y1], vertical, color);
+    if y1 > y0 {
+        stroke(vertices, scene, [x0, y0, x0, y1], width, dashed, color);
+        if x1 > x0 {
+            stroke(vertices, scene, [x1, y0, x1, y1], width, dashed, color);
+        }
+    }
+}
+
+fn stroke(
+    vertices: &mut Vec<Vertex>,
+    scene: &Scene,
+    [x0, y0, x1, y1]: [f32; 4],
+    width: f32,
+    dashed: bool,
+    color: [f32; 4],
+) {
+    let half = width / 2.0;
+    // Include the antialiasing fringe. The fragment shader integrates coverage
+    // across the edge instead of rounding a fractional width to one or two pixels.
+    let extent = half + 1.0 / scene.dpr;
+    let horizontal = x1 > x0;
+    let rect = if horizontal {
+        [x0, y0 - extent, x1, y1 + extent]
+    } else {
+        [x0 - extent, y0, x1 + extent, y1]
+    };
+    let start = vertices.len();
+    quad(vertices, scene, rect, [0.0, 0.0, 1.0, 1.0], color);
+    for vertex in vertices.iter_mut().skip(start) {
+        let [u, v] = vertex.uv;
+        let (along, across) = if horizontal {
+            (x0 + u * (x1 - x0), (v * 2.0 - 1.0) * extent)
+        } else {
+            (y0 + v * (y1 - y0), (u * 2.0 - 1.0) * extent)
+        };
+        vertex.stroke = [along, across, half, if dashed { 1.0 } else { 0.0 }];
     }
 }
 
@@ -850,6 +889,7 @@ fn triangle(vertices: &mut Vec<Vertex>, scene: &Scene, points: [[f32; 2]; 3], co
             position: [p[0] / scene.width * 2.0 - 1.0, 1.0 - p[1] / scene.height * 2.0],
             uv: [0.5; 2],
             color,
+            stroke: [0.0; 4],
         })
     }
 }
