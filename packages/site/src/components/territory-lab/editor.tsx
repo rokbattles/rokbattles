@@ -91,6 +91,10 @@ function distanceToSegment(p: Point, a: Point, b: Point) {
   return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
 }
 
+function preventMiddleButtonDefault(e: React.MouseEvent<HTMLDivElement>) {
+  if (e.button === 1) e.preventDefault();
+}
+
 export default function Editor({
   catalog,
   initialPlan,
@@ -389,6 +393,7 @@ export default function Editor({
     }
   }
   function pointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    preventMiddleButtonDefault(e);
     if (!ready || !controller.current || e.button > 1) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left,
@@ -406,7 +411,7 @@ export default function Editor({
     if (e.button === 0 && ["line", "arrow", "circle"].includes(tool))
       controller.current.beginDraft(tool, x, y, color, width);
     e.currentTarget.setPointerCapture(e.pointerId);
-    controller.current.canvas.focus();
+    controller.current.canvas.focus({ preventScroll: true });
   }
   function pointerMove(e: React.PointerEvent<HTMLDivElement>) {
     const g = gesture.current,
@@ -842,6 +847,8 @@ export default function Editor({
             aria-label="Interactive planning map"
             ref={host}
             onPointerDown={pointerDown}
+            onMouseDown={preventMiddleButtonDefault}
+            onAuxClick={preventMiddleButtonDefault}
             onPointerMove={pointerMove}
             onPointerUp={pointerUp}
             onPointerLeave={() => controller.current?.clearPlacement()}

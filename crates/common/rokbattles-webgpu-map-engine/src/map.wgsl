@@ -4,6 +4,7 @@ struct Output {
     @builtin(position) position: vec4<f32>,
     @location(0) uv: vec2<f32>,
     @location(1) color: vec4<f32>,
+    @location(2) stroke: vec4<f32>,
 }
 
 @group(0) @binding(0) var image: texture_2d<f32>;
@@ -14,11 +15,13 @@ fn vs(
     @location(0) position: vec2<f32>,
     @location(1) uv: vec2<f32>,
     @location(2) color: vec4<f32>,
+    @location(3) stroke: vec4<f32>,
 ) -> Output {
     var out: Output;
     out.position = vec4<f32>(position, 0.0, 1.0);
     out.uv = uv;
     out.color = color;
+    out.stroke = stroke;
     return out;
 }
 
@@ -32,14 +35,17 @@ fn fs(in: Output) -> @location(0) vec4<f32> {
     // uniform control flow and can antialias stripe edges consistently.
     let edge = fwidth(diagonal);
     let stripe = 1.0 - smoothstep(0.35 - edge, 0.35 + edge, fract(diagonal));
-    // UV.x is also a geometry tag: -1 selects forbidden hatching, -2 selects
-    // dashed outlines. Fragment positions keep patterns fixed in framebuffer
-    // pixels as the map zooms. UV.y chooses the horizontal or vertical dash axis.
-    if in.uv.x < -1.5 {
-        let along = select(in.position.y, in.position.x, in.uv.y < 0.5);
-        let dash = 1.0 - step(0.6, fract(along / 10.0));
-        return vec4<f32>(in.color.rgb, in.color.a * dash);
+    // Stroke distances are in CSS pixels, preserving widths and 6-on/4-off
+    // dashes across zoom and device pixel ratios. Derivatives give the actual
+    // framebuffer pixel footprint, including fractional positions on either axis.
+    let stroke_pixel = max(fwidth(in.stroke.xy), vec2<f32>(0.0001));
+    let coverage = clamp((in.stroke.z - abs(in.stroke.y)) / stroke_pixel.y + 0.5, 0.0, 1.0);
+    let dash_distance = abs(fract((in.stroke.x + 2.0) / 10.0) * 10.0 - 5.0);
+    let dash = clamp((3.0 - dash_distance) / stroke_pixel.x + 0.5, 0.0, 1.0);
+    if in.stroke.z > 0.0 {
+        return vec4<f32>(in.color.rgb, in.color.a * coverage * select(1.0, dash, in.stroke.w > 0.5));
     }
+    // Negative UV selects forbidden hatching.
     if in.uv.x < 0.0 {
         return vec4<f32>(in.color.rgb, in.color.a * (0.2 + 0.8 * stripe));
     }

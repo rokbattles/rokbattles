@@ -344,6 +344,18 @@ export function buildTerritoryOverview(
   return buildTerritoryOverviewFromCells(buildings.flatMap(territoryCells));
 }
 
+export function buildStructureBoundarySegments(
+  structures: readonly TerritoryStructure[],
+  radiusKey: "territoryRadiusInCells" | "teleportRadiusInCells"
+): TerritoryBoundarySegment[] {
+  const cells = structures.flatMap((structure) => {
+    const radius = structure[radiusKey];
+    if (radius === null) return [];
+    return structureTerritoryCells({ ...structure, territoryRadiusInCells: radius });
+  });
+  return buildTerritoryOverviewFromCells(cells).boundarySegments;
+}
+
 export function buildTerritoryOverviewsByAlliance(
   buildings: PlannedBuilding[],
   structures: readonly TerritoryStructure[] = []
