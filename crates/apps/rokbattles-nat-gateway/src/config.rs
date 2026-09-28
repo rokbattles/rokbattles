@@ -102,12 +102,12 @@ impl std::fmt::Debug for Config {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
+    use rustc_hash::FxHashMap;
 
     use super::*;
 
     fn lookup(entries: &[(&'static str, &'static str)]) -> impl Fn(&str) -> Option<String> + use<> {
-        let values = entries.iter().copied().collect::<HashMap<_, _>>();
+        let values = entries.iter().copied().collect::<FxHashMap<_, _>>();
         move |key| values.get(key).map(|value| (*value).to_string())
     }
 

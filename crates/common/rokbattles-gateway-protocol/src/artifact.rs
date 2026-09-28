@@ -1,12 +1,13 @@
 //! Startup loader for the runtime protocol artifact.
 
 use std::{
-    collections::{BTreeMap, HashMap},
+    collections::BTreeMap,
     fs::File,
     io::{self, Read},
     path::{Path, PathBuf},
 };
 
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 
 const CURRENT_SCHEMA_VERSION: u32 = 2;
@@ -25,7 +26,7 @@ const CARRIER_APIS: [(u32, &str); 4] =
 #[derive(Debug)]
 pub struct RuntimeArtifact {
     pub(crate) protocol: ProtocolSchema,
-    pub(crate) carriers: HashMap<u32, CarrierSchema>,
+    pub(crate) carriers: FxHashMap<u32, CarrierSchema>,
 }
 
 impl RuntimeArtifact {
@@ -111,7 +112,8 @@ impl RuntimeArtifact {
             mail_entity: MessageShape::from_descriptor(mail_entity)?,
         };
 
-        let mut carriers = HashMap::with_capacity(CARRIER_APIS.len());
+        let mut carriers =
+            FxHashMap::with_capacity_and_hasher(CARRIER_APIS.len(), Default::default());
         for (api_id, expected_descriptor) in CARRIER_APIS {
             let message = messages.for_api(&file.api_map, api_id, expected_descriptor)?;
             let entity_fields = message
@@ -147,7 +149,7 @@ impl RuntimeArtifact {
     /// Constructs the schema in memory without reading `artifacts.json`.
     pub fn test_fixture() -> Self {
         let message_field = WireRule { primary: 2, packed: false };
-        let mut carriers = HashMap::new();
+        let mut carriers = FxHashMap::default();
         for (api_id, _descriptor) in CARRIER_APIS {
             carriers.insert(
                 api_id,
@@ -155,7 +157,7 @@ impl RuntimeArtifact {
                     entity_field: 1,
                     left_count_field: matches!(api_id, 7901 | 7921).then_some(2),
                     shape: MessageShape {
-                        fields: HashMap::from([
+                        fields: FxHashMap::from_iter([
                             (1, message_field),
                             (2, WireRule { primary: 0, packed: false }),
                         ]),
@@ -176,7 +178,7 @@ impl RuntimeArtifact {
                 zmsg: CompressionSchema { length_field: 1, payload_field: 2 },
                 compound_messages_field: 1,
                 mail_entity: MessageShape {
-                    fields: HashMap::from([
+                    fields: FxHashMap::from_iter([
                         (1, WireRule { primary: 2, packed: false }),
                         (6, WireRule { primary: 2, packed: false }),
                         (9, WireRule { primary: 2, packed: false }),
@@ -321,12 +323,12 @@ struct DescriptorField {
 
 #[derive(Debug)]
 struct MessageIndex<'a> {
-    messages: HashMap<&'a str, &'a DescriptorMessage>,
+    messages: FxHashMap<&'a str, &'a DescriptorMessage>,
 }
 
 impl<'a> MessageIndex<'a> {
     fn new(messages: &'a [DescriptorMessage]) -> Result<Self, ArtifactError> {
-        let mut index = HashMap::with_capacity(messages.len());
+        let mut index = FxHashMap::with_capacity_and_hasher(messages.len(), Default::default());
         for message in messages {
             for name in [&*message.name, normalize_type_name(&message.full_name)] {
                 if let Some(previous) = index.insert(name, message)
@@ -415,12 +417,13 @@ pub(crate) struct CarrierSchema {
 
 #[derive(Debug)]
 pub(crate) struct MessageShape {
-    fields: HashMap<u32, WireRule>,
+    fields: FxHashMap<u32, WireRule>,
 }
 
 impl MessageShape {
     fn from_descriptor(message: &DescriptorMessage) -> Result<Self, ArtifactError> {
-        let mut fields = HashMap::with_capacity(message.fields.len());
+        let mut fields =
+            FxHashMap::with_capacity_and_hasher(message.fields.len(), Default::default());
         for field in &message.fields {
             let rule = WireRule::from_descriptor(field)?;
             if fields.insert(field.number, rule).is_some() {

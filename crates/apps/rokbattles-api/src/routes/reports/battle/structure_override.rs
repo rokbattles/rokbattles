@@ -1,7 +1,8 @@
-use std::{borrow::Borrow, collections::HashMap, fmt, sync::OnceLock};
+use std::{borrow::Borrow, fmt, sync::OnceLock};
 
 use mongodb::bson::Document;
 use rokbattles_bson::{nested_bool, nested_i64_exact};
+use rustc_hash::FxHashMap;
 use serde::{
     Deserialize, Deserializer,
     de::{self, Visitor},
@@ -18,7 +19,7 @@ struct StructureIconDataset {
 
 #[derive(Deserialize)]
 struct Structures {
-    aliases: HashMap<i64, i64>,
+    aliases: FxHashMap<i64, i64>,
     alliance: AllianceStructures,
     building: BuildingStructures,
 }
@@ -27,7 +28,7 @@ struct Structures {
 struct AllianceStructures {
     default: String,
     #[serde(flatten)]
-    items: HashMap<NumericKey, AllianceStructure>,
+    items: FxHashMap<NumericKey, AllianceStructure>,
 }
 
 #[derive(Deserialize)]
@@ -47,14 +48,14 @@ struct AllianceOverrides {
 struct BuildingStructures {
     default: String,
     #[serde(flatten)]
-    items: HashMap<NumericKey, BuildingStructure>,
+    items: FxHashMap<NumericKey, BuildingStructure>,
 }
 
 #[derive(Deserialize)]
 struct BuildingStructure {
     sprite: Vec<String>,
     #[serde(default, rename = "override")]
-    overrides: HashMap<i64, SpriteList>,
+    overrides: FxHashMap<i64, SpriteList>,
 }
 
 #[derive(Deserialize)]

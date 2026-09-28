@@ -1,6 +1,8 @@
 //! Environment-driven gateway configuration for the DNS-over-HTTPS resolver.
 
-use std::{collections::HashSet, env, net::Ipv4Addr};
+use std::{env, net::Ipv4Addr};
+
+use rustc_hash::FxHashSet;
 
 use crate::resolver::is_public_unicast;
 
@@ -58,7 +60,7 @@ impl Config {
 fn parse_gateway_ipv4s(value: &str) -> Result<Vec<Ipv4Addr>, ConfigError> {
     let field_count = value.bytes().filter(|byte| *byte == b',').count().saturating_add(1);
     let mut addresses = Vec::new();
-    let mut seen = HashSet::new();
+    let mut seen = FxHashSet::default();
     addresses.try_reserve(field_count).map_err(|_error| ConfigError::Allocation)?;
     seen.try_reserve(field_count).map_err(|_error| ConfigError::Allocation)?;
     for field in value.split(',').map(str::trim) {

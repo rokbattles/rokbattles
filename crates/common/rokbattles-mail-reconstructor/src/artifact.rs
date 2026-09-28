@@ -5,12 +5,12 @@
 //! indexed for decoding on demand. Names lose leading dots, but retain namespaces.
 
 use std::{
-    collections::HashMap,
     fs::File,
     io::{self, Read},
     path::{Path, PathBuf},
 };
 
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 
 use crate::ReconstructionError;
@@ -73,7 +73,7 @@ impl MailSchema {
             .messages
             .iter()
             .map(|message| (normalize_name(&message.name), message))
-            .collect::<HashMap<_, _>>();
+            .collect::<FxHashMap<_, _>>();
         let mail = required_message(&messages, "MailEntity")?;
         let attack = required_message(&messages, "MailReportAttack")?;
 
@@ -115,12 +115,12 @@ impl MailSchema {
 /// Message descriptors indexed by name with leading dots removed.
 #[derive(Debug)]
 pub(crate) struct DescriptorPool {
-    messages: HashMap<String, DynamicMessage>,
+    messages: FxHashMap<String, DynamicMessage>,
 }
 
 impl DescriptorPool {
     fn from_messages(messages: &[DescriptorMessage]) -> Result<Self, ReconstructionError> {
-        let mut indexed = HashMap::with_capacity(messages.len());
+        let mut indexed = FxHashMap::with_capacity_and_hasher(messages.len(), Default::default());
         for message in messages {
             let name = normalize_name(&message.name).to_string();
             let dynamic = DynamicMessage {
@@ -186,7 +186,7 @@ fn read_bounded(path: &Path) -> Result<Vec<u8>, ReconstructionError> {
 }
 
 fn required_message<'a>(
-    messages: &'a HashMap<&str, &'a DescriptorMessage>,
+    messages: &'a FxHashMap<&str, &'a DescriptorMessage>,
     name: &'static str,
 ) -> Result<&'a DescriptorMessage, ReconstructionError> {
     messages

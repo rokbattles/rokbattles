@@ -9,6 +9,7 @@ crate-type = ["rlib", "cdylib"]
 doctest = false
 
 [dependencies]
+rustc-hash.workspace = true
 rokbattles-container = { path = "../rokbattles-container", default-features = false, features = ["read"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true

@@ -1,7 +1,8 @@
-use std::collections::{BTreeSet, HashMap};
+use std::collections::BTreeSet;
 
 use mongodb::bson::{Bson, Document};
 use rokbattles_bson::{nested_array, nested_f64, nested_i64, nested_str};
+use rustc_hash::FxHashMap;
 
 use crate::{
     routes::governor::{
@@ -50,7 +51,7 @@ pub(crate) fn aggregate_pairings(
     mails: &[Document],
     range: &GovernorDateRange,
 ) -> Vec<PairingAggregateResponse> {
-    let mut buckets: HashMap<(i64, i64), PairingAggregateResponse> = HashMap::new();
+    let mut buckets: FxHashMap<(i64, i64), PairingAggregateResponse> = FxHashMap::default();
 
     for mail in mails {
         if !mail_is_in_range(mail, range) {
@@ -88,7 +89,7 @@ pub(crate) fn aggregate_loadouts(
     secondary_commander_id: i64,
     granularity: LoadoutGranularity,
 ) -> Vec<PairingLoadoutAggregateResponse> {
-    let mut buckets: HashMap<String, PairingLoadoutAggregateResponse> = HashMap::new();
+    let mut buckets: FxHashMap<String, PairingLoadoutAggregateResponse> = FxHashMap::default();
 
     for mail in mails {
         if !mail_is_in_range(mail, range) {
@@ -132,7 +133,7 @@ pub(crate) fn aggregate_opponents(
     granularity: OpponentGranularity,
     loadout_key: Option<&str>,
 ) -> Vec<PairingOpponentAggregateResponse> {
-    let mut buckets: HashMap<(i64, i64), PairingOpponentAggregateResponse> = HashMap::new();
+    let mut buckets: FxHashMap<(i64, i64), PairingOpponentAggregateResponse> = FxHashMap::default();
 
     for mail in mails {
         if !mail_is_in_range(mail, range) {
@@ -347,7 +348,7 @@ fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> L
         .and_then(|value| (value > 0).then_some(value));
 
     let mut inscription_ids = BTreeSet::new();
-    let mut buff_totals: HashMap<i64, f64> = HashMap::new();
+    let mut buff_totals: FxHashMap<i64, f64> = FxHashMap::default();
 
     for commander_path in [
         ["sender", "commanders", "primary", "armaments"],

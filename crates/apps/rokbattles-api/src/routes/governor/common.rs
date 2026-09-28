@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use mongodb::bson::doc;
+use rustc_hash::FxHashMap;
 
 use crate::{
     error::ApiError,
@@ -23,7 +22,7 @@ pub(crate) fn parse_governor_id_param(raw_governor_id: &str) -> Result<i64, ApiE
 
 /// Parse the standard `start` / `end` governor date-range query with the default cap.
 pub(crate) fn parse_default_governor_date_range(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<GovernorDateRange, ApiError> {
     parse_governor_date_range(params, DEFAULT_MAX_RANGE_DAYS)
 }
@@ -69,7 +68,7 @@ mod tests {
 
     #[test]
     fn parse_default_governor_date_range_reads_start_and_end() {
-        let range = parse_default_governor_date_range(&HashMap::from([
+        let range = parse_default_governor_date_range(&FxHashMap::from_iter([
             ("start".to_string(), "2025-02-03".to_string()),
             ("end".to_string(), "2025-02-04".to_string()),
         ]))

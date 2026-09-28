@@ -5,6 +5,7 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
+rustc-hash.workspace = true
 bytes.workspace = true
 flate2 = { workspace = true, features = ["zlib-rs"] }
 reqwest = { workspace = true, features = ["json", "multipart", "rustls-tls-native-roots"] }

@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use mongodb::bson::{Bson, Document, doc};
+use rustc_hash::FxHashMap;
 
 use crate::{
     error::ApiError,
@@ -65,7 +64,7 @@ pub(crate) enum OpponentGranularity {
 }
 
 pub(crate) fn parse_pairings_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<PairingsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let exclude_activities =
@@ -75,7 +74,7 @@ pub(crate) fn parse_pairings_request(
 }
 
 pub(crate) fn parse_pairing_loadouts_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<PairingLoadoutsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let exclude_activities =
@@ -97,7 +96,7 @@ pub(crate) fn parse_pairing_loadouts_request(
 }
 
 pub(crate) fn parse_pairing_opponents_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<PairingOpponentsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let exclude_activities =
@@ -297,7 +296,7 @@ fn parse_opponent_granularity(raw: Option<&str>) -> Result<OpponentGranularity, 
 }
 
 fn parse_positive_required_i64(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
     key: &str,
     error: &str,
 ) -> Result<i64, ApiError> {
@@ -311,7 +310,7 @@ fn parse_positive_required_i64(
 }
 
 fn parse_non_negative_required_i64(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
     key: &str,
     error: &str,
 ) -> Result<i64, ApiError> {
@@ -330,7 +329,7 @@ mod tests {
 
     #[test]
     fn parse_pairing_loadouts_request_rejects_normalized_granularity() {
-        let request = parse_pairing_loadouts_request(&HashMap::from([
+        let request = parse_pairing_loadouts_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
             ("secondary".to_string(), "456".to_string()),
             ("granularity".to_string(), "normalized".to_string()),
@@ -340,7 +339,7 @@ mod tests {
 
     #[test]
     fn parse_pairing_opponents_request_requires_loadout_key_for_non_overall() {
-        let request = parse_pairing_opponents_request(&HashMap::from([
+        let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
             ("secondary".to_string(), "456".to_string()),
             ("granularity".to_string(), "simplified".to_string()),
@@ -350,7 +349,7 @@ mod tests {
 
     #[test]
     fn parse_pairings_request_resolves_date_range() {
-        let request = parse_pairings_request(&HashMap::from([
+        let request = parse_pairings_request(&FxHashMap::from_iter([
             ("start".to_string(), "2025-02-03".to_string()),
             ("end".to_string(), "2025-02-04".to_string()),
         ]))
@@ -361,14 +360,14 @@ mod tests {
 
     #[test]
     fn parse_pairings_request_defaults_to_include_all_battles() {
-        let request = parse_pairings_request(&HashMap::new()).expect("request");
+        let request = parse_pairings_request(&FxHashMap::default()).expect("request");
 
         assert_eq!((request.exclude_activities, request.exclude_battles), (vec![], vec![]));
     }
 
     #[test]
     fn parse_pairings_request_parses_excluded_activities() {
-        let request = parse_pairings_request(&HashMap::from([(
+        let request = parse_pairings_request(&FxHashMap::from_iter([(
             "excludeActivities".to_string(),
             "ark,kvk,ark".to_string(),
         )]))
@@ -378,7 +377,7 @@ mod tests {
 
     #[test]
     fn parse_pairings_request_parses_excluded_battles() {
-        let request = parse_pairings_request(&HashMap::from([(
+        let request = parse_pairings_request(&FxHashMap::from_iter([(
             "excludeBattles".to_string(),
             "open-field,swarming,rally,garrison,swarming".to_string(),
         )]))
@@ -397,7 +396,7 @@ mod tests {
 
     #[test]
     fn parse_pairings_request_rejects_invalid_excluded_activity() {
-        let request = parse_pairings_request(&HashMap::from([(
+        let request = parse_pairings_request(&FxHashMap::from_iter([(
             "excludeActivities".to_string(),
             "unknown".to_string(),
         )]));
@@ -406,7 +405,7 @@ mod tests {
 
     #[test]
     fn parse_pairings_request_rejects_invalid_excluded_battle() {
-        let request = parse_pairings_request(&HashMap::from([(
+        let request = parse_pairings_request(&FxHashMap::from_iter([(
             "excludeBattles".to_string(),
             "duel".to_string(),
         )]));

@@ -4,8 +4,7 @@
 //! identically. Geometry budgets apply to the expanded result as well as the source:
 //! a small definition can otherwise allocate a large result through repeated instances.
 
-use std::collections::HashMap;
-
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 
 type Point = [f32; 2];
@@ -69,7 +68,8 @@ pub(crate) fn decode_triangles(bytes: &mut [u8]) -> Result<Vec<[Point; 3]>, Stri
         return Err("Forbidden mesh exceeds geometry limits".into());
     }
 
-    let mut definitions = HashMap::with_capacity(mesh.definitions.len());
+    let mut definitions =
+        FxHashMap::with_capacity_and_hasher(mesh.definitions.len(), Default::default());
     for definition in &mesh.definitions {
         if definitions.insert(definition.id, definition).is_some() {
             return Err("Duplicate forbidden mesh definition".into());

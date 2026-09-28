@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -12,6 +12,7 @@ use mongodb::{
     bson::{DateTime, Document, doc, from_document},
     options::FindOptions,
 };
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 
 use crate::{error::ApiError, state::AppState};
@@ -19,7 +20,7 @@ use crate::{error::ApiError, state::AppState};
 /// Returns precomputed barbarian loot documents.
 pub async fn get_barbarians(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_level_request(&params)?;
     let items = fetch_documents::<RawBarbarianDocument, BarbarianDocument>(
@@ -39,7 +40,7 @@ pub async fn get_barbarians(
 /// Returns precomputed barbarian fort loot documents.
 pub async fn get_barbarian_forts(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_level_request(&params)?;
     let items = fetch_documents::<RawBarbarianFortDocument, BarbarianFortDocument>(
@@ -59,7 +60,7 @@ pub async fn get_barbarian_forts(
 /// Returns precomputed Baulur loot documents.
 pub async fn get_baulurs(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_kind_request(&params)?;
     let items = fetch_documents::<RawBaulurDocument, BaulurDocument>(
@@ -79,7 +80,7 @@ pub async fn get_baulurs(
 /// Returns precomputed Karuak Ceremony boss loot documents.
 pub async fn get_karuak_ceremony(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_kind_request(&params)?;
     let items = fetch_documents::<RawKaruakCeremonyDocument, KaruakCeremonyDocument>(
@@ -190,19 +191,19 @@ impl KindRequest {
     }
 }
 
-fn parse_level_request(params: &HashMap<String, String>) -> Result<LevelRequest, ApiError> {
+fn parse_level_request(params: &FxHashMap<String, String>) -> Result<LevelRequest, ApiError> {
     Ok(LevelRequest {
         kind: parse_optional_i32(params, "kind")?,
         levels: parse_optional_i32_list(params, "level")?,
     })
 }
 
-fn parse_kind_request(params: &HashMap<String, String>) -> Result<KindRequest, ApiError> {
+fn parse_kind_request(params: &FxHashMap<String, String>) -> Result<KindRequest, ApiError> {
     Ok(KindRequest { kind: parse_optional_i32(params, "kind")? })
 }
 
 fn parse_optional_i32(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
     key: &str,
 ) -> Result<Option<i32>, ApiError> {
     let Some(raw) = params.get(key).map(|value| value.trim()).filter(|value| !value.is_empty())
@@ -214,7 +215,7 @@ fn parse_optional_i32(
 }
 
 fn parse_optional_i32_list(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
     key: &str,
 ) -> Result<Option<Vec<i32>>, ApiError> {
     let Some(raw) = params.get(key).map(|value| value.trim()).filter(|value| !value.is_empty())
@@ -520,9 +521,8 @@ struct NumericRange {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-
     use mongodb::bson::{DateTime, doc, from_document};
+    use rustc_hash::FxHashMap;
 
     use super::{
         KaharTreasureDocument, RawKaharTreasureDocument, parse_kind_request, parse_level_request,
@@ -530,7 +530,7 @@ mod tests {
 
     #[test]
     fn parse_level_request_accepts_kind_and_comma_separated_levels() {
-        let params = HashMap::from([
+        let params = FxHashMap::from_iter([
             ("kind".to_string(), "38".to_string()),
             ("level".to_string(), "38, 39,38".to_string()),
         ]);
@@ -543,7 +543,7 @@ mod tests {
 
     #[test]
     fn parse_kind_request_rejects_invalid_kind() {
-        let params = HashMap::from([("kind".to_string(), "abc".to_string())]);
+        let params = FxHashMap::from_iter([("kind".to_string(), "abc".to_string())]);
 
         parse_kind_request(&params).expect_err("input should be rejected");
     }

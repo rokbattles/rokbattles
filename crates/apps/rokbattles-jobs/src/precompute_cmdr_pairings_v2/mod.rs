@@ -5,11 +5,7 @@ mod loadout;
 mod model;
 mod pipeline;
 
-use std::{
-    collections::{BTreeMap, HashMap},
-    mem,
-    time::Instant,
-};
+use std::{collections::BTreeMap, mem, time::Instant};
 
 use futures::{StreamExt, stream};
 use mongodb::{
@@ -18,6 +14,7 @@ use mongodb::{
 };
 use rokbattles_api::db::ReportsStore;
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
+use rustc_hash::FxHashMap;
 
 use self::{
     catalog::Catalogs,
@@ -112,7 +109,7 @@ async fn precompute_for_season(
 
     let loadout_started = Instant::now();
     let mut loadout_snapshots = 0_usize;
-    let mut governor_last_seen = HashMap::<(PairingKey, i64, i64), i64>::new();
+    let mut governor_last_seen = FxHashMap::<(PairingKey, i64, i64), i64>::default();
     let loadout_partitions = time_partitions(cutoffs[0], now_ms, LOADOUT_CHUNK_MS);
     let loadout_context = LoadoutPartitionContext {
         source: reports_store.battle_collection(),
@@ -217,8 +214,8 @@ fn merge_roots(
 }
 
 fn merge_governors(
-    destination: &mut HashMap<(PairingKey, i64, i64), i64>,
-    sources: HashMap<(PairingKey, i64, i64), i64>,
+    destination: &mut FxHashMap<(PairingKey, i64, i64), i64>,
+    sources: FxHashMap<(PairingKey, i64, i64), i64>,
 ) {
     for (key, day) in sources {
         destination.entry(key).and_modify(|current| *current = (*current).max(day)).or_insert(day);
@@ -279,7 +276,7 @@ async fn read_performance_partition(
 }
 
 struct LoadoutPartition {
-    governors: HashMap<(PairingKey, i64, i64), i64>,
+    governors: FxHashMap<(PairingKey, i64, i64), i64>,
     rows: usize,
     documents_written: usize,
     max_document_bytes: usize,
@@ -314,7 +311,7 @@ async fn read_loadout_partition(
         .hint(context.season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(context.output);
-    let mut governor_last_seen = HashMap::<(PairingKey, i64, i64), i64>::new();
+    let mut governor_last_seen = FxHashMap::<(PairingKey, i64, i64), i64>::default();
     let mut snapshots = 0_usize;
 
     while let Some(next) = cursor.next().await {
@@ -381,7 +378,7 @@ async fn write_loadout_month(
 fn finalize_all_governors(
     roots: &mut BTreeMap<PairingKey, PairingRoot>,
     cutoffs: &[i64; 4],
-    last_seen: HashMap<(PairingKey, i64, i64), i64>,
+    last_seen: FxHashMap<(PairingKey, i64, i64), i64>,
 ) {
     for ((pairing, scenario, _player), day) in last_seen {
         let root = roots.entry(pairing).or_default();

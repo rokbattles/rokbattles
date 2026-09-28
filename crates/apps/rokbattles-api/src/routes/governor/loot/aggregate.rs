@@ -1,7 +1,8 @@
-use std::{collections::HashMap, ops::RangeInclusive};
+use std::ops::RangeInclusive;
 
 use mongodb::bson::Bson;
 use rokbattles_bson::bson_to_i64_loose;
+use rustc_hash::FxHashMap;
 
 use super::{
     query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
@@ -24,7 +25,7 @@ struct LootCategoryAggregate {
     ap_used: i64,
     honor_gained: i64,
     xp_gained: i64,
-    reward_buckets: HashMap<(i64, i64), LootRewardBucket>,
+    reward_buckets: FxHashMap<(i64, i64), LootRewardBucket>,
 }
 
 #[derive(Debug)]
@@ -41,7 +42,7 @@ pub(crate) fn aggregate_personal_barbarian_loot(
 ) -> Vec<PersonalLootGroupResponse> {
     let group_by_level = request.levels.len() > 1;
     let selected_levels = if request.levels.is_empty() { None } else { Some(&request.levels) };
-    let mut groups = HashMap::<Option<i32>, LootCategoryAggregate>::new();
+    let mut groups = FxHashMap::<Option<i32>, LootCategoryAggregate>::default();
 
     for mail in mails {
         let Some(event_time_millis) = extract_event_time_millis(
@@ -124,7 +125,7 @@ pub(crate) fn aggregate_personal_fort_loot(
         add_loot(&mut aggregate, mail.rewards.as_deref().unwrap_or_default());
     }
 
-    into_personal_groups(HashMap::from([(None, aggregate)]))
+    into_personal_groups(FxHashMap::from_iter([(None, aggregate)]))
 }
 
 pub(crate) fn aggregate_personal_baulur_loot(
@@ -168,7 +169,7 @@ pub(crate) fn aggregate_personal_baulur_loot(
         }
     }
 
-    into_personal_groups(HashMap::from([(None, aggregate)]))
+    into_personal_groups(FxHashMap::from_iter([(None, aggregate)]))
 }
 
 pub(crate) fn aggregate_personal_kahar_treasure_loot(
@@ -192,7 +193,7 @@ pub(crate) fn aggregate_personal_kahar_treasure_loot(
         add_loot(&mut aggregate, mail.loot.as_deref().unwrap_or_default());
     }
 
-    into_personal_groups(HashMap::from([(None, aggregate)]))
+    into_personal_groups(FxHashMap::from_iter([(None, aggregate)]))
 }
 
 pub(crate) fn aggregate_personal_karuak_ceremony_loot(
@@ -222,7 +223,7 @@ pub(crate) fn aggregate_personal_karuak_ceremony_loot(
         }
     }
 
-    into_personal_groups(HashMap::from([(None, aggregate)]))
+    into_personal_groups(FxHashMap::from_iter([(None, aggregate)]))
 }
 
 fn extract_event_time_millis(mail_time: Option<&Bson>) -> Option<i64> {
@@ -311,7 +312,7 @@ fn into_rewards(category: LootCategoryAggregate) -> Vec<LootRewardAggregateRespo
 }
 
 fn into_personal_groups(
-    groups: HashMap<Option<i32>, LootCategoryAggregate>,
+    groups: FxHashMap<Option<i32>, LootCategoryAggregate>,
 ) -> Vec<PersonalLootGroupResponse> {
     let mut payload = groups
         .into_iter()

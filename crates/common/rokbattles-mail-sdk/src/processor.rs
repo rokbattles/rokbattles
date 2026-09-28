@@ -4,8 +4,7 @@
 //! the input by reference, and results are joined in registration order before
 //! being inserted into the output map.
 
-use std::collections::HashSet;
-
+use rustc_hash::FxHashSet;
 use serde_json::Value;
 
 use crate::{ExtractError, ProcessError, ProcessedMail, Section};
@@ -109,7 +108,7 @@ impl Processor {
     }
 
     fn ensure_unique_sections(&self) -> Result<(), ProcessError> {
-        let mut seen = HashSet::new();
+        let mut seen = FxHashSet::default();
         for extractor in &self.extractors {
             let section = extractor.section();
             if !seen.insert(section) {

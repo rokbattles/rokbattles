@@ -231,18 +231,19 @@ fn build_opponent_garrison_condition(
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-
     use mongodb::bson::Bson;
+    use rustc_hash::FxHashMap;
 
     use super::*;
     use crate::routes::reports::battle::query::parse_reports_request;
 
     #[test]
     fn home_filter_matches_non_kvk_non_dungeon_non_strife_reports() {
-        let request =
-            parse_reports_request(&HashMap::from([("type".to_string(), "home".to_string())]))
-                .expect("valid Home filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            "type".to_string(),
+            "home".to_string(),
+        )]))
+        .expect("valid Home filter");
 
         let filter = build_reports_match(&request);
 
@@ -276,9 +277,11 @@ mod tests {
 
     #[test]
     fn strife_filter_matches_active_supreme_strife_reports() {
-        let request =
-            parse_reports_request(&HashMap::from([("type".to_string(), "strife".to_string())]))
-                .expect("valid Strife filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            "type".to_string(),
+            "strife".to_string(),
+        )]))
+        .expect("valid Strife filter");
 
         let filter = build_reports_match(&request);
 
@@ -302,7 +305,7 @@ mod tests {
     #[test]
     fn kvk_subtypes_match_base_and_dot_suffixed_server_seasons() {
         for subtype in ["1", "2", "3", "100"] {
-            let request = parse_reports_request(&HashMap::from([
+            let request = parse_reports_request(&FxHashMap::from_iter([
                 ("type".to_string(), "kvk".to_string()),
                 ("subtype".to_string(), subtype.to_string()),
             ]))
@@ -319,7 +322,7 @@ mod tests {
     #[test]
     fn kvk_filter_without_subtype_does_not_restrict_server_season() {
         let request =
-            parse_reports_request(&HashMap::from([("type".to_string(), "kvk".to_string())]))
+            parse_reports_request(&FxHashMap::from_iter([("type".to_string(), "kvk".to_string())]))
                 .expect("valid KVK filter");
 
         let filter = build_reports_match(&request);
@@ -333,7 +336,7 @@ mod tests {
 
     #[test]
     fn ark_golden_subtype_matches_session() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "ark".to_string()),
             ("subtype".to_string(), "1".to_string()),
         ]))
@@ -401,9 +404,11 @@ mod tests {
 
     #[test]
     fn sender_rally_filter_matches_boolean_true() {
-        let request =
-            parse_reports_request(&HashMap::from([("rs".to_string(), "sender".to_string())]))
-                .expect("valid sender rally filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            "rs".to_string(),
+            "sender".to_string(),
+        )]))
+        .expect("valid sender rally filter");
 
         assert!(
             match_conditions(&build_reports_match(&request))
@@ -413,9 +418,11 @@ mod tests {
 
     #[test]
     fn opponent_rally_filter_matches_boolean_true() {
-        let request =
-            parse_reports_request(&HashMap::from([("rs".to_string(), "opponent".to_string())]))
-                .expect("valid opponent rally filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            "rs".to_string(),
+            "opponent".to_string(),
+        )]))
+        .expect("valid opponent rally filter");
 
         assert!(match_conditions(&build_reports_match(&request)).contains(&Bson::Document(doc! {
             "opponents": {
@@ -429,9 +436,11 @@ mod tests {
 
     #[test]
     fn sender_garrison_filter_uses_positive_numeric_building_ids() {
-        let request =
-            parse_reports_request(&HashMap::from([("gs".to_string(), "sender".to_string())]))
-                .expect("valid sender garrison filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            "gs".to_string(),
+            "sender".to_string(),
+        )]))
+        .expect("valid sender garrison filter");
 
         assert!(
             match_conditions(&build_reports_match(&request))
@@ -441,7 +450,7 @@ mod tests {
 
     #[test]
     fn opponent_garrison_filter_exposes_partial_index_predicate() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("gs".to_string(), "opponent".to_string()),
             ("gb".to_string(), "other".to_string()),
         ]))
@@ -471,7 +480,7 @@ mod tests {
     }
 
     fn assert_ark_session_condition(subtype: &str, expected: Document) {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "ark".to_string()),
             ("subtype".to_string(), subtype.to_string()),
         ]))

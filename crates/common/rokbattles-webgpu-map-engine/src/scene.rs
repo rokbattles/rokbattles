@@ -3,8 +3,7 @@
 //! World coordinates increase east and north. Pointer input and annotation sizes
 //! use CSS pixels; device pixel ratio affects tile resolution and the canvas only.
 
-use std::collections::HashSet;
-
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 
 /// Map bounds and an optional tile pyramid. Omit the pyramid fields for uploaded images.
@@ -326,7 +325,7 @@ impl Scene {
         if doc.objects.iter().map(|o| o.points().len()).sum::<usize>() > 32768 {
             return Err("Scene exceeds 32768 annotation points".into());
         }
-        let mut ids = HashSet::new();
+        let mut ids = FxHashSet::default();
         for o in &doc.objects {
             if !o.style().valid()
                 || o.id() == 0

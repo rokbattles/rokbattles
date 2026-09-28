@@ -1,9 +1,6 @@
-use std::{
-    collections::{HashSet, VecDeque},
-    path::PathBuf,
-    time::Instant,
-};
+use std::{collections::VecDeque, path::PathBuf, time::Instant};
 
+use rustc_hash::FxHashSet;
 use tauri::AppHandle;
 
 use super::{
@@ -21,14 +18,14 @@ pub(crate) struct WatcherState {
     pub(crate) store_dirty_updates: usize,
     pub(crate) store_last_flush: Instant,
     pub(crate) upload_queue: VecDeque<QueuedUpload>,
-    pub(crate) upload_queued_paths: HashSet<String>,
+    pub(crate) upload_queued_paths: FxHashSet<String>,
     pub(crate) upload_queue_dirty_updates: usize,
     pub(crate) upload_queue_last_flush: Instant,
     pub(crate) scan_refreshes: u64,
     pub(crate) store_flushes: u64,
     pub(crate) upload_queue_flushes: u64,
     pub(crate) hot_paths: VecDeque<String>,
-    pub(crate) hot_set: HashSet<String>,
+    pub(crate) hot_set: FxHashSet<String>,
     pub(crate) hot_last_scan: Instant,
     pub(crate) api_backoff_until_ms: Option<u128>,
 }
@@ -40,7 +37,7 @@ impl WatcherState {
         upload_queue_store: UploadQueueStore,
     ) -> Self {
         let mut upload_queue = VecDeque::new();
-        let mut upload_queued_paths = HashSet::new();
+        let mut upload_queued_paths = FxHashSet::default();
         for item in upload_queue_store.items {
             if upload_queued_paths.insert(item.path.clone()) {
                 upload_queue.push_back(item);
@@ -66,7 +63,7 @@ impl WatcherState {
             store_flushes: 0,
             upload_queue_flushes: 0,
             hot_paths: VecDeque::new(),
-            hot_set: HashSet::new(),
+            hot_set: FxHashSet::default(),
             hot_last_scan: Instant::now(),
             api_backoff_until_ms: None,
         }
@@ -198,7 +195,7 @@ impl WatcherState {
         if queue_removed > 0 {
             removed = removed.saturating_add(queue_removed);
             self.upload_queued_paths =
-                self.upload_queue.iter().map(|item| item.path.clone()).collect::<HashSet<_>>();
+                self.upload_queue.iter().map(|item| item.path.clone()).collect::<FxHashSet<_>>();
             self.upload_queue_dirty_updates =
                 self.upload_queue_dirty_updates.saturating_add(queue_removed);
         }
@@ -208,7 +205,7 @@ impl WatcherState {
         let hot_removed = old_hot_len.saturating_sub(self.hot_paths.len());
         if hot_removed > 0 {
             removed = removed.saturating_add(hot_removed);
-            self.hot_set = self.hot_paths.iter().cloned().collect::<HashSet<_>>();
+            self.hot_set = self.hot_paths.iter().cloned().collect::<FxHashSet<_>>();
         }
 
         removed

@@ -1,7 +1,6 @@
 //! DNS wire-format request handling for the supported game gateway hostnames.
 
 use std::{
-    collections::HashSet,
     net::Ipv4Addr,
     sync::{
         Arc,
@@ -14,6 +13,7 @@ use hickory_proto::{
     rr::{DNSClass, RData, Record, RecordType, rdata::A},
     serialize::binary::DecodeError,
 };
+use rustc_hash::FxHashSet;
 
 use crate::MAX_DNS_MESSAGE_BYTES;
 
@@ -80,7 +80,7 @@ impl Resolver {
     /// Returns [`ResolverConfigError`] when the list is empty, contains a
     /// duplicate, cannot be reserved, or includes a non-public-unicast address.
     pub fn new(addresses: Vec<Ipv4Addr>) -> Result<Self, ResolverConfigError> {
-        let mut seen = HashSet::new();
+        let mut seen = FxHashSet::default();
         seen.try_reserve(addresses.len()).map_err(|_error| ResolverConfigError::Allocation)?;
         for &address in &addresses {
             if !is_public_unicast(address) {

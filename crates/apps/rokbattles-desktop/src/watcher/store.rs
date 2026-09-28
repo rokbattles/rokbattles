@@ -1,5 +1,4 @@
 use std::{
-    collections::HashMap,
     fs, io,
     io::Write,
     path::{Path, PathBuf},
@@ -7,6 +6,7 @@ use std::{
 };
 
 use anyhow::Context;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 
@@ -14,7 +14,7 @@ use super::config::WatcherConfig;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub(crate) struct ProcessedStore {
-    pub(crate) entries: HashMap<String, FileSig>,
+    pub(crate) entries: FxHashMap<String, FileSig>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

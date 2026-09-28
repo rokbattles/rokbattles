@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use crate::{
     error::ApiError,
@@ -63,7 +63,7 @@ const KARUAK_BOSSES: [(&str, i64); 5] = [
 ];
 
 pub(crate) fn parse_barbarian_loot_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<BarbarianLootRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let npc = match params.get("type").map(|value| value.trim()).filter(|value| !value.is_empty()) {
@@ -78,7 +78,7 @@ pub(crate) fn parse_barbarian_loot_request(
 }
 
 pub(crate) fn parse_fort_loot_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<FortLootRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let npc = match params.get("type").map(|value| value.trim()).filter(|value| !value.is_empty()) {
@@ -97,7 +97,7 @@ pub(crate) fn parse_fort_loot_request(
 }
 
 pub(crate) fn parse_baulur_loot_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<BaulurLootRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let npc = match params.get("type").map(|value| value.trim()).filter(|value| !value.is_empty()) {
@@ -110,14 +110,14 @@ pub(crate) fn parse_baulur_loot_request(
 }
 
 pub(crate) fn parse_kahar_treasure_loot_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<KaharTreasureLootRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     Ok(KaharTreasureLootRequest { range })
 }
 
 pub(crate) fn parse_karuak_ceremony_loot_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<KaruakCeremonyLootRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     let selected = params.get("type").map(String::as_str).unwrap_or(KARUAK_BOSSES[0].0);
@@ -129,7 +129,7 @@ pub(crate) fn parse_karuak_ceremony_loot_request(
     Ok(KaruakCeremonyLootRequest { range, boss_id })
 }
 
-fn parse_levels(params: &HashMap<String, String>, key: &str) -> Result<Vec<i32>, ApiError> {
+fn parse_levels(params: &FxHashMap<String, String>, key: &str) -> Result<Vec<i32>, ApiError> {
     let Some(raw) = params.get(key).map(|value| value.trim()).filter(|value| !value.is_empty())
     else {
         return Ok(Vec::new());
@@ -251,8 +251,8 @@ mod tests {
         assert_eq!(request.range.end, "2025-02-04");
     }
 
-    fn date_params() -> HashMap<String, String> {
-        HashMap::from([
+    fn date_params() -> FxHashMap<String, String> {
+        FxHashMap::from_iter([
             ("start".to_string(), "2025-02-03".to_string()),
             ("end".to_string(), "2025-02-04".to_string()),
         ])

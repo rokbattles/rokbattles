@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, HashSet},
-    sync::Arc,
-};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -14,6 +11,7 @@ use mongodb::{
     bson::{Bson, doc},
     options::{FindOneOptions, FindOptions, Hint},
 };
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use self::{
     detail_mapper::{
@@ -45,7 +43,7 @@ const REPORT_DETAIL_CACHE_CONTROL: &str = "public, max-age=2592000";
 /// List battle reports with filters and cursor pagination.
 pub async fn get(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_reports_request(&params)?;
     let final_match = build_reports_match(&request);
@@ -60,7 +58,7 @@ pub async fn get(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let mut dedupe_keys = HashSet::new();
+    let mut dedupe_keys = FxHashSet::default();
     let mut rows: Vec<ReportRowWithCursor> = Vec::new();
     while let Some(next) = cursor.next().await {
         let document = next.map_err(|error| ApiError::internal(error.to_string()))?;
@@ -220,21 +218,22 @@ fn parse_report_id(raw_id: &str) -> Result<String, ApiError> {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-
     use mongodb::{
         bson::{Bson, doc},
         options::Hint,
     };
+    use rustc_hash::FxHashMap;
 
     use super::{build_battle_list_find_options, parse_report_id};
     use crate::routes::reports::battle::query::parse_reports_request;
 
     #[test]
     fn home_list_options_hint_the_home_partial_index() {
-        let request =
-            parse_reports_request(&HashMap::from([("type".to_string(), "home".to_string())]))
-                .expect("valid Home filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            "type".to_string(),
+            "home".to_string(),
+        )]))
+        .expect("valid Home filter");
 
         let options = build_battle_list_find_options(&request);
 
@@ -249,7 +248,7 @@ mod tests {
 
     #[test]
     fn home_before_cursor_bounds_the_home_partial_index() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "home".to_string()),
             ("before".to_string(), "123456".to_string()),
         ]))
@@ -269,7 +268,7 @@ mod tests {
 
     #[test]
     fn home_after_cursor_bounds_the_home_partial_index() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "home".to_string()),
             ("after".to_string(), "123456".to_string()),
         ]))
@@ -289,7 +288,7 @@ mod tests {
 
     #[test]
     fn home_list_options_allow_specialized_commander_index() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "home".to_string()),
             ("ssc".to_string(), "618".to_string()),
         ]))
@@ -344,7 +343,7 @@ mod tests {
 
     #[test]
     fn specialized_list_options_allow_player_index() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "kvk".to_string()),
             ("pid".to_string(), "123".to_string()),
         ]))
@@ -355,7 +354,7 @@ mod tests {
 
     #[test]
     fn kvk_opponent_rally_options_allow_existing_rally_index() {
-        let request = parse_reports_request(&HashMap::from([
+        let request = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "kvk".to_string()),
             ("rs".to_string(), "opponent".to_string()),
         ]))
@@ -365,9 +364,11 @@ mod tests {
     }
 
     fn assert_filter_uses_hint(parameter: &str, value: &str, expected: mongodb::bson::Document) {
-        let request =
-            parse_reports_request(&HashMap::from([(parameter.to_string(), value.to_string())]))
-                .expect("valid report filter");
+        let request = parse_reports_request(&FxHashMap::from_iter([(
+            parameter.to_string(),
+            value.to_string(),
+        )]))
+        .expect("valid report filter");
 
         assert!(matches!(
             build_battle_list_find_options(&request).hint,

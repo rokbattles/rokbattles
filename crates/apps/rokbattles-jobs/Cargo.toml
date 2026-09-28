@@ -8,6 +8,7 @@ version.workspace = true
 doctest = false
 
 [dependencies]
+rustc-hash.workspace = true
 dotenvy = { workspace = true }
 rokbattles-drastc = { path = "../../common/rokbattles-drastc" }
 futures = { workspace = true, features = ["std"] }

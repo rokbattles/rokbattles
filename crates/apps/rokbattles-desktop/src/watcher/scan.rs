@@ -1,5 +1,4 @@
 use std::{
-    collections::HashSet,
     fs,
     path::PathBuf,
     time::{Duration, Instant},
@@ -7,6 +6,7 @@ use std::{
 
 use anyhow::Context;
 use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
+use rustc_hash::FxHashSet;
 use tauri::AppHandle;
 
 use super::{
@@ -20,7 +20,7 @@ use super::{
 pub(crate) struct DirScan {
     pub(crate) dir: PathBuf,
     pub(crate) ids: Vec<u128>,
-    pub(crate) known_ids: HashSet<u128>,
+    pub(crate) known_ids: FxHashSet<u128>,
     pub(crate) cursor: usize,
     pub(crate) last_refresh: Instant,
     pub(crate) max_id: Option<u128>,
@@ -36,7 +36,7 @@ impl DirScan {
         Self {
             dir,
             ids: Vec::new(),
-            known_ids: HashSet::new(),
+            known_ids: FxHashSet::default(),
             cursor: 0,
             last_refresh: Instant::now()
                 .checked_sub(dir_refresh_interval_busy)
@@ -321,14 +321,14 @@ pub(crate) fn next_file(app: &AppHandle, state: &mut WatcherState) -> Option<Que
 pub(crate) fn sync_fs_watches(
     app: &AppHandle,
     watcher: Option<&mut RecommendedWatcher>,
-    watched_dirs: &mut HashSet<PathBuf>,
+    watched_dirs: &mut FxHashSet<PathBuf>,
     desired_dirs: &[PathBuf],
 ) {
     let Some(watcher) = watcher else {
         return;
     };
 
-    let desired: HashSet<PathBuf> = desired_dirs.iter().cloned().collect();
+    let desired: FxHashSet<PathBuf> = desired_dirs.iter().cloned().collect();
 
     for dir in watched_dirs.difference(&desired).cloned().collect::<Vec<_>>() {
         if let Err(e) = watcher.unwatch(&dir) {

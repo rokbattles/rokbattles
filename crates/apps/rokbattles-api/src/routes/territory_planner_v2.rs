@@ -5,7 +5,7 @@
 //! schema, validates all references against private catalog sites, and always
 //! inserts a new snapshot. There are no update, delete, or account-linkage routes.
 
-use std::{collections::HashSet, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json, Router,
@@ -20,6 +20,7 @@ use mongodb::{
     error::{ErrorKind, WriteFailure},
 };
 use rand::RngExt;
+use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use tracing::error;
 
@@ -387,8 +388,8 @@ fn validate_plan_with_alliance_names(
         return invalid_plan();
     }
 
-    let mut object_ids = HashSet::new();
-    let mut alliance_ids = HashSet::new();
+    let mut object_ids = FxHashSet::default();
+    let mut alliance_ids = FxHashSet::default();
     let mut text_annotations = 0;
     for alliance in &plan.alliances {
         validate_id(&alliance.id)?;
@@ -429,7 +430,7 @@ fn validate_plan_with_alliance_names(
         }
     }
 
-    let mut building_counts = std::collections::HashMap::new();
+    let mut building_counts = rustc_hash::FxHashMap::default();
     for building in &plan.buildings {
         validate_object_id(&building.id, &mut object_ids)?;
         if building.kind == "horse" && !catalog.supports_horse {
@@ -449,10 +450,10 @@ fn validate_plan_with_alliance_names(
         validate_point([building.x, building.y], catalog.bounds)?;
     }
 
-    let sites: std::collections::HashMap<_, _> =
+    let sites: rustc_hash::FxHashMap<_, _> =
         catalog.sites.iter().map(|site| (site.id.as_str(), site)).collect();
-    let mut assigned_sites = HashSet::new();
-    let mut assigned_passes = HashSet::new();
+    let mut assigned_sites = FxHashSet::default();
+    let mut assigned_passes = FxHashSet::default();
     for route in &plan.routes {
         validate_object_id(&route.id, &mut object_ids)?;
         validate_name(&route.name)?;
@@ -497,7 +498,7 @@ fn validate_point(point: [f64; 2], bounds: [f64; 4]) -> Result<(), ApiError> {
     Ok(())
 }
 
-fn validate_object_id<'a>(id: &'a str, ids: &mut HashSet<&'a str>) -> Result<(), ApiError> {
+fn validate_object_id<'a>(id: &'a str, ids: &mut FxHashSet<&'a str>) -> Result<(), ApiError> {
     validate_id(id)?;
     if !ids.insert(id) {
         return invalid_plan();
