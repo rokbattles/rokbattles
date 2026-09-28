@@ -12,12 +12,12 @@ clap = { workspace = true, features = ["derive"] }
 rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../rokbattles-mail-registry", features = ["processors"] }
 rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = { workspace = true }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
 
 [dev-dependencies]
-tempfile = { workspace = true }
+tempfile.workspace = true
 
 [lints]
 workspace = true

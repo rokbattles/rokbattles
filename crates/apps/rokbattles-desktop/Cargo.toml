@@ -19,27 +19,27 @@ doctest = false
 [dependencies]
 rustc-hash.workspace = true
 tauri = { workspace = true, features = ["tray-icon"] }
-tauri-plugin-opener = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-tauri-plugin-dialog = { workspace = true }
-anyhow = { workspace = true }
+tauri-plugin-opener.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tauri-plugin-dialog.workspace = true
+anyhow.workspace = true
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
 reqwest = { workspace = true, features = ["json", "multipart", "rustls-tls-native-roots"] }
 rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
-tauri-plugin-updater = { workspace = true }
-notify = { workspace = true }
+tauri-plugin-updater.workspace = true
+notify.workspace = true
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]
-tauri-plugin-autostart = { workspace = true }
-tauri-plugin-single-instance = { workspace = true }
+tauri-plugin-autostart.workspace = true
+tauri-plugin-single-instance.workspace = true
 
 [build-dependencies]
-tauri-build = { workspace = true }
+tauri-build.workspace = true
 
 [dev-dependencies]
-tempfile = { workspace = true }
+tempfile.workspace = true
 
 [lints]
 workspace = true

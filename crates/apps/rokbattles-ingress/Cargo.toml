@@ -6,21 +6,21 @@ version.workspace = true
 
 [dependencies]
 axum = { workspace = true, features = ["http1", "json", "multipart", "tokio", "tracing"] }
-bytes = { workspace = true }
-dotenvy = { workspace = true }
+bytes.workspace = true
+dotenvy.workspace = true
 flate2 = { workspace = true, features = ["zlib"] }
 rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
 rokbattles-mail-reconstructor = { path = "../../common/rokbattles-mail-reconstructor" }
-mongodb = { workspace = true }
+mongodb.workspace = true
 serde = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
-sha2 = { workspace = true }
-thiserror = { workspace = true }
+serde_json.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "time"] }
-tracing = { workspace = true }
+tracing.workspace = true
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
-zstd = { workspace = true }
+zstd.workspace = true
 sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]

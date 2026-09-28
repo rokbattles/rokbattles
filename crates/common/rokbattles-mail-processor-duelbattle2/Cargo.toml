@@ -9,7 +9,7 @@ doctest = false
 
 [dependencies]
 rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }
-serde_json = { workspace = true }
+serde_json.workspace = true
 
 [lints]
 workspace = true
