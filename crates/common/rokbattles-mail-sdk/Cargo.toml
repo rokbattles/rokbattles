@@ -10,8 +10,8 @@ doctest = false
 [dependencies]
 rustc-hash.workspace = true
 serde = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
-thiserror = { workspace = true }
+serde_json.workspace = true
+thiserror.workspace = true
 
 [lints]
 workspace = true

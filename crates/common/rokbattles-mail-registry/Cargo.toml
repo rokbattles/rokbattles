@@ -24,7 +24,7 @@ processors = [
 ]
 
 [dependencies]
-serde_json = { workspace = true }
+serde_json.workspace = true
 rokbattles-mail-processor-alliance-aoo-battle-info = { path = "../rokbattles-mail-processor-alliance-aoo-battle-info", optional = true }
 rokbattles-mail-processor-alliance-aoo-battle-results = { path = "../rokbattles-mail-processor-alliance-aoo-battle-results", optional = true }
 rokbattles-mail-processor-alliance-aoo-individual-results = { path = "../rokbattles-mail-processor-alliance-aoo-individual-results", optional = true }
