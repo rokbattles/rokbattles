@@ -472,7 +472,7 @@ mod tests {
         let keys =
             [build_report_dedupe_key(&first).unwrap(), build_report_dedupe_key(&second).unwrap()];
         assert!(keys[0].starts_with("field:"));
-        assert_eq!(keys.into_iter().collect::<std::collections::HashSet<_>>().len(), 1);
+        assert_eq!(keys.into_iter().collect::<rustc_hash::FxHashSet<_>>().len(), 1);
     }
 
     #[test]
@@ -549,7 +549,7 @@ mod tests {
         opponents.push(opponents[0].clone());
         let keys =
             [&first, &partial, &repeated].map(|report| build_report_dedupe_key(report).unwrap());
-        assert_eq!(keys.into_iter().collect::<std::collections::HashSet<_>>().len(), 3);
+        assert_eq!(keys.into_iter().collect::<rustc_hash::FxHashSet<_>>().len(), 3);
     }
 
     #[test]

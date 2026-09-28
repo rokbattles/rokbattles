@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -6,6 +6,7 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+use rustc_hash::FxHashMap;
 
 use self::{
     aggregate::{
@@ -40,7 +41,7 @@ mod types;
 pub async fn get_barbarians(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
@@ -68,7 +69,7 @@ pub async fn get_barbarians(
 pub async fn get_kahars_treasure(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
@@ -89,7 +90,7 @@ pub async fn get_kahars_treasure(
 pub async fn get_karuak_ceremony(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
@@ -117,7 +118,7 @@ pub async fn get_karuak_ceremony(
 pub async fn get_barbarian_forts(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
@@ -146,7 +147,7 @@ pub async fn get_barbarian_forts(
 pub async fn get_baulurs(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;

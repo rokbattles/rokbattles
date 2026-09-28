@@ -42,17 +42,17 @@ where
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
+    use rustc_hash::FxHashMap;
 
     use super::*;
 
-    fn lookup(vars: HashMap<&'static str, &'static str>) -> impl Fn(&str) -> Option<String> {
+    fn lookup(vars: FxHashMap<&'static str, &'static str>) -> impl Fn(&str) -> Option<String> {
         move |key| vars.get(key).map(|value| (*value).to_string())
     }
 
     #[test]
     fn loads_required_values() {
-        let cfg = Config::from_lookup(lookup(HashMap::from([(
+        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([(
             "MONGODB_URI",
             "mongodb://localhost:27017/rokbattles",
         )])))
@@ -63,7 +63,7 @@ mod tests {
 
     #[test]
     fn loads_optional_sentry_dsn() {
-        let cfg = Config::from_lookup(lookup(HashMap::from([
+        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("SENTRY_DSN", "https://example@sentry.io/123"),
         ])))
@@ -74,7 +74,7 @@ mod tests {
 
     #[test]
     fn requires_mongo_uri() {
-        let err = Config::from_lookup(lookup(HashMap::new())).expect_err("missing uri");
+        let err = Config::from_lookup(lookup(FxHashMap::default())).expect_err("missing uri");
         assert_eq!(err, ConfigError::Missing { key: "MONGODB_URI" });
     }
 }

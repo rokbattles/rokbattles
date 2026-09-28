@@ -8,8 +8,10 @@
 
 use std::{
     cmp::Reverse,
-    collections::{BTreeMap, BinaryHeap, HashSet},
+    collections::{BTreeMap, BinaryHeap},
 };
+
+use rustc_hash::FxHashSet;
 
 type Point = [f32; 2];
 const MAX_GRID_CELLS: usize = 1_500_000;
@@ -185,7 +187,7 @@ impl Navigation {
         }
         self.portals.clear();
         self.connections = (0..self.region_sizes.len()).collect();
-        let mut portal_cells = HashSet::new();
+        let mut portal_cells = FxHashSet::default();
         for &via in passes {
             let mut sides: Vec<_> = self.nearby_approaches(via, false).into_iter().collect();
             // A pass footprint can contain sizeable open cracks. Prefer the two

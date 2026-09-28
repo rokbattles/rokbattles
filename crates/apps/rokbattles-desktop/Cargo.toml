@@ -17,6 +17,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 doctest = false
 
 [dependencies]
+rustc-hash.workspace = true
 tauri = { workspace = true, features = ["tray-icon"] }
 tauri-plugin-opener = { workspace = true }
 serde = { workspace = true }

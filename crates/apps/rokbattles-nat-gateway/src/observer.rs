@@ -1,6 +1,6 @@
 //! Connects witnessed TCP handshakes to independent server decoders.
 
-use std::{collections::HashMap, net::SocketAddrV4, time::Instant};
+use std::{net::SocketAddrV4, time::Instant};
 
 use bytes::Bytes;
 use rokbattles_gateway_protocol::{
@@ -8,6 +8,7 @@ use rokbattles_gateway_protocol::{
     stream::{ServerStreamProcessor, StreamEvent},
     uploader::{MailBatch, MailContext},
 };
+use rustc_hash::FxHashMap;
 
 use crate::{capture, packet, reassembly::Reassembly};
 
@@ -27,7 +28,7 @@ struct Flow<'a> {
 /// Bounded observation state. It owns no forwarding sockets or kernel verdicts.
 pub struct Observer<'a> {
     artifact: &'a RuntimeArtifact,
-    flows: HashMap<FlowKey, Flow<'a>>,
+    flows: FxHashMap<FlowKey, Flow<'a>>,
     sequence: Option<u32>,
     uploads: std::sync::mpsc::SyncSender<MailBatch>,
 }
@@ -36,7 +37,7 @@ impl<'a> Observer<'a> {
         artifact: &'a RuntimeArtifact,
         uploads: std::sync::mpsc::SyncSender<MailBatch>,
     ) -> Self {
-        Self { artifact, flows: HashMap::new(), sequence: None, uploads }
+        Self { artifact, flows: FxHashMap::default(), sequence: None, uploads }
     }
 
     /// Abandon cipher state after an unknown capture loss. New SYNs may still

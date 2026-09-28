@@ -361,6 +361,12 @@ pub fn run() {
     #[cfg(desktop)]
     let builder = builder.plugin(single_instance_plugin());
 
+    #[expect(
+        clippy::disallowed_types,
+        reason = "Tauri's generated context uses std::collections::HashMap internally"
+    )]
+    let context = tauri::generate_context!();
+
     let app = builder
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
@@ -449,7 +455,7 @@ pub fn run() {
             watcher_commands::pause_watcher,
             watcher_commands::resume_watcher
         ])
-        .build(tauri::generate_context!())
+        .build(context)
         .expect("error while building tauri application");
 
     app.run(|app, event| {

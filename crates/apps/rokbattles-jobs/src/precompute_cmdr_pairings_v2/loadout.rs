@@ -1,7 +1,6 @@
-use std::collections::HashMap;
-
 use mongodb::bson::Bson;
 use rokbattles_bson::bson_to_i64;
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, de::DeserializeOwned};
 
 use super::{
@@ -169,7 +168,7 @@ fn accumulate_armaments(bucket: &mut LoadoutBucket, armaments: &[Armament], cata
         }
 
         let buffs =
-            parse_buff_pairs(armament.buffs.as_deref()).into_iter().collect::<HashMap<_, _>>();
+            parse_buff_pairs(armament.buffs.as_deref()).into_iter().collect::<FxHashMap<_, _>>();
         for (id, value) in buffs {
             let Some(maximum) = catalogs.armament_max_rolls.get(&id) else {
                 continue;
@@ -393,9 +392,9 @@ mod tests {
     #[test]
     fn accessory_pairs_are_order_agnostic_and_accessory_slots_are_combined() {
         let catalogs = Catalogs {
-            inscriptions: HashMap::new(),
-            armament_max_rolls: HashMap::new(),
-            equipment_qualities: HashMap::from([(101, 5), (202, 5)]),
+            inscriptions: FxHashMap::default(),
+            armament_max_rolls: FxHashMap::default(),
+            equipment_qualities: FxHashMap::from_iter([(101, 5), (202, 5)]),
         };
         let mut bucket = LoadoutBucket::default();
         accumulate_equipment(&mut bucket, Some("{7:202_0:0,8:101_0:0}"), &catalogs);

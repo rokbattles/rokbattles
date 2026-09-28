@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use crate::{error::ApiError, routes::reports::common::query::parse_optional_i64};
 
@@ -61,7 +61,7 @@ impl ReportsRequest {
 }
 
 pub(crate) fn parse_reports_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<ReportsRequest, ApiError> {
     let before_cursor =
         parse_optional_i64(params.get("before").map(String::as_str), "Invalid before cursor")?;
@@ -224,7 +224,7 @@ mod tests {
 
     #[test]
     fn parses_filter_side() {
-        let parsed = parse_reports_request(&HashMap::from([
+        let parsed = parse_reports_request(&FxHashMap::from_iter([
             ("rs".to_string(), "sender".to_string()),
             ("gs".to_string(), "none".to_string()),
         ]))
@@ -234,14 +234,16 @@ mod tests {
 
     #[test]
     fn rejects_non_numeric_cursor() {
-        let result =
-            parse_reports_request(&HashMap::from([("after".to_string(), "abc".to_string())]));
+        let result = parse_reports_request(&FxHashMap::from_iter([(
+            "after".to_string(),
+            "abc".to_string(),
+        )]));
         result.expect_err("input should be rejected");
     }
 
     #[test]
     fn rejects_overlapping_sides() {
-        let result = parse_reports_request(&HashMap::from([
+        let result = parse_reports_request(&FxHashMap::from_iter([
             ("rs".to_string(), "both".to_string()),
             ("gs".to_string(), "sender".to_string()),
         ]));
@@ -250,14 +252,14 @@ mod tests {
 
     #[test]
     fn parses_type_scoped_subtypes() {
-        let kvk = parse_reports_request(&HashMap::from([
+        let kvk = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "kvk".to_string()),
             ("subtype".to_string(), "100".to_string()),
         ]))
         .expect("parsed KVK subtype");
         assert_eq!(kvk.filter_subtype, Some(ReportsFilterSubtype::KvkSeasonOfConquest));
 
-        let ark = parse_reports_request(&HashMap::from([
+        let ark = parse_reports_request(&FxHashMap::from_iter([
             ("type".to_string(), "ark".to_string()),
             ("subtype".to_string(), "6".to_string()),
         ]))
@@ -267,8 +269,10 @@ mod tests {
 
     #[test]
     fn rejects_subtype_without_matching_type() {
-        let result =
-            parse_reports_request(&HashMap::from([("subtype".to_string(), "1".to_string())]));
+        let result = parse_reports_request(&FxHashMap::from_iter([(
+            "subtype".to_string(),
+            "1".to_string(),
+        )]));
         result.expect_err("input should be rejected");
     }
 }

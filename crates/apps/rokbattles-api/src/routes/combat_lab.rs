@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, HashMap},
+    collections::BTreeMap,
     sync::{Arc, LazyLock},
 };
 
@@ -16,6 +16,7 @@ use mongodb::{
     options::{FindOneOptions, FindOptions},
 };
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
+use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 
 use crate::{error::ApiError, state::AppState};
@@ -24,7 +25,7 @@ const ARMAMENTS_YAML: &str = include_str!("../../../../../datasets/armaments.yam
 static ARMAMENT_MAXIMUMS: LazyLock<Option<BTreeMap<i64, f64>>> =
     LazyLock::new(|| read_armament_maximums().ok());
 
-fn parse_required_i64(params: &HashMap<String, String>, key: &str) -> Result<i64, ApiError> {
+fn parse_required_i64(params: &FxHashMap<String, String>, key: &str) -> Result<i64, ApiError> {
     let Some(raw) = params.get(key).map(|value| value.trim()).filter(|value| !value.is_empty())
     else {
         return Err(ApiError::bad_request(format!("Missing {key}")));
@@ -77,7 +78,7 @@ struct CategoryScore {
 /// Return one completed compact Combat Lab generation.
 pub async fn get_pairing(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     pairing_response(state.reports_store.precomputed_commander_pairings_v2_collection(), &params)
         .await
@@ -86,7 +87,7 @@ pub async fn get_pairing(
 /// Return one completed pre-SoC Combat Lab generation.
 pub async fn get_pairing_presoc(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     pairing_response(
         state.reports_store.precomputed_commander_pairings_v2_presoc_collection(),
@@ -97,7 +98,7 @@ pub async fn get_pairing_presoc(
 
 async fn pairing_response(
     collection: &Collection<Document>,
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<impl IntoResponse + use<>, ApiError> {
     let primary = parse_required_i64(params, "primary")?;
     let secondary = parse_required_i64(params, "secondary")?;
@@ -166,7 +167,7 @@ async fn pairing_response(
 /// Return DRASTC rankings from the v2 materialized score collection.
 pub async fn get_rankings(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     rankings_response(state.reports_store.precomputed_drastc_collection(), &params).await
 }
@@ -174,14 +175,14 @@ pub async fn get_rankings(
 /// Return pre-SoC DRASTC rankings.
 pub async fn get_rankings_presoc(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     rankings_response(state.reports_store.precomputed_drastc_presoc_collection(), &params).await
 }
 
 async fn rankings_response(
     collection: &Collection<Document>,
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<impl IntoResponse + use<>, ApiError> {
     let request = parse_rankings_request(params)?;
     let collection = collection.clone_with_type::<RawCombatLabRankingDocument>();
@@ -267,7 +268,7 @@ impl RankingsDirection {
     }
 }
 
-fn parse_rankings_request(params: &HashMap<String, String>) -> Result<RankingsRequest, ApiError> {
+fn parse_rankings_request(params: &FxHashMap<String, String>) -> Result<RankingsRequest, ApiError> {
     let sort_by = params.get("sort").map_or(Ok(RankingsSort::Overall), |value| {
         RankingsSort::parse(value.trim()).ok_or_else(|| ApiError::bad_request("Invalid sort"))
     })?;

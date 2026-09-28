@@ -8,12 +8,10 @@
 //! Tile textures have a bounded residency cache. Full-map images and named sprites
 //! are owned separately; replacing a texture or dropping the renderer releases it.
 
-use std::{
-    collections::HashMap,
-    sync::{Arc, Mutex},
-};
+use std::sync::{Arc, Mutex};
 
 use bytemuck::{Pod, Zeroable};
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use web_sys::HtmlCanvasElement;
 
@@ -98,7 +96,7 @@ pub struct Overlay {
 pub struct Gpu {
     pub backend: &'static str,
     raster: [Option<Texture>; 2],
-    sprites: HashMap<String, Texture>,
+    sprites: FxHashMap<String, Texture>,
     pub overlays: Vec<Overlay>,
     pub preview: Vec<Overlay>,
     pub(crate) forbidden: Vec<[[f32; 2]; 3]>,
@@ -115,7 +113,7 @@ pub struct Gpu {
     sampler: wgpu::Sampler,
     buffer: wgpu::Buffer,
     capacity: u64,
-    tiles: HashMap<Tile, Texture>,
+    tiles: FxHashMap<Tile, Texture>,
     white: Texture,
     font: Texture,
     clock: u64,
@@ -289,7 +287,7 @@ impl Gpu {
                 "WebGPU"
             },
             raster: [None, None],
-            sprites: HashMap::new(),
+            sprites: FxHashMap::default(),
             overlays: Vec::new(),
             preview: Vec::new(),
             forbidden: Vec::new(),
@@ -305,7 +303,7 @@ impl Gpu {
             sampler,
             buffer,
             capacity,
-            tiles: HashMap::new(),
+            tiles: FxHashMap::default(),
             white,
             font,
             clock: 0,
@@ -410,7 +408,7 @@ impl Gpu {
 
     /// Drops generated label textures that are no longer referenced by the replacement overlay set.
     pub fn retain_label_images<'a>(&mut self, retained: impl Iterator<Item = &'a str>) {
-        let retained: std::collections::HashSet<_> = retained.collect();
+        let retained: rustc_hash::FxHashSet<_> = retained.collect();
         self.sprites.retain(|key, _| !key.starts_with("label-") || retained.contains(key.as_str()));
     }
 

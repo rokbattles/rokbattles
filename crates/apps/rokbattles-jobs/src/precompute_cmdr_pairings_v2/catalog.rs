@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 
 use super::model::InscriptionRarity;
@@ -11,9 +10,9 @@ const EQUIPMENT_YAML: &str = include_str!("../../../../../datasets/equipment.yam
 
 #[derive(Debug)]
 pub(super) struct Catalogs {
-    pub(super) inscriptions: HashMap<i64, InscriptionRarity>,
-    pub(super) armament_max_rolls: HashMap<i64, f64>,
-    pub(super) equipment_qualities: HashMap<i64, i64>,
+    pub(super) inscriptions: FxHashMap<i64, InscriptionRarity>,
+    pub(super) armament_max_rolls: FxHashMap<i64, f64>,
+    pub(super) equipment_qualities: FxHashMap<i64, i64>,
 }
 
 impl Catalogs {
@@ -34,7 +33,7 @@ impl Catalogs {
     }
 }
 
-fn read_inscriptions() -> Result<HashMap<i64, InscriptionRarity>, JobsError> {
+fn read_inscriptions() -> Result<FxHashMap<i64, InscriptionRarity>, JobsError> {
     let dataset: InscriptionDataset = yaml_serde::from_str(INSCRIPTIONS_YAML)?;
     Ok(dataset
         .inscriptions
@@ -53,7 +52,7 @@ fn read_inscriptions() -> Result<HashMap<i64, InscriptionRarity>, JobsError> {
 
 #[derive(Deserialize)]
 struct InscriptionDataset {
-    inscriptions: HashMap<i64, InscriptionDefinition>,
+    inscriptions: FxHashMap<i64, InscriptionDefinition>,
 }
 
 #[derive(Deserialize)]
@@ -69,7 +68,7 @@ enum DatasetInscriptionRarity {
     Special,
 }
 
-fn read_armament_rolls() -> Result<HashMap<i64, f64>, JobsError> {
+fn read_armament_rolls() -> Result<FxHashMap<i64, f64>, JobsError> {
     let dataset: ArmamentDataset = yaml_serde::from_str(ARMAMENTS_YAML)?;
     Ok(dataset
         .armaments
@@ -83,7 +82,7 @@ fn read_armament_rolls() -> Result<HashMap<i64, f64>, JobsError> {
 
 #[derive(Deserialize)]
 struct ArmamentDataset {
-    armaments: HashMap<i64, ArmamentDefinition>,
+    armaments: FxHashMap<i64, ArmamentDefinition>,
 }
 
 #[derive(Deserialize)]
@@ -91,7 +90,7 @@ struct ArmamentDefinition {
     max_roll: Option<f64>,
 }
 
-fn read_equipment_qualities() -> Result<HashMap<i64, i64>, JobsError> {
+fn read_equipment_qualities() -> Result<FxHashMap<i64, i64>, JobsError> {
     let dataset: EquipmentDataset = yaml_serde::from_str(EQUIPMENT_YAML)?;
     Ok(dataset
         .equipment
@@ -110,7 +109,7 @@ struct EquipmentDataset {
 #[derive(Deserialize)]
 struct EquipmentCatalog {
     #[serde(rename = "item")]
-    items: HashMap<i64, EquipmentDefinition>,
+    items: FxHashMap<i64, EquipmentDefinition>,
 }
 
 #[derive(Deserialize)]

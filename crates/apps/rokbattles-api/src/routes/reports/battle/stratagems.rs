@@ -1,9 +1,10 @@
-use std::{collections::HashMap, sync::OnceLock};
+use std::sync::OnceLock;
 
 use mongodb::bson::{Bson, Document};
 use rokbattles_bson::{
     bson_to_f64, bson_to_i64_exact, nested_array, nested_document, nested_i64_exact,
 };
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 
 use super::types::{
@@ -19,21 +20,21 @@ static STRATAGEMS: OnceLock<Option<StratagemDataset>> = OnceLock::new();
 
 #[derive(Deserialize)]
 struct StratagemDataset {
-    stratagems: HashMap<i64, StratagemDefinition>,
+    stratagems: FxHashMap<i64, StratagemDefinition>,
 }
 
 #[derive(Deserialize)]
 struct StratagemDefinition {
-    name: HashMap<String, String>,
-    description: HashMap<String, String>,
+    name: FxHashMap<String, String>,
+    description: FxHashMap<String, String>,
     #[serde(default, rename = "override")]
-    overrides: HashMap<i64, LocalizedStratagem>,
+    overrides: FxHashMap<i64, LocalizedStratagem>,
 }
 
 #[derive(Deserialize)]
 struct LocalizedStratagem {
-    name: HashMap<String, String>,
-    description: HashMap<String, String>,
+    name: FxHashMap<String, String>,
+    description: FxHashMap<String, String>,
 }
 
 struct ResolvedStratagem<'a> {
@@ -256,7 +257,7 @@ mod tests {
             "tr", "vi", "zh_CN", "zh_TW",
         ];
 
-        fn contains_every_locale(localized: &HashMap<String, String>) -> bool {
+        fn contains_every_locale(localized: &FxHashMap<String, String>) -> bool {
             localized.len() == LOCALES.len()
                 && LOCALES.iter().all(|locale| localized.contains_key(*locale))
         }
@@ -276,7 +277,7 @@ mod tests {
 
     #[test]
     fn stratagem_dataset_localizations_only_use_newline_control_characters() {
-        fn is_clean(localized: &HashMap<String, String>) -> bool {
+        fn is_clean(localized: &FxHashMap<String, String>) -> bool {
             localized.values().all(|value| {
                 !value.chars().any(|character| character != '\n' && character.is_control())
             })

@@ -1,7 +1,6 @@
-use std::collections::HashMap;
-
 use mongodb::bson::Bson;
 use rokbattles_bson::{bson_to_f64_loose, bson_to_i64_loose};
+use rustc_hash::FxHashMap;
 
 use super::{
     store::RssMailDocument,
@@ -60,12 +59,12 @@ impl ResourceTotals {
 struct DailyBucket {
     date: String,
     crystals_gain: i64,
-    resources: HashMap<i64, i64>,
+    resources: FxHashMap<i64, i64>,
 }
 
 impl DailyBucket {
     fn new(date: String) -> Self {
-        Self { date, crystals_gain: 0, resources: HashMap::new() }
+        Self { date, crystals_gain: 0, resources: FxHashMap::default() }
     }
 
     fn add_crystals_gain(&mut self, value: i64) {
@@ -94,8 +93,8 @@ pub(crate) fn aggregate_resources(
 ) -> AggregatedResources {
     let mut total_reports = 0;
     let mut crystals_gain = ResourceTotals::default();
-    let mut resources: HashMap<i64, ResourceTotals> = HashMap::new();
-    let mut daily_buckets: HashMap<String, DailyBucket> = HashMap::new();
+    let mut resources: FxHashMap<i64, ResourceTotals> = FxHashMap::default();
+    let mut daily_buckets: FxHashMap<String, DailyBucket> = FxHashMap::default();
 
     for mail in mails {
         let Some(event_time_millis) = extract_event_time_millis(

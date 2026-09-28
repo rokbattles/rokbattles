@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use crate::{error::ApiError, routes::reports::common::query::parse_optional_i64};
 
@@ -15,7 +15,7 @@ impl DuelBattle2Request {
 }
 
 pub(crate) fn parse_duelbattle2_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<DuelBattle2Request, ApiError> {
     let before_cursor =
         parse_optional_i64(params.get("before").map(String::as_str), "Invalid before cursor")?;
@@ -34,14 +34,16 @@ mod tests {
 
     #[test]
     fn rejects_non_numeric_after_cursor() {
-        let result =
-            parse_duelbattle2_request(&HashMap::from([("after".to_string(), "bad".to_string())]));
+        let result = parse_duelbattle2_request(&FxHashMap::from_iter([(
+            "after".to_string(),
+            "bad".to_string(),
+        )]));
         result.expect_err("input should be rejected");
     }
 
     #[test]
     fn prefers_before_when_both_are_present() {
-        let parsed = parse_duelbattle2_request(&HashMap::from([
+        let parsed = parse_duelbattle2_request(&FxHashMap::from_iter([
             ("before".to_string(), "100".to_string()),
             ("after".to_string(), "50".to_string()),
         ]))

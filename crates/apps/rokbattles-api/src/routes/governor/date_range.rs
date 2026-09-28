@@ -1,6 +1,5 @@
-use std::collections::HashMap;
-
 use mongodb::bson::{DateTime, Document};
+use rustc_hash::FxHashMap;
 
 use crate::{
     error::ApiError,
@@ -24,7 +23,7 @@ impl GovernorDateRange {
 }
 
 pub(crate) fn parse_governor_date_range(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
     max_range_days: i64,
 ) -> Result<GovernorDateRange, ApiError> {
     let fallback_year = current_utc_year()?;

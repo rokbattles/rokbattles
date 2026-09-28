@@ -28,3 +28,6 @@ mimalloc = { workspace = true, features = ["secure"] }
 
 [lints]
 workspace = true
+
+[dev-dependencies]
+rustc-hash.workspace = true

@@ -6,13 +6,13 @@ mod store;
 mod upload;
 
 use std::{
-    collections::HashSet,
     fs,
     path::PathBuf,
     sync::OnceLock,
     time::{Duration, SystemTime},
 };
 
+use rustc_hash::FxHashSet;
 use serde::Serialize;
 use tauri::{AppHandle, Emitter};
 use tokio::sync::{mpsc, watch};
@@ -142,7 +142,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                 None
             }
         };
-        let mut fs_watched_dirs: HashSet<PathBuf> = HashSet::new();
+        let mut fs_watched_dirs: FxHashSet<PathBuf> = FxHashSet::default();
 
         loop {
             if *shutdown_rx.borrow() {

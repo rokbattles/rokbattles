@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use crate::{
     error::ApiError,
@@ -11,7 +11,7 @@ pub(crate) struct ResourcesRequest {
 }
 
 pub(crate) fn parse_resources_request(
-    params: &HashMap<String, String>,
+    params: &FxHashMap<String, String>,
 ) -> Result<ResourcesRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     Ok(ResourcesRequest { range })
@@ -23,7 +23,7 @@ mod tests {
 
     #[test]
     fn parse_resources_request_resolves_date_range() {
-        let request = parse_resources_request(&HashMap::from([
+        let request = parse_resources_request(&FxHashMap::from_iter([
             ("start".to_string(), "2025-02-03".to_string()),
             ("end".to_string(), "2025-02-04".to_string()),
         ]))

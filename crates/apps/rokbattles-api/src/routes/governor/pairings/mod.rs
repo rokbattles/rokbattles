@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -6,6 +6,7 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+use rustc_hash::FxHashMap;
 
 use self::{
     aggregate::{aggregate_loadouts, aggregate_opponents, aggregate_pairings},
@@ -31,7 +32,7 @@ mod types;
 pub async fn get(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
@@ -61,7 +62,7 @@ pub async fn get(
 pub async fn get_loadouts(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
@@ -97,7 +98,7 @@ pub async fn get_loadouts(
 pub async fn get_opponents(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;

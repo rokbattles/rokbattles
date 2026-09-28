@@ -1,4 +1,4 @@
-use std::{collections::HashMap, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -11,6 +11,7 @@ use mongodb::{
     bson::doc,
     options::{AggregateOptions, FindOptions},
 };
+use rustc_hash::FxHashMap;
 
 use self::{
     detail_mapper::{
@@ -38,7 +39,7 @@ const REPORT_DETAIL_CACHE_CONTROL: &str = "public, max-age=2592000";
 /// Return a paginated list of Olympian Arena duels.
 pub async fn get(
     State(state): State<Arc<AppState>>,
-    Query(params): Query<HashMap<String, String>>,
+    Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_duelbattle2_request(&params)?;
     let pipeline = build_duelbattle2_list_pipeline(&request, FETCH_LIMIT);
