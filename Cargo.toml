@@ -17,44 +17,44 @@ anyhow = "1.0.104"
 serde = "1.0.229"
 serde_json = "1.0.151"
 yaml_serde = "0.10.7"
-clap = "4.6.7"
+clap = "4.6.6"
 axum = { version = "0.8.9", default-features = false }
 tokio = "1.53.1"
 tracing = "0.1.44"
 tracing-subscriber = "0.3.23"
-tauri-build = "2.7.0"
-tauri = "2.12.0"
-tauri-plugin-opener = "2.6.0"
-tauri-plugin-dialog = "2.8.0"
-tauri-plugin-autostart = "2.6.0"
-tauri-plugin-single-instance = "2.5.0"
-mongodb = "3.9.1"
+tauri-build = "2.6.3"
+tauri = "2.11.5"
+tauri-plugin-opener = "2.5.5"
+tauri-plugin-dialog = "2.7.3"
+tauri-plugin-autostart = "2.5.1"
+tauri-plugin-single-instance = "2.4.4"
+mongodb = "3.8.2"
 mimalloc = "0.1.52"
 zstd = { version = "0.13.3", default-features = false }
 reqwest = { version = "0.12.28", default-features = false }
 base64 = "0.22.1"
-rand = "0.10.3"
+rand = "0.10.2"
 sha2 = "0.10.9"
 futures = { version = "0.3.34", default-features = false }
-tauri-plugin-updater = "2.13.0"
+tauri-plugin-updater = "2.11.0"
 notify = "8.2.0"
 tempfile = "3.27.0"
 bytes = "1.12.1"
 dotenvy = "0.15.7"
 flate2 = { version = "1.1.10", default-features = false }
-thiserror = "2.0.21"
+thiserror = "2.0.20"
 sentry = { version = "0.48.5", default-features = false }
 tokio-cron-scheduler = "0.15.1"
-hickory-proto = { version = "0.26.3", default-features = false }
+hickory-proto = { version = "0.26.1", default-features = false }
 tower = "0.5.3"
 criterion = "0.8.2"
-crc32fast = "1.5.2"
-wasm-bindgen = "0.2.129"
-js-sys = "0.3.106"
+crc32fast = "1.5.1"
+wasm-bindgen = "=0.2.127"
+js-sys = "0.3.104"
 serde-wasm-bindgen = "0.6.5"
-wgpu = { version = "29.0.4", default-features = false }
-wasm-bindgen-futures = "0.4.79"
-web-sys = "0.3.106"
+wgpu = { version = "=29.0.4", default-features = false }
+wasm-bindgen-futures = "0.4.77"
+web-sys = "0.3.104"
 bytemuck = "1.25"
 
 [profile.release]
