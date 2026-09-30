@@ -110,7 +110,8 @@ jobs:
   test-rs:
     name: Test Rust (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    # Isolating desktop tests can rebuild dependencies on Windows runners.
+    timeout-minutes: ${{ matrix.os == 'windows-latest' && 30 || 15 }}
     strategy:
       fail-fast: false
       matrix:
