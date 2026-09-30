@@ -76,6 +76,9 @@ jobs:
       - name: Build @rokbattles/site
         run: pnpm -F @rokbattles/site generate:datasets && pnpm -F @rokbattles/site build
 
+      - name: Test @rokbattles/desktop-client
+        run: pnpm -F @rokbattles/desktop-client test
+
       - name: Build @rokbattles/desktop-client
         run: pnpm -F @rokbattles/desktop-client build
 
