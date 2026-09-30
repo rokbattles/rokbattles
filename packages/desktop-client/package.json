@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "cd ../../crates/apps/rokbattles-desktop && ../../../packages/desktop-client/node_modules/.bin/tauri",
-    "test": "node --experimental-test-module-mocks --test tests/*.test.mjs"
+    "tauri": "cd ../../crates/apps/rokbattles-desktop && ../../../packages/desktop-client/node_modules/.bin/tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",
