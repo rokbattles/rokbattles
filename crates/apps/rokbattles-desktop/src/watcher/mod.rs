@@ -1,4 +1,5 @@
 mod config;
+mod lifecycle;
 mod mail;
 mod scan;
 mod state;
@@ -19,10 +20,11 @@ use tokio::sync::{mpsc, watch};
 
 pub(crate) use self::config::WatcherConfig;
 use self::{
+    lifecycle::until_shutdown,
     mail::file_name_for_upload,
     scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches},
     state::WatcherState,
-    store::{file_sig, read_processed, read_upload_queue},
+    store::{QueuedUpload, file_sig, read_processed, read_upload_queue},
     upload::{is_retryable_status, post_file_to_api, upload_backoff},
 };
 
@@ -93,6 +95,7 @@ impl WatcherTask {
             _ = tokio::time::sleep(self.shutdown_timeout) => {
                 emit_log(app, "Watcher shutdown timed out; aborting task");
                 handle.abort();
+                let _join_result = handle.await;
             }
         }
     }
@@ -146,16 +149,20 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
 
         loop {
             if *shutdown_rx.borrow() {
-                state.maybe_flush_store(&app);
-                state.maybe_flush_upload_queue(&app);
+                flush_pending(&app, &mut state);
                 break;
             }
 
-            let now_ms = now_epoch_ms();
-
             state.maybe_flush_store(&app);
             state.maybe_flush_upload_queue(&app);
-            let _ = refresh_scans_if_needed(&app, &mut state).await;
+            if until_shutdown(&mut shutdown_rx, refresh_scans_if_needed(&app, &mut state))
+                .await
+                .is_none()
+            {
+                flush_pending(&app, &mut state);
+                break;
+            }
+            let now_ms = now_epoch_ms();
             state.maybe_rescan_hot(now_ms);
             sync_fs_watches(&app, fs_watcher.as_mut(), &mut fs_watched_dirs, &state.dirs);
 
@@ -167,7 +174,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
             }
 
             while state.upload_queue.len() < state.config.upload_prefetch_target {
-                if let Some(item) = next_file(&app, &mut state) {
+                if let Some(item) = next_file(&mut state) {
                     state.enqueue_upload(item);
                 } else {
                     break;
@@ -177,149 +184,33 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
             if state.rate_limit_remaining_ms(now_ms).is_none()
                 && let Some(item) = state.pop_ready_upload(now_ms)
             {
-                let path = PathBuf::from(&item.path);
-                let Some(file_name) = file_name_for_upload(&path) else {
-                    emit_log(&app, "Skipping file with invalid name");
-                    continue;
-                };
-                emit_log(&app, format!("Processing {}", file_name));
-
-                let meta = match fs::metadata(&path) {
-                    Ok(m) => m,
-                    Err(e) => {
-                        emit_log(&app, format!("Failed to stat file {}: {}", file_name, e));
-                        continue;
-                    }
-                };
-                let sig_now = match file_sig(&meta) {
-                    Ok(s) => s,
-                    Err(e) => {
-                        emit_log(&app, format!("Failed to stat file {}: {}", file_name, e));
-                        continue;
-                    }
-                };
-                let age_ms = now_ms.saturating_sub(sig_now.modified);
-                if sig_now != item.sig || age_ms < state.config.file_stable_age_ms {
-                    let path_key = item.path.clone();
-                    let mut next = item;
-                    next.sig = sig_now.clone();
-                    next.not_before_ms =
-                        Some(now_ms.saturating_add(state.config.file_retry_delay_ms));
-                    state.requeue_upload(next);
-
-                    state.store.entries.insert(path_key, sig_now);
-                    state.store_dirty_updates += 1;
-                    continue;
-                }
-
-                let bytes = match tauri::async_runtime::spawn_blocking({
-                    let path = path.clone();
-                    move || fs::read(&path)
-                })
+                // Cancellation retains the popped item. Retrying an accepted upload is safe: the
+                // ingress deduplicates mail, whereas dropping an uncertain upload loses reports.
+                if until_shutdown(
+                    &mut shutdown_rx,
+                    process_upload(&app, &mut state, item.clone(), client, &api_url),
+                )
                 .await
+                .is_none()
                 {
-                    Ok(Ok(b)) => b,
-                    Ok(Err(e)) => {
-                        emit_log(&app, format!("Failed to read file {}: {}", file_name, e));
-
-                        let mut next = item;
-                        next.attempts = next.attempts.saturating_add(1);
-                        let backoff = upload_backoff(next.attempts);
-                        next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
-                        state.requeue_upload(next);
-                        continue;
-                    }
-                    Err(e) => {
-                        emit_log(&app, format!("Failed to read file {}: {}", file_name, e));
-
-                        let mut next = item;
-                        next.attempts = next.attempts.saturating_add(1);
-                        let backoff = upload_backoff(next.attempts);
-                        next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
-                        state.requeue_upload(next);
-                        continue;
-                    }
-                };
-
-                let decoded = match rokbattles_mail_codec::decode(&bytes) {
-                    Ok(m) => m,
-                    Err(e) => {
-                        emit_log(&app, format!("Decode failed for {}: {}", file_name, e));
-                        continue;
-                    }
-                };
-
-                let raw_type = rokbattles_mail_registry::raw_mail_type(&decoded);
-                let supported_type = rokbattles_mail_registry::detect_mail_type(&decoded);
-                if supported_type.is_none() {
-                    emit_log(
-                        &app,
-                        format!(
-                            "Skipping unsupported mail {} (detected: {})",
-                            file_name,
-                            raw_type.unwrap_or("Unknown")
-                        ),
-                    );
-                    continue;
-                }
-
-                match post_file_to_api(client, &api_url, &file_name, bytes).await {
-                    Ok(status) => {
-                        emit_log(&app, status.log_message(&file_name));
-                    }
-                    Err(e) => {
-                        let retryable = is_retryable_status(e.status);
-                        if retryable {
-                            let mut next = item;
-                            next.attempts = next.attempts.saturating_add(1);
-                            let retry_after = e.retry_after.filter(|delay| delay.as_millis() > 0);
-                            let backoff =
-                                retry_after.unwrap_or_else(|| upload_backoff(next.attempts));
-                            next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
-                            state.requeue_upload(next);
-
-                            if e.status == Some(reqwest::StatusCode::TOO_MANY_REQUESTS) {
-                                if state.extend_rate_limit(now_ms, backoff) {
-                                    let wait_secs =
-                                        (backoff.as_millis().saturating_add(999) / 1000).max(1);
-                                    emit_log(
-                                        &app,
-                                        format!(
-                                            "Rate limited by API (429). Pausing uploads for {}s.",
-                                            wait_secs
-                                        ),
-                                    );
-                                }
-                            } else {
-                                emit_log(
-                                    &app,
-                                    format!("Failed to upload {}: {}", file_name, e.message),
-                                );
-                            }
-                        } else {
-                            emit_log(
-                                &app,
-                                format!("Failed to upload {}: {}", file_name, e.message),
-                            );
-                        }
-                    }
+                    state.requeue_upload(item);
+                    flush_pending(&app, &mut state);
+                    break;
                 }
                 continue;
             }
 
-            let now_ms = now_epoch_ms();
             tokio::select! {
                 _ = tokio::time::sleep(state.config.idle_sleep) => {}
                 res = shutdown_rx.changed() => {
-                    if res.is_ok() && *shutdown_rx.borrow() {
-                        state.maybe_flush_store(&app);
-                        state.maybe_flush_upload_queue(&app);
+                    if res.is_err() || *shutdown_rx.borrow() {
+                        flush_pending(&app, &mut state);
                         break;
                     }
                 }
                 maybe_path = fs_rx.recv() => {
                     if let Some(path) = maybe_path {
-                        apply_fs_event(&mut state, path, now_ms);
+                        apply_fs_event(&mut state, path, now_epoch_ms());
                     }
                 }
             }
@@ -327,4 +218,160 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
     });
 
     WatcherTask { shutdown: shutdown_tx, handle, shutdown_timeout }
+}
+
+fn flush_pending(app: &AppHandle, state: &mut WatcherState) {
+    let config = state.config.clone();
+    let (queue_result, store_result) = state.flush_pending(
+        |queue| store::write_upload_queue(app, &config, queue),
+        |processed| store::write_processed(app, &config, processed),
+    );
+    if let Err(e) = queue_result {
+        emit_log(app, format!("Failed to flush upload queue: {}", e));
+    }
+    if let Err(e) = store_result {
+        emit_log(app, format!("Failed to flush processed store: {}", e));
+    }
+}
+
+/// Process one stable version. Only completed or deliberately rejected versions are remembered.
+async fn process_upload(
+    app: &AppHandle,
+    state: &mut WatcherState,
+    item: QueuedUpload,
+    client: &reqwest::Client,
+    api_url: &str,
+) {
+    let now_ms = now_epoch_ms();
+    let path = PathBuf::from(&item.path);
+    let Some(file_name) = file_name_for_upload(&path) else {
+        emit_log(app, "Skipping file with invalid name");
+        return;
+    };
+    emit_log(app, format!("Processing {}", file_name));
+
+    let meta = match fs::metadata(&path) {
+        Ok(m) => m,
+        Err(e) => {
+            emit_log(app, format!("Failed to stat file {}: {}", file_name, e));
+            return;
+        }
+    };
+    let sig_now = match file_sig(&meta) {
+        Ok(s) => s,
+        Err(e) => {
+            emit_log(app, format!("Failed to stat file {}: {}", file_name, e));
+            return;
+        }
+    };
+    let age_ms = now_ms.saturating_sub(sig_now.modified);
+    if sig_now != item.sig || age_ms < state.config.file_stable_age_ms {
+        let mut next = item;
+        next.sig = sig_now;
+        next.not_before_ms = Some(now_ms.saturating_add(state.config.file_retry_delay_ms));
+        state.requeue_upload(next);
+
+        return;
+    }
+
+    let bytes = match tauri::async_runtime::spawn_blocking({
+        let path = path.clone();
+        move || fs::read(&path)
+    })
+    .await
+    {
+        Ok(Ok(b)) => b,
+        Ok(Err(e)) => {
+            emit_log(app, format!("Failed to read file {}: {}", file_name, e));
+
+            let mut next = item;
+            next.attempts = next.attempts.saturating_add(1);
+            let backoff = upload_backoff(next.attempts);
+            next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
+            state.requeue_upload(next);
+            return;
+        }
+        Err(e) => {
+            emit_log(app, format!("Failed to read file {}: {}", file_name, e));
+
+            let mut next = item;
+            next.attempts = next.attempts.saturating_add(1);
+            let backoff = upload_backoff(next.attempts);
+            next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
+            state.requeue_upload(next);
+            return;
+        }
+    };
+
+    let after_read = fs::metadata(&path).ok().and_then(|meta| file_sig(&meta).ok());
+    if after_read.as_ref() != Some(&item.sig) {
+        let mut next = item;
+        if let Some(sig) = after_read {
+            next.sig = sig;
+        }
+        next.not_before_ms = Some(now_epoch_ms().saturating_add(state.config.file_retry_delay_ms));
+        state.requeue_upload(next);
+        return;
+    }
+
+    let decoded = match rokbattles_mail_codec::decode(&bytes) {
+        Ok(m) => m,
+        Err(e) => {
+            emit_log(app, format!("Decode failed for {}: {}", file_name, e));
+            state.mark_processed(&item);
+            return;
+        }
+    };
+
+    let raw_type = rokbattles_mail_registry::raw_mail_type(&decoded);
+    let supported_type = rokbattles_mail_registry::detect_mail_type(&decoded);
+    if supported_type.is_none() {
+        emit_log(
+            app,
+            format!(
+                "Skipping unsupported mail {} (detected: {})",
+                file_name,
+                raw_type.unwrap_or("Unknown")
+            ),
+        );
+        state.mark_processed(&item);
+        return;
+    }
+
+    match post_file_to_api(client, api_url, &file_name, bytes).await {
+        Ok(status) => {
+            emit_log(app, status.log_message(&file_name));
+            state.mark_processed(&item);
+        }
+        Err(e) => {
+            let retryable = is_retryable_status(e.status);
+            if retryable {
+                let now_ms = now_epoch_ms();
+                let mut next = item;
+                next.attempts = next.attempts.saturating_add(1);
+                let retry_after = e.retry_after.filter(|delay| delay.as_millis() > 0);
+                let backoff = retry_after.unwrap_or_else(|| upload_backoff(next.attempts));
+                next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
+                state.requeue_upload(next);
+
+                if e.status == Some(reqwest::StatusCode::TOO_MANY_REQUESTS) {
+                    if state.extend_rate_limit(now_ms, backoff) {
+                        let wait_secs = (backoff.as_millis().saturating_add(999) / 1000).max(1);
+                        emit_log(
+                            app,
+                            format!(
+                                "Rate limited by API (429). Pausing uploads for {}s.",
+                                wait_secs
+                            ),
+                        );
+                    }
+                } else {
+                    emit_log(app, format!("Failed to upload {}: {}", file_name, e.message));
+                }
+            } else {
+                state.mark_processed(&item);
+                emit_log(app, format!("Failed to upload {}: {}", file_name, e.message));
+            }
+        }
+    }
 }
