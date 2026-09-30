@@ -4,7 +4,8 @@ set -eu
 # Keep the CLI and crate versions in sync; wasm-bindgen's output ABI must match.
 workspace_dir=$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)
 cd "$workspace_dir"
-bindgen_version=$(sh "$workspace_dir/packages/site/scripts/wasm-bindgen-version.sh")
+bindgen_version=$(sed -n 's/^wasm-bindgen = "=\([^"]*\)"$/\1/p' Cargo.toml)
+[ -n "$bindgen_version" ] || { echo 'Expected an exact workspace wasm-bindgen version' >&2; exit 1; }
 if [ "$(wasm-bindgen --version 2>/dev/null || true)" != "wasm-bindgen $bindgen_version" ]; then
     cargo install wasm-bindgen-cli --version "$bindgen_version" --locked
 fi
