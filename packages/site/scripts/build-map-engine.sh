@@ -8,9 +8,9 @@ workspace_dir=$(CDPATH= cd -- "$(dirname -- "$0")/../../.." && pwd)
 cd "$workspace_dir"
 
 # The CLI and Rust crate must agree on wasm-bindgen's generated binding format.
-# Read the workspace pin so dependency updates have a single source of truth.
-expected=$(sed -n 's/^wasm-bindgen = "=\([^"]*\)"$/\1/p' Cargo.toml)
-if [ "$(wasm-bindgen --version)" != "wasm-bindgen $expected" ]; then
+# Use the locked resolution so the dependency can accept compatible updates.
+expected=$(sh "$workspace_dir/packages/site/scripts/wasm-bindgen-version.sh")
+if [ "$(wasm-bindgen --version 2>/dev/null || true)" != "wasm-bindgen $expected" ]; then
     echo "Install wasm-bindgen-cli $expected to match the workspace." >&2
     exit 1
 fi

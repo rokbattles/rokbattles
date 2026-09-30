@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, chore/refresh-dependencies ]
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -110,7 +110,8 @@ jobs:
   test-rs:
     name: Test Rust (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    # Isolating desktop tests can rebuild dependencies on Windows runners.
+    timeout-minutes: ${{ matrix.os == 'windows-latest' && 30 || 15 }}
     strategy:
       fail-fast: false
       matrix:
@@ -136,5 +137,10 @@ jobs:
       - name: Build
         run: cargo build --workspace --all-targets --verbose
 
-      - name: Test
-        run: cargo test --workspace --all-features --verbose
+      # Tauri's MSVC runtime shim shadows msvcrt.lib in workspace doctests.
+      # Keep its native library search path out of the other crates' tests.
+      - name: Test workspace libraries and services
+        run: cargo test --workspace --exclude rokbattles-desktop --all-features --verbose
+
+      - name: Test desktop
+        run: cargo test -p rokbattles-desktop --all-features --verbose
