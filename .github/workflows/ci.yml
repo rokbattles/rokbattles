@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, chore/refresh-dependencies ]
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -136,5 +136,10 @@ jobs:
       - name: Build
         run: cargo build --workspace --all-targets --verbose
 
-      - name: Test
-        run: cargo test --workspace --all-features --verbose
+      # Tauri's MSVC runtime shim shadows msvcrt.lib in workspace doctests.
+      # Keep its native library search path out of the other crates' tests.
+      - name: Test workspace libraries and services
+        run: cargo test --workspace --exclude rokbattles-desktop --all-features --verbose
+
+      - name: Test desktop
+        run: cargo test -p rokbattles-desktop --all-features --verbose
