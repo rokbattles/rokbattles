@@ -21,10 +21,11 @@ use windows_sys::Win32::{
             ConvertSidToStringSidW, ConvertStringSecurityDescriptorToSecurityDescriptorW,
             GetNamedSecurityInfoW, SE_FILE_OBJECT,
         },
-        DACL_SECURITY_INFORMATION, EqualSid, GetAce, GetTokenInformation, IsValidSid,
-        IsWellKnownSid, OWNER_SECURITY_INFORMATION, PSECURITY_DESCRIPTOR, PSID,
-        SECURITY_ATTRIBUTES, TOKEN_QUERY, TOKEN_USER, TokenUser, WinBuiltinAdministratorsSid,
-        WinCreatorOwnerRightsSid, WinLocalSystemSid,
+        DACL_SECURITY_INFORMATION, EqualSid, GetAce, GetSecurityDescriptorControl,
+        GetTokenInformation, IsValidSid, IsWellKnownSid, OWNER_SECURITY_INFORMATION,
+        PSECURITY_DESCRIPTOR, PSID, SE_DACL_PROTECTED, SECURITY_ATTRIBUTES, TOKEN_QUERY,
+        TOKEN_USER, TokenUser, WinBuiltinAdministratorsSid, WinCreatorOwnerRightsSid,
+        WinLocalSystemSid,
     },
     Storage::FileSystem::{
         CreateDirectoryW, CreateFileW, FILE_ATTRIBUTE_NORMAL, FILE_ATTRIBUTE_REPARSE_POINT,
@@ -53,7 +54,9 @@ impl User {
     fn current() -> Result<Self, Error> {
         let mut token = ptr::null_mut();
         // SAFETY: current-process pseudo handle is valid and output points to a HANDLE.
-        if unsafe { OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &mut token) } == 0 {
+        let process = unsafe { GetCurrentProcess() };
+        // SAFETY: live pseudo handle and a writable token output.
+        if unsafe { OpenProcessToken(process, TOKEN_QUERY, &mut token) } == 0 {
             return Err(Error::Security);
         }
         // SAFETY: OpenProcessToken returned an owned, non-null token handle.
@@ -93,7 +96,7 @@ impl User {
         let _sid_text = LocalAllocation(sid_text.cast());
         let mut length = 0usize;
         // SAFETY: ConvertSidToStringSidW returns a valid NUL-terminated string.
-        while unsafe { *sid_text.add(length) } != 0 {
+        while unsafe { *sid_text.wrapping_add(length) } != 0 {
             length += 1;
         }
         // SAFETY: length was measured within that NUL-terminated allocation.
@@ -140,7 +143,7 @@ fn trusted_sid(sid: PSID, user: &User, private: bool) -> bool {
     }
 }
 
-fn security(path: &Path, user: &User, private: bool) -> Result<(), Error> {
+fn security(path: &Path, user: &User, private: bool, protected: bool) -> Result<(), Error> {
     let name = wide(path)?;
     let mut owner = ptr::null_mut();
     let mut acl: *mut ACL = ptr::null_mut();
@@ -161,7 +164,19 @@ fn security(path: &Path, user: &User, private: bool) -> Result<(), Error> {
     if status != 0 {
         return Err(Error::Security);
     }
+    if descriptor.is_null() {
+        return Err(Error::Security);
+    }
     let _descriptor = LocalAllocation(descriptor);
+    let mut control = 0u16;
+    let mut revision = 0u32;
+    // SAFETY: descriptor is OS-returned and remains live; outputs are correctly typed.
+    if unsafe { GetSecurityDescriptorControl(descriptor, &mut control, &mut revision) } == 0 {
+        return Err(Error::Security);
+    }
+    if protected && control & SE_DACL_PROTECTED == 0 {
+        return Err(Error::Untrusted);
+    }
     if acl.is_null() || owner.is_null() {
         return Err(Error::Untrusted);
     }
@@ -174,7 +189,8 @@ fn security(path: &Path, user: &User, private: bool) -> Result<(), Error> {
     }
 
     // SAFETY: GetNamedSecurityInfoW returned a valid ACL header.
-    let (count, size) = unsafe { ((*acl).AceCount, usize::from((*acl).AclSize)) };
+    let header = unsafe { ptr::read_unaligned(acl) };
+    let (count, size) = (header.AceCount, usize::from(header.AclSize));
     let start = acl as usize;
     let end = start.checked_add(size).ok_or(Error::Untrusted)?;
     for index in 0..u32::from(count) {
@@ -209,7 +225,7 @@ fn security(path: &Path, user: &User, private: bool) -> Result<(), Error> {
         let ace = unsafe { ptr::read_unaligned(raw.cast::<ACCESS_ALLOWED_ACE>()) };
         let sid_offset = std::mem::offset_of!(ACCESS_ALLOWED_ACE, SidStart);
         // SAFETY: two SID header bytes fit because the eight-byte SID header was checked above.
-        let subauthorities = unsafe { *raw.cast::<u8>().add(sid_offset + 1) } as usize;
+        let subauthorities = unsafe { *raw.cast::<u8>().wrapping_add(sid_offset + 1) } as usize;
         if subauthorities > 15 || sid_offset + 8 + 4 * subauthorities > size {
             return Err(Error::Untrusted);
         }
@@ -250,7 +266,7 @@ pub(super) fn directory(path: &Path) -> Result<(), Error> {
                 {
                     return Err(Error::Untrusted);
                 }
-                security(parent, &user, parent == path)?;
+                security(parent, &user, parent == path, parent == path)?;
             }
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => missing.push(parent),
             Err(error) => return Err(error.into()),
@@ -275,9 +291,9 @@ pub(super) fn directory(path: &Path) -> Result<(), Error> {
         if metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
             return Err(Error::Untrusted);
         }
-        security(parent, &user, true)?;
+        security(parent, &user, true, true)?;
     }
-    security(path, &user, true)
+    security(path, &user, true, true)
 }
 
 pub(super) fn existing_file(path: &Path) -> Result<(), Error> {
@@ -287,7 +303,7 @@ pub(super) fn existing_file(path: &Path) -> Result<(), Error> {
             {
                 return Err(Error::Untrusted);
             }
-            security(path, &User::current()?, true)
+            security(path, &User::current()?, true, false)
         }
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
         Err(error) => Err(error.into()),
@@ -324,6 +340,6 @@ pub(super) fn file(path: &Path) -> Result<File, Error> {
     if file.metadata()?.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
         return Err(Error::Untrusted);
     }
-    security(path, &user, true)?;
+    security(path, &user, true, false)?;
     Ok(file)
 }

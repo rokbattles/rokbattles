@@ -1,6 +1,8 @@
 //! Private per-user worker state paths. Never called by a privileged capture host.
 #![deny(unsafe_op_in_unsafe_fn)]
 
+#[cfg(target_os = "macos")]
+mod macos_acl;
 #[cfg(unix)]
 mod unix;
 #[cfg(windows)]

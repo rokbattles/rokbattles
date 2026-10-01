@@ -25,7 +25,11 @@ pub const MAX_FILES: usize = 50_000;
 pub const MAX_PATH_TOTAL: usize = 8 * 1024 * 1024;
 pub const MAX_MAIL_BYTES: u64 = 25 * 1024 * 1024;
 const MAX_DB_BYTES: u64 = 32 * 1024 * 1024;
-const MAX_SIDECAR_BYTES: u64 = 8 * 1024 * 1024;
+// Recovery admits a whole maximum-size transaction beyond the checkpoint
+// threshold. A crash must not make a legitimate WAL impossible to reopen.
+const MAX_RECOVERY_BYTES: u64 = 64 * 1024 * 1024;
+const CHECKPOINT_BYTES: u64 = 4 * 1024 * 1024;
+const MAX_SHM_BYTES: u64 = 1024 * 1024;
 
 const SCHEMA: &[(&str, &str)] = &[
     (
@@ -126,6 +130,10 @@ pub struct AgentLease {
 impl Store {
     pub async fn open(directory: &Path) -> anyhow::Result<Self> {
         rokbattles_desktop_paths::directory(directory)?;
+        let initialization = rokbattles_desktop_paths::file(directory, "schema.lock")?;
+        initialization
+            .try_lock()
+            .map_err(|_error| anyhow::anyhow!("worker state initialization is busy"))?;
         let file = rokbattles_desktop_paths::file(directory, DATABASE_NAME)?;
         if file.metadata()?.len() > MAX_DB_BYTES {
             bail!("worker database exceeds its disk limit");
@@ -141,6 +149,7 @@ impl Store {
             .synchronous(SqliteSynchronous::Full)
             .busy_timeout(Duration::from_secs(2))
             .pragma("trusted_schema", "OFF")
+            .pragma("cache_spill", "OFF")
             .pragma("page_size", "4096")
             .pragma("max_page_count", "8192")
             .pragma("wal_autocheckpoint", "256")
@@ -152,7 +161,9 @@ impl Store {
             .await?;
         let store = Self { pool, directory: directory.to_path_buf() };
         store.initialize().await?;
+        store.checkpoint().await?;
         check_files(directory)?;
+        drop(initialization);
         Ok(store)
     }
 
@@ -184,6 +195,15 @@ impl Store {
             bail!("unsupported worker database schema; no automatic migration");
         }
 
+        // Count before selecting bounded SQL so an oversized extra definition
+        // cannot be hidden by the length filter.
+        let objects: i64 =
+            sqlx::query_scalar("SELECT count(*) FROM sqlite_schema WHERE name NOT LIKE 'sqlite_%'")
+                .fetch_one(&self.pool)
+                .await?;
+        if objects != SCHEMA.len() as i64 {
+            bail!("unexpected worker database schema");
+        }
         // Reject altered tables/views/triggers before any application writes.
         let rows = sqlx::query("SELECT name,sql FROM sqlite_schema WHERE name NOT LIKE 'sqlite_%' AND length(sql)<=4096 LIMIT 32").fetch_all(&self.pool).await?;
         if rows.len() != SCHEMA.len() {
@@ -291,6 +311,9 @@ impl Store {
 
     /// Narrow controller write. Files for removed roots disappear transactionally;
     /// pending uploads are never moved to a newly selected directory.
+    /// Metadata only: these paths are not authority to open files. The agent
+    /// must canonicalize selected roots and independently no-follow/revalidate
+    /// roots and candidate files before scanning or uploading.
     pub async fn set_roots(&self, paths: &[PathBuf]) -> anyhow::Result<()> {
         if paths.len() > MAX_ROOTS {
             bail!("too many mailcache roots");
@@ -316,6 +339,7 @@ impl Store {
                 .await?;
         }
         tx.commit().await?;
+        self.checkpoint().await?;
         Ok(())
     }
 
@@ -390,6 +414,7 @@ impl Store {
     pub async fn clear_history(&self) -> anyhow::Result<()> {
         self.before_write().await?;
         sqlx::query("DELETE FROM files").execute(&self.pool).await?;
+        self.checkpoint().await?;
         Ok(())
     }
 
@@ -438,10 +463,19 @@ impl Store {
     }
 
     async fn before_write(&self) -> anyhow::Result<()> {
-        if sidecar_size(&self.directory, "-wal")? > MAX_SIDECAR_BYTES / 2 {
-            sqlx::query("PRAGMA wal_checkpoint(TRUNCATE)").execute(&self.pool).await?;
+        if sidecar_size(&self.directory, "-wal")? > CHECKPOINT_BYTES {
+            self.checkpoint().await?;
         }
         check_files(&self.directory)
+    }
+
+    async fn checkpoint(&self) -> anyhow::Result<()> {
+        let (busy, _, _): (i64, i64, i64) =
+            sqlx::query_as("PRAGMA wal_checkpoint(TRUNCATE)").fetch_one(&self.pool).await?;
+        if busy != 0 {
+            bail!("worker state checkpoint is busy");
+        }
+        Ok(())
     }
 
     pub async fn close(self) {
@@ -490,12 +524,18 @@ fn check_files(directory: &Path) -> anyhow::Result<()> {
     let db = sidecar_size(directory, "")?;
     let wal = sidecar_size(directory, "-wal")?;
     let shm = sidecar_size(directory, "-shm")?;
+    let journal = sidecar_size(directory, "-journal")?;
     if db > MAX_DB_BYTES
-        || wal > MAX_SIDECAR_BYTES
-        || shm > MAX_SIDECAR_BYTES
-        || db.saturating_add(wal).saturating_add(shm) > MAX_DB_BYTES + MAX_SIDECAR_BYTES
+        || wal > MAX_RECOVERY_BYTES
+        || journal > MAX_RECOVERY_BYTES
+        || shm > MAX_SHM_BYTES
+        || db.saturating_add(wal).saturating_add(shm).saturating_add(journal)
+            > MAX_DB_BYTES + MAX_RECOVERY_BYTES + MAX_SHM_BYTES
     {
         bail!("worker state disk limit reached");
     }
     Ok(())
 }
+
+#[cfg(test)]
+mod tests;

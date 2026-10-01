@@ -21,6 +21,8 @@ fn ancestors(path: &Path) -> Result<(), Error> {
                 {
                     return Err(Error::Untrusted);
                 }
+                #[cfg(target_os = "macos")]
+                crate::macos_acl::path(parent)?;
                 let writable_by_others = metadata.mode() & 0o022 != 0;
                 let protected_sticky = metadata.uid() == 0 && metadata.mode() & 0o1000 != 0;
                 if writable_by_others && !protected_sticky {
@@ -60,6 +62,8 @@ pub(super) fn existing_file(path: &Path) -> Result<(), Error> {
             {
                 return Err(Error::Untrusted);
             }
+            #[cfg(target_os = "macos")]
+            crate::macos_acl::path(path)?;
             Ok(())
         }
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
@@ -79,6 +83,8 @@ pub(super) fn file(path: &Path) -> Result<File, Error> {
     {
         return Err(Error::Untrusted);
     }
+    #[cfg(target_os = "macos")]
+    crate::macos_acl::file(&file)?;
     Ok(file)
 }
 
@@ -90,7 +96,8 @@ mod tests {
     #[test]
     fn creates_private_state_and_rejects_links_or_shared_modes() {
         let parent = tempfile::tempdir().expect("tempdir");
-        let state = parent.path().join("state");
+        let parent_path = parent.path().canonicalize().expect("canonical tempdir");
+        let state = parent_path.join("state");
         directory(&state).expect("private directory");
         let file = crate::file(&state, "worker.lock").expect("private file");
         assert_eq!(file.metadata().expect("metadata").mode() & 0o777, 0o600);
@@ -104,10 +111,11 @@ mod tests {
     #[test]
     fn rejects_linked_ancestor_and_hard_linked_database() {
         let parent = tempfile::tempdir().expect("tempdir");
-        let state = parent.path().join("state");
+        let parent_path = parent.path().canonicalize().expect("canonical tempdir");
+        let state = parent_path.join("state");
         directory(&state).expect("private directory");
-        symlink(&state, parent.path().join("linked")).expect("link");
-        assert!(matches!(directory(&parent.path().join("linked/child")), Err(Error::Untrusted)));
+        symlink(&state, parent_path.join("linked")).expect("link");
+        assert!(matches!(directory(&parent_path.join("linked/child")), Err(Error::Untrusted)));
         crate::file(&state, "database").expect("file");
         fs::hard_link(state.join("database"), state.join("other")).expect("hardlink");
         assert!(matches!(existing_file(&state.join("database")), Err(Error::Untrusted)));
