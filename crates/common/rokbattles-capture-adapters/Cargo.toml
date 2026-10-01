@@ -1,0 +1,14 @@
+[package]
+name = "rokbattles-capture-adapters"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+libloading = "0.8.9"
+
+[target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
+libc.workspace = true
+
+[lints]
+workspace = true
