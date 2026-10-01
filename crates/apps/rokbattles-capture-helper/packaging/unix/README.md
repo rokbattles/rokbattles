@@ -119,3 +119,80 @@ Global source loss requires a fresh user-agent connection and handshake.
 - [Apple libproc declarations](https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h)
 - [Apple socket and process structures](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/proc_info.h)
 - [systemd execution settings](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
+
+## Administrator maintenance CLI
+
+`maintain.py` is the source template for the standalone release installer produced
+by `stage_release.py`. The release builder binds exactly one immutable archive
+SHA-256, archive name, native target and (on macOS) Apple team. The unexpanded source
+refuses installation. There is no CLI/environment digest, team, target, destination,
+service name, command, filter or native-library override. Verify and use the
+installer distributed with the matching release archive, rather than editing its
+embedded pins. macOS release artifacts require the existing Developer ID signing
+and accepted notarization process; the CLI also verifies both native signatures,
+exact signing identifiers/team, hardened runtime and forbidden entitlements before
+changing an installed image.
+
+The CLI requires a trusted system Python 3 interpreter and isolated mode (`-I`).
+The installer script and every directory ancestor must already be root-owned and
+not group/other-writable; the runtime rejects a mutable invocation path. An
+administrator must review/authenticate and provision that exact release script
+through a trusted package or protected setup step before root invocation. Embedded
+pins authenticate the payload after the script starts; they cannot authenticate a
+user-writable script before the privileged interpreter opens it. This is an
+explicit administrator/developer tool, not a finished secure consumer installer.
+A signed native package or protected authenticated bootstrap remains required for
+that consumer flow.
+On macOS, `/usr/bin/python3` normally requires Apple's Command Line Tools; those
+tools are an explicit setup prerequisite, not something this installer downloads
+or installs. A signed native maintainer remains an option for a general consumer
+setup experience. The CLI never invokes sudo, requests credentials, installs on
+application launch, accepts an agreement or changes host security policy.
+
+An administrator explicitly selects the local UID and passes
+`--confirm-system-changes`. Supported operations are:
+
+- `install --package <matching-release.tar.gz> --uid <UID>` installs or adds one user
+- `update --package <matching-release.tar.gz>` updates the existing registered set
+- `uninstall --uid <UID>` removes that user's service, retaining shared binaries
+  until the final registered user is removed
+- `repair` recovers a recorded interrupted transaction using verified root-owned
+  rollback files; it does not adopt arbitrary or unregistered files/services
+
+Each command also needs `--confirm-system-changes`. When more than one user is
+affected, `--all-registered-users` explicitly confirms interruption of the shared
+installation. Adding a user cannot silently upgrade existing users' binaries.
+No command reads user SQLite, private app state or upload credentials. After
+maintenance, restart the ordinary unprivileged app to resume its saved desired
+worker setting; a service restart alone never grants capture consent.
+
+The fixed installation contains a root-owned `.maintenance` directory with a
+bounded registry, release receipt, transaction journal, exclusive lock and staged
+old/new files. Files and directory ancestors are opened without following links;
+root ownership, no group/other write, no setuid/setgid and macOS mutation ACLs are
+verified. Atomic writes fsync the file and its containing directory. Archive
+verification reads immutable bounded bytes, rejects duplicate/unexpected paths,
+links, devices, sparse/PAX overrides and wrong architecture, and never calls a
+general archive extraction API.
+
+A journal records the complete old and intended user/file sets before staging.
+Before shared image changes, the fixed root-owned `.capture-maintenance` marker
+asks user agents to drain and exit, every registered helper is stopped, and native
+process/mapping inspection must establish that the protected images are no longer
+in use. Unknown service registrations, systemd drop-ins, an unexpected effective
+service command, invisible process evidence or a busy image fail closed. No
+arbitrary PID is killed. The marker/journal survive failure and reboot.
+
+Rollback files remain until the new payload, registry and service readiness have
+all succeeded. Repair verifies hashes before restoring any old file, removes files
+recorded originally absent, and verifies restored bytes again. Unix helpers reject
+startup while the marker exists, so commit clears it only after the full protected
+binary/registry validation and immediately before starting the fixed services. A
+restart failure re-establishes the block and preserves recovery state.
+
+The maintenance tests use temporary fixture roots and an injected service backend;
+they never run native binaries, service managers, sudo or live capture. Actual
+Linux/macOS admin install, multi-user stop/drain, ACL behavior, native process
+mapping visibility, signature/notarization assessment, restart, reboot, rollback
+and uninstall remain separate native acceptance checks. A passing fixture suite
+is not a production installation sign-off.
