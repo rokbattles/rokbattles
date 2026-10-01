@@ -1,0 +1,18 @@
+Corresponding source for the unmodified WinDivert 2.2.2 components
+
+Upstream repository: https://github.com/basil00/WinDivert
+Release tag: v2.2.2
+Pinned source commit: 1789526ecfb9ff5397c94f9f54c1a3dc2fb60440
+Browse source, license and build instructions:
+https://github.com/basil00/WinDivert/tree/1789526ecfb9ff5397c94f9f54c1a3dc2fb60440
+Download corresponding source, including build scripts, at no charge:
+https://github.com/basil00/WinDivert/archive/1789526ecfb9ff5397c94f9f54c1a3dc2fb60440.zip
+
+The bundled library and driver are unmodified upstream binaries. Their
+provenance and hashes are recorded in manifest.json. Upstream source provides
+mingw-build.sh and the WDK driver build instructions; compiling a new kernel
+driver does not reproduce the upstream publisher's private signing key.
+
+Distributors must maintain access to this corresponding source for the period
+required by the applicable license. The source link is an equivalent-access
+source notice, not a promise that ROK Battles holds an upstream signing key.

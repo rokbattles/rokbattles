@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "bundle": {
+    "resources": {
+      "vendor/windivert/x86_64-pc-windows-msvc/WinDivert.dll": "capture/windivert/x86_64-pc-windows-msvc/WinDivert.dll",
+      "vendor/windivert/x86_64-pc-windows-msvc/WinDivert64.sys": "capture/windivert/x86_64-pc-windows-msvc/WinDivert64.sys",
+      "vendor/windivert/x86_64-pc-windows-msvc/LICENSE": "capture/windivert/x86_64-pc-windows-msvc/LICENSE",
+      "vendor/windivert/x86_64-pc-windows-msvc/README": "capture/windivert/x86_64-pc-windows-msvc/README",
+      "vendor/windivert/x86_64-pc-windows-msvc/VERSION": "capture/windivert/x86_64-pc-windows-msvc/VERSION",
+      "vendor/windivert/x86_64-pc-windows-msvc/NOTICE.txt": "capture/windivert/x86_64-pc-windows-msvc/NOTICE.txt",
+      "vendor/windivert/x86_64-pc-windows-msvc/SOURCE.txt": "capture/windivert/x86_64-pc-windows-msvc/SOURCE.txt",
+      "vendor/windivert/x86_64-pc-windows-msvc/manifest.json": "capture/windivert/x86_64-pc-windows-msvc/manifest.json"
+    },
+    "windows": {
+      "nsis": {
+        "installMode": "perMachine"
+      }
+    }
+  }
+}

@@ -22,7 +22,7 @@ jobs:
           - platform: "ubuntu-24.04-arm"
             args: "--target aarch64-unknown-linux-gnu --bundles deb appimage"
           - platform: "windows-latest"
-            args: "--target x86_64-pc-windows-msvc --bundles nsis"
+            args: "--target x86_64-pc-windows-msvc --bundles nsis --config tauri.windows-x64.conf.json"
           - platform: "windows-11-arm"
             args: "--target aarch64-pc-windows-msvc --bundles nsis"
 
@@ -74,6 +74,17 @@ jobs:
           security import certificate.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
           security find-identity -v -p codesigning build.keychain
+
+      # This overlay is deliberately absent from the native Windows ARM64 job.
+      # Staging/signature verification never installs, loads or opens the driver.
+      - name: Stage official pinned WinDivert (Windows x64 only)
+        if: matrix.platform == 'windows-latest'
+        run: python crates/apps/rokbattles-desktop/scripts/windivert_vendor.py stage --target x86_64-pc-windows-msvc
+
+      - name: Verify WinDivert kernel signature before bundling
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: ./crates/apps/rokbattles-desktop/scripts/verify_windivert.ps1
 
       - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1.0.0
         id: tauri

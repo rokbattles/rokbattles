@@ -34,3 +34,7 @@ dist-ssr
 *.sln
 *.sw?
 .wrangler
+
+# Generated, verified WinDivert resources. Never commit vendor binaries.
+crates/apps/rokbattles-desktop/vendor/windivert/
+crates/apps/rokbattles-desktop/scripts/__pycache__/
