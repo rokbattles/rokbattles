@@ -427,3 +427,54 @@ impl Machine for NativeMachine {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn retained_original_cannot_reopen_between_retirement_and_commit() {
+        let directory = tempfile::tempdir().expect("fixture directory");
+        let original = directory.path().join("agent.exe");
+        let retired = directory.path().join("retired.bin");
+        fs::write(&original, b"synthetic old image").expect("fixture file");
+        let held = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .share_mode(FILE_SHARE_DELETE)
+            .open(&original)
+            .expect("exclusive original");
+        File::open(&original).expect_err("late original launch/read must be denied");
+        fs::rename(&original, &retired).expect("retire while retaining handle");
+        assert!(!original.try_exists().expect("old path lookup"));
+        File::open(&retired).expect_err("retired image remains pinned against reads");
+        fs::write(&original, b"synthetic new image").expect("fresh destination copy");
+        assert_eq!(held.metadata().expect("old identity").len(), 19);
+        drop(held);
+        assert_eq!(fs::read(&retired).expect("retired after release"), b"synthetic old image");
+    }
+
+    #[test]
+    fn busy_second_original_prevents_any_rename() {
+        let directory = tempfile::tempdir().expect("fixture directory");
+        let first = directory.path().join("first.exe");
+        let second = directory.path().join("second.exe");
+        fs::write(&first, b"first").expect("fixture");
+        fs::write(&second, b"second").expect("fixture");
+        let _busy = File::open(&second).expect("simulate running image owner");
+        let _first = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .share_mode(FILE_SHARE_DELETE)
+            .open(&first)
+            .expect("first original lock");
+        OpenOptions::new()
+            .read(true)
+            .write(true)
+            .share_mode(FILE_SHARE_DELETE)
+            .open(&second)
+            .expect_err("busy second original aborts acquisition phase");
+        assert!(first.try_exists().expect("first not retired"));
+        assert!(second.try_exists().expect("second not retired"));
+    }
+}

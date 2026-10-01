@@ -101,6 +101,16 @@ jobs:
         run: python crates/apps/rokbattles-desktop/scripts/stage_agent.py --debug --target ${{ matrix.target }}
       - name: Maintenance packaging tests (never execute installer)
         run: python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p 'test_stage_maintenance.py' -v
+      - name: Parse fixed maintenance bootstrap without executing it
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          $path = Join-Path $PWD 'crates/apps/rokbattles-desktop/windows/bootstrap.ps1'
+          $null = [System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors)
+          if ($errors.Count -ne 0) { $errors | Out-String | Write-Error; exit 1 }
+          & ./crates/apps/rokbattles-desktop/windows/test-bootstrap.ps1
       - name: Compile Windows maintenance package without running it
         if: runner.os == 'Windows'
         run: python crates/apps/rokbattles-desktop/scripts/stage_maintenance.py --debug --target ${{ matrix.target }}

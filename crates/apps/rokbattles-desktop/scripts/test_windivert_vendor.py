@@ -263,7 +263,8 @@ class VendorTests(unittest.TestCase):
         x64 = next(line for line in release.splitlines() if 'args: "--target x86_64-pc-windows-msvc' in line)
         arm64 = next(line for line in release.splitlines() if 'args: "--target aarch64-pc-windows-msvc' in line)
         self.assertIn("--config tauri.windows-x64.conf.json", x64)
-        self.assertNotIn("--config", arm64)
+        self.assertNotIn("tauri.windows-x64.conf.json", arm64)
+        self.assertNotIn("windivert", arm64.lower())
         self.assertEqual(release.count("--config tauri.windows-x64.conf.json"), 1)
 
     def test_nested_kernel_signature_index_is_pinned_and_manifested(self):

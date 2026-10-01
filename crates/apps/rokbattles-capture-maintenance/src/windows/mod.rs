@@ -5,13 +5,15 @@ mod scm;
 mod signature;
 
 use crate::lifecycle::Maintenance;
-use rokbattles_capture_ipc::windows::{InstalledFile, ProtectedInstallation};
+use rokbattles_capture_ipc::windows::{
+    InstalledFile, ProtectedInstallation, verify_admin_only_kernel_object,
+};
 use std::{
     io,
     mem::size_of,
     os::windows::{
         ffi::OsStrExt,
-        io::{AsRawHandle, FromRawHandle, IntoRawHandle, OwnedHandle},
+        io::{AsHandle, AsRawHandle, FromRawHandle, IntoRawHandle, OwnedHandle},
     },
     path::Path,
     ptr,
@@ -70,6 +72,7 @@ pub fn run() -> io::Result<()> {
         [one] if one == "prepared" => Some(0u8),
         [one] if one == "commit" => Some(1),
         [one] if one == "uninstall" => Some(2),
+        [one] if one == "validate-installer-lock" => Some(3),
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -82,6 +85,10 @@ pub fn run() -> io::Result<()> {
     let process = peer::Process::open(unsafe { GetCurrentProcessId() })?;
     let _own_image = process.maintenance()?;
     let parent = peer::current_parent()?;
+    if command == Some(3) {
+        return validate_installer_lock(false);
+    }
+    validate_installer_lock(true)?;
     // Current-thread runtime is required: a Windows mutex must be released by
     // the same thread that acquired it, including all error and timeout paths.
     tokio::runtime::Builder::new_current_thread().enable_all().build()?.block_on(async {
@@ -91,8 +98,29 @@ pub fn run() -> io::Result<()> {
         }
     })
 }
+const INSTALL_LOCK: &str = r"Global\ROKBattles.Capture.InstallSession.v1";
+fn validate_installer_lock(require_held: bool) -> io::Result<()> {
+    use windows_sys::Win32::System::Threading::{OpenMutexW, ReleaseMutex, WaitForSingleObject};
+    let name = wide(INSTALL_LOCK);
+    // SAFETY: fixed mutex name, no inheritance, query/synchronize/release only.
+    let mutex = own(unsafe { OpenMutexW(0x0012_0001, 0, name.as_ptr()) })?;
+    verify_admin_only_kernel_object(mutex.as_handle())?;
+    if require_held {
+        // SAFETY: live synchronization handle; zero-time ownership probe.
+        let state = unsafe { WaitForSingleObject(mutex.as_raw_handle(), 0) };
+        if state == WAIT_OBJECT_0 || state == WAIT_ABANDONED {
+            // SAFETY: this thread acquired the mutex in the immediately preceding probe.
+            unsafe { ReleaseMutex(mutex.as_raw_handle()) };
+            return Err(denied());
+        }
+        if state != WAIT_TIMEOUT {
+            return Err(denied());
+        }
+    }
+    Ok(())
+}
 fn server(first: bool) -> io::Result<NamedPipeServer> {
-    let sddl = wide("O:SYG:SYD:P(A;;GA;;;SY)(A;;GA;;;BA)");
+    let sddl = wide("D:P(A;;GA;;;SY)(A;;GA;;;BA)");
     let mut descriptor = ptr::null_mut();
     // SAFETY: constant SDDL and initialized descriptor pointer.
     if unsafe {
@@ -188,6 +216,15 @@ async fn session(parent: peer::Process) -> io::Result<()> {
                 tokio::time::timeout(Duration::from_secs(5), pipe.write_u8(code))
                     .await
                     .map_err(|_error| denied())??;
+                // Acknowledge consumption before dropping the server handle;
+                // otherwise a fast installer could observe a closed pipe before
+                // its one-byte result leaves the kernel buffer.
+                let ack = tokio::time::timeout(Duration::from_secs(5), pipe.read_u8())
+                    .await
+                    .map_err(|_error| denied())??;
+                if ack != 0xa5 {
+                    return Err(denied());
+                }
                 if command != 0 || prepared_code != 0 {
                     return result.map(|_| ());
                 }
@@ -231,7 +268,9 @@ async fn client(parent: peer::Process, command: u8) -> io::Result<()> {
             }
         };
         pipe.write_u8(command).await?;
-        match pipe.read_u8().await? {
+        let result = pipe.read_u8().await?;
+        pipe.write_u8(0xa5).await?;
+        match result {
             0 => Ok(()),
             2 => Err(io::Error::new(io::ErrorKind::WouldBlock, "restart required before repair")),
             _ => Err(denied()),

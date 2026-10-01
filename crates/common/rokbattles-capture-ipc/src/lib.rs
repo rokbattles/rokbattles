@@ -7,8 +7,8 @@
 
 mod wire;
 pub use wire::{
-    ClientRequest, MAX_BODY_BYTES, PacketBytes, Record, UnavailableReason, read_record,
-    read_request, write_record, write_request,
+    Backend, ClientRequest, MAX_BODY_BYTES, PacketBytes, Record, SessionReader, UnavailableReason,
+    read_record, read_request, write_record, write_request,
 };
 
 #[cfg(any(target_os = "linux", target_os = "macos"))]

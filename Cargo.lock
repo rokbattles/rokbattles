@@ -4966,6 +4966,7 @@ dependencies = [
 name = "rokbattles-capture-helper"
 version = "1.7.1"
 dependencies = [
+ "libc",
  "rokbattles-capture-adapters",
  "rokbattles-capture-ipc",
  "rokbattles-capture-runtime",

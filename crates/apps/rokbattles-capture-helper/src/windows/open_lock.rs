@@ -16,8 +16,7 @@ pub const NAME: &str = r"Global\ROKBattles.Capture.NativeOpen.v1";
 pub struct OpenLock(OwnedHandle);
 impl OpenLock {
     pub fn acquire() -> io::Result<Self> {
-        let sddl: Vec<u16> =
-            "O:SYG:SYD:P(A;;GA;;;SY)(A;;GA;;;BA)".encode_utf16().chain(Some(0)).collect();
+        let sddl: Vec<u16> = "D:P(A;;GA;;;SY)(A;;GA;;;BA)".encode_utf16().chain(Some(0)).collect();
         let mut descriptor = ptr::null_mut();
         // SAFETY: static NUL-terminated SDDL and initialized writable output.
         if unsafe {

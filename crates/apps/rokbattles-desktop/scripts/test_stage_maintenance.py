@@ -48,6 +48,11 @@ class MaintenancePackagingTests(unittest.TestCase):
         self.assertLess(hooks.index('!insertmacro ROK_START_SESSION', hooks.index('!macro NSIS_HOOK_PREINSTALL')), hooks.index('File /oname=rokbattles-capture-maintenance.next.exe'))
         self.assertIn('MoveFileExW', hooks)
         self.assertNotIn('$PLUGINSDIR', hooks)
+        self.assertIn('Var RokInstallerMutex', hooks)
+        self.assertLess(hooks.index('!insertmacro ROK_LOCK_INSTALLER'), hooks.index('\"${ROK_MAINTENANCE}\" session'))
+        self.assertIn('validate-installer-lock', hooks)
+        self.assertNotIn('CloseHandle', hooks)
+        self.assertNotIn('ReleaseMutex', hooks)
         self.assertNotIn('taskkill', hooks.lower())
 
 

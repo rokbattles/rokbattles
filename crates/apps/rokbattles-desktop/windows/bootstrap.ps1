@@ -41,16 +41,48 @@ function Verify-Pin([string]$Path, [string]$Pin) {
         if ($Actual -cne $Pin) { throw 'Maintenance hash mismatch' }
     } finally { $Stream.Dispose() }
 }
-function Write-AtomicPin([string]$Pin) {
+function Read-Pins {
+    Assert-Protected $CurrentPin
+    if ((Get-Item -LiteralPath $CurrentPin).Length -notin @(65, 130)) { throw 'Invalid pin length' }
+    $Bytes = [IO.File]::ReadAllBytes($CurrentPin)
+    if ($Bytes.Length -ne 65 -and $Bytes.Length -ne 130) { throw 'Invalid pin length' }
+    $Text = [Text.Encoding]::ASCII.GetString($Bytes)
+    if ($Text -cnotmatch '\A[a-f0-9]{64}\n(?:[a-f0-9]{64}\n)?\z') { throw 'Invalid pin grammar' }
+    $Pins = @($Text.Substring(0, $Text.Length - 1).Split("`n"))
+    if ($Pins.Count -ne @($Pins | Select-Object -Unique).Count) { throw 'Duplicate pins' }
+    return $Pins
+}
+function Find-CurrentPin {
+    foreach ($Pin in @(Read-Pins)) {
+        try { Verify-Pin $Image $Pin; return $Pin } catch { }
+    }
+    throw 'Installed maintenance hash mismatch'
+}
+function Write-AtomicPins([string[]]$Pins) {
+    $Pins = @($Pins | Select-Object -Unique)
+    if ($Pins.Count -lt 1 -or $Pins.Count -gt 2) { throw 'Invalid pin count' }
+    foreach ($Pin in $Pins) { if ($Pin -cnotmatch '\A[a-f0-9]{64}\z') { throw 'Invalid pin' } }
+    $Text = ($Pins -join "`n") + "`n"
     $Pending = "$CurrentPin.next"
     if (Test-Path -LiteralPath $Pending) { Assert-Protected $Pending; [IO.File]::Delete($Pending) }
     if (Test-Path -LiteralPath $CurrentPin) { Assert-Protected $CurrentPin }
-    $Bytes = [Text.Encoding]::ASCII.GetBytes($Pin)
+    $Bytes = [Text.Encoding]::ASCII.GetBytes($Text)
     $File = New-Object IO.FileStream($Pending, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None, 4096, [IO.FileOptions]::WriteThrough)
     try { $File.Write($Bytes, 0, $Bytes.Length); $File.Flush($true) } finally { $File.Dispose() }
     if (Test-Path -LiteralPath $CurrentPin) { [IO.File]::Replace($Pending, $CurrentPin, $null) }
     else { [IO.File]::Move($Pending, $CurrentPin) }
-    Assert-Protected $CurrentPin
-    if ([IO.File]::ReadAllText($CurrentPin) -cne $Pin) { throw 'Pin persistence failed' }
+    $null = @(Read-Pins)
+    if ([IO.File]::ReadAllText($CurrentPin) -cne $Text) { throw 'Pin persistence failed' }
+}
+function Complete-Promotion([string]$Pin) {
+    Verify-Pin $Image $Pin
+    [void](Find-CurrentPin)
+    $Ready = Join-Path $Root '.capture-ready-v1'
+    Assert-Protected $Ready
+    if ((Get-Item -LiteralPath $Ready).Length -ne 25 -or [IO.File]::ReadAllText($Ready) -cne "ROKBattlesCaptureReady:1`n") { throw 'Helper not ready' }
+    $Block = Join-Path $Root '.capture-maintenance'
+    Assert-Protected $Block
+    Write-AtomicPins @($Pin)
+    [IO.File]::Delete($Block)
 }
 Assert-Protected $ProgramFiles

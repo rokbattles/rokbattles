@@ -2,7 +2,7 @@
 
 This executable is part of the **elevated per-machine NSIS installer**, not the
 background agent or SYSTEM capture service. It accepts only `session`, `prepared`,
-`commit` and `uninstall`. It has no URL, filter, process, service-name or path
+`commit`, `uninstall` and the read-only `validate-installer-lock`. It has no URL, filter, process, service-name or path
 arguments. It never opens a user database, uploads packets, terminates an
 arbitrary process, installs Npcap or downloads a driver.
 
@@ -26,6 +26,11 @@ separate maintenance-stop request, preserves desired enabled state, requests age
 exit and waits for the user agent lease. Elevated code never reads that SQLite
 state. The independently running agent also checks the protected maintenance
 marker before beginning work.
+
+NSIS retains a separate protected InstallSession mutex handle through FINAL (or
+installer process exit). Its owner/DACL is validated before acquisition; a second
+installer is rejected throughout replacement and self-promotion. Acquisition order
+is always InstallSession, then NativeOpen.
 
 The old fixed maintenance executable starts a long-lived `session` before NSIS
 copies any payload. It pins its own protected executable and ancestors, pins the
@@ -90,7 +95,9 @@ Initial bootstrap uses only the explicit native system PowerShell with a fixed
 compiled encoded command. It creates missing protected directories, refuses
 untrusted existing owners/ACLs/reparse points, and authenticates the embedded
 maintenance image using the SHA compiled into the installer. Upgrades start the
-already installed image after checking protected `current.sha256`; no temporary
+already installed image after checking protected `current.sha256`. A bounded
+one/two-hash transition permits the same fixed old or new image across the atomic
+self-swap; FINAL shrinks it to the new hash before unblocking. There is no temporary
 or user-writable elevated executable fallback exists. App executables are
 package-hash and protected-path authenticated. This does **not** claim application
 Authenticode signing. The official WinDivert DLL is unsigned/hash-pinned; its SYS
