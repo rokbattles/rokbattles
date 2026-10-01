@@ -208,12 +208,16 @@ impl Capture<'_> {
             0 => Ok(Receive::Idle),
             -2 => Ok(Receive::End),
             1 => {
-                if header.is_null() || data.is_null() {
-                    return Err(Error::InvalidPacket("pcap returned NULL packet pointers"));
-                }
+                // Establish each native output's non-null invariant separately
+                // before any dereference. Native allocation/provenance validity
+                // still relies on the trusted libpcap ABI, not on NonNull alone.
+                let header = NonNull::new(header.cast_mut())
+                    .ok_or(Error::InvalidPacket("pcap returned NULL header pointer"))?;
+                let data = NonNull::new(data.cast_mut())
+                    .ok_or(Error::InvalidPacket("pcap returned NULL data pointer"))?;
                 // SAFETY: next_ex succeeded; libpcap owns a valid aligned header
                 // until the next receive call, excluded by this mutable borrow.
-                let header = unsafe { &*header };
+                let header = unsafe { header.as_ref() };
                 let length = usize::try_from(header.captured_length)
                     .map_err(|_error| Error::InvalidPacket("capture length overflow"))?;
                 if length == 0
@@ -224,7 +228,7 @@ impl Capture<'_> {
                 }
                 // SAFETY: trusted libpcap guarantees `captured_length` bytes.
                 // The length was bounded before forming this borrowed slice.
-                let bytes = unsafe { std::slice::from_raw_parts(data, length) };
+                let bytes = unsafe { std::slice::from_raw_parts(data.as_ptr(), length) };
                 Ok(link_packet(self.link_type, bytes)
                     .and_then(packet::server_packet)
                     .map_or(Receive::Discarded, |ip| Receive::Packet(ip.to_vec())))
