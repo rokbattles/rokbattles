@@ -49,6 +49,9 @@ impl Drop for Pump {
 fn run(sender: mpsc::Sender<Record>, failure: watch::Sender<bool>, stop: Arc<AtomicBool>) {
     use rokbattles_capture_adapters::{Receive, pcap::Pcap};
     let setup = (|| {
+        if rokbattles_capture_ipc::unix::maintenance_requested().unwrap_or(true) {
+            return Err(());
+        }
         let path = super::trust::library().map_err(|_error| ())?;
         let interfaces = super::interfaces::enumerate().map_err(|_error| ())?;
         // SAFETY: selected fixed OS library with protected ancestors; service
@@ -81,6 +84,9 @@ fn run(sender: mpsc::Sender<Record>, failure: watch::Sender<bool>, stop: Arc<Ato
     while !stop.load(Ordering::Acquire) {
         // New addresses/interfaces require newly scoped filters and a fresh Start.
         if last_interfaces.elapsed() >= Duration::from_secs(1) {
+            if rokbattles_capture_ipc::unix::maintenance_requested().unwrap_or(true) {
+                break;
+            }
             if super::interfaces::enumerate().as_ref().ok() != Some(&interfaces) {
                 break;
             }

@@ -4,6 +4,8 @@
 #include <Security/Security.h>
 #include <libproc.h>
 #include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 #include <string.h>
 
 static int hardened(CFDictionaryRef information) {
