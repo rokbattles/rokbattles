@@ -180,6 +180,7 @@ def expected_manifest(lock, extra):
         "target": TARGET,
         "archive": lock["archive"],
         "source": lock["source"],
+        "kernelSignatureIndex": lock["kernelSignatureIndex"],
         "signaturePolicy": {
             "WinDivert.dll": "NotSigned; authenticated by pinned archive and member SHA-256",
             "WinDivert64.sys": "upstream-signed; require Windows SignTool kernel-policy verification",

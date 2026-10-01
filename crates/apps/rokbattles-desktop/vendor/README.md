@@ -31,7 +31,12 @@ This first checks the exact resource set, sizes and SHA-256 hashes. It requires
 `WinDivert.dll` to have the upstream `NotSigned` Authenticode status. The DLL is
 authenticated through the official archive hash and its independent member hash.
 The driver must have a valid timestamped Authenticode signature and pass
-`signtool verify /kp /tw` using the runner's Windows kernel signing policy.
+`signtool verify /kp /ds 1 /tw` using Windows kernel signing policy. The pinned
+2.2.2-A driver has a primary publisher signature plus a nested Microsoft Windows
+Hardware Compatibility Publisher signature. `kernelSignatureIndex` pins the
+latter (index 1); testing index 0 alone checks only the publisher chain and fails
+kernel policy. Selecting the nested signature does not change any bytes, trust
+stores or security settings. The signature still must chain to a Microsoft root.
 Missing tools, a changed DLL state, warning exit codes and invalid signatures
 fail closed. A valid signature does not guarantee a particular user's Windows
 security policy or antivirus allows that driver; real installation/capture

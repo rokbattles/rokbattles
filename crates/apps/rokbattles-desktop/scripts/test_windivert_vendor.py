@@ -266,6 +266,14 @@ class VendorTests(unittest.TestCase):
         self.assertNotIn("--config", arm64)
         self.assertEqual(release.count("--config tauri.windows-x64.conf.json"), 1)
 
+    def test_nested_kernel_signature_index_is_pinned_and_manifested(self):
+        lock = vendor.load_lock()
+        self.assertEqual(lock["kernelSignatureIndex"], 1)
+        manifest = json.loads(vendor.expected_manifest(lock, vendor.notices()))
+        self.assertEqual(manifest["kernelSignatureIndex"], 1)
+        script = (vendor.DESKTOP / "scripts/verify_windivert.ps1").read_text()
+        self.assertIn("verify /kp /ds $KernelSignatureIndex /tw /v $Driver", script)
+
     def test_http_redirect_is_rejected(self):
         handler = vendor.HttpsOnlyRedirect()
         with self.assertRaisesRegex(vendor.VerificationError, "Non-HTTPS"):
