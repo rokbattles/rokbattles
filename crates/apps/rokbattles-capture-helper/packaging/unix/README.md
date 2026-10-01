@@ -22,7 +22,10 @@ Outbound application bytes are rejected; only zero-payload controls are delivere
 Loss counters from both handles, queue overflow, topology changes and native
 errors retire the source. Raw packet buffers use RAII wiping in IPC queues.
 Client FIN retains an owned server tail; resets retire only after the exact reset
-record is successfully written.
+record is successfully written. Helper and agent set and verify zero process-local
+soft/hard core limits before workers start; Linux also disables dumpability for
+piped core collectors. Service definitions enforce zero core limits too, so a
+capture crash cannot turn volatile packet buffers into an ordinary core dump.
 
 ## Explicit setup contract
 
@@ -43,7 +46,7 @@ symlink, foreign owner or unsafe directory mode. A per-UID root-owned lock preve
 duplicate listeners and permits safe stale-socket recovery after a crash.
 
 `stage_package.py` creates an inert tarball containing the native helper and unprivileged agent companion, the
-systemd template or a UID-specific launchd plist, this guide, the setup contract
+systemd template or a UID-neutral launchd template, this guide, the setup contract
 and a SHA-256 manifest. It validates 64-bit ELF/Mach-O target architecture; it does
 not execute the input binary, grant privileges, extract files, install software,
 accept an agreement or start a service. Example (a local staging operation):
@@ -51,12 +54,13 @@ accept an agreement or start a service. Example (a local staging operation):
 ```sh
 python3 stage_package.py --binary /path/to/built/rokbattles-capture-helper \
   --agent /path/to/built/rokbattles-desktop-agent \
-  --target aarch64-apple-darwin --uid 501 --output capture-helper.tar.gz
+  --target aarch64-apple-darwin --output capture-helper.tar.gz
 ```
 
 After explicit administrator approval, the release installer must verify the
 signed/notarized distribution and manifest, confirm the selected local UID,
-install the regular files at the fixed archive locations as root (directories
+render the selected UID into the fixed launchd template (release payloads contain no CI-user UID),
+install binaries and service definitions at their fixed destinations as root (directories
 0755, executable0755, definitions0644), and register only that user's instance.
 Linux uses `rokbattles-capture@<UID>.service`; macOS uses
 `com.rokbattles.capture-helper.<UID>` in the system launchd domain. The UID is
@@ -92,11 +96,12 @@ again.
 
 ## Validation and limits
 
-Linux x64 synthetic tests, package-staging tests and Clippy pass in the implementation container. Tests do
-not open native pcap, install services, run sudo or change host security settings.
-Apple SDK compilation and native synthetic tests still need the macOS Intel and
-ARM64 CI runners; Linux ARM64 also needs its native runner. No live capture or
-privileged install/uninstall/restart validation has been performed. This draft is
+The six native Capture Foundation jobs passed for broker checkpoint `080cc4da`,
+including macOS Intel/ARM64 SDK compilation and Linux x64/ARM64 synthetic tests.
+Package-staging fixtures and focused Clippy also pass. Tests do not open native
+pcap, install services, run sudo or change host security settings. New follow-up
+commits require their own exact-head CI checks. No live capture or privileged
+install/uninstall/restart validation has been performed. This draft is
 not a release sign-off. macOS signed/notarized helper distribution and systemd
 package integration require the release process and explicit setup testing.
 
@@ -114,3 +119,80 @@ Global source loss requires a fresh user-agent connection and handshake.
 - [Apple libproc declarations](https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h)
 - [Apple socket and process structures](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/proc_info.h)
 - [systemd execution settings](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
+
+## Administrator maintenance CLI
+
+`maintain.py` is the source template for the standalone release installer produced
+by `stage_release.py`. The release builder binds exactly one immutable archive
+SHA-256, archive name, native target and (on macOS) Apple team. The unexpanded source
+refuses installation. There is no CLI/environment digest, team, target, destination,
+service name, command, filter or native-library override. Verify and use the
+installer distributed with the matching release archive, rather than editing its
+embedded pins. macOS release artifacts require the existing Developer ID signing
+and accepted notarization process; the CLI also verifies both native signatures,
+exact signing identifiers/team, hardened runtime and forbidden entitlements before
+changing an installed image.
+
+The CLI requires a trusted system Python 3 interpreter and isolated mode (`-I`).
+The installer script and every directory ancestor must already be root-owned and
+not group/other-writable; the runtime rejects a mutable invocation path. An
+administrator must review/authenticate and provision that exact release script
+through a trusted package or protected setup step before root invocation. Embedded
+pins authenticate the payload after the script starts; they cannot authenticate a
+user-writable script before the privileged interpreter opens it. This is an
+explicit administrator/developer tool, not a finished secure consumer installer.
+A signed native package or protected authenticated bootstrap remains required for
+that consumer flow.
+On macOS, `/usr/bin/python3` normally requires Apple's Command Line Tools; those
+tools are an explicit setup prerequisite, not something this installer downloads
+or installs. A signed native maintainer remains an option for a general consumer
+setup experience. The CLI never invokes sudo, requests credentials, installs on
+application launch, accepts an agreement or changes host security policy.
+
+An administrator explicitly selects the local UID and passes
+`--confirm-system-changes`. Supported operations are:
+
+- `install --package <matching-release.tar.gz> --uid <UID>` installs or adds one user
+- `update --package <matching-release.tar.gz>` updates the existing registered set
+- `uninstall --uid <UID>` removes that user's service, retaining shared binaries
+  until the final registered user is removed
+- `repair` recovers a recorded interrupted transaction using verified root-owned
+  rollback files; it does not adopt arbitrary or unregistered files/services
+
+Each command also needs `--confirm-system-changes`. When more than one user is
+affected, `--all-registered-users` explicitly confirms interruption of the shared
+installation. Adding a user cannot silently upgrade existing users' binaries.
+No command reads user SQLite, private app state or upload credentials. After
+maintenance, restart the ordinary unprivileged app to resume its saved desired
+worker setting; a service restart alone never grants capture consent.
+
+The fixed installation contains a root-owned `.maintenance` directory with a
+bounded registry, release receipt, transaction journal, exclusive lock and staged
+old/new files. Files and directory ancestors are opened without following links;
+root ownership, no group/other write, no setuid/setgid and macOS mutation ACLs are
+verified. Atomic writes fsync the file and its containing directory. Archive
+verification reads immutable bounded bytes, rejects duplicate/unexpected paths,
+links, devices, sparse/PAX overrides and wrong architecture, and never calls a
+general archive extraction API.
+
+A journal records the complete old and intended user/file sets before staging.
+Before shared image changes, the fixed root-owned `.capture-maintenance` marker
+asks user agents to drain and exit, every registered helper is stopped, and native
+process/mapping inspection must establish that the protected images are no longer
+in use. Unknown service registrations, systemd drop-ins, an unexpected effective
+service command, invisible process evidence or a busy image fail closed. No
+arbitrary PID is killed. The marker/journal survive failure and reboot.
+
+Rollback files remain until the new payload, registry and service readiness have
+all succeeded. Repair verifies hashes before restoring any old file, removes files
+recorded originally absent, and verifies restored bytes again. Unix helpers reject
+startup while the marker exists, so commit clears it only after the full protected
+binary/registry validation and immediately before starting the fixed services. A
+restart failure re-establishes the block and preserves recovery state.
+
+The maintenance tests use temporary fixture roots and an injected service backend;
+they never run native binaries, service managers, sudo or live capture. Actual
+Linux/macOS admin install, multi-user stop/drain, ACL behavior, native process
+mapping visibility, signature/notarization assessment, restart, reboot, rollback
+and uninstall remain separate native acceptance checks. A passing fixture suite
+is not a production installation sign-off.

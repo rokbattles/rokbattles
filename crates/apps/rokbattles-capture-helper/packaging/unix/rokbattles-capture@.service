@@ -13,6 +13,7 @@ Environment=PATH=/usr/sbin:/usr/bin
 Environment=LANG=C
 UnsetEnvironment=LD_PRELOAD LD_LIBRARY_PATH LD_AUDIT DYLD_INSERT_LIBRARIES DYLD_LIBRARY_PATH GLIBC_TUNABLES
 UMask=0077
+LimitCORE=0
 RuntimeDirectory=rokbattles-capture
 RuntimeDirectoryMode=0755
 RuntimeDirectoryPreserve=yes

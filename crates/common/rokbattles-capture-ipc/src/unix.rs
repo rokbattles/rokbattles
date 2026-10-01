@@ -184,3 +184,7 @@ mod trust;
 pub use trust::{
     MAINTENANCE_MARKER_PATH, installed_agent_path, maintenance_requested, verify_protected_path,
 };
+
+#[path = "unix_process.rs"]
+mod process;
+pub use process::harden_capture_process;

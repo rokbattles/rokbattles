@@ -9,6 +9,8 @@ use std::{
 };
 use windows_sys::Win32::{Foundation::INVALID_HANDLE_VALUE, Security::WinTrust::*};
 const SIGNATURE_INDEX: u32 = 1;
+const ONLINE_REVOCATION: u32 = WTD_REVOKE_WHOLECHAIN;
+const ONLINE_FLAGS: u32 = WTD_REVOCATION_CHECK_CHAIN_EXCLUDE_ROOT | WTD_DISABLE_MD2_MD4;
 pub fn verify_driver_online(path: &Path) -> io::Result<()> {
     let name: Vec<u16> = path.as_os_str().encode_wide().chain(Some(0)).collect();
     let file = File::open(path)?;
@@ -28,11 +30,11 @@ pub fn verify_driver_online(path: &Path) -> io::Result<()> {
     let mut data = WINTRUST_DATA {
         cbStruct: size_of::<WINTRUST_DATA>() as u32,
         dwUIChoice: WTD_UI_NONE,
-        fdwRevocationChecks: WTD_REVOKE_WHOLECHAIN,
+        fdwRevocationChecks: ONLINE_REVOCATION,
         dwUnionChoice: WTD_CHOICE_FILE,
         Anonymous: WINTRUST_DATA_0 { pFile: &mut file_info },
         dwStateAction: WTD_STATEACTION_VERIFY,
-        dwProvFlags: WTD_REVOCATION_CHECK_CHAIN_EXCLUDE_ROOT | WTD_DISABLE_MD2_MD4,
+        dwProvFlags: ONLINE_FLAGS,
         pSignatureSettings: &mut signatures,
         ..Default::default()
     };
@@ -52,4 +54,17 @@ pub fn verify_driver_online(path: &Path) -> io::Result<()> {
         return Err(denied());
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn maintenance_requires_online_whole_chain_revocation() {
+        assert_eq!(ONLINE_FLAGS, WTD_REVOCATION_CHECK_CHAIN_EXCLUDE_ROOT | WTD_DISABLE_MD2_MD4);
+        assert_eq!(ONLINE_FLAGS & WTD_CACHE_ONLY_URL_RETRIEVAL, 0);
+        assert_eq!(ONLINE_FLAGS & WTD_REVOCATION_CHECK_NONE, 0);
+        assert_eq!(ONLINE_REVOCATION, WTD_REVOKE_WHOLECHAIN);
+        assert_eq!(SIGNATURE_INDEX, 1);
+    }
 }

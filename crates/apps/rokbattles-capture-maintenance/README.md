@@ -68,7 +68,9 @@ Commit verifies protected paths/ACLs/reparse policy, helper/agent/next-maintenan
 package hashes and compiled WinDivert member hashes. The driver requires the
 exact nested Microsoft signature (index 1), Windows DRIVER_ACTION_VERIFY and
 revocation checking. Online chain retrieval is limited to maintenance; helper
-runtime uses cached verification only. The session starts/probes the driver,
+runtime performs the same exact offline cryptographic driver-policy/signature check
+without a per-user revocation-cache dependency. Revocation freshness belongs to
+explicit maintenance; later revoked hashes must be removed by an app update. The session starts/probes the driver,
 releases the mutex, starts the helper and writes the ready marker. It preserves
 the maintenance block until the installer has atomically promoted the verified
 next maintenance image and persisted its new hash. Only then does the fixed FINAL
@@ -103,8 +105,11 @@ package-hash and protected-path authenticated. This does **not** claim applicati
 Authenticode signing. The official WinDivert DLL is unsigned/hash-pinned; its SYS
 has the upstream Microsoft kernel signature.
 
-The PowerShell bootstrap commands are compressed solely to fit NSIS's bounded
-command string, compiled into the installer, and receive no user interpolation.
+The PowerShell bootstrap commands are compiled into the installer and receive no
+user interpolation. Generated chunks of at most 512 characters build one bounded
+UTF-16 command buffer, avoiding NSIS runtime string truncation. CreateProcessW uses
+the explicit native system PowerShell path and retained child handles with a
+bounded wait; there is no temporary script or executable fallback.
 No script is read from disk or fetched at runtime. A missing/untrusted maintenance
 component requires full repair, rather than silently bootstrapping over an
 existing active installation.
@@ -124,9 +129,10 @@ Cross-check both Windows targets and run native CI tests/builds. Native NSIS
 compilation, UAC, initial install, update cancellation/installer death, service
 stop timeouts, repair/rollback, uninstall, reboot dependency ordering, SYSTEM trust
 cache behavior and actual capture still require separately authorized Windows
-acceptance testing. In particular, a valid installer-user trust check does not
-prove the SYSTEM account's revocation cache is populated; runtime fails closed
-if it is unavailable. Keep this PR draft until those checks pass.
+acceptance testing. Maintenance online revocation and runtime offline cryptographic policy are
+separate: runtime does not promise fresh online revocation checks or SYSTEM cache
+population. Both still enforce exact pins, protected paths and the Microsoft driver
+policy; native acceptance must verify these boundaries. Keep this PR draft until those checks pass.
 
 Primary references: [Tauri NSIS hooks](https://v2.tauri.app/distribute/windows-installer/),
 [service stop lifecycle](https://learn.microsoft.com/en-us/windows/win32/services/stopping-a-service),

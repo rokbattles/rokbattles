@@ -105,7 +105,7 @@ fn run(sender: mpsc::Sender<NativeRecord>, failure: watch::Sender<bool>, stop: A
                 return;
             }
             // SAFETY: fixed protected x64 path, compiled exact size/hash pins and
-            // cached nested driver signature; immutable handles outlive DLL use.
+            // offline nested driver-policy signature; immutable handles outlive DLL use.
             if let Ok(backend) = unsafe { WinDivert::load(trust.dll_path()) }
                 && !stop.load(Ordering::Acquire)
                 && let Ok(capture) = backend.open()
