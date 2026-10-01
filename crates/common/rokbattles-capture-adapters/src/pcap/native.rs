@@ -333,14 +333,28 @@ impl Capture<'_> {
             };
             let pending =
                 if take_client { &mut self.pending_client } else { &mut self.pending_server };
-            let Some((packet, timestamp)) = pending.take() else {
+            let Some((mut packet, timestamp)) = pending.take() else {
                 return Ok(if discarded { Receive::Discarded } else { Receive::Idle });
             };
             if timestamp < self.last_emitted {
+                if let Receive::Packet(bytes) = &mut packet {
+                    zeroize::Zeroize::zeroize(bytes);
+                }
                 return Err(Error::InvalidPacket("capture direction ordering regressed"));
             }
             self.last_emitted = timestamp;
             Ok(packet)
+        }
+    }
+}
+
+#[cfg(unix)]
+impl Drop for Capture<'_> {
+    fn drop(&mut self) {
+        for pending in [&mut self.pending_server, &mut self.pending_client] {
+            if let Some((Receive::Packet(bytes), _)) = pending {
+                zeroize::Zeroize::zeroize(bytes);
+            }
         }
     }
 }
@@ -878,6 +892,9 @@ mod tests {
         assert!(matches!(capture.receive(), Ok(Receive::Packet(_))));
         capture.pending_client = Some((Receive::ClientControl(control), (1, 3)));
         assert!(matches!(capture.receive(), Err(Error::InvalidPacket(_))));
+        capture.pending_server = Some((Receive::Packet(packet::tests::ipv4()), (1, 3)));
+        assert!(matches!(capture.receive(), Err(Error::InvalidPacket(_))));
+        assert!(capture.pending_server.is_none());
     }
 
     #[test]
@@ -886,8 +903,8 @@ mod tests {
             let api = mock();
             let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
             STATE.with_borrow_mut(|state| {
-                state.header.timestamp.tv_sec = seconds.into();
-                state.header.timestamp.tv_usec = micros.into();
+                state.header.timestamp.tv_sec = seconds;
+                state.header.timestamp.tv_usec = micros;
             });
             assert!(matches!(capture.server.receive(), Err(Error::InvalidPacket(_))));
         }

@@ -31,7 +31,7 @@ use std::{fmt, path::PathBuf};
 const SNAPLEN: usize = 65_575 + 256;
 
 /// A single receive attempt; callers choose their own scheduling and cancellation.
-#[derive(Debug, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub enum Receive {
     /// Owned, validated IP packet (without link-layer padding or framing).
     Packet(Vec<u8>),
@@ -47,6 +47,27 @@ pub enum Receive {
 
     /// The native source has ended.
     End,
+}
+
+impl fmt::Debug for Receive {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Packet(bytes) => f.debug_struct("Packet").field("bytes", &bytes.len()).finish(),
+            Self::ClientControl(_) => f.write_str("ClientControl(..)"),
+            Self::Idle => f.write_str("Idle"),
+            Self::Discarded => f.write_str("Discarded"),
+            Self::End => f.write_str("End"),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn receive_debug_does_not_dump_packet_bytes() {
+        let packet = super::Receive::Packet(vec![233, 197, 154, 222]);
+        assert_eq!(format!("{packet:?}"), "Packet { bytes: 4 }");
+    }
 }
 
 /// Actionable errors without requiring the application to load a native backend.

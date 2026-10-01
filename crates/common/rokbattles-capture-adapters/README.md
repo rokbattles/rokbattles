@@ -126,7 +126,14 @@ to expand capture. Live/native filter behavior remains unvalidated here.
 ## Scope
 
 The adapters perform no protocol decoding/reassembly, ingress, persistence, SQLite,
-background service, IPC, driver installation, UI or packaging. The adapters do not log or persist packet bytes.
+background service, IPC, driver installation, UI or packaging. The adapters do not log or persist packet bytes. `Receive` Debug shows only the
+server byte count or a redacted control variant. WinDivert's owned native receive
+buffer is zeroized on every return path, including rejection and errors. Pending
+owned Unix server packets are wiped when the paired capture is dropped. Callers
+must protect/zeroize the owned server packet after `receive` transfers it. pcap
+returns a library-owned const buffer; this crate never mutates that memory and
+cannot guarantee the native library's clearing behavior. Rejected pcap bytes are
+never copied into application-owned storage.
 
 ## Safe verification
 

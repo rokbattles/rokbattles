@@ -119,7 +119,7 @@ impl Capture<'_> {
     /// loop. Another thread may call `shutdown` through a shared reference to
     /// unblock it. Shutdown drains queued packets before returning `End`.
     pub fn receive(&self) -> Result<Receive, Error> {
-        let mut bytes = vec![0; SNAPLEN];
+        let mut bytes = zeroize::Zeroizing::new(vec![0; SNAPLEN]);
         let mut length = 0;
         let mut address = Address { timestamp: 0, flags: 0, reserved: 0, data: [0; 64] };
 
