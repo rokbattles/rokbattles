@@ -1,5 +1,5 @@
 import { open } from "@tauri-apps/plugin-dialog";
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 
 import type { BannerType } from "../lib/banner.ts";
 import {
@@ -50,15 +50,22 @@ const initialWatchedDirectoriesState: WatchedDirectoriesState = {
 
 export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirectoriesResult {
   const [state, dispatch] = useReducer(watchedDirectoriesReducer, initialWatchedDirectoriesState);
+  const addPending = useRef(false);
+  const refreshVersion = useRef(0);
 
   const refresh = useCallback(async () => {
+    const version = ++refreshVersion.current;
     try {
       dispatch({ type: "loadingStarted" });
       const dirs = (await listDirs()) ?? [];
-      dispatch({ type: "dirsLoaded", dirs: Array.isArray(dirs) ? dirs : [] });
+      if (version === refreshVersion.current) {
+        dispatch({ type: "dirsLoaded", dirs: Array.isArray(dirs) ? dirs : [] });
+      }
     } catch (error) {
       console.error("Failed to list watched dirs", error);
-      dispatch({ type: "dirsLoadFailed" });
+      if (version === refreshVersion.current) {
+        dispatch({ type: "dirsLoadFailed" });
+      }
     }
   }, []);
 
@@ -67,15 +74,23 @@ export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirecto
   }, [refresh]);
 
   const handleAdd = useCallback(async () => {
+    // React state updates do not synchronously disable the button. Guard the entire
+    // operation so repeated clicks cannot open multiple native dialogs.
+    if (addPending.current) {
+      return;
+    }
+    addPending.current = true;
+
     try {
       dispatch({ type: "addStarted" });
-      await pauseWatcher();
+      // The watcher reloads directories from config. Selecting a folder must not
+      // wait for watcher shutdown, or change an intentionally paused watcher.
 
       const selection = await open({
         multiple: true,
         directory: true,
       });
-      if (!selection) {
+      if (!selection || selection.length === 0) {
         return;
       }
 
@@ -84,11 +99,12 @@ export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirecto
       await refresh();
     } catch (error) {
       console.error("Failed to add dirs", error);
+      showBanner("error", "Could not add the selected directories. Please try again.");
     } finally {
+      addPending.current = false;
       dispatch({ type: "addFinished" });
-      await resumeWatcher();
     }
-  }, [refresh]);
+  }, [refresh, showBanner]);
 
   const handleRemove = useCallback(
     async (dir: string) => {

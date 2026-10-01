@@ -138,9 +138,16 @@ pub(crate) fn read_dirs(app: &AppHandle) -> anyhow::Result<Vec<String>> {
 }
 
 #[tauri::command]
-fn list_dirs(app: AppHandle) -> Result<Vec<String>, String> {
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
-    Ok(dirs_for_ui(&current))
+async fn list_dirs(app: AppHandle) -> Result<Vec<String>, String> {
+    // Canonicalizing saved paths can wait on disconnected/network drives. This
+    // command runs on page load, so keep that I/O off the native UI thread and
+    // async executor to allow the folder picker to open while the list loads.
+    tauri::async_runtime::spawn_blocking(move || {
+        let current = read_dirs(&app).map_err(|e| e.to_string())?;
+        Ok(dirs_for_ui(&current))
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 #[tauri::command]
