@@ -1,6 +1,7 @@
 use std::{
     collections::BTreeMap,
     path::PathBuf,
+    sync::Arc,
     time::{Duration, Instant},
 };
 
@@ -20,7 +21,8 @@ struct RootScan {
 }
 
 pub struct Agent {
-    store: Store,
+    store: Arc<Store>,
+    capture: crate::capture::Worker,
     client: reqwest::Client,
     scans: BTreeMap<i64, RootScan>,
     cursor: usize,
@@ -29,8 +31,11 @@ pub struct Agent {
 
 impl Agent {
     pub fn new(store: Store) -> anyhow::Result<Self> {
+        let store = Arc::new(store);
+        let capture = crate::capture::Worker::spawn(Arc::clone(&store));
         Ok(Self {
             store,
+            capture,
             client: upload::client()?,
             scans: BTreeMap::new(),
             cursor: 0,
@@ -43,7 +48,7 @@ impl Agent {
     /// One bounded iteration, independently of any Tauri window/app handle.
     pub async fn tick(&mut self) -> anyhow::Result<bool> {
         let settings = self.store.settings().await?;
-        if !settings.enabled {
+        if !settings.enabled || settings.maintenance_stop || crate::maintenance_active()? {
             self.store.heartbeat(now_ms(), false, settings.paused, 0, 0).await?;
             return Ok(false);
         }
@@ -101,8 +106,6 @@ impl Agent {
         if let Some(item) = self.store.next_pending(now).await? {
             event = self.process(item).await?;
         }
-        // Capture backend integration follows separately; status truthfully
-        // reports mailcache even when opt-in is set but no helper is connected.
         if self.heartbeat.elapsed() >= Duration::from_secs(1) || event != 0 {
             self.store.heartbeat(now_ms(), true, false, 3, event).await?;
             self.heartbeat = Instant::now();
@@ -138,7 +141,11 @@ impl Agent {
         };
         // Desired settings are checked again immediately before transmission.
         let settings = self.store.settings().await?;
-        if settings.paused || !settings.enabled {
+        if settings.paused
+            || !settings.enabled
+            || settings.maintenance_stop
+            || crate::maintenance_active()?
+        {
             return Ok(0);
         }
         match upload::send(&self.client, name, bytes, item.attempts).await {
@@ -158,8 +165,12 @@ impl Agent {
     }
 
     pub async fn close(self) {
+        self.capture.stop().await;
+        let _capture_status = self.store.capture_status(0, 0).await;
         let _status = self.store.heartbeat(now_ms(), false, false, 0, 0).await;
-        self.store.close().await;
+        if let Ok(store) = Arc::try_unwrap(self.store) {
+            store.close().await;
+        }
     }
 }
 
@@ -253,6 +264,27 @@ mod tests {
             serde_json::json!({"private key": ["private value", {"nested": "content"}]});
         wipe_value(&mut value);
         assert!(value.is_null());
+    }
+
+    #[tokio::test]
+    async fn maintenance_stop_survives_ui_exit_without_overwriting_enabled() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let directory = temp.path().canonicalize().expect("canonical").join("state");
+        let store = Store::open(&directory).await.expect("store");
+        store.set_maintenance_stop(true).await.expect("request maintenance");
+        assert!(store.settings().await.expect("settings").enabled);
+        store.close().await;
+        let store = Store::open(&directory).await.expect("reopen after UI exit");
+        let mut agent = Agent::new(store).expect("agent");
+        assert!(!agent.tick().await.expect("maintenance stops late agent"));
+        assert!(agent.store.settings().await.expect("settings").enabled);
+        let installer_exclusion =
+            agent.store.acquire_agent().expect("installer exclusion").expect("lease");
+        assert!(agent.store.acquire_agent().expect("late launch").is_none());
+        drop(installer_exclusion);
+        agent.store.set_maintenance_stop(false).await.expect("successful installer relaunch");
+        assert!(agent.tick().await.expect("desired enabled resumes"));
+        agent.close().await;
     }
 
     #[tokio::test]

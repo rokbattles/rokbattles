@@ -336,6 +336,7 @@ struct WorkerSnapshot {
     alive: bool,
     enabled: bool,
     capture_opt_in: bool,
+    maintenance: bool,
 }
 
 #[tauri::command]
@@ -348,6 +349,8 @@ async fn get_worker_status(app: AppHandle) -> Result<WorkerSnapshot, String> {
         status,
         enabled: settings.enabled,
         capture_opt_in: settings.capture_opt_in,
+        maintenance: settings.maintenance_stop
+            || rokbattles_desktop_agent::maintenance_active().unwrap_or(true),
     })
 }
 

@@ -76,12 +76,15 @@ export type WorkerSnapshot = {
   alive: boolean;
   enabled: boolean;
   capture_opt_in: boolean;
+  maintenance: boolean;
   status: {
     heartbeat_ms: number;
     running: boolean;
     paused: boolean;
     backend: number;
     event: number;
+    capture_state: number;
+    capture_backend: number;
     pending: number;
     completed: number;
     rejected: number;

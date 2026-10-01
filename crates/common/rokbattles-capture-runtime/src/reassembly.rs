@@ -1,6 +1,7 @@
 //! Bounded TCP ordering without inventing bytes across a capture gap.
 
 use std::collections::BTreeMap;
+use zeroize::Zeroizing;
 
 pub const MAX_PENDING_BYTES: usize = 1024 * 1024;
 const MAX_PENDING_SEGMENTS: usize = 256;
@@ -8,7 +9,7 @@ const MAX_PENDING_SEGMENTS: usize = 256;
 /// Sequence-relative reassembly for one server direction.
 pub struct Reassembly {
     next: u32,
-    pending: BTreeMap<u32, Vec<u8>>,
+    pending: BTreeMap<u32, Zeroizing<Vec<u8>>>,
     buffered: usize,
 }
 
@@ -92,14 +93,14 @@ impl Reassembly {
             if self.pending.get(&start).is_some_and(|old| old.len() >= payload.len()) {
                 return Ok(Vec::new());
             }
-            let previous = self.pending.get(&start).map_or(0, Vec::len);
+            let previous = self.pending.get(&start).map_or(0, |bytes| bytes.len());
             if self.buffered - previous + payload.len() > MAX_PENDING_BYTES
                 || self.pending.len() >= MAX_PENDING_SEGMENTS
             {
                 return Err("TCP reorder buffer full");
             }
             self.buffered = self.buffered - previous + payload.len();
-            self.pending.insert(start, payload.to_vec());
+            self.pending.insert(start, Zeroizing::new(payload.to_vec()));
             return Ok(Vec::new());
         }
         let mut output = payload.to_vec();

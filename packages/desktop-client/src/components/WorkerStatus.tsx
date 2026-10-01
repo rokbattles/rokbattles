@@ -55,13 +55,29 @@ export function WorkerStatus() {
   const paused = snapshot?.status.paused ?? false;
   const state = !snapshot
     ? "Loading"
-    : !snapshot.enabled
-      ? "Stopped"
-      : !snapshot.alive
-        ? "Unavailable"
-        : paused
-          ? "Paused"
-          : "Mailcache active";
+    : snapshot.maintenance
+      ? "Update pending"
+      : !snapshot.enabled
+        ? "Stopped"
+        : !snapshot.alive
+          ? "Unavailable"
+          : paused
+            ? "Paused"
+            : "Mailcache active";
+
+  const captureState = snapshot?.status.capture_state ?? 0;
+  const captureBackend = snapshot?.status.capture_backend === 1 ? "WinDivert" : "pcap";
+  const captureLabel =
+    !snapshot?.alive || !snapshot.capture_opt_in || paused
+      ? "Off"
+      : ([
+          "Off",
+          "Connecting to helper",
+          `Waiting for a new game connection (${captureBackend})`,
+          `Streaming server traffic (${captureBackend})`,
+          "Helper or native capture unavailable",
+          "Capture interrupted; reconnect the game",
+        ][captureState] ?? "Unavailable");
 
   return (
     <section
@@ -92,8 +108,8 @@ export function WorkerStatus() {
         stop uploads.
       </p>
       <p className="mt-2">
-        Pending: {snapshot?.status.pending ?? 0} · Completed: {snapshot?.status.completed ?? 0} ·
-        Unsupported/rejected: {snapshot?.status.rejected ?? 0}
+        Mailcache pending: {snapshot?.status.pending ?? 0} · Completed:{" "}
+        {snapshot?.status.completed ?? 0} · Unsupported/rejected: {snapshot?.status.rejected ?? 0}
       </p>
       <label className="mt-4 flex items-start gap-2">
         <input
@@ -112,10 +128,17 @@ export function WorkerStatus() {
         separately by you, and never bundled. Mailcache remains available without native capture.
       </p>
       <p className="mt-2 text-xs/5 text-zinc-400">
-        Network capture is not connected in this preview. After capture loss, existing game
-        connections need a fresh connection before capture can resume. Previous JSON mailcache
+        Network capture: {captureLabel}. After capture loss, reconnect the game. Earlier mails may
+        already have been stored; interrupted streams are never replayed. If the helper is
+        unavailable, complete platform capture setup or continue using mailcache. Previous JSON
         history is not imported; reselect your directories once.
       </p>
+      {snapshot?.maintenance ? (
+        <p className="mt-2 text-amber-300">
+          Complete the installer or repair an interrupted update before restarting the worker. Your
+          enabled setting is preserved.
+        </p>
+      ) : null}
       {error ? (
         <p role="alert" className="mt-2 text-amber-300">
           {error}

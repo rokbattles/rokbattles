@@ -7,7 +7,7 @@ use std::{
     time::Duration,
 };
 
-use rokbattles_desktop_agent::{now_ms, state_directory};
+use rokbattles_desktop_agent::{maintenance_active, now_ms, state_directory};
 use rokbattles_desktop_store::{AgentLease, Store};
 use tauri::AppHandle;
 
@@ -35,10 +35,19 @@ impl WatcherManager {
 
     pub(crate) async fn launch(&self, _app: &AppHandle) -> Result<(), String> {
         let _guard = self.launch.lock().await;
+        if maintenance_active()
+            .map_err(|_error| "Cannot inspect installation maintenance state.")?
+        {
+            return Err("Installation maintenance is pending. Complete or repair the update before starting the worker.".to_string());
+        }
         let store = self.store().await?;
         let settings =
             store.settings().await.map_err(|_error| "Cannot read background settings.")?;
         self.paused.store(settings.paused, Ordering::SeqCst);
+        store
+            .set_maintenance_stop(false)
+            .await
+            .map_err(|_error| "Cannot resume after installation maintenance.")?;
         if !settings.enabled {
             return Ok(());
         }
@@ -73,20 +82,24 @@ impl WatcherManager {
         self.paused.load(Ordering::SeqCst)
     }
 
-    pub(crate) async fn stop_for_update(&self) -> Result<(bool, AgentLease), String> {
+    pub(crate) async fn stop_for_update(&self) -> Result<AgentLease, String> {
         let store = self.store().await?;
-        let enabled =
-            store.settings().await.map_err(|_error| "Cannot read worker settings.")?.enabled;
-        store.set_enabled(false).await.map_err(|_error| "Cannot stop worker for update.")?;
+        store
+            .set_maintenance_stop(true)
+            .await
+            .map_err(|_error| "Cannot stop worker for update.")?;
         for _ in 0..150 {
             if let Some(lease) =
                 store.acquire_agent().map_err(|_error| "Cannot inspect worker lock.")?
             {
-                return Ok((enabled, lease));
+                return Ok(lease);
             }
             tokio::time::sleep(Duration::from_millis(200)).await;
         }
-        store.set_enabled(enabled).await.map_err(|_error| "Cannot restore worker settings.")?;
+        store
+            .set_maintenance_stop(false)
+            .await
+            .map_err(|_error| "Cannot restore worker settings.")?;
         Err("Background worker did not stop; update was not installed.".to_string())
     }
 }
@@ -103,6 +116,13 @@ fn spawn_background() -> anyhow::Result<()> {
         anyhow::bail!("invalid worker executable");
     }
     let mut command = Command::new(path);
+    // Do not carry loader overrides into the separately authenticated agent.
+    for (name, _) in std::env::vars_os() {
+        let text = name.to_string_lossy();
+        if text.starts_with("LD_") || text.starts_with("DYLD_") || text == "GLIBC_TUNABLES" {
+            command.env_remove(name);
+        }
+    }
     command.stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null());
     #[cfg(windows)]
     {

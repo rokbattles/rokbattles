@@ -34,7 +34,7 @@ const MAX_SHM_BYTES: u64 = 1024 * 1024;
 const SCHEMA: &[(&str, &str)] = &[
     (
         "settings",
-        "CREATE TABLE settings (id INTEGER PRIMARY KEY CHECK(id=1), enabled INTEGER NOT NULL CHECK(enabled IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), capture_opt_in INTEGER NOT NULL CHECK(capture_opt_in IN (0,1)), reset_epoch INTEGER NOT NULL CHECK(reset_epoch>=0)) STRICT",
+        "CREATE TABLE settings (id INTEGER PRIMARY KEY CHECK(id=1), enabled INTEGER NOT NULL CHECK(enabled IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), capture_opt_in INTEGER NOT NULL CHECK(capture_opt_in IN (0,1)), reset_epoch INTEGER NOT NULL CHECK(reset_epoch>=0), maintenance_stop INTEGER NOT NULL CHECK(maintenance_stop IN (0,1))) STRICT",
     ),
     (
         "roots",
@@ -50,7 +50,7 @@ const SCHEMA: &[(&str, &str)] = &[
     ),
     (
         "status",
-        "CREATE TABLE status (id INTEGER PRIMARY KEY CHECK(id=1), heartbeat_ms INTEGER NOT NULL CHECK(heartbeat_ms>=0), running INTEGER NOT NULL CHECK(running IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), backend INTEGER NOT NULL CHECK(backend BETWEEN 0 AND 3), event INTEGER NOT NULL CHECK(event BETWEEN 0 AND 6)) STRICT",
+        "CREATE TABLE status (id INTEGER PRIMARY KEY CHECK(id=1), heartbeat_ms INTEGER NOT NULL CHECK(heartbeat_ms>=0), running INTEGER NOT NULL CHECK(running IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), backend INTEGER NOT NULL CHECK(backend BETWEEN 0 AND 3), event INTEGER NOT NULL CHECK(event BETWEEN 0 AND 6), capture_state INTEGER NOT NULL CHECK(capture_state BETWEEN 0 AND 5), capture_backend INTEGER NOT NULL CHECK(capture_backend BETWEEN 0 AND 2)) STRICT",
     ),
     ("files_ready", "CREATE INDEX files_ready ON files(state,next_attempt_ms)"),
     (
@@ -99,6 +99,7 @@ pub struct Settings {
     pub paused: bool,
     pub capture_opt_in: bool,
     pub reset_epoch: u64,
+    pub maintenance_stop: bool,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -108,6 +109,8 @@ pub struct Status {
     pub paused: bool,
     pub backend: u8,
     pub event: u8,
+    pub capture_state: u8,
+    pub capture_backend: u8,
     pub pending: u64,
     pub completed: u64,
     pub rejected: u64,
@@ -163,7 +166,10 @@ impl Store {
             .pragma("journal_size_limit", "1048576");
         let pool = SqlitePoolOptions::new()
             .max_connections(1)
-            .acquire_timeout(Duration::from_secs(3))
+            // Includes opening the worker thread/connection, not only a held
+            // query. Loaded Windows hosts can exceed three seconds during a
+            // cold open; retain a finite bound with room beyond busy_timeout.
+            .acquire_timeout(Duration::from_secs(10))
             .connect_with(options)
             .await?;
         let store = Self { pool, directory: directory.to_path_buf() };
@@ -193,9 +199,9 @@ impl Store {
             for (_, statement) in SCHEMA {
                 sqlx::query(*statement).execute(&mut *tx).await?;
             }
-            sqlx::query("INSERT INTO settings VALUES(1,1,0,0,0)").execute(&mut *tx).await?;
+            sqlx::query("INSERT INTO settings VALUES(1,1,0,0,0,0)").execute(&mut *tx).await?;
             sqlx::query("INSERT INTO usage VALUES(1,0,0)").execute(&mut *tx).await?;
-            sqlx::query("INSERT INTO status VALUES(1,0,0,0,0,0)").execute(&mut *tx).await?;
+            sqlx::query("INSERT INTO status VALUES(1,0,0,0,0,0,0,0)").execute(&mut *tx).await?;
             sqlx::query("PRAGMA user_version=1").execute(&mut *tx).await?;
             tx.commit().await?;
         } else if version != 1 {
@@ -257,7 +263,7 @@ impl Store {
 
     pub async fn settings(&self) -> anyhow::Result<Settings> {
         let row = sqlx::query(
-            "SELECT enabled,paused,capture_opt_in,reset_epoch FROM settings WHERE id=1",
+            "SELECT enabled,paused,capture_opt_in,reset_epoch,maintenance_stop FROM settings WHERE id=1",
         )
         .fetch_one(&self.pool)
         .await?;
@@ -266,6 +272,7 @@ impl Store {
             paused: boolean(row.try_get("paused")?)?,
             capture_opt_in: boolean(row.try_get("capture_opt_in")?)?,
             reset_epoch: u64::try_from(row.try_get::<i64, _>("reset_epoch")?)?,
+            maintenance_stop: boolean(row.try_get("maintenance_stop")?)?,
         })
     }
 
@@ -273,6 +280,15 @@ impl Store {
         self.before_write().await?;
         sqlx::query("UPDATE settings SET enabled=? WHERE id=1")
             .bind(enabled)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
+    pub async fn set_maintenance_stop(&self, stopped: bool) -> anyhow::Result<()> {
+        self.before_write().await?;
+        sqlx::query("UPDATE settings SET maintenance_stop=? WHERE id=1")
+            .bind(stopped)
             .execute(&self.pool)
             .await?;
         Ok(())
@@ -497,8 +513,22 @@ impl Store {
         Ok(())
     }
 
+    /// Capture status is independent of mailcache progress and contains no flow metadata.
+    pub async fn capture_status(&self, state: u8, backend: u8) -> anyhow::Result<()> {
+        if state > 5 || backend > 2 {
+            bail!("invalid capture status");
+        }
+        self.before_write().await?;
+        sqlx::query("UPDATE status SET capture_state=?,capture_backend=? WHERE id=1")
+            .bind(state as i64)
+            .bind(backend as i64)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
     pub async fn status(&self) -> anyhow::Result<Status> {
-        let row = sqlx::query("SELECT heartbeat_ms,running,paused,backend,event,(SELECT count(*) FROM files WHERE state=0) AS pending,(SELECT count(*) FROM files WHERE state=1) AS completed,(SELECT count(*) FROM files WHERE state=2) AS rejected FROM status WHERE id=1").fetch_one(&self.pool).await?;
+        let row = sqlx::query("SELECT heartbeat_ms,running,paused,backend,event,capture_state,capture_backend,(SELECT count(*) FROM files WHERE state=0) AS pending,(SELECT count(*) FROM files WHERE state=1) AS completed,(SELECT count(*) FROM files WHERE state=2) AS rejected FROM status WHERE id=1").fetch_one(&self.pool).await?;
         let backend = u8::try_from(row.try_get::<i64, _>("backend")?)?;
         let event = u8::try_from(row.try_get::<i64, _>("event")?)?;
         if backend > 3 || event > 6 {
@@ -510,6 +540,8 @@ impl Store {
             paused: boolean(row.try_get("paused")?)?,
             backend,
             event,
+            capture_state: bounded_code(row.try_get("capture_state")?, 5)?,
+            capture_backend: bounded_code(row.try_get("capture_backend")?, 2)?,
             pending: u64::try_from(row.try_get::<i64, _>("pending")?)?,
             completed: u64::try_from(row.try_get::<i64, _>("completed")?)?,
             rejected: u64::try_from(row.try_get::<i64, _>("rejected")?)?,
@@ -535,6 +567,14 @@ impl Store {
     pub async fn close(self) {
         self.pool.close().await;
     }
+}
+
+fn bounded_code(value: i64, maximum: u8) -> anyhow::Result<u8> {
+    let value = u8::try_from(value)?;
+    if value > maximum {
+        bail!("invalid worker status");
+    }
+    Ok(value)
 }
 
 fn boolean(value: i64) -> anyhow::Result<bool> {
