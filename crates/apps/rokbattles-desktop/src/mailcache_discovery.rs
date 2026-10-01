@@ -45,7 +45,7 @@ pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
 pub(crate) fn discover_mailcache_dirs() -> anyhow::Result<Vec<String>> {
     #[cfg(target_os = "windows")]
     {
-        return Ok(normalize_and_dedupe(discover_windows_mailcache_dirs()));
+        Ok(normalize_and_dedupe(discover_windows_mailcache_dirs()))
     }
 
     #[cfg(target_os = "macos")]
@@ -65,7 +65,7 @@ pub(crate) fn path_identity_key(path: &Path) -> String {
 
     #[cfg(target_os = "windows")]
     {
-        return normalize_windows_path_for_display(&text).to_ascii_lowercase();
+        normalize_windows_path_for_display(&text).to_ascii_lowercase()
     }
 
     #[cfg(not(target_os = "windows"))]

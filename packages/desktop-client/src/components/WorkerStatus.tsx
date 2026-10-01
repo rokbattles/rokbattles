@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { canChangeCaptureConsent } from "../lib/capture-consent.ts";
+
 import {
   getWorkerStatus,
   pauseWatcher,
@@ -116,18 +118,27 @@ export function WorkerStatus() {
         <input
           type="checkbox"
           checked={snapshot?.capture_opt_in ?? false}
-          disabled={pending || !snapshot}
+          disabled={pending || !snapshot || !canChangeCaptureConsent(snapshot)}
           onChange={(event) => void act(() => setCaptureOptIn(event.target.checked))}
         />
         <span>Allow network capture when the capture helper is available</span>
       </label>
       <p className="mt-2 text-xs/5 text-zinc-400">
-        Capture sends server-to-game traffic on ports 3101 and 5222 to ROK Battles for continuous
-        mail decoding. Other server messages are discarded there. Client payloads are excluded;
-        zero-payload connection controls stay on this computer. Raw streams are not saved. Capture
-        requires the platform helper and permissions. Windows Npcap is optional, installed
-        separately by you, and never bundled. Mailcache remains available without native capture.
+        When enabled, ROK Battles captures server-to-client TCP traffic on ports 3101 and 5222 for
+        connections owned by your OS account. This can include other apps using those ports. Server
+        bytes are sent to the ROK Battles capture endpoint for protocol classification; only
+        recognized game mail is stored. Client payloads are never captured. Outbound client TCP
+        control headers contain no payload, stay on this device, and only track connections. Raw
+        streams are not saved. Capture requires administrator setup. Windows Npcap is optional,
+        installed separately by you, and never bundled. Mailcache remains available without native
+        capture.
       </p>
+      {snapshot && !snapshot.capture_supported ? (
+        <p className="mt-2 text-xs/5 text-zinc-400">
+          This sandboxed package supports mailcache only. Use the native desktop package and its
+          administrator-installed capture companion for network capture.
+        </p>
+      ) : null}
       <p className="mt-2 text-xs/5 text-zinc-400">
         Network capture: {captureLabel}. After capture loss, reconnect the game. Earlier mails may
         already have been stored; interrupted streams are never replayed. If the helper is
