@@ -4963,6 +4963,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-capture-helper"
+version = "1.7.1"
+dependencies = [
+ "rokbattles-capture-adapters",
+ "rokbattles-capture-ipc",
+ "rokbattles-capture-runtime",
+ "sha2 0.10.9",
+ "tokio",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "rokbattles-capture-ipc"
+version = "1.7.1"
+dependencies = [
+ "libc",
+ "rokbattles-capture-runtime",
+ "tempfile",
+ "tokio",
+ "windows-sys 0.61.2",
+ "zeroize",
+]
+
+[[package]]
 name = "rokbattles-capture-runtime"
 version = "1.7.1"
 dependencies = [

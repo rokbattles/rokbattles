@@ -1,0 +1,21 @@
+[package]
+name = "rokbattles-capture-helper"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+rokbattles-capture-adapters = { path = "../../common/rokbattles-capture-adapters" }
+rokbattles-capture-runtime = { path = "../../common/rokbattles-capture-runtime" }
+rokbattles-capture-ipc = { path = "../../common/rokbattles-capture-ipc" }
+tokio = { workspace = true, features = ["io-util", "macros", "net", "rt-multi-thread", "sync", "time"] }
+
+[target.'cfg(windows)'.dependencies]
+sha2.workspace = true
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_NetworkManagement_IpHelper", "Win32_NetworkManagement_Ndis", "Win32_Networking_WinSock", "Win32_System_RemoteDesktop", "Win32_System_Services", "Win32_System_Threading", "Win32_Security_WinTrust", "Win32_Security_Cryptography", "Win32_Security_Authorization", "Win32_Storage_FileSystem"] }
+
+[dev-dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_NetworkManagement_IpHelper", "Win32_NetworkManagement_Ndis", "Win32_Networking_WinSock"] }
+
+[lints]
+workspace = true

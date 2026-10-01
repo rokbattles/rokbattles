@@ -6,6 +6,8 @@ on:
     paths:
       - "crates/common/rokbattles-capture-adapters/**"
       - "crates/common/rokbattles-capture-runtime/**"
+      - "crates/common/rokbattles-capture-ipc/**"
+      - "crates/apps/rokbattles-capture-helper/**"
       - "crates/common/rokbattles-desktop-paths/**"
       - "crates/common/rokbattles-desktop-store/**"
       - "crates/apps/rokbattles-desktop-agent/**"
@@ -24,6 +26,8 @@ on:
     paths:
       - "crates/common/rokbattles-capture-adapters/**"
       - "crates/common/rokbattles-capture-runtime/**"
+      - "crates/common/rokbattles-capture-ipc/**"
+      - "crates/apps/rokbattles-capture-helper/**"
       - "crates/common/rokbattles-desktop-paths/**"
       - "crates/common/rokbattles-desktop-store/**"
       - "crates/apps/rokbattles-desktop-agent/**"
@@ -79,11 +83,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends lld
       - name: Format
-        run: cargo fmt -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol -p rokbattles-nat-gateway -p rokbattles-mail-reconstructor -p rokbattles-ingress -- --check
+        run: cargo fmt -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-capture-ipc -p rokbattles-capture-helper -p rokbattles-gateway-protocol -p rokbattles-nat-gateway -p rokbattles-mail-reconstructor -p rokbattles-ingress -- --check
       - name: Lint
-        run: cargo clippy --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --all-targets --target ${{ matrix.target }} -- -D warnings
+        run: cargo clippy --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-capture-ipc -p rokbattles-capture-helper -p rokbattles-gateway-protocol --all-targets --target ${{ matrix.target }} -- -D warnings
       - name: Synthetic and mock tests only
-        run: cargo test --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --target ${{ matrix.target }}
+        run: cargo test --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-capture-ipc -p rokbattles-capture-helper -p rokbattles-gateway-protocol --target ${{ matrix.target }}
         # No libpcap, WinDivert DLL or driver installation. No live-capture tests.
       - name: Build sidecar without running it
         run: python crates/apps/rokbattles-desktop/scripts/stage_agent.py --debug --target ${{ matrix.target }}
