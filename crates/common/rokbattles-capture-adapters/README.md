@@ -79,6 +79,38 @@ No Npcap binaries, drivers, or installers are redistributed by this crate.
   Queued packets drain before `End`. pcap returns `Idle` without blocking so the
   caller can choose scheduling/cancellation. There is no background service here.
 
+## Connection probes and lifecycle boundary
+
+These adapters validate each packet independently. They retain valid server
+segments from both game ports, including an isolated SYN-ACK or a late `SxNtf`
+from a short-lived connection probe. They do not classify probes, remember active
+connections, or decide whether a notification belongs to a live game session.
+Server-only capture cannot observe the client's reset, so this API cannot reliably
+reject a server packet solely because the client has already sent RST.
+
+A future connection/lifecycle layer should:
+
+- Track each client/server address-and-port tuple independently, with a connection
+  generation to distinguish reused tuples. The game's simultaneous connections
+  must not suppress each other merely because another connection is active.
+- Classify provisional probes using connection history and protocol evidence,
+  with explicit bounded buffering and expiry. A handshake, one packet, or a short
+  duration alone does not prove a connection is disposable. Define handling for
+  capture that starts mid-connection, missing packets, and reordered delivery.
+- Use validated lifecycle evidence to discard notifications for an aborted
+  connection generation. Detecting a client-originated reset requires additional
+  client control metadata or equivalent local socket-state evidence. Any future
+  adapter extension must return typed header metadata only (endpoints, TCP flags,
+  sequence/acknowledgment numbers and observation ordering), never client payload
+  bytes; flags can coexist with payload, so flags alone cannot enforce that rule.
+- Distinguish reset from orderly close and preserve valid data carried with FIN.
+  FIN closes one direction; it does not mean the opposite direction is closed.
+  See [TCP close and half-close semantics](https://www.rfc-editor.org/rfc/rfc9293.html#section-3.6).
+
+These are requirements for a separately scoped stage. This crate does not widen
+capture to client packets, expose client control metadata, or implement a tracker.
+Probe promotion criteria and buffering limits remain to be specified there.
+
 ## Scope
 
 No protocol decoding/reassembly, ingress, persistence, SQLite, background service,

@@ -230,8 +230,9 @@ mod tests {
         flags: u64,
     ) -> *mut c_void {
         // SAFETY: production open provides this valid static C string.
+        let filter = unsafe { CStr::from_ptr(filter) };
         assert_eq!(
-            unsafe { CStr::from_ptr(filter) },
+            filter,
             c"inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222"
         );
         assert_eq!(layer, NETWORK);
