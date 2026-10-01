@@ -5,6 +5,7 @@
     any(target_arch = "x86_64", target_arch = "aarch64")
 ))]
 mod native;
+
 #[cfg(all(
     any(target_os = "linux", target_os = "macos", target_os = "windows"),
     any(target_arch = "x86_64", target_arch = "aarch64")

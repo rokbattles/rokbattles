@@ -11,9 +11,11 @@ pub(crate) unsafe fn load(path: &Path) -> Result<Library, Error> {
     if !path.is_absolute() {
         return Err(Error::InvalidInput("native library path must be absolute"));
     }
+
     let path = path
         .canonicalize()
         .map_err(|error| Error::Library { path: path.to_owned(), detail: error.to_string() })?;
+
     #[cfg(windows)]
     // SAFETY: caller vouches for the binary and its ABI. The primary path is
     // absolute; dependencies may only come from its trusted directory (Npcap's
@@ -26,9 +28,11 @@ pub(crate) unsafe fn load(path: &Path) -> Result<Library, Error> {
         )
         .map(Library::from)
     };
+
     #[cfg(not(windows))]
     // SAFETY: caller vouches for the binary, dependencies and native initializers.
     let library = unsafe { Library::new(&path) };
+
     library.map_err(|error| Error::Library { path, detail: error.to_string() })
 }
 
@@ -39,6 +43,7 @@ pub(crate) unsafe fn symbol<T: Copy>(
 ) -> Result<T, Error> {
     // SAFETY: the caller supplies the documented native signature for this symbol.
     let symbol = unsafe { library.get::<T>(name.to_bytes_with_nul()) };
+
     symbol.map(|value| *value).map_err(|error| Error::Symbol {
         name: name.to_str().unwrap_or("non-UTF8 symbol"),
         detail: error.to_string(),
@@ -53,6 +58,7 @@ mod tests {
     fn rejects_relative_paths_without_loading() {
         // SAFETY: input validation returns before any loader invocation.
         let error = unsafe { load(Path::new("untrusted-library")) }.expect_err("relative path");
+
         assert!(matches!(error, Error::InvalidInput(_)));
     }
 
@@ -61,6 +67,7 @@ mod tests {
         let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("Cargo.toml").join("not-a-directory");
         // SAFETY: the nonexistent path fails canonicalization without loading code.
         let error = unsafe { load(&path) }.expect_err("missing file");
+
         assert!(matches!(error, Error::Library { .. }));
     }
 
@@ -73,11 +80,13 @@ mod tests {
         #[cfg(windows)]
         let library =
             Library::from(libloading::os::windows::Library::this().expect("current executable"));
+
         // SAFETY: this deliberately absent symbol is never invoked. Its name
         // cannot be provided by any of this crate's native test mocks.
         let result = unsafe {
             symbol::<unsafe extern "C" fn()>(&library, c"rokbattles_missing_symbol_867655b1")
         };
+
         assert!(matches!(result, Err(Error::Symbol { .. })));
     }
 }

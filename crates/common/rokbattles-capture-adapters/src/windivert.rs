@@ -2,6 +2,7 @@
 
 #[cfg(all(windows, target_arch = "x86_64"))]
 mod native;
+
 #[cfg(all(windows, target_arch = "x86_64"))]
 pub use native::{Capture, WinDivert};
 

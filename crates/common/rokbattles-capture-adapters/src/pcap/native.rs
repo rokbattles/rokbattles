@@ -13,24 +13,29 @@ use crate::{Error, Receive, SNAPLEN, library, packet};
 
 const PORT_FILTER: &str = "tcp src port 3101 and not dst port 3101";
 const MAX_CLIENT_ADDRESSES: usize = 16;
+
 #[cfg(unix)]
 const PCAP_D_IN: c_int = 1;
+
 const ERRBUF_SIZE: usize = 256;
 
 // ABI: pcap/pcap.h uses the platform timeval. Windows Winsock uses two
 // 32-bit C longs (LLP64), even on x64/ARM64. Unix uses its actual libc layout.
 #[cfg(unix)]
 type Timeval = libc::timeval;
+
 #[cfg(windows)]
 #[repr(C)]
 struct Timeval {
     tv_sec: i32,
     tv_usec: i32,
 }
+
 #[cfg(unix)]
 const LOOP_IPV4: u32 = libc::AF_INET as u32;
 #[cfg(unix)]
 const LOOP_IPV6: u32 = libc::AF_INET6 as u32;
+
 #[cfg(windows)]
 const LOOP_IPV4: u32 = 2;
 #[cfg(windows)]
@@ -40,6 +45,7 @@ const LOOP_IPV6: u32 = 24; // Npcap DLT_NULL uses BSD values, not Winsock AF_INE
 // process-lifetime Once would be incorrect. Upstream accepts same-mode repeats.
 #[cfg(windows)]
 static INIT_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 #[cfg(windows)]
 type Init = unsafe extern "C" fn(c_uint, *mut c_char) -> c_int;
 
@@ -87,6 +93,7 @@ struct Api {
     next: Next,
     geterr: GetError,
     close: Close,
+
     // Dropped only after every Capture borrow has ended; function pointers never
     // escape this owner. Tests use mocked functions and no library.
     _library: Option<Library>,
@@ -110,6 +117,7 @@ impl Pcap {
     pub unsafe fn load(path: &Path) -> Result<Self, Error> {
         // SAFETY: caller guarantees trust, dependencies and libpcap ABI.
         let library = unsafe { library::load(path) }?;
+
         macro_rules! symbol {
             ($name:expr) => {{
                 // SAFETY: exact documented C signature, inferred from the field;
@@ -117,6 +125,7 @@ impl Pcap {
                 unsafe { library::symbol(&library, $name) }?
             }};
         }
+
         let api = Api {
             #[cfg(windows)]
             init: symbol!(c"pcap_init"),
@@ -137,6 +146,7 @@ impl Pcap {
             close: symbol!(c"pcap_close"),
             _library: Some(library),
         };
+
         Ok(Self { api })
     }
 
@@ -150,16 +160,19 @@ impl Pcap {
         if interface.is_empty() || interface.len() > 255 || interface.contains("://") {
             return Err(Error::InvalidInput("expected a local interface name"));
         }
+
         let interface = CString::new(interface)
             .map_err(|_error| Error::InvalidInput("interface contains NUL"))?;
         let (clients, filter) = client_filter(clients)?;
         let mut error_buffer = [0; ERRBUF_SIZE];
+
         #[cfg(windows)]
         {
             let _guard = INIT_LOCK.lock().map_err(|_error| Error::Native {
                 operation: "pcap_init",
                 detail: "initialization lock poisoned".to_owned(),
             })?;
+
             // SAFETY: retained trusted Npcap ABI, writable errbuf; UTF8 mode (1)
             // disables pcap_create's unsafe legacy UTF16 string probe. No handle
             // is opened until initialization succeeds. All our calls serialize.
@@ -171,6 +184,7 @@ impl Pcap {
                 });
             }
         }
+
         // SAFETY: both C string and writable fixed-size errbuf remain live.
         let handle = unsafe { (self.api.create)(interface.as_ptr(), error_buffer.as_mut_ptr()) };
         let handle = NonNull::new(handle).ok_or_else(|| Error::Native {
@@ -179,6 +193,7 @@ impl Pcap {
         })?;
         let mut capture =
             Capture { api: &self.api, handle, link_type: 0, clients, _single_thread: PhantomData };
+
         for (set, value, operation) in [
             (self.api.snaplen, SNAPLEN as c_int, "pcap_set_snaplen"),
             (self.api.promiscuous, 0, "pcap_set_promisc"),
@@ -188,26 +203,31 @@ impl Pcap {
             let status = unsafe { set(handle.as_ptr(), value) };
             capture.check(status, operation)?;
         }
+
         // SAFETY: configured, not-yet-activated live handle owned by capture.
         let status = unsafe { (self.api.activate)(handle.as_ptr()) };
         // Positive results are warnings, not failures, but rejecting them is
         // deliberate: never quietly relax the requested capture configuration.
         capture.check(status, "pcap_activate")?;
+
         #[cfg(unix)]
         {
             // SAFETY: activated handle; PCAP_D_IN is the documented inbound enum.
             let status = unsafe { (self.api.direction)(handle.as_ptr(), PCAP_D_IN) };
             capture.check(status, "pcap_setdirection (inbound required)")?;
         }
+
         // SAFETY: live handle and writable errbuf; makes receive nonblocking.
         let status = unsafe { (self.api.nonblock)(handle.as_ptr(), 1, error_buffer.as_mut_ptr()) };
         capture.check(status, "pcap_setnonblock")?;
+
         // SAFETY: live activated handle.
         let link_type = unsafe { (self.api.datalink)(handle.as_ptr()) };
         if !supported_link_type(link_type) {
             return Err(Error::UnsupportedLinkType(link_type));
         }
         capture.link_type = link_type;
+
         let mut program = BpfProgram { length: 0, instructions: ptr::null_mut() };
         // SAFETY: initialized output, live CString built only from fixed grammar
         // and typed IP addresses; owned handle. No arbitrary BPF is accepted.
@@ -215,12 +235,14 @@ impl Pcap {
             (self.api.compile)(handle.as_ptr(), &raw mut program, filter.as_ptr(), 1, u32::MAX)
         };
         capture.check(status, "pcap_compile")?;
+
         // SAFETY: compile succeeded; this exact program is live until freecode.
         let status = unsafe { (self.api.setfilter)(handle.as_ptr(), &raw mut program) };
         // SAFETY: a successfully compiled program must be freed exactly once,
         // including when setfilter fails. libpcap retains its own filter copy.
         unsafe { (self.api.freecode)(&raw mut program) };
         capture.check(status, "pcap_setfilter")?;
+
         Ok(capture)
     }
 }
@@ -239,6 +261,7 @@ impl Capture<'_> {
         if status == 0 {
             return Ok(());
         }
+
         let detail = self.error_message();
         if status == -8 || status == -11 {
             Err(Error::PermissionDenied { backend: "pcap", detail })
@@ -253,6 +276,7 @@ impl Capture<'_> {
         if pointer.is_null() {
             return "native library supplied no diagnostic".to_owned();
         }
+
         // SAFETY: libpcap guarantees a NUL-terminated error string valid until
         // the next handle operation. Copy before calling the library again.
         unsafe { CStr::from_ptr(pointer) }.to_string_lossy().into_owned()
@@ -262,9 +286,11 @@ impl Capture<'_> {
     pub fn receive(&mut self) -> Result<Receive, Error> {
         let mut header = ptr::null();
         let mut data = ptr::null();
+
         // SAFETY: valid exclusive handle, initialized writable pointer outputs.
         let status =
             unsafe { (self.api.next)(self.handle.as_ptr(), &raw mut header, &raw mut data) };
+
         match status {
             0 => Ok(Receive::Idle),
             -2 => Ok(Receive::End),
@@ -276,6 +302,7 @@ impl Capture<'_> {
                     .ok_or(Error::InvalidPacket("pcap returned NULL header pointer"))?;
                 let data = NonNull::new(data.cast_mut())
                     .ok_or(Error::InvalidPacket("pcap returned NULL data pointer"))?;
+
                 // SAFETY: next_ex succeeded; libpcap owns a valid aligned header
                 // until the next receive call, excluded by this mutable borrow.
                 let header = unsafe { header.as_ref() };
@@ -287,6 +314,7 @@ impl Capture<'_> {
                 {
                     return Err(Error::InvalidPacket("truncated or oversized pcap packet"));
                 }
+
                 // SAFETY: trusted libpcap guarantees `captured_length` bytes.
                 // The length was bounded before forming this borrowed slice.
                 let bytes = unsafe { std::slice::from_raw_parts(data.as_ptr(), length) };
@@ -314,6 +342,7 @@ fn client_filter(clients: &[IpAddr]) -> Result<(Vec<IpAddr>, CString), Error> {
     if clients.is_empty() || clients.len() > MAX_CLIENT_ADDRESSES {
         return Err(Error::InvalidInput("expected 1..=16 local client addresses"));
     }
+
     let mut unique = Vec::with_capacity(clients.len());
     for address in clients {
         if address.is_unspecified()
@@ -326,10 +355,12 @@ fn client_filter(clients: &[IpAddr]) -> Result<(Vec<IpAddr>, CString), Error> {
             unique.push(*address);
         }
     }
+
     let destinations =
         unique.iter().map(|address| format!("dst host {address}")).collect::<Vec<_>>().join(" or ");
     let filter = CString::new(format!("{PORT_FILTER} and ({destinations})"))
         .map_err(|_error| Error::InvalidInput("invalid address filter"))?;
+
     Ok((unique, filter))
 }
 
@@ -339,6 +370,7 @@ fn buffer_message(buffer: &[c_char; ERRBUF_SIZE]) -> String {
         .take_while(|byte| **byte != 0)
         .map(|byte| u8::from_ne_bytes(byte.to_ne_bytes()))
         .collect();
+
     String::from_utf8_lossy(&bytes).into_owned()
 }
 
@@ -367,6 +399,7 @@ fn link_packet(kind: c_int, bytes: &[u8]) -> Option<&[u8]> {
             if bytes.get(..2)? != [0, 0] {
                 return None;
             }
+
             match bytes.get(14..16)? {
                 [0x08, 0x00] | [0x86, 0xdd] => bytes.get(16..),
                 _ => None,
@@ -376,6 +409,7 @@ fn link_packet(kind: c_int, bytes: &[u8]) -> Option<&[u8]> {
             if bytes.get(10)? != &0 {
                 return None;
             }
+
             match bytes.get(..2)? {
                 [0x08, 0x00] | [0x86, 0xdd] => bytes.get(20..),
                 _ => None,
@@ -442,10 +476,13 @@ mod tests {
     #[cfg(windows)]
     unsafe extern "C" fn init(encoding: c_uint, error: *mut c_char) -> c_int {
         use std::sync::atomic::{AtomicUsize, Ordering};
+
         static ACTIVE: AtomicUsize = AtomicUsize::new(0);
+
         assert_eq!(encoding, 1);
         assert_eq!(ACTIVE.fetch_add(1, Ordering::SeqCst), 0, "initialization overlapped");
         std::thread::yield_now();
+
         // SAFETY: production open provides a zeroed, writable 256-byte errbuf.
         assert_eq!(unsafe { *error }, 0);
         let result = call("init");
@@ -456,6 +493,7 @@ mod tests {
                 ptr::copy_nonoverlapping(message.as_ptr(), error, message.to_bytes_with_nul().len())
             };
         }
+
         ACTIVE.fetch_sub(1, Ordering::SeqCst);
         result
     }
@@ -463,26 +501,32 @@ mod tests {
     unsafe extern "C" fn create(_interface: *const c_char, _error: *mut c_char) -> *mut c_void {
         if call("create") == 0 { ptr::dangling_mut::<u8>().cast() } else { ptr::null_mut() }
     }
+
     unsafe extern "C" fn snaplen(_handle: *mut c_void, value: c_int) -> c_int {
         assert_eq!(value, SNAPLEN as c_int);
         call("snaplen")
     }
+
     unsafe extern "C" fn promiscuous(_handle: *mut c_void, value: c_int) -> c_int {
         assert_eq!(value, 0);
         call("promiscuous")
     }
+
     unsafe extern "C" fn timeout(_handle: *mut c_void, value: c_int) -> c_int {
         assert_eq!(value, 100);
         call("timeout")
     }
+
     unsafe extern "C" fn activate(_handle: *mut c_void) -> c_int {
         call("activate")
     }
+
     #[cfg(unix)]
     unsafe extern "C" fn direction(_handle: *mut c_void, value: c_int) -> c_int {
         assert_eq!(value, PCAP_D_IN);
         call("direction")
     }
+
     unsafe extern "C" fn nonblock(
         _handle: *mut c_void,
         value: c_int,
@@ -491,9 +535,11 @@ mod tests {
         assert_eq!(value, 1);
         call("nonblock")
     }
+
     unsafe extern "C" fn datalink(_handle: *mut c_void) -> c_int {
         STATE.with_borrow(|state| state.link_type)
     }
+
     unsafe extern "C" fn compile(
         _handle: *mut c_void,
         _program: *mut BpfProgram,
@@ -508,18 +554,23 @@ mod tests {
         assert_eq!(mask, u32::MAX);
         call("compile")
     }
+
     unsafe extern "C" fn setfilter(_handle: *mut c_void, _program: *mut BpfProgram) -> c_int {
         call("setfilter")
     }
+
     unsafe extern "C" fn freecode(_program: *mut BpfProgram) {
         STATE.with_borrow_mut(|state| state.freed += 1);
     }
+
     unsafe extern "C" fn close(_handle: *mut c_void) {
         STATE.with_borrow_mut(|state| state.closed += 1);
     }
+
     unsafe extern "C" fn geterr(_handle: *mut c_void) -> *const c_char {
         c"mock capture error".as_ptr()
     }
+
     unsafe extern "C" fn next(
         _handle: *mut c_void,
         header: *mut *const PacketHeader,
@@ -539,6 +590,7 @@ mod tests {
 
     fn mock() -> Pcap {
         STATE.with_borrow_mut(|state| *state = State::default());
+
         Pcap {
             api: Api {
                 #[cfg(windows)]
@@ -567,10 +619,12 @@ mod tests {
     fn open_installs_strict_filter_and_drop_closes_once() {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+
         assert_eq!(
             capture.receive().expect("mock receive"),
             Receive::Packet(packet::tests::ipv4())
         );
+
         STATE.with_borrow(|state| {
             assert_eq!(
                 state.calls,
@@ -592,6 +646,7 @@ mod tests {
             assert_eq!(state.freed, 1);
             assert_eq!(state.closed, 0);
         });
+
         drop(capture);
         STATE.with_borrow(|state| assert_eq!(state.closed, 1));
     }
@@ -651,6 +706,7 @@ mod tests {
         STATE.with_borrow_mut(|state| state.fail = "create");
         assert!(matches!(api.open("test0", &[CLIENT]), Err(Error::Native { .. })));
         STATE.with_borrow(|state| assert_eq!(state.closed, 0));
+
         let api = mock();
         STATE.with_borrow_mut(|state| state.link_type = 999);
         assert!(matches!(api.open("test0", &[CLIENT]), Err(Error::UnsupportedLinkType(999))));
@@ -661,12 +717,15 @@ mod tests {
     fn receive_handles_idle_end_error_and_rejects_client_packets() {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+
         for (status, expected) in [(0, Receive::Idle), (-2, Receive::End)] {
             STATE.with_borrow_mut(|state| state.next_status = status);
             assert_eq!(capture.receive().expect("non-packet"), expected);
         }
+
         STATE.with_borrow_mut(|state| state.next_status = -1);
         assert!(matches!(capture.receive(), Err(Error::Native { .. })));
+
         STATE.with_borrow_mut(|state| {
             state.next_status = 1;
             state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
@@ -678,6 +737,7 @@ mod tests {
     fn receive_checks_lengths_and_null_outputs_before_dereferencing_data() {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+
         for mode in 0..5 {
             STATE.with_borrow_mut(|state| {
                 state.null_header = mode == 0;
@@ -711,15 +771,19 @@ mod tests {
                 276 => header[..2].copy_from_slice(&[8, 0]),
                 _ => {}
             }
+
             header.extend_from_slice(&ip);
             assert_eq!(link_packet(kind, &header), Some(ip.as_slice()));
+
             for length in 0..size {
                 assert_eq!(link_packet(kind, &header[..length]), None);
             }
+
             if kind == 113 {
                 header[1] = 4;
                 assert_eq!(link_packet(kind, &header), None);
             }
+
             if kind == 276 {
                 header[10] = 4;
                 assert_eq!(link_packet(kind, &header), None);
@@ -736,6 +800,7 @@ mod tests {
             filter.to_str().expect("ASCII"),
             "tcp src port 3101 and not dst port 3101 and (dst host 192.0.2.2 or dst host 2001:db8::2)"
         );
+
         let api = mock();
         for clients in [
             vec![],
@@ -753,10 +818,12 @@ mod tests {
     fn packet_destination_cannot_escape_configured_client_scope() {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+
         // Port 3101 alone is insufficient: this packet heads away from the
         // configured client. Windows has no pcap_setdirection safety net.
         STATE.with_borrow_mut(|state| state.bytes[16..20].copy_from_slice(&[203, 0, 113, 1]));
         assert_eq!(capture.receive().expect("mock receive"), Receive::Discarded);
+
         STATE.with_borrow_mut(|state| state.bytes[16..20].copy_from_slice(&[192, 0, 2, 2]));
         assert!(matches!(capture.receive(), Ok(Receive::Packet(_))));
     }
@@ -774,9 +841,11 @@ mod tests {
         ipv6[40..].copy_from_slice(&packet::tests::ipv4()[20..]);
         assert_eq!(packet::destination(&ipv6), Some(client));
         assert!(packet::server_packet(&ipv6).is_some());
+
         let mut frame = LOOP_IPV6.to_ne_bytes().to_vec();
         frame.extend_from_slice(&ipv6);
         assert_eq!(link_packet(0, &frame), Some(ipv6.as_slice()));
+
         #[cfg(windows)]
         {
             assert_eq!(LOOP_IPV6, 24); // Npcap BSD wire value, not Winsock's 23
@@ -795,12 +864,14 @@ mod tests {
             assert_eq!(std::mem::offset_of!(PacketHeader, captured_length), 8);
             assert_eq!(std::mem::offset_of!(PacketHeader, original_length), 12);
         }
+
         #[cfg(unix)]
         {
             assert_eq!(std::mem::size_of::<PacketHeader>(), 24);
             assert_eq!(std::mem::offset_of!(PacketHeader, captured_length), 16);
             assert_eq!(std::mem::offset_of!(PacketHeader, original_length), 20);
         }
+
         assert_eq!(std::mem::size_of::<BpfProgram>(), 16);
         assert_eq!(std::mem::offset_of!(BpfProgram, instructions), 8);
     }

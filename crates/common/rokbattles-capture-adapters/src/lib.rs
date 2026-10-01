@@ -10,11 +10,13 @@
     any(target_arch = "x86_64", target_arch = "aarch64")
 ))]
 mod library;
+
 #[cfg(all(
     any(target_os = "linux", target_os = "macos", target_os = "windows"),
     any(target_arch = "x86_64", target_arch = "aarch64")
 ))]
 mod packet;
+
 pub mod pcap;
 pub mod windivert;
 
@@ -32,10 +34,13 @@ const SNAPLEN: usize = 65_575 + 256;
 pub enum Receive {
     /// Owned, validated IP packet (without link-layer padding or framing).
     Packet(Vec<u8>),
+
     /// No packet is available now (pcap is nonblocking).
     Idle,
+
     /// A packet was rejected by the adapter's defense-in-depth admission check.
     Discarded,
+
     /// The native source has ended.
     End,
 }

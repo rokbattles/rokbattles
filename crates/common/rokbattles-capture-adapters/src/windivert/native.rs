@@ -40,6 +40,7 @@ struct Api {
     recv: Recv,
     shutdown: Shutdown,
     close: Close,
+
     // Function pointers remain private and cannot outlive this retained DLL.
     _library: Option<Library>,
 }
@@ -61,6 +62,7 @@ impl WinDivert {
     pub unsafe fn load(path: &Path) -> Result<Self, Error> {
         // SAFETY: caller guarantees the DLL's trust and version/architecture ABI.
         let library = unsafe { library::load(path) }?;
+
         macro_rules! symbol {
             ($name:expr) => {{
                 // SAFETY: exact documented C signature, inferred from the field;
@@ -68,6 +70,7 @@ impl WinDivert {
                 unsafe { library::symbol(&library, $name) }?
             }};
         }
+
         let api = Api {
             open: symbol!(c"WinDivertOpen"),
             recv: symbol!(c"WinDivertRecv"),
@@ -75,6 +78,7 @@ impl WinDivert {
             close: symbol!(c"WinDivertClose"),
             _library: Some(library),
         };
+
         Ok(Self { api })
     }
 
@@ -88,8 +92,10 @@ impl WinDivert {
         if handle as isize == -1 {
             return Err(last_error("WinDivertOpen"));
         }
+
         let handle =
             NonNull::new(handle).ok_or(Error::InvalidPacket("WinDivertOpen returned NULL"))?;
+
         Ok(Capture { api: &self.api, handle })
     }
 }
@@ -104,6 +110,7 @@ pub struct Capture<'a> {
 // separate per-call buffers; Shutdown may interrupt a blocking receive. Shared
 // references keep Drop from closing the handle while an operation is in flight.
 unsafe impl Send for Capture<'_> {}
+
 // SAFETY: as above; no Rust mutable state or borrowed native buffers are shared.
 unsafe impl Sync for Capture<'_> {}
 
@@ -115,6 +122,7 @@ impl Capture<'_> {
         let mut bytes = vec![0; SNAPLEN];
         let mut length = 0;
         let mut address = Address { timestamp: 0, flags: 0, reserved: 0, data: [0; 64] };
+
         // SAFETY: all outputs are initialized, correctly aligned and sized. This
         // live handle and its library outlive the call. No buffer is reused.
         let result = unsafe {
@@ -126,18 +134,22 @@ impl Capture<'_> {
                 &raw mut address,
             )
         };
+
         if result == 0 {
             let error = std::io::Error::last_os_error();
             if error.raw_os_error() == Some(232) {
                 // ERROR_NO_DATA after shutdown
                 return Ok(Receive::End);
             }
+
             return Err(windows_error("WinDivertRecv", error));
         }
+
         let length = usize::try_from(length)
             .map_err(|_error| Error::InvalidPacket("WinDivert length overflow"))?;
         let bytes =
             bytes.get(..length).ok_or(Error::InvalidPacket("WinDivert length exceeds buffer"))?;
+
         // Layer/event are NETWORK/PACKET (zero), sniffed bit set, outbound bit
         // clear. Discard ambiguous metadata even if the native filter matched.
         if address.flags & 0xffff != 0
@@ -146,6 +158,7 @@ impl Capture<'_> {
         {
             return Ok(Receive::Discarded);
         }
+
         Ok(packet::server_packet(bytes)
             .map_or(Receive::Discarded, |ip| Receive::Packet(ip.to_vec())))
     }
@@ -221,6 +234,7 @@ mod tests {
         assert_eq!(layer, NETWORK);
         assert_eq!(priority, 0);
         assert_eq!(flags, 0x15); // SNIFF | RECV_ONLY | NO_INSTALL, no injection
+
         STATE.with_borrow(|state| state.open_result as *mut c_void)
     }
 
@@ -233,6 +247,7 @@ mod tests {
     ) -> c_int {
         STATE.with_borrow(|state| {
             assert!(state.bytes.len() <= capacity as usize);
+
             // SAFETY: production receive provides a writable SNAPLEN-byte buffer;
             // the synthetic packet length above is checked before copying.
             unsafe {
@@ -242,6 +257,7 @@ mod tests {
                     state.bytes.len(),
                 )
             };
+
             // SAFETY: production receive supplies an initialized writable u32.
             unsafe { *length = state.length.unwrap_or(state.bytes.len() as u32) };
             // SAFETY: production receive supplies an aligned 80-byte address.
@@ -263,6 +279,7 @@ mod tests {
 
     fn mock() -> WinDivert {
         STATE.with_borrow_mut(|state| *state = State::default());
+
         WinDivert { api: Api { open, recv, shutdown, close, _library: None } }
     }
 
@@ -270,9 +287,12 @@ mod tests {
     fn mock_capture_uses_passive_flags_and_closes_once() {
         let backend = mock();
         let capture = backend.open().expect("mock open");
+
         assert_eq!(capture.receive().expect("mock recv"), Receive::Packet(packet::tests::ipv4()));
+
         capture.shutdown().expect("mock shutdown");
         drop(capture);
+
         STATE.with_borrow(|state| {
             assert_eq!(state.shutdown, 1);
             assert_eq!(state.closed, 1);
@@ -283,6 +303,7 @@ mod tests {
     fn receive_rejects_outbound_or_ambiguous_metadata() {
         let backend = mock();
         let capture = backend.open().expect("mock open");
+
         for flags in [0, 1 << 17, (1 << 16) | (1 << 17), (1 << 16) | 1, (1 << 16) | (1 << 8)] {
             STATE.with_borrow_mut(|state| state.flags = flags);
             assert_eq!(capture.receive().expect("mock recv"), Receive::Discarded);
@@ -293,12 +314,15 @@ mod tests {
     fn invalid_lengths_or_client_packets_never_escape() {
         let backend = mock();
         let capture = backend.open().expect("mock open");
+
         STATE.with_borrow_mut(|state| state.length = Some(SNAPLEN as u32 + 1));
         assert!(matches!(capture.receive(), Err(Error::InvalidPacket(_))));
+
         STATE.with_borrow_mut(|state| {
             state.length = Some(0);
         });
         assert_eq!(capture.receive().expect("zero recv"), Receive::Discarded);
+
         STATE.with_borrow_mut(|state| {
             state.length = None;
             state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
@@ -322,11 +346,13 @@ mod tests {
             windows_error("open", std::io::Error::from_raw_os_error(5)),
             Error::PermissionDenied { .. }
         ));
+
         for code in [2, 577, 654, 1060, 1275, 1753] {
             assert!(
                 matches!(windows_error("open", std::io::Error::from_raw_os_error(code)), Error::DriverUnavailable { code: value } if value == code)
             );
         }
+
         assert!(matches!(
             windows_error("open", std::io::Error::from_raw_os_error(87)),
             Error::Native { .. }
@@ -339,6 +365,7 @@ mod tests {
         assert_eq!(std::mem::align_of::<Address>(), 8);
         assert_eq!(std::mem::offset_of!(Address, flags), 8);
         assert_eq!(std::mem::offset_of!(Address, data), 16);
+
         fn send_sync<T: Send + Sync>() {}
         send_sync::<Capture<'_>>();
     }
