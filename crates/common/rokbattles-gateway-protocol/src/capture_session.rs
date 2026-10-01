@@ -22,6 +22,10 @@ const MAX_RETURNED_BYTES: usize = 32 * 1024 * 1024;
 const MAX_RETURNED_MAILS: usize = 512;
 const FIRST_FRAME_LIMIT: usize = 64 * 1024;
 const FLOW_IDLE: Duration = Duration::from_secs(30 * 60);
+const TOMBSTONE_LIFETIME: Duration = Duration::from_secs(90);
+const TOMBSTONE_BYTES: usize = 4 * 1024 * 1024;
+const TOMBSTONE_EVENTS: usize = 512;
+const HANDSHAKE_ONLY_IDLE: Duration = Duration::from_secs(90);
 const INITIAL_FRAME_TIMEOUT: Duration = Duration::from_secs(15);
 const PARTIAL_FRAME_TIMEOUT: Duration = Duration::from_secs(120);
 const WORK_BURST: usize = 64 * 1024 * 1024;
@@ -55,6 +59,16 @@ impl fmt::Debug for CapturedMail {
     }
 }
 
+struct InputEvent(Event);
+
+impl Drop for InputEvent {
+    fn drop(&mut self) {
+        if let Event::Data { bytes, .. } = &mut self.0 {
+            bytes.zeroize();
+        }
+    }
+}
+
 struct DecodedEvents(Vec<StreamEvent>);
 
 impl Drop for DecodedEvents {
@@ -70,11 +84,14 @@ impl Drop for DecodedEvents {
 }
 
 struct Flow<'a> {
-    decoder: ServerStreamProcessor<'a>,
+    decoder: Option<ServerStreamProcessor<'a>>,
     offset: u64,
     context: MailContext,
     touched: Duration,
     frame_started: Duration,
+    retired_at: Option<Duration>,
+    ignored_bytes: usize,
+    ignored_events: usize,
 }
 
 /// Session-private decoders, keys, player/server context and incomplete frames.
@@ -110,13 +127,15 @@ impl<'a> Session<'a> {
     /// On any error, all session state is discarded. The caller must terminate
     /// this transport and cannot re-submit ciphertext to a fresh decoder.
     pub fn accept(&mut self, event: Event, now: Duration) -> Result<Vec<CapturedMail>, Error> {
+        let mut event = InputEvent(event);
         if self.failed {
             return Err(Error::Sequence);
         }
 
         self.refill(now);
-        self.expire(now);
-        let result = self.accept_inner(event, now);
+        let result = self.expire(now).and_then(|()| {
+            self.accept_inner(std::mem::replace(&mut event.0, Event::Keepalive), now)
+        });
 
         if result.is_err() {
             self.flows.clear();
@@ -127,20 +146,45 @@ impl<'a> Session<'a> {
     }
 
     /// Drop stale flow state during quiet periods without interpreting partial frames.
-    pub fn expire(&mut self, now: Duration) {
-        self.flows.retain(|_, flow| {
-            let initial = flow.decoder.completed_frames() == 0;
+    pub fn expire(&mut self, now: Duration) -> Result<(), Error> {
+        if self.failed {
+            return Err(Error::Sequence);
+        }
+        if self.flows.values().any(|flow| {
+            flow.retired_at.is_some_and(|retired| now.saturating_sub(retired) >= TOMBSTONE_LIFETIME)
+        }) {
+            self.flows.clear();
+            self.buffered = 0;
+            self.failed = true;
+            return Err(Error::Capacity);
+        }
+        for flow in self.flows.values_mut() {
+            let Some(decoder) = flow.decoder.as_ref() else {
+                continue;
+            };
+            let frames = decoder.completed_frames();
+            let initial = frames == 0;
             let deadline = if initial { INITIAL_FRAME_TIMEOUT } else { PARTIAL_FRAME_TIMEOUT };
-            now.saturating_sub(flow.touched) < FLOW_IDLE
-                && (!(initial || flow.decoder.has_incomplete_frame())
-                    || now.saturating_sub(flow.frame_started) < deadline)
-        });
-        self.buffered = self.flows.values().map(|flow| flow.decoder.buffered_bytes()).sum();
+            let expired = now.saturating_sub(flow.touched) >= FLOW_IDLE
+                || (frames == 1 && now.saturating_sub(flow.touched) >= HANDSHAKE_ONLY_IDLE)
+                || ((initial || decoder.has_incomplete_frame())
+                    && now.saturating_sub(flow.frame_started) >= deadline);
+            if expired {
+                retire(flow, now);
+            }
+        }
+        self.buffered = self
+            .flows
+            .values()
+            .filter_map(|flow| flow.decoder.as_ref())
+            .map(ServerStreamProcessor::buffered_bytes)
+            .sum();
+        Ok(())
     }
 
     /// Number of live cipher contexts, for bounded status counters only.
     pub fn flow_count(&self) -> usize {
-        self.flows.len()
+        self.flows.values().filter(|flow| flow.decoder.is_some()).count()
     }
 
     fn accept_inner(&mut self, event: Event, now: Duration) -> Result<Vec<CapturedMail>, Error> {
@@ -156,28 +200,29 @@ impl<'a> Session<'a> {
                 self.flows.insert(
                     id,
                     Flow {
-                        decoder: ServerStreamProcessor::new(self.artifact).with_frame_limits(
+                        decoder: Some(ServerStreamProcessor::new(self.artifact).with_frame_limits(
                             FIRST_FRAME_LIMIT,
                             crate::stream::MAX_FRAME_BODY_BYTES,
-                        ),
+                        )),
                         offset: 0,
                         context: MailContext::default(),
                         touched: now,
                         frame_started: now,
+                        retired_at: None,
+                        ignored_bytes: 0,
+                        ignored_events: 0,
                     },
                 );
                 Ok(Vec::new())
             }
             Event::Close { id } | Event::Abort { id, .. } => {
                 let flow = self.flows.remove(&id).ok_or(Error::Sequence)?;
-                self.buffered = self.buffered.saturating_sub(flow.decoder.buffered_bytes());
+                self.buffered = self.buffered.saturating_sub(
+                    flow.decoder.as_ref().map_or(0, ServerStreamProcessor::buffered_bytes),
+                );
                 Ok(Vec::new())
             }
-            Event::Gap => {
-                self.flows.clear();
-                self.buffered = 0;
-                Ok(Vec::new())
-            }
+            Event::Gap => Err(Error::Sequence),
             Event::Keepalive => Ok(Vec::new()),
             Event::Data { id, offset, bytes } => {
                 let bytes = Zeroizing::new(bytes);
@@ -189,37 +234,55 @@ impl<'a> Session<'a> {
                     return Err(Error::Sequence);
                 }
                 let next = offset.checked_add(bytes.len() as u64).ok_or(Error::Sequence)?;
-                let before = flow.decoder.buffered_bytes();
-                let frames_before = flow.decoder.completed_frames();
-                let was_incomplete = flow.decoder.has_incomplete_frame();
+                if flow.decoder.is_none() {
+                    flow.ignored_bytes =
+                        flow.ignored_bytes.checked_add(bytes.len()).ok_or(Error::Capacity)?;
+                    flow.ignored_events =
+                        flow.ignored_events.checked_add(1).ok_or(Error::Capacity)?;
+                    if flow.ignored_bytes > TOMBSTONE_BYTES
+                        || flow.ignored_events > TOMBSTONE_EVENTS
+                    {
+                        return Err(Error::Capacity);
+                    }
+                    self.credit = self.credit.checked_sub(bytes.len()).ok_or(Error::Capacity)?;
+                    flow.offset = next;
+                    return Ok(Vec::new());
+                }
+                let decoder = flow.decoder.as_mut().ok_or(Error::Sequence)?;
+                let before = decoder.buffered_bytes();
+                let frames_before = decoder.completed_frames();
+                let was_incomplete = decoder.has_incomplete_frame();
                 let maximum_buffered =
                     MAX_BUFFERED.saturating_sub(self.buffered.saturating_sub(before));
-                let decoded = flow
-                    .decoder
-                    .push_bounded(&bytes, &mut self.credit, maximum_buffered)
-                    .map_err(|error| {
-                        if matches!(
-                            error,
-                            crate::stream::StreamError::WorkBudgetExceeded
-                                | crate::stream::StreamError::MemoryBudgetExceeded
-                        ) {
-                            Error::Capacity
-                        } else {
-                            Error::Protocol
-                        }
-                    })?;
-                self.buffered = self
-                    .buffered
-                    .saturating_sub(before)
-                    .saturating_add(flow.decoder.buffered_bytes());
+                let decoded = match decoder.push_bounded(&bytes, &mut self.credit, maximum_buffered)
+                {
+                    Ok(decoded) => decoded,
+                    Err(
+                        crate::stream::StreamError::WorkBudgetExceeded
+                        | crate::stream::StreamError::MemoryBudgetExceeded,
+                    ) => return Err(Error::Capacity),
+                    Err(_) if frames_before == 0 && decoder.completed_frames() == 0 => {
+                        // A rejected provisional connection must not interrupt a
+                        // different established game channel in this transport.
+                        self.buffered = self.buffered.saturating_sub(before);
+                        flow.offset = next;
+                        retire(flow, now);
+                        flow.ignored_bytes = bytes.len();
+                        flow.ignored_events = 1;
+                        return Ok(Vec::new());
+                    }
+                    Err(_) => return Err(Error::Protocol),
+                };
+                self.buffered =
+                    self.buffered.saturating_sub(before).saturating_add(decoder.buffered_bytes());
                 if self.buffered > MAX_BUFFERED {
                     return Err(Error::Capacity);
                 }
                 flow.offset = next;
                 flow.touched = now;
                 if !was_incomplete
-                    || flow.decoder.completed_frames() != frames_before
-                    || !flow.decoder.has_incomplete_frame()
+                    || decoder.completed_frames() != frames_before
+                    || !decoder.has_incomplete_frame()
                 {
                     flow.frame_started = now;
                 }
@@ -275,6 +338,16 @@ impl<'a> Session<'a> {
         // on high-frequency small chunks.
         self.credit_time += Duration::from_millis(u64::try_from(milliseconds).unwrap_or(u64::MAX));
     }
+}
+
+// A bounded tombstone keeps exact offsets until Close/Abort without retaining
+// keys, context or frame bytes. Retired IDs still count against MAX_FLOWS.
+fn retire(flow: &mut Flow<'_>, now: Duration) {
+    flow.decoder = None;
+    flow.context = MailContext::default();
+    flow.retired_at = Some(now);
+    flow.ignored_bytes = 0;
+    flow.ignored_events = 0;
 }
 
 #[cfg(test)]
@@ -339,7 +412,7 @@ mod tests {
         );
         let mut session = Session::new(&artifact, Duration::ZERO);
         open(&mut session, 2);
-        session.accept(Event::Gap, Duration::ZERO).expect("gap");
+        session.accept(Event::Gap, Duration::ZERO).expect_err("gap poisons transport");
         assert_eq!(session.flow_count(), 0);
         assert_eq!(
             session
@@ -373,7 +446,11 @@ mod tests {
         let frames = test_server_frames(3);
         let mut offset = 0;
         for (index, frame) in frames.into_iter().enumerate() {
-            let now = Duration::from_secs(index as u64 * 700);
+            let now = Duration::from_secs(if index <= 1 {
+                index as u64
+            } else {
+                (index as u64 - 1) * 700
+            });
             session.accept(Event::Keepalive, now).expect("alive");
             let length = frame.len();
             session.accept(Event::Data { id: 1, offset, bytes: frame }, now).expect("continuous");
@@ -429,6 +506,164 @@ mod tests {
         session.accept(Event::Keepalive, Duration::from_secs(16)).expect("transport alive");
         assert_eq!(session.flow_count(), 0);
         assert_eq!(session.buffered, 0);
+    }
+
+    #[test]
+    fn handshake_only_orphan_expires_without_interrupting_active_mail_stream() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut session = Session::new(&artifact, Duration::ZERO);
+        open(&mut session, 1);
+        open(&mut session, 2);
+        let mut frames = test_server_frames(1).into_iter();
+        let handshake = frames.next().expect("handshake");
+        let login = frames.next().expect("login");
+        let mail = frames.next().expect("mail");
+        session
+            .accept(Event::Data { id: 1, offset: 0, bytes: handshake.clone() }, Duration::ZERO)
+            .expect("orphan handshake");
+        session
+            .accept(Event::Data { id: 2, offset: 0, bytes: handshake.clone() }, Duration::ZERO)
+            .expect("real handshake");
+        session
+            .accept(
+                Event::Data { id: 2, offset: handshake.len() as u64, bytes: login.clone() },
+                Duration::from_secs(1),
+            )
+            .expect("login");
+        session.accept(Event::Keepalive, Duration::from_secs(91)).expect("expire orphan");
+        assert_eq!(session.flow_count(), 1);
+        assert!(session.flows.get(&1).expect("tombstone").decoder.is_none());
+        assert_eq!(session.flows.get(&1).expect("tombstone").context.player_id, None);
+        let ignored = session
+            .accept(
+                Event::Data { id: 1, offset: handshake.len() as u64, bytes: vec![1, 2, 3] },
+                Duration::from_secs(92),
+            )
+            .expect("discard retired bytes");
+        assert!(ignored.is_empty());
+        session.accept(Event::Close { id: 1 }, Duration::from_secs(92)).expect("orphan close");
+        let mails = session
+            .accept(
+                Event::Data { id: 2, offset: (handshake.len() + login.len()) as u64, bytes: mail },
+                Duration::from_secs(93),
+            )
+            .expect("real mail continues");
+        assert_eq!(mails.len(), 1);
+    }
+
+    #[test]
+    fn invalid_first_frame_is_per_flow_and_retired_bytes_still_spend_credit() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut session = Session::new(&artifact, Duration::ZERO);
+        open(&mut session, 1);
+        open(&mut session, 2);
+        session
+            .accept(Event::Data { id: 1, offset: 0, bytes: vec![0, 1, 0] }, Duration::ZERO)
+            .expect("ignore unsupported first frame");
+        assert_eq!(session.flow_count(), 1);
+        let before = session.credit;
+        session
+            .accept(Event::Data { id: 1, offset: 3, bytes: vec![0; 64] }, Duration::ZERO)
+            .expect("discard");
+        assert_eq!(session.credit, before - 64);
+        let valid: Vec<u8> = test_server_frames(1).into_iter().flatten().collect();
+        assert_eq!(
+            session
+                .accept(Event::Data { id: 2, offset: 0, bytes: valid }, Duration::ZERO)
+                .expect("independent valid stream")
+                .len(),
+            1
+        );
+        assert!(!session.failed);
+        assert_eq!(
+            session
+                .accept(Event::Data { id: 1, offset: 3, bytes: vec![0] }, Duration::ZERO)
+                .expect_err("retired offsets cannot replay"),
+            Error::Sequence
+        );
+    }
+
+    #[test]
+    fn valid_handshake_then_malformed_frame_in_one_chunk_is_not_an_orphan() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut session = Session::new(&artifact, Duration::ZERO);
+        open(&mut session, 1);
+        let mut bytes = test_server_frames(0).remove(0);
+        // An empty encrypted message cannot be a protocol frame.
+        bytes.extend([0, 0]);
+        assert_eq!(
+            session
+                .accept(Event::Data { id: 1, offset: 0, bytes }, Duration::ZERO)
+                .expect_err("post-handshake corruption"),
+            Error::Protocol
+        );
+        assert!(session.failed);
+        assert_eq!(session.flow_count(), 0);
+    }
+
+    #[test]
+    fn tombstone_absolute_deadline_and_work_caps_cannot_be_refreshed() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let rejected = || {
+            let mut session = Session::new(&artifact, Duration::ZERO);
+            open(&mut session, 1);
+            session
+                .accept(Event::Data { id: 1, offset: 0, bytes: vec![0, 1, 0] }, Duration::ZERO)
+                .expect("reject first frame");
+            session
+        };
+        let mut session = rejected();
+        session
+            .accept(Event::Data { id: 1, offset: 3, bytes: vec![0] }, Duration::from_secs(89))
+            .expect("bounded discard");
+        assert_eq!(
+            session
+                .accept(Event::Keepalive, Duration::from_secs(90))
+                .expect_err("absolute deadline"),
+            Error::Capacity
+        );
+        assert_eq!(session.flow_count(), 0);
+        assert!(session.failed);
+
+        let mut session = rejected();
+        for index in 0..511 {
+            session
+                .accept(Event::Data { id: 1, offset: 3 + index, bytes: vec![0] }, Duration::ZERO)
+                .expect("bounded discarded event");
+        }
+        assert_eq!(
+            session
+                .accept(Event::Data { id: 1, offset: 514, bytes: vec![0] }, Duration::ZERO)
+                .expect_err("event cap"),
+            Error::Capacity
+        );
+
+        let mut session = rejected();
+        for index in 0..255 {
+            session
+                .accept(
+                    Event::Data {
+                        id: 1,
+                        offset: 3 + index * MAX_CHUNK as u64,
+                        bytes: vec![0; MAX_CHUNK],
+                    },
+                    Duration::ZERO,
+                )
+                .expect("bounded discarded bytes");
+        }
+        assert_eq!(
+            session
+                .accept(
+                    Event::Data {
+                        id: 1,
+                        offset: 3 + 255 * MAX_CHUNK as u64,
+                        bytes: vec![0; MAX_CHUNK]
+                    },
+                    Duration::ZERO
+                )
+                .expect_err("byte cap"),
+            Error::Capacity
+        );
     }
 
     #[test]

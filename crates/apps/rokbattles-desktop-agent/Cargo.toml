@@ -7,6 +7,8 @@ version.workspace = true
 [dependencies]
 anyhow.workspace = true
 bytes.workspace = true
+rokbattles-capture-runtime = { path = "../../common/rokbattles-capture-runtime" }
+tokio-stream = "0.1.19"
 cap-std = "4.0.3"
 cap-fs-ext = "4.0.3"
 dirs = "6.0.0"

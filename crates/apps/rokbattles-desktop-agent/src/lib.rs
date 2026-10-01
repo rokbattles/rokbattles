@@ -2,6 +2,7 @@
 #![forbid(unsafe_code)]
 
 mod agent;
+pub mod capture_http;
 pub mod mailcache;
 pub use agent::Agent;
 mod upload;

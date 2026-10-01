@@ -219,7 +219,7 @@ where
     let mut report = Report::default();
 
     loop {
-        session.expire(started.elapsed());
+        session.expire(started.elapsed()).map_err(|_error| StatusCode::UNPROCESSABLE_ENTITY)?;
         if session.flow_count() == 0 {
             let empty = empty_since.get_or_insert_with(Instant::now);
             if empty.elapsed() >= EMPTY_IDLE {
