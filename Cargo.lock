@@ -4891,8 +4891,11 @@ dependencies = [
  "bytes",
  "dotenvy",
  "flate2",
+ "futures",
  "mimalloc",
  "mongodb",
+ "rokbattles-capture-runtime",
+ "rokbattles-gateway-protocol",
  "rokbattles-mail-codec",
  "rokbattles-mail-reconstructor",
  "rokbattles-mail-registry",
@@ -4903,8 +4906,10 @@ dependencies = [
  "sha2 0.10.9",
  "thiserror 2.0.20",
  "tokio",
+ "tower",
  "tracing",
  "tracing-subscriber",
+ "zeroize",
  "zstd",
 ]
 
@@ -5047,6 +5052,7 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.20",
+ "zeroize",
 ]
 
 [[package]]

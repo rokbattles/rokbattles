@@ -262,12 +262,18 @@ impl<'a> Session<'a> {
 
     fn refill(&mut self, now: Duration) {
         let elapsed = now.saturating_sub(self.credit_time);
-        let refill = elapsed.as_millis().saturating_mul(WORK_PER_SECOND as u128) / 1000;
+        let milliseconds = elapsed.as_millis();
+        if milliseconds == 0 {
+            return;
+        }
+        let refill = milliseconds.saturating_mul(WORK_PER_SECOND as u128) / 1000;
         self.credit = self
             .credit
             .saturating_add(usize::try_from(refill).unwrap_or(usize::MAX))
             .min(WORK_BURST);
-        self.credit_time = self.credit_time.max(now);
+        // Preserve sub-millisecond elapsed time instead of losing every fraction
+        // on high-frequency small chunks.
+        self.credit_time += Duration::from_millis(u64::try_from(milliseconds).unwrap_or(u64::MAX));
     }
 }
 
@@ -423,5 +429,16 @@ mod tests {
         session.accept(Event::Keepalive, Duration::from_secs(16)).expect("transport alive");
         assert_eq!(session.flow_count(), 0);
         assert_eq!(session.buffered, 0);
+    }
+
+    #[test]
+    fn frequent_small_events_do_not_lose_refill_time() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut session = Session::new(&artifact, Duration::ZERO);
+        session.credit = 0;
+        session.refill(Duration::from_micros(500));
+        assert_eq!(session.credit, 0);
+        session.refill(Duration::from_micros(1000));
+        assert_eq!(session.credit, WORK_PER_SECOND / 1000);
     }
 }

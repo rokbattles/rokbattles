@@ -11,7 +11,6 @@ use crate::{
 };
 
 /// Envelope values and encoded nested messages awaiting body reconstruction.
-#[derive(Debug)]
 pub(crate) struct MailEntity<'a> {
     pub mail_id: &'a str,
     pub sender: &'a str,
@@ -38,6 +37,12 @@ pub(crate) struct MailEntity<'a> {
     pub previous_mail_id: &'a str,
     pub star_level: i32,
     pub attack_bodies: Vec<&'a [u8]>,
+}
+
+impl std::fmt::Debug for MailEntity<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("MailEntity").field("body_bytes", &self.body.len()).finish_non_exhaustive()
+    }
 }
 
 impl<'a> MailEntity<'a> {
@@ -74,7 +79,10 @@ impl<'a> MailEntity<'a> {
             attack_bodies: Vec::new(),
         };
 
-        for field in fields(data) {
+        for (index, field) in fields(data).enumerate() {
+            if index >= 8192 {
+                return Err(ReconstructionError::BudgetExceeded);
+            }
             let field = field?;
             match field.number {
                 number if number == schema.mail_id => entity.mail_id = text(field.value)?,
@@ -101,6 +109,9 @@ impl<'a> MailEntity<'a> {
                     entity.server_id = Some(to_i32(varint(field.value)?)?);
                 }
                 number if number == schema.attachments => {
+                    if entity.attachments.len() >= 1024 {
+                        return Err(ReconstructionError::BudgetExceeded);
+                    }
                     entity.attachments.push(bytes(field.value)?);
                 }
                 number if number == schema.previous_box => {
@@ -130,6 +141,9 @@ impl<'a> MailEntity<'a> {
                     entity.star_level = to_i32(varint(field.value)?)?;
                 }
                 number if number == schema.attack_bodies => {
+                    if entity.attack_bodies.len() >= 4096 {
+                        return Err(ReconstructionError::BudgetExceeded);
+                    }
                     entity.attack_bodies.push(bytes(field.value)?);
                 }
                 _ => {}

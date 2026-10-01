@@ -5,6 +5,10 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
+rokbattles-capture-runtime = { path = "../../common/rokbattles-capture-runtime" }
+rokbattles-gateway-protocol = { path = "../../common/rokbattles-gateway-protocol" }
+futures = { workspace = true, features = ["std", "async-await"] }
+zeroize = "1.9.0"
 axum = { workspace = true, features = ["http1", "json", "multipart", "tokio", "tracing"] }
 bytes.workspace = true
 dotenvy.workspace = true
@@ -30,4 +34,6 @@ mimalloc = { workspace = true, features = ["secure"] }
 workspace = true
 
 [dev-dependencies]
+tower = { workspace = true, features = ["util"] }
+tokio = { workspace = true, features = ["test-util"] }
 rustc-hash.workspace = true

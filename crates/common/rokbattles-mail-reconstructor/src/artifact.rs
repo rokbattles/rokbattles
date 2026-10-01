@@ -119,6 +119,11 @@ pub(crate) struct DescriptorPool {
 }
 
 impl DescriptorPool {
+    #[cfg(test)]
+    pub(crate) fn test_pool(name: &str, message: DynamicMessage) -> Self {
+        Self { messages: FxHashMap::from_iter([(name.to_string(), message)]) }
+    }
+
     fn from_messages(messages: &[DescriptorMessage]) -> Result<Self, ReconstructionError> {
         let mut indexed = FxHashMap::with_capacity_and_hasher(messages.len(), Default::default());
         for message in messages {

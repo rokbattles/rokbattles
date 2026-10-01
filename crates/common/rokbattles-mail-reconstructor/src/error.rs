@@ -5,6 +5,9 @@ use std::path::PathBuf;
 /// Errors produced while loading an artifact or reconstructing an entry.
 #[derive(Debug, thiserror::Error)]
 pub enum ReconstructionError {
+    /// A shared reconstruction work/output budget was exhausted.
+    #[error("mail reconstruction budget exhausted")]
+    BudgetExceeded,
     /// The artifact could not be read.
     #[error("failed to read runtime artifact {}: {source}", path.display())]
     ReadArtifact {

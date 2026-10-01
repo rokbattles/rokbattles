@@ -60,7 +60,6 @@ enum UploadAction {
     Skip,
 }
 
-#[derive(Debug)]
 struct UploadInput {
     bytes: Bytes,
     file_name: String,

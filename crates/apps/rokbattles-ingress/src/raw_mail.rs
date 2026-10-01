@@ -49,7 +49,7 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
 }
 
 /// Inputs needed to build the V2 raw mail document.
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub struct RawMailDocumentInput<'a> {
     pub original_bytes: &'a [u8],
     pub user_agent: &'a str,
