@@ -11,6 +11,12 @@ use thiserror::Error;
 #[cfg(feature = "read")]
 #[derive(Debug, Error, PartialEq)]
 pub enum DecodeError {
+    /// An explicitly bounded decode exhausted its value-node allowance.
+    #[error("mail value node limit exceeded ({limit})")]
+    NodeLimitExceeded {
+        /// Maximum value nodes, including containers and keys.
+        limit: usize,
+    },
     /// The buffer contains fewer than nine header bytes.
     #[error("mail file header requires {required} bytes, found {actual}")]
     HeaderTooShort {

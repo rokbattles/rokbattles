@@ -81,6 +81,23 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     decode_value_at(payload, FILE_HEADER_LEN)
 }
 
+/// Decode a file with a value-node cap charged before allocating each value.
+/// Input size remains the caller's responsibility. Existing depth/checksum
+/// validation is unchanged; counts include keys and nested containers.
+pub fn decode_bounded(buffer: &[u8], max_nodes: usize) -> Result<Value, DecodeError> {
+    validate_file(buffer)?;
+    let payload = buffer
+        .get(FILE_HEADER_LEN..)
+        .ok_or(DecodeError::HeaderTooShort { required: FILE_HEADER_LEN, actual: buffer.len() })?;
+    let mut decoder = Decoder::new(payload, FILE_HEADER_LEN);
+    decoder.max_nodes = max_nodes;
+    let value = decoder.read_value()?;
+    if decoder.remaining() != 0 {
+        return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
+    }
+    Ok(value)
+}
+
 /// Decodes exactly one headerless `Persistent.Mail` value into a JSON value.
 ///
 /// `buffer` must start with a value tag and contain no bytes after that value.
@@ -129,11 +146,13 @@ struct Decoder<'a> {
     base_offset: usize,
     pos: usize,
     depth: usize,
+    nodes: usize,
+    max_nodes: usize,
 }
 
 impl<'a> Decoder<'a> {
     fn new(buffer: &'a [u8], base_offset: usize) -> Self {
-        Self { buffer, base_offset, pos: 0, depth: 0 }
+        Self { buffer, base_offset, pos: 0, depth: 0, nodes: 0, max_nodes: usize::MAX }
     }
 
     fn remaining(&self) -> usize {
@@ -145,6 +164,10 @@ impl<'a> Decoder<'a> {
     }
 
     fn read_value(&mut self) -> Result<Value, DecodeError> {
+        if self.nodes == self.max_nodes {
+            return Err(DecodeError::NodeLimitExceeded { limit: self.max_nodes });
+        }
+        self.nodes += 1;
         let tag_offset = self.absolute_offset(self.pos);
         let tag = self.read_u8()?;
         match tag {
@@ -297,6 +320,23 @@ fn to_i64_exact(value: f64) -> Option<i64> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn bounded_decode_charges_each_value_before_growing_tables() {
+        let payload = [0x05, 0x01, 1, 0x01, 0, 0xff];
+        let mut file = vec![0xff; 9];
+        file.extend_from_slice(&payload);
+        let checksum = crate::common::file_checksum(&file);
+        file.get_mut(1..9).expect("checksum").copy_from_slice(&checksum.to_le_bytes());
+        assert_eq!(
+            super::decode_bounded(&file, 2),
+            Err(crate::DecodeError::NodeLimitExceeded { limit: 2 })
+        );
+        assert_eq!(
+            super::decode_bounded(&file, 3).expect("exact limit"),
+            serde_json::json!([true, false])
+        );
+    }
+
     use std::path::{Path, PathBuf};
 
     use serde_json::json;

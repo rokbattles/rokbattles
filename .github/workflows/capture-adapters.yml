@@ -8,6 +8,8 @@ on:
       - "crates/common/rokbattles-capture-runtime/**"
       - "crates/common/rokbattles-desktop-paths/**"
       - "crates/common/rokbattles-desktop-store/**"
+      - "crates/apps/rokbattles-desktop-agent/**"
+      - "crates/common/rokbattles-mail-codec/**"
       - "crates/common/rokbattles-gateway-protocol/**"
       - "crates/common/rokbattles-mail-reconstructor/**"
       - "crates/apps/rokbattles-ingress/**"
@@ -22,6 +24,8 @@ on:
       - "crates/common/rokbattles-capture-runtime/**"
       - "crates/common/rokbattles-desktop-paths/**"
       - "crates/common/rokbattles-desktop-store/**"
+      - "crates/apps/rokbattles-desktop-agent/**"
+      - "crates/common/rokbattles-mail-codec/**"
       - "crates/common/rokbattles-gateway-protocol/**"
       - "crates/common/rokbattles-mail-reconstructor/**"
       - "crates/apps/rokbattles-ingress/**"
@@ -71,9 +75,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends lld
       - name: Format
-        run: cargo fmt -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol -p rokbattles-nat-gateway -p rokbattles-mail-reconstructor -p rokbattles-ingress -- --check
+        run: cargo fmt -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol -p rokbattles-nat-gateway -p rokbattles-mail-reconstructor -p rokbattles-ingress -- --check
       - name: Lint
-        run: cargo clippy --locked -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --all-targets --target ${{ matrix.target }} -- -D warnings
+        run: cargo clippy --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --all-targets --target ${{ matrix.target }} -- -D warnings
       - name: Inspect native state-path prerequisites
         if: runner.os == 'Windows'
         shell: pwsh
@@ -109,7 +113,7 @@ jobs:
                   os.close(fd)
           PYTHON
       - name: Synthetic and mock tests only
-        run: cargo test --locked -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --target ${{ matrix.target }}
+        run: cargo test --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --target ${{ matrix.target }}
         # No libpcap, WinDivert DLL or driver installation. No live-capture tests.
       - name: Shared NAT reassembly regression checks
         if: runner.os == 'Linux'

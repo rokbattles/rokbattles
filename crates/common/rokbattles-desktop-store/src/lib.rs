@@ -78,6 +78,7 @@ pub struct FileSig {
 }
 
 pub struct PendingFile {
+    pub root_id: i64,
     pub path: PathBuf,
     pub sig: FileSig,
     pub attempts: u32,
@@ -140,6 +141,12 @@ impl Store {
         }
         drop(file);
         check_files(directory)?;
+        // SQLite's default owner on an elevated Windows token can be the
+        // Administrators group. Create sidecars with the explicit user owner
+        // before handing the protected directory to SQLite; never truncate.
+        for name in ["worker.sqlite3-wal", "worker.sqlite3-shm"] {
+            drop(rokbattles_desktop_paths::file(directory, name)?);
+        }
 
         let options = SqliteConnectOptions::new()
             .filename(directory.join(DATABASE_NAME))
@@ -295,6 +302,15 @@ impl Store {
         Ok(())
     }
 
+    pub async fn acknowledge_reprocess(&self, observed_epoch: u64) -> anyhow::Result<()> {
+        self.before_write().await?;
+        sqlx::query("UPDATE settings SET reset_epoch=0 WHERE id=1 AND reset_epoch=?")
+            .bind(i64::try_from(observed_epoch)?)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
     pub async fn roots(&self) -> anyhow::Result<Vec<Root>> {
         let rows = sqlx::query("SELECT id,path FROM roots WHERE length(CAST(path AS BLOB)) BETWEEN 1 AND 4096 ORDER BY id LIMIT 33").fetch_all(&self.pool).await?;
         if rows.len() > MAX_ROOTS {
@@ -368,7 +384,7 @@ impl Store {
     }
 
     pub async fn next_pending(&self, now_ms: u64) -> anyhow::Result<Option<PendingFile>> {
-        let row = sqlx::query("SELECT files.path,roots.path AS root_path,size,modified_ms,attempts FROM files JOIN roots ON roots.id=files.root_id WHERE state=0 AND next_attempt_ms<=? AND length(CAST(files.path AS BLOB)) BETWEEN 1 AND 4096 AND length(CAST(roots.path AS BLOB)) BETWEEN 1 AND 4096 ORDER BY next_attempt_ms,files.path LIMIT 1")
+        let row = sqlx::query("SELECT files.root_id,files.path,roots.path AS root_path,size,modified_ms,attempts FROM files JOIN roots ON roots.id=files.root_id WHERE state=0 AND next_attempt_ms<=? AND length(CAST(files.path AS BLOB)) BETWEEN 1 AND 4096 AND length(CAST(roots.path AS BLOB)) BETWEEN 1 AND 4096 ORDER BY next_attempt_ms,files.path LIMIT 1")
             .bind(i64::try_from(now_ms)?).fetch_optional(&self.pool).await?;
         row.map(|row| {
             let path = PathBuf::from(row.try_get::<String, _>("path")?);
@@ -387,7 +403,7 @@ impl Store {
             if attempts > 1_000_000 {
                 bail!("invalid retry counter");
             }
-            Ok(PendingFile { path, sig, attempts })
+            Ok(PendingFile { root_id: row.try_get("root_id")?, path, sig, attempts })
         })
         .transpose()
     }
