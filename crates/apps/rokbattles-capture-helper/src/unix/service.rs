@@ -31,7 +31,6 @@ pub fn dispatch(uid: u32) -> io::Result<()> {
     if uid == 0 || uid == u32::MAX {
         return Err(denied());
     }
-    rokbattles_capture_ipc::unix::harden_capture_process()?;
     // SAFETY: called before constructing any runtime/thread, process-local umask.
     unsafe { libc::umask(0o077) };
     super::bootstrap::prepare()?;

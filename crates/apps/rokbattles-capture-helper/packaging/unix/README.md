@@ -22,10 +22,7 @@ Outbound application bytes are rejected; only zero-payload controls are delivere
 Loss counters from both handles, queue overflow, topology changes and native
 errors retire the source. Raw packet buffers use RAII wiping in IPC queues.
 Client FIN retains an owned server tail; resets retire only after the exact reset
-record is successfully written. Helper and agent set and verify zero process-local
-soft/hard core limits before workers start; Linux also disables dumpability for
-piped core collectors. Service definitions enforce zero core limits too, so a
-capture crash cannot turn volatile packet buffers into an ordinary core dump.
+record is successfully written.
 
 ## Explicit setup contract
 
@@ -46,7 +43,7 @@ symlink, foreign owner or unsafe directory mode. A per-UID root-owned lock preve
 duplicate listeners and permits safe stale-socket recovery after a crash.
 
 `stage_package.py` creates an inert tarball containing the native helper and unprivileged agent companion, the
-systemd template or a UID-neutral launchd template, this guide, the setup contract
+systemd template or a UID-specific launchd plist, this guide, the setup contract
 and a SHA-256 manifest. It validates 64-bit ELF/Mach-O target architecture; it does
 not execute the input binary, grant privileges, extract files, install software,
 accept an agreement or start a service. Example (a local staging operation):
@@ -54,13 +51,12 @@ accept an agreement or start a service. Example (a local staging operation):
 ```sh
 python3 stage_package.py --binary /path/to/built/rokbattles-capture-helper \
   --agent /path/to/built/rokbattles-desktop-agent \
-  --target aarch64-apple-darwin --output capture-helper.tar.gz
+  --target aarch64-apple-darwin --uid 501 --output capture-helper.tar.gz
 ```
 
 After explicit administrator approval, the release installer must verify the
 signed/notarized distribution and manifest, confirm the selected local UID,
-render the selected UID into the fixed launchd template (release payloads contain no CI-user UID),
-install binaries and service definitions at their fixed destinations as root (directories
+install the regular files at the fixed archive locations as root (directories
 0755, executable0755, definitions0644), and register only that user's instance.
 Linux uses `rokbattles-capture@<UID>.service`; macOS uses
 `com.rokbattles.capture-helper.<UID>` in the system launchd domain. The UID is
@@ -96,12 +92,11 @@ again.
 
 ## Validation and limits
 
-The six native Capture Foundation jobs passed for broker checkpoint `080cc4da`,
-including macOS Intel/ARM64 SDK compilation and Linux x64/ARM64 synthetic tests.
-Package-staging fixtures and focused Clippy also pass. Tests do not open native
-pcap, install services, run sudo or change host security settings. New follow-up
-commits require their own exact-head CI checks. No live capture or privileged
-install/uninstall/restart validation has been performed. This draft is
+Linux x64 synthetic tests, package-staging tests and Clippy pass in the implementation container. Tests do
+not open native pcap, install services, run sudo or change host security settings.
+Apple SDK compilation and native synthetic tests still need the macOS Intel and
+ARM64 CI runners; Linux ARM64 also needs its native runner. No live capture or
+privileged install/uninstall/restart validation has been performed. This draft is
 not a release sign-off. macOS signed/notarized helper distribution and systemd
 package integration require the release process and explicit setup testing.
 
@@ -119,33 +114,3 @@ Global source loss requires a fresh user-agent connection and handshake.
 - [Apple libproc declarations](https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h)
 - [Apple socket and process structures](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/proc_info.h)
 - [systemd execution settings](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
-
-
-## Release assets
-
-The draft-release workflow builds helper and protected agent for each Linux and
-macOS architecture and runs `stage_release.py`. Linux receives a target-specific
-UID-neutral tarball, a standalone reviewed administrative installer and checksums.
-The installer source contains one required build-time pin marker; staging replaces
-it with this exact archive's SHA-256, target and macOS signing team. No preinstalled
-root manifest is needed on the first install, and runtime pin overrides are not
-accepted. Download the installer and checksum from the trusted official release;
-review it and explicitly authorize its administrator execution. The installer then
-verifies the bound archive before it can modify protected files.
-macOS first signs both executables with their exact identifiers and hardened
-runtime using the existing Apple release identity, verifies their same-team
-requirements and forbidden entitlements, and submits a ZIP containing both signed
-executables to Apple's notarization service. Only an Accepted response permits
-payload staging. A small notarization receipt is included; upload URLs, accounts,
-passwords and full notarization logs are excluded. Standalone executable tickets
-are checked online by Apple's infrastructure; there is no claim of an offline
-stapled installer package.
-
-Only these completed assets are attached to the existing **draft** release. This
-code does not publish a release or install anything. The administrator chooses a
-local UID when running the reviewed installer, never at CI build time. The
-ordinary app update does not silently replace either protected companion. Before
-a release can ship, merge the maintenance installer implementation and complete
-native signed/notarized install/update/uninstall and interrupted-repair checks on
-macOS Intel/ARM64 and Linux x64/ARM64. No release, signing, notarization or service
-action was executed while implementing these changes.

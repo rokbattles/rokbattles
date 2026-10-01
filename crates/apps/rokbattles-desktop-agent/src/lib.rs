@@ -56,18 +56,11 @@ fn maintenance_at(directory: &std::path::Path) -> anyhow::Result<bool> {
     }
 }
 
-/// Flatpak cannot cross into the administrator-installed host capture service.
-/// Its per-user worker remains usable for portal-granted mailcache directories.
-pub fn capture_supported() -> bool {
-    cfg!(any(windows, target_os = "linux", target_os = "macos"))
-        && std::env::var_os("FLATPAK_ID").is_none()
-}
-
 /// Unix capture uses the separately installed, root-protected companion.
 /// Absence permits mailcache fallback; an untrusted present candidate is an error.
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 pub fn installed_capture_agent() -> std::io::Result<Option<PathBuf>> {
-    if !capture_supported() {
+    if std::env::var_os("FLATPAK_ID").is_some() {
         return Ok(None);
     }
     match rokbattles_capture_ipc::unix::installed_agent_path() {

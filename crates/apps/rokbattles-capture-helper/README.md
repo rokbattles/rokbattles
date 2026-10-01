@@ -24,14 +24,9 @@ consent and stop that capture. A reconnect must authenticate and start again.
   process. Clients verify the SCM service PID, SYSTEM token and protected image
 - The official unsigned WinDivert DLL is authenticated by compiled size/SHA-256
   pins. The driver has independent pins and exact embedded signature index 1
-  DRIVER_ACTION_VERIFY offline, with no revocation and no network retrieval.
-  Explicit maintenance performs the full online whole-chain revocation check
-  before driver start, passive NO_INSTALL probe and ready-marker publication.
-  Runtime retains cryptographic driver-policy checks, exact protected file pins
-  and the exact already-running kernel service. It does not depend on the
-  installer user's revocation cache. Revocation freshness is maintenance-time;
-  a subsequently revoked pinned release must be removed by an application update.
-  OS Code Integrity admission is additional defense, not the trust authority
+  DRIVER_ACTION_VERIFY with chain revocation and cache-only URL retrieval.
+  A missing/expired trust cache fails closed; runtime never performs network trust
+  retrieval. Explicit maintenance must establish the required trusted installation
 - WinDivert's SCM driver must already be running from the exact pinned file.
   Runtime does not install or start it. The protected global mutex
   `Global\ROKBattles.Capture.NativeOpen.v1` serializes trusted loading/open with
@@ -88,7 +83,7 @@ macOS cross-compilation checks FFI/type correctness, not installation behavior.
 CI tests the mock suites on six native architectures without loading a driver.
 
 A full Windows installation/upgrade/uninstall, standard-user/SYSTEM pipe exchange,
-maintenance-time revocation, service crash/restart and live authorized capture still
+revocation-cache behavior, service crash/restart and live authorized capture still
 need explicit native acceptance testing. No application signing credentials are
 configured by this change. Windows Npcap/ARM64 integration is implemented in source and synthetic tests;
 its real driver, short SYN_SENT observation timing and interface compatibility

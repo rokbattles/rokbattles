@@ -120,7 +120,7 @@ fn validate_installer_lock(require_held: bool) -> io::Result<()> {
     Ok(())
 }
 fn server(first: bool) -> io::Result<NamedPipeServer> {
-    let sddl = wide("O:BAD:P(A;;GA;;;SY)(A;;GA;;;BA)");
+    let sddl = wide("D:P(A;;GA;;;SY)(A;;GA;;;BA)");
     let mut descriptor = ptr::null_mut();
     // SAFETY: constant SDDL and initialized descriptor pointer.
     if unsafe {

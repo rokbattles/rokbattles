@@ -110,8 +110,7 @@ jobs:
   test-rs:
     name: Test Rust (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    # Cold Windows builds reached the old limit while compiling test binaries.
-    timeout-minutes: ${{ matrix.os == 'windows-latest' && 30 || 15 }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:

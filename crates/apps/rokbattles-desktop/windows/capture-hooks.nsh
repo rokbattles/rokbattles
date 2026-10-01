@@ -3,15 +3,6 @@
 !include "x64.nsh"
 !include "${ROK_CAPTURE_INPUT}\bootstrap.nsh"
 Var RokInstallerMutex
-Var RokCommandBuffer
-Var RokCommandCursor
-Var RokStartupInfo
-Var RokProcessInfo
-Var RokBootstrapProcess
-Var RokBootstrapThread
-Var RokLaunchResult
-Var RokEnvironmentBuffer
-Var RokEnvironmentCursor
 !define ROK_MAINTENANCE "$PROGRAMFILES64\ROK Battles\.maintenance\rokbattles-capture-maintenance.exe"
 
 !macro ROK_CHECK_EXIT
@@ -31,84 +22,13 @@ Var RokEnvironmentCursor
   ${EndIf}
 !macroend
 
-!macro ROK_ENV_ENTRY ENTRY
-  System::Call 'kernel32::lstrcpyW(p $RokEnvironmentCursor, w "${ENTRY}")'
-  System::Call 'kernel32::lstrlenW(p $RokEnvironmentCursor) i.r1'
-  IntOp $1 $1 + 1
-  IntOp $1 $1 * 2
-  IntOp $RokEnvironmentCursor $RokEnvironmentCursor + $1
-!macroend
-
 !macro ROK_POWERSHELL ACTION
-  ; Stock NSIS runtime strings can be only 1024 characters. Assemble the fixed
-  ; command in bounded native memory using generated <=512-character chunks.
-  ; No command or script path is accepted from a caller or read from a temp file.
-  ClearErrors
-  System::Alloc 32768
-  Pop $RokCommandBuffer
-  System::Alloc 68
-  Pop $RokStartupInfo
-  System::Alloc 16
-  Pop $RokProcessInfo
-  System::Alloc 16384
-  Pop $RokEnvironmentBuffer
-  ${If} $RokCommandBuffer == 0
-  ${OrIf} $RokStartupInfo == 0
-  ${OrIf} $RokProcessInfo == 0
-  ${OrIf} $RokEnvironmentBuffer == 0
-    StrCpy $0 1
-    Goto rok_ps_cleanup_${ACTION}
-  ${EndIf}
-  System::Call 'kernel32::lstrcpyW(p $RokCommandBuffer, w "$\"$SYSDIR\WindowsPowerShell\v1.0\powershell.exe$\" -NoLogo -NoProfile -NonInteractive -EncodedCommand ")'
-  System::Call 'kernel32::lstrlenW(p $RokCommandBuffer) i.r1'
-  IntOp $1 $1 * 2
-  IntOp $RokCommandCursor $RokCommandBuffer + $1
-  !insertmacro ROK_APPEND_BOOTSTRAP_${ACTION}
-  ; Never inherit profiler, CLR, PSModulePath or arbitrary loader environment
-  ; from the unelevated process that launched this installer. Entries are sorted
-  ; and the zeroed remainder supplies the second terminating UTF-16 NUL.
-  System::Call 'ntdll::RtlZeroMemory(p $RokEnvironmentBuffer, i 16384)'
-  StrCpy $RokEnvironmentCursor $RokEnvironmentBuffer
-  !insertmacro ROK_ENV_ENTRY "COMSPEC=$SYSDIR\cmd.exe"
-  !insertmacro ROK_ENV_ENTRY "PATH=$SYSDIR"
-  !insertmacro ROK_ENV_ENTRY "PSModulePath=$SYSDIR\WindowsPowerShell\v1.0\Modules"
-  !insertmacro ROK_ENV_ENTRY "SystemRoot=$WINDIR"
-  !insertmacro ROK_ENV_ENTRY "WINDIR=$WINDIR"
-  ; STARTUPINFOW/PROCESS_INFORMATION layouts of the 32-bit NSIS process.
-  System::Call 'ntdll::RtlZeroMemory(p $RokStartupInfo, i 68)'
-  System::Call 'ntdll::RtlZeroMemory(p $RokProcessInfo, i 16)'
-  System::Call '*$RokStartupInfo(i 68)'
+  ; NSIS is a 32-bit process. Disable redirection only around the explicit native
+  ; system PowerShell invocation; restore it immediately even when the command fails.
   ${DisableX64FSRedirection}
-  System::Call 'kernel32::CreateProcessW(w "$SYSDIR\WindowsPowerShell\v1.0\powershell.exe", p $RokCommandBuffer, p 0, p 0, i 0, i 0x08000400, p $RokEnvironmentBuffer, w "$SYSDIR\WindowsPowerShell\v1.0", p $RokStartupInfo, p $RokProcessInfo) i.r0'
-  StrCpy $RokLaunchResult $0
+  ClearErrors
+  ExecWait '"$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -NonInteractive -EncodedCommand ${ROK_BOOTSTRAP_${ACTION}}' $0
   ${EnableX64FSRedirection}
-  StrCpy $0 $RokLaunchResult
-  ${If} $0 == 0
-    StrCpy $0 1
-    Goto rok_ps_cleanup_${ACTION}
-  ${EndIf}
-  System::Call '*$RokProcessInfo(p.r1, p.r2)'
-  StrCpy $RokBootstrapProcess $1
-  StrCpy $RokBootstrapThread $2
-  System::Call 'kernel32::CloseHandle(p $RokBootstrapThread)'
-  System::Call 'kernel32::WaitForSingleObject(p $RokBootstrapProcess, i 120000) i.r0'
-  ${If} $0 == 0
-    System::Call 'kernel32::GetExitCodeProcess(p $RokBootstrapProcess, *i.r0) i.r1'
-    ${If} $1 == 0
-      StrCpy $0 1
-    ${EndIf}
-  ${Else}
-    ; Only our fixed bootstrap child, retained by its creation handle, is stopped.
-    System::Call 'kernel32::TerminateProcess(p $RokBootstrapProcess, i 1)'
-    System::Call 'kernel32::WaitForSingleObject(p $RokBootstrapProcess, i 5000)'
-    StrCpy $0 1
-  ${EndIf}
-  System::Call 'kernel32::CloseHandle(p $RokBootstrapProcess)'
-  rok_ps_cleanup_${ACTION}:
-  System::Free $RokCommandBuffer
-  System::Free $RokStartupInfo
-  System::Free $RokProcessInfo
-  System::Free $RokEnvironmentBuffer
   !insertmacro ROK_CHECK_EXIT
 !macroend
 
@@ -116,7 +36,7 @@ Var RokEnvironmentCursor
   ; Tauri's NSIS executable/System plugin are 32-bit on both Windows targets.
   ; The namespace is admin-owned; a pre-existing object is checked by native code
   ; before NSIS acquires it. Retain ownership until the installer process exits.
-  System::Call 'advapi32::ConvertStringSecurityDescriptorToSecurityDescriptorW(w "O:BAD:P(A;;GA;;;SY)(A;;GA;;;BA)", i 1, *p.r1, p 0) i.r0'
+  System::Call 'advapi32::ConvertStringSecurityDescriptorToSecurityDescriptorW(w "D:P(A;;GA;;;SY)(A;;GA;;;BA)", i 1, *p.r1, p 0) i.r0'
   ${If} $0 == 0
     SetErrorLevel 1
     Abort
@@ -144,7 +64,6 @@ Var RokEnvironmentCursor
 
 !macro ROK_START_SESSION
   !insertmacro ROK_POWERSHELL EXISTING
-  SetOutPath "$INSTDIR\.maintenance"
   !insertmacro ROK_LOCK_INSTALLER
   ClearErrors
   Exec '"${ROK_MAINTENANCE}" session'
@@ -157,7 +76,6 @@ Var RokEnvironmentCursor
 !macroend
 
 !macro NSIS_HOOK_PREINSTALL
-  !insertmacro CheckIfAppIsRunning "${MAINBINARYNAME}.exe" "${PRODUCTNAME}"
   ; Reject command-line/custom install destinations; never turn user text into an
   ; elevated executable, service ImagePath, staging directory or command argument.
   ${If} $INSTDIR != "$PROGRAMFILES64\ROK Battles"
@@ -216,7 +134,6 @@ Var RokEnvironmentCursor
 !macroend
 
 !macro NSIS_HOOK_PREUNINSTALL
-  !insertmacro CheckIfAppIsRunning "${MAINBINARYNAME}.exe" "${PRODUCTNAME}"
   ${If} $INSTDIR != "$PROGRAMFILES64\ROK Battles"
     SetErrorLevel 1
     Abort

@@ -4,7 +4,6 @@ import gzip
 import hashlib
 import json
 import pathlib
-import re
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -33,15 +32,9 @@ class MaintenancePackagingTests(unittest.TestCase):
                     staged = desktop / 'binaries' / target
                     pins = json.loads((staged / 'payload.json').read_text())
                     self.assertEqual(pins['rokbattles-capture-helper.exe'], hashlib.sha256((built / 'rokbattles-capture-helper.exe').read_bytes()).hexdigest())
-                    generated = (staged / 'bootstrap.nsh').read_text()
-                    for body in re.findall(r'!macro ROK_APPEND_BOOTSTRAP_\w+\n(.*?)!macroend', generated, re.S):
-                        chunks = re.findall(r'w "([A-Za-z0-9+/=]+)"', body)
-                        self.assertTrue(chunks)
-                        self.assertTrue(all(len(chunk) <= 512 for chunk in chunks))
-                        self.assertTrue(all(len(line) < 1024 for line in body.splitlines()))
-                        encoded = ''.join(chunks)
-                        self.assertLessEqual(len(encoded), 14000)
-                        self.assertLessEqual(2 * (1024 + 200 + len(encoded) + 1), 32768)
+                    for definition in (staged / 'bootstrap.nsh').read_text().splitlines()[1:]:
+                        encoded = definition.split('"')[1]
+                        self.assertLessEqual(len(encoded), 7500)
                         loader = base64.b64decode(encoded).decode('utf-16-le')
                         payload = loader.split("'")[1]
                         script = gzip.decompress(base64.b64decode(payload)).decode()
@@ -58,14 +51,9 @@ class MaintenancePackagingTests(unittest.TestCase):
         self.assertIn('Var RokInstallerMutex', hooks)
         self.assertLess(hooks.index('!insertmacro ROK_LOCK_INSTALLER'), hooks.index('\"${ROK_MAINTENANCE}\" session'))
         self.assertIn('validate-installer-lock', hooks)
-        self.assertNotIn('CloseHandle(p $RokInstallerMutex)', hooks)
+        self.assertNotIn('CloseHandle', hooks)
         self.assertNotIn('ReleaseMutex', hooks)
         self.assertNotIn('taskkill', hooks.lower())
-        self.assertIn('i 0x08000400, p $RokEnvironmentBuffer, w "$SYSDIR\\WindowsPowerShell\\v1.0"', hooks)
-        self.assertIn('"PATH=$SYSDIR"', hooks)
-        self.assertIn('"PSModulePath=$SYSDIR\\WindowsPowerShell\\v1.0\\Modules"', hooks)
-        entries = re.findall(r'!insertmacro ROK_ENV_ENTRY "(.*?)"', hooks)
-        self.assertEqual([entry.split('=')[0] for entry in entries], ['COMSPEC', 'PATH', 'PSModulePath', 'SystemRoot', 'WINDIR'])
 
 
 if __name__ == '__main__':

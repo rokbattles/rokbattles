@@ -103,11 +103,8 @@ package-hash and protected-path authenticated. This does **not** claim applicati
 Authenticode signing. The official WinDivert DLL is unsigned/hash-pinned; its SYS
 has the upstream Microsoft kernel signature.
 
-The PowerShell bootstrap commands are compiled into the installer and receive no
-user interpolation. Generated chunks of at most 512 characters build one bounded
-UTF-16 command buffer, avoiding NSIS runtime string truncation. CreateProcessW uses
-the explicit native system PowerShell path and retained child handles with a
-bounded wait; there is no temporary script or executable fallback.
+The PowerShell bootstrap commands are compressed solely to fit NSIS's bounded
+command string, compiled into the installer, and receive no user interpolation.
 No script is read from disk or fetched at runtime. A missing/untrusted maintenance
 component requires full repair, rather than silently bootstrapping over an
 existing active installation.
@@ -127,11 +124,9 @@ Cross-check both Windows targets and run native CI tests/builds. Native NSIS
 compilation, UAC, initial install, update cancellation/installer death, service
 stop timeouts, repair/rollback, uninstall, reboot dependency ordering, SYSTEM trust
 cache behavior and actual capture still require separately authorized Windows
-acceptance testing. Maintenance is the online revocation boundary. Runtime independently verifies
-pinned driver-policy signatures and protected exact bytes offline, without
-revocation retrieval; it does not depend on the installer's per-user Cryptnet
-cache. A subsequently revoked pinned release must be removed by an application
-update. Keep this PR draft until the remaining native acceptance checks pass.
+acceptance testing. In particular, a valid installer-user trust check does not
+prove the SYSTEM account's revocation cache is populated; runtime fails closed
+if it is unavailable. Keep this PR draft until those checks pass.
 
 Primary references: [Tauri NSIS hooks](https://v2.tauri.app/distribute/windows-installer/),
 [service stop lifecycle](https://learn.microsoft.com/en-us/windows/win32/services/stopping-a-service),
