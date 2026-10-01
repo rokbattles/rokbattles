@@ -7,12 +7,23 @@
 use crate::ReconstructionError;
 
 /// A raw wire value before interpretation by its message descriptor.
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub(crate) enum FieldValue<'a> {
     Varint(u64),
     Bytes(&'a [u8]),
     Fixed64(u64),
     Fixed32(u32),
+}
+
+impl std::fmt::Debug for FieldValue<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Bytes(bytes) => f.debug_tuple("Bytes").field(&bytes.len()).finish(),
+            Self::Varint(_) => f.write_str("Varint(..)"),
+            Self::Fixed64(_) => f.write_str("Fixed64(..)"),
+            Self::Fixed32(_) => f.write_str("Fixed32(..)"),
+        }
+    }
 }
 
 /// A field number paired with its decoded wire value.

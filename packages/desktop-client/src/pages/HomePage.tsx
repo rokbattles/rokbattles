@@ -4,6 +4,7 @@ import { Banner } from "../components/Banner.tsx";
 import { Button } from "../components/Button.tsx";
 import { Logs } from "../components/Logs.tsx";
 import { WatchedDirectories } from "../components/WatchedDirectories.tsx";
+import { WorkerStatus } from "../components/WorkerStatus.tsx";
 import { useBanner } from "../hooks/useBanner.ts";
 import { useWatchedDirectories } from "../hooks/useWatchedDirectories.ts";
 import type { LogEntry } from "../lib/log-entry.ts";
@@ -19,6 +20,7 @@ export function HomePage({ logs }: HomePageProps): ReactNode {
   return (
     <div className="py-6">
       {banner ? <Banner banner={banner} /> : null}
+      <WorkerStatus />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-base/6 font-semibold text-white">Scan Directories</h2>
         <div className="flex flex-wrap items-center justify-end gap-2">

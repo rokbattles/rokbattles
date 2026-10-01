@@ -3,8 +3,9 @@
 use std::env;
 
 /// Runtime configuration loaded from environment variables.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Config {
+    pub desktop_capture_enabled: bool,
     pub bind_addr: String,
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
@@ -14,6 +15,14 @@ pub struct Config {
     pub zstd_level: i32,
     pub max_upload_bytes: usize,
     pub relay_token: String,
+}
+
+impl std::fmt::Debug for Config {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Config")
+            .field("desktop_capture_enabled", &self.desktop_capture_enabled)
+            .finish_non_exhaustive()
+    }
 }
 
 /// Errors returned when configuration is missing or invalid.
@@ -35,6 +44,8 @@ impl Config {
     where
         F: Fn(&str) -> Option<String>,
     {
+        let desktop_capture_enabled =
+            parse_bool("DESKTOP_CAPTURE_ENABLED", lookup("DESKTOP_CAPTURE_ENABLED"), false)?;
         let bind_addr = lookup("BIND_ADDR").unwrap_or_else(|| "0.0.0.0:8000".to_string());
         let mongo_uri = required(&lookup, "MONGODB_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
@@ -50,6 +61,7 @@ impl Config {
             .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
 
         Ok(Self {
+            desktop_capture_enabled,
             bind_addr,
             mongo_uri,
             sentry_dsn,
@@ -131,6 +143,7 @@ mod tests {
         assert_eq!(
             cfg,
             Config {
+                desktop_capture_enabled: false,
                 bind_addr: "0.0.0.0:8000".to_string(),
                 mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
                 sentry_dsn: None,
@@ -194,5 +207,19 @@ mod tests {
         .expect_err("relay token should not be empty");
 
         assert_eq!(error, ConfigError::Missing { key: "RELAY_TOKEN" });
+    }
+
+    #[test]
+    fn desktop_capture_requires_explicit_true_and_debug_redacts_secrets() {
+        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("MONGODB_URI", "mongodb://secret-host/rokbattles"),
+            ("RELAY_TOKEN", "secret-token"),
+            ("DESKTOP_CAPTURE_ENABLED", "true"),
+        ])))
+        .expect("config");
+        assert!(cfg.desktop_capture_enabled);
+        let debug = format!("{cfg:?}");
+        assert!(!debug.contains("secret"));
+        assert!(!debug.contains("mongodb"));
     }
 }

@@ -1,0 +1,26 @@
+[package]
+name = "rokbattles-capture-ipc"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[build-dependencies]
+cc = "1.4.4"
+
+[dependencies]
+zeroize = "1.9.0"
+rokbattles-capture-runtime = { path = "../rokbattles-capture-runtime" }
+tokio = { workspace = true, features = ["io-util", "net", "time"] }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_System_Memory", "Win32_System_Pipes", "Win32_System_Services", "Win32_System_Threading", "Win32_Storage_FileSystem", "Win32_System_Com", "Win32_System_SystemInformation", "Win32_UI_Shell", "Win32_Globalization"] }
+
+[target.'cfg(unix)'.dependencies]
+libc.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt", "time", "test-util"] }
+tempfile.workspace = true
+
+[lints]
+workspace = true

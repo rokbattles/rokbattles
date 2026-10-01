@@ -7,7 +7,7 @@ use mongodb::{
 };
 
 /// Ingress collections used by upload handlers.
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Storage {
     compressed_raw: Collection<Document>,
 }
@@ -70,6 +70,22 @@ impl Storage {
         Ok(())
     }
 
+    /// Atomic insert-only capture path. A duplicate ID never replaces existing
+    /// receiver, body, status or metadata, regardless of untrusted capture hints.
+    pub async fn insert_capture_once(
+        &self,
+        mail_id: &str,
+        document: Document,
+    ) -> mongodb::error::Result<bool> {
+        let (filter, update) = capture_insert_documents(mail_id, document);
+        let result = self.compressed_raw.update_one(filter, update).upsert(true).await;
+        match result {
+            Ok(result) => Ok(result.upserted_id.is_some()),
+            Err(error) if duplicate_key(&error) => Ok(false),
+            Err(error) => Err(error),
+        }
+    }
+
     /// Replace the V2 document only if it is still the version the caller compared.
     pub async fn update_compressed_raw(
         &self,
@@ -81,6 +97,19 @@ impl Storage {
         let filter = compressed_raw_version_filter(mail_id, existing_checksum);
         let result = self.compressed_raw.update_one(filter, doc! { "$set": doc }).await?;
         Ok(result.modified_count == 1)
+    }
+}
+
+fn capture_insert_documents(mail_id: &str, document: Document) -> (Document, Document) {
+    (doc! { "mail.id": mail_id }, doc! { "$setOnInsert": document })
+}
+
+fn duplicate_key(error: &mongodb::error::Error) -> bool {
+    use mongodb::error::{ErrorKind, WriteFailure};
+    match error.kind.as_ref() {
+        ErrorKind::Write(WriteFailure::WriteError(error)) => error.code == 11000,
+        ErrorKind::Command(error) => error.code == 11000,
+        _ => false,
     }
 }
 
@@ -214,5 +243,14 @@ mod tests {
                 "metadata.checksum": { "$exists": false },
             }
         );
+    }
+
+    #[test]
+    fn capture_uses_only_atomic_set_on_insert_under_the_exact_id() {
+        let document = doc! { "mail": { "id": "123", "receiver": "player_42" } };
+        let (filter, update) = capture_insert_documents("123", document.clone());
+        assert_eq!(filter, doc! { "mail.id": "123" });
+        assert_eq!(update, doc! { "$setOnInsert": document });
+        assert!(!update.contains_key("$set"));
     }
 }

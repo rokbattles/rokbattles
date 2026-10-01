@@ -17,6 +17,8 @@ pub(crate) const MAX_MAIL_ENTRIES: usize = 4096;
 pub(crate) enum ProtocolError {
     #[error("protobuf input ended before a field was complete")]
     Truncated,
+    #[error("shared decode work budget exhausted")]
+    WorkBudgetExceeded,
     #[error("protobuf varint exceeded 64 bits")]
     VarintOverflow,
     #[error("protobuf field number was zero")]
@@ -45,17 +47,32 @@ pub(crate) enum ProtocolError {
     TooManyMailEntries,
 }
 
-#[derive(Debug)]
 pub(crate) struct EffectiveMessage<'a> {
     pub(crate) api_id: u32,
     pub(crate) payload: Cow<'a, [u8]>,
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub(crate) struct MailCandidates {
     pub(crate) entries: Vec<Vec<u8>>,
     pub(crate) server_id: Option<i32>,
     pub(crate) remaining: Option<usize>,
+}
+
+impl std::fmt::Debug for EffectiveMessage<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("EffectiveMessage")
+            .field("bytes", &self.payload.len())
+            .finish_non_exhaustive()
+    }
+}
+
+impl std::fmt::Debug for MailCandidates {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("MailCandidates")
+            .field("entries", &self.entries.len())
+            .finish_non_exhaustive()
+    }
 }
 
 pub(crate) fn parse_handshake(
@@ -74,12 +91,17 @@ pub(crate) fn parse_handshake(
 pub(crate) fn visit_messages(
     body: &[u8],
     artifact: &RuntimeArtifact,
+    work_remaining: &mut usize,
     mut visit: impl FnMut(EffectiveMessage<'_>) -> Result<(), ProtocolError>,
 ) -> Result<(), ProtocolError> {
     let outer = parse_msg(body, artifact)?;
     match outer.api_id {
         COMPRESSED_API_ID => {
-            let inflated = inflate_wrapper(&outer.payload, artifact.protocol.compressed)?;
+            let inflated = zeroize::Zeroizing::new(inflate_wrapper(
+                &outer.payload,
+                artifact.protocol.compressed,
+                work_remaining,
+            )?);
             // CompressedMsg contains CompoundMsg, whose Messages field is
             // repeated. Visit every member in wire order; taking the last bytes
             // field silently loses earlier login and mail messages.
@@ -100,7 +122,11 @@ pub(crate) fn visit_messages(
             Ok(())
         }
         ZMSG_API_ID => {
-            let inflated = inflate_wrapper(&outer.payload, artifact.protocol.zmsg)?;
+            let inflated = zeroize::Zeroizing::new(inflate_wrapper(
+                &outer.payload,
+                artifact.protocol.zmsg,
+                work_remaining,
+            )?);
             visit(parse_msg(&inflated, artifact)?)
         }
         _ => visit(outer),
@@ -197,15 +223,21 @@ fn parse_msg<'a>(
     Ok(EffectiveMessage { api_id, payload: Cow::Borrowed(payload) })
 }
 
-fn inflate_wrapper(data: &[u8], schema: CompressionSchema) -> Result<Vec<u8>, ProtocolError> {
+fn inflate_wrapper(
+    data: &[u8],
+    schema: CompressionSchema,
+    work_remaining: &mut usize,
+) -> Result<Vec<u8>, ProtocolError> {
     let declared = usize::try_from(required_varint(data, schema.length_field)?)
         .map_err(|_error| ProtocolError::DeclaredInflationTooLarge)?;
     if declared > MAX_INFLATED_BYTES {
         return Err(ProtocolError::DeclaredInflationTooLarge);
     }
+    *work_remaining =
+        work_remaining.checked_sub(declared).ok_or(ProtocolError::WorkBudgetExceeded)?;
     let compressed = required_bytes(data, schema.payload_field)?;
     let decoder = ZlibDecoder::new(compressed);
-    let mut limited = decoder.take((MAX_INFLATED_BYTES + 1) as u64);
+    let mut limited = decoder.take((declared + 1) as u64);
     let mut inflated = Vec::with_capacity(declared.min(MAX_INFLATED_BYTES));
     limited.read_to_end(&mut inflated).map_err(|_error| ProtocolError::Inflate)?;
     if inflated.len() > MAX_INFLATED_BYTES {

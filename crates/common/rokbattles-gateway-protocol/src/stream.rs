@@ -1,5 +1,7 @@
 //! Stateful server-stream framing and decryption.
 
+use zeroize::Zeroize;
+
 use crate::{
     RuntimeArtifact,
     artifact::LOGIN_API_ID,
@@ -10,7 +12,7 @@ use crate::{
 pub const MAX_FRAME_BODY_BYTES: usize = 25 * 1024 * 1024;
 
 /// Metadata or raw mail entries extracted from a complete decrypted frame.
-#[derive(Debug, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub enum StreamEvent {
     /// Login context used for later mail reconstruction.
     Login {
@@ -30,12 +32,34 @@ pub enum StreamEvent {
     },
 }
 
+impl std::fmt::Debug for StreamEvent {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Login { .. } => f.write_str("Login { .. }"),
+            Self::Mails { entries, .. } => f
+                .debug_struct("Mails")
+                .field("entries", &entries.len())
+                .field("bytes", &entries.iter().map(Vec::len).sum::<usize>())
+                .finish_non_exhaustive(),
+        }
+    }
+}
+
 /// A failure after which callers must retire this decoder.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
 pub enum StreamError {
     #[error("frame body exceeded the configured limit")]
     /// A frame prefix declares more than the accepted bound.
     FrameTooLarge,
+    #[error("stream decode work budget exhausted")]
+    /// Shared frame/inflation work budget was exhausted.
+    WorkBudgetExceeded,
+    #[error("stream memory budget exhausted")]
+    /// Caller could not admit additional incomplete-frame memory.
+    MemoryBudgetExceeded,
+    #[error("stream decoder has been retired")]
+    /// An earlier error permanently retired this decoder.
+    Retired,
     #[error("first server frame was not a supported handshake")]
     /// The first frame cannot initialize the supported cipher.
     UnsupportedHandshake,
@@ -53,6 +77,7 @@ pub enum StreamError {
 impl From<ProtocolError> for StreamError {
     fn from(value: ProtocolError) -> Self {
         match value {
+            ProtocolError::WorkBudgetExceeded => Self::WorkBudgetExceeded,
             ProtocolError::DeclaredInflationTooLarge
             | ProtocolError::InflationTooLarge
             | ProtocolError::InflationLengthMismatch
@@ -67,9 +92,11 @@ impl From<ProtocolError> for StreamError {
 /// This type does not reorder TCP, buffer capture gaps or write mail. Reuse it
 /// for the entire connection; creating a replacement midstream loses cipher
 /// position. Incomplete frame bodies are bounded and retained between pushes.
-#[derive(Debug)]
 pub struct ServerStreamProcessor<'a> {
     artifact: &'a RuntimeArtifact,
+    failed: bool,
+    first_frame_limit: usize,
+    frame_limit: usize,
     prefix: [u8; 2],
     prefix_len: usize,
     extended: [u8; 4],
@@ -85,6 +112,9 @@ impl<'a> ServerStreamProcessor<'a> {
     pub fn new(artifact: &'a RuntimeArtifact) -> Self {
         Self {
             artifact,
+            failed: false,
+            first_frame_limit: MAX_FRAME_BODY_BYTES,
+            frame_limit: MAX_FRAME_BODY_BYTES,
             prefix: [0; 2],
             prefix_len: 0,
             extended: [0; 4],
@@ -96,9 +126,26 @@ impl<'a> ServerStreamProcessor<'a> {
         }
     }
 
+    /// Reduce frame limits for untrusted intake; never enlarge the protocol maximum.
+    pub fn with_frame_limits(mut self, first_frame: usize, subsequent_frames: usize) -> Self {
+        self.first_frame_limit = first_frame.min(MAX_FRAME_BODY_BYTES);
+        self.frame_limit = subsequent_frames.min(MAX_FRAME_BODY_BYTES);
+        self
+    }
+
     /// Bytes reserved for an incomplete frame.
     pub fn buffered_bytes(&self) -> usize {
         self.body.capacity()
+    }
+
+    /// Complete protocol frames consumed, for a caller's frame-assembly deadline.
+    pub fn completed_frames(&self) -> u64 {
+        self.frame_index
+    }
+
+    /// Whether a prefix or frame body is awaiting additional bytes.
+    pub fn has_incomplete_frame(&self) -> bool {
+        self.prefix_len != 0 || self.extended_len != 0 || self.remaining.is_some()
     }
 
     /// Consume the next contiguous server bytes and return complete events.
@@ -108,16 +155,63 @@ impl<'a> ServerStreamProcessor<'a> {
     /// malformed protocol message or unsafe compressed payload. State may have
     /// advanced when an error is returned; callers must retire this instance.
     pub fn push(&mut self, payload: &[u8]) -> Result<Vec<StreamEvent>, StreamError> {
-        let mut events = Vec::new();
+        let mut work_remaining = usize::MAX;
+        self.push_with_budget(payload, &mut work_remaining)
+    }
+
+    /// Decode with a caller-owned work budget shared across frames and inflations.
+    /// Charges declared inflation before allocation; no per-frame budget reset.
+    ///
+    /// # Errors
+    /// Returns a protocol error or [`StreamError::WorkBudgetExceeded`]. The caller
+    /// must retire this decoder after any error, never retry bytes against it.
+    pub fn push_with_budget(
+        &mut self,
+        payload: &[u8],
+        work_remaining: &mut usize,
+    ) -> Result<Vec<StreamEvent>, StreamError> {
+        self.push_bounded(payload, work_remaining, usize::MAX)
+    }
+
+    /// Decode while also limiting this decoder's incomplete-frame allocation.
+    ///
+    /// # Errors
+    /// Returns the same errors as [`Self::push_with_budget`] or a memory limit
+    /// error before growing a frame beyond `maximum_buffered`.
+    pub fn push_bounded(
+        &mut self,
+        payload: &[u8],
+        work_remaining: &mut usize,
+        maximum_buffered: usize,
+    ) -> Result<Vec<StreamEvent>, StreamError> {
+        if self.failed {
+            return Err(StreamError::Retired);
+        }
+        let result = self.push_inner(payload, work_remaining, maximum_buffered);
+        if result.is_err() {
+            self.retire();
+        }
+        result
+    }
+
+    fn push_inner(
+        &mut self,
+        payload: &[u8],
+        work_remaining: &mut usize,
+        maximum_buffered: usize,
+    ) -> Result<Vec<StreamEvent>, StreamError> {
+        *work_remaining =
+            work_remaining.checked_sub(payload.len()).ok_or(StreamError::WorkBudgetExceeded)?;
+        let mut events = WipedEvents(Vec::new());
         let mut position = 0usize;
         while position < payload.len() {
             if self.remaining.is_none() {
                 self.read_prefix(payload, &mut position)?;
                 let Some(remaining) = self.remaining else {
-                    return Ok(events);
+                    return Ok(events.finish());
                 };
                 if remaining == 0 {
-                    events.extend(self.complete_frame()?);
+                    events.extend(self.complete_frame(work_remaining)?);
                     continue;
                 }
             }
@@ -128,6 +222,27 @@ impl<'a> ServerStreamProcessor<'a> {
             let end = position.checked_add(take).ok_or(StreamError::FrameTooLarge)?;
             let encrypted = payload.get(position..end).ok_or(StreamError::FrameTooLarge)?;
             let body_start = self.body.len();
+            let required = body_start.checked_add(take).ok_or(StreamError::MemoryBudgetExceeded)?;
+            if required > maximum_buffered {
+                return Err(StreamError::MemoryBudgetExceeded);
+            }
+            if required > self.body.capacity() {
+                // Geometric growth keeps one-byte wire chunks amortized-linear;
+                // an exact reserve on every byte would repeatedly copy the frame.
+                let frame_limit =
+                    if self.frame_index == 0 { self.first_frame_limit } else { self.frame_limit };
+                let capacity = required
+                    .checked_next_power_of_two()
+                    .ok_or(StreamError::MemoryBudgetExceeded)?
+                    .min(maximum_buffered)
+                    .min(frame_limit);
+                self.body
+                    .try_reserve_exact(capacity.saturating_sub(body_start))
+                    .map_err(|_error| StreamError::MemoryBudgetExceeded)?;
+                if self.body.capacity() > maximum_buffered {
+                    return Err(StreamError::MemoryBudgetExceeded);
+                }
+            }
             self.body.extend_from_slice(encrypted);
             if self.frame_index > 0 {
                 let cipher = self.cipher.as_mut().ok_or(StreamError::CipherUnavailable)?;
@@ -138,10 +253,10 @@ impl<'a> ServerStreamProcessor<'a> {
             let next_remaining = remaining.saturating_sub(take);
             self.remaining = Some(next_remaining);
             if next_remaining == 0 {
-                events.extend(self.complete_frame()?);
+                events.extend(self.complete_frame(work_remaining)?);
             }
         }
-        Ok(events)
+        Ok(events.finish())
     }
 
     fn read_prefix(&mut self, payload: &[u8], position: &mut usize) -> Result<(), StreamError> {
@@ -160,28 +275,33 @@ impl<'a> ServerStreamProcessor<'a> {
         } else {
             usize::from(short)
         };
-        if length > MAX_FRAME_BODY_BYTES {
+        let limit = if self.frame_index == 0 { self.first_frame_limit } else { self.frame_limit };
+        if length > limit {
             return Err(StreamError::FrameTooLarge);
         }
 
         self.prefix_len = 0;
         self.extended_len = 0;
+        self.body.zeroize();
         self.body.clear();
         // Grow with received bytes; an untrusted length must not reserve 25 MiB.
         self.remaining = Some(length);
         Ok(())
     }
 
-    fn complete_frame(&mut self) -> Result<Vec<StreamEvent>, StreamError> {
+    fn complete_frame(
+        &mut self,
+        work_remaining: &mut usize,
+    ) -> Result<Vec<StreamEvent>, StreamError> {
         self.remaining = None;
-        let mut events = Vec::new();
+        let mut events = WipedEvents(Vec::new());
         if self.frame_index == 0 {
             let (key1, _key2) = parse_handshake(&self.body, self.artifact)
                 .map_err(|_error| StreamError::UnsupportedHandshake)?;
             self.cipher = Some(StreamCipher::new(server_secret(key1)));
         } else {
             let mut entry_budget = crate::protobuf::MAX_MAIL_ENTRIES;
-            visit_messages(&self.body, self.artifact, |message| {
+            visit_messages(&self.body, self.artifact, work_remaining, |message| {
                 if message.api_id == LOGIN_API_ID {
                     let (player_id, server_id) = parse_login(&message.payload, self.artifact)?;
                     events.push(StreamEvent::Login { player_id, server_id });
@@ -205,8 +325,73 @@ impl<'a> ServerStreamProcessor<'a> {
             })?;
         }
         self.frame_index = self.frame_index.saturating_add(1);
+        self.body.zeroize();
         self.body.clear();
-        Ok(events)
+        Ok(events.finish())
+    }
+}
+
+impl ServerStreamProcessor<'_> {
+    fn retire(&mut self) {
+        self.failed = true;
+        self.body.zeroize();
+        self.body = Vec::new();
+        self.prefix.zeroize();
+        self.extended.zeroize();
+        self.prefix_len = 0;
+        self.extended_len = 0;
+        self.remaining = None;
+        if let Some(mut cipher) = self.cipher.take() {
+            cipher.words.zeroize();
+        }
+    }
+}
+
+struct WipedEvents(Vec<StreamEvent>);
+
+impl WipedEvents {
+    fn finish(mut self) -> Vec<StreamEvent> {
+        std::mem::take(&mut self.0)
+    }
+}
+
+impl std::ops::Deref for WipedEvents {
+    type Target = Vec<StreamEvent>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for WipedEvents {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl Drop for WipedEvents {
+    fn drop(&mut self) {
+        for event in &mut self.0 {
+            if let StreamEvent::Mails { entries, .. } = event {
+                for entry in entries {
+                    entry.zeroize();
+                }
+            }
+        }
+    }
+}
+
+impl std::fmt::Debug for ServerStreamProcessor<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ServerStreamProcessor")
+            .field("buffered_bytes", &self.body.len())
+            .field("frames", &self.frame_index)
+            .finish_non_exhaustive()
+    }
+}
+
+impl Drop for ServerStreamProcessor<'_> {
+    fn drop(&mut self) {
+        self.retire();
     }
 }
 
@@ -235,7 +420,6 @@ fn server_secret(value: u64) -> u32 {
     (secret & u64::from(u32::MAX)) as u32
 }
 
-#[derive(Debug)]
 struct StreamCipher {
     words: Vec<u32>,
 }
@@ -756,5 +940,18 @@ mod tests {
         }
         encoded.push(value as u8);
         encoded
+    }
+
+    #[test]
+    fn decoder_error_wipes_and_permanently_retires_public_processor() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut decoder = ServerStreamProcessor::new(&artifact);
+        assert!(matches!(decoder.push(&[0, 1, 0xff]), Err(StreamError::UnsupportedHandshake)));
+        assert!(decoder.failed);
+        assert!(decoder.cipher.is_none());
+        assert_eq!(decoder.buffered_bytes(), 0);
+        assert!(decoder.body.is_empty());
+        assert_eq!(decoder.push(&test_server_frames(0).remove(0)), Err(StreamError::Retired));
+        assert!(!format!("{decoder:?}").contains("cipher"));
     }
 }

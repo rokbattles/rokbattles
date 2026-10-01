@@ -71,7 +71,27 @@ struct ErrorResponse {
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let status = self.status_code();
-        let body = Json(ErrorResponse { error: self.to_string() });
+        let message = match self {
+            Self::BadRequest(_) => "invalid request",
+            Self::UnsupportedType(_) => "unsupported mail type",
+            Self::DecodeFailed(_) => "invalid mail data",
+            Self::Database(_) | Self::Internal(_) => "service unavailable",
+            Self::Clamav(_) => "scan unavailable",
+            Self::Unauthorized => "unauthorized",
+        };
+        let body = Json(ErrorResponse { error: message.to_string() });
         (status, body).into_response()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn server_errors_never_echo_internal_details() {
+        let response = ApiError::database("mongodb://private-host/secret-token").into_response();
+        let body = axum::body::to_bytes(response.into_body(), 1024).await.expect("body");
+        assert_eq!(body.as_ref(), br#"{"error":"service unavailable"}"#);
     }
 }

@@ -50,6 +50,7 @@
 
 mod artifact;
 mod body;
+mod complexity;
 mod dynamic;
 mod entity;
 mod error;

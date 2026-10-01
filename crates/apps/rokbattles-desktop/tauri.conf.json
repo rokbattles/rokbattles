@@ -5,7 +5,7 @@
   "identifier": "com.rokbattles.tauri",
   "build": {
     "beforeDevCommand": {
-      "script": "pnpm dev",
+      "script": "cargo build --manifest-path ../../Cargo.toml -p rokbattles-desktop-agent && pnpm dev",
       "cwd": "../../../packages/desktop-client"
     },
     "devUrl": "http://localhost:1420",

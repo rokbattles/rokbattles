@@ -12,9 +12,11 @@ flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/fl
 flatpak install --user --noninteractive -y flathub \
   org.gnome.Platform//50 org.gnome.Sdk//50
 
+CARGO_TARGET_DIR="$build_root/cargo" python3 crates/apps/rokbattles-desktop/scripts/stage_agent.py
+
 # Tauri builds the frontend and generates the desktop entry and icons in the deb.
 CARGO_TARGET_DIR="$build_root/cargo" pnpm --filter @rokbattles/desktop-client tauri build \
-  --ci --bundles deb \
+  --ci --bundles deb --config tauri.agent.conf.json \
   --config '{"identifier":"com.rokbattles.rokbattles","bundle":{"createUpdaterArtifacts":false}}' \
   -- --locked
 cp "$build_root"/cargo/release/bundle/deb/*_"$version"_"$(dpkg --print-architecture)".deb \

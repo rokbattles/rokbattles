@@ -1,0 +1,18 @@
+[package]
+name = "rokbattles-capture-adapters"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+zeroize = "1.9.0"
+rokbattles-capture-runtime = { path = "../rokbattles-capture-runtime" }
+
+[target.'cfg(all(any(target_os = "linux", target_os = "macos", target_os = "windows"), any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
+libloading = "0.8.9"
+
+[target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
+libc.workspace = true
+
+[lints]
+workspace = true

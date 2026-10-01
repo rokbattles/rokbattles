@@ -14,16 +14,22 @@ jobs:
       matrix:
         include:
           - platform: "macos-latest"
+            target: "aarch64-apple-darwin"
             args: "--target aarch64-apple-darwin --bundles dmg app"
           - platform: "macos-15-intel"
+            target: "x86_64-apple-darwin"
             args: "--target x86_64-apple-darwin --bundles dmg app"
           - platform: "ubuntu-24.04"
+            target: "x86_64-unknown-linux-gnu"
             args: "--target x86_64-unknown-linux-gnu --bundles deb appimage"
           - platform: "ubuntu-24.04-arm"
+            target: "aarch64-unknown-linux-gnu"
             args: "--target aarch64-unknown-linux-gnu --bundles deb appimage"
           - platform: "windows-latest"
+            target: "x86_64-pc-windows-msvc"
             args: "--target x86_64-pc-windows-msvc --bundles nsis"
           - platform: "windows-11-arm"
+            target: "aarch64-pc-windows-msvc"
             args: "--target aarch64-pc-windows-msvc --bundles nsis"
 
     runs-on: ${{ matrix.platform }}
@@ -58,6 +64,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev lld librsvg2-dev patchelf xdg-utils flatpak flatpak-builder
+
+      - name: Build and stage background agent
+        run: python crates/apps/rokbattles-desktop/scripts/stage_agent.py --target ${{ matrix.target }}
 
       - name: Import Apple signing certificate
         if: matrix.platform == 'macos-latest' || matrix.platform == 'macos-15-intel'
@@ -98,7 +107,7 @@ jobs:
           retryAttempts: 3
           projectPath: crates/apps/rokbattles-desktop
           tauriScript: ../../../packages/desktop-client/node_modules/.bin/tauri
-          args: ${{ matrix.args }}
+          args: ${{ matrix.args }} --config tauri.agent.conf.json
 
       - name: Build Flatpak
         if: matrix.platform == 'ubuntu-24.04' || matrix.platform == 'ubuntu-24.04-arm'

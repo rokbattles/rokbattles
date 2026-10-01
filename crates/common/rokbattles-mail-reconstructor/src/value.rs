@@ -25,7 +25,7 @@ pub(crate) fn inflate_mail_body(
         .ok_or(ReconstructionError::InvalidInflatedLength)?;
     // Reading one byte past the cap makes oversized output a length mismatch
     // without retaining the rest of the decompressed stream.
-    let mut decoder = ZlibDecoder::new(compressed).take((max + 1) as u64);
+    let mut decoder = ZlibDecoder::new(compressed).take((expected + 1) as u64);
     let mut inflated = Vec::with_capacity(expected);
     decoder.read_to_end(&mut inflated).map_err(ReconstructionError::Inflate)?;
     if inflated.len() != expected {

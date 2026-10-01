@@ -4,6 +4,7 @@
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
+mod capture;
 mod clamav;
 mod config;
 mod error;
@@ -65,15 +66,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let storage = Storage::new(db);
     storage.ensure_indexes().await?;
 
-    let state = Arc::new(AppState { config, storage, mail_reconstructor });
+    let capture = if config.desktop_capture_enabled {
+        Some(Arc::new(capture::Intake::new(
+            rokbattles_gateway_protocol::RuntimeArtifact::load_default()?,
+        )))
+    } else {
+        None
+    };
+    let state = Arc::new(AppState { capture, config, storage, mail_reconstructor });
 
     let app = Router::new()
         .route("/health", get(handlers::health))
         .route("/v2/upload", post(handlers::upload))
         .route("/v2/relay/upload", post(handlers::upload_relay))
-        .route("/v2/tcp-stream", post(handlers::upload_tcp_stream))
-        .with_state(state.clone())
-        .layer(DefaultBodyLimit::max(state.config.max_upload_bytes));
+        .route("/v2/tcp-stream", post(handlers::upload_tcp_stream));
+
+    let app = capture::register(app, state.capture.is_some(), post(capture::upload));
+
+    let app =
+        app.with_state(state.clone()).layer(DefaultBodyLimit::max(state.config.max_upload_bytes));
 
     info!("listening on {}", state.config.bind_addr);
     let listener = tokio::net::TcpListener::bind(&state.config.bind_addr).await?;

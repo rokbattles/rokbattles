@@ -5,6 +5,8 @@
 
 use std::path::Path;
 
+use zeroize::Zeroize;
+
 use rokbattles_mail_registry::detect_mail_type;
 use serde_json::{Map, Value};
 
@@ -33,7 +35,7 @@ pub struct ReconstructionContext {
 }
 
 /// A persistent mail reconstructed from one protobuf `MailEntity`.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Clone, PartialEq)]
 pub struct ReconstructedMail {
     /// Persistent mail ID.
     pub id: String,
@@ -46,6 +48,14 @@ pub struct ReconstructedMail {
     ///
     /// The caller is responsible for storing or forwarding these bytes.
     pub bytes: Vec<u8>,
+}
+
+impl std::fmt::Debug for ReconstructedMail {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ReconstructedMail")
+            .field("bytes", &self.bytes.len())
+            .finish_non_exhaustive()
+    }
 }
 
 /// Reusable mail reconstructor backed by runtime protocol descriptors.
@@ -110,6 +120,56 @@ impl MailReconstructor {
         self.reconstruct_entity(entity, context)
     }
 
+    /// Reconstruct untrusted capture input using a caller-owned aggregate budget.
+    /// Input and declared inflation are charged before parsing/decompression; output
+    /// is bounded and charged before it leaves this function. This budget must span
+    /// all mails in a request/work window, never reset for each entry.
+    ///
+    /// # Errors
+    /// Returns normal reconstruction failures or [`ReconstructionError::BudgetExceeded`].
+    pub fn reconstruct_with_budget(
+        &self,
+        entry: &[u8],
+        context: ReconstructionContext,
+        remaining: &mut usize,
+    ) -> Result<ReconstructedMail, ReconstructionError> {
+        *remaining =
+            remaining.checked_sub(entry.len()).ok_or(ReconstructionError::BudgetExceeded)?;
+        if entry.len() > self.max_mail_bytes {
+            return Err(ReconstructionError::MailTooLarge { max: self.max_mail_bytes });
+        }
+        let entity = MailEntity::decode(entry, &self.schema)?;
+        let declared = if entity.compression_tag == 1 {
+            usize::try_from(entity.original_length.unwrap_or(-1))
+                .map_err(|_error| ReconstructionError::InvalidInflatedLength)?
+        } else {
+            entity.body.len()
+        };
+        if declared > self.max_mail_bytes {
+            return Err(ReconstructionError::MailTooLarge { max: self.max_mail_bytes });
+        }
+        *remaining = remaining.checked_sub(declared).ok_or(ReconstructionError::BudgetExceeded)?;
+
+        let numeric_id = !entity.mail_id.is_empty()
+            && entity.mail_id.len() <= 40
+            && entity.mail_id.bytes().all(|byte| byte.is_ascii_digit());
+        let receiver = entity.receiver.strip_prefix("player_").filter(|value| {
+            !value.is_empty()
+                && value.len() <= 20
+                && value.bytes().all(|byte| byte.is_ascii_digit())
+        });
+        if !numeric_id || receiver.is_none() || entity.mail_type.len() > 128 {
+            return Err(ReconstructionError::InvalidProtobuf("invalid bounded mail identity"));
+        }
+        let mut mail = self.reconstruct_entity(entity, context)?;
+        if mail.bytes.len() > self.max_mail_bytes || mail.bytes.len() > *remaining {
+            mail.bytes.zeroize();
+            return Err(ReconstructionError::BudgetExceeded);
+        }
+        *remaining -= mail.bytes.len();
+        Ok(mail)
+    }
+
     fn reconstruct_entity(
         &self,
         entity: MailEntity<'_>,
@@ -123,6 +183,85 @@ impl MailReconstructor {
         // The network Battle2 label uses the persistent Battle representation.
         let normalized_type =
             if entity.mail_type == "Battle2" { "Battle" } else { entity.mail_type.as_str() };
+        // Validate total expanded shape before descriptor/JSON construction.
+        // All body, attack, attachment and metadata sections share one budget.
+        let mut shape = crate::complexity::Budget::new();
+        match normalized_type {
+            "Battle" => crate::complexity::json(&body_bytes, &mut shape)?,
+            "DuelBattle2" => crate::complexity::message(
+                &body_bytes,
+                "DuelMailReport",
+                &self.schema.descriptors,
+                &mut shape,
+            )?,
+            "Rss" => crate::complexity::message(
+                &body_bytes,
+                "MailRss",
+                &self.schema.descriptors,
+                &mut shape,
+            )?,
+            "BarCanyonKillBoss" => crate::complexity::message(
+                &body_bytes,
+                "EliteBarReportInfo",
+                &self.schema.descriptors,
+                &mut shape,
+            )?,
+            "EventMemberLootReport" => crate::complexity::message(
+                &body_bytes,
+                "EventMemeberLootInfo",
+                &self.schema.descriptors,
+                &mut shape,
+            )?,
+            "System" | "Alliance" => crate::complexity::message(
+                &body_bytes,
+                "MailSys",
+                &self.schema.descriptors,
+                &mut shape,
+            )?,
+            _ => {}
+        }
+        for attachment in &entity.attachments {
+            crate::complexity::message(
+                attachment,
+                "MailAttachment",
+                &self.schema.descriptors,
+                &mut shape,
+            )?;
+        }
+        for attack in &entity.attack_bodies {
+            for field in crate::protobuf::fields(attack) {
+                let field = field?;
+                if field.number == self.schema.attack_body {
+                    crate::complexity::json(crate::entity::bytes(field.value)?, &mut shape)?;
+                } else if field.number == self.schema.attack_name {
+                    shape.bytes(crate::entity::text(field.value)?.len())?;
+                }
+            }
+        }
+        crate::complexity::info(entity.sender_info, &mut shape)?;
+        crate::complexity::info(entity.receiver_info, &mut shape)?;
+        for value in [
+            entity.mail_id,
+            entity.sender,
+            entity.receiver,
+            entity.title,
+            entity.box_name,
+            entity.previous_box,
+            entity.previous_mail_id,
+            entity.mail_type.as_str(),
+        ] {
+            shape.nodes(1, 0)?;
+            shape.bytes(value.len())?;
+        }
+        // Lossy UTF-8 can expand one invalid byte to a three-byte replacement.
+        shape.bytes(
+            entity.addition.len().checked_mul(3).ok_or(ReconstructionError::BudgetExceeded)?,
+        )?;
+        for flag in entity.flag_list.split(',').filter(|flag| !flag.is_empty()) {
+            shape.nodes(1, 0)?;
+            shape.bytes(flag.len())?;
+        }
+
         let body = self.reconstruct_body(normalized_type, &body_bytes, &entity.attack_bodies)?;
         let attachments = self.reconstruct_attachments(&entity.attachments)?;
 
@@ -335,6 +474,29 @@ mod tests {
         assert!(matches!(
             reconstructor.reconstruct(&[0; 5], ReconstructionContext::default()),
             Err(ReconstructionError::MailTooLarge { max: 4 })
+        ));
+    }
+
+    #[test]
+    fn repeated_envelope_fields_and_attachment_counts_are_bounded() {
+        let reconstructor = MailReconstructor::synthetic();
+        let mut entry = synthetic_battle(&reconstructor, false);
+        for _ in 0..1025 {
+            push_bytes(&mut entry, reconstructor.schema.attachments, &[]);
+        }
+        assert!(matches!(
+            reconstructor
+                .reconstruct(&entry, ReconstructionContext { server_id: Some(1), player_id: None }),
+            Err(ReconstructionError::BudgetExceeded)
+        ));
+        let mut entry = synthetic_battle(&reconstructor, false);
+        for _ in 0..8193 {
+            push_varint(&mut entry, 10000, 0);
+        }
+        assert!(matches!(
+            reconstructor
+                .reconstruct(&entry, ReconstructionContext { server_id: Some(1), player_id: None }),
+            Err(ReconstructionError::BudgetExceeded)
         ));
     }
 }

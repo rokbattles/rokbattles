@@ -115,10 +115,12 @@ mod encoder;
 #[cfg(any(feature = "read", feature = "write"))]
 mod error;
 #[cfg(feature = "read")]
+mod sensitive;
+#[cfg(feature = "read")]
 mod value;
 
 #[cfg(feature = "read")]
-pub use decoder::{decode, decode_value, validate_file};
+pub use decoder::{decode, decode_bounded, decode_value, validate_file};
 #[cfg(feature = "write")]
 pub use encoder::encode;
 #[cfg(feature = "read")]
