@@ -339,7 +339,10 @@ fn verify_object_acl(file: HANDLE, object: i32, administrative_only: bool) -> io
         return Err(denied());
     }
     bound_sid(owner, start, end)?;
-    if !trusted(&sid_string(owner)?) {
+    let accepted = |sid: &str| {
+        if administrative_only { matches!(sid, "S-1-5-18" | "S-1-5-32-544") } else { trusted(sid) }
+    };
+    if !accepted(&sid_string(owner)?) {
         return Err(denied());
     }
     // SAFETY: GetSecurityInfo supplies a validated ACL within live descriptor.
@@ -375,7 +378,7 @@ fn verify_object_acl(file: HANDLE, object: i32, administrative_only: bool) -> io
         let sid = unsafe { ace.cast::<u8>().add(offset_of!(ACCESS_ALLOWED_ACE, SidStart)).cast() };
         bound_sid(sid, ace_start, ace_end)?;
         if (if administrative_only { mask != 0 } else { mask & MUTATE != 0 })
-            && !trusted(&sid_string(sid)?)
+            && !accepted(&sid_string(sid)?)
         {
             return Err(denied());
         }

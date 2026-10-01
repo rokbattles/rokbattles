@@ -192,10 +192,14 @@ fn run_npcap(
         if stop.load(Ordering::Acquire) {
             return;
         }
-        let Ok(capture) = backend.open(&interface.name, &interface.addresses) else {
+        let Ok(mut capture) = backend.open(&interface.name, &interface.addresses) else {
             unavailable(sender, UnavailableReason::NativeBackend);
             return;
         };
+        if capture.check_no_packet_loss().is_err() {
+            unavailable(sender, UnavailableReason::NativeBackend);
+            return;
+        }
         captures.push(capture);
     }
     let mut original: Vec<_> = interfaces
@@ -224,15 +228,23 @@ fn run_npcap(
             checked = Instant::now();
         }
         for capture in &mut captures {
-            match capture.receive() {
-                Ok(Receive::Packet(bytes)) => {
-                    if !send(sender, failure, stop, NativeRecord::Packet(bytes.into())) {
-                        return;
-                    }
-                }
-                Ok(Receive::Idle | Receive::Discarded) => {}
-                // Npcap has no trusted client direction. Unexpected controls are fatal.
+            if capture.check_no_packet_loss().is_err() {
+                let _sent = failure.send(true);
+                return;
+            }
+            let record = match capture.receive() {
+                Ok(Receive::Packet(bytes)) => Some(NativeRecord::Packet(bytes.into())),
+                Ok(Receive::Idle | Receive::Discarded) => None,
                 Ok(Receive::ClientControl(_) | Receive::End) | Err(_) => return,
+            };
+            if capture.check_no_packet_loss().is_err() {
+                let _sent = failure.send(true);
+                return;
+            }
+            if let Some(record) = record
+                && !send(sender, failure, stop, record)
+            {
+                return;
             }
         }
         std::thread::sleep(Duration::from_millis(2));
