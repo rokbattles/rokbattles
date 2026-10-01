@@ -5,6 +5,7 @@ rust-version.workspace = true
 version.workspace = true
 
 [target.'cfg(target_os = "linux")'.dependencies]
+rokbattles-capture-runtime = { path = "../../common/rokbattles-capture-runtime" }
 rustc-hash.workspace = true
 anyhow.workspace = true
 bytes.workspace = true

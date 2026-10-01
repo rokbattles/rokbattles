@@ -1,10 +1,12 @@
-name: Capture Adapters
+name: Capture Foundation
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, "feat/capture-*" ]
     paths:
       - "crates/common/rokbattles-capture-adapters/**"
+      - "crates/common/rokbattles-capture-runtime/**"
+      - "crates/apps/rokbattles-nat-gateway/**"
       - "Cargo.toml"
       - "Cargo.lock"
       - ".github/workflows/capture-adapters.yml"
@@ -12,6 +14,8 @@ on:
     branches: [ main ]
     paths:
       - "crates/common/rokbattles-capture-adapters/**"
+      - "crates/common/rokbattles-capture-runtime/**"
+      - "crates/apps/rokbattles-nat-gateway/**"
       - "Cargo.toml"
       - "Cargo.lock"
       - ".github/workflows/capture-adapters.yml"
@@ -25,7 +29,7 @@ concurrency:
 
 jobs:
   mock-tests:
-    name: Mock adapters (${{ matrix.target }})
+    name: Synthetic capture (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
@@ -57,9 +61,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends lld
       - name: Format
-        run: cargo fmt -p rokbattles-capture-adapters -- --check
+        run: cargo fmt -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-nat-gateway -- --check
       - name: Lint
-        run: cargo clippy --locked -p rokbattles-capture-adapters --all-targets --target ${{ matrix.target }} -- -D warnings
+        run: cargo clippy --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime --all-targets --target ${{ matrix.target }} -- -D warnings
       - name: Synthetic and mock tests only
-        run: cargo test --locked -p rokbattles-capture-adapters --target ${{ matrix.target }}
+        run: cargo test --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime --target ${{ matrix.target }}
         # No libpcap, WinDivert DLL or driver installation. No live-capture tests.
+      - name: Shared NAT reassembly regression checks
+        if: runner.os == 'Linux'
+        run: |
+          cargo clippy --locked -p rokbattles-nat-gateway --all-targets --target ${{ matrix.target }} -- -D warnings
+          cargo test --locked -p rokbattles-nat-gateway --target ${{ matrix.target }}
