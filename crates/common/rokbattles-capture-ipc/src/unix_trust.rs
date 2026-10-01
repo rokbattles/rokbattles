@@ -8,6 +8,46 @@ use std::{
 const AGENT: &str = "/usr/libexec/rokbattles/rokbattles-desktop-agent";
 #[cfg(target_os = "macos")]
 const AGENT: &str = "/Library/Application Support/ROK Battles/rokbattles-desktop-agent";
+#[cfg(target_os = "linux")]
+pub const MAINTENANCE_MARKER_PATH: &str = "/usr/libexec/rokbattles/.capture-maintenance";
+#[cfg(target_os = "macos")]
+pub const MAINTENANCE_MARKER_PATH: &str =
+    "/Library/Application Support/ROK Battles/.capture-maintenance";
+
+/// Persistent administrator maintenance boundary. Any protected marker means
+/// drain and exit; its contents never become a command, path or database request.
+/// A damaged/untrusted boundary is an error and must also block startup/capture.
+/// A completely absent installation returns false; present untrusted paths fail closed.
+pub fn maintenance_requested() -> io::Result<bool> {
+    maintenance_state(Path::new(MAINTENANCE_MARKER_PATH), verify_protected_path)
+}
+fn maintenance_state(path: &Path, verify: impl Fn(&Path) -> io::Result<()>) -> io::Result<bool> {
+    let parent = path.parent().ok_or_else(denied)?;
+    match fs::symlink_metadata(parent) {
+        Ok(metadata) => {
+            if !metadata.is_dir() {
+                return Err(denied());
+            }
+            verify(parent)?;
+        }
+        // A fresh machine has no capture installation. Bundled mailcache must
+        // continue without requiring root installation or unrelated ACL changes.
+        Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(false),
+        Err(error) => return Err(error),
+    }
+    match fs::symlink_metadata(path) {
+        Ok(metadata) => {
+            if !metadata.is_file() || metadata.len() > 4096 {
+                return Err(denied());
+            }
+            verify(path)?;
+            Ok(true)
+        }
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(false),
+        Err(error) => Err(error),
+    }
+}
+
 fn denied() -> io::Error {
     io::Error::new(io::ErrorKind::PermissionDenied, "protected installed agent required")
 }
@@ -79,6 +119,27 @@ fn check_acl(file: &fs::File) -> io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn maintenance_presence_requests_exit_and_uncertain_boundaries_block() {
+        let temp = tempfile::tempdir().expect("synthetic boundary");
+        let path = temp.path().join("marker");
+        let absent_installation = temp.path().join("not-installed").join("marker");
+        assert!(
+            !maintenance_state(&absent_installation, |_| Err(denied()))
+                .expect("no installation keeps mailcache available")
+        );
+        let trusted_fixture = |_: &Path| Ok(());
+        assert!(!maintenance_state(&path, trusted_fixture).expect("absent"));
+        fs::write(&path, b"{\"phase\":\"draining\"}").expect("fixture marker");
+        assert!(maintenance_state(&path, trusted_fixture).expect("persistent barrier"));
+        maintenance_state(&path, |_| Err(denied())).expect_err("untrusted ancestor");
+        fs::write(&path, vec![0; 4097]).expect("oversize fixture");
+        maintenance_state(&path, trusted_fixture).expect_err("bounded marker");
+        fs::remove_file(&path).expect("remove fixture");
+        std::os::unix::fs::symlink("missing", &path).expect("fixture symlink");
+        maintenance_state(&path, trusted_fixture).expect_err("symlink is never missing consent");
+    }
+
     #[test]
     fn mode_policy_rejects_foreign_owner_and_any_write_class() {
         assert!(protected_attributes(0, 0o755));
