@@ -1,18 +1,22 @@
 fn main() {
-    // No foreground capture, arbitrary path/filter flags, installer or elevation
-    // entrypoint. The explicit maintenance installer registers this SCM-only mode.
-    if std::env::args_os().skip(1).collect::<Vec<_>>() != [std::ffi::OsString::from("--service")] {
-        eprintln!("This capture helper must be started by its installed operating-system service.");
-        std::process::exit(2);
-    }
+    let arguments = std::env::args_os().skip(1).collect::<Vec<_>>();
     #[cfg(windows)]
-    if rokbattles_capture_helper::windows::dispatch().is_err() {
-        eprintln!("The capture helper service is unavailable.");
+    let result = if arguments == [std::ffi::OsString::from("--service")] {
+        rokbattles_capture_helper::windows::dispatch()
+    } else {
+        Err(std::io::Error::other("installed service mode required"))
+    };
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
+    let result = match rokbattles_capture_helper::unix::service_uid(&arguments) {
+        Some(uid) => rokbattles_capture_helper::unix::dispatch(uid),
+        None => Err(std::io::Error::other("installed service mode required")),
+    };
+    #[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
+    let result: std::io::Result<()> = Err(std::io::Error::other("unsupported capture platform"));
+    if result.is_err() {
+        eprintln!(
+            "The capture helper must be provisioned and started by its operating-system service."
+        );
         std::process::exit(1);
-    }
-    #[cfg(not(windows))]
-    {
-        eprintln!("Capture service provisioning is not available for this platform.");
-        std::process::exit(2);
     }
 }

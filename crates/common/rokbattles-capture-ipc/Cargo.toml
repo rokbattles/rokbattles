@@ -4,6 +4,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[build-dependencies]
+cc = "1.4.4"
+
 [dependencies]
 zeroize = "1.9.0"
 rokbattles-capture-runtime = { path = "../rokbattles-capture-runtime" }
