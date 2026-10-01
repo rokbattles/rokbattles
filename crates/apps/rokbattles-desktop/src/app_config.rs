@@ -160,7 +160,8 @@ mod tests {
 
     #[test]
     fn invalid_json_is_rejected() {
-        let err = parse_config_bytes(br#"{"dirs":123}"#).expect_err("invalid config must fail");
+        let err =
+            parse_config_bytes(br#"{"auto_update":123}"#).expect_err("invalid config must fail");
         assert!(err.to_string().contains("Invalid JSON"));
     }
 }

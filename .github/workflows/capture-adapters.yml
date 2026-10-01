@@ -9,6 +9,8 @@ on:
       - "crates/common/rokbattles-desktop-paths/**"
       - "crates/common/rokbattles-desktop-store/**"
       - "crates/apps/rokbattles-desktop-agent/**"
+      - "crates/apps/rokbattles-desktop/scripts/stage_agent.py"
+      - "crates/apps/rokbattles-desktop/tauri.agent.conf.json"
       - "crates/common/rokbattles-mail-codec/**"
       - "crates/common/rokbattles-gateway-protocol/**"
       - "crates/common/rokbattles-mail-reconstructor/**"
@@ -25,6 +27,8 @@ on:
       - "crates/common/rokbattles-desktop-paths/**"
       - "crates/common/rokbattles-desktop-store/**"
       - "crates/apps/rokbattles-desktop-agent/**"
+      - "crates/apps/rokbattles-desktop/scripts/stage_agent.py"
+      - "crates/apps/rokbattles-desktop/tauri.agent.conf.json"
       - "crates/common/rokbattles-mail-codec/**"
       - "crates/common/rokbattles-gateway-protocol/**"
       - "crates/common/rokbattles-mail-reconstructor/**"
@@ -78,43 +82,11 @@ jobs:
         run: cargo fmt -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol -p rokbattles-nat-gateway -p rokbattles-mail-reconstructor -p rokbattles-ingress -- --check
       - name: Lint
         run: cargo clippy --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --all-targets --target ${{ matrix.target }} -- -D warnings
-      - name: Inspect native state-path prerequisites
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          $item = Get-Item $env:TEMP
-          while ($null -ne $item) {
-            Write-Output $item.FullName
-            $acl = Get-Acl -LiteralPath $item.FullName
-            Write-Output $acl.Owner
-            Write-Output $acl.Sddl
-            $item = $item.Parent
-          }
-      - name: Inspect Darwin ACL getter behavior
-        if: runner.os == 'macOS'
-        shell: bash
-        run: |
-          python3 - <<'PYTHON'
-          import ctypes, os, pathlib, tempfile
-          libc = ctypes.CDLL(None, use_errno=True)
-          libc.acl_get_fd_np.argtypes = [ctypes.c_int, ctypes.c_int]
-          libc.acl_get_fd_np.restype = ctypes.c_void_p
-          libc.acl_free.argtypes = [ctypes.c_void_p]
-          with tempfile.TemporaryDirectory() as temp:
-              path = pathlib.Path(temp).resolve()
-              for parent in (path, *path.parents):
-                  fd = os.open(parent, os.O_RDONLY | os.O_NOFOLLOW)
-                  ctypes.set_errno(0)
-                  acl = libc.acl_get_fd_np(fd, 0x100)
-                  error = ctypes.get_errno()
-                  print(parent, 'ACL present', bool(acl), 'errno', error)
-                  if acl:
-                      libc.acl_free(acl)
-                  os.close(fd)
-          PYTHON
       - name: Synthetic and mock tests only
         run: cargo test --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --target ${{ matrix.target }}
         # No libpcap, WinDivert DLL or driver installation. No live-capture tests.
+      - name: Build sidecar without running it
+        run: python crates/apps/rokbattles-desktop/scripts/stage_agent.py --debug --target ${{ matrix.target }}
       - name: Shared NAT reassembly regression checks
         if: runner.os == 'Linux'
         run: |

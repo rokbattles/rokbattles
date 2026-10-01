@@ -120,6 +120,10 @@ impl Agent {
         let prepared = tokio::task::spawn_blocking(move || prepare(&root, path, sig)).await?;
         let bytes = match prepared {
             Prepared::Ready(bytes) => bytes,
+            Prepared::Missing => {
+                self.store.forget_missing(&item).await?;
+                return Ok(0);
+            }
             Prepared::Unsupported => {
                 self.store.finish(&item, false).await?;
                 return Ok(2);
@@ -182,6 +186,7 @@ fn scan_batch(scan: &mut RootScan, now_ms: u64) -> anyhow::Result<Vec<Observatio
 enum Prepared {
     Ready(Zeroizing<Vec<u8>>),
     Unsupported,
+    Missing,
     Retry,
 }
 
@@ -189,8 +194,16 @@ fn prepare(root: &Root, path: PathBuf, sig: rokbattles_desktop_store::FileSig) -
     let Ok(root) = MailRoot::open(&root.path) else {
         return Prepared::Retry;
     };
-    let Ok(bytes) = root.read(&path, sig) else {
-        return Prepared::Retry;
+    let bytes = match root.read(&path, sig) {
+        Ok(bytes) => bytes,
+        Err(error)
+            if error
+                .downcast_ref::<std::io::Error>()
+                .is_some_and(|error| error.kind() == std::io::ErrorKind::NotFound) =>
+        {
+            return Prepared::Missing;
+        }
+        Err(_) => return Prepared::Retry,
     };
     let Ok(decoded) = rokbattles_mail_codec::decode_bounded(&bytes, 500_000) else {
         return Prepared::Unsupported;

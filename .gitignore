@@ -34,3 +34,6 @@ dist-ssr
 *.sln
 *.sw?
 .wrangler
+
+crates/apps/rokbattles-desktop/binaries/
+__pycache__/
