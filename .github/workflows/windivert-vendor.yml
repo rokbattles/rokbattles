@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Synthetic extraction and bundle-boundary tests
-        run: python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p "test_windivert_vendor.py" -v
+        run: python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p "test_windivert_*.py" -v
       - name: Stage official pinned release
         run: python crates/apps/rokbattles-desktop/scripts/windivert_vendor.py stage --target x86_64-pc-windows-msvc
       - name: Verify exact resource manifest
@@ -46,4 +46,9 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: ./crates/apps/rokbattles-desktop/scripts/verify_windivert.ps1
+      - name: Native driver-policy positive and negative checks
+        if: runner.os == 'Windows'
+        env:
+          WINDIVERT_NATIVE_TRUST_TESTS: "1"
+        run: python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p "test_windivert_signature.py" -v
       # No DLL loading, WinDivertOpen, service creation, driver activation or capture.

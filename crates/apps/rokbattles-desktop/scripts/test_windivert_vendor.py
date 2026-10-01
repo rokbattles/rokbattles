@@ -272,8 +272,9 @@ class VendorTests(unittest.TestCase):
         manifest = json.loads(vendor.expected_manifest(lock, vendor.notices()))
         self.assertEqual(manifest["kernelSignatureIndex"], 1)
         script = (vendor.DESKTOP / "scripts/verify_windivert.ps1").read_text()
-        self.assertIn("verify /kp /ds $KernelSignatureIndex /tw /v $Driver", script)
+        self.assertIn("verify /pa /ds $KernelSignatureIndex /tw /v $Driver", script)
         self.assertIn("$KernelSignatureIndex = $Lock.kernelSignatureIndex", script)
+        self.assertIn("'windivert_signature.py'", script)
 
     def test_invalid_kernel_signature_policy_fails_closed(self):
         path = self.root.parent / "invalid-lock.json"

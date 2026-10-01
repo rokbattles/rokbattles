@@ -33,12 +33,15 @@ $SignTool = Get-ChildItem -Path "$SdkBin/*/x64/signtool.exe" -File |
 if ($null -eq $SignTool) { throw 'Windows SDK SignTool is required; verification cannot be skipped.' }
 # The pinned 2.2.2-A driver has a primary publisher signature and a nested
 # Microsoft Windows Hardware Compatibility Publisher signature at index 1.
-# Select the latter explicitly; /kp still requires the Microsoft kernel chain.
-# /o is catalog-only, and /all is incompatible with /kp in current SDKs.
+# Current SDKs reject /kp together with /ds. Verify the selected signature's
+# Authenticode chain and timestamp with SignTool, then require Windows' separate
+# driver policy on that exact signature through WinVerifyTrust. No /pa fallback.
 $Lock = Get-Content -LiteralPath (Join-Path $Desktop 'vendor/windivert.lock.json') -Raw | ConvertFrom-Json
 [int]$KernelSignatureIndex = $Lock.kernelSignatureIndex
-& $SignTool.FullName verify /kp /ds $KernelSignatureIndex /tw /v $Driver
-if ($LASTEXITCODE -ne 0) { throw "Kernel-policy signature verification failed: $LASTEXITCODE" }
+& $SignTool.FullName verify /pa /ds $KernelSignatureIndex /tw /v $Driver
+if ($LASTEXITCODE -ne 0) { throw "Timestamped signature verification failed: $LASTEXITCODE" }
+& python (Join-Path $PSScriptRoot 'windivert_signature.py')
+if ($LASTEXITCODE -ne 0) { throw "Windows driver-policy verification failed: $LASTEXITCODE" }
 
 # Confirm verification did not change any bytes before handing files to the bundler.
 & python (Join-Path $PSScriptRoot 'windivert_vendor.py') verify --target $Target

@@ -13,7 +13,7 @@ From the repository root, using Python 3.12+:
 ```sh
 python crates/apps/rokbattles-desktop/scripts/windivert_vendor.py stage --target x86_64-pc-windows-msvc
 python crates/apps/rokbattles-desktop/scripts/windivert_vendor.py verify --target x86_64-pc-windows-msvc
-python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p 'test_windivert_vendor.py' -v
+python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p 'test_windivert_*.py' -v
 ```
 
 Staging is a build-time operation. For an offline build, add
@@ -30,15 +30,24 @@ On Windows, require the installed Windows SDK and PowerShell 7, then run:
 This first checks the exact resource set, sizes and SHA-256 hashes. It requires
 `WinDivert.dll` to have the upstream `NotSigned` Authenticode status. The DLL is
 authenticated through the official archive hash and its independent member hash.
-The driver must have a valid timestamped Authenticode signature and pass
-`signtool verify /kp /ds 1 /tw` using Windows kernel signing policy. The pinned
-2.2.2-A driver has a primary publisher signature plus a nested Microsoft Windows
-Hardware Compatibility Publisher signature. `kernelSignatureIndex` pins the
-latter (index 1); testing index 0 alone checks only the publisher chain and fails
-kernel policy. Selecting the nested signature does not change any bytes, trust
-stores or security settings. The signature still must chain to a Microsoft root.
-Missing tools, a changed DLL state, warning exit codes and invalid signatures
-fail closed. A valid signature does not guarantee a particular user's Windows
+The pinned 2.2.2-A driver has a primary publisher signature plus a nested Microsoft
+Windows Hardware Compatibility Publisher signature. `kernelSignatureIndex` pins
+the latter (index 1). Current Windows SDKs reject SignTool's `/kp` and `/ds`
+options together, so verification has two mandatory steps: SignTool verifies
+the selected signature's Authenticode chain and timestamp (`/pa /ds 1 /tw`), and
+`windivert_signature.py` requires Windows `WinVerifyTrust` with
+`DRIVER_ACTION_VERIFY` and `WSS_VERIFY_SPECIFIC` for that same index. Only a zero
+status and the exact returned signature index are accepted. The driver policy
+is Microsoft's WHQL/driver trust provider, separate from generic Authenticode.
+Chain revocation checking is enabled; no trust errors are ignored.
+
+The original file is held open read-only, denying writes and deletion during
+driver-policy verification. No signature is extracted, replaced or re-signed,
+and no trust stores or security settings change. Windows CI checks the pinned
+signature passes and rejects the primary publisher signature, an absent index,
+the unsigned DLL and a tampered disposable test copy. Missing tools, a changed
+DLL state, warning exit codes and invalid signatures fail closed.
+A valid signature does not guarantee a particular user's Windows
 security policy or antivirus allows that driver; real installation/capture
 smoke testing is separate and is not performed by these scripts or CI.
 
@@ -96,4 +105,5 @@ Do not use Npcap or substitute community driver builds.
 References:
 - [Official WinDivert 2.2.2 release](https://github.com/basil00/WinDivert/releases/tag/v2.2.2)
 - [Upstream installation/signing documentation](https://reqrypt.org/windivert-doc.html)
-- [Windows SignTool kernel-policy verification](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/signtool)
+- [Windows trust providers and driver verification](https://learn.microsoft.com/en-us/windows/win32/api/wintrust/nf-wintrust-winverifytrust)
+- [Exact embedded-signature selection](https://learn.microsoft.com/en-us/windows/win32/api/wintrust/ns-wintrust-wintrust_signature_settings)
