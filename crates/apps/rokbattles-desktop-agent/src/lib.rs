@@ -39,18 +39,15 @@ pub fn maintenance_active() -> anyhow::Result<bool> {
             image.parent().ok_or_else(|| anyhow::anyhow!("missing executable directory"))?;
         maintenance_at(directory)
     }
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
     {
-        maintenance_at(std::path::Path::new("/usr/libexec/rokbattles"))
-    }
-    #[cfg(target_os = "macos")]
-    {
-        maintenance_at(std::path::Path::new("/Library/Application Support/ROK Battles"))
+        Ok(rokbattles_capture_ipc::unix::maintenance_requested()?)
     }
     #[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
     Ok(false)
 }
 
+#[cfg(any(windows, test))]
 fn maintenance_at(directory: &std::path::Path) -> anyhow::Result<bool> {
     match std::fs::symlink_metadata(directory.join(".capture-maintenance")) {
         Ok(_) => Ok(true),

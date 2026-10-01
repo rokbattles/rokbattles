@@ -153,7 +153,7 @@ jobs:
           prerelease: false
           retryAttempts: 3
           projectPath: crates/apps/rokbattles-desktop
-          tauriScript: ../../../packages/desktop-client/node_modules/.bin/tauri
+          tauriScript: node ../../../packages/desktop-client/node_modules/@tauri-apps/cli/tauri.js
           args: ${{ matrix.args }} --config tauri.agent.conf.json
 
       - name: Attach Unix capture setup assets to the draft release

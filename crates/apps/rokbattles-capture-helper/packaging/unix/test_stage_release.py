@@ -86,7 +86,13 @@ class ReleaseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             archive = Path(directory) / "fixture.tar.gz"
             archive.write_bytes(b"fixture")
-            for source in [b"print('no pins')", stage_release.PIN_MARKER + b"\n" + stage_release.PIN_MARKER]:
+            for source in [
+                b"print('no pins')",
+                stage_release.PIN_MARKER + b"\n" + stage_release.PIN_MARKER,
+                stage_release.PIN_MARKER + b"\nEMBEDDED_RELEASE = {'override': True}\n",
+                b"def hidden():\n    " + stage_release.PIN_MARKER + b"\n",
+                b'"""' + stage_release.PIN_MARKER + b'"""\nEMBEDDED_RELEASE = None\n',
+            ]:
                 with self.assertRaises(stage_release.ReleaseError):
                     stage_release.render_installer(source, "x86_64-unknown-linux-gnu", archive, None)
 

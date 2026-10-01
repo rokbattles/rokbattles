@@ -91,6 +91,16 @@ def sign_and_notarize(binaries: list[Path], directory: Path, environment: dict[s
 def render_installer(template: bytes, target: str, archive: Path, team: str | None) -> bytes:
     if template.count(PIN_MARKER) != 1:
         raise ReleaseError("Installer must contain exactly one build-time release pin marker")
+    tree = ast.parse(template)
+    assignments = [node for node in tree.body if isinstance(node, ast.Assign) and
+                   len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) and
+                   node.targets[0].id == "EMBEDDED_RELEASE"]
+    stores = [node for node in ast.walk(tree) if isinstance(node, ast.Name) and
+              node.id == "EMBEDDED_RELEASE" and isinstance(node.ctx, ast.Store)]
+    if (len(assignments) != 1 or len(stores) != 1 or
+        not isinstance(assignments[0].value, ast.Constant) or assignments[0].value.value is not None or
+        template.splitlines()[assignments[0].lineno - 1].strip() != PIN_MARKER):
+        raise ReleaseError("Installer pins must be one literal top-level unexpanded assignment")
     pins = {
         "schemaVersion": 1,
         "target": target,

@@ -25,6 +25,9 @@ fn denied() -> io::Error {
 /// Provisioning is a separate explicit administrator action, never performed here.
 pub fn dispatch(uid: u32) -> io::Result<()> {
     super::trust::verify_service()?;
+    if rokbattles_capture_ipc::unix::maintenance_requested()? {
+        return Err(denied());
+    }
     if uid == 0 || uid == u32::MAX {
         return Err(denied());
     }
@@ -77,7 +80,10 @@ async fn serve(
             _ = cancel.changed() => break,
             request = tokio::time::timeout(IO_DEADLINE, read_request(&mut stream)) => request,
         };
-        if matches!(started, Ok(Ok(ClientRequest::Start))) && peer.is_alive() {
+        if matches!(started, Ok(Ok(ClientRequest::Start)))
+            && peer.is_alive()
+            && !rokbattles_capture_ipc::unix::maintenance_requested().unwrap_or(true)
+        {
             session(&mut stream, uid, peer, &mut cancel).await;
         }
         // Closing the authenticated connection ends its consent and all ownership.
@@ -137,7 +143,7 @@ async fn session(
                 if failed || unavailable { break; }
             },
             _ = heartbeat.tick() => {
-                if !peer.is_alive() || *cancel.borrow() { break; }
+                if !peer.is_alive() || *cancel.borrow() || rokbattles_capture_ipc::unix::maintenance_requested().unwrap_or(true) { break; }
                 if !has_started { continue; }
                 let mut failed = false;
                 for record in guard.expire(started.elapsed()).into_iter().chain([Record::Keepalive]) {

@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <stdint.h>
+#include <stddef.h>
 
 int rb_capture_acl_protected(int fd) {
     filesec_t security = filesec_init();
