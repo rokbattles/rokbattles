@@ -11,7 +11,7 @@ async fn install_update_if_available(app: AppHandle) -> anyhow::Result<()> {
         let mut downloaded = 0;
 
         let manager = app.state::<crate::watcher_manager::WatcherManager>();
-        let (enabled, lease) = manager.stop_for_update().await.map_err(anyhow::Error::msg)?;
+        let lease = manager.stop_for_update().await.map_err(anyhow::Error::msg)?;
         let installed = update
             .download_and_install(
                 |chunk_length, content_length| {
@@ -23,17 +23,17 @@ async fn install_update_if_available(app: AppHandle) -> anyhow::Result<()> {
                 },
             )
             .await;
-        // Restore desired state; only the relaunched/new UI starts a process.
-        manager.store().await.map_err(anyhow::Error::msg)?.set_enabled(enabled).await?;
+        // Windows exits inside download_and_install. Desired enabled is never
+        // overwritten: the installer relaunch clears the separate stop request
+        // only after its protected maintenance marker has been removed.
+        manager.store().await.map_err(anyhow::Error::msg)?.set_maintenance_stop(false).await?;
         if let Err(error) = installed {
             drop(lease);
-            if enabled {
-                let _restart = manager.launch(&app).await;
-            }
+            let _restart = manager.launch(&app).await;
             return Err(error.into());
         }
-        // Hold the exclusive agent lease through process replacement. A child
-        // spawned immediately before maintenance cannot acquire it late.
+        // On returning installers, retain exclusion through process replacement.
+        // Windows installer-owned maintenance covers the process-exit boundary.
         let _lease = lease;
 
         println!("update installed");

@@ -43,7 +43,7 @@ impl Agent {
     /// One bounded iteration, independently of any Tauri window/app handle.
     pub async fn tick(&mut self) -> anyhow::Result<bool> {
         let settings = self.store.settings().await?;
-        if !settings.enabled {
+        if !settings.enabled || settings.maintenance_stop || crate::maintenance_active()? {
             self.store.heartbeat(now_ms(), false, settings.paused, 0, 0).await?;
             return Ok(false);
         }
@@ -138,7 +138,11 @@ impl Agent {
         };
         // Desired settings are checked again immediately before transmission.
         let settings = self.store.settings().await?;
-        if settings.paused || !settings.enabled {
+        if settings.paused
+            || !settings.enabled
+            || settings.maintenance_stop
+            || crate::maintenance_active()?
+        {
             return Ok(0);
         }
         match upload::send(&self.client, name, bytes, item.attempts).await {
@@ -253,6 +257,27 @@ mod tests {
             serde_json::json!({"private key": ["private value", {"nested": "content"}]});
         wipe_value(&mut value);
         assert!(value.is_null());
+    }
+
+    #[tokio::test]
+    async fn maintenance_stop_survives_ui_exit_without_overwriting_enabled() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let directory = temp.path().canonicalize().expect("canonical").join("state");
+        let store = Store::open(&directory).await.expect("store");
+        store.set_maintenance_stop(true).await.expect("request maintenance");
+        assert!(store.settings().await.expect("settings").enabled);
+        store.close().await;
+        let store = Store::open(&directory).await.expect("reopen after UI exit");
+        let mut agent = Agent::new(store).expect("agent");
+        assert!(!agent.tick().await.expect("maintenance stops late agent"));
+        assert!(agent.store.settings().await.expect("settings").enabled);
+        let installer_exclusion =
+            agent.store.acquire_agent().expect("installer exclusion").expect("lease");
+        assert!(agent.store.acquire_agent().expect("late launch").is_none());
+        drop(installer_exclusion);
+        agent.store.set_maintenance_stop(false).await.expect("successful installer relaunch");
+        assert!(agent.tick().await.expect("desired enabled resumes"));
+        agent.close().await;
     }
 
     #[tokio::test]
