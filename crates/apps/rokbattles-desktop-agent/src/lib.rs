@@ -2,6 +2,7 @@
 #![forbid(unsafe_code)]
 
 mod agent;
+pub mod capture_http;
 pub mod mailcache;
 pub use agent::Agent;
 mod upload;
@@ -25,4 +26,42 @@ pub fn now_ms() -> u64 {
             .as_millis(),
     )
     .unwrap_or(u64::MAX)
+}
+
+/// Maintenance is installer-owned. Presence or inability to inspect the marker
+/// blocks launch; capture readiness itself never blocks mailcache fallback.
+pub fn maintenance_active() -> anyhow::Result<bool> {
+    #[cfg(windows)]
+    {
+        let image = std::env::current_exe()?;
+        let directory =
+            image.parent().ok_or_else(|| anyhow::anyhow!("missing executable directory"))?;
+        maintenance_at(directory)
+    }
+    #[cfg(not(windows))]
+    Ok(false)
+}
+
+#[cfg(any(windows, test))]
+fn maintenance_at(directory: &std::path::Path) -> anyhow::Result<bool> {
+    match std::fs::symlink_metadata(directory.join(".capture-maintenance")) {
+        Ok(_) => Ok(true),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(error) => Err(error.into()),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn maintenance_presence_blocks_even_when_marker_is_a_dangling_link() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        assert!(!super::maintenance_at(temp.path()).expect("absent"));
+        #[cfg(unix)]
+        std::os::unix::fs::symlink("missing", temp.path().join(".capture-maintenance"))
+            .expect("dangling marker");
+        #[cfg(windows)]
+        std::fs::write(temp.path().join(".capture-maintenance"), b"").expect("marker");
+        assert!(super::maintenance_at(temp.path()).expect("present"));
+    }
 }

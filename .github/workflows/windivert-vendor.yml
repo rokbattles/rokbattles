@@ -1,0 +1,54 @@
+name: WinDivert Vendor
+
+on:
+  pull_request:
+    branches: [main, "feat/capture-*"]
+    paths:
+      - "crates/apps/rokbattles-desktop/vendor/**"
+      - "crates/apps/rokbattles-desktop/scripts/**"
+      - "crates/apps/rokbattles-desktop/tauri*.json"
+      - ".github/workflows/windivert-vendor.yml"
+      - ".github/workflows/release.yml"
+  push:
+    branches: [main]
+    paths:
+      - "crates/apps/rokbattles-desktop/vendor/**"
+      - "crates/apps/rokbattles-desktop/scripts/**"
+      - "crates/apps/rokbattles-desktop/tauri*.json"
+      - ".github/workflows/windivert-vendor.yml"
+      - ".github/workflows/release.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windivert-vendor-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Vendor integrity (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Synthetic extraction and bundle-boundary tests
+        run: python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p "test_windivert_*.py" -v
+      - name: Stage official pinned release
+        run: python crates/apps/rokbattles-desktop/scripts/windivert_vendor.py stage --target x86_64-pc-windows-msvc
+      - name: Verify exact resource manifest
+        run: python crates/apps/rokbattles-desktop/scripts/windivert_vendor.py verify --target x86_64-pc-windows-msvc
+      - name: Verify upstream kernel signature and unsigned DLL state
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./crates/apps/rokbattles-desktop/scripts/verify_windivert.ps1
+      - name: Native driver-policy positive and negative checks
+        if: runner.os == 'Windows'
+        env:
+          WINDIVERT_NATIVE_TRUST_TESTS: "1"
+        run: python -m unittest discover -s crates/apps/rokbattles-desktop/scripts -p "test_windivert_signature.py" -v
+      # No DLL loading, WinDivertOpen, service creation, driver activation or capture.

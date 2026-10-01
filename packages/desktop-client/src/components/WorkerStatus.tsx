@@ -55,13 +55,15 @@ export function WorkerStatus() {
   const paused = snapshot?.status.paused ?? false;
   const state = !snapshot
     ? "Loading"
-    : !snapshot.enabled
-      ? "Stopped"
-      : !snapshot.alive
-        ? "Unavailable"
-        : paused
-          ? "Paused"
-          : "Mailcache active";
+    : snapshot.maintenance
+      ? "Update pending"
+      : !snapshot.enabled
+        ? "Stopped"
+        : !snapshot.alive
+          ? "Unavailable"
+          : paused
+            ? "Paused"
+            : "Mailcache active";
 
   return (
     <section
@@ -116,6 +118,12 @@ export function WorkerStatus() {
         connections need a fresh connection before capture can resume. Previous JSON mailcache
         history is not imported; reselect your directories once.
       </p>
+      {snapshot?.maintenance ? (
+        <p className="mt-2 text-amber-300">
+          Complete the installer or repair an interrupted update before restarting the worker. Your
+          enabled setting is preserved.
+        </p>
+      ) : null}
       {error ? (
         <p role="alert" className="mt-2 text-amber-300">
           {error}

@@ -76,6 +76,7 @@ export type WorkerSnapshot = {
   alive: boolean;
   enabled: boolean;
   capture_opt_in: boolean;
+  maintenance: boolean;
   status: {
     heartbeat_ms: number;
     running: boolean;

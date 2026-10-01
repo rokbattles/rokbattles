@@ -1,0 +1,22 @@
+WinDivert 2.2.2: Windows Packet Divert
+Copyright (C) 2019, all rights reserved. WinDivert was written by basil.
+Project: https://reqrypt.org/windivert.html
+
+This distribution includes the unmodified official x64 WinDivert.dll and
+WinDivert64.sys from WinDivert-2.2.2-A.zip. WinDivert is dual-licensed under
+LGPL version 3 or GPL version 2; ROK Battles distributes it under LGPLv3.
+The complete original license texts are in LICENSE. The original upstream
+README and VERSION are also included. See SOURCE.txt for corresponding source.
+
+The official DLL is unsigned and authenticated by pinned archive/member hashes.
+The kernel driver carries its upstream signature, checked with Windows kernel
+signing policy during packaging. ROK Battles does not re-sign or modify either.
+No Npcap components are included. This package is Windows x64 only; it does not
+provide a native ARM64 driver.
+
+WinDivert remains a separate dynamically loaded library. Users retain the
+rights the LGPL grants to modify/relink the library and reverse engineer for
+debugging such modifications. Windows may require an appropriately signed
+replacement kernel driver. The security properties of modified components
+must be assessed separately. WinDivert is provided without warranty under its
+license; the application's own license does not replace WinDivert's license.

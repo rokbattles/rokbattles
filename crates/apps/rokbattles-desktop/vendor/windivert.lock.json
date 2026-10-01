@@ -1,0 +1,41 @@
+{
+  "version": "2.2.2",
+  "target": "x86_64-pc-windows-msvc",
+  "archive": {
+    "url": "https://github.com/basil00/WinDivert/releases/download/v2.2.2/WinDivert-2.2.2-A.zip",
+    "sha256": "63cb41763bb4b20f600b6de04e991a9c2be73279e317d4d82f237b150c5f3f15",
+    "size": 405137
+  },
+  "source": {
+    "commit": "1789526ecfb9ff5397c94f9f54c1a3dc2fb60440",
+    "url": "https://github.com/basil00/WinDivert/tree/1789526ecfb9ff5397c94f9f54c1a3dc2fb60440"
+  },
+  "members": {
+    "WinDivert.dll": {
+      "path": "WinDivert-2.2.2-A/x64/WinDivert.dll",
+      "size": 47616,
+      "sha256": "c1e060ee19444a259b2162f8af0f3fe8c4428a1c6f694dce20de194ac8d7d9a2"
+    },
+    "WinDivert64.sys": {
+      "path": "WinDivert-2.2.2-A/x64/WinDivert64.sys",
+      "size": 94144,
+      "sha256": "8da085332782708d8767bcace5327a6ec7283c17cfb85e40b03cd2323a90ddc2"
+    },
+    "LICENSE": {
+      "path": "WinDivert-2.2.2-A/LICENSE",
+      "size": 61349,
+      "sha256": "14a0cb5214d536e4fdae6aa3f5696f981eeda106cd026e9794bba489ee79d628"
+    },
+    "README": {
+      "path": "WinDivert-2.2.2-A/README",
+      "size": 3360,
+      "sha256": "6a208efac504974e1bdfe075584fa1dc49db0a4d18ca1ceaa2d45e65934a02e4"
+    },
+    "VERSION": {
+      "path": "WinDivert-2.2.2-A/VERSION",
+      "size": 6,
+      "sha256": "91930425f31d5132e78e0ad7195620e435121a2fdf87cf655f8323aa45ae0468"
+    }
+  },
+  "kernelSignatureIndex": 1
+}

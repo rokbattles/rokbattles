@@ -17,6 +17,9 @@ async fn run() -> anyhow::Result<()> {
     if std::env::args_os().len() != 1 {
         anyhow::bail!("agent takes no arguments");
     }
+    if rokbattles_desktop_agent::maintenance_active()? {
+        anyhow::bail!("installation maintenance pending");
+    }
     let store = Store::open(&state_directory()?).await?;
     let Some(_lease) = store.acquire_agent()? else {
         return Ok(());

@@ -1,0 +1,49 @@
+# Read-only signature verification. Never loads the DLL or installs/opens the driver.
+[CmdletBinding()]
+param(
+    [ValidateSet('x86_64-pc-windows-msvc')]
+    [string]$Target = 'x86_64-pc-windows-msvc'
+)
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+if (-not $IsWindows) { throw 'Windows is required for kernel-policy verification.' }
+$Desktop = Split-Path $PSScriptRoot -Parent
+$Resources = Join-Path $Desktop "vendor/windivert/$Target"
+
+# Pin checks come first, including the exact file set and all license/notices.
+& python (Join-Path $PSScriptRoot 'windivert_vendor.py') verify --target $Target
+if ($LASTEXITCODE -ne 0) { throw 'WinDivert resource verification failed.' }
+
+$Dll = Join-Path $Resources 'WinDivert.dll'
+$Driver = Join-Path $Resources 'WinDivert64.sys'
+$DllSignature = Get-AuthenticodeSignature -LiteralPath $Dll
+if ($DllSignature.Status -ne 'NotSigned') {
+    throw "Unexpected official DLL signature state: $($DllSignature.Status)"
+}
+$DriverSignature = Get-AuthenticodeSignature -LiteralPath $Driver
+if ($DriverSignature.Status -ne 'Valid' -or $null -eq $DriverSignature.TimeStamperCertificate) {
+    throw "Driver requires a valid timestamped upstream signature: $($DriverSignature.Status)"
+}
+
+# Use the installed Windows SDK tool; never fetch or execute a vendor utility.
+$SdkBin = Join-Path ${env:ProgramFiles(x86)} 'Windows Kits/10/bin'
+$SignTool = Get-ChildItem -Path "$SdkBin/*/x64/signtool.exe" -File |
+    Sort-Object FullName -Descending | Select-Object -First 1
+if ($null -eq $SignTool) { throw 'Windows SDK SignTool is required; verification cannot be skipped.' }
+# The pinned 2.2.2-A driver has a primary publisher signature and a nested
+# Microsoft Windows Hardware Compatibility Publisher signature at index 1.
+# Current SDKs reject /kp together with /ds. Verify the selected signature's
+# Authenticode chain and timestamp with SignTool, then require Windows' separate
+# driver policy on that exact signature through WinVerifyTrust. No /pa fallback.
+$Lock = Get-Content -LiteralPath (Join-Path $Desktop 'vendor/windivert.lock.json') -Raw | ConvertFrom-Json
+[int]$KernelSignatureIndex = $Lock.kernelSignatureIndex
+& $SignTool.FullName verify /pa /ds $KernelSignatureIndex /tw /v $Driver
+if ($LASTEXITCODE -ne 0) { throw "Timestamped signature verification failed: $LASTEXITCODE" }
+& python (Join-Path $PSScriptRoot 'windivert_signature.py')
+if ($LASTEXITCODE -ne 0) { throw "Windows driver-policy verification failed: $LASTEXITCODE" }
+
+# Confirm verification did not change any bytes before handing files to the bundler.
+& python (Join-Path $PSScriptRoot 'windivert_vendor.py') verify --target $Target
+if ($LASTEXITCODE -ne 0) { throw 'WinDivert resource verification failed after signature check.' }
+Write-Host 'Verified official hash-pinned DLL and upstream-signed kernel driver; nothing installed or activated.'

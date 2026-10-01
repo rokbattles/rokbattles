@@ -4987,6 +4987,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-capture-maintenance"
+version = "1.7.1"
+dependencies = [
+ "rokbattles-capture-adapters",
+ "rokbattles-capture-helper",
+ "rokbattles-capture-ipc",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
 name = "rokbattles-capture-runtime"
 version = "1.7.1"
 dependencies = [
@@ -5047,6 +5062,7 @@ dependencies = [
  "cap-std",
  "dirs 6.0.0",
  "reqwest 0.12.28",
+ "rokbattles-capture-runtime",
  "rokbattles-desktop-store",
  "rokbattles-mail-codec",
  "rokbattles-mail-registry",
@@ -5054,6 +5070,7 @@ dependencies = [
  "serde_json",
  "tempfile",
  "tokio",
+ "tokio-stream",
  "zeroize",
 ]
 

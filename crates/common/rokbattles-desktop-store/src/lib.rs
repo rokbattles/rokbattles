@@ -34,7 +34,7 @@ const MAX_SHM_BYTES: u64 = 1024 * 1024;
 const SCHEMA: &[(&str, &str)] = &[
     (
         "settings",
-        "CREATE TABLE settings (id INTEGER PRIMARY KEY CHECK(id=1), enabled INTEGER NOT NULL CHECK(enabled IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), capture_opt_in INTEGER NOT NULL CHECK(capture_opt_in IN (0,1)), reset_epoch INTEGER NOT NULL CHECK(reset_epoch>=0)) STRICT",
+        "CREATE TABLE settings (id INTEGER PRIMARY KEY CHECK(id=1), enabled INTEGER NOT NULL CHECK(enabled IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), capture_opt_in INTEGER NOT NULL CHECK(capture_opt_in IN (0,1)), reset_epoch INTEGER NOT NULL CHECK(reset_epoch>=0), maintenance_stop INTEGER NOT NULL CHECK(maintenance_stop IN (0,1))) STRICT",
     ),
     (
         "roots",
@@ -99,6 +99,7 @@ pub struct Settings {
     pub paused: bool,
     pub capture_opt_in: bool,
     pub reset_epoch: u64,
+    pub maintenance_stop: bool,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -193,7 +194,7 @@ impl Store {
             for (_, statement) in SCHEMA {
                 sqlx::query(*statement).execute(&mut *tx).await?;
             }
-            sqlx::query("INSERT INTO settings VALUES(1,1,0,0,0)").execute(&mut *tx).await?;
+            sqlx::query("INSERT INTO settings VALUES(1,1,0,0,0,0)").execute(&mut *tx).await?;
             sqlx::query("INSERT INTO usage VALUES(1,0,0)").execute(&mut *tx).await?;
             sqlx::query("INSERT INTO status VALUES(1,0,0,0,0,0)").execute(&mut *tx).await?;
             sqlx::query("PRAGMA user_version=1").execute(&mut *tx).await?;
@@ -257,7 +258,7 @@ impl Store {
 
     pub async fn settings(&self) -> anyhow::Result<Settings> {
         let row = sqlx::query(
-            "SELECT enabled,paused,capture_opt_in,reset_epoch FROM settings WHERE id=1",
+            "SELECT enabled,paused,capture_opt_in,reset_epoch,maintenance_stop FROM settings WHERE id=1",
         )
         .fetch_one(&self.pool)
         .await?;
@@ -266,6 +267,7 @@ impl Store {
             paused: boolean(row.try_get("paused")?)?,
             capture_opt_in: boolean(row.try_get("capture_opt_in")?)?,
             reset_epoch: u64::try_from(row.try_get::<i64, _>("reset_epoch")?)?,
+            maintenance_stop: boolean(row.try_get("maintenance_stop")?)?,
         })
     }
 
@@ -273,6 +275,15 @@ impl Store {
         self.before_write().await?;
         sqlx::query("UPDATE settings SET enabled=? WHERE id=1")
             .bind(enabled)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+
+    pub async fn set_maintenance_stop(&self, stopped: bool) -> anyhow::Result<()> {
+        self.before_write().await?;
+        sqlx::query("UPDATE settings SET maintenance_stop=? WHERE id=1")
+            .bind(stopped)
             .execute(&self.pool)
             .await?;
         Ok(())
