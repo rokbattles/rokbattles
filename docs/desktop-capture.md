@@ -164,6 +164,46 @@ on the exact replacement head. Results from another commit are supporting
 evidence, not validation of a changed tree. Npcap runtime testing needs a separate
 accepted/licensed installation; an SDK or mocked function table is insufficient.
 
+## Native library checks
+
+The native workflow builds the complete desktop on Windows, macOS and Ubuntu
+x64/ARM64. It loads distribution-owned libpcap on all four Unix targets and the
+verified official WinDivert DLL on Windows x64. Windows ARM64 has no WinDivert
+runtime. These narrowly selected ignored tests only resolve adapter symbols:
+they do not initialize pcap, enumerate interfaces, open capture, receive packets
+or start a driver/service. Do not run every ignored test indiscriminately.
+
+For an explicitly prepared trusted Unix runtime, from the repository root:
+
+```sh
+cargo test --locked -p rokbattles-capture-adapters --test native_dependencies pcap_system_library_loads_without_capture -- --ignored --exact
+```
+
+The Unix probe uses fixed Ubuntu architecture paths or Apple's exact
+`/usr/lib/libpcap.A.dylib`, including dyld-cache-only systems. Clear loader override
+variables before invoking it, as the workflow does. On Windows x64, use the
+[vendor staging and signature checks](../crates/apps/rokbattles-desktop/vendor/README.md)
+first, then select only `windivert_verified_library_loads_without_capture` with
+`--ignored --exact`. Library initializers execute during loading; trusted provenance
+is still required even when capture is never opened.
+
+Npcap runtime is explicitly **NOT RUN / BLOCKED** in hosted CI. Its free installer
+is interactive; [silent installation requires Npcap OEM](https://npcap.com/guide/npcap-users-guide.html).
+An SDK/import library is not a runtime installation. CI does not download, cache,
+extract, install or redistribute any Npcap component or accept its terms.
+
+On a separately authorized Windows x64/ARM64 machine whose administrator already
+accepted the license and installed Npcap, use native PowerShell 7:
+
+```powershell
+./.github/native-capture/probe-installed-npcap.ps1
+```
+
+This script accepts no path or installer URL. It checks native architecture,
+fixed System32/Npcap DLLs and valid Nmap Software LLC publisher signatures, then
+runs the exact load-only test. Missing/untrusted libraries fail explicitly.
+Do not expose a persistent self-hosted machine to untrusted pull-request code.
+
 ## Local acceptance checklist
 
 Use a disposable test installation and record the exact commit, OS/architecture,

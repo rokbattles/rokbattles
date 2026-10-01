@@ -6,7 +6,7 @@
   "requiresAdministratorConsent": true,
   "requiresAgentStartEachConnection": true,
   "title": "Enable native game capture",
-  "explanation": "Install a separate system helper with administrator permission. It reads local network traffic on game server ports, checks which connections belong to your OS user, and sends bounded game records to your local ROK Battles agent. The helper does not decode, save, or upload packets. Mailcache can keep working without this permission.",
+  "explanation": "Install a separate system helper with administrator permission. It observes server-to-client TCP traffic on ports 3101 and 5222 for connections owned by your OS account, including other apps using those ports. The helper sends bounded records to the local ROK Battles agent, which uploads server bytes for protocol classification; only recognized game mail is stored. Client payloads are excluded. Zero-payload client control headers stay on this device. The helper does not decode, save, or upload packets. Capture still needs separate opt-in, and mailcache remains available without it.",
   "confirmLabel": "Install and enable helper",
   "cancelLabel": "Keep using mailcache",
   "states": {

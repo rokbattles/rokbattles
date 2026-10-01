@@ -3,7 +3,7 @@
 //! These tests only load trusted libraries and resolve the production adapter's
 //! symbols. They never create a pcap handle, open WinDivert, enumerate interfaces,
 //! start a service, or receive packets. Run one exact ignored test at a time after
-//! the platform-specific preparation in `.github/native-capture/README.md`.
+//! the platform-specific preparation in `docs/desktop-capture.md`.
 
 use std::path::Path;
 

@@ -20,7 +20,9 @@ class VendorTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name) / "resources"
+        # macOS temporary paths can start with the system /var symlink. Resolve
+        # the test-owned root once; production staging still rejects all links.
+        self.root = Path(self.temporary.name).resolve() / "resources"
         self.payload = {
             "WinDivert.dll": b"synthetic unsigned DLL, not executable",
             "WinDivert64.sys": b"synthetic driver, not executable",

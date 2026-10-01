@@ -2,7 +2,7 @@
 
 The separate privileged helper supports native Linux x64/ARM64 and macOS
 Intel/Apple Silicon source code. The unprivileged desktop agent remains responsible
-for opt-in settings, lifecycle observation, decoding, mailcache, SQLite, upload and
+for opt-in settings, local stream reassembly, mailcache validation, SQLite, upload and
 UI-independent work. The helper accepts only `--service --uid <canonical UID>`
 from the administrator's installed service definition. IPC accepts only Start and
 Stop; it cannot choose paths, commands, libraries, filters, interfaces or addresses.
