@@ -34,7 +34,7 @@ export function SettingsPage(): ReactNode {
   const isCloseBehaviorPending = pendingSetting === "close_behavior";
   const closeBehaviorOptions = [
     { disabled: !traySupported, label: "Minimize to tray", value: "minimize_to_tray" },
-    { label: "Quit", value: "quit" },
+    { label: "Close UI", value: "quit" },
   ];
 
   return (

@@ -1,4 +1,4 @@
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 use tauri_plugin_updater::UpdaterExt;
 
 fn should_check_for_updates(enabled: bool, is_dev: bool, is_flatpak: bool) -> bool {
@@ -6,11 +6,13 @@ fn should_check_for_updates(enabled: bool, is_dev: bool, is_flatpak: bool) -> bo
 }
 
 // https://tauri.app/plugin/updater/#checking-for-updates
-async fn install_update_if_available(app: AppHandle) -> tauri_plugin_updater::Result<()> {
+async fn install_update_if_available(app: AppHandle) -> anyhow::Result<()> {
     if let Some(update) = app.updater()?.check().await? {
         let mut downloaded = 0;
 
-        update
+        let manager = app.state::<crate::watcher_manager::WatcherManager>();
+        let (enabled, lease) = manager.stop_for_update().await.map_err(anyhow::Error::msg)?;
+        let installed = update
             .download_and_install(
                 |chunk_length, content_length| {
                     downloaded += chunk_length;
@@ -20,7 +22,19 @@ async fn install_update_if_available(app: AppHandle) -> tauri_plugin_updater::Re
                     println!("download finished");
                 },
             )
-            .await?;
+            .await;
+        // Restore desired state; only the relaunched/new UI starts a process.
+        manager.store().await.map_err(anyhow::Error::msg)?.set_enabled(enabled).await?;
+        if let Err(error) = installed {
+            drop(lease);
+            if enabled {
+                let _restart = manager.launch(&app).await;
+            }
+            return Err(error.into());
+        }
+        // Hold the exclusive agent lease through process replacement. A child
+        // spawned immediately before maintenance cannot acquire it late.
+        let _lease = lease;
 
         println!("update installed");
         app.restart();

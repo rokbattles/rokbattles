@@ -6,10 +6,11 @@ version.workspace = true
 
 [features]
 default = []
-read = ["dep:rokbattles-djb2-simd", "dep:serde_json", "dep:thiserror"]
+read = ["dep:rokbattles-djb2-simd", "dep:serde_json", "dep:thiserror", "dep:zeroize"]
 write = ["dep:rokbattles-djb2-simd", "dep:serde_json", "dep:thiserror"]
 
 [dependencies]
+zeroize = { version = "1.8.2", optional = true }
 rokbattles-djb2-simd = { path = "../rokbattles-djb2-simd", optional = true }
 serde_json = { workspace = true, optional = true }
 thiserror = { workspace = true, optional = true }

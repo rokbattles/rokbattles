@@ -71,3 +71,31 @@ export function minimizeToTray(): Promise<unknown> {
 export function requestAppQuit(): Promise<unknown> {
   return invoke("request_app_quit");
 }
+
+export type WorkerSnapshot = {
+  alive: boolean;
+  enabled: boolean;
+  capture_opt_in: boolean;
+  status: {
+    heartbeat_ms: number;
+    running: boolean;
+    paused: boolean;
+    backend: number;
+    event: number;
+    pending: number;
+    completed: number;
+    rejected: number;
+  };
+};
+
+export function getWorkerStatus(): Promise<WorkerSnapshot> {
+  return invoke<WorkerSnapshot>("get_worker_status");
+}
+
+export function setCaptureOptIn(enabled: boolean): Promise<unknown> {
+  return invoke("set_capture_opt_in", { enabled });
+}
+
+export function stopBackgroundWorker(): Promise<unknown> {
+  return invoke("stop_background_worker");
+}

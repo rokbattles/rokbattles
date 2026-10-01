@@ -28,8 +28,6 @@ impl<'de> Deserialize<'de> for CloseBehavior {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub(crate) struct AppConfig {
     #[serde(default)]
-    pub(crate) dirs: Vec<String>,
-    #[serde(default)]
     pub(crate) close_behavior: CloseBehavior,
     #[serde(default = "default_auto_update")]
     pub(crate) auto_update: bool,
@@ -40,7 +38,6 @@ pub(crate) struct AppConfig {
 impl Default for AppConfig {
     fn default() -> Self {
         Self {
-            dirs: Vec::new(),
             close_behavior: CloseBehavior::MinimizeToTray,
             auto_update: default_auto_update(),
             auto_start: default_auto_start(),
@@ -71,11 +68,6 @@ fn parse_config_bytes(data: &[u8]) -> anyhow::Result<AppConfig> {
         return Ok(config);
     }
 
-    // Older builds stored only a list of watched directories.
-    if let Ok(legacy_dirs) = serde_json::from_slice::<Vec<String>>(data) {
-        return Ok(AppConfig { dirs: legacy_dirs, ..AppConfig::default() });
-    }
-
     Err(anyhow!("Invalid JSON"))
 }
 
@@ -94,16 +86,6 @@ pub(crate) fn write_config(app: &AppHandle, config: &AppConfig) -> anyhow::Resul
     let json = serde_json::to_vec_pretty(config).context("Failed to serialize config to JSON")?;
     fs::write(&path, json).with_context(|| format!("Failed writing {:?}", path))?;
     Ok(())
-}
-
-pub(crate) fn read_dirs(app: &AppHandle) -> anyhow::Result<Vec<String>> {
-    Ok(read_config(app)?.dirs)
-}
-
-pub(crate) fn write_dirs(app: &AppHandle, dirs: &[String]) -> anyhow::Result<()> {
-    let mut config = read_config(app)?;
-    config.dirs = dirs.to_vec();
-    write_config(app, &config)
 }
 
 pub(crate) fn get_close_behavior(app: &AppHandle) -> anyhow::Result<CloseBehavior> {
@@ -146,7 +128,6 @@ mod tests {
         assert!(config.auto_update);
         assert!(config.auto_start);
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
-        assert!(config.dirs.is_empty());
     }
 
     #[test]
@@ -154,7 +135,6 @@ mod tests {
         let raw = br#"{"dirs":["/tmp/mail"],"close_behavior":"quit","auto_update":false,"autostart_initialized":true,"experimental_network_introspection":true}"#;
         let config = parse_config_bytes(raw).expect("new config should parse");
 
-        assert_eq!(config.dirs, vec!["/tmp/mail"]);
         assert_eq!(config.close_behavior, CloseBehavior::Quit);
         assert!(!config.auto_update);
         assert!(config.auto_start);
@@ -171,14 +151,11 @@ mod tests {
     }
 
     #[test]
-    fn reads_legacy_dirs_only_shape() {
-        let raw = br#"["/tmp/one","/tmp/two"]"#;
-        let config = parse_config_bytes(raw).expect("legacy dirs-only shape should parse");
-
-        assert_eq!(config.dirs, vec!["/tmp/one", "/tmp/two"]);
-        assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
-        assert!(config.auto_update);
-        assert!(config.auto_start);
+    fn legacy_mailcache_paths_are_discarded_on_write() {
+        let config = parse_config_bytes(br#"{"dirs":["/tmp/private-mail"]}"#).expect("UI settings");
+        let serialized = serde_json::to_string(&config).expect("serialize");
+        assert!(!serialized.contains("private-mail"));
+        assert!(!serialized.contains("dirs"));
     }
 
     #[test]

@@ -2,7 +2,6 @@ mod app_config;
 mod mailcache_discovery;
 mod tray;
 mod updater;
-mod watcher;
 mod watcher_manager;
 
 use std::{collections::BTreeSet, path::Path};
@@ -10,14 +9,11 @@ use std::{collections::BTreeSet, path::Path};
 use app_config::CloseBehavior;
 use serde::Serialize;
 use tauri::{
-    AppHandle, Manager, RunEvent,
+    AppHandle, Manager,
     tray::{MouseButton, MouseButtonState, TrayIconEvent},
 };
 
-use crate::{
-    watcher::{delete_processed, delete_upload_queue},
-    watcher_manager::WatcherManager,
-};
+use crate::watcher_manager::WatcherManager;
 
 pub(crate) fn is_flatpak() -> bool {
     cfg!(target_os = "linux") && Path::new("/.flatpak-info").exists()
@@ -95,24 +91,6 @@ fn dir_identity_key(path: &str) -> String {
     mailcache_discovery::path_identity_key(Path::new(&normalized))
 }
 
-fn dedupe_dirs_preserving_representation(dirs: Vec<String>) -> Vec<String> {
-    let mut seen = BTreeSet::new();
-    let mut unique = Vec::new();
-
-    for dir in dirs {
-        let trimmed = dir.trim();
-        if trimmed.is_empty() {
-            continue;
-        }
-        let key = dir_identity_key(trimmed);
-        if seen.insert(key) {
-            unique.push(trimmed.to_string());
-        }
-    }
-
-    unique
-}
-
 fn dirs_for_ui(dirs: &[String]) -> Vec<String> {
     let mut seen = BTreeSet::new();
     let mut normalized = Vec::new();
@@ -132,27 +110,45 @@ fn dirs_for_ui(dirs: &[String]) -> Vec<String> {
     normalized
 }
 
-pub(crate) fn read_dirs(app: &AppHandle) -> anyhow::Result<Vec<String>> {
-    let dirs = app_config::read_dirs(app)?;
-    Ok(dedupe_dirs_preserving_representation(dirs))
+pub(crate) async fn read_dirs(app: &AppHandle) -> anyhow::Result<Vec<String>> {
+    let store = app.state::<WatcherManager>().store().await.map_err(anyhow::Error::msg)?;
+    Ok(store
+        .roots()
+        .await?
+        .into_iter()
+        .map(|root| root.path.to_string_lossy().into_owned())
+        .collect())
+}
+
+async fn write_dirs(app: &AppHandle, dirs: &[String]) -> Result<(), String> {
+    let paths: Vec<std::path::PathBuf> = dirs.iter().map(std::path::PathBuf::from).collect();
+    let validated = tauri::async_runtime::spawn_blocking(move || {
+        for path in &paths {
+            rokbattles_desktop_agent::mailcache::MailRoot::open(path).map_err(|_error| {
+                "Choose an existing local mailcache directory without links or junctions."
+                    .to_string()
+            })?;
+        }
+        Ok::<_, String>(paths)
+    })
+    .await
+    .map_err(|_error| "Cannot validate selected directories.")??;
+    app.state::<WatcherManager>()
+        .store()
+        .await?
+        .set_roots(&validated)
+        .await
+        .map_err(|_error| "Cannot save selected directories.".to_string())
 }
 
 #[tauri::command]
 async fn list_dirs(app: AppHandle) -> Result<Vec<String>, String> {
-    // Canonicalizing saved paths can wait on disconnected/network drives. This
-    // command runs on page load, so keep that I/O off the native UI thread and
-    // async executor to allow the folder picker to open while the list loads.
-    tauri::async_runtime::spawn_blocking(move || {
-        let current = read_dirs(&app).map_err(|e| e.to_string())?;
-        Ok(dirs_for_ui(&current))
-    })
-    .await
-    .map_err(|e| e.to_string())?
+    Ok(dirs_for_ui(&read_dirs(&app).await.map_err(|_error| "Cannot read selected directories.")?))
 }
 
 #[tauri::command]
-fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
+async fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
+    let current = read_dirs(&app).await.map_err(|e| e.to_string())?;
     let mut next = current;
     let mut known_keys: BTreeSet<String> = next.iter().map(|dir| dir_identity_key(dir)).collect();
 
@@ -168,18 +164,18 @@ fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
     }
 
     next.sort();
-    app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
+    write_dirs(&app, &next).await?;
     Ok(dirs_for_ui(&next))
 }
 
 #[tauri::command]
-fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
+async fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
+    let current = read_dirs(&app).await.map_err(|e| e.to_string())?;
     let target_key = dir_identity_key(&path);
     let mut next =
         current.into_iter().filter(|dir| dir_identity_key(dir) != target_key).collect::<Vec<_>>();
     next.sort();
-    app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
+    write_dirs(&app, &next).await?;
     Ok(dirs_for_ui(&next))
 }
 
@@ -200,7 +196,7 @@ struct AppSettings {
 }
 
 #[tauri::command]
-fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, String> {
+async fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, String> {
     if !cfg!(any(target_os = "windows", target_os = "macos")) {
         return Ok(DiscoverMailcacheResult {
             added_dirs: Vec::new(),
@@ -209,8 +205,12 @@ fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, St
         });
     }
 
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
-    let discovered = mailcache_discovery::discover_mailcache_dirs().map_err(|e| e.to_string())?;
+    let current = read_dirs(&app).await.map_err(|e| e.to_string())?;
+    let discovered =
+        tauri::async_runtime::spawn_blocking(mailcache_discovery::discover_mailcache_dirs)
+            .await
+            .map_err(|_error| "Directory discovery failed.")?
+            .map_err(|_error| "Directory discovery failed.")?;
 
     if discovered.is_empty() {
         return Ok(DiscoverMailcacheResult {
@@ -244,7 +244,7 @@ fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, St
 
     if !added_dirs.is_empty() {
         next.sort();
-        app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
+        write_dirs(&app, &next).await?;
     }
 
     let message = if !added_dirs.is_empty() {
@@ -330,16 +330,60 @@ fn minimize_to_tray(app: AppHandle) {
     tray::hide_main_window(&app);
 }
 
+#[derive(Serialize)]
+struct WorkerSnapshot {
+    status: rokbattles_desktop_store::Status,
+    alive: bool,
+    enabled: bool,
+    capture_opt_in: bool,
+}
+
+#[tauri::command]
+async fn get_worker_status(app: AppHandle) -> Result<WorkerSnapshot, String> {
+    let store = app.state::<WatcherManager>().store().await?;
+    let status = store.status().await.map_err(|_error| "Cannot read worker status.")?;
+    let settings = store.settings().await.map_err(|_error| "Cannot read worker settings.")?;
+    Ok(WorkerSnapshot {
+        alive: watcher_manager::is_alive(&status),
+        status,
+        enabled: settings.enabled,
+        capture_opt_in: settings.capture_opt_in,
+    })
+}
+
+#[tauri::command]
+async fn set_capture_opt_in(app: AppHandle, enabled: bool) -> Result<(), String> {
+    app.state::<WatcherManager>()
+        .store()
+        .await?
+        .set_capture_opt_in(enabled)
+        .await
+        .map_err(|_error| "Cannot save capture consent.".to_string())
+}
+
+#[tauri::command]
+async fn stop_background_worker(app: AppHandle) -> Result<(), String> {
+    app.state::<WatcherManager>()
+        .store()
+        .await?
+        .set_enabled(false)
+        .await
+        .map_err(|_error| "Cannot stop background worker.".to_string())
+}
+
 mod watcher_commands {
     use super::*;
 
     #[tauri::command]
     pub(super) async fn reprocess_all(app: AppHandle) -> Result<(), String> {
         let watcher = app.state::<WatcherManager>();
-        watcher.stop(&app).await;
-        delete_processed(&app).map_err(|e| e.to_string())?;
-        delete_upload_queue(&app).map_err(|e| e.to_string())?;
-        watcher.start(&app).await;
+        watcher
+            .store()
+            .await?
+            .request_reprocess()
+            .await
+            .map_err(|_error| "Cannot request reprocessing.")?;
+        watcher.start(&app).await?;
         tray::refresh_tray_menu(&app, watcher.is_paused());
         Ok(())
     }
@@ -347,7 +391,7 @@ mod watcher_commands {
     #[tauri::command]
     pub(super) async fn pause_watcher(app: AppHandle) -> Result<(), String> {
         let watcher = app.state::<WatcherManager>();
-        watcher.stop(&app).await;
+        watcher.stop(&app).await?;
         tray::refresh_tray_menu(&app, watcher.is_paused());
         Ok(())
     }
@@ -355,7 +399,7 @@ mod watcher_commands {
     #[tauri::command]
     pub(super) async fn resume_watcher(app: AppHandle) -> Result<(), String> {
         let watcher = app.state::<WatcherManager>();
-        watcher.start(&app).await;
+        watcher.start(&app).await?;
         tray::refresh_tray_menu(&app, watcher.is_paused());
         Ok(())
     }
@@ -392,10 +436,13 @@ pub fn run() {
                 let app = app.clone();
                 tauri::async_runtime::spawn(async move {
                     let watcher = app.state::<WatcherManager>();
-                    if watcher.is_paused() {
-                        watcher.start(&app).await;
+                    let result = if watcher.is_paused() {
+                        watcher.start(&app).await
                     } else {
-                        watcher.stop(&app).await;
+                        watcher.stop(&app).await
+                    };
+                    if result.is_err() {
+                        eprintln!("Background worker control failed");
                     }
                     tray::refresh_tray_menu(&app, watcher.is_paused());
                 });
@@ -439,13 +486,18 @@ pub fn run() {
 
                 // Let the updater run first so we don't scan if we're about to restart.
                 let watcher = handle.state::<WatcherManager>();
-                watcher.start(&handle).await;
+                if watcher.launch(&handle).await.is_err() {
+                    eprintln!("Background worker unavailable");
+                }
                 tray::refresh_tray_menu(&handle, watcher.is_paused());
             });
 
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            get_worker_status,
+            set_capture_opt_in,
+            stop_background_worker,
             list_dirs,
             add_dir,
             remove_dir,
@@ -465,18 +517,6 @@ pub fn run() {
         .build(context)
         .expect("error while building tauri application");
 
-    app.run(|app, event| {
-        if let RunEvent::ExitRequested { api, .. } = event {
-            let manager = app.state::<WatcherManager>();
-            if !manager.mark_exit_requested() {
-                return;
-            }
-            api.prevent_exit();
-            let handle = app.clone();
-            tauri::async_runtime::spawn(async move {
-                handle.state::<WatcherManager>().stop(&handle).await;
-                handle.exit(0);
-            });
-        }
-    });
+    // UI exit intentionally leaves the independent per-user agent running.
+    app.run(|_app, _event| {});
 }
