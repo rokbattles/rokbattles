@@ -1,0 +1,19 @@
+[package]
+name = "rokbattles-desktop-store"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde = { workspace = true, features = ["derive"] }
+sqlx = { version = "0.9.0", default-features = false, features = ["runtime-tokio", "sqlite"] }
+rokbattles-desktop-paths = { path = "../rokbattles-desktop-paths" }
+tokio = { workspace = true, features = ["rt", "sync"] }
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[lints]
+workspace = true
