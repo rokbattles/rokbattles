@@ -44,7 +44,9 @@ impl MailRoot {
             if !matches!(prefix.kind(), Prefix::Disk(_) | Prefix::VerbatimDisk(_)) {
                 bail!("network and device mailcache roots are unsupported");
             }
-            PathBuf::from(prefix.as_os_str()).join("\\")
+            let mut anchor = prefix.as_os_str().to_os_string();
+            anchor.push("\\");
+            PathBuf::from(anchor)
         };
         #[cfg(not(windows))]
         let anchor = PathBuf::from("/");
