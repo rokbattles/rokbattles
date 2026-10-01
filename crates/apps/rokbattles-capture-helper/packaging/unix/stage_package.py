@@ -21,15 +21,6 @@ TARGETS = {
 MAX_BINARY = 128 * 1024 * 1024
 
 
-def parse_uid(value: str) -> int:
-    if not value.isascii() or not value.isdecimal() or len(value) > 10:
-        raise ValueError("expected a canonical numeric local UID")
-    uid = int(value)
-    if not 0 < uid < 0xFFFFFFFF or str(uid) != value:
-        raise ValueError("expected a nonroot canonical local UID")
-    return uid
-
-
 def check_binary(data: bytes, target: str) -> None:
     platform, machine = TARGETS[target]
     if not 64 <= len(data) <= MAX_BINARY:
@@ -45,11 +36,9 @@ def check_binary(data: bytes, target: str) -> None:
         raise ValueError("helper must be a thin Mach-O executable for the selected target")
 
 
-def payloads(binary: bytes, agent_binary: bytes, target: str, uid: int) -> dict[str, tuple[bytes, int]]:
+def payloads(binary: bytes, agent_binary: bytes, target: str) -> dict[str, tuple[bytes, int]]:
     check_binary(binary, target)
     check_binary(agent_binary, target)
-    if not 0 < uid < 0xFFFFFFFF:
-        raise ValueError("a nonroot local UID is required")
     platform, _ = TARGETS[target]
     files: dict[str, tuple[bytes, int]] = {}
     if platform == "linux":
@@ -61,11 +50,11 @@ def payloads(binary: bytes, agent_binary: bytes, target: str, uid: int) -> dict[
     else:
         helper = "Library/PrivilegedHelperTools/com.rokbattles.capture-helper"
         agent = "Library/Application Support/ROK Battles/rokbattles-desktop-agent"
-        source = (ROOT / "com.rokbattles.capture-helper.plist.in").read_text().replace("@UID@", str(uid))
+        source = (ROOT / "com.rokbattles.capture-helper.plist.in").read_text()
         document = plistlib.loads(source.encode())
-        if document["ProgramArguments"] != [f"/{helper}", "--service", "--uid", str(uid)]:
+        if document["ProgramArguments"] != [f"/{helper}", "--service", "--uid", "@UID@"]:
             raise ValueError("unexpected service command")
-        files[f"Library/LaunchDaemons/com.rokbattles.capture-helper.{uid}.plist"] = (
+        files["share/rokbattles-capture/com.rokbattles.capture-helper.plist.in"] = (
             plistlib.dumps(document, sort_keys=False), 0o644
         )
     files[helper] = (binary, 0o755)
@@ -75,7 +64,7 @@ def payloads(binary: bytes, agent_binary: bytes, target: str, uid: int) -> dict[
     manifest = {
         "schemaVersion": 1,
         "target": target,
-        "uid": uid,
+        "requiresInstallerUserSelection": True,
         "installPerformed": False,
         "administratorConsentRequired": True,
         "signingAndNativeValidationRequired": True,
@@ -88,12 +77,12 @@ def payloads(binary: bytes, agent_binary: bytes, target: str, uid: int) -> dict[
     return files
 
 
-def stage(binary_path: Path, agent_path: Path, target: str, uid: int, output: Path) -> None:
+def stage(binary_path: Path, agent_path: Path, target: str, output: Path) -> None:
     with binary_path.open("rb") as source:
         binary = source.read(MAX_BINARY + 1)
     with agent_path.open("rb") as source:
         agent_binary = source.read(MAX_BINARY + 1)
-    files = payloads(binary, agent_binary, target, uid)
+    files = payloads(binary, agent_binary, target)
     # Exclusive creation prevents following or replacing a supplied output symlink.
     with output.open("xb") as destination:
         with tarfile.open(fileobj=destination, mode="w:gz", format=tarfile.PAX_FORMAT) as archive:
@@ -113,12 +102,10 @@ def main() -> None:
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--agent", type=Path, required=True, help="matching protected unprivileged agent companion")
     parser.add_argument("--target", choices=TARGETS, required=True)
-    parser.add_argument("--uid", required=True, help="explicit local account selected during setup")
     parser.add_argument("--output", type=Path, required=True, help="new tar.gz file; never installed")
     arguments = parser.parse_args()
     try:
-        uid = parse_uid(arguments.uid)
-        stage(arguments.binary, arguments.agent, arguments.target, uid, arguments.output)
+        stage(arguments.binary, arguments.agent, arguments.target, arguments.output)
     except (ValueError, OSError) as error:
         parser.exit(2, f"Cannot stage helper package: {error}\n")
     print(f"Staged {arguments.output}; no installation or service action performed")

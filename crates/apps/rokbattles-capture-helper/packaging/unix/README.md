@@ -43,7 +43,7 @@ symlink, foreign owner or unsafe directory mode. A per-UID root-owned lock preve
 duplicate listeners and permits safe stale-socket recovery after a crash.
 
 `stage_package.py` creates an inert tarball containing the native helper and unprivileged agent companion, the
-systemd template or a UID-specific launchd plist, this guide, the setup contract
+systemd template or a UID-neutral launchd template, this guide, the setup contract
 and a SHA-256 manifest. It validates 64-bit ELF/Mach-O target architecture; it does
 not execute the input binary, grant privileges, extract files, install software,
 accept an agreement or start a service. Example (a local staging operation):
@@ -51,12 +51,13 @@ accept an agreement or start a service. Example (a local staging operation):
 ```sh
 python3 stage_package.py --binary /path/to/built/rokbattles-capture-helper \
   --agent /path/to/built/rokbattles-desktop-agent \
-  --target aarch64-apple-darwin --uid 501 --output capture-helper.tar.gz
+  --target aarch64-apple-darwin --output capture-helper.tar.gz
 ```
 
 After explicit administrator approval, the release installer must verify the
 signed/notarized distribution and manifest, confirm the selected local UID,
-install the regular files at the fixed archive locations as root (directories
+render the selected UID into the fixed launchd template (release payloads contain no CI-user UID),
+install binaries and service definitions at their fixed destinations as root (directories
 0755, executable0755, definitions0644), and register only that user's instance.
 Linux uses `rokbattles-capture@<UID>.service`; macOS uses
 `com.rokbattles.capture-helper.<UID>` in the system launchd domain. The UID is
