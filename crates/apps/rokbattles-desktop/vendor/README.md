@@ -63,8 +63,10 @@ resource files to `capture/windivert/x86_64-pc-windows-msvc/` under the installe
 application's resource directory, with no directory glob. The NSIS overlay uses
 `perMachine` installation, defaulting to protected Program Files. The runtime
 must independently require a trusted installation directory before privileged
-loading. No install hook registers or activates the driver; helper installation,
-elevation and capture consent belong to separate explicit user actions.
+loading. Vendor staging itself never registers or activates the driver. The
+separate explicit NSIS maintenance flow performs protected helper/driver setup;
+capture still requires the user's consent in the desktop app. See the
+[desktop capture guide](../../../../docs/desktop-capture.md).
 
 ## Provenance and fail-closed staging
 

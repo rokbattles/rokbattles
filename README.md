@@ -17,6 +17,9 @@ This project is currently in early development. We're excited to share our work 
 
 We welcome contributions through GitHub issues and pull requests.
 
+Desktop capture architecture, review boundaries and the local acceptance checklist
+are in [Desktop capture](docs/desktop-capture.md).
+
 ### Prerequisites
 
 1. [Rust](https://rust-lang.org/tools/install/) 1.98 or later

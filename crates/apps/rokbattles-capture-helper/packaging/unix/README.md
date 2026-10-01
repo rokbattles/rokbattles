@@ -149,6 +149,61 @@ or installs. A signed native maintainer remains an option for a general consumer
 setup experience. The CLI never invokes sudo, requests credentials, installs on
 application launch, accepts an agreement or changes host security policy.
 
+### First administrator setup
+
+These are manual administrator steps, not commands run by the app. Start from a
+trusted administrator shell and authenticate the official release page and its
+installer checksum before granting privileges. Obtain the matching target's
+generated installer, archive and checksum listing from that release; a checksum
+downloaded from an unauthenticated mirror is not an independent trust anchor.
+
+1. Inspect every ancestor of the setup directory for root ownership, absence of
+   symlinks and group/other write access. On macOS, also inspect ACLs for mutation
+   grants. Stop on an unsafe or ambiguous component; do not recursively change
+   ownership or permissions to make an existing directory pass.
+2. For the first setup, create a new root-only directory at
+   `/usr/libexec/rokbattles-setup` on Linux (root:root), or
+   `/Library/PrivilegedHelperTools/rokbattles-setup` on macOS (root:wheel), using
+   `mkdir -m 0700` from that trusted administrator shell. Creation must fail if
+   the directory already exists. On a later setup, independently verify the
+   existing directory and ancestors before reusing it. If `/usr/libexec` is
+   absent, provision that root:root, mode-0755 ancestor explicitly first.
+3. Copy the generated release installer into the protected directory as a new
+   `install-release.py` file, owned by root and mode 0600. Use a fresh filename
+   for a later release or first remove only a previously verified setup script;
+   never follow an existing destination symlink. Keep the archive under its
+   original release filename; the installer snapshots and checks its immutable
+   contents against the embedded archive hash before privileged changes.
+4. Hash the **protected copy**, after the copy has completed. On Linux use
+   `/usr/bin/sha256sum /usr/libexec/rokbattles-setup/install-release.py`; on macOS
+   use `/usr/bin/shasum -a 256
+   /Library/PrivilegedHelperTools/rokbattles-setup/install-release.py`. Compare the
+   complete digest with the installer entry authenticated in step 1. Stop on any
+   mismatch. Checking only the mutable downloaded source before copying is
+   insufficient. Recheck the protected copy's owner, mode and ancestors.
+5. Select the intended existing local user's numeric UID with the trusted OS
+   account tools. Invoke the protected copy using the trusted system interpreter
+   in isolated mode, with the matching archive's absolute path and explicit
+   confirmation. For example, on Linux:
+
+   ```sh
+   /usr/bin/python3 -I /usr/libexec/rokbattles-setup/install-release.py install \
+     --package /absolute/download/path/matching-release.tar.gz --uid 1000 \
+     --confirm-system-changes
+   ```
+
+   On macOS, replace the script path with
+   `/Library/PrivilegedHelperTools/rokbattles-setup/install-release.py` and select
+   the actual account UID (commonly 501, but never assume it). The script itself
+   verifies the protected invocation and refuses automatic elevation. Add
+   `--all-registered-users` only when explicitly accepting interruption of the
+   existing shared installation.
+6. For updates, repeat authentication, protected copying and post-copy hashing
+   for the new release installer, then use `update --package ...` and the same
+   confirmation flags. Run `repair` or `uninstall --uid ...` from the authenticated
+   protected installer for the installed target. Restart the normal app as the
+   selected unprivileged user after successful maintenance.
+
 An administrator explicitly selects the local UID and passes
 `--confirm-system-changes`. Supported operations are:
 

@@ -9,6 +9,7 @@ import struct
 import sys
 import tarfile
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -262,6 +263,26 @@ class MaintenanceFixtures(unittest.TestCase):
         for extra in ("--sha256", "--team-id", "--target", "--root"):
             with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
                 maintain.parser().parse_args(["install", "--uid", "1001", extra, "untrusted"])
+
+    def test_cli_rejects_mutable_script_before_package_or_service_access(self):
+        self.fs.write("setup/install-release.py", b"fixture", 0o600)
+        script = self.fs.absolute("setup/install-release.py")
+        for root, isolated, mode in ((1001, True, 0o600), (0, False, 0o600), (0, True, 0o666)):
+            with self.subTest(root=root, isolated=isolated, mode=mode):
+                script.chmod(mode)
+                with patch.object(maintain.os, "geteuid", return_value=root), \
+                     patch.object(maintain.sys, "flags", SimpleNamespace(isolated=isolated)), \
+                     patch.object(maintain.sys, "argv", ["installer", "repair", "--confirm-system-changes"]), \
+                     patch.object(maintain, "__file__", "/setup/install-release.py"), \
+                     patch.object(maintain, "FileSystem", return_value=self.fs), \
+                     patch.object(maintain, "running_target") as target, \
+                     patch.object(maintain.Package, "read") as package, \
+                     patch.object(maintain, "NativeServices") as services, \
+                     contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                    maintain.main()
+                target.assert_not_called()
+                package.assert_not_called()
+                services.assert_not_called()
 
     def test_wrong_digest_name_target_and_linked_archive_are_rejected(self):
         wrong = {**self.pins, "archiveSha256": "0" * 64}
