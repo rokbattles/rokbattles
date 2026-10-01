@@ -1,6 +1,6 @@
 //! Optional, passive native capture. Nothing is loaded or started implicitly.
 //!
-//! Only server-to-client, unfragmented TCP packets with source port 3101 are returned.
+//! Only server-to-client, unfragmented TCP packets with source port 3101 or 5222 are returned.
 //! The adapters do not decode, reassemble, persist, or send.
 
 #![deny(unsafe_op_in_unsafe_fn)]

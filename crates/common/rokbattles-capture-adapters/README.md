@@ -51,12 +51,13 @@ No Npcap binaries, drivers, or installers are redistributed by this crate.
 
 ## Passive, one-direction contract
 
-- WinDivert's fixed filter selects inbound TCP source port 3101 and excludes
-  destination port 3101. Its fixed flags are `SNIFF | RECV_ONLY | NO_INSTALL`.
+- WinDivert's fixed filter selects inbound TCP source ports 3101 or 5222 and
+  excludes either port as a destination. Its fixed flags are `SNIFF | RECV_ONLY | NO_INSTALL`.
   Original packets are not diverted/dropped, no injection symbol is loaded, and
   a driver which is not already installed is an error. No driver installer or
   elevation/security-setting helper is included.
 - pcap is non-promiscuous and nonblocking. Its fixed server-source/port grammar
+  selects TCP source ports 3101 or 5222, excludes both destination ports, and
   is narrowed by a parenthesized destination allowlist built only from typed IPs.
   Unix additionally requires `PCAP_D_IN` and fails closed if it is unsupported.
   Npcap does not implement `pcap_setdirection`, so Windows neither loads nor calls
@@ -65,9 +66,9 @@ No Npcap binaries, drivers, or installers are redistributed by this crate.
   exposed, and filter installation must succeed before returning a capture.
 - Both adapters independently validate packet bounds and TCP source/destination
   ports before returning an owned IP packet; pcap also checks the client IP.
-  Client-originated packets never
-  leave the adapter. Server SYN/FIN/RST packets without payload are retained.
-  Ambiguous port-3101-to-port-3101 traffic is excluded conservatively.
+  Client-originated packets never leave the adapter. Server SYN/FIN/RST packets without payload are retained.
+  Ambiguous traffic between any pair of the two server ports is excluded
+  conservatively, including 3101-to-5222 and 5222-to-3101.
 - The small admission check accepts unfragmented IPv4 and base-header IPv6 TCP.
   IPv6 extension headers, jumbograms, fragments, truncated records, VLAN frames,
   and unsupported link types are rejected rather than guessed or reassembled.

@@ -8,7 +8,7 @@ use libloading::Library;
 
 use crate::{Error, Receive, SNAPLEN, library, packet};
 
-const FILTER: &CStr = c"inbound and tcp.SrcPort == 3101 and tcp.DstPort != 3101";
+const FILTER: &CStr = c"inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222";
 const NETWORK: c_int = 0;
 const SNIFF: u64 = 0x0001;
 const RECV_ONLY: u64 = 0x0004;
@@ -230,7 +230,10 @@ mod tests {
         flags: u64,
     ) -> *mut c_void {
         // SAFETY: production open provides this valid static C string.
-        assert_eq!(unsafe { CStr::from_ptr(filter) }, FILTER);
+        assert_eq!(
+            unsafe { CStr::from_ptr(filter) },
+            c"inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222"
+        );
         assert_eq!(layer, NETWORK);
         assert_eq!(priority, 0);
         assert_eq!(flags, 0x15); // SNIFF | RECV_ONLY | NO_INSTALL, no injection
@@ -307,6 +310,35 @@ mod tests {
         for flags in [0, 1 << 17, (1 << 16) | (1 << 17), (1 << 16) | 1, (1 << 16) | (1 << 8)] {
             STATE.with_borrow_mut(|state| state.flags = flags);
             assert_eq!(capture.receive().expect("mock recv"), Receive::Discarded);
+        }
+    }
+
+    #[test]
+    fn receive_admits_both_server_ports_and_rejects_both_client_directions() {
+        let backend = mock();
+        let capture = backend.open().expect("mock open");
+
+        for server in [3101_u16, 5222] {
+            STATE.with_borrow_mut(|state| {
+                state.bytes[20..22].copy_from_slice(&server.to_be_bytes());
+                state.bytes[22..24].copy_from_slice(&45000_u16.to_be_bytes());
+            });
+            let expected = STATE.with_borrow(|state| state.bytes.clone());
+            assert_eq!(capture.receive().expect("server packet"), Receive::Packet(expected));
+
+            STATE.with_borrow_mut(|state| {
+                state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
+                state.bytes[22..24].copy_from_slice(&server.to_be_bytes());
+            });
+            assert_eq!(capture.receive().expect("client packet"), Receive::Discarded);
+
+            for destination in [3101_u16, 5222] {
+                STATE.with_borrow_mut(|state| {
+                    state.bytes[20..22].copy_from_slice(&server.to_be_bytes());
+                    state.bytes[22..24].copy_from_slice(&destination.to_be_bytes());
+                });
+                assert_eq!(capture.receive().expect("ambiguous pair"), Receive::Discarded);
+            }
         }
     }
 

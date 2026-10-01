@@ -11,7 +11,8 @@ use libloading::Library;
 
 use crate::{Error, Receive, SNAPLEN, library, packet};
 
-const PORT_FILTER: &str = "tcp src port 3101 and not dst port 3101";
+const PORT_FILTER: &str =
+    "tcp and (src port 3101 or src port 5222) and not (dst port 3101 or dst port 5222)";
 const MAX_CLIENT_ADDRESSES: usize = 16;
 
 #[cfg(unix)]
@@ -549,7 +550,7 @@ mod tests {
     ) -> c_int {
         // SAFETY: production open supplies a live NUL-terminated filter CString.
         let filter = unsafe { CStr::from_ptr(filter) };
-        assert_eq!(filter, c"tcp src port 3101 and not dst port 3101 and (dst host 192.0.2.2)");
+        assert_eq!(filter, c"tcp and (src port 3101 or src port 5222) and not (dst port 3101 or dst port 5222) and (dst host 192.0.2.2)");
         assert_eq!(optimize, 1);
         assert_eq!(mask, u32::MAX);
         call("compile")
@@ -734,6 +735,35 @@ mod tests {
     }
 
     #[test]
+    fn receive_admits_both_server_ports_and_rejects_both_client_directions() {
+        let api = mock();
+        let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+
+        for server in [3101_u16, 5222] {
+            STATE.with_borrow_mut(|state| {
+                state.bytes[20..22].copy_from_slice(&server.to_be_bytes());
+                state.bytes[22..24].copy_from_slice(&45000_u16.to_be_bytes());
+            });
+            let expected = STATE.with_borrow(|state| state.bytes.clone());
+            assert_eq!(capture.receive().expect("server packet"), Receive::Packet(expected));
+
+            STATE.with_borrow_mut(|state| {
+                state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
+                state.bytes[22..24].copy_from_slice(&server.to_be_bytes());
+            });
+            assert_eq!(capture.receive().expect("client packet"), Receive::Discarded);
+
+            for destination in [3101_u16, 5222] {
+                STATE.with_borrow_mut(|state| {
+                    state.bytes[20..22].copy_from_slice(&server.to_be_bytes());
+                    state.bytes[22..24].copy_from_slice(&destination.to_be_bytes());
+                });
+                assert_eq!(capture.receive().expect("ambiguous pair"), Receive::Discarded);
+            }
+        }
+    }
+
+    #[test]
     fn receive_checks_lengths_and_null_outputs_before_dereferencing_data() {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
@@ -798,7 +828,7 @@ mod tests {
         assert_eq!(clients, [CLIENT, ipv6]);
         assert_eq!(
             filter.to_str().expect("ASCII"),
-            "tcp src port 3101 and not dst port 3101 and (dst host 192.0.2.2 or dst host 2001:db8::2)"
+            "tcp and (src port 3101 or src port 5222) and not (dst port 3101 or dst port 5222) and (dst host 192.0.2.2 or dst host 2001:db8::2)"
         );
 
         let api = mock();
@@ -819,7 +849,7 @@ mod tests {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
 
-        // Port 3101 alone is insufficient: this packet heads away from the
+        // The server port alone is insufficient: this packet heads away from the
         // configured client. Windows has no pcap_setdirection safety net.
         STATE.with_borrow_mut(|state| state.bytes[16..20].copy_from_slice(&[203, 0, 113, 1]));
         assert_eq!(capture.receive().expect("mock receive"), Receive::Discarded);
