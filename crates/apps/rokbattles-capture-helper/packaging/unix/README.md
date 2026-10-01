@@ -22,7 +22,10 @@ Outbound application bytes are rejected; only zero-payload controls are delivere
 Loss counters from both handles, queue overflow, topology changes and native
 errors retire the source. Raw packet buffers use RAII wiping in IPC queues.
 Client FIN retains an owned server tail; resets retire only after the exact reset
-record is successfully written.
+record is successfully written. Helper and agent set and verify zero process-local
+soft/hard core limits before workers start; Linux also disables dumpability for
+piped core collectors. Service definitions enforce zero core limits too, so a
+capture crash cannot turn volatile packet buffers into an ordinary core dump.
 
 ## Explicit setup contract
 
@@ -93,11 +96,12 @@ again.
 
 ## Validation and limits
 
-Linux x64 synthetic tests, package-staging tests and Clippy pass in the implementation container. Tests do
-not open native pcap, install services, run sudo or change host security settings.
-Apple SDK compilation and native synthetic tests still need the macOS Intel and
-ARM64 CI runners; Linux ARM64 also needs its native runner. No live capture or
-privileged install/uninstall/restart validation has been performed. This draft is
+The six native Capture Foundation jobs passed for broker checkpoint `080cc4da`,
+including macOS Intel/ARM64 SDK compilation and Linux x64/ARM64 synthetic tests.
+Package-staging fixtures and focused Clippy also pass. Tests do not open native
+pcap, install services, run sudo or change host security settings. New follow-up
+commits require their own exact-head CI checks. No live capture or privileged
+install/uninstall/restart validation has been performed. This draft is
 not a release sign-off. macOS signed/notarized helper distribution and systemd
 package integration require the release process and explicit setup testing.
 

@@ -49,11 +49,14 @@ class PackageTests(unittest.TestCase):
                     plist = plistlib.loads(files["share/rokbattles-capture/com.rokbattles.capture-helper.plist.in"][0])
                     self.assertEqual(plist["ProgramArguments"], ["/Library/PrivilegedHelperTools/com.rokbattles.capture-helper", "--service", "--uid", "@UID@"])
                     self.assertEqual(plist["Umask"], 0o077)
+                    self.assertEqual(plist["SoftResourceLimits"]["Core"], 0)
+                    self.assertEqual(plist["HardResourceLimits"]["Core"], 0)
                     self.assertEqual(plist["UserName"], "root")
                 else:
                     service = files["usr/lib/systemd/system/rokbattles-capture@.service"][0].decode()
                     self.assertIn("--service --uid %i", service)
                     self.assertIn("NoNewPrivileges=yes", service)
+                    self.assertIn("LimitCORE=0", service)
                     self.assertNotIn("AmbientCapabilities=", service)
 
     def test_wrong_binary_architecture_or_format_is_rejected(self):
