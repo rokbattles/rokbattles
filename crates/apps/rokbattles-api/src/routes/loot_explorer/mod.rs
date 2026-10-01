@@ -339,7 +339,8 @@ impl From<RawBarbarianFortDocument> for BarbarianFortDocument {
 #[derive(Debug, Clone, Deserialize)]
 struct RawBaulurDocument {
     kind: i32,
-    loot_pools: Vec<DamageLootPool>,
+    resource_pool: BaulurResourcePool,
+    roll_pool: BaulurRollPool,
     totals: BaulurTotals,
     refreshed_at: DateTime,
 }
@@ -348,7 +349,8 @@ struct RawBaulurDocument {
 #[serde(rename_all = "camelCase")]
 struct BaulurDocument {
     kind: i32,
-    loot_pools: Vec<DamageLootPool>,
+    resource_pool: BaulurResourcePool,
+    roll_pool: BaulurRollPool,
     totals: BaulurTotals,
     refreshed_at: String,
 }
@@ -357,7 +359,8 @@ impl From<RawBaulurDocument> for BaulurDocument {
     fn from(value: RawBaulurDocument) -> Self {
         Self {
             kind: value.kind,
-            loot_pools: value.loot_pools,
+            resource_pool: value.resource_pool,
+            roll_pool: value.roll_pool,
             totals: value.totals,
             refreshed_at: date_time_to_string(value.refreshed_at),
         }
@@ -457,6 +460,8 @@ struct FortTotals {
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct BaulurTotals {
     results: i64,
+    reports: i64,
+    duplicate_reports: i64,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -484,11 +489,29 @@ struct RewardTier {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
-struct DamageLootPool {
-    pool: i32,
+struct BaulurResourcePool {
     results: i64,
-    receive_rate: f64,
     damage_factor: NumericRange,
+    loot: Vec<LootDrop>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct BaulurRollPool {
+    results: i64,
+    matched_results: i64,
+    unmatched_results: i64,
+    damage_factor: NumericRange,
+    slots: Vec<BaulurRollSlot>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct BaulurRollSlot {
+    slot: i32,
+    results: i64,
+    no_item_results: i64,
+    no_item_rate: f64,
     loot: Vec<LootDrop>,
 }
 
@@ -525,7 +548,8 @@ mod tests {
     use rustc_hash::FxHashMap;
 
     use super::{
-        KaharTreasureDocument, RawKaharTreasureDocument, parse_kind_request, parse_level_request,
+        BaulurDocument, KaharTreasureDocument, RawBaulurDocument, RawKaharTreasureDocument,
+        parse_kind_request, parse_level_request,
     };
 
     #[test]
@@ -575,5 +599,41 @@ mod tests {
         assert_eq!(document.totals.ap_used, 3_400);
         assert_eq!(document.loot.len(), 1);
         assert!(document.refreshed_at.starts_with("2026-07-08T"));
+    }
+    #[test]
+    fn baulur_document_serializes_five_rolls_in_camel_case() {
+        let raw = from_document::<RawBaulurDocument>(doc! {
+            "kind": 102_000_055,
+            "resource_pool": {
+                "results": 1_i64,
+                "damage_factor": { "min": 1.0, "max": 1.0 },
+                "loot": [],
+            },
+            "roll_pool": {
+                "results": 10_i64, "matched_results": 9_i64, "unmatched_results": 1_i64,
+                "damage_factor": { "min": 1.01, "max": 100.0 },
+                "slots": (1..=5).map(|slot| doc! {
+                    "slot": slot, "results": 3_i64,
+                    "no_item_results": 6_i64, "no_item_rate": 2.0 / 3.0, "loot": [],
+                }).collect::<Vec<_>>(),
+            },
+            "totals": { "results": 11_i64, "reports": 2_i64, "duplicate_reports": 1_i64 },
+            "refreshed_at": DateTime::from_millis(1_783_480_000_000),
+        })
+        .expect("raw Baulur document");
+        let json = serde_json::to_value(BaulurDocument::from(raw)).expect("API JSON");
+        let roll = json.get("rollPool").expect("roll pool");
+        assert_eq!(roll.get("slots").and_then(serde_json::Value::as_array).map(Vec::len), Some(5));
+        assert_eq!(roll.get("matchedResults"), Some(&serde_json::json!(9)));
+        let slot = roll
+            .get("slots")
+            .and_then(serde_json::Value::as_array)
+            .and_then(|slots| slots.first())
+            .expect("slot");
+        assert_eq!(slot.get("noItemResults"), Some(&serde_json::json!(6)));
+        assert!(roll.get("itemCounts").is_none());
+        assert!(slot.get("receiveRate").is_none());
+        assert!(json.get("resourcePool").is_some());
+        assert!(json.get("lootPools").is_none());
     }
 }

@@ -12,11 +12,19 @@ import { getLootName, getLootSprites } from "@/lib/loot-catalog";
 import type { LootDrop } from "@/lib/loot-explorer/api";
 import { formatNumber, formatPercent, formatQuantity } from "@/lib/loot-explorer/format";
 
-export function LootTable({ loot, locale }: { loot: LootDrop[]; locale?: string }) {
+export function LootTable({
+  loot,
+  locale,
+  noItem,
+}: {
+  loot: LootDrop[];
+  locale?: string;
+  noItem?: { dropRate: number; results: number };
+}) {
   const t = useExtracted();
   const sortedLoot = [...loot].sort((left, right) => right.dropRate - left.dropRate);
 
-  if (sortedLoot.length === 0) {
+  if (sortedLoot.length === 0 && !noItem) {
     return (
       <div className="rounded-lg border border-zinc-950/10 px-4 py-6 text-sm text-zinc-500 dark:border-white/10 dark:text-zinc-400">
         {t("No drops have been observed for this selection.")}
@@ -58,6 +66,14 @@ export function LootTable({ loot, locale }: { loot: LootDrop[]; locale?: string 
             </TableRow>
           );
         })}
+        {noItem ? (
+          <TableRow>
+            <TableCell className="text-zinc-500 dark:text-zinc-400">{t("No item")}</TableCell>
+            <TableCell className="w-28">—</TableCell>
+            <TableCell className="w-28">{formatPercent(noItem.dropRate)}</TableCell>
+            <TableCell className="w-24">{formatNumber(noItem.results)}</TableCell>
+          </TableRow>
+        ) : null}
       </TableBody>
     </Table>
   );

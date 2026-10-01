@@ -1523,24 +1523,35 @@ msgid "{name} level {level}"
 msgstr "{name} level {level}"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgctxt "AAa9de"
-msgid "Under 1% damage"
-msgstr "Under 1% damage"
+msgctxt "YK5r_z"
+msgid "1% damage or below"
+msgstr "1% damage or below"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgctxt "81t6Of"
-msgid "1%-100% damage"
-msgstr "1%-100% damage"
-
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgctxt "_GFlnd"
-msgid "Damage pool {pool}"
-msgstr "Damage pool {pool}"
-
-#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/baulur-rolls.tsx
 msgctxt "lNsQLY"
 msgid "This has been seen {count, plural, one {# time} other {# times}}."
 msgstr "This has been seen {count, plural, one {# time} other {# times}}."
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "rCLCj6"
+msgid "Over 1% damage"
+msgstr "Over 1% damage"
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "mNR1S8"
+msgid "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots."
+msgstr "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots."
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "2G6fgE"
+msgid "No matching reward results have been observed yet."
+msgstr "No matching reward results have been observed yet."
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "bMC_V5"
+msgid "Slot {slot}"
+msgstr "Slot {slot}"
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgctxt "NO4JXW"
@@ -1602,6 +1613,11 @@ msgstr "Drop Rate"
 msgctxt "Naokt5"
 msgid "Item {type}:{subType}"
 msgstr "Item {type}:{subType}"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgctxt "5spy3p"
+msgid "No item"
+msgstr "No item"
 
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx

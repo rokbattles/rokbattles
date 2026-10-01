@@ -1532,24 +1532,35 @@ msgid "{name} level {level}"
 msgstr "{name} cấp {level}"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgctxt "AAa9de"
-msgid "Under 1% damage"
-msgstr "Dưới 1% sát thương"
+msgctxt "YK5r_z"
+msgid "1% damage or below"
+msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgctxt "81t6Of"
-msgid "1%-100% damage"
-msgstr "Từ 1%-100% sát thương"
-
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgctxt "_GFlnd"
-msgid "Damage pool {pool}"
-msgstr "Tổng lượng sát thương {pool}"
-
-#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/baulur-rolls.tsx
 msgctxt "lNsQLY"
 msgid "This has been seen {count, plural, one {# time} other {# times}}."
 msgstr "Điều này đã được xem {count, plural, one {# lần} other {# lần}}."
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "rCLCj6"
+msgid "Over 1% damage"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "mNR1S8"
+msgid "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots."
+msgstr ""
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "2G6fgE"
+msgid "No matching reward results have been observed yet."
+msgstr ""
+
+#: src/components/loot-explorer/baulur-rolls.tsx
+msgctxt "bMC_V5"
+msgid "Slot {slot}"
+msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgctxt "NO4JXW"
@@ -1611,6 +1622,11 @@ msgstr "Tỷ lệ rơi"
 msgctxt "Naokt5"
 msgid "Item {type}:{subType}"
 msgstr "Vật phẩm {type}: {subType}"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgctxt "5spy3p"
+msgid "No item"
+msgstr ""
 
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx

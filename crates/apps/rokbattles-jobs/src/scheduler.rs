@@ -147,7 +147,9 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                 Ok(stats) => {
                     info!(
                         documents_read = stats.documents_read,
+                        duplicate_reports_skipped = stats.duplicate_reports_skipped,
                         results_counted = stats.results_counted,
+                        unmatched_results = stats.unmatched_results,
                         documents_written = stats.documents_written,
                         "precomputed Baulur data"
                     );

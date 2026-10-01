@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BaulurLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
 import { baulurFamilies, findBaulurFamily } from "@/lib/loot-explorer/catalog";
+import { BaulurRolls } from "./baulur-rolls";
 import { LootExplorerFilters } from "./loot-explorer-filters";
 import { LootExplorerLayout } from "./loot-explorer-layout";
 import { LootExplorerStatus } from "./loot-explorer-status";
@@ -13,7 +14,6 @@ import { LootTable } from "./loot-table";
 
 export function BaulurExplorer({ selectedType }: { selectedType?: string }) {
   const t = useExtracted();
-  const locale = useLocale();
   const [items, setItems] = useState<BaulurLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -50,15 +50,23 @@ export function BaulurExplorer({ selectedType }: { selectedType?: string }) {
     );
   }
 
+  return <BaulurExplorerContent items={items} selectedType={selectedType} />;
+}
+
+export function BaulurExplorerContent({
+  items,
+  selectedType,
+}: {
+  items: BaulurLootDocument[];
+  selectedType?: string;
+}) {
+  const t = useExtracted();
+  const locale = useLocale();
   const family = findBaulurFamily(selectedType, items);
   const item = items.find((candidate) => candidate.kind === family.kind);
   const familyLabels = new Map([
     ["ironhand-baulur", t("Ironhand Baulur")],
     ["miser-khaolak", t("Miser Khaolak")],
-  ]);
-  const poolLabels = new Map([
-    [0, t("Under 1% damage")],
-    [1, t("1%-100% damage")],
   ]);
 
   return (
@@ -77,24 +85,22 @@ export function BaulurExplorer({ selectedType }: { selectedType?: string }) {
         generatedAt={item?.refreshedAt}
         items={[{ label: t("Results"), value: item?.totals.results ?? 0 }]}
       />
-      <div className="space-y-8">
-        {item?.lootPools.map((pool) => (
-          <section key={pool.pool} className="space-y-3">
+      {item ? (
+        <div className="space-y-10">
+          <section className="space-y-3">
             <div>
-              <Subheading>
-                {poolLabels.get(pool.pool) ??
-                  t("Damage pool {pool}", { pool: pool.pool.toString() })}
-              </Subheading>
+              <Subheading>{t("1% damage or below")}</Subheading>
               <div className="text-sm/6 text-zinc-500 dark:text-zinc-400">
                 {t("This has been seen {count, plural, one {# time} other {# times}}.", {
-                  count: pool.results,
+                  count: item.resourcePool.results,
                 })}
               </div>
             </div>
-            <LootTable loot={pool.loot} locale={locale} />
+            <LootTable loot={item.resourcePool.loot} locale={locale} />
           </section>
-        ))}
-      </div>
+          <BaulurRolls pool={item.rollPool} locale={locale} />
+        </div>
+      ) : null}
     </LootExplorerLayout>
   );
 }
