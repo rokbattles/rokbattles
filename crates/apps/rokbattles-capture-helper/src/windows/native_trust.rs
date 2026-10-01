@@ -32,7 +32,7 @@ pub struct TrustedWinDivert {
 impl TrustedWinDivert {
     pub fn verify() -> io::Result<Self> {
         let files = Self::verify_files_cached()?;
-        require_running_driver(files._driver.path())?;
+        require_running_driver("WinDivert", files._driver.path())?;
         Ok(files)
     }
     /// Shared with explicit maintenance after its online trust/cache preparation.
@@ -117,14 +117,14 @@ impl Drop for Service {
         unsafe { CloseServiceHandle(self.0) };
     }
 }
-fn require_running_driver(path: &Path) -> io::Result<()> {
+pub(super) fn require_running_driver(service_name: &str, path: &Path) -> io::Result<()> {
     // SAFETY: local SCM, query-only access.
     let scm = unsafe { OpenSCManagerW(ptr::null(), ptr::null(), SC_MANAGER_CONNECT) };
     if scm.is_null() {
         return Err(denied());
     }
     let scm = Service(scm);
-    let name: Vec<u16> = "WinDivert".encode_utf16().chain(Some(0)).collect();
+    let name: Vec<u16> = service_name.encode_utf16().chain(Some(0)).collect();
     // SAFETY: fixed upstream service name, no create/start/change rights.
     let driver =
         unsafe { OpenServiceW(scm.0, name.as_ptr(), SERVICE_QUERY_CONFIG | SERVICE_QUERY_STATUS) };
@@ -169,6 +169,20 @@ fn require_running_driver(path: &Path) -> io::Result<()> {
     // Driver ImagePath commonly has a \??\ DOS-device prefix. No environment
     // expansion, arguments, relative paths or alternative service image allowed.
     let actual = actual.strip_prefix(r"\??\").unwrap_or(&actual);
+    let normalized;
+    let actual =
+        if actual.get(..12).is_some_and(|prefix| prefix.eq_ignore_ascii_case(r"\SystemRoot\")) {
+            if service_name != "npcap" {
+                return Err(denied());
+            }
+            let root =
+                path.parent().and_then(Path::parent).and_then(Path::parent).ok_or_else(denied)?;
+            normalized =
+                root.join(actual.get(12..).ok_or_else(denied)?).to_string_lossy().into_owned();
+            normalized.as_str()
+        } else {
+            actual
+        };
     if !actual.eq_ignore_ascii_case(&path.to_string_lossy()) {
         return Err(denied());
     }

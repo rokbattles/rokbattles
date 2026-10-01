@@ -1,4 +1,4 @@
-use super::{ProcessIdentity, UnixOwnerLookup, pump::Pump};
+use super::{ProcessIdentity, UnixOwnerLookup, agent::AgentPeer, pump::Pump};
 use crate::ownership::FlowGuard;
 use rokbattles_capture_ipc::{
     ClientRequest, IO_DEADLINE, Record, read_request,
@@ -30,6 +30,7 @@ pub fn dispatch(uid: u32) -> io::Result<()> {
     }
     // SAFETY: called before constructing any runtime/thread, process-local umask.
     unsafe { libc::umask(0o077) };
+    super::bootstrap::prepare()?;
     let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build()?;
     runtime.block_on(run(uid))
 }
@@ -86,7 +87,7 @@ async fn serve(
 async fn session(
     stream: &mut UnixStream,
     uid: u32,
-    peer: ProcessIdentity,
+    peer: AgentPeer,
     cancel: &mut watch::Receiver<bool>,
 ) {
     let mut pump = Pump::start();
@@ -95,25 +96,27 @@ async fn session(
     let (mut reader, mut writer) = tokio::io::split(stream);
     let mut request = Box::pin(read_request(&mut reader));
     let mut heartbeat = tokio::time::interval(Duration::from_secs(2));
+    let mut stopped = false;
+    let mut has_started = false;
     loop {
         tokio::select! {
             biased;
             _ = cancel.changed() => break,
             _ = pump.failed.changed() => {
-                let _written = write_record(&mut writer, &guard.gap()).await;
+                let end = if has_started { guard.gap() } else { Record::Unavailable(rokbattles_capture_ipc::UnavailableReason::NativeBackend) };
+                let _written = write_record(&mut writer, &end).await;
                 break;
             },
             result = &mut request => {
                 pump.cancel();
-                if matches!(result, Ok(ClientRequest::Stop)) {
-                    let _written = write_record(&mut writer, &Record::Stopped).await;
-                }
+                stopped = matches!(result, Ok(ClientRequest::Stop));
                 break;
             },
             next = pump.records.recv() => {
                 let Some(record) = next else { break; };
                 if !peer.is_alive() || *pump.failed.borrow() || *cancel.borrow() { break; }
                 let unavailable = matches!(record, Record::Unavailable(_));
+                has_started |= matches!(record, Record::Started(_));
                 let records = match record {
                     Record::ServerPacket(bytes) => guard.server(bytes, started.elapsed()),
                     Record::ClientControl(control) => guard.client(control, started.elapsed()),
@@ -135,6 +138,7 @@ async fn session(
             },
             _ = heartbeat.tick() => {
                 if !peer.is_alive() || *cancel.borrow() { break; }
+                if !has_started { continue; }
                 let mut failed = false;
                 for record in guard.expire(started.elapsed()).into_iter().chain([Record::Keepalive]) {
                     if write_record(&mut writer, &record).await.is_err() { failed = true; break; }
@@ -145,9 +149,12 @@ async fn session(
     }
     pump.cancel();
     pump.finish().await;
+    if stopped {
+        let _written = write_record(&mut writer, &Record::Stopped).await;
+    }
 }
 
-fn peer(stream: &UnixStream, uid: u32) -> io::Result<ProcessIdentity> {
+fn peer(stream: &UnixStream, uid: u32) -> io::Result<AgentPeer> {
     authenticate(stream, uid)?;
     #[cfg(target_os = "linux")]
     let pid = {
@@ -193,7 +200,7 @@ fn peer(stream: &UnixStream, uid: u32) -> io::Result<ProcessIdentity> {
         }
         u32::try_from(pid).map_err(|_error| denied())?
     };
-    ProcessIdentity::read(pid, uid)
+    AgentPeer::open(ProcessIdentity::read(pid, uid)?)
 }
 
 /// Exclusive root-owned per-UID lock permits safe stale-socket recovery. A user

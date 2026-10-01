@@ -28,7 +28,7 @@ _Static_assert(sizeof(struct rb_socket) == 72, "bridge socket ABI");
 int rb_process_read(int pid, struct rb_process *out) {
     struct proc_bsdinfo info;
     memset(&info, 0, sizeof(info));
-    if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, sizeof(info)) != sizeof(info)) return -1;
+    if (proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, sizeof(info)) != (int)sizeof(info)) return -1;
     memset(out, 0, sizeof(*out));
     out->start_sec = info.pbi_start_tvsec;
     out->start_usec = info.pbi_start_tvusec;
@@ -44,29 +44,41 @@ int rb_user_pids(uint32_t uid, int32_t *out, uint32_t capacity) {
     if (capacity == 0 || capacity > 16384) return -1;
     int size = (int)(capacity * sizeof(*out));
     int bytes = proc_listpids(PROC_UID_ONLY, uid, out, size);
-    if (bytes <= 0 || bytes >= size || bytes % sizeof(*out) != 0) return -1;
-    return bytes / sizeof(*out);
+    if (bytes <= 0 || bytes >= size || bytes % (int)sizeof(*out) != 0) return -1;
+    return bytes / (int)sizeof(*out);
 }
-int rb_sockets(int pid, struct rb_socket *out, uint32_t capacity) {
+int rb_all_pids(int32_t *out, uint32_t capacity) {
+    if (capacity == 0 || capacity > 16384) return -1;
+    int size = (int)(capacity * sizeof(*out));
+    int bytes = proc_listpids(PROC_ALL_PIDS, 0, out, size);
+    if (bytes <= 0 || bytes >= size || bytes % (int)sizeof(*out) != 0) return -1;
+    return bytes / (int)sizeof(*out);
+}
+int rb_sockets(int pid, struct rb_socket *out, uint32_t capacity, uint32_t *work) {
     if (capacity == 0 || capacity > 16384) return -1;
     /* One spare row detects a complete buffer rather than silently truncating. */
     int size = (int)((capacity + 1) * sizeof(struct proc_fdinfo));
     struct proc_fdinfo *fds = calloc(capacity + 1, sizeof(*fds));
     if (!fds) return -1;
     int bytes = proc_pidinfo(pid, PROC_PIDLISTFDS, 0, fds, size);
-    if (bytes < 0 || bytes >= size || bytes % sizeof(*fds) != 0) { free(fds); return -1; }
+    if (bytes < 0 || bytes >= size || bytes % (int)sizeof(*fds) != 0) { free(fds); return -1; }
+    uint32_t visited = (uint32_t)(bytes / (int)sizeof(*fds));
+    if (visited > *work) { free(fds); return -1; }
+    *work -= visited;
     uint32_t count = 0;
     for (int i = 0; i < bytes / (int)sizeof(*fds); ++i) {
         if (fds[i].proc_fdtype != PROX_FDTYPE_SOCKET) continue;
         struct socket_fdinfo info;
         memset(&info, 0, sizeof(info));
-        if (proc_pidfdinfo(pid, fds[i].proc_fd, PROC_PIDFDSOCKETINFO, &info, sizeof(info)) != sizeof(info)) { free(fds); return -1; }
+        if (proc_pidfdinfo(pid, fds[i].proc_fd, PROC_PIDFDSOCKETINFO, &info, sizeof(info)) != (int)sizeof(info)) { free(fds); return -1; }
         if (info.psi.soi_kind != SOCKINFO_TCP || info.psi.soi_type != SOCK_STREAM || info.psi.soi_protocol != IPPROTO_TCP) continue;
+        int state = info.psi.soi_proto.pri_tcp.tcpsi_state;
+        if (state < TSI_S_SYN_SENT || state > TSI_S_TIME_WAIT) continue;
         struct in_sockinfo *inet = &info.psi.soi_proto.pri_tcp.tcpsi_ini;
         if (count >= capacity) { free(fds); return -1; }
         struct rb_socket *row = &out[count];
         memset(row, 0, sizeof(*row));
-        if (info.psi.soi_family == AF_INET && inet->insi_vflag == INI_IPV4) {
+        if ((info.psi.soi_family == AF_INET || info.psi.soi_family == AF_INET6) && inet->insi_vflag == INI_IPV4) {
             row->version = 4;
             memcpy(row->local + 12, &inet->insi_laddr.ina_46.i46a_addr4, 4);
             memcpy(row->remote + 12, &inet->insi_faddr.ina_46.i46a_addr4, 4);

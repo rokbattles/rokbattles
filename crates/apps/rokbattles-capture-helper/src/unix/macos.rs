@@ -1,16 +1,16 @@
 //! macOS libproc ownership: UID + process birth + FD + socket generation, with
 //! SDK-native C accessors. Every final writer lookup obtains fresh kernel data.
-use crate::ownership::{OwnerLookup, OwnershipError};
+use crate::ownership::{OwnerLookup, OwnershipError, TerminalOwnership};
 use rokbattles_capture_runtime::packet::FlowKey;
 use std::{
     io,
     net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr},
 };
 
-const MAX_PROCESSES: usize = 16_384;
-const MAX_SOCKETS: usize = 16_384;
+const MAX_PROCESSES: usize = 4096;
+const MAX_SOCKETS: usize = 4096;
 #[repr(C)]
-#[derive(Default, Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Default, Clone, Copy, PartialEq, Eq)]
 struct NativeProcess {
     start_sec: u64,
     start_usec: u64,
@@ -40,12 +40,13 @@ struct NativeSocket {
 unsafe extern "C" {
     fn rb_process_read(pid: i32, out: *mut NativeProcess) -> i32;
     fn rb_user_pids(uid: u32, out: *mut i32, capacity: u32) -> i32;
-    fn rb_sockets(pid: i32, out: *mut NativeSocket, capacity: u32) -> i32;
+    fn rb_all_pids(out: *mut i32, capacity: u32) -> i32;
+    fn rb_sockets(pid: i32, out: *mut NativeSocket, capacity: u32, work: *mut u32) -> i32;
 }
 fn denied() -> io::Error {
     io::Error::new(io::ErrorKind::PermissionDenied, "socket ownership unavailable")
 }
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct ProcessIdentity {
     pub pid: u32,
     uid: u32,
@@ -82,7 +83,7 @@ fn valid_process(native: NativeProcess, pid: u32, uid: u32) -> bool {
         && native.start_sec != 0
         && native.start_usec < 1_000_000
 }
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct SocketOwner {
     process: ProcessIdentity,
     fd: i32,
@@ -109,11 +110,24 @@ fn pids(uid: u32) -> io::Result<Vec<i32>> {
     rows.retain(|pid| *pid > 0);
     Ok(rows)
 }
-fn sockets(pid: u32) -> io::Result<Vec<NativeSocket>> {
+fn all_pids() -> io::Result<Vec<i32>> {
+    let mut rows = vec![0i32; MAX_PROCESSES];
+    // SAFETY: fixed initialized output capacity; bridge rejects full/truncated list.
+    let count = unsafe { rb_all_pids(rows.as_mut_ptr(), MAX_PROCESSES as u32) };
+    let count = usize::try_from(count).map_err(|_error| denied())?;
+    if count >= rows.len() {
+        return Err(denied());
+    }
+    rows.truncate(count);
+    rows.retain(|pid| *pid > 0);
+    Ok(rows)
+}
+fn sockets(pid: u32, budget: &mut super::WorkBudget) -> io::Result<Vec<NativeSocket>> {
     let mut rows = vec![NativeSocket::default(); MAX_SOCKETS];
     let pid = i32::try_from(pid).map_err(|_error| denied())?;
     // SAFETY: C bridge caps writes at the supplied capacity and rejects truncation.
-    let count = unsafe { rb_sockets(pid, rows.as_mut_ptr(), MAX_SOCKETS as u32) };
+    let count =
+        unsafe { rb_sockets(pid, rows.as_mut_ptr(), MAX_SOCKETS as u32, &mut budget.remaining) };
     let count = usize::try_from(count).map_err(|_error| denied())?;
     if count > rows.len() {
         return Err(denied());
@@ -128,7 +142,9 @@ fn key(row: NativeSocket) -> io::Result<FlowKey> {
                 <[u8; 4]>::try_from(bytes.get(12..).ok_or_else(denied)?)
                     .map_err(|_error| denied())?,
             )),
-            6 => IpAddr::V6(Ipv6Addr::from(bytes)),
+            6 => Ipv6Addr::from(bytes)
+                .to_ipv4_mapped()
+                .map_or_else(|| IpAddr::V6(Ipv6Addr::from(bytes)), IpAddr::V4),
             _ => return Err(denied()),
         };
         Ok(SocketAddr::new(ip, port))
@@ -151,6 +167,15 @@ impl OwnerLookup for UnixOwnerLookup {
     fn owner_for_syn(&mut self, flow: FlowKey) -> Result<Option<SocketOwner>, OwnershipError> {
         self.find_owner(flow).map_err(|_error| OwnershipError)
     }
+    fn terminal_owner(
+        &mut self,
+        flow: FlowKey,
+        owner: &SocketOwner,
+    ) -> Result<TerminalOwnership, OwnershipError> {
+        // Unlike normal positive attribution, proving absence must include other
+        // UIDs. A tuple transferred to another user must never appear "absent".
+        self.terminal_snapshot(flow, owner).map_err(|_error| OwnershipError)
+    }
     fn alive(&self, owner: &SocketOwner) -> bool {
         owner.process.is_alive()
     }
@@ -158,7 +183,7 @@ impl OwnerLookup for UnixOwnerLookup {
         if !owner.process.is_alive() {
             return false;
         }
-        let rows = match sockets(owner.process.pid) {
+        let rows = match sockets(owner.process.pid, &mut super::WorkBudget::new()) {
             Ok(rows) => rows,
             Err(_) => return false,
         };
@@ -174,13 +199,61 @@ impl OwnerLookup for UnixOwnerLookup {
             && owner.process.is_alive()
     }
 }
+fn terminal_row(row: NativeSocket, uid: u32, owner: &SocketOwner, pid: u32) -> TerminalOwnership {
+    if pid != owner.process.pid
+        || row.uid != uid
+        || row.fd != owner.fd
+        || row.generation != owner.generation
+        || row.socket_id != owner.socket_id
+        || row.shared != 0
+    {
+        return TerminalOwnership::Conflict;
+    }
+    if row.state == 10 {
+        TerminalOwnership::Absent
+    } else if live(row, uid) {
+        TerminalOwnership::Owned
+    } else {
+        TerminalOwnership::Conflict
+    }
+}
+impl UnixOwnerLookup {
+    fn terminal_snapshot(
+        &self,
+        flow: FlowKey,
+        owner: &SocketOwner,
+    ) -> io::Result<TerminalOwnership> {
+        let mut budget = super::WorkBudget::new();
+        let mut matched = None;
+        for pid in all_pids()? {
+            budget.consume(1)?;
+            let pid = u32::try_from(pid).map_err(|_error| denied())?;
+            for row in sockets(pid, &mut budget)? {
+                if key(row)? != flow {
+                    continue;
+                }
+                let observation = terminal_row(row, self.uid, owner, pid);
+                if matched.replace(observation).is_some() {
+                    return Ok(TerminalOwnership::Conflict);
+                }
+            }
+        }
+        if !owner.process.is_alive() {
+            return Err(denied());
+        }
+        Ok(matched.unwrap_or(TerminalOwnership::Absent))
+    }
+}
+
 impl UnixOwnerLookup {
     fn find_owner(&self, flow: FlowKey) -> io::Result<Option<SocketOwner>> {
         let mut matched = None;
+        let mut budget = super::WorkBudget::new();
         for pid in pids(self.uid)? {
+            budget.consume(1)?;
             let pid = u32::try_from(pid).map_err(|_error| denied())?;
             let process = ProcessIdentity::read(pid, self.uid)?;
-            for row in sockets(pid)? {
+            for row in sockets(pid, &mut budget)? {
                 if key(row)? != flow {
                     continue;
                 }
@@ -228,6 +301,29 @@ mod tests {
         row.generation = 0;
         assert!(!live(row, 501));
     }
+    #[test]
+    fn terminal_socket_requires_exact_pid_fd_generation_and_uid() {
+        let process = ProcessIdentity { pid: 8, uid: 501, start_sec: 1, start_usec: 0 };
+        let owner = SocketOwner { process, fd: 3, generation: 11, socket_id: 12 };
+        let mut row = NativeSocket {
+            uid: 501,
+            generation: 11,
+            socket_id: 12,
+            fd: 3,
+            state: 10,
+            ..Default::default()
+        };
+        assert_eq!(terminal_row(row, 501, &owner, 8), TerminalOwnership::Absent);
+        row.state = 4;
+        assert_eq!(terminal_row(row, 501, &owner, 8), TerminalOwnership::Owned);
+        assert_eq!(terminal_row(row, 501, &owner, 9), TerminalOwnership::Conflict);
+        row.uid = 502;
+        assert_eq!(terminal_row(row, 501, &owner, 8), TerminalOwnership::Conflict);
+        row.uid = 501;
+        row.generation += 1;
+        assert_eq!(terminal_row(row, 501, &owner, 8), TerminalOwnership::Conflict);
+    }
+
     #[test]
     fn process_uid_birth_and_exit_flags_are_required() {
         let mut native = NativeProcess {

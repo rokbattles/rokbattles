@@ -1,6 +1,8 @@
 //! SCM-only host. Enumerating sessions creates no capture handles; an authenticated
 //! installed agent must explicitly send Start for every live capture connection.
-use super::pump::Pump;
+use super::pump::{NativeRecord, Pump};
+use crate::socket_evidence::{EvidenceEvent, POLL_INTERVAL, SessionGenerations, SocketEvidence};
+use rokbattles_capture_ipc::{Backend, PacketBytes, UnavailableReason};
 use rokbattles_capture_ipc::{
     ClientRequest, IO_DEADLINE, Record, SERVICE_NAME, read_request,
     windows::{Identity, InstalledFile, ProtectedInstallation, authenticate_client, create_server},
@@ -250,43 +252,88 @@ async fn stream_session(
     peer: rokbattles_capture_ipc::windows::ProcessIdentity,
     cancel: &mut tokio::sync::watch::Receiver<bool>,
 ) {
-    let mut pump = Pump::start(identity.clone());
-    let mut guard = crate::ownership::FlowGuard::new(super::WindowsOwnerLookup::new(identity));
+    let mut pump = Pump::start();
+    let mut guard =
+        crate::ownership::FlowGuard::new(super::WindowsOwnerLookup::new(identity.clone()));
     let started = std::time::Instant::now();
+    let mut backend = None;
+    let mut socket: Option<SocketEvidence> = None;
+    let mut polling = tokio::time::interval(POLL_INTERVAL);
+    polling.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
     let (mut reader, mut writer) = tokio::io::split(server);
     let mut stop_request = Box::pin(read_request(&mut reader));
     let mut heartbeat = tokio::time::interval(Duration::from_secs(2));
+    let mut watch_failure = true;
+    let mut acknowledge_stop = false;
     loop {
         tokio::select! {
             biased;
             _ = cancel.changed() => break,
-            _ = pump.failed.changed() => break,
+            changed = pump.failed.changed(), if watch_failure => {
+                if *pump.failed.borrow() { break; }
+                if changed.is_err() { watch_failure=false; }
+            },
             result = &mut stop_request => {
                 pump.cancel();
-                if matches!(result, Ok(ClientRequest::Stop)) { let _outcome = write_record(&mut writer, &Record::Stopped).await; }
+                acknowledge_stop = matches!(result, Ok(ClientRequest::Stop));
                 break;
             }
             record = pump.records.recv() => {
                 let Some(record) = record else { break; };
-                let unavailable = matches!(record, Record::Unavailable(_));
                 let records = match record {
-                    Record::ServerPacket(bytes) => guard.server(bytes, started.elapsed()),
-                    Record::ClientControl(control) => guard.client(control, started.elapsed()),
-                    other => vec![other],
-                };
-                let mut failed = false;
-                for record in records {
-                    if !guard.authorize_record(&record) {
-                        let gap = guard.gap();
-                        if write_record(&mut writer, &gap).await.is_err() { failed = true; }
+                    NativeRecord::Started(kind) => {
+                        if backend.is_some() { break; }
+                        if kind == Backend::Pcap {
+                            match SocketEvidence::new(identity.clone(), SessionGenerations::default()) {
+                                Ok(source) => socket=Some(source),
+                                Err(_error) => { let _sent=write_record(&mut writer,&Record::Unavailable(UnavailableReason::OwnershipUnavailable)).await; break; }
+                            }
+                        }
+                        backend=Some(kind);
+                        vec![Record::Started(kind)]
+                    },
+                    NativeRecord::Packet(bytes) => {
+                        if let Some(source)=socket.as_mut() {
+                            if write_socket_packet(&mut writer,source,bytes,&started).await.is_err() {
+                                let _sent=write_record(&mut writer,&Record::Gap).await;
+                                break;
+                            }
+                            continue;
+                        }
+                        if backend != Some(Backend::WinDivert) { break; }
+                        guard.server(bytes,started.elapsed())
+                    },
+                    #[cfg(target_arch = "x86_64")]
+                    NativeRecord::ClientControl(control) => {
+                        if backend != Some(Backend::WinDivert) { break; }
+                        guard.client(control,started.elapsed())
+                    },
+                    NativeRecord::Unavailable(reason) => {
+                        let _sent=write_record(&mut writer,&Record::Unavailable(reason)).await;
                         break;
                     }
-                    if write_record(&mut writer, &record).await.is_err() { failed = true; break; }
+                };
+                let mut failed=false;
+                for record in records {
+                    if !guard.authorize_record(&record) {
+                        let gap=guard.gap();
+                        if write_record(&mut writer,&gap).await.is_err() { failed=true; }
+                        break;
+                    }
+                    if write_record(&mut writer,&record).await.is_err() { failed=true;break; }
                     guard.record_written(&record);
                 }
-                if failed || unavailable { break; }
+                if failed { break; }
             }
-            _ = heartbeat.tick() => {
+            _ = polling.tick(), if socket.is_some() => {
+                let Some(source)=socket.as_mut() else { break; };
+                match source.poll(started.elapsed()) {
+                    Ok(events) => if write_socket_events(&mut writer,events).await.is_err() { break; },
+                    Err(_error) => { let _sent=write_record(&mut writer,&Record::Gap).await; break; }
+                }
+            }
+
+            _ = heartbeat.tick(), if backend.is_some() => {
                 if !peer.is_alive() || STOP.load(Ordering::Acquire) { break; }
                 if write_record(&mut writer, &Record::Keepalive).await.is_err() { break; }
             }
@@ -294,4 +341,52 @@ async fn stream_session(
     }
     pump.cancel();
     pump.finish().await;
+    if acknowledge_stop {
+        let stopped = if backend.is_some() {
+            Record::Stopped
+        } else {
+            Record::Unavailable(UnavailableReason::SessionEnded)
+        };
+        let _sent = write_record(&mut writer, &stopped).await;
+    }
+}
+
+async fn write_socket_events<W: tokio::io::AsyncWrite + Unpin>(
+    writer: &mut W,
+    events: Vec<EvidenceEvent>,
+) -> io::Result<()> {
+    for event in events {
+        let record = match event {
+            EvidenceEvent::Established(evidence) => Record::SocketEstablished(evidence),
+            EvidenceEvent::Retired(evidence) => Record::SocketRetired(evidence),
+        };
+        write_record(writer, &record).await?;
+    }
+    Ok(())
+}
+async fn write_socket_packet<W: tokio::io::AsyncWrite + Unpin>(
+    writer: &mut W,
+    source: &mut SocketEvidence,
+    bytes: PacketBytes,
+    started: &std::time::Instant,
+) -> io::Result<()> {
+    let Some(packet) = rokbattles_capture_runtime::packet::parse(&bytes) else {
+        return Err(io::Error::other("capture packet invalid"));
+    };
+    // Metadata writes may await. Repeat a fresh table/token authorization after
+    // them, immediately before the packet write; never carry a queue-time grant.
+    for _ in 0..128 {
+        let decision = source
+            .server(&packet, started.elapsed())
+            .map_err(|_error| io::Error::other("socket ownership unavailable"))?;
+        if !decision.events.is_empty() {
+            write_socket_events(writer, decision.events).await?;
+            continue;
+        }
+        if decision.allowed {
+            write_record(writer, &Record::ServerPacket(bytes)).await?;
+        }
+        return Ok(());
+    }
+    Err(io::Error::other("socket ownership changed repeatedly"))
 }

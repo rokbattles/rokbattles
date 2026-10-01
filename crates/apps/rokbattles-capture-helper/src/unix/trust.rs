@@ -18,8 +18,9 @@ fn safe_metadata(metadata: &fs::Metadata, directory: bool) -> bool {
         && metadata.mode() & 0o022 == 0
         && if directory { metadata.is_dir() } else { metadata.is_file() }
 }
-fn protected_canonical(path: &Path) -> io::Result<PathBuf> {
+pub(super) fn protected_canonical(path: &Path) -> io::Result<PathBuf> {
     let canonical = fs::canonicalize(path)?;
+    rokbattles_capture_ipc::unix::verify_protected_path(&canonical)?;
     if !canonical.is_absolute() || !safe_metadata(&fs::symlink_metadata(&canonical)?, false) {
         return Err(denied());
     }
@@ -62,6 +63,7 @@ pub fn library() -> io::Result<PathBuf> {
         // This Apple system image can live in the dyld shared cache with no disk
         // inode. Never fall back to Homebrew or a loader search path.
         for parent in ["/", "/usr", "/usr/lib"] {
+            rokbattles_capture_ipc::unix::verify_protected_path(Path::new(parent))?;
             if !safe_metadata(&fs::symlink_metadata(parent)?, true) {
                 return Err(denied());
             }
@@ -71,11 +73,19 @@ pub fn library() -> io::Result<PathBuf> {
     #[cfg(target_os = "linux")]
     {
         #[cfg(target_arch = "x86_64")]
-        const CANDIDATES: &[&str] =
-            &["/usr/lib/x86_64-linux-gnu/libpcap.so.1", "/usr/lib64/libpcap.so.1"];
+        const CANDIDATES: &[&str] = &[
+            "/usr/lib/x86_64-linux-gnu/libpcap.so.0.8",
+            "/usr/lib/x86_64-linux-gnu/libpcap.so.1",
+            "/usr/lib64/libpcap.so.1",
+            "/usr/lib/libpcap.so.1",
+        ];
         #[cfg(target_arch = "aarch64")]
-        const CANDIDATES: &[&str] =
-            &["/usr/lib/aarch64-linux-gnu/libpcap.so.1", "/usr/lib64/libpcap.so.1"];
+        const CANDIDATES: &[&str] = &[
+            "/usr/lib/aarch64-linux-gnu/libpcap.so.0.8",
+            "/usr/lib/aarch64-linux-gnu/libpcap.so.1",
+            "/usr/lib64/libpcap.so.1",
+            "/usr/lib/libpcap.so.1",
+        ];
         for candidate in CANDIDATES {
             match protected_canonical(Path::new(candidate)) {
                 Ok(path) => return Ok(path),

@@ -1,0 +1,44 @@
+[Unit]
+Description=ROK Battles per-user native capture helper (%i)
+After=network.target
+ConditionPathIsExecutable=/usr/libexec/rokbattles/rokbattles-capture-helper
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/libexec/rokbattles/rokbattles-capture-helper --service --uid %i
+WorkingDirectory=/
+Environment=PATH=/usr/sbin:/usr/bin
+Environment=LANG=C
+UnsetEnvironment=LD_PRELOAD LD_LIBRARY_PATH LD_AUDIT DYLD_INSERT_LIBRARIES DYLD_LIBRARY_PATH GLIBC_TUNABLES
+UMask=0077
+RuntimeDirectory=rokbattles-capture
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=10
+KillMode=control-group
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+SystemCallArchitectures=native
+RestrictAddressFamilies=AF_UNIX AF_PACKET AF_NETLINK AF_INET AF_INET6
+CapabilityBoundingSet=CAP_NET_RAW CAP_DAC_READ_SEARCH CAP_SYS_PTRACE CAP_CHOWN CAP_FOWNER
+ReadWritePaths=/run/rokbattles-capture
+# Host /proc and its real network/PID namespace are required for attribution.
+# Do not add PrivateNetwork, PrivateUsers, ProtectProc=invisible or ProcSubset=pid.
+StandardOutput=null
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

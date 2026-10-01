@@ -1,6 +1,6 @@
 //! Host /proc socket attribution. No external utilities, caller PID, namespace
 //! switching, executable paths, or cached authorization are used here.
-use crate::ownership::{OwnerLookup, OwnershipError};
+use crate::ownership::{OwnerLookup, OwnershipError, TerminalOwnership};
 use rokbattles_capture_runtime::packet::FlowKey;
 use std::{
     fs,
@@ -10,17 +10,17 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const MAX_PROCESSES: usize = 16_384;
-const MAX_FDS: usize = 16_384;
+const MAX_PROCESSES: usize = 4096;
+const MAX_FDS: usize = 4096;
 const MAX_TABLE_BYTES: u64 = 8 * 1024 * 1024;
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct ProcessIdentity {
     pub pid: u32,
     uid: u32,
     start: u64,
     namespace: (u64, u64),
 }
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct SocketOwner {
     process: ProcessIdentity,
     fd: u32,
@@ -60,7 +60,7 @@ impl ProcessIdentity {
         let root = process_path(pid);
         let host = namespace(Path::new("/proc/self/ns/net"))?;
         let actual = namespace(&root.join("ns/net"))?;
-        if actual != host || fs::metadata(&root)?.uid() != uid {
+        if actual != host {
             return Err(denied());
         }
         let first = parse_stat(&read_bounded(&root.join("stat"), 8192)?, pid)?;
@@ -121,7 +121,9 @@ fn endpoint(text: &str) -> io::Result<SocketAddr> {
                     &u32::from_str_radix(word, 16).map_err(|_error| denied())?.to_ne_bytes(),
                 );
             }
-            IpAddr::V6(Ipv6Addr::from(bytes))
+            Ipv6Addr::from(bytes)
+                .to_ipv4_mapped()
+                .map_or_else(|| IpAddr::V6(Ipv6Addr::from(bytes)), IpAddr::V4)
         }
         _ => return Err(denied()),
     };
@@ -158,9 +160,16 @@ fn exact_row(table: &str, key: FlowKey) -> io::Result<Option<Row>> {
     Ok(matched)
 }
 fn current_row(key: FlowKey) -> io::Result<Option<Row>> {
-    let path = if key.client.is_ipv4() { "/proc/self/net/tcp" } else { "/proc/self/net/tcp6" };
-    exact_row(&read_bounded(Path::new(path), MAX_TABLE_BYTES)?, key)
+    // IPv4-mapped IPv6 sockets emit IPv4 packets. Both kernel tables must be
+    // checked, including before claiming a retired tuple is absent.
+    let four = exact_row(&read_bounded(Path::new("/proc/self/net/tcp"), MAX_TABLE_BYTES)?, key)?;
+    let six = exact_row(&read_bounded(Path::new("/proc/self/net/tcp6"), MAX_TABLE_BYTES)?, key)?;
+    match (four, six) {
+        (Some(_), Some(_)) => Err(denied()),
+        (four, six) => Ok(four.or(six)),
+    }
 }
+
 fn fd_inode(pid: u32, fd: u32) -> io::Result<u64> {
     let target = fs::read_link(process_path(pid).join("fd").join(fd.to_string()))?;
     let text = target.to_str().ok_or_else(denied)?;
@@ -177,6 +186,18 @@ impl OwnerLookup for UnixOwnerLookup {
     type Owner = SocketOwner;
     fn owner_for_syn(&mut self, key: FlowKey) -> Result<Option<SocketOwner>, OwnershipError> {
         self.find_owner(key).map_err(|_error| OwnershipError)
+    }
+    fn terminal_owner(
+        &mut self,
+        key: FlowKey,
+        owner: &SocketOwner,
+    ) -> Result<TerminalOwnership, OwnershipError> {
+        let row = current_row(key).map_err(|_error| OwnershipError)?;
+        let result = terminal_row(row, self.uid, owner.inode);
+        if result == TerminalOwnership::Owned && !self.still_owner(key, owner) {
+            return Ok(TerminalOwnership::Conflict);
+        }
+        Ok(result)
     }
     fn alive(&self, owner: &SocketOwner) -> bool {
         owner.process.is_alive()
@@ -197,6 +218,16 @@ impl OwnerLookup for UnixOwnerLookup {
             && fd_inode(owner.process.pid, owner.fd).ok() == Some(owner.inode)
     }
 }
+fn terminal_row(row: Option<Row>, uid: u32, inode: u64) -> TerminalOwnership {
+    match row {
+        None => TerminalOwnership::Absent,
+        Some(row) if row.uid != uid || row.inode != inode => TerminalOwnership::Conflict,
+        Some(row) if matches!(row.state, 6 | 7 | 10) => TerminalOwnership::Absent,
+        Some(row) if socket_state_live(row.state) => TerminalOwnership::Owned,
+        _ => TerminalOwnership::Conflict,
+    }
+}
+
 impl UnixOwnerLookup {
     fn find_owner(&self, key: FlowKey) -> io::Result<Option<SocketOwner>> {
         let Some(row) = current_row(key)? else {
@@ -210,12 +241,14 @@ impl UnixOwnerLookup {
         }
         let mut matched = None;
         let mut process_count = 0;
+        let mut budget = super::WorkBudget::new();
         for entry in fs::read_dir("/proc")? {
             let entry = entry?;
             let Some(pid) = entry.file_name().to_str().and_then(|name| name.parse::<u32>().ok())
             else {
                 continue;
             };
+            budget.consume(1)?;
             process_count += 1;
             if process_count > MAX_PROCESSES {
                 return Err(denied());
@@ -230,6 +263,7 @@ impl UnixOwnerLookup {
             }
             let process = ProcessIdentity::read(pid, self.uid)?;
             for (count, fd) in fs::read_dir(entry.path().join("fd"))?.enumerate() {
+                budget.consume(1)?;
                 if count >= MAX_FDS {
                     return Err(denied());
                 }
@@ -289,10 +323,30 @@ mod tests {
         exact_row(&table("partial"), key()).expect_err("truncated row");
         exact_row("", key()).expect_err("missing table");
         assert_eq!(
+            endpoint("0000000000000000FFFF0000020200C0:AFC8").expect("mapped").to_string(),
+            "192.0.2.2:45000"
+        );
+        assert_eq!(
             endpoint("00000000000000000000000001000000:0C1D").expect("v6").to_string(),
             "[::1]:3101"
         );
     }
+    #[test]
+    fn removed_reset_row_is_distinct_from_reassigned_or_unavailable_ownership() {
+        assert_eq!(terminal_row(None, 1000, 345), TerminalOwnership::Absent);
+        let mut present = row(ROW).expect("fixture");
+        assert_eq!(terminal_row(Some(present), 1000, 345), TerminalOwnership::Owned);
+        present.state = 7;
+        assert_eq!(terminal_row(Some(present), 1000, 345), TerminalOwnership::Absent);
+        present.uid = 1001;
+        assert_eq!(terminal_row(Some(present), 1000, 345), TerminalOwnership::Conflict);
+        present.uid = 1000;
+        present.inode = 346;
+        assert_eq!(terminal_row(Some(present), 1000, 345), TerminalOwnership::Conflict);
+        // A failed/truncated table never becomes None or a terminal observation.
+        exact_row("partial kernel result", key()).expect_err("unavailable evidence");
+    }
+
     #[test]
     fn process_starttime_and_every_uid_are_required() {
         let stat = format!("123 (name with ) spaces) S {} 9876 0", vec!["0"; 18].join(" "));

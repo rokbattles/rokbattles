@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "feature": "native-game-capture",
+  "scope": "one explicitly selected local OS user",
+  "defaultEnabled": false,
+  "requiresAdministratorConsent": true,
+  "requiresAgentStartEachConnection": true,
+  "title": "Enable native game capture",
+  "explanation": "Install a separate system helper with administrator permission. It reads local network traffic on game server ports, checks which connections belong to your OS user, and sends bounded game records to your local ROK Battles agent. The helper does not decode, save, or upload packets. Mailcache can keep working without this permission.",
+  "confirmLabel": "Install and enable helper",
+  "cancelLabel": "Keep using mailcache",
+  "states": {
+    "notInstalled": "Native capture needs one-time system helper setup",
+    "permissionDenied": "System permission was not granted. Mailcache remains available",
+    "backendMissing": "Install the supported system libpcap package, then retry setup",
+    "ownershipUnavailable": "This OS or sandbox cannot safely attribute the game connection. Native capture is unavailable",
+    "ready": "Helper is installed. Native capture starts only when you enable it",
+    "connectionEnded": "Native capture stopped. Reconnect the game after restarting capture"
+  },
+  "unsupported": [
+    "automatic elevation or installation on application launch",
+    "running the GUI or desktop agent as root",
+    "granting the GUI packet capabilities or changing all BPF device permissions",
+    "Flatpak directly loading a privileged capture backend",
+    "other network namespaces or hidden process ownership",
+    "user-selected library paths, filters, interfaces or commands"
+  ]
+}

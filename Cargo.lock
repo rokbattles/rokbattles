@@ -4980,6 +4980,7 @@ dependencies = [
 name = "rokbattles-capture-ipc"
 version = "1.7.1"
 dependencies = [
+ "cc",
  "libc",
  "rokbattles-capture-runtime",
  "tempfile",

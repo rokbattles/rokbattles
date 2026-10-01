@@ -1,5 +1,7 @@
 //! Per-user privileged Unix broker. Explicitly installed system services only;
 //! no install/elevation, user paths, payload decoder, HTTP or storage surface.
+mod agent;
+mod bootstrap;
 mod interfaces;
 #[cfg(target_os = "linux")]
 mod linux;
@@ -57,5 +59,32 @@ mod tests {
             assert_eq!(service_uid(&args(uid)), None);
         }
         assert_eq!(service_uid(&["--service".into()]), None);
+    }
+}
+
+/// One aggregate bound spans all process and FD enumeration in a fresh lookup.
+struct WorkBudget {
+    remaining: u32,
+}
+impl WorkBudget {
+    fn new() -> Self {
+        Self { remaining: 32_768 }
+    }
+    fn consume(&mut self, amount: u32) -> std::io::Result<()> {
+        self.remaining = self.remaining.checked_sub(amount).ok_or_else(|| {
+            std::io::Error::new(std::io::ErrorKind::OutOfMemory, "ownership work budget exhausted")
+        })?;
+        Ok(())
+    }
+}
+#[cfg(test)]
+mod budget_tests {
+    #[test]
+    fn every_process_and_descriptor_share_one_fail_closed_limit() {
+        let mut budget = super::WorkBudget::new();
+        budget.consume(1).expect("process");
+        budget.consume(32_767).expect("descriptors");
+        budget.consume(1).expect_err("aggregate limit");
+        assert_eq!(budget.remaining, 0);
     }
 }

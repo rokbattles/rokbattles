@@ -75,15 +75,22 @@ type SetFilter = unsafe extern "C" fn(*mut c_void, *mut BpfProgram) -> c_int;
 type FreeCode = unsafe extern "C" fn(*mut BpfProgram);
 type Next =
     unsafe extern "C" fn(*mut c_void, *mut *const PacketHeader, *mut *const c_uchar) -> c_int;
-#[cfg(unix)]
 #[repr(C)]
 #[derive(Default)]
 struct PacketStats {
     received: c_uint,
     dropped: c_uint,
     interface_dropped: c_uint,
+    // libpcap's Windows header appends ps_capt/ps_sent/ps_netdrop. Allocate
+    // all six counters even though compatible pcap_stats writes only the first
+    // three. https://npcap.com/guide/npcap-api.html#npcap-api-extensions
+    #[cfg(windows)]
+    _windows_extension: [c_uint; 3],
 }
 #[cfg(unix)]
+const _: () = assert!(std::mem::size_of::<PacketStats>() == 12);
+#[cfg(windows)]
+const _: () = assert!(std::mem::size_of::<PacketStats>() == 24);
 type Stats = unsafe extern "C" fn(*mut c_void, *mut PacketStats) -> c_int;
 
 type GetError = unsafe extern "C" fn(*mut c_void) -> *const c_char;
@@ -105,7 +112,6 @@ struct Api {
     setfilter: SetFilter,
     freecode: FreeCode,
     next: Next,
-    #[cfg(unix)]
     stats: Stats,
     geterr: GetError,
     close: Close,
@@ -158,7 +164,6 @@ impl Pcap {
             setfilter: symbol!(c"pcap_setfilter"),
             freecode: symbol!(c"pcap_freecode"),
             next: symbol!(c"pcap_next_ex"),
-            #[cfg(unix)]
             stats: symbol!(c"pcap_stats"),
             geterr: symbol!(c"pcap_geterr"),
             close: symbol!(c"pcap_close"),
@@ -317,13 +322,16 @@ pub struct Capture<'a> {
 }
 
 impl Capture<'_> {
-    /// Unix source loss is fatal to all observed TCP generations. A helper must
-    /// check this before releasing packets, including when either handle is idle.
-    #[cfg(unix)]
+    /// Source loss is fatal to all observed TCP generations. A helper must
+    /// check this before releasing packets, including when a handle is idle.
     pub fn check_no_packet_loss(&mut self) -> Result<(), Error> {
-        for capture in [&mut self.server, &mut self.client] {
+        #[cfg(unix)]
+        let captures = [&mut self.server, &mut self.client];
+        #[cfg(windows)]
+        let captures = [&mut self.server];
+        for capture in captures {
             let mut stats = PacketStats::default();
-            // SAFETY: exact Unix pcap_stat ABI, live exclusive handle and output.
+            // SAFETY: platform pcap_stat ABI, live exclusive handle and initialized output.
             let status = unsafe { (capture.api.stats)(capture.handle.as_ptr(), &mut stats) };
             capture.check(status, "pcap_stats")?;
             if stats.dropped != 0 || stats.interface_dropped != 0 {
@@ -815,7 +823,6 @@ mod tests {
         })
     }
 
-    #[cfg(unix)]
     unsafe extern "C" fn stats(_handle: *mut c_void, output: *mut PacketStats) -> c_int {
         STATE.with_borrow(|state| {
             // SAFETY: check_no_packet_loss passes a valid initialized output.
@@ -824,6 +831,8 @@ mod tests {
                     received: 1,
                     dropped: u32::from(state.fail == "stats_drop"),
                     interface_dropped: u32::from(state.fail == "stats_interface_drop"),
+                    #[cfg(windows)]
+                    _windows_extension: [0; 3],
                 }
             };
             if state.fail == "stats_error" { -1 } else { 0 }
@@ -850,7 +859,6 @@ mod tests {
                 setfilter,
                 freecode,
                 next,
-                #[cfg(unix)]
                 stats,
                 geterr,
                 close,
@@ -859,15 +867,14 @@ mod tests {
         }
     }
 
-    #[cfg(unix)]
     #[test]
-    fn both_direction_loss_and_stats_failure_are_fatal() {
+    fn native_loss_and_stats_failure_are_fatal() {
         let api = mock();
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
         capture.check_no_packet_loss().expect("no loss");
         for failure in ["stats_drop", "stats_interface_drop", "stats_error"] {
             STATE.with_borrow_mut(|state| state.fail = failure);
-            assert!(capture.check_no_packet_loss().is_err());
+            capture.check_no_packet_loss().expect_err("native source loss must be fatal");
         }
     }
 

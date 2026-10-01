@@ -14,6 +14,7 @@ const QUEUE_RECORDS: usize = 64;
 pub struct Pump {
     pub records: mpsc::Receiver<Record>,
     pub failed: watch::Receiver<bool>,
+    _failure: watch::Sender<bool>,
     stop: Arc<AtomicBool>,
     task: tokio::task::JoinHandle<()>,
 }
@@ -23,8 +24,9 @@ impl Pump {
         let (failure, failed) = watch::channel(false);
         let stop = Arc::new(AtomicBool::new(false));
         let stop_copy = Arc::clone(&stop);
-        let task = tokio::task::spawn_blocking(move || run(sender, failure, stop_copy));
-        Self { records, failed, stop, task }
+        let failure_copy = failure.clone();
+        let task = tokio::task::spawn_blocking(move || run(sender, failure_copy, stop_copy));
+        Self { records, failed, _failure: failure, stop, task }
     }
     pub fn cancel(&self) {
         self.stop.store(true, Ordering::Release);
@@ -70,7 +72,9 @@ fn run(sender: mpsc::Sender<Record>, failure: watch::Sender<bool>, stop: Arc<Ato
         }
         captures.push(capture);
     }
-    if stop.load(Ordering::Acquire) || sender.try_send(Record::Started).is_err() {
+    if stop.load(Ordering::Acquire)
+        || sender.try_send(Record::Started(rokbattles_capture_ipc::Backend::Pcap)).is_err()
+    {
         return;
     }
     let mut last_interfaces = Instant::now();

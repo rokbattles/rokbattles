@@ -12,9 +12,7 @@ pub(crate) unsafe fn load(path: &Path) -> Result<Library, Error> {
         return Err(Error::InvalidInput("native library path must be absolute"));
     }
 
-    let path = path
-        .canonicalize()
-        .map_err(|error| Error::Library { path: path.to_owned(), detail: error.to_string() })?;
+    let path = resolve_library_path(path)?;
 
     #[cfg(windows)]
     // SAFETY: caller vouches for the binary and its ABI. The primary path is
@@ -36,6 +34,17 @@ pub(crate) unsafe fn load(path: &Path) -> Result<Library, Error> {
     library.map_err(|error| Error::Library { path, detail: error.to_string() })
 }
 
+fn resolve_library_path(path: &Path) -> Result<std::path::PathBuf, Error> {
+    // Apple's SIP-protected system image may exist only in the dyld shared cache.
+    // Only this exact absolute system install name bypasses inode canonicalization.
+    #[cfg(target_os = "macos")]
+    if path == Path::new("/usr/lib/libpcap.A.dylib") {
+        return Ok(path.to_owned());
+    }
+    path.canonicalize()
+        .map_err(|error| Error::Library { path: path.to_owned(), detail: error.to_string() })
+}
+
 /// Every copied pointer stays private to an owner retaining `library`.
 pub(crate) unsafe fn symbol<T: Copy>(
     library: &Library,
@@ -53,6 +62,19 @@ pub(crate) unsafe fn symbol<T: Copy>(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn only_exact_system_cache_install_name_bypasses_disk_resolution() {
+        assert_eq!(
+            resolve_library_path(Path::new("/usr/lib/libpcap.A.dylib")).expect("cache name"),
+            Path::new("/usr/lib/libpcap.A.dylib")
+        );
+        assert!(matches!(
+            resolve_library_path(Path::new("/untrusted/missing/libpcap.A.dylib")),
+            Err(Error::Library { .. })
+        ));
+    }
 
     #[test]
     fn rejects_relative_paths_without_loading() {

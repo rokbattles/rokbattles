@@ -35,14 +35,64 @@ chat, install on launch, use arbitrary library paths, or silently fall back to a
 user-wide packet dump. A missing helper should leave mailcache available and show
 that native capture needs setup. Stop/disconnect ends that connection's consent.
 
-Pending packaging checkpoint: launchd and systemd definitions and an inert package
-staging tool are being added in this draft. They will not run installation or
-change permissions in tests. macOS launchd runtime-directory bootstrap remains to
-be completed before the first installable package is usable.
+`setup-contract.json` supplies the explicit consent copy and setup/unavailable
+states for the unprivileged app. The systemd template creates the root-owned
+runtime directory; launchd uses the helper's fixed directory bootstrap under a
+pinned, root-owned `/private/var/run`. The helper never repairs an existing
+symlink, foreign owner or unsafe directory mode. A per-UID root-owned lock prevents
+duplicate listeners and permits safe stale-socket recovery after a crash.
+
+`stage_package.py` creates an inert tarball containing the native helper and unprivileged agent companion, the
+systemd template or a UID-specific launchd plist, this guide, the setup contract
+and a SHA-256 manifest. It validates 64-bit ELF/Mach-O target architecture; it does
+not execute the input binary, grant privileges, extract files, install software,
+accept an agreement or start a service. Example (a local staging operation):
+
+```sh
+python3 stage_package.py --binary /path/to/built/rokbattles-capture-helper \
+  --agent /path/to/built/rokbattles-desktop-agent \
+  --target aarch64-apple-darwin --uid 501 --output capture-helper.tar.gz
+```
+
+After explicit administrator approval, the release installer must verify the
+signed/notarized distribution and manifest, confirm the selected local UID,
+install the regular files at the fixed archive locations as root (directories
+0755, executable0755, definitions0644), and register only that user's instance.
+Linux uses `rokbattles-capture@<UID>.service`; macOS uses
+`com.rokbattles.capture-helper.<UID>` in the system launchd domain. The UID is
+checked again against the kernel peer for each connection. No installer execution
+is included in these tests. Distribution signing/notarization and platform
+installer UX integration remain release work.
+
+Only the fixed protected companion executable may authenticate to the helper:
+`/usr/libexec/rokbattles/rokbattles-desktop-agent` on Linux and
+`/Library/Application Support/ROK Battles/rokbattles-desktop-agent` on macOS.
+The GUI launches this unprivileged companion for native capture; its bundled
+sidecar remains the mailcache fallback. Never grant the companion root privileges.
+On macOS, sign helper and companion with the same Apple signing team, explicitly
+set identifiers `com.rokbattles.capture-helper` and
+`com.rokbattles.desktop-agent`, and use hardened runtime without debugger, DYLD
+environment, disabled library-validation, unsigned-executable-memory or JIT
+entitlements. A filename alone is not a signing identifier. Runtime authentication
+validates the helper anchor, installed and running agent requirements, signatures
+and code hashes. Unsigned/ad-hoc debug builds cannot receive native capture.
+Linux pins an opened `/proc/<pid>/exe` against the fixed root-owned image identity,
+rejects deleted/memfd paths and nonzero TracerPid, and rechecks birth/UID. The agent
+must set PR_SET_DUMPABLE=0 before connecting and the launcher must sanitize loader
+environment overrides. Linux same-UID process-injection guarantees depend on OS
+policy; this is not equivalent to macOS code-signing validation.
+
+Disable/uninstall must first stop and await the agent and that service instance before removing
+its definition or executable. Keep the shared binary and runtime directory while
+another UID instance remains installed. The ordinary unprivileged Tauri updater cannot overwrite either protected binary.
+Updates require the same stop/drain
+sequence, verified new artifact and explicit restart. A service restart alone
+never resumes capture; the unprivileged agent must authenticate and send Start
+again.
 
 ## Validation and limits
 
-Linux x64 synthetic tests and Clippy pass in the implementation container. Tests do
+Linux x64 synthetic tests, package-staging tests and Clippy pass in the implementation container. Tests do
 not open native pcap, install services, run sudo or change host security settings.
 Apple SDK compilation and native synthetic tests still need the macOS Intel and
 ARM64 CI runners; Linux ARM64 also needs its native runner. No live capture or

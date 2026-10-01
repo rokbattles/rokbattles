@@ -109,6 +109,29 @@ impl ProtectedInstallation {
         }
         Ok(ready)
     }
+    /// Separately installed Npcap only. Neither the DLLs nor driver are bundled
+    /// or searched in PATH, cwd, a user directory or a caller-selected location.
+    pub fn installed_npcap() -> io::Result<(Self, Self)> {
+        let system = system_directory()?;
+        let root = system.parent().ok_or_else(denied)?;
+        let library = system.join("Npcap").join("wpcap.dll");
+        let driver = system.join("drivers").join("npcap.sys");
+        let mut libraries = Vec::new();
+        for path in [
+            root.to_path_buf(),
+            system.clone(),
+            system.join("Npcap"),
+            library.clone(),
+            system.join("Npcap").join("Packet.dll"),
+        ] {
+            libraries.push(verify_path(&path)?);
+        }
+        let mut drivers = Vec::new();
+        for path in [root.to_path_buf(), system.clone(), system.join("drivers"), driver.clone()] {
+            drivers.push(verify_path(&path)?);
+        }
+        Ok((Self { _handles: libraries, path: library }, Self { _handles: drivers, path: driver }))
+    }
     pub fn path(&self) -> &Path {
         &self.path
     }
@@ -128,6 +151,26 @@ pub(super) fn verify_process_image(process: HANDLE, expected: InstalledFile) -> 
         return Err(denied());
     }
     Ok(())
+}
+
+pub(super) fn system_directory() -> io::Result<PathBuf> {
+    let mut bytes = vec![0u16; MAX_PATH_UNITS];
+    // SAFETY: fixed OS system directory query and bounded writable output.
+    let length = unsafe {
+        windows_sys::Win32::System::SystemInformation::GetSystemDirectoryW(
+            bytes.as_mut_ptr(),
+            bytes.len() as u32,
+        )
+    } as usize;
+    if length == 0 || length >= bytes.len() {
+        return Err(denied());
+    }
+    let path =
+        PathBuf::from(std::ffi::OsString::from_wide(bytes.get(..length).ok_or_else(denied)?));
+    if !path.is_absolute() {
+        return Err(denied());
+    }
+    Ok(path)
 }
 
 fn program_files() -> io::Result<PathBuf> {
@@ -296,7 +339,10 @@ fn verify_object_acl(file: HANDLE, object: i32, administrative_only: bool) -> io
         return Err(denied());
     }
     bound_sid(owner, start, end)?;
-    if !trusted(&sid_string(owner)?) {
+    let accepted = |sid: &str| {
+        if administrative_only { matches!(sid, "S-1-5-18" | "S-1-5-32-544") } else { trusted(sid) }
+    };
+    if !accepted(&sid_string(owner)?) {
         return Err(denied());
     }
     // SAFETY: GetSecurityInfo supplies a validated ACL within live descriptor.
@@ -332,7 +378,7 @@ fn verify_object_acl(file: HANDLE, object: i32, administrative_only: bool) -> io
         let sid = unsafe { ace.cast::<u8>().add(offset_of!(ACCESS_ALLOWED_ACE, SidStart)).cast() };
         bound_sid(sid, ace_start, ace_end)?;
         if (if administrative_only { mask != 0 } else { mask & MUTATE != 0 })
-            && !trusted(&sid_string(sid)?)
+            && !accepted(&sid_string(sid)?)
         {
             return Err(denied());
         }

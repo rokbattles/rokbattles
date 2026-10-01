@@ -11,7 +11,7 @@ const MAX_INTERFACES: usize = 32;
 const MAX_ADDRESSES: usize = 16;
 const MAX_ROWS: usize = 1024;
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Interface {
     pub name: String,
     pub addresses: Vec<IpAddr>,
@@ -46,6 +46,7 @@ pub fn enumerate() -> io::Result<Vec<Interface>> {
         let row = unsafe { &*cursor };
         cursor = row.ifa_next;
         if row.ifa_flags & libc::IFF_UP as u32 == 0
+            || row.ifa_flags & libc::IFF_LOOPBACK as u32 != 0
             || row.ifa_addr.is_null()
             || row.ifa_name.is_null()
         {
@@ -100,6 +101,7 @@ pub fn enumerate() -> io::Result<Vec<Interface>> {
 fn admissible(address: IpAddr) -> bool {
     !address.is_unspecified()
         && !address.is_multicast()
+        && !address.is_loopback()
         && match address {
             IpAddr::V4(address) => !address.is_broadcast(),
             IpAddr::V6(address) => !address.is_unicast_link_local(),
@@ -109,11 +111,20 @@ fn admissible(address: IpAddr) -> bool {
 mod tests {
     use super::*;
     #[test]
-    fn only_unambiguous_unicast_and_loopback_addresses_are_selected() {
-        for value in ["0.0.0.0", "255.255.255.255", "224.0.0.1", "::", "ff02::1", "fe80::1"] {
+    fn only_unambiguous_non_loopback_unicast_addresses_are_selected() {
+        for value in [
+            "0.0.0.0",
+            "255.255.255.255",
+            "224.0.0.1",
+            "::",
+            "ff02::1",
+            "fe80::1",
+            "127.0.0.1",
+            "::1",
+        ] {
             assert!(!admissible(value.parse().expect("fixture")));
         }
-        for value in ["192.0.2.1", "127.0.0.1", "::1", "2001:db8::1"] {
+        for value in ["192.0.2.1", "2001:db8::1"] {
             assert!(admissible(value.parse().expect("fixture")));
         }
     }
