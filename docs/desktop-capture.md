@@ -151,18 +151,18 @@ cargo clippy --locked -p rokbattles-desktop-agent -p rokbattles-capture-ipc --al
 python -m unittest discover -s crates/apps/rokbattles-capture-helper/packaging/unix -p 'test_*.py' -v
 ```
 
-Capture Foundation runs synthetic/mock checks on six native targets, plus Unix
-parser/storage regressions, Windows bootstrap/NSIS compilation and signature-only
-positive/negative fixtures. Vendor checks validate exact archive members, hashes,
-licenses and Windows driver policy. They do not install services, activate a
-driver or capture traffic. The separate real-library workflow, once included in
-the reviewed tree, builds the full desktop and resolves native library symbols;
-loading a DLL still does not prove capture, privilege or installer behavior.
+Desktop Native Dependencies is the capture-specific workflow. Its six native
+targets build the full desktop and run synthetic/mock checks, Unix parser/storage
+regressions, packaging fixtures, Windows bootstrap/NSIS compilation and
+signature-only positive/negative fixtures. Vendor checks validate exact archive
+members, hashes, licenses and Windows driver policy before native symbols are
+resolved. The ordinary repository CI still checks the full workspace and frontend.
 
-Keep existing workflows until their replacement contains every check and passes
-on the exact replacement head. Results from another commit are supporting
-evidence, not validation of a changed tree. Npcap runtime testing needs a separate
-accepted/licensed installation; an SDK or mocked function table is insufficient.
+These checks do not install services, activate a driver or capture traffic.
+Loading a DLL does not prove capture permissions or installer behavior. Results
+from another commit are supporting evidence, not validation of a changed tree.
+Npcap runtime testing needs a separate accepted/licensed installation; an SDK or
+mocked function table is insufficient.
 
 ## Native library checks
 

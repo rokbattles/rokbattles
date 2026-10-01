@@ -100,8 +100,9 @@ with the application's license.
 To update, independently inspect a new **official** release, its source commit,
 license and supported architectures, calculate archive/member pins, and review
 the changes. Do not disable checks to accommodate new signatures; review the
-new artifact and preserve kernel-policy validation. Confirm both vendor CI
-jobs, then do separately authorized native installation tests before shipping.
+new artifact and preserve kernel-policy validation. Confirm the native dependency
+workflow's archive and Windows signature checks, then do separately authorized
+native installation tests before shipping.
 Do not use Npcap or substitute community driver builds.
 
 References:
