@@ -63,17 +63,32 @@ export type BarbarianFortLootDocument = {
   refreshedAt: string;
 };
 
+export type BaulurRollSlot = {
+  slot: number;
+  results: number;
+  noItemResults: number;
+  noItemRate: number;
+  loot: LootDrop[];
+};
+
 export type BaulurLootDocument = {
   kind: number;
-  lootPools: Array<{
-    pool: number;
+  resourcePool: {
     results: number;
-    receiveRate: number;
     damageFactor: LootRange;
     loot: LootDrop[];
-  }>;
+  };
+  rollPool: {
+    results: number;
+    matchedResults: number;
+    unmatchedResults: number;
+    damageFactor: LootRange;
+    slots: BaulurRollSlot[];
+  };
   totals: {
     results: number;
+    reports: number;
+    duplicateReports: number;
   };
   refreshedAt: string;
 };
