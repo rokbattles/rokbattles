@@ -7,7 +7,9 @@
 use std::{collections::BTreeMap, fmt, time::Duration};
 
 use crate::{
-    packet::{ClientTcpControl, FlowKey, ServerPacket},
+    packet::{
+        ClientTcpControl, FlowKey, ServerPacket, SocketEstablishedEvidence, SocketRetiredEvidence,
+    },
     reassembly::Reassembly,
 };
 
@@ -88,6 +90,7 @@ impl fmt::Debug for Event {
 struct Generation {
     key: FlowKey,
     client_isn: u32,
+    socket_generation: Option<u64>,
 }
 
 struct Flow {
@@ -111,11 +114,106 @@ struct Flow {
 pub struct Observer {
     flows: BTreeMap<Generation, Flow>,
     next_id: u64,
+    last_socket_generation: u64,
     buffered: usize,
     last_sweep: Duration,
 }
 
 impl Observer {
+    /// Open from a trusted local OS attestation, without inventing a client TCP
+    /// packet. The source must already have proved the documented fresh socket
+    /// transition and server SYN-ACK. This API never goes on the ingress wire.
+    pub fn socket_established(
+        &mut self,
+        evidence: SocketEstablishedEvidence,
+        now: Duration,
+    ) -> Vec<Event> {
+        let mut events = self.expire(now);
+        if !evidence.is_valid() {
+            events.push(self.gap());
+            return events;
+        }
+        let generation = Generation {
+            key: evidence.key,
+            client_isn: evidence.client_initial_sequence,
+            socket_generation: Some(evidence.generation),
+        };
+        if let Some(flow) = self.flows.get(&generation) {
+            if flow.server_isn != Some(evidence.server_initial_sequence) {
+                self.abort(generation, AbortReason::InvalidHandshake, &mut events);
+            }
+            return events;
+        }
+        // The attesting source uses monotonically increasing IDs within this
+        // observer's lifetime. Retired/replayed evidence cannot reopen a stream.
+        if evidence.generation <= self.last_socket_generation {
+            return events;
+        }
+        self.last_socket_generation = evidence.generation;
+        // A source switch requires an explicit Gap. Never mix two kinds of
+        // handshake authority for one tuple or choose whichever appears newer.
+        if self
+            .flows
+            .keys()
+            .any(|entry| entry.key == evidence.key && entry.socket_generation.is_none())
+        {
+            events.push(self.gap());
+            return events;
+        }
+        if self.flows.len() >= MAX_FLOWS
+            || self.flows.keys().filter(|entry| entry.key == evidence.key).count() >= MAX_PER_TUPLE
+        {
+            return events;
+        }
+        let Some(id) = self.next_id.checked_add(1) else {
+            events.push(self.gap());
+            return events;
+        };
+        self.next_id = id;
+        let client_next = evidence.client_initial_sequence.wrapping_add(1);
+        self.flows.insert(
+            generation,
+            Flow {
+                id,
+                server_isn: Some(evidence.server_initial_sequence),
+                client_next,
+                client_control_sequence: client_next,
+                stream: Some(Reassembly::new(evidence.server_initial_sequence.wrapping_add(1))),
+                established: true,
+                offset: 0,
+                fin: None,
+                touched: now,
+            },
+        );
+        events.push(Event::Open { id, server_port: evidence.key.server.port() });
+        events
+    }
+
+    /// Retire only the named OS evidence generation. A probe closing must not
+    /// suppress an independently attested game connection on another tuple.
+    pub fn socket_retired(&mut self, evidence: SocketRetiredEvidence, now: Duration) -> Vec<Event> {
+        let mut events = self.expire(now);
+        if !evidence.is_valid() {
+            events.push(self.gap());
+            return events;
+        }
+        if evidence.generation > self.last_socket_generation {
+            self.last_socket_generation = evidence.generation;
+            events.push(self.gap());
+            return events;
+        }
+        self.abort(
+            Generation {
+                key: evidence.key,
+                client_isn: evidence.client_initial_sequence,
+                socket_generation: Some(evidence.generation),
+            },
+            AbortReason::CaptureGap,
+            &mut events,
+        );
+        events
+    }
+
     /// Consume header-only local metadata. Opening a stream requires all three
     /// handshake observations; missing or reordered handshake evidence never
     /// promotes a stream. Later client ACKs may refresh sequence evidence but
@@ -126,9 +224,21 @@ impl Observer {
             events.push(self.gap());
             return events;
         }
+        if self
+            .flows
+            .keys()
+            .any(|entry| entry.key == packet.key && entry.socket_generation.is_some())
+        {
+            events.push(self.gap());
+            return events;
+        }
         let flags = packet.flags & 0x3f;
         if flags == 0x02 {
-            let generation = Generation { key: packet.key, client_isn: packet.sequence };
+            let generation = Generation {
+                key: packet.key,
+                client_isn: packet.sequence,
+                socket_generation: None,
+            };
             if self.flows.get(&generation).is_some_and(|flow| flow.established) {
                 self.abort(generation, AbortReason::AmbiguousGeneration, &mut events);
             } else {
@@ -145,7 +255,7 @@ impl Observer {
             .flows
             .iter()
             .filter(|(generation, flow)| {
-                if generation.key != packet.key {
+                if generation.key != packet.key || generation.socket_generation.is_some() {
                     return false;
                 }
                 let exact_sequence = packet.sequence == flow.client_next
@@ -233,7 +343,7 @@ impl Observer {
             | ClientControl::Reset { key, initial_sequence }
             | ClientControl::Fin { key, initial_sequence } => (key, initial_sequence),
         };
-        let generation = Generation { key, client_isn };
+        let generation = Generation { key, client_isn, socket_generation: None };
 
         if let ClientControl::Syn { .. } = control {
             if !crate::packet::valid_flow_key(key)
@@ -298,8 +408,11 @@ impl Observer {
         }
 
         if packet.flags & 0x17 == 0x12 {
-            let generation =
-                Generation { key: packet.key, client_isn: packet.acknowledgement.wrapping_sub(1) };
+            let generation = Generation {
+                key: packet.key,
+                client_isn: packet.acknowledgement.wrapping_sub(1),
+                socket_generation: None,
+            };
             let Some(flow) = self.flows.get_mut(&generation) else {
                 return events;
             };
@@ -525,6 +638,175 @@ mod tests {
             panic!("expected Open");
         };
         *id
+    }
+
+    fn socket_evidence(
+        key: FlowKey,
+        client: u32,
+        server: u32,
+        generation: u64,
+    ) -> SocketEstablishedEvidence {
+        SocketEstablishedEvidence {
+            key,
+            client_initial_sequence: client,
+            server_initial_sequence: server,
+            generation,
+        }
+    }
+
+    fn retire(evidence: SocketEstablishedEvidence) -> SocketRetiredEvidence {
+        SocketRetiredEvidence {
+            key: evidence.key,
+            client_initial_sequence: evidence.client_initial_sequence,
+            generation: evidence.generation,
+        }
+    }
+
+    fn socket_open(observer: &mut Observer, evidence: SocketEstablishedEvidence) -> u64 {
+        match observer.socket_established(evidence, Duration::ZERO).as_slice() {
+            [Event::Open { id, .. }] => *id,
+            _ => panic!("socket evidence should open"),
+        }
+    }
+
+    #[test]
+    fn attested_socket_stream_starts_at_server_isn_and_probe_retirement_is_independent() {
+        let mut observer = Observer::default();
+        let now = Duration::ZERO;
+        let probe = socket_evidence(key(45000), 100, 200, 1);
+        let game = socket_evidence(key(45001), 300, 400, 2);
+        let probe_id = socket_open(&mut observer, probe);
+        let game_id = socket_open(&mut observer, game);
+        assert_eq!(
+            observer.socket_retired(retire(probe), now),
+            vec![Event::Abort { id: probe_id, reason: AbortReason::CaptureGap }]
+        );
+        assert!(observer.server(&packet(probe.key, 201, 101, 0x18, b"late probe"), now).is_empty());
+        assert_eq!(
+            observer.server(&packet(game.key, 401, 301, 0x18, b"real"), now),
+            vec![Event::Data { id: game_id, offset: 0, bytes: b"real".to_vec() }]
+        );
+    }
+
+    #[test]
+    fn socket_retirement_matches_exact_generation_even_when_tuple_and_client_isn_are_reused() {
+        let mut observer = Observer::default();
+        let now = Duration::ZERO;
+        let old = socket_evidence(key(45000), 100, 200, 1);
+        let new = socket_evidence(key(45000), 100, 20_000_000, 2);
+        let old_id = socket_open(&mut observer, old);
+        let new_id = socket_open(&mut observer, new);
+        assert_eq!(
+            observer.socket_retired(retire(old), now),
+            vec![Event::Abort { id: old_id, reason: AbortReason::CaptureGap }]
+        );
+        assert!(observer.socket_retired(retire(old), now).is_empty());
+        assert!(observer.socket_established(old, now).is_empty());
+        assert_eq!(
+            observer.server(&packet(new.key, 20_000_001, 101, 0x18, b"new"), now),
+            vec![Event::Data { id: new_id, offset: 0, bytes: b"new".to_vec() }]
+        );
+    }
+
+    #[test]
+    fn repeated_socket_evidence_is_idempotent_and_retired_replay_cannot_reopen_after_gap() {
+        let mut observer = Observer::default();
+        let now = Duration::ZERO;
+        let evidence = socket_evidence(key(45000), 100, 200, 1);
+        let id = socket_open(&mut observer, evidence);
+        assert!(observer.socket_established(evidence, now).is_empty());
+        assert_eq!(
+            observer.socket_retired(retire(evidence), now),
+            vec![Event::Abort { id, reason: AbortReason::CaptureGap }]
+        );
+        assert!(observer.socket_established(evidence, now).is_empty());
+        observer.gap();
+        assert!(observer.socket_established(evidence, now).is_empty());
+        let newer = socket_evidence(key(45001), 300, 400, 2);
+        socket_open(&mut observer, newer);
+    }
+
+    #[test]
+    fn socket_and_packet_handshake_authorities_require_explicit_gap_when_switching() {
+        let now = Duration::ZERO;
+        let mut observer = Observer::default();
+        observed_handshake(&mut observer, key(45000), 100, 200);
+        assert_eq!(
+            observer.socket_established(socket_evidence(key(45000), 300, 400, 1), now),
+            vec![Event::Gap]
+        );
+        socket_open(&mut observer, socket_evidence(key(45000), 300, 400, 2));
+        assert_eq!(
+            observer.client(observed_control(key(45000), 100, 0, 0x02), now),
+            vec![Event::Gap]
+        );
+    }
+
+    #[test]
+    fn any_packet_control_on_a_socket_attested_tuple_requires_gap() {
+        for flags in [0x10, 0x11, 0x04, 0x14, 0x01] {
+            let mut observer = Observer::default();
+            socket_open(&mut observer, socket_evidence(key(45000), 100, 200, 1));
+            assert_eq!(
+                observer.client(observed_control(key(45000), 101, 201, flags), Duration::ZERO),
+                vec![Event::Gap]
+            );
+            assert!(observer.flows.is_empty());
+        }
+    }
+
+    #[test]
+    fn retirement_before_establishment_blocks_replayed_evidence_even_after_gap() {
+        let mut observer = Observer::default();
+        let evidence = socket_evidence(key(45000), 100, 200, 3);
+        assert_eq!(observer.socket_retired(retire(evidence), Duration::ZERO), vec![Event::Gap]);
+        assert_eq!(observer.last_socket_generation, 3);
+        assert!(observer.socket_established(evidence, Duration::ZERO).is_empty());
+        observer.gap();
+        assert!(observer.socket_established(evidence, Duration::ZERO).is_empty());
+        assert!(observer.flows.is_empty());
+    }
+
+    #[test]
+    fn socket_invalid_metadata_conflict_wraparound_and_reordered_fin_are_conservative() {
+        let now = Duration::ZERO;
+        let mut observer = Observer::default();
+        assert_eq!(
+            observer.socket_established(socket_evidence(key(45000), 1, 2, 0), now),
+            vec![Event::Gap]
+        );
+        let evidence = socket_evidence(key(45000), u32::MAX, u32::MAX - 1, 1);
+        let id = socket_open(&mut observer, evidence);
+        assert!(observer.server(&packet(key(45000), 2, 0, 0x11, b"def"), now).is_empty());
+        assert_eq!(
+            observer.server(&packet(key(45000), u32::MAX, 0, 0x18, b"abc"), now),
+            vec![Event::Data { id, offset: 0, bytes: b"abcdef".to_vec() }, Event::Close { id }]
+        );
+        assert!(observer.socket_established(evidence, now).is_empty());
+        let evidence = socket_evidence(key(45000), 100, 200, 2);
+        let id = socket_open(&mut observer, evidence);
+        assert_eq!(
+            observer.socket_established(
+                SocketEstablishedEvidence { server_initial_sequence: 201, ..evidence },
+                now
+            ),
+            vec![Event::Abort { id, reason: AbortReason::InvalidHandshake }]
+        );
+    }
+
+    #[test]
+    fn socket_evidence_uses_existing_flow_limits_and_expires_without_tombstone_growth() {
+        let mut observer = Observer::default();
+        let now = Duration::ZERO;
+        for generation in 1..=200u64 {
+            let port = 45000 + u16::try_from(generation).expect("bounded test port");
+            observer.socket_established(socket_evidence(key(port), 100, 200, generation), now);
+        }
+        assert_eq!(observer.flows.len(), MAX_FLOWS);
+        assert_eq!(observer.last_socket_generation, 200);
+        assert_eq!(observer.expire(ACTIVE_IDLE).len(), MAX_FLOWS);
+        assert!(observer.flows.is_empty());
+        assert_eq!(observer.buffered, 0);
     }
 
     fn observed_control(

@@ -52,6 +52,66 @@ impl fmt::Debug for ClientTcpControl {
     }
 }
 
+/// Attestation from a local OS socket source, not a captured client packet.
+/// The source must bind a fresh SYN_SENT -> ESTABLISHED transition and matching
+/// server SYN-ACK to an exact creation-time/PID/logon identity. `generation` is
+/// nonzero, source-local and strictly increases within one observer's lifetime. These public
+/// fields are a local trust boundary, not independent proof of those OS facts.
+///
+/// ```compile_fail
+/// use rokbattles_capture_runtime::{packet::SocketEstablishedEvidence, wire};
+/// fn cannot_upload(evidence: &SocketEstablishedEvidence) {
+///     let _ = wire::encode(evidence);
+/// }
+/// ```
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct SocketEstablishedEvidence {
+    pub key: FlowKey,
+    pub client_initial_sequence: u32,
+    pub server_initial_sequence: u32,
+    pub generation: u64,
+}
+
+impl SocketEstablishedEvidence {
+    pub fn is_valid(self) -> bool {
+        valid_flow_key(self.key) && self.generation != 0
+    }
+}
+
+impl fmt::Debug for SocketEstablishedEvidence {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("SocketEstablishedEvidence").finish_non_exhaustive()
+    }
+}
+
+/// Exact local OS generation retirement. This aborts observation, never asserts
+/// an orderly server close. It must not be replaced by a tuple-wide retirement.
+///
+/// ```compile_fail
+/// use rokbattles_capture_runtime::{packet::SocketRetiredEvidence, wire};
+/// fn cannot_upload(evidence: &SocketRetiredEvidence) {
+///     let _ = wire::encode(evidence);
+/// }
+/// ```
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct SocketRetiredEvidence {
+    pub key: FlowKey,
+    pub client_initial_sequence: u32,
+    pub generation: u64,
+}
+
+impl SocketRetiredEvidence {
+    pub fn is_valid(self) -> bool {
+        valid_flow_key(self.key) && self.generation != 0
+    }
+}
+
+impl fmt::Debug for SocketRetiredEvidence {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("SocketRetiredEvidence").finish_non_exhaustive()
+    }
+}
+
 /// A validated, borrowed server TCP packet. Debug deliberately omits addresses/payloads.
 pub struct ServerPacket<'a> {
     pub(crate) key: FlowKey,
@@ -193,6 +253,31 @@ mod tests {
         bytes.extend([0x50, 0x18, 0, 0, 0, 0, 0, 0]);
         bytes.extend(b"secret");
         bytes
+    }
+
+    #[test]
+    fn socket_evidence_validation_and_debug_never_expose_local_metadata() {
+        let key = FlowKey {
+            client: ([192, 0, 2, 1], 45000).into(),
+            server: ([198, 51, 100, 1], 3101).into(),
+        };
+        let established = SocketEstablishedEvidence {
+            key,
+            client_initial_sequence: 123,
+            server_initial_sequence: 456,
+            generation: 789,
+        };
+        let retired = SocketRetiredEvidence { key, client_initial_sequence: 123, generation: 789 };
+        assert!(established.is_valid());
+        assert!(retired.is_valid());
+        assert!(!SocketEstablishedEvidence { generation: 0, ..established }.is_valid());
+        assert!(!SocketRetiredEvidence { generation: 0, ..retired }.is_valid());
+        let invalid_key = FlowKey { client: ([192, 0, 2, 1], 3101).into(), ..key };
+        assert!(!SocketEstablishedEvidence { key: invalid_key, ..established }.is_valid());
+        let debug = format!("{established:?} {retired:?}");
+        for private in ["192.0.2.1", "198.51.100.1", "45000", "123", "456", "789"] {
+            assert!(!debug.contains(private));
+        }
     }
 
     #[test]
