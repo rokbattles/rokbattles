@@ -24,16 +24,20 @@ def binary(target):
 
 
 class PackageTests(unittest.TestCase):
-    def test_rejects_uid_commands_root_overflow_and_noncanonical_values(self):
-        for value in ("0", "-1", "+501", "0501", "4294967295", "4294967296", "１２３", "1;id", "1/../2", ""):
-            with self.subTest(value=value), self.assertRaises(ValueError):
-                package.parse_uid(value)
-        self.assertEqual(package.parse_uid("501"), 501)
+    def test_macos_template_and_manifest_require_installer_user_selection(self):
+        target = "aarch64-apple-darwin"
+        files = package.payloads(binary(target), binary(target), target)
+        manifest = json.loads(files["manifest.json"][0])
+        self.assertNotIn("uid", manifest)
+        self.assertTrue(manifest["requiresInstallerUserSelection"])
+        plist = plistlib.loads(files["share/rokbattles-capture/com.rokbattles.capture-helper.plist.in"][0])
+        self.assertEqual(plist["Label"], "com.rokbattles.capture-helper.@UID@")
+        self.assertEqual(plist["ProgramArguments"][-1], "@UID@")
 
     def test_all_four_targets_have_fixed_executable_and_scoped_service(self):
         for target in package.TARGETS:
             with self.subTest(target=target):
-                files = package.payloads(binary(target), binary(target), target, 501)
+                files = package.payloads(binary(target), binary(target), target)
                 manifest = json.loads(files["manifest.json"][0])
                 self.assertFalse(manifest["installPerformed"])
                 self.assertTrue(manifest["administratorConsentRequired"])
@@ -42,14 +46,17 @@ class PackageTests(unittest.TestCase):
                 self.assertEqual(len(executable), 2)
                 self.assertTrue(all(".." not in Path(path).parts and not path.startswith("/") for path in files))
                 if "apple" in target:
-                    plist = plistlib.loads(files["Library/LaunchDaemons/com.rokbattles.capture-helper.501.plist"][0])
-                    self.assertEqual(plist["ProgramArguments"], ["/Library/PrivilegedHelperTools/com.rokbattles.capture-helper", "--service", "--uid", "501"])
+                    plist = plistlib.loads(files["share/rokbattles-capture/com.rokbattles.capture-helper.plist.in"][0])
+                    self.assertEqual(plist["ProgramArguments"], ["/Library/PrivilegedHelperTools/com.rokbattles.capture-helper", "--service", "--uid", "@UID@"])
                     self.assertEqual(plist["Umask"], 0o077)
+                    self.assertEqual(plist["SoftResourceLimits"]["Core"], 0)
+                    self.assertEqual(plist["HardResourceLimits"]["Core"], 0)
                     self.assertEqual(plist["UserName"], "root")
                 else:
                     service = files["usr/lib/systemd/system/rokbattles-capture@.service"][0].decode()
                     self.assertIn("--service --uid %i", service)
                     self.assertIn("NoNewPrivileges=yes", service)
+                    self.assertIn("LimitCORE=0", service)
                     self.assertNotIn("AmbientCapabilities=", service)
 
     def test_wrong_binary_architecture_or_format_is_rejected(self):
@@ -67,11 +74,11 @@ class PackageTests(unittest.TestCase):
             source = root / "synthetic-helper"
             source.write_bytes(binary("x86_64-unknown-linux-gnu"))
             output = root / "package.tar.gz"
-            package.stage(source, source, "x86_64-unknown-linux-gnu", 1000, output)
+            package.stage(source, source, "x86_64-unknown-linux-gnu", output)
             with tarfile.open(output) as archive:
                 self.assertTrue(all(member.isfile() and member.uid == 0 and member.gid == 0 for member in archive.getmembers()))
             with self.assertRaises(FileExistsError):
-                package.stage(source, source, "x86_64-unknown-linux-gnu", 1000, output)
+                package.stage(source, source, "x86_64-unknown-linux-gnu", output)
 
 
 if __name__ == "__main__":

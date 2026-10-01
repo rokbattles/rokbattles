@@ -77,7 +77,7 @@ fn normalize_dir_for_display(path: &str) -> String {
 
     #[cfg(target_os = "windows")]
     {
-        return mailcache_discovery::normalize_windows_path_for_display(trimmed);
+        mailcache_discovery::normalize_windows_path_for_display(trimmed)
     }
 
     #[cfg(not(target_os = "windows"))]
@@ -336,6 +336,7 @@ struct WorkerSnapshot {
     alive: bool,
     enabled: bool,
     capture_opt_in: bool,
+    capture_supported: bool,
     maintenance: bool,
 }
 
@@ -349,6 +350,7 @@ async fn get_worker_status(app: AppHandle) -> Result<WorkerSnapshot, String> {
         status,
         enabled: settings.enabled,
         capture_opt_in: settings.capture_opt_in,
+        capture_supported: rokbattles_desktop_agent::capture_supported(),
         maintenance: settings.maintenance_stop
             || rokbattles_desktop_agent::maintenance_active().unwrap_or(true),
     })

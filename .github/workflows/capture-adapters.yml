@@ -97,6 +97,18 @@ jobs:
       - name: Synthetic and mock tests only
         run: cargo test --locked -p rokbattles-desktop-agent -p rokbattles-mail-codec -p rokbattles-desktop-paths -p rokbattles-desktop-store -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-capture-ipc -p rokbattles-capture-helper -p rokbattles-capture-maintenance -p rokbattles-gateway-protocol --target ${{ matrix.target }}
         # No libpcap, WinDivert DLL or driver installation. No live-capture tests.
+      - name: Stage immutable signature-only fixtures
+        if: runner.os == 'Windows'
+        env:
+          ROKBATTLES_NATIVE_TRUST_FIXTURES: ${{ runner.temp }}/rokbattles-signature-fixtures
+        shell: pwsh
+        run: python crates/apps/rokbattles-capture-helper/tests/stage_trust_fixtures.py "$env:ROKBATTLES_NATIVE_TRUST_FIXTURES"
+      - name: Native offline driver-policy positive and negative checks
+        if: runner.os == 'Windows'
+        env:
+          ROKBATTLES_NATIVE_TRUST_FIXTURES: ${{ runner.temp }}/rokbattles-signature-fixtures
+        run: cargo test --locked -p rokbattles-capture-helper --target ${{ matrix.target }} windows::native_trust::tests::native_offline_driver_policy_accepts_only_exact_valid_signature -- --ignored --exact
+        # WinVerifyTrust reads signed files only. No DLL load, SCM, driver or capture.
       - name: Build sidecar without running it
         run: python crates/apps/rokbattles-desktop/scripts/stage_agent.py --debug --target ${{ matrix.target }}
       - name: Maintenance packaging tests (never execute installer)
@@ -114,6 +126,10 @@ jobs:
       - name: Compile Windows maintenance package without running it
         if: runner.os == 'Windows'
         run: python crates/apps/rokbattles-desktop/scripts/stage_maintenance.py --debug --target ${{ matrix.target }}
+      - name: Compile NSIS hooks without executing the fixture installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./crates/apps/rokbattles-desktop/windows/compile-hooks.ps1 -Target ${{ matrix.target }}
       - name: Shared NAT reassembly regression checks
         if: runner.os == 'Linux'
         run: |

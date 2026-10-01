@@ -17,10 +17,10 @@ async fn run() -> anyhow::Result<()> {
     if std::env::args_os().len() != 1 {
         anyhow::bail!("agent takes no arguments");
     }
-    // The protected broker authenticates this image and rejects ptraced peers.
-    // This only hardens the running agent; no system policy is changed.
-    #[cfg(target_os = "linux")]
-    rustix::process::set_dumpable_behavior(rustix::process::DumpableBehavior::NotDumpable)?;
+    // Prevent process-local crash dumps before mail or capture buffers exist.
+    // Tests exercise an injected policy and do not change the test host's limits.
+    #[cfg(any(target_os = "linux", target_os = "macos"))]
+    rokbattles_capture_ipc::unix::harden_capture_process()?;
     if rokbattles_desktop_agent::maintenance_active()? {
         anyhow::bail!("installation maintenance pending");
     }

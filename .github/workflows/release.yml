@@ -88,6 +88,38 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
           security find-identity -v -p codesigning build.keychain
 
+      - name: Build Unix capture helper and protected agent without running them
+        if: runner.os != 'Windows'
+        run: cargo build --locked --release -p rokbattles-capture-helper -p rokbattles-desktop-agent --target ${{ matrix.target }}
+
+      - name: Prepare signed macOS capture release assets
+        if: runner.os == 'macOS'
+        env:
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+        run: >-
+          python3 crates/apps/rokbattles-capture-helper/packaging/unix/stage_release.py
+          --target ${{ matrix.target }}
+          --helper target/${{ matrix.target }}/release/rokbattles-capture-helper
+          --agent target/${{ matrix.target }}/release/rokbattles-desktop-agent
+          --installer crates/apps/rokbattles-capture-helper/packaging/unix/maintain.py
+          --output target/capture-release/${{ matrix.target }}
+        # Existing Apple signing configuration only. macOS requires Accepted
+        # notarization for both exact hardened identifiers before making payloads.
+        # No user UID, elevation, service registration, native open or capture.
+
+      - name: Prepare Linux capture release assets
+        if: runner.os == 'Linux'
+        run: >-
+          python3 crates/apps/rokbattles-capture-helper/packaging/unix/stage_release.py
+          --target ${{ matrix.target }}
+          --helper target/${{ matrix.target }}/release/rokbattles-capture-helper
+          --agent target/${{ matrix.target }}/release/rokbattles-desktop-agent
+          --installer crates/apps/rokbattles-capture-helper/packaging/unix/maintain.py
+          --output target/capture-release/${{ matrix.target }}
+
       # This overlay is deliberately absent from the native Windows ARM64 job.
       # Staging/signature verification never installs, loads or opens the driver.
       - name: Stage official pinned WinDivert (Windows x64 only)
@@ -121,8 +153,17 @@ jobs:
           prerelease: false
           retryAttempts: 3
           projectPath: crates/apps/rokbattles-desktop
-          tauriScript: ../../../packages/desktop-client/node_modules/.bin/tauri
+          tauriScript: node ../../../packages/desktop-client/node_modules/@tauri-apps/cli/tauri.js
           args: ${{ matrix.args }} --config tauri.agent.conf.json
+
+      - name: Attach Unix capture setup assets to the draft release
+        if: runner.os != 'Windows'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ steps.tauri.outputs.appVersion }}
+          CAPTURE_TARGET: ${{ matrix.target }}
+        run: gh release upload "$RELEASE_TAG" target/capture-release/"$CAPTURE_TARGET"/assets/* --clobber
 
       - name: Build Flatpak
         if: matrix.platform == 'ubuntu-24.04' || matrix.platform == 'ubuntu-24.04-arm'

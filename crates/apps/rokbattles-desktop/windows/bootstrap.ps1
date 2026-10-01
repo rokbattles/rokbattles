@@ -69,7 +69,7 @@ function Write-AtomicPins([string[]]$Pins) {
     $Bytes = [Text.Encoding]::ASCII.GetBytes($Text)
     $File = New-Object IO.FileStream($Pending, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None, 4096, [IO.FileOptions]::WriteThrough)
     try { $File.Write($Bytes, 0, $Bytes.Length); $File.Flush($true) } finally { $File.Dispose() }
-    if (Test-Path -LiteralPath $CurrentPin) { [IO.File]::Replace($Pending, $CurrentPin, $null) }
+    if (Test-Path -LiteralPath $CurrentPin) { [IO.File]::Replace($Pending, $CurrentPin, [System.Management.Automation.Language.NullString]::Value) }
     else { [IO.File]::Move($Pending, $CurrentPin) }
     $null = @(Read-Pins)
     if ([IO.File]::ReadAllText($CurrentPin) -cne $Text) { throw 'Pin persistence failed' }

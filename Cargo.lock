@@ -4895,6 +4895,7 @@ dependencies = [
  "rokbattles-capture-ipc",
  "rokbattles-capture-runtime",
  "sha2 0.10.9",
+ "tempfile",
  "tokio",
  "windows-sys 0.61.2",
 ]
@@ -4989,7 +4990,6 @@ dependencies = [
  "rokbattles-desktop-store",
  "rokbattles-mail-codec",
  "rokbattles-mail-registry",
- "rustix",
  "serde",
  "serde_json",
  "tempfile",

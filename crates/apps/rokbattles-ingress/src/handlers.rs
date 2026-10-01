@@ -16,7 +16,7 @@ use serde_json::Value;
 use crate::{
     clamav::{ScanStatus, scan_zstream},
     error::ApiError,
-    mail_update::mutable_metadata_differs,
+    mail_update::may_update_mutable_metadata,
     raw_mail::{self, RawMailDocumentInput},
     state::AppState,
 };
@@ -324,7 +324,7 @@ async fn store_compressed_raw_mail(
                 rokbattles_mail_codec::decode(&existing_bytes).map_err(|error| {
                     ApiError::internal(format!("stored mail decode failed: {error}"))
                 })?;
-            mutable_metadata_differs(&existing_decoded, decoded)?
+            may_update_mutable_metadata(&existing_decoded, decoded)?
         }
         _ => false,
     };

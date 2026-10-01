@@ -328,7 +328,7 @@ impl Machine for NativeMachine {
             // Online trust is explicitly confined to the elevated installer.
             let driver = ProtectedInstallation::open(InstalledFile::WinDivertDriver)?;
             super::signature::verify_driver_online(driver.path())?;
-            let trusted=rokbattles_capture_helper::windows::native_trust::TrustedWinDivert::verify_files_cached()?;
+            let trusted=rokbattles_capture_helper::windows::native_trust::TrustedWinDivert::verify_files_offline()?;
             drop(trusted);
             self.retained.push(ProtectedInstallation::open(InstalledFile::WinDivertDll)?);
             self.retained.push(driver);
