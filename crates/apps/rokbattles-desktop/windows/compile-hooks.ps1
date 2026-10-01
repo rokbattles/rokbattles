@@ -51,5 +51,13 @@ SectionEnd
     if (-not (Test-Path -LiteralPath (Join-Path $Work 'compile-only-never-run.exe'))) { throw 'NSIS produced no fixture' }
     Write-Output 'NSIS install/uninstall hooks compiled; fixture installer was not executed.'
 } finally {
-    Remove-Item -LiteralPath $Work -Recurse -Force
+    # Windows emulation/AV can briefly retain the just-exited compiler image.
+    # Cleanup must not conceal a compile error or invalidate successful validation.
+    for ($Attempt = 0; $Attempt -lt 20; $Attempt++) {
+        try { Remove-Item -LiteralPath $Work -Recurse -Force -ErrorAction Stop; break }
+        catch {
+            if ($Attempt -eq 19) { Write-Warning 'Temporary compiler is still locked; the ephemeral runner will clean its temp directory.' }
+            else { Start-Sleep -Milliseconds 100 }
+        }
+    }
 }
