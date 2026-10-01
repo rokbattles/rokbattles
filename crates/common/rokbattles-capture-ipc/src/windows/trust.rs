@@ -109,6 +109,29 @@ impl ProtectedInstallation {
         }
         Ok(ready)
     }
+    /// Separately installed Npcap only. Neither the DLLs nor driver are bundled
+    /// or searched in PATH, cwd, a user directory or a caller-selected location.
+    pub fn installed_npcap() -> io::Result<(Self, Self)> {
+        let system = system_directory()?;
+        let root = system.parent().ok_or_else(denied)?;
+        let library = system.join("Npcap").join("wpcap.dll");
+        let driver = system.join("drivers").join("npcap.sys");
+        let mut libraries = Vec::new();
+        for path in [
+            root.to_path_buf(),
+            system.clone(),
+            system.join("Npcap"),
+            library.clone(),
+            system.join("Npcap").join("Packet.dll"),
+        ] {
+            libraries.push(verify_path(&path)?);
+        }
+        let mut drivers = Vec::new();
+        for path in [root.to_path_buf(), system.clone(), system.join("drivers"), driver.clone()] {
+            drivers.push(verify_path(&path)?);
+        }
+        Ok((Self { _handles: libraries, path: library }, Self { _handles: drivers, path: driver }))
+    }
     pub fn path(&self) -> &Path {
         &self.path
     }
@@ -128,6 +151,26 @@ pub(super) fn verify_process_image(process: HANDLE, expected: InstalledFile) -> 
         return Err(denied());
     }
     Ok(())
+}
+
+pub(super) fn system_directory() -> io::Result<PathBuf> {
+    let mut bytes = vec![0u16; MAX_PATH_UNITS];
+    // SAFETY: fixed OS system directory query and bounded writable output.
+    let length = unsafe {
+        windows_sys::Win32::System::SystemInformation::GetSystemDirectoryW(
+            bytes.as_mut_ptr(),
+            bytes.len() as u32,
+        )
+    } as usize;
+    if length == 0 || length >= bytes.len() {
+        return Err(denied());
+    }
+    let path =
+        PathBuf::from(std::ffi::OsString::from_wide(bytes.get(..length).ok_or_else(denied)?));
+    if !path.is_absolute() {
+        return Err(denied());
+    }
+    Ok(path)
 }
 
 fn program_files() -> io::Result<PathBuf> {

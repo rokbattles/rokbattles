@@ -3,7 +3,7 @@
 This source checkpoint implements the Windows SCM host and authenticated local
 transport. It is not an installer and does not enable live capture in tests.
 
-The helper has no HTTP client, SQLite, mail decoder, updater, token, URL, arbitrary
+The helper has no HTTP client, SQLite, mail decoder, updater, application token, URL, arbitrary
 filter, interface or path input. It runs only with `--service`. Each active WTS
 logon gets one local named pipe; listing sessions never opens a capture handle.
 Only an authenticated installed `rokbattles-desktop-agent.exe` may send `Start`.
@@ -30,10 +30,32 @@ consent and stop that capture. A reconnect must authenticate and start again.
 - WinDivert's SCM driver must already be running from the exact pinned file.
   Runtime does not install or start it. The protected global mutex
   `Global\ROKBattles.Capture.NativeOpen.v1` serializes trusted loading/open with
-  explicit maintenance. Maintenance must hold the same mutex while validating,
+  explicit maintenance. An existing mutex must also have an administrative owner
+  and admin-only ACL. The protected `.capture-ready-v1` file must contain exactly
+  `ROKBattlesCaptureReady:1\n`, and `.capture-maintenance` must be absent.
+  Maintenance must hold the same mutex while validating,
   installing and starting the driver, and stop the helper before replacing files
 - Capture remains SNIFF | RECV_ONLY | NO_INSTALL. No Send or injection symbol is
   loaded. A native read or slow client cannot block or change original game traffic
+
+## Npcap fallback
+
+Windows x64 prefers WinDivert; x64 fallback and Windows ARM64 use separately
+installed Npcap from the OS System32/Npcap directory. Its DLL dependencies and
+System32/drivers/npcap.sys must have protected non-reparse paths, and the exact
+`npcap` kernel service must already be running. Runtime never starts it. Adapter
+GUIDs and typed local addresses come from bounded OS enumeration, not requests.
+A changed interface/address set ends the transport and forces a fresh baseline.
+
+Because Npcap does not prove outbound packet direction, its distinct local socket
+evidence requires a new OWNER_MODULE row (creation timestamp + pinned process
+identity), a witnessed SYN_SENT-to-ESTABLISHED transition and matching server
+SYN/ACK. Existing or missed-transition connections stay excluded until reconnect.
+Each final packet write rechecks a fresh exact owner row and current user/logon.
+Socket establishment/retirement records never impersonate captured client packets,
+and generation IDs are scoped to one authenticated transport. Reset timing is
+limited by the OS table polling; FIN_WAIT retains server tail data. The agent
+receives the selected backend in the Started record.
 
 ## Attribution and loss
 
@@ -63,7 +85,11 @@ CI tests the mock suites on six native architectures without loading a driver.
 A full Windows installation/upgrade/uninstall, standard-user/SYSTEM pipe exchange,
 revocation-cache behavior, service crash/restart and live authorized capture still
 need explicit native acceptance testing. No application signing credentials are
-configured by this change. Windows Npcap/ARM64 socket-evidence integration is a
-separate follow-up; this checkpoint reports ownership unavailable there. Npcap
-is never bundled. Unix transports have peer-credential checks, but Unix privileged
+configured by this change. Windows Npcap/ARM64 integration is implemented in source and synthetic tests;
+its real driver, short SYN_SENT observation timing and interface compatibility
+still need native acceptance testing. Npcap is never bundled. Unix transports have peer-credential checks, but Unix privileged
 service provisioning and native capture hosts are not implemented by this slice.
+
+Service stop explicitly cancels every logon session and awaits native shutdown.
+If a capture task cannot close within the bound, the helper terminates its process
+before it can report SCM STOPPED with live driver or installation handles.

@@ -19,6 +19,14 @@ pub enum ClientRequest {
     Stop,
 }
 
+/// Native source actually selected by the helper, for local status only.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[repr(u8)]
+pub enum Backend {
+    WinDivert = 1,
+    Pcap = 2,
+}
+
 /// Stable coarse reasons. Never send native errors, paths, tokens or captured data.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
@@ -68,7 +76,7 @@ impl fmt::Debug for PacketBytes {
 
 #[derive(PartialEq, Eq)]
 pub enum Record {
-    Started,
+    Started(Backend),
     ServerPacket(PacketBytes),
     ClientControl(ClientTcpControl),
     SocketEstablished(SocketEstablishedEvidence),
@@ -83,7 +91,7 @@ pub enum Record {
 impl fmt::Debug for Record {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Started => f.write_str("Started"),
+            Self::Started(backend) => f.debug_tuple("Started").field(backend).finish(),
             Self::ServerPacket(_) => f.write_str("ServerPacket(<redacted>)"),
             Self::ClientControl(_) => f.write_str("ClientControl(<redacted>)"),
             Self::SocketEstablished(_) => f.write_str("SocketEstablished(<redacted>)"),
@@ -93,6 +101,47 @@ impl fmt::Debug for Record {
             Self::Stopped => f.write_str("Stopped"),
             Self::Keepalive => f.write_str("Keepalive"),
         }
+    }
+}
+
+/// One reader per authenticated transport. Keep its read future alive until a
+/// complete frame arrives; cancellation is safe only when closing that transport.
+/// Enforces startup ordering independently of any consumer/UI state.
+pub struct SessionReader<R> {
+    input: R,
+    started: bool,
+    ended: bool,
+}
+impl<R: AsyncRead + Unpin> SessionReader<R> {
+    pub fn new(input: R) -> Self {
+        Self { input, started: false, ended: false }
+    }
+    pub async fn read(&mut self) -> io::Result<Record> {
+        if self.ended {
+            return Err(invalid());
+        }
+        let record = match read_record(&mut self.input).await {
+            Ok(record) => record,
+            Err(error) => {
+                self.ended = true;
+                return Err(error);
+            }
+        };
+        match &record {
+            Record::Started(_) if !self.started => self.started = true,
+            Record::Unavailable(_) => self.ended = true,
+            Record::Started(_) => {
+                self.ended = true;
+                return Err(invalid());
+            }
+            _ if !self.started => {
+                self.ended = true;
+                return Err(invalid());
+            }
+            Record::Stopped => self.ended = true,
+            _ => {}
+        }
+        Ok(record)
     }
 }
 
@@ -127,7 +176,11 @@ pub async fn write_request<W: AsyncWrite + Unpin>(
 pub async fn read_record<R: AsyncRead + Unpin>(input: &mut R) -> io::Result<Record> {
     let (kind, body) = read_frame(input).await?;
     match (kind, body.as_ref()) {
-        (16, []) => Ok(Record::Started),
+        (16, [backend]) => Ok(Record::Started(match backend {
+            1 => Backend::WinDivert,
+            2 => Backend::Pcap,
+            _ => return Err(invalid()),
+        })),
         (17, _) if exact_server_packet(&body) => Ok(Record::ServerPacket(body)),
         (18, _) => decode_control(&body).map(Record::ClientControl),
         (19, []) => Ok(Record::Gap),
@@ -152,7 +205,7 @@ pub async fn write_record<W: AsyncWrite + Unpin>(
     record: &Record,
 ) -> io::Result<()> {
     match record {
-        Record::Started => write_frame(output, 16, &[]).await,
+        Record::Started(backend) => write_frame(output, 16, &[*backend as u8]).await,
         Record::ServerPacket(body) if exact_server_packet(body) => {
             write_frame(output, 17, body).await
         }
@@ -197,10 +250,10 @@ async fn read_frame_inner<R: AsyncRead + Unpin>(
     ) as usize;
     // Check both global and per-kind limits before allocating or reading any body.
     let limit = match kind {
-        1 | 2 | 16 | 19 | 21 | 22 => 0,
+        1 | 2 | 19 | 21 | 22 => 0,
         17 => MAX_BODY_BYTES,
         18 => CONTROL_BYTES,
-        20 => 1,
+        16 | 20 => 1,
         23 => 53,
         24 => 49,
         _ => return Err(invalid()),
@@ -474,7 +527,7 @@ mod tests {
     #[tokio::test]
     async fn records_round_trip_without_payload_in_debug() {
         let records = [
-            Record::Started,
+            Record::Started(Backend::WinDivert),
             Record::ClientControl(control()),
             Record::Gap,
             Record::Unavailable(UnavailableReason::OwnershipUnavailable),
@@ -499,7 +552,7 @@ mod tests {
             *b"RKCI\x02\x11\0\0\0\0\0\0",
             *b"RKCI\x01\x11\x01\0\0\0\0\0",
             *b"RKCI\x01\xff\0\0\0\0\0\0",
-            *b"RKCI\x01\x10\0\0\0\0\0\x01",
+            *b"RKCI\x01\x10\0\0\0\0\0\x02",
         ] {
             assert_eq!(
                 read_record(&mut header.as_slice()).await.expect_err("invalid header").kind(),
@@ -540,7 +593,10 @@ mod tests {
         let read = read_record(&mut reader);
         assert_eq!(read.await.expect_err("partial frame").kind(), io::ErrorKind::TimedOut);
         assert_eq!(
-            write_record(&mut writer, &Record::Started).await.expect_err("stalled peer").kind(),
+            write_record(&mut writer, &Record::Started(Backend::WinDivert))
+                .await
+                .expect_err("stalled peer")
+                .kind(),
             io::ErrorKind::TimedOut
         );
     }
@@ -601,5 +657,36 @@ mod tests {
         let mut extra = encode_retired(retired).expect("retire");
         extra.push(0);
         decode_retired(&extra).expect_err("extra bytes");
+    }
+    #[tokio::test]
+    async fn authenticated_session_rejects_heartbeat_evidence_and_data_before_started() {
+        for first in [Record::Keepalive, Record::Gap, Record::ClientControl(control())] {
+            let mut bytes = Vec::new();
+            write_record(&mut bytes, &first).await.expect("synthetic source");
+            write_record(&mut bytes, &Record::Started(Backend::Pcap)).await.expect("late start");
+            let mut reader = SessionReader::new(bytes.as_slice());
+            assert_eq!(
+                reader.read().await.expect_err("pre-start record").kind(),
+                io::ErrorKind::InvalidData
+            );
+            reader.read().await.expect_err("session remains closed");
+        }
+        let mut bytes = Vec::new();
+        write_record(&mut bytes, &Record::Started(Backend::Pcap)).await.expect("start");
+        write_record(&mut bytes, &Record::Keepalive).await.expect("heartbeat");
+        write_record(&mut bytes, &Record::Stopped).await.expect("stop");
+        let mut reader = SessionReader::new(bytes.as_slice());
+        assert_eq!(reader.read().await.expect("first"), Record::Started(Backend::Pcap));
+        assert_eq!(reader.read().await.expect("next"), Record::Keepalive);
+        assert_eq!(reader.read().await.expect("last"), Record::Stopped);
+        reader.read().await.expect_err("terminated");
+        let mut unavailable = Vec::new();
+        write_record(&mut unavailable, &Record::Unavailable(UnavailableReason::NativeBackend))
+            .await
+            .expect("unavailable");
+        assert!(matches!(
+            SessionReader::new(unavailable.as_slice()).read().await.expect("startup failure"),
+            Record::Unavailable(_)
+        ));
     }
 }

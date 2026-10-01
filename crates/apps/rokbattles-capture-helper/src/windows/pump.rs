@@ -1,37 +1,47 @@
-use rokbattles_capture_ipc::{Record, UnavailableReason, windows::Identity};
+//! Native threads enqueue bounded raw observations only. User/flow authority is
+//! checked by the final IPC writer after dequeue, never cached in this queue.
+use super::open_lock::OpenLock;
+use rokbattles_capture_adapters::Receive;
+use rokbattles_capture_ipc::windows::ProtectedInstallation;
+use rokbattles_capture_ipc::{Backend, PacketBytes, UnavailableReason};
+#[cfg(target_arch = "x86_64")]
+use rokbattles_capture_runtime::packet::ClientTcpControl;
 use std::{
     sync::{
         Arc,
         atomic::{AtomicBool, Ordering},
     },
-    time::Duration,
+    time::{Duration, Instant},
 };
 use tokio::sync::{mpsc, watch};
 
-pub const QUEUE_RECORDS: usize = 64; // <= 64 * 65,535 body bytes, plus fixed metadata.
-
+pub const QUEUE_RECORDS: usize = 64;
+pub enum NativeRecord {
+    Started(Backend),
+    Packet(PacketBytes),
+    #[cfg(target_arch = "x86_64")]
+    ClientControl(ClientTcpControl),
+    Unavailable(UnavailableReason),
+}
 pub struct Pump {
-    pub records: mpsc::Receiver<Record>,
+    pub records: mpsc::Receiver<NativeRecord>,
     pub failed: watch::Receiver<bool>,
     stop: Arc<AtomicBool>,
     task: tokio::task::JoinHandle<()>,
 }
 impl Pump {
-    pub fn start(identity: Identity) -> Self {
+    pub fn start() -> Self {
         let (sender, records) = mpsc::channel(QUEUE_RECORDS);
         let (failure, failed) = watch::channel(false);
         let stop = Arc::new(AtomicBool::new(false));
         let stop_copy = Arc::clone(&stop);
-        let task = tokio::task::spawn_blocking(move || run(identity, sender, failure, stop_copy));
+        let task = tokio::task::spawn_blocking(move || run(sender, failure, stop_copy));
         Self { records, failed, stop, task }
     }
     pub async fn finish(mut self) {
-        self.stop.store(true, Ordering::Release);
-        // WinDivertShutdown wakes the native receiver; timeout never keeps a pipe
-        // or opted-in session alive. Process-level service shutdown also terminates it.
+        self.cancel();
         if !matches!(tokio::time::timeout(Duration::from_secs(5), &mut self.task).await, Ok(Ok(())))
         {
-            // A timeout must not masquerade as a completed service stop/update.
             std::process::abort();
         }
     }
@@ -41,59 +51,96 @@ impl Pump {
 }
 impl Drop for Pump {
     fn drop(&mut self) {
-        self.stop.store(true, Ordering::Release);
+        self.cancel();
     }
 }
 
-#[cfg(target_arch = "x86_64")]
-fn run(
-    _identity: Identity,
-    sender: mpsc::Sender<Record>,
-    failure: watch::Sender<bool>,
-    stop: Arc<AtomicBool>,
-) {
-    use super::{native_trust::TrustedWinDivert, open_lock::OpenLock};
-    use rokbattles_capture_adapters::{Receive, windivert::WinDivert};
-    let opened = (|| {
-        let lock = OpenLock::acquire().map_err(|_error| ())?;
-        let ready = rokbattles_capture_ipc::windows::ProtectedInstallation::maintenance_ready()
-            .map_err(|_error| ())?;
-        let trust = TrustedWinDivert::verify().map_err(|_error| ())?;
-        // SAFETY: fixed protected architecture path, exact compiled byte/hash pins,
-        // signed driver with exact nested DRIVER_ACTION_VERIFY; pinned files remain
-        // immutable while the DLL is loaded. No user-selected native path exists.
-        let backend = unsafe { WinDivert::load(trust.dll_path()) }.map_err(|_error| ())?;
-        Ok::<_, ()>((lock, ready, trust, backend))
-    })();
-    let Ok((lock, _ready, _trust, backend)) = opened else {
-        let _outcome = sender.try_send(Record::Unavailable(UnavailableReason::NativeBackend));
-        return;
-    };
-    let Ok(capture) = backend.open() else {
-        let _outcome = sender.try_send(Record::Unavailable(UnavailableReason::NativeBackend));
-        return;
-    };
-    drop(lock); // NO_INSTALL open finished under the shared cross-process gate.
-    if stop.load(Ordering::Acquire) || sender.try_send(Record::Started).is_err() {
+fn send(
+    sender: &mpsc::Sender<NativeRecord>,
+    failure: &watch::Sender<bool>,
+    stop: &AtomicBool,
+    record: NativeRecord,
+) -> bool {
+    if stop.load(Ordering::Acquire) {
+        return false;
+    }
+    if matches!(&record, NativeRecord::Packet(bytes) if bytes.len() > rokbattles_capture_ipc::MAX_BODY_BYTES)
+    {
+        let _outcome = failure.send(true);
+        stop.store(true, Ordering::Release);
+        return false;
+    }
+    if sender.try_send(record).is_err() {
+        // RAII wipes any packet rejected by the queue. No post-loss record follows.
+        let _outcome = failure.send(true);
+        stop.store(true, Ordering::Release);
+        return false;
+    }
+    true
+}
+fn unavailable(sender: &mpsc::Sender<NativeRecord>, reason: UnavailableReason) {
+    let _outcome = sender.try_send(NativeRecord::Unavailable(reason));
+}
+
+fn run(sender: mpsc::Sender<NativeRecord>, failure: watch::Sender<bool>, stop: Arc<AtomicBool>) {
+    if stop.load(Ordering::Acquire) {
         return;
     }
+    let Ok(lock) = OpenLock::acquire() else {
+        unavailable(&sender, UnavailableReason::Busy);
+        return;
+    };
+    let Ok(_ready) = ProtectedInstallation::maintenance_ready() else {
+        unavailable(&sender, UnavailableReason::HelperNotProvisioned);
+        return;
+    };
+    if stop.load(Ordering::Acquire) {
+        return;
+    }
+    #[cfg(target_arch = "x86_64")]
+    {
+        use rokbattles_capture_adapters::windivert::WinDivert;
+        if let Ok(trust) = super::native_trust::TrustedWinDivert::verify() {
+            if stop.load(Ordering::Acquire) {
+                return;
+            }
+            // SAFETY: fixed protected x64 path, compiled exact size/hash pins and
+            // cached nested driver signature; immutable handles outlive DLL use.
+            if let Ok(backend) = unsafe { WinDivert::load(trust.dll_path()) }
+                && !stop.load(Ordering::Acquire)
+                && let Ok(capture) = backend.open()
+            {
+                drop(lock);
+                if send(&sender, &failure, &stop, NativeRecord::Started(Backend::WinDivert)) {
+                    run_windivert(&capture, &sender, &failure, &stop);
+                }
+                return;
+            }
+        }
+    }
+    // Windows ARM64 and x64 fallback use only a separately installed, already
+    // running Npcap driver. The library is never linked, bundled or installed here.
+    run_npcap(lock, &sender, &failure, &stop);
+}
+
+#[cfg(target_arch = "x86_64")]
+fn run_windivert(
+    capture: &rokbattles_capture_adapters::windivert::Capture<'_>,
+    sender: &mpsc::Sender<NativeRecord>,
+    failure: &watch::Sender<bool>,
+    stop: &AtomicBool,
+) {
     std::thread::scope(|scope| {
         let receiver = scope.spawn(|| {
             while !stop.load(Ordering::Acquire) {
-                let records = match capture.receive() {
-                    Ok(Receive::Packet(bytes)) => vec![Record::ServerPacket(bytes.into())],
-                    Ok(Receive::ClientControl(control)) => vec![Record::ClientControl(control)],
+                let record = match capture.receive() {
+                    Ok(Receive::Packet(bytes)) => NativeRecord::Packet(bytes.into()),
+                    Ok(Receive::ClientControl(control)) => NativeRecord::ClientControl(control),
                     Ok(Receive::Idle | Receive::Discarded) => continue,
                     Ok(Receive::End) | Err(_) => break,
                 };
-                for record in records {
-                    if sender.try_send(record).is_err() {
-                        // Do not block a capture thread behind a slow client. No
-                        // post-loss record is queued; close the authenticated pipe.
-                        let _outcome = failure.send(true);
-                        stop.store(true, Ordering::Release);
-                        return;
-                    }
+                if !send(sender, failure, stop, record) {
+                    return;
                 }
             }
         });
@@ -101,17 +148,93 @@ fn run(
             std::thread::sleep(Duration::from_millis(20));
         }
         stop.store(true, Ordering::Release);
-        let _outcome = capture.shutdown();
-        let _outcome = receiver.join();
+        let _shutdown = capture.shutdown();
+        if receiver.join().is_err() {
+            std::process::abort();
+        }
     });
 }
 
-#[cfg(not(target_arch = "x86_64"))]
-fn run(
-    _identity: Identity,
-    sender: mpsc::Sender<Record>,
-    _failure: watch::Sender<bool>,
-    _stop: Arc<AtomicBool>,
+fn run_npcap(
+    lock: OpenLock,
+    sender: &mpsc::Sender<NativeRecord>,
+    failure: &watch::Sender<bool>,
+    stop: &AtomicBool,
 ) {
-    let _outcome = sender.try_send(Record::Unavailable(UnavailableReason::OwnershipUnavailable));
+    use rokbattles_capture_adapters::pcap::Pcap;
+    if stop.load(Ordering::Acquire) {
+        return;
+    }
+    let Ok((library, driver)) = ProtectedInstallation::installed_npcap() else {
+        unavailable(sender, UnavailableReason::NativeBackend);
+        return;
+    };
+    if super::native_trust::require_running_driver("npcap", driver.path()).is_err() {
+        unavailable(sender, UnavailableReason::NativeBackend);
+        return;
+    }
+    // SAFETY: fixed separately installed Npcap system path and protected native
+    // dependencies/driver, no user-writable ancestor or loader search location.
+    let Ok(backend) = (unsafe { Pcap::load(library.path()) }) else {
+        unavailable(sender, UnavailableReason::NativeBackend);
+        return;
+    };
+    let Ok(interfaces) = crate::interfaces::enumerate() else {
+        unavailable(sender, UnavailableReason::NativeBackend);
+        return;
+    };
+    if interfaces.is_empty() {
+        unavailable(sender, UnavailableReason::NativeBackend);
+        return;
+    }
+    let mut captures = Vec::new();
+    for interface in &interfaces {
+        if stop.load(Ordering::Acquire) {
+            return;
+        }
+        let Ok(capture) = backend.open(&interface.name, &interface.addresses) else {
+            unavailable(sender, UnavailableReason::NativeBackend);
+            return;
+        };
+        captures.push(capture);
+    }
+    let mut original: Vec<_> = interfaces
+        .iter()
+        .map(|interface| (interface.name.clone(), interface.addresses.clone()))
+        .collect();
+    original.sort();
+    drop(lock);
+    if !send(sender, failure, stop, NativeRecord::Started(Backend::Pcap)) {
+        return;
+    }
+    let mut checked = Instant::now();
+    while !stop.load(Ordering::Acquire) {
+        if checked.elapsed() >= Duration::from_secs(2) {
+            let Ok(current) = crate::interfaces::enumerate() else {
+                break;
+            };
+            let mut current: Vec<_> = current
+                .into_iter()
+                .map(|interface| (interface.name, interface.addresses))
+                .collect();
+            current.sort();
+            if current != original {
+                break;
+            } // transport ends; reconnect obtains a fresh baseline.
+            checked = Instant::now();
+        }
+        for capture in &mut captures {
+            match capture.receive() {
+                Ok(Receive::Packet(bytes)) => {
+                    if !send(sender, failure, stop, NativeRecord::Packet(bytes.into())) {
+                        return;
+                    }
+                }
+                Ok(Receive::Idle | Receive::Discarded) => {}
+                // Npcap has no trusted client direction. Unexpected controls are fatal.
+                Ok(Receive::ClientControl(_) | Receive::End) | Err(_) => return,
+            }
+        }
+        std::thread::sleep(Duration::from_millis(2));
+    }
 }
