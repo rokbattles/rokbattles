@@ -65,8 +65,10 @@ install binaries and service definitions at their fixed destinations as root (di
 Linux uses `rokbattles-capture@<UID>.service`; macOS uses
 `com.rokbattles.capture-helper.<UID>` in the system launchd domain. The UID is
 checked again against the kernel peer for each connection. No installer execution
-is included in these tests. Distribution signing/notarization and platform
-installer UX integration remain release work.
+is included in these tests. The release workflow below prepares the
+signed/notarized companion assets; actual signing/notarization and administrator
+acceptance remain release validation work. Consumer installer UX remains
+additional implementation work.
 
 Only the fixed protected companion executable may authenticate to the helper:
 `/usr/libexec/rokbattles/rokbattles-desktop-agent` on Linux and
@@ -119,6 +121,38 @@ Global source loss requires a fresh user-agent connection and handshake.
 - [Apple libproc declarations](https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h)
 - [Apple socket and process structures](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/proc_info.h)
 - [systemd execution settings](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html)
+
+## Release assets
+
+The draft-release workflow builds helper and protected agent for each Linux and
+macOS architecture and runs `stage_release.py`. Linux receives a target-specific
+UID-neutral tarball, a standalone reviewed administrative installer and checksums.
+The installer source contains one required build-time pin marker; staging replaces
+it with this exact archive's SHA-256, target and macOS signing team. No preinstalled
+root manifest is needed on the first install, and runtime pin overrides are not
+accepted. An administrator must authenticate/review the installer and checksum
+from the trusted official release, provision the exact script at a protected
+root-owned path, and explicitly authorize its execution with system Python in
+isolated mode. The invocation guard below remains required. Embedded pins verify
+the bound archive after the installer starts; they cannot authenticate the
+installer itself before privileged execution.
+macOS first signs both executables with their exact identifiers and hardened
+runtime using the existing Apple release identity, verifies their same-team
+requirements and forbidden entitlements, and submits a ZIP containing both signed
+executables to Apple's notarization service. Only an Accepted response permits
+payload staging. A small notarization receipt is included; upload URLs, accounts,
+passwords and full notarization logs are excluded. Standalone executable tickets
+are checked online by Apple's infrastructure; there is no claim of an offline
+stapled installer package.
+
+Only these completed assets are attached to the existing **draft** release. This
+code does not publish a release or install anything. The administrator chooses a
+local UID when running the reviewed installer, never at CI build time. The
+ordinary app update does not silently replace either protected companion. Before
+a release can ship, complete native signed/notarized install/update/uninstall and
+interrupted-repair checks on
+macOS Intel/ARM64 and Linux x64/ARM64. No release, signing, notarization or service
+action was executed while implementing these changes.
 
 ## Administrator maintenance CLI
 
