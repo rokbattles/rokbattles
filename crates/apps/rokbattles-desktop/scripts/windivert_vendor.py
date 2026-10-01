@@ -54,6 +54,9 @@ def load_lock():
     lock = json.loads(LOCK_PATH.read_text(encoding="utf-8"))
     if lock["target"] != TARGET:
         raise VerificationError("Unsupported WinDivert target in lock")
+    index = lock.get("kernelSignatureIndex")
+    if type(index) is not int or not 0 <= index <= 7:
+        raise VerificationError("Kernel signature index must be an integer between 0 and 7")
     return lock
 
 

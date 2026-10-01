@@ -273,6 +273,18 @@ class VendorTests(unittest.TestCase):
         self.assertEqual(manifest["kernelSignatureIndex"], 1)
         script = (vendor.DESKTOP / "scripts/verify_windivert.ps1").read_text()
         self.assertIn("verify /kp /ds $KernelSignatureIndex /tw /v $Driver", script)
+        self.assertIn("$KernelSignatureIndex = $Lock.kernelSignatureIndex", script)
+
+    def test_invalid_kernel_signature_policy_fails_closed(self):
+        path = self.root.parent / "invalid-lock.json"
+        for index in [None, True, "1", 1.5, -1, 8]:
+            with self.subTest(index=index):
+                lock = copy.deepcopy(self.lock)
+                lock["kernelSignatureIndex"] = index
+                path.write_text(json.dumps(lock))
+                with mock.patch.object(vendor, "LOCK_PATH", path):
+                    with self.assertRaisesRegex(vendor.VerificationError, "Kernel signature index"):
+                        vendor.load_lock()
 
     def test_http_redirect_is_rejected(self):
         handler = vendor.HttpsOnlyRedirect()
