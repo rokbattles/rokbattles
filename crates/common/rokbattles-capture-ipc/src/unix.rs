@@ -181,4 +181,6 @@ mod tests {
 
 #[path = "unix_trust.rs"]
 mod trust;
-pub use trust::{installed_agent_path, verify_protected_path};
+pub use trust::{
+    MAINTENANCE_MARKER_PATH, installed_agent_path, maintenance_requested, verify_protected_path,
+};

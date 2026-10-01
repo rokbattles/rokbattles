@@ -141,7 +141,7 @@ jobs:
         if: matrix.target == 'x86_64-pc-windows-msvc'
         run: cargo test --locked -p rokbattles-capture-adapters --target ${{ matrix.target }} --test native_dependencies windivert_verified_library_loads_without_capture -- --ignored --exact
       - name: Report Npcap runtime coverage blocked by external installation
-        if: runner.os == 'Windows'
+        if: always() && runner.os == 'Windows'
         shell: pwsh
         run: |
           Write-Output '::notice title=Npcap runtime NOT RUN::Npcap is not installed or bundled. Free Npcap has no silent installer; an administrator must separately accept its license and install it. SDK or compile checks are not runtime coverage.'
