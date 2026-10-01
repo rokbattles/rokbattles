@@ -31,9 +31,9 @@ $SdkBin = Join-Path ${env:ProgramFiles(x86)} 'Windows Kits/10/bin'
 $SignTool = Get-ChildItem -Path "$SdkBin/*/x64/signtool.exe" -File |
     Sort-Object FullName -Descending | Select-Object -First 1
 if ($null -eq $SignTool) { throw 'Windows SDK SignTool is required; verification cannot be skipped.' }
-$OsVersion = [Environment]::OSVersion.Version
-$PolicyVersion = "2:$($OsVersion.Major).$($OsVersion.Minor).$($OsVersion.Build)"
-& $SignTool.FullName verify /kp /tw /v /o $PolicyVersion $Driver
+# Verify the embedded signature directly. /o is for catalog lookup modes;
+# /all is incompatible with /kp in current Windows SDKs.
+& $SignTool.FullName verify /kp /tw /v $Driver
 if ($LASTEXITCODE -ne 0) { throw "Kernel-policy signature verification failed: $LASTEXITCODE" }
 
 # Confirm verification did not change any bytes before handing files to the bundler.
