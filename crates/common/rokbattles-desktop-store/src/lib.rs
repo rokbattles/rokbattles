@@ -164,7 +164,10 @@ impl Store {
             .pragma("journal_size_limit", "1048576");
         let pool = SqlitePoolOptions::new()
             .max_connections(1)
-            .acquire_timeout(Duration::from_secs(3))
+            // Includes opening the worker thread/connection, not only a held
+            // query. Loaded Windows hosts can exceed three seconds during a
+            // cold open; retain a finite bound with room beyond busy_timeout.
+            .acquire_timeout(Duration::from_secs(10))
             .connect_with(options)
             .await?;
         let store = Self { pool, directory: directory.to_path_buf() };
