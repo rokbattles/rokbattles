@@ -26,6 +26,7 @@ modules:
       - ar -x app.deb --output deb-extract
       - tar -C deb-extract -xf deb-extract/data.tar.*
       - install -Dm755 deb-extract/usr/bin/rokbattles-desktop /app/bin/rokbattles-desktop
+      - install -Dm755 deb-extract/usr/bin/rokbattles-desktop-agent /app/bin/rokbattles-desktop-agent
       - sed -i -e 's/^Icon=.*/Icon=com.rokbattles.rokbattles/' -e 's/^Categories=.*/Categories=Game;Utility;/' deb-extract/usr/share/applications/*.desktop
       - install -Dm644 deb-extract/usr/share/applications/*.desktop /app/share/applications/com.rokbattles.rokbattles.desktop
       - |

@@ -147,6 +147,25 @@ async fn aggregate_path_quota_rolls_back_without_losing_prior_pending() {
         .expect("usage");
     assert_eq!(rows, accepted);
     assert!(bytes <= MAX_PATH_TOTAL as i64);
+    let next = root.path.join(format!("next{suffix}"));
+    assert!(
+        !store
+            .observe(root.id, &next, FileSig { size: 1, modified_ms: 2 })
+            .await
+            .expect("bounded full queue")
+    );
+    let oldest = store.next_pending(0).await.expect("pending").expect("oldest");
+    store.finish(&oldest, true).await.expect("completed history");
+    assert!(
+        store
+            .observe(root.id, &next, FileSig { size: 1, modified_ms: 2 })
+            .await
+            .expect("reclaim completed history")
+    );
+    assert_eq!(
+        store.status().await.expect("status").pending,
+        u64::try_from(accepted).expect("nonnegative count")
+    );
     store.clear_history().await.expect("bulk clear");
     assert!(sidecar_size(&directory, "-wal").expect("wal") < CHECKPOINT_BYTES);
     store.close().await;
@@ -161,4 +180,21 @@ fn hot_journal_and_recovery_files_are_checked_before_open() {
         rokbattles_desktop_paths::file(&directory, "worker.sqlite3-journal").expect("journal");
     journal.set_len(MAX_RECOVERY_BYTES + 1).expect("sparse oversize fixture");
     assert!(check_files(&directory).is_err());
+}
+
+#[tokio::test]
+async fn missing_file_cleanup_preserves_newer_signature() {
+    let (_temp, directory) = state();
+    let store = Store::open(&directory).await.expect("open");
+    let root = root(&store, &directory).await;
+    let path = root.path.join("Persistent.Mail.123");
+    store.observe(root.id, &path, FileSig { size: 1, modified_ms: 1 }).await.expect("observe");
+    let stale = store.next_pending(0).await.expect("pending").expect("item");
+    store.observe(root.id, &path, FileSig { size: 2, modified_ms: 2 }).await.expect("changed");
+    store.forget_missing(&stale).await.expect("stale removal");
+    let current = store.next_pending(0).await.expect("pending").expect("changed item");
+    assert_eq!(current.sig.size, 2);
+    store.forget_missing(&current).await.expect("missing cleanup");
+    assert!(store.next_pending(0).await.expect("pending").is_none());
+    store.close().await;
 }

@@ -4,9 +4,12 @@
 //! Classification therefore depends on the whole sequence: item count first,
 //! then the types of the values in potential key positions.
 
-use serde_json::{Map, Value, map::Entry};
+use serde_json::{Map, Value};
 
-use crate::DecodeError;
+use crate::{
+    DecodeError,
+    sensitive::{SensitiveItems, SensitiveMap, SensitiveValue},
+};
 
 #[derive(Debug)]
 pub(crate) struct ClassifiedTable {
@@ -17,6 +20,7 @@ pub(crate) fn classify_table(
     items: Vec<Value>,
     table_offset: usize,
 ) -> Result<ClassifiedTable, DecodeError> {
+    let items = SensitiveItems(items);
     if items.is_empty() || !items.len().is_multiple_of(2) {
         return Ok(sequential(items));
     }
@@ -46,36 +50,32 @@ pub(crate) fn classify_table(
     Ok(ClassifiedTable { value })
 }
 
-fn sequential(items: Vec<Value>) -> ClassifiedTable {
-    ClassifiedTable { value: Value::Array(items) }
+fn sequential(mut items: SensitiveItems) -> ClassifiedTable {
+    ClassifiedTable { value: Value::Array(items.take()) }
 }
 
-fn string_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, DecodeError> {
-    let mut map = Map::with_capacity(items.len() / 2);
+fn string_keyed_table(items: SensitiveItems, table_offset: usize) -> Result<Value, DecodeError> {
+    let mut map = SensitiveMap(Map::with_capacity(items.len() / 2));
     for (key, value) in owned_pairs(items) {
-        #[expect(
-            clippy::unreachable,
-            reason = "table key types were classified before conversion."
-        )]
-        let Value::String(key) = key else {
-            unreachable!("table key types were classified before conversion");
+        let mut key = SensitiveValue(key);
+        let mut value = SensitiveValue(value);
+        let Some(text) = key.0.as_str() else {
+            return Err(DecodeError::MixedTableKeyTypes { offset: table_offset });
         };
-        match map.entry(key) {
-            Entry::Vacant(entry) => {
-                entry.insert(value);
-            }
-            Entry::Occupied(entry) => {
-                return Err(DecodeError::DuplicateTableKey {
-                    offset: table_offset,
-                    key: entry.key().clone(),
-                });
-            }
+        if map.0.contains_key(text) {
+            return Err(DecodeError::DuplicateTableKey {
+                offset: table_offset,
+                key: text.to_owned(),
+            });
+        }
+        if let Value::String(key) = key.take() {
+            map.0.insert(key, value.take());
         }
     }
-    Ok(Value::Object(map))
+    Ok(Value::Object(map.take()))
 }
 
-fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, DecodeError> {
+fn numeric_keyed_table(items: SensitiveItems, table_offset: usize) -> Result<Value, DecodeError> {
     let pair_count = items.len() / 2;
     // N distinct integer keys within 1..=N cover every array position. Their order
     // in the file does not matter; duplicates must fall through to object validation.
@@ -113,7 +113,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
         return Ok(Value::Array(values));
     }
 
-    let mut map = Map::with_capacity(pair_count);
+    let mut map = SensitiveMap(Map::with_capacity(pair_count));
     for (key, value) in owned_pairs(items) {
         #[expect(
             clippy::unreachable,
@@ -124,31 +124,24 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
         };
         // Detect duplicates after rendering, since these strings become the JSON keys.
         let key = key.to_string();
-        match map.entry(key) {
-            Entry::Vacant(entry) => {
-                entry.insert(value);
-            }
-            Entry::Occupied(entry) => {
-                return Err(DecodeError::DuplicateTableKey {
-                    offset: table_offset,
-                    key: entry.key().clone(),
-                });
-            }
+        let mut value = SensitiveValue(value);
+        if map.0.contains_key(&key) {
+            return Err(DecodeError::DuplicateTableKey { offset: table_offset, key });
         }
+        map.0.insert(key, value.take());
     }
-    Ok(Value::Object(map))
+    Ok(Value::Object(map.take()))
 }
 
 // Classification guarantees an even item count. Moving each pair avoids cloning
 // decoded strings and nested containers during conversion.
-fn owned_pairs(items: Vec<Value>) -> impl Iterator<Item = (Value, Value)> {
-    let mut items = items.into_iter();
+fn owned_pairs(mut items: SensitiveItems) -> impl Iterator<Item = (Value, Value)> {
+    let mut index = 0;
     std::iter::from_fn(move || {
-        let key = items.next()?;
-        #[expect(clippy::unreachable, reason = "pair iterator requires an even item count.")]
-        let Some(value) = items.next() else {
-            unreachable!("pair iterator requires an even item count");
-        };
+        let key = items.get_mut(index).map(std::mem::take)?;
+        index += 1;
+        let value = items.get_mut(index).map(std::mem::take)?;
+        index += 1;
         Some((key, value))
     })
 }

@@ -13,6 +13,7 @@ use crate::{
         FILE_HEADER_LEN, FILE_MARKER, MAX_DEPTH, TABLE_END, TAG_BOOL, TAG_F64, TAG_STRING,
         TAG_TABLE, file_checksum,
     },
+    sensitive::{SensitiveItems, SensitiveValue},
     value::classify_table,
 };
 
@@ -91,11 +92,16 @@ pub fn decode_bounded(buffer: &[u8], max_nodes: usize) -> Result<Value, DecodeEr
         .ok_or(DecodeError::HeaderTooShort { required: FILE_HEADER_LEN, actual: buffer.len() })?;
     let mut decoder = Decoder::new(payload, FILE_HEADER_LEN);
     decoder.max_nodes = max_nodes;
-    let value = decoder.read_value()?;
+    let mut value = SensitiveValue(decoder.read_value().map_err(|mut error| {
+        if let DecodeError::DuplicateTableKey { key, .. } = &mut error {
+            zeroize::Zeroize::zeroize(key);
+        }
+        error
+    })?);
     if decoder.remaining() != 0 {
         return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
     }
-    Ok(value)
+    Ok(value.take())
 }
 
 /// Decodes exactly one headerless `Persistent.Mail` value into a JSON value.
@@ -133,11 +139,11 @@ pub fn decode_value(buffer: &[u8]) -> Result<Value, DecodeError> {
 
 fn decode_value_at(buffer: &[u8], base_offset: usize) -> Result<Value, DecodeError> {
     let mut decoder = Decoder::new(buffer, base_offset);
-    let value = decoder.read_value()?;
+    let mut value = SensitiveValue(decoder.read_value()?);
     if decoder.remaining() != 0 {
         return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
     }
-    Ok(value)
+    Ok(value.take())
 }
 
 struct Decoder<'a> {
@@ -195,7 +201,7 @@ impl<'a> Decoder<'a> {
     }
 
     fn read_table_contents(&mut self, table_offset: usize) -> Result<Value, DecodeError> {
-        let mut items = Vec::new();
+        let mut items = SensitiveItems(Vec::new());
         let terminated = loop {
             match self.peek_u8() {
                 Some(TABLE_END) => {
@@ -208,12 +214,12 @@ impl<'a> Decoder<'a> {
         };
 
         // Key errors take precedence over a missing terminator when all items were readable.
-        let classified = classify_table(items, table_offset)?;
+        let mut classified = SensitiveValue(classify_table(items.take(), table_offset)?.value);
         if !terminated {
             return Err(DecodeError::MissingTableTerminator { offset: table_offset });
         }
 
-        Ok(classified.value)
+        Ok(classified.take())
     }
 
     fn read_string(&mut self) -> Result<String, DecodeError> {
@@ -320,6 +326,23 @@ fn to_i64_exact(value: f64) -> Option<i64> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn malformed_tail_and_node_limit_wipe_partial_strings() {
+        use crate::sensitive::WIPED_STRINGS;
+        for (tail, limit) in [(vec![0x00], 100), (vec![0x01, 1, 0xff], 2), (Vec::new(), 100)] {
+            let mut payload = vec![0x05, 0x04, 6, 0, 0, 0];
+            payload.extend_from_slice(b"secret");
+            payload.extend_from_slice(&tail);
+            let mut file = vec![0xff; 9];
+            file.extend_from_slice(&payload);
+            let checksum = crate::common::file_checksum(&file);
+            file.get_mut(1..9).expect("checksum").copy_from_slice(&checksum.to_le_bytes());
+            WIPED_STRINGS.with(|count| count.set(0));
+            super::decode_bounded(&file, limit).expect_err("malformed or over budget");
+            assert!(WIPED_STRINGS.with(|count| count.get()) >= 1);
+        }
+    }
+
     #[test]
     fn bounded_decode_charges_each_value_before_growing_tables() {
         let payload = [0x05, 0x01, 1, 0x01, 0, 0xff];

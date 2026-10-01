@@ -377,6 +377,30 @@ impl Store {
         if Path::new(path).parent() != Some(Path::new(&root_path)) {
             bail!("mailcache file must be directly inside its selected root");
         }
+        let (rows, bytes): (i64, i64) =
+            sqlx::query_as("SELECT rows,path_bytes FROM usage WHERE id=1")
+                .fetch_one(&mut *tx)
+                .await?;
+        if rows >= MAX_FILES as i64 || bytes + path.len() as i64 > MAX_PATH_TOTAL as i64 {
+            // Completed/rejected history is a cache. Pending work is never
+            // evicted; files remain available for the next bounded rescan.
+            sqlx::query("DELETE FROM files WHERE path IN (SELECT path FROM files WHERE state!=0 ORDER BY modified_ms LIMIT 256)").execute(&mut *tx).await?;
+            let (rows, bytes): (i64, i64) =
+                sqlx::query_as("SELECT rows,path_bytes FROM usage WHERE id=1")
+                    .fetch_one(&mut *tx)
+                    .await?;
+            let exists: bool =
+                sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM files WHERE path=?)")
+                    .bind(path)
+                    .fetch_one(&mut *tx)
+                    .await?;
+            if !exists
+                && (rows >= MAX_FILES as i64 || bytes + path.len() as i64 > MAX_PATH_TOTAL as i64)
+            {
+                tx.commit().await?;
+                return Ok(false);
+            }
+        }
         let result = sqlx::query("INSERT INTO files(path,root_id,size,modified_ms,state,attempts,next_attempt_ms) VALUES(?,?,?,?,0,0,0) ON CONFLICT(path) DO UPDATE SET root_id=excluded.root_id,size=excluded.size,modified_ms=excluded.modified_ms,state=0,attempts=0,next_attempt_ms=0 WHERE files.size!=excluded.size OR files.modified_ms!=excluded.modified_ms")
             .bind(path).bind(root).bind(i64::try_from(sig.size)?).bind(i64::try_from(sig.modified_ms)?).execute(&mut *tx).await?;
         tx.commit().await?;
@@ -384,7 +408,7 @@ impl Store {
     }
 
     pub async fn next_pending(&self, now_ms: u64) -> anyhow::Result<Option<PendingFile>> {
-        let row = sqlx::query("SELECT files.root_id,files.path,roots.path AS root_path,size,modified_ms,attempts FROM files JOIN roots ON roots.id=files.root_id WHERE state=0 AND next_attempt_ms<=? AND length(CAST(files.path AS BLOB)) BETWEEN 1 AND 4096 AND length(CAST(roots.path AS BLOB)) BETWEEN 1 AND 4096 ORDER BY next_attempt_ms,files.path LIMIT 1")
+        let row = sqlx::query("SELECT files.root_id,files.path,roots.path AS root_path,size,modified_ms,attempts FROM files JOIN roots ON roots.id=files.root_id WHERE state=0 AND next_attempt_ms<=? AND length(CAST(files.path AS BLOB)) BETWEEN 1 AND 4096 AND length(CAST(roots.path AS BLOB)) BETWEEN 1 AND 4096 ORDER BY next_attempt_ms,modified_ms DESC,files.path LIMIT 1")
             .bind(i64::try_from(now_ms)?).fetch_optional(&self.pool).await?;
         row.map(|row| {
             let path = PathBuf::from(row.try_get::<String, _>("path")?);
@@ -417,6 +441,20 @@ impl Store {
             .bind(i64::try_from(item.sig.modified_ms)?)
             .execute(&self.pool)
             .await?;
+        Ok(())
+    }
+
+    pub async fn forget_missing(&self, item: &PendingFile) -> anyhow::Result<()> {
+        self.before_write().await?;
+        sqlx::query(
+            "DELETE FROM files WHERE path=? AND root_id=? AND size=? AND modified_ms=? AND state=0",
+        )
+        .bind(validate_path(&item.path)?)
+        .bind(item.root_id)
+        .bind(i64::try_from(item.sig.size)?)
+        .bind(i64::try_from(item.sig.modified_ms)?)
+        .execute(&self.pool)
+        .await?;
         Ok(())
     }
 

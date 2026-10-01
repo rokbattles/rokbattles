@@ -115,6 +115,8 @@ mod encoder;
 #[cfg(any(feature = "read", feature = "write"))]
 mod error;
 #[cfg(feature = "read")]
+mod sensitive;
+#[cfg(feature = "read")]
 mod value;
 
 #[cfg(feature = "read")]
