@@ -17,6 +17,8 @@ const MAX_CLIENT_ADDRESSES: usize = 16;
 
 #[cfg(unix)]
 const PCAP_D_IN: c_int = 1;
+#[cfg(unix)]
+const PCAP_D_OUT: c_int = 2;
 
 const ERRBUF_SIZE: usize = 256;
 
@@ -151,20 +153,46 @@ impl Pcap {
         Ok(Self { api })
     }
 
-    /// Explicitly begin passive, non-promiscuous server-to-client capture.
-    /// The caller supplies 1..=16 current local client IPs of the selected local
-    /// interface. Only packets destined to those addresses can be returned.
-    /// Reopen after address changes. No permission/network setting is changed.
-    /// Unix also requires inbound device direction. Npcap lacks that API, so
-    /// Windows uses the destination-restricted BPF and independent packet gate.
+    /// Whether this backend proves outbound packet direction independently of
+    /// packet addresses. Npcap records do not, so Windows pcap stays server-only.
+    pub const fn client_controls_supported() -> bool {
+        cfg!(unix)
+    }
+
+    /// Open server capture and, on Unix, a separate outbound-control handle.
+    /// Each handle has its own direction restriction and fixed narrow BPF.
+    /// Failure to establish either required direction closes both handles.
+    /// The caller supplies current local interface addresses; reopen on changes.
     pub fn open(&self, interface: &str, clients: &[IpAddr]) -> Result<Capture<'_>, Error> {
+        let server = self.open_direction(interface, clients, false)?;
+        #[cfg(unix)]
+        let client = self.open_direction(interface, clients, true)?;
+        Ok(Capture {
+            server,
+            #[cfg(unix)]
+            client,
+            #[cfg(unix)]
+            pending_server: None,
+            #[cfg(unix)]
+            pending_client: None,
+            #[cfg(unix)]
+            last_emitted: (0, 0),
+        })
+    }
+
+    fn open_direction(
+        &self,
+        interface: &str,
+        clients: &[IpAddr],
+        outbound: bool,
+    ) -> Result<NativeCapture<'_>, Error> {
         if interface.is_empty() || interface.len() > 255 || interface.contains("://") {
             return Err(Error::InvalidInput("expected a local interface name"));
         }
 
         let interface = CString::new(interface)
             .map_err(|_error| Error::InvalidInput("interface contains NUL"))?;
-        let (clients, filter) = client_filter(clients)?;
+        let (clients, filter) = client_filter(clients, outbound)?;
         let mut error_buffer = [0; ERRBUF_SIZE];
 
         #[cfg(windows)]
@@ -192,8 +220,15 @@ impl Pcap {
             operation: "pcap_create",
             detail: buffer_message(&error_buffer),
         })?;
-        let mut capture =
-            Capture { api: &self.api, handle, link_type: 0, clients, _single_thread: PhantomData };
+        let mut capture = NativeCapture {
+            api: &self.api,
+            handle,
+            link_type: 0,
+            clients,
+            outbound,
+            timestamp: (0, 0),
+            _single_thread: PhantomData,
+        };
 
         for (set, value, operation) in [
             (self.api.snaplen, SNAPLEN as c_int, "pcap_set_snaplen"),
@@ -213,9 +248,11 @@ impl Pcap {
 
         #[cfg(unix)]
         {
-            // SAFETY: activated handle; PCAP_D_IN is the documented inbound enum.
-            let status = unsafe { (self.api.direction)(handle.as_ptr(), PCAP_D_IN) };
-            capture.check(status, "pcap_setdirection (inbound required)")?;
+            let direction = if outbound { PCAP_D_OUT } else { PCAP_D_IN };
+            // SAFETY: activated handle and documented direction enum. Refuse
+            // unsupported directions rather than inferring them from addresses.
+            let status = unsafe { (self.api.direction)(handle.as_ptr(), direction) };
+            capture.check(status, "pcap_setdirection (exact direction required)")?;
         }
 
         // SAFETY: live handle and writable errbuf; makes receive nonblocking.
@@ -248,16 +285,78 @@ impl Pcap {
     }
 }
 
-/// A single-thread-confined capture which borrows its loaded library owner.
+/// Passive server packets plus, where proven, local zero-payload controls.
+/// Unix merges one pending typed result per direction by native timestamp.
+/// Client bytes never enter either pending slot. Equal timestamps prefer controls;
+/// ambiguous handshake ordering fails closed in the lifecycle observer.
 pub struct Capture<'a> {
+    server: NativeCapture<'a>,
+    #[cfg(unix)]
+    client: NativeCapture<'a>,
+    #[cfg(unix)]
+    pending_server: Option<(Receive, (i128, i128))>,
+    #[cfg(unix)]
+    pending_client: Option<(Receive, (i128, i128))>,
+    #[cfg(unix)]
+    last_emitted: (i128, i128),
+}
+
+impl Capture<'_> {
+    /// Poll at most one native packet per direction, without blocking.
+    pub fn receive(&mut self) -> Result<Receive, Error> {
+        #[cfg(windows)]
+        {
+            self.server.receive()
+        }
+        #[cfg(unix)]
+        {
+            let mut discarded = false;
+            for (capture, pending) in [
+                (&mut self.client, &mut self.pending_client),
+                (&mut self.server, &mut self.pending_server),
+            ] {
+                if pending.is_none() {
+                    match capture.receive()? {
+                        packet @ (Receive::Packet(_) | Receive::ClientControl(_)) => {
+                            *pending = Some((packet, capture.timestamp));
+                        }
+                        Receive::End => return Ok(Receive::End),
+                        Receive::Discarded => discarded = true,
+                        Receive::Idle => {}
+                    }
+                }
+            }
+            let take_client = match (&self.pending_client, &self.pending_server) {
+                (Some((_, client)), Some((_, server))) => client <= server,
+                (Some(_), None) => true,
+                _ => false,
+            };
+            let pending =
+                if take_client { &mut self.pending_client } else { &mut self.pending_server };
+            let Some((packet, timestamp)) = pending.take() else {
+                return Ok(if discarded { Receive::Discarded } else { Receive::Idle });
+            };
+            if timestamp < self.last_emitted {
+                return Err(Error::InvalidPacket("capture direction ordering regressed"));
+            }
+            self.last_emitted = timestamp;
+            Ok(packet)
+        }
+    }
+}
+
+/// One single-thread-confined native direction and its independently fixed filter.
+struct NativeCapture<'a> {
     api: &'a Api,
     handle: NonNull<c_void>,
     link_type: c_int,
     clients: Vec<IpAddr>,
+    outbound: bool,
+    timestamp: (i128, i128),
     _single_thread: PhantomData<Rc<()>>,
 }
 
-impl Capture<'_> {
+impl NativeCapture<'_> {
     fn check(&self, status: c_int, operation: &'static str) -> Result<(), Error> {
         if status == 0 {
             return Ok(());
@@ -307,6 +406,15 @@ impl Capture<'_> {
                 // SAFETY: next_ex succeeded; libpcap owns a valid aligned header
                 // until the next receive call, excluded by this mutable borrow.
                 let header = unsafe { header.as_ref() };
+                let seconds = i128::from(header.timestamp.tv_sec);
+                let micros = i128::from(header.timestamp.tv_usec);
+                if seconds < 0 || !(0..1_000_000).contains(&micros) {
+                    return Err(Error::InvalidPacket("invalid native observation timestamp"));
+                }
+                if (seconds, micros) < self.timestamp {
+                    return Err(Error::InvalidPacket("native observation timestamp regressed"));
+                }
+                self.timestamp = (seconds, micros);
                 let length = usize::try_from(header.captured_length)
                     .map_err(|_error| Error::InvalidPacket("capture length overflow"))?;
                 if length == 0
@@ -319,27 +427,44 @@ impl Capture<'_> {
                 // SAFETY: trusted libpcap guarantees `captured_length` bytes.
                 // The length was bounded before forming this borrowed slice.
                 let bytes = unsafe { std::slice::from_raw_parts(data.as_ptr(), length) };
-                Ok(link_packet(self.link_type, bytes)
-                    .and_then(packet::server_packet)
-                    .filter(|ip| {
-                        packet::destination(ip)
-                            .is_some_and(|address| self.clients.contains(&address))
-                    })
-                    .map_or(Receive::Discarded, |ip| Receive::Packet(ip.to_vec())))
+                let Some(ip) = link_packet(self.link_type, bytes) else {
+                    return Ok(Receive::Discarded);
+                };
+                // Unix handle direction proves IN/OUT even for Ethernet/raw.
+                // Cooked link metadata must agree too. Windows never admits
+                // controls because Npcap does not provide an equivalent proof.
+                let direction = cooked_direction(self.link_type, bytes);
+                if !self.outbound
+                    && direction != Some(true)
+                    && let Some(ip) = packet::server_packet(ip)
+                    && packet::destination(ip)
+                        .is_some_and(|address| self.clients.contains(&address))
+                {
+                    return Ok(Receive::Packet(ip.to_vec()));
+                }
+                #[cfg(unix)]
+                if self.outbound
+                    && direction != Some(false)
+                    && let Some(control) = packet::client_control(ip)
+                    && self.clients.contains(&control.key.client.ip())
+                {
+                    return Ok(Receive::ClientControl(control));
+                }
+                Ok(Receive::Discarded)
             }
             _ => Err(Error::Native { operation: "pcap_next_ex", detail: self.error_message() }),
         }
     }
 }
 
-impl Drop for Capture<'_> {
+impl Drop for NativeCapture<'_> {
     fn drop(&mut self) {
         // SAFETY: unique owner closes exactly once, while Api and Library live.
         unsafe { (self.api.close)(self.handle.as_ptr()) };
     }
 }
 
-fn client_filter(clients: &[IpAddr]) -> Result<(Vec<IpAddr>, CString), Error> {
+fn client_filter(clients: &[IpAddr], outbound: bool) -> Result<(Vec<IpAddr>, CString), Error> {
     if clients.is_empty() || clients.len() > MAX_CLIENT_ADDRESSES {
         return Err(Error::InvalidInput("expected 1..=16 local client addresses"));
     }
@@ -359,8 +484,40 @@ fn client_filter(clients: &[IpAddr]) -> Result<(Vec<IpAddr>, CString), Error> {
 
     let destinations =
         unique.iter().map(|address| format!("dst host {address}")).collect::<Vec<_>>().join(" or ");
-    let filter = CString::new(format!("{PORT_FILTER} and ({destinations})"))
-        .map_err(|_error| Error::InvalidInput("invalid address filter"))?;
+    if !outbound {
+        let filter = CString::new(format!("{PORT_FILTER} and ({destinations})"))
+            .map_err(|_error| Error::InvalidInput("invalid address filter"))?;
+        return Ok((unique, filter));
+    }
+    let sources =
+        unique.iter().map(|address| format!("src host {address}")).collect::<Vec<_>>().join(" or ");
+    // IPv6 TCP byte access is explicitly IP-relative: libpcap tcp[] arithmetic
+    // only handles IPv4. Both forms reject fragments/extensions and require the
+    // full IP TCP length to equal the advertised TCP header length.
+    let flags = |field: &str| {
+        [1, 2, 4, 16, 17, 20]
+            .iter()
+            .map(|flag| format!("({field} & 63) = {flag}"))
+            .collect::<Vec<_>>()
+            .join(" or ")
+    };
+    let v4 = format!(
+        "(ip and (ip[0] & 15) >= 5 and ip[9] = 6 and (ip[6:2] & 16383) = 0 and \
+         (tcp[12] & 240) >= 80 and \
+         ip[2:2] = ((ip[0] & 15) * 4 + (tcp[12] & 240) / 4) and ({}))",
+        flags("tcp[13]")
+    );
+    let v6 = format!(
+        "(ip6 and ip6[6] = 6 and (ip6[52] & 240) >= 80 and \
+         ip6[4:2] = (ip6[52] & 240) / 4 and ({}))",
+        flags("ip6[53]")
+    );
+    let filter = CString::new(format!(
+        "(tcp and (dst port 3101 or dst port 5222) and \
+         not (src port 0 or src port 3101 or src port 5222) and \
+         ({sources}) and ({v4} or {v6}))"
+    ))
+    .map_err(|_error| Error::InvalidInput("invalid address filter"))?;
 
     Ok((unique, filter))
 }
@@ -377,6 +534,14 @@ fn buffer_message(buffer: &[c_char; ERRBUF_SIZE]) -> String {
 
 fn supported_link_type(kind: c_int) -> bool {
     matches!(kind, 0 | 1 | 12 | 108 | 113 | 228 | 229 | 276)
+}
+
+fn cooked_direction(kind: c_int, bytes: &[u8]) -> Option<bool> {
+    match kind {
+        113 => Some(*bytes.get(1)? == 4),
+        276 => Some(*bytes.get(10)? == 4),
+        _ => None,
+    }
 }
 
 fn link_packet(kind: c_int, bytes: &[u8]) -> Option<&[u8]> {
@@ -396,8 +561,9 @@ fn link_packet(kind: c_int, bytes: &[u8]) -> Option<&[u8]> {
             if family == LOOP_IPV4 || family == LOOP_IPV6 { bytes.get(4..) } else { None }
         }
         113 => {
-            // Linux cooked capture: reject outgoing and non-unicast data too.
-            if bytes.get(..2)? != [0, 0] {
+            // Only unicast incoming (0) or outgoing (4); direction is checked
+            // against the parsed server/client variant before admission.
+            if !matches!(bytes.get(..2)?, [0, 0] | [0, 4]) {
                 return None;
             }
 
@@ -407,7 +573,7 @@ fn link_packet(kind: c_int, bytes: &[u8]) -> Option<&[u8]> {
             }
         }
         276 => {
-            if bytes.get(10)? != &0 {
+            if !matches!(bytes.get(10)?, 0 | 4) {
                 return None;
             }
 
@@ -440,6 +606,10 @@ mod tests {
         null_header: bool,
         null_data: bool,
         link_type: c_int,
+        #[cfg(unix)]
+        directions: Vec<c_int>,
+        #[cfg(unix)]
+        fail_outbound: bool,
     }
 
     impl Default for State {
@@ -461,6 +631,10 @@ mod tests {
                 null_header: false,
                 null_data: false,
                 link_type: 12,
+                #[cfg(unix)]
+                directions: Vec::new(),
+                #[cfg(unix)]
+                fail_outbound: false,
             }
         }
     }
@@ -524,8 +698,12 @@ mod tests {
 
     #[cfg(unix)]
     unsafe extern "C" fn direction(_handle: *mut c_void, value: c_int) -> c_int {
-        assert_eq!(value, PCAP_D_IN);
-        call("direction")
+        assert!(matches!(value, PCAP_D_IN | PCAP_D_OUT));
+        let fail = STATE.with_borrow_mut(|state| {
+            state.directions.push(value);
+            state.fail_outbound && value == PCAP_D_OUT
+        });
+        if fail { -1 } else { call("direction") }
     }
 
     unsafe extern "C" fn nonblock(
@@ -550,7 +728,10 @@ mod tests {
     ) -> c_int {
         // SAFETY: production open supplies a live NUL-terminated filter CString.
         let filter = unsafe { CStr::from_ptr(filter) };
-        assert_eq!(filter, c"tcp and (src port 3101 or src port 5222) and not (dst port 3101 or dst port 5222) and (dst host 192.0.2.2)");
+        assert!(
+            filter == client_filter(&[CLIENT], false).expect("server filter").1.as_c_str()
+                || filter == client_filter(&[CLIENT], true).expect("control filter").1.as_c_str()
+        );
         assert_eq!(optimize, 1);
         assert_eq!(mask, u32::MAX);
         call("compile")
@@ -622,7 +803,7 @@ mod tests {
         let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
 
         assert_eq!(
-            capture.receive().expect("mock receive"),
+            capture.server.receive().expect("mock receive"),
             Receive::Packet(packet::tests::ipv4())
         );
 
@@ -643,13 +824,79 @@ mod tests {
                     "compile",
                     "setfilter"
                 ]
+                .repeat(if cfg!(unix) { 2 } else { 1 })
             );
-            assert_eq!(state.freed, 1);
+            #[cfg(unix)]
+            assert_eq!(state.directions, [PCAP_D_IN, PCAP_D_OUT]);
+            assert_eq!(state.freed, if cfg!(unix) { 2 } else { 1 });
             assert_eq!(state.closed, 0);
         });
 
         drop(capture);
-        STATE.with_borrow(|state| assert_eq!(state.closed, 1));
+        STATE.with_borrow(|state| assert_eq!(state.closed, if cfg!(unix) { 2 } else { 1 }));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn unsupported_outbound_direction_closes_both_handles() {
+        let api = mock();
+        STATE.with_borrow_mut(|state| state.fail_outbound = true);
+        assert!(api.open("test0", &[CLIENT]).is_err());
+        STATE.with_borrow(|state| {
+            assert_eq!(state.directions, [PCAP_D_IN, PCAP_D_OUT]);
+            assert_eq!(state.closed, 2);
+        });
+    }
+
+    #[test]
+    fn inbound_handle_never_admits_spoofed_local_source_controls() {
+        let api = mock();
+        let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+        STATE.with_borrow_mut(|state| {
+            state.bytes = packet::tests::client_ipv4(0x04);
+            state.header.captured_length = 40;
+            state.header.original_length = 40;
+        });
+        assert_eq!(capture.server.receive().expect("spoofed inbound control"), Receive::Discarded);
+        assert_eq!(Pcap::client_controls_supported(), cfg!(unix));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn paired_receive_merges_timestamps_client_first_for_ties_and_rejects_late_records() {
+        let api = mock();
+        let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+        STATE.with_borrow_mut(|state| state.next_status = 0);
+        let control = packet::client_control(&packet::tests::client_ipv4(0x02)).expect("control");
+        capture.pending_client = Some((Receive::ClientControl(control), (1, 1)));
+        capture.pending_server = Some((Receive::Packet(packet::tests::ipv4()), (1, 2)));
+        assert_eq!(capture.receive().expect("earlier client"), Receive::ClientControl(control));
+        assert!(matches!(capture.receive(), Ok(Receive::Packet(_))));
+        capture.pending_client = Some((Receive::ClientControl(control), (2, 1)));
+        capture.pending_server = Some((Receive::Packet(packet::tests::ipv4()), (2, 1)));
+        assert_eq!(capture.receive().expect("tie client"), Receive::ClientControl(control));
+        assert!(matches!(capture.receive(), Ok(Receive::Packet(_))));
+        capture.pending_client = Some((Receive::ClientControl(control), (1, 3)));
+        assert!(matches!(capture.receive(), Err(Error::InvalidPacket(_))));
+    }
+
+    #[test]
+    fn malformed_or_backwards_native_timestamps_are_capture_errors() {
+        for (seconds, micros) in [(-1, 0), (1, -1), (1, 1_000_000)] {
+            let api = mock();
+            let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+            STATE.with_borrow_mut(|state| {
+                state.header.timestamp.tv_sec = seconds.into();
+                state.header.timestamp.tv_usec = micros.into();
+            });
+            assert!(matches!(capture.server.receive(), Err(Error::InvalidPacket(_))));
+        }
+        let api = mock();
+        let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+        STATE.with_borrow_mut(|state| state.header.timestamp.tv_sec = 2);
+        assert!(matches!(capture.server.receive(), Ok(Receive::Packet(_))));
+        STATE.with_borrow_mut(|state| state.header.timestamp.tv_sec = 1);
+        assert!(matches!(capture.server.receive(), Err(Error::InvalidPacket(_))));
     }
 
     #[test]
@@ -714,6 +961,69 @@ mod tests {
         STATE.with_borrow(|state| assert_eq!(state.closed, 1));
     }
 
+    #[cfg(unix)]
+    #[test]
+    fn receive_returns_only_typed_local_client_controls_and_rejects_payload() {
+        let api = mock();
+        let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+        for flags in [0x02, 0x10, 0x04, 0x14, 0x01, 0x11] {
+            let bytes = packet::tests::client_ipv4(flags);
+            let expected = packet::client_control(&bytes).expect("synthetic metadata");
+            STATE.with_borrow_mut(|state| {
+                state.bytes = bytes;
+                state.header.captured_length = 40;
+                state.header.original_length = 40;
+            });
+            assert_eq!(
+                capture.client.receive().expect("metadata"),
+                Receive::ClientControl(expected)
+            );
+            STATE.with_borrow_mut(|state| state.bytes[12] = 193);
+            assert_eq!(capture.client.receive().expect("foreign source"), Receive::Discarded);
+            STATE.with_borrow_mut(|state| {
+                state.bytes[12] = 192;
+                state.bytes.push(0x5a);
+                state.bytes[2..4].copy_from_slice(&41_u16.to_be_bytes());
+                state.header.captured_length = 41;
+                state.header.original_length = 41;
+            });
+            assert_eq!(capture.client.receive().expect("client payload"), Receive::Discarded);
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn cooked_link_direction_must_agree_with_control_or_server_variant() {
+        for (kind, length, direction_offset) in [(113, 16, 1), (276, 20, 10)] {
+            let api = mock();
+            STATE.with_borrow_mut(|state| state.link_type = kind);
+            let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+            for outbound in [false, true] {
+                for control in [false, true] {
+                    let ip = if control {
+                        packet::tests::client_ipv4(0x02)
+                    } else {
+                        packet::tests::ipv4()
+                    };
+                    let mut frame = vec![0; length];
+                    let protocol_offset = if kind == 113 { 14 } else { 0 };
+                    frame[protocol_offset..protocol_offset + 2].copy_from_slice(&[8, 0]);
+                    frame[direction_offset] = if outbound { 4 } else { 0 };
+                    frame.extend(ip);
+                    STATE.with_borrow_mut(|state| {
+                        state.header.captured_length = frame.len() as u32;
+                        state.header.original_length = frame.len() as u32;
+                        state.bytes = frame;
+                    });
+                    let result =
+                        if control { capture.client.receive() } else { capture.server.receive() }
+                            .expect("mock receive");
+                    assert_eq!(matches!(result, Receive::Discarded), outbound != control);
+                }
+            }
+        }
+    }
+
     #[test]
     fn receive_handles_idle_end_error_and_rejects_client_packets() {
         let api = mock();
@@ -721,17 +1031,17 @@ mod tests {
 
         for (status, expected) in [(0, Receive::Idle), (-2, Receive::End)] {
             STATE.with_borrow_mut(|state| state.next_status = status);
-            assert_eq!(capture.receive().expect("non-packet"), expected);
+            assert_eq!(capture.server.receive().expect("non-packet"), expected);
         }
 
         STATE.with_borrow_mut(|state| state.next_status = -1);
-        assert!(matches!(capture.receive(), Err(Error::Native { .. })));
+        assert!(matches!(capture.server.receive(), Err(Error::Native { .. })));
 
         STATE.with_borrow_mut(|state| {
             state.next_status = 1;
             state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
         });
-        assert_eq!(capture.receive().expect("client discarded"), Receive::Discarded);
+        assert_eq!(capture.server.receive().expect("client discarded"), Receive::Discarded);
     }
 
     #[test]
@@ -745,20 +1055,20 @@ mod tests {
                 state.bytes[22..24].copy_from_slice(&45000_u16.to_be_bytes());
             });
             let expected = STATE.with_borrow(|state| state.bytes.clone());
-            assert_eq!(capture.receive().expect("server packet"), Receive::Packet(expected));
+            assert_eq!(capture.server.receive().expect("server packet"), Receive::Packet(expected));
 
             STATE.with_borrow_mut(|state| {
                 state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
                 state.bytes[22..24].copy_from_slice(&server.to_be_bytes());
             });
-            assert_eq!(capture.receive().expect("client packet"), Receive::Discarded);
+            assert_eq!(capture.server.receive().expect("client packet"), Receive::Discarded);
 
             for destination in [3101_u16, 5222] {
                 STATE.with_borrow_mut(|state| {
                     state.bytes[20..22].copy_from_slice(&server.to_be_bytes());
                     state.bytes[22..24].copy_from_slice(&destination.to_be_bytes());
                 });
-                assert_eq!(capture.receive().expect("ambiguous pair"), Receive::Discarded);
+                assert_eq!(capture.server.receive().expect("ambiguous pair"), Receive::Discarded);
             }
         }
     }
@@ -780,12 +1090,12 @@ mod tests {
                 state.header.original_length =
                     if mode == 4 { 42 } else { state.header.captured_length };
             });
-            assert!(matches!(capture.receive(), Err(Error::InvalidPacket(_))));
+            assert!(matches!(capture.server.receive(), Err(Error::InvalidPacket(_))));
         }
     }
 
     #[test]
-    fn supported_link_headers_are_bounded_and_cooked_outgoing_is_rejected() {
+    fn supported_link_headers_are_bounded_and_cooked_direction_is_preserved() {
         let ip = packet::tests::ipv4();
         for (kind, mut header) in [
             (1, vec![0; 14]),
@@ -811,11 +1121,17 @@ mod tests {
 
             if kind == 113 {
                 header[1] = 4;
+                assert_eq!(link_packet(kind, &header), Some(ip.as_slice()));
+                assert_eq!(cooked_direction(kind, &header), Some(true));
+                header[1] = 1;
                 assert_eq!(link_packet(kind, &header), None);
             }
 
             if kind == 276 {
                 header[10] = 4;
+                assert_eq!(link_packet(kind, &header), Some(ip.as_slice()));
+                assert_eq!(cooked_direction(kind, &header), Some(true));
+                header[10] = 1;
                 assert_eq!(link_packet(kind, &header), None);
             }
         }
@@ -824,12 +1140,22 @@ mod tests {
     #[test]
     fn client_allowlist_is_bounded_deduplicated_and_parenthesized() {
         let ipv6: IpAddr = "2001:db8::2".parse().expect("test IP");
-        let (clients, filter) = client_filter(&[CLIENT, ipv6, CLIENT]).expect("valid clients");
+        let (clients, filter) =
+            client_filter(&[CLIENT, ipv6, CLIENT], true).expect("valid clients");
         assert_eq!(clients, [CLIENT, ipv6]);
-        assert_eq!(
-            filter.to_str().expect("ASCII"),
-            "tcp and (src port 3101 or src port 5222) and not (dst port 3101 or dst port 5222) and (dst host 192.0.2.2 or dst host 2001:db8::2)"
+        let filter = filter.to_str().expect("ASCII");
+        assert!(!filter.contains("dst host"));
+        let (_, server_filter) =
+            client_filter(&[CLIENT, ipv6, CLIENT], false).expect("server filter");
+        assert!(
+            server_filter
+                .to_str()
+                .expect("ASCII")
+                .contains("and (dst host 192.0.2.2 or dst host 2001:db8::2)")
         );
+        assert!(filter.contains("and (src host 192.0.2.2 or src host 2001:db8::2)"));
+        assert!(filter.contains("ip[2:2] = ((ip[0] & 15) * 4 + (tcp[12] & 240) / 4)"));
+        assert!(filter.contains("ip6[4:2] = (ip6[52] & 240) / 4"));
 
         let api = mock();
         for clients in [
@@ -852,10 +1178,10 @@ mod tests {
         // The server port alone is insufficient: this packet heads away from the
         // configured client. Windows has no pcap_setdirection safety net.
         STATE.with_borrow_mut(|state| state.bytes[16..20].copy_from_slice(&[203, 0, 113, 1]));
-        assert_eq!(capture.receive().expect("mock receive"), Receive::Discarded);
+        assert_eq!(capture.server.receive().expect("mock receive"), Receive::Discarded);
 
         STATE.with_borrow_mut(|state| state.bytes[16..20].copy_from_slice(&[192, 0, 2, 2]));
-        assert!(matches!(capture.receive(), Ok(Receive::Packet(_))));
+        assert!(matches!(capture.server.receive(), Ok(Receive::Packet(_))));
     }
 
     #[test]

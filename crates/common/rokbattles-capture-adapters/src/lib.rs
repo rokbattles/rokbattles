@@ -1,6 +1,7 @@
 //! Optional, passive native capture. Nothing is loaded or started implicitly.
 //!
-//! Only server-to-client, unfragmented TCP packets with source port 3101 or 5222 are returned.
+//! Server IP packets from ports 3101/5222 and typed zero-payload client TCP controls
+//! to those ports are returned. Client packet bytes never leave the native adapter.
 //! The adapters do not decode, reassemble, persist, or send.
 
 #![deny(unsafe_op_in_unsafe_fn)]
@@ -34,6 +35,9 @@ const SNAPLEN: usize = 65_575 + 256;
 pub enum Receive {
     /// Owned, validated IP packet (without link-layer padding or framing).
     Packet(Vec<u8>),
+
+    /// Validated zero-payload outbound TCP header metadata, for local use only.
+    ClientControl(rokbattles_capture_runtime::packet::ClientTcpControl),
 
     /// No packet is available now (pcap is nonblocking).
     Idle,

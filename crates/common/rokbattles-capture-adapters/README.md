@@ -2,8 +2,8 @@
 
 An isolated library aligned with the six targets in the existing release matrix:
 
-- Windows x86_64: WinDivert and pcap (Npcap)
-- Windows aarch64 (ARM64): pcap only; WinDivert returns `UnsupportedPlatform`
+- Windows x86_64: WinDivert; pcap (Npcap) remains server-packet-only
+- Windows aarch64 (ARM64): pcap server-packet-only; WinDivert returns `UnsupportedPlatform`
 - macOS x86_64 (Intel) and aarch64 (Apple Silicon): pcap
 - Linux x86_64 and aarch64 (ARM64): pcap
 
@@ -49,80 +49,91 @@ loader contract excludes concurrent initialization by callers outside this crate
 Unix keeps its platform libc timeval and does not require this newer init symbol.
 No Npcap binaries, drivers, or installers are redistributed by this crate.
 
-## Passive, one-direction contract
+## Passive capture and local control metadata
 
-- WinDivert's fixed filter selects inbound TCP source ports 3101 or 5222 and
-  excludes either port as a destination. Its fixed flags are `SNIFF | RECV_ONLY | NO_INSTALL`.
-  Original packets are not diverted/dropped, no injection symbol is loaded, and
-  a driver which is not already installed is an error. No driver installer or
-  elevation/security-setting helper is included.
-- pcap is non-promiscuous and nonblocking. Its fixed server-source/port grammar
-  selects TCP source ports 3101 or 5222, excludes both destination ports, and
-  is narrowed by a parenthesized destination allowlist built only from typed IPs.
-  Unix additionally requires `PCAP_D_IN` and fails closed if it is unsupported.
-  Npcap does not implement `pcap_setdirection`, so Windows neither loads nor calls
-  it: the destination BPF plus an independent destination-address admission check
-  enforce server-to-local-client direction. No broader unfiltered fallback is
-  exposed, and filter installation must succeed before returning a capture.
-- Both adapters independently validate packet bounds and TCP source/destination
-  ports before returning an owned IP packet; pcap also checks the client IP.
-  Client-originated packets never leave the adapter. Server SYN/FIN/RST packets without payload are retained.
-  Ambiguous traffic between any pair of the two server ports is excluded
-  conservatively, including 3101-to-5222 and 5222-to-3101.
-- The small admission check accepts unfragmented IPv4 and base-header IPv6 TCP.
+- WinDivert's fixed filter selects inbound TCP source ports 3101/5222 plus
+  outbound zero-payload TCP SYN, ACK, FIN or RST to those destination ports.
+  Server-to-server traffic is excluded. Its fixed flags remain
+  `SNIFF | RECV_ONLY | NO_INSTALL`: no packet injection, network modification,
+  driver installer or elevation helper is included.
+- pcap is non-promiscuous and nonblocking. Its fixed BPF selects server packets
+  to the typed local client address allowlist, and zero-payload client controls
+  from that same allowlist. IPv4 options and TCP options are included when
+  calculating payload length. Plain IPv6 uses explicit IP-relative offsets;
+  extension headers and fragments are rejected. Unix opens separate `PCAP_D_IN`
+  and `PCAP_D_OUT` handles with disjoint server/control filters. Either direction
+  failing closes both handles; addresses alone never prove outbound direction.
+  Npcap does not load or call its unsupported direction API and never returns
+  client controls. `Pcap::client_controls_supported()` is false on Windows;
+  callers must require another authenticated control source before starting
+  a handshake-gated lifecycle there. No unfiltered fallback is exposed.
+- Both adapters independently parse packet bounds and compute the full TCP
+  payload length before admitting client metadata. SYN/FIN/RST flags may coexist
+  with payload, so flags alone never qualify a packet. A client packet containing
+  even one payload byte is rejected. Client packets are never returned or copied
+  to the application; `Receive::ClientControl(ClientTcpControl)` contains only
+  typed endpoints, sequence/acknowledgement numbers and flags. Its Debug output
+  is redacted. Server packets continue to use `Receive::Packet`.
+- pcap independently verifies local destination/source addresses. WinDivert
+  independently requires inbound direction for server packets and outbound for
+  client controls and rejects the native impostor flag. Linux SLL/SLL2 additionally
+  require that their direction agrees with the admitted variant. Unknown/multicast
+  cooked-link types are rejected. Inbound packets with spoofed local source IPs
+  cannot enter the outbound-only native handle or its client metadata path.
+- The packet gate accepts complete unfragmented IPv4 and base-header IPv6 TCP.
   IPv6 extension headers, jumbograms, fragments, truncated records, VLAN frames,
-  and unsupported link types are rejected rather than guessed or reassembled.
-  pcap supports Ethernet, raw IP, NULL/LOOP, Linux SLL/SLL2, and explicit IPv4/IPv6
-  link types. These deliberate limitations can lose traffic, never widen capture.
+  and unsupported link types are rejected. pcap supports Ethernet, raw IP,
+  NULL/LOOP, Linux SLL/SLL2, and explicit IPv4/IPv6 link types.
 - WinDivert `receive` is synchronous and blocking. Use a capture thread; another
-  thread can call `shutdown` through a shared handle reference to unblock it.
-  Queued packets drain before `End`. pcap returns `Idle` without blocking so the
-  caller can choose scheduling/cancellation. There is no background service here.
+  thread can call `shutdown` to unblock it. Queued packets drain before `End`.
+  pcap returns `Idle` without blocking. Its Unix wrapper polls both handles and
+  merges one pending typed result per direction by native timestamp, choosing
+  client controls first on ties. Pending client state contains metadata only.
+  Invalid/backwards timestamps and ordering regressions fail capture rather than
+  reordering lifecycle evidence silently. Neither starts background services.
 
 ## Connection probes and lifecycle boundary
 
-These adapters validate each packet independently. They retain valid server
-segments from both game ports, including an isolated SYN-ACK or a late `SxNtf`
-from a short-lived connection probe. They do not classify probes, remember active
-connections, or decide whether a notification belongs to a live game session.
-Server-only capture cannot observe the client's reset, so this API cannot reliably
-reject a server packet solely because the client has already sent RST.
+The unprivileged runtime's `lifecycle::Observer::client` validates local control
+metadata and maps it to the same bounded generations used by `Observer::server`.
+It must observe the client SYN, matching empty server SYN-ACK, and exact final
+zero-payload client ACK before emitting `Open`. Capture starting midstream or
+missing handshake metadata cannot promote a stream. All state remains bounded
+by 128 generations, two per tuple, candidate/active idle expiry, and existing
+server reassembly limits; active connections have no short lifetime limit.
 
-A future connection/lifecycle layer should:
+A reset must match exact client sequence evidence from the witnessed generation
+(last zero-payload control or server acknowledgement). RST with ACK must also
+match that generation's server sequence window. Unassignable stale controls are
+discarded; ambiguous matches abort every matched generation rather than guessing
+the newest. An observed probe reset therefore retires its own generation and
+late server `SxNtf` bytes cannot enter a stream. Independent simultaneous tuples
+remain independent. Client payload is neither needed nor admitted to track
+server acknowledgements after unseen client data.
 
-- Track each client/server address-and-port tuple independently, with a connection
-  generation to distinguish reused tuples. The game's simultaneous connections
-  must not suppress each other merely because another connection is active.
-- Classify provisional probes using connection history and protocol evidence,
-  with explicit bounded buffering and expiry. A handshake, one packet, or a short
-  duration alone does not prove a connection is disposable. Define handling for
-  capture that starts mid-connection, missing packets, and reordered delivery.
-- Use validated lifecycle evidence to discard notifications for an aborted
-  connection generation. Detecting a client-originated reset requires additional
-  client control metadata or equivalent local socket-state evidence. Any future
-  adapter extension must return typed header metadata only (endpoints, TCP flags,
-  sequence/acknowledgment numbers and observation ordering), never client payload
-  bytes; flags can coexist with payload, so flags alone cannot enforce that rule.
-- Distinguish reset from orderly close and preserve valid data carried with FIN.
-  FIN closes one direction; it does not mean the opposite direction is closed.
-  See [TCP close and half-close semantics](https://www.rfc-editor.org/rfc/rfc9293.html#section-3.6).
+Client FIN consumes one sequence number and is a half-close: server data can
+continue. Out-of-order server FIN waits for missing preceding server bytes;
+bytes past a witnessed FIN, capture gaps, and invalid handshakes abort rather
+than stitch streams. Metadata and connection addresses remain local; the ingress
+wire protocol is unchanged and has no client metadata variant or encoder.
 
-These are requirements for a separately scoped stage. This crate does not widen
-capture to client packets, expose client control metadata, or implement a tracker.
-Probe promotion criteria and buffering limits remain to be specified there.
+An observation gap, source switch, queue drop, or broken local IPC requires
+`Observer::gap()` before more data, and reopening requires a fresh handshake.
+A zero-payload-only policy cannot observe client controls that carry payload;
+missing controls and native packet loss remain observation limits, not permission
+to expand capture. Live/native filter behavior remains unvalidated here.
 
 ## Scope
 
-No protocol decoding/reassembly, ingress, persistence, SQLite, background service,
-IPC, driver installation, UI, desktop integration, or packaging. Later integration
-is a separate stage. The adapters do not log or persist packet bytes.
+The adapters perform no protocol decoding/reassembly, ingress, persistence, SQLite,
+background service, IPC, driver installation, UI or packaging. The adapters do not log or persist packet bytes.
 
 ## Safe verification
 
 ```sh
-cargo test --locked -p rokbattles-capture-adapters
-cargo clippy --locked -p rokbattles-capture-adapters --all-targets -- -D warnings
-cargo fmt -p rokbattles-capture-adapters -- --check
+cargo test --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime
+cargo clippy --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime --all-targets -- -D warnings
+cargo fmt -p rokbattles-capture-adapters -p rokbattles-capture-runtime -- --check
 ```
 
 Tests use synthetic packets and private mocked native function tables. The
@@ -138,5 +149,6 @@ ABI references: [WinDivert 2.2 header](https://github.com/basil00/WinDivert/blob
 [WinDivert API](https://reqrypt.org/windivert-doc.html),
 [libpcap public header](https://github.com/the-tcpdump-group/libpcap/blob/libpcap-1.10.5/pcap/pcap.h),
 [Npcap development guide](https://npcap.com/guide/npcap-devguide.html),
+[Npcap filter arithmetic and IPv6 limits](https://npcap.com/guide/wpcap/pcap-filter.html),
 [Npcap initialization](https://npcap.com/guide/wpcap/pcap_init.html),
 [Npcap direction limitation](https://github.com/nmap/npcap/issues/248).

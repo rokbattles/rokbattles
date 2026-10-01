@@ -8,7 +8,7 @@ use libloading::Library;
 
 use crate::{Error, Receive, SNAPLEN, library, packet};
 
-const FILTER: &CStr = c"inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222";
+const FILTER: &CStr = c"!impostor and ((inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222) or (outbound and !fragment and ((ip and ip.Protocol == 6 and ip.HdrLength >= 5) or (ipv6 and ipv6.NextHdr == 6 and ipv6.Length >= 20)) and tcp.HdrLength >= 5 and (tcp.DstPort == 3101 or tcp.DstPort == 5222) and tcp.SrcPort != 0 and tcp.SrcPort != 3101 and tcp.SrcPort != 5222 and tcp.PayloadLength == 0 and !tcp.Urg and !tcp.Psh and ((tcp.Syn and !tcp.Ack and !tcp.Fin and !tcp.Rst) or (!tcp.Syn and !(tcp.Fin and tcp.Rst) and (tcp.Fin or tcp.Rst or tcp.Ack)))))";
 const NETWORK: c_int = 0;
 const SNIFF: u64 = 0x0001;
 const RECV_ONLY: u64 = 0x0004;
@@ -82,7 +82,7 @@ impl WinDivert {
         Ok(Self { api })
     }
 
-    /// Explicitly open a passive, inbound, receive-only handle. NO_INSTALL makes
+    /// Explicitly open a passive receive-only handle for the fixed narrow filter. NO_INSTALL makes
     /// an absent driver an error; this adapter never installs or starts a driver
     /// service itself and never requests elevation or alters security settings.
     pub fn open(&self) -> Result<Capture<'_>, Error> {
@@ -150,15 +150,20 @@ impl Capture<'_> {
         let bytes =
             bytes.get(..length).ok_or(Error::InvalidPacket("WinDivert length exceeds buffer"))?;
 
-        // Layer/event are NETWORK/PACKET (zero), sniffed bit set, outbound bit
-        // clear. Discard ambiguous metadata even if the native filter matched.
+        // Layer/event must be NETWORK/PACKET, with sniffed set. Direction is
+        // independently required for the returned packet/metadata variant.
         if address.flags & 0xffff != 0
             || address.flags & (1 << 16) == 0
-            || address.flags & (1 << 17) != 0
+            || address.flags & (1 << 19) != 0
         {
             return Ok(Receive::Discarded);
         }
 
+        if address.flags & (1 << 17) != 0 {
+            return Ok(
+                packet::client_control(bytes).map_or(Receive::Discarded, Receive::ClientControl)
+            );
+        }
         Ok(packet::server_packet(bytes)
             .map_or(Receive::Discarded, |ip| Receive::Packet(ip.to_vec())))
     }
@@ -233,7 +238,7 @@ mod tests {
         let filter = unsafe { CStr::from_ptr(filter) };
         assert_eq!(
             filter,
-            c"inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222"
+            c"!impostor and ((inbound and (tcp.SrcPort == 3101 or tcp.SrcPort == 5222) and tcp.DstPort != 3101 and tcp.DstPort != 5222) or (outbound and !fragment and ((ip and ip.Protocol == 6 and ip.HdrLength >= 5) or (ipv6 and ipv6.NextHdr == 6 and ipv6.Length >= 20)) and tcp.HdrLength >= 5 and (tcp.DstPort == 3101 or tcp.DstPort == 5222) and tcp.SrcPort != 0 and tcp.SrcPort != 3101 and tcp.SrcPort != 5222 and tcp.PayloadLength == 0 and !tcp.Urg and !tcp.Psh and ((tcp.Syn and !tcp.Ack and !tcp.Fin and !tcp.Rst) or (!tcp.Syn and !(tcp.Fin and tcp.Rst) and (tcp.Fin or tcp.Rst or tcp.Ack)))))"
         );
         assert_eq!(layer, NETWORK);
         assert_eq!(priority, 0);
@@ -308,7 +313,14 @@ mod tests {
         let backend = mock();
         let capture = backend.open().expect("mock open");
 
-        for flags in [0, 1 << 17, (1 << 16) | (1 << 17), (1 << 16) | 1, (1 << 16) | (1 << 8)] {
+        for flags in [
+            0,
+            1 << 17,
+            (1 << 16) | (1 << 17),
+            (1 << 16) | 1,
+            (1 << 16) | (1 << 8),
+            (1 << 16) | (1 << 19),
+        ] {
             STATE.with_borrow_mut(|state| state.flags = flags);
             assert_eq!(capture.receive().expect("mock recv"), Receive::Discarded);
         }
@@ -340,6 +352,31 @@ mod tests {
                 });
                 assert_eq!(capture.receive().expect("ambiguous pair"), Receive::Discarded);
             }
+        }
+    }
+
+    #[test]
+    fn only_outbound_zero_payload_controls_return_metadata() {
+        let api = mock();
+        let capture = api.open().expect("mock open");
+        for flags in [0x02, 0x10, 0x04, 0x14, 0x01, 0x11] {
+            let bytes = packet::tests::client_ipv4(flags);
+            let control = packet::client_control(&bytes).expect("synthetic control");
+            STATE.with_borrow_mut(|state| {
+                state.bytes = bytes;
+                state.flags = (1 << 16) | (1 << 17);
+            });
+            assert_eq!(capture.receive().expect("control"), Receive::ClientControl(control));
+            STATE.with_borrow_mut(|state| state.flags |= 1 << 19);
+            assert_eq!(capture.receive().expect("injected control"), Receive::Discarded);
+            STATE.with_borrow_mut(|state| state.flags = 1 << 16);
+            assert_eq!(capture.receive().expect("inbound client"), Receive::Discarded);
+            STATE.with_borrow_mut(|state| {
+                state.flags = (1 << 16) | (1 << 17);
+                state.bytes.push(0x5a);
+                state.bytes[2..4].copy_from_slice(&41_u16.to_be_bytes());
+            });
+            assert_eq!(capture.receive().expect("payload"), Receive::Discarded);
         }
     }
 

@@ -4958,6 +4958,7 @@ version = "1.7.1"
 dependencies = [
  "libc",
  "libloading 0.8.9",
+ "rokbattles-capture-runtime",
 ]
 
 [[package]]

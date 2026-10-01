@@ -4,6 +4,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
+[dependencies]
+rokbattles-capture-runtime = { path = "../rokbattles-capture-runtime" }
+
 [target.'cfg(all(any(target_os = "linux", target_os = "macos", target_os = "windows"), any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
 libloading = "0.8.9"
 

@@ -8,10 +8,48 @@ use std::{
 use crate::SERVER_PORTS;
 
 /// Exact local-client/remote-server tuple. Different client ports never share state.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct FlowKey {
     pub client: SocketAddr,
     pub server: SocketAddr,
+}
+
+impl fmt::Debug for FlowKey {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("FlowKey").finish_non_exhaustive()
+    }
+}
+
+/// Header-only client observation. Addresses, sequence numbers and flags stay local.
+/// There is no payload field or ingress serialization implementation.
+///
+/// ```compile_fail
+/// use rokbattles_capture_runtime::{packet::ClientTcpControl, wire};
+/// fn cannot_upload(control: &ClientTcpControl) {
+///     let _ = wire::encode(control);
+/// }
+/// ```
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct ClientTcpControl {
+    pub key: FlowKey,
+    pub sequence: u32,
+    pub acknowledgement: u32,
+    pub flags: u8,
+}
+
+impl ClientTcpControl {
+    /// Revalidate metadata at each local trust boundary. Native adapters separately
+    /// prove the complete TCP segment contains zero payload before constructing it.
+    pub fn is_valid(self) -> bool {
+        valid_flow_key(self.key)
+            && matches!(self.flags & 0x3f, 0x01 | 0x02 | 0x04 | 0x10 | 0x11 | 0x14)
+    }
+}
+
+impl fmt::Debug for ClientTcpControl {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("ClientTcpControl").finish_non_exhaustive()
+    }
 }
 
 /// A validated, borrowed server TCP packet. Debug deliberately omits addresses/payloads.
@@ -21,6 +59,29 @@ pub struct ServerPacket<'a> {
     pub(crate) acknowledgement: u32,
     pub(crate) flags: u8,
     pub(crate) payload: &'a [u8],
+}
+
+impl ServerPacket<'_> {
+    /// Local routing metadata; never include this tuple in ingress messages.
+    pub fn flow_key(&self) -> FlowKey {
+        self.key
+    }
+
+    pub fn sequence(&self) -> u32 {
+        self.sequence
+    }
+
+    pub fn acknowledgement(&self) -> u32 {
+        self.acknowledgement
+    }
+
+    pub fn flags(&self) -> u8 {
+        self.flags
+    }
+
+    pub fn payload_len(&self) -> usize {
+        self.payload.len()
+    }
 }
 
 impl fmt::Debug for ServerPacket<'_> {

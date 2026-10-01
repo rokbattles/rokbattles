@@ -23,6 +23,10 @@ pub struct Pcap;
     any(target_arch = "x86_64", target_arch = "aarch64")
 )))]
 impl Pcap {
+    pub const fn client_controls_supported() -> bool {
+        false
+    }
+
     /// Always returns an unsupported-platform error without loading a library.
     ///
     /// # Safety
