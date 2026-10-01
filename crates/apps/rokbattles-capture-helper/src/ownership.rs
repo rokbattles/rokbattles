@@ -18,9 +18,28 @@ pub trait OwnerLookup {
     fn owner_for_syn(&mut self, key: FlowKey) -> Result<Option<Self::Owner>, OwnershipError>;
     fn alive(&self, owner: &Self::Owner) -> bool;
     fn still_owner(&mut self, key: FlowKey, owner: &Self::Owner) -> bool;
+    /// Called only for an exact, zero-payload reset already bound to this flow.
+    /// Absence is an explicit fresh OS finding, never inferred from lookup failure.
+    fn terminal_owner(
+        &mut self,
+        key: FlowKey,
+        owner: &Self::Owner,
+    ) -> Result<TerminalOwnership, OwnershipError> {
+        Ok(if self.still_owner(key, owner) {
+            TerminalOwnership::Owned
+        } else {
+            TerminalOwnership::Conflict
+        })
+    }
 }
 #[derive(Debug, Clone, Copy)]
 pub struct OwnershipError;
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TerminalOwnership {
+    Owned,
+    Absent,
+    Conflict,
+}
 
 struct BoundFlow<O> {
     owner: O,
@@ -100,6 +119,25 @@ impl<L: OwnerLookup> FlowGuard<L> {
         let Some(flow) = self.flows.get_mut(&control.key) else {
             return records;
         };
+        if flags & 0x04 != 0 {
+            if flow.server_isn.is_none() {
+                self.flows.remove(&control.key);
+                return records;
+            }
+            if !exact_client_reset(flow, control) {
+                return records;
+            }
+            if !matches!(
+                self.lookup.terminal_owner(control.key, &flow.owner),
+                Ok(TerminalOwnership::Owned | TerminalOwnership::Absent)
+            ) {
+                records.push(self.gap());
+                return records;
+            }
+            flow.touched = now;
+            records.push(Record::ClientControl(control));
+            return records;
+        }
         if !self.lookup.still_owner(control.key, &flow.owner) {
             records.push(self.gap());
             return records;
@@ -121,7 +159,7 @@ impl<L: OwnerLookup> FlowGuard<L> {
             records.push(self.gap());
             return records;
         }
-        advance(&mut flow.client_next, control.sequence);
+        advance(&mut flow.client_next, control.sequence.wrapping_add(u32::from(flags & 0x01 != 0)));
         flow.touched = now;
         records.push(Record::ClientControl(control));
         records
@@ -141,11 +179,26 @@ impl<L: OwnerLookup> FlowGuard<L> {
         let Some(flow) = self.flows.get_mut(&key) else {
             return records;
         };
+        let flags = packet.flags() & 0x3f;
+        if flags & 0x04 != 0 && packet.payload_len() == 0 {
+            if !exact_server_reset(flow, &packet) {
+                return records;
+            }
+            if !matches!(
+                self.lookup.terminal_owner(key, &flow.owner),
+                Ok(TerminalOwnership::Owned | TerminalOwnership::Absent)
+            ) {
+                records.push(self.gap());
+                return records;
+            }
+            flow.touched = now;
+            records.push(Record::ServerPacket(bytes));
+            return records;
+        }
         if !self.lookup.still_owner(key, &flow.owner) {
             records.push(self.gap());
             return records;
         }
-        let flags = packet.flags() & 0x3f;
         if flags & 0x02 != 0 {
             if flags != 0x12
                 || packet.payload_len() != 0
@@ -170,6 +223,9 @@ impl<L: OwnerLookup> FlowGuard<L> {
             let length = packet.payload_len() as u32 + u32::from(flags & 0x01 != 0);
             advance(&mut flow.server_next, packet.sequence().wrapping_add(length));
         }
+        if flags & 0x10 != 0 {
+            advance(&mut flow.client_next, packet.acknowledgement());
+        }
         flow.touched = now;
         records.push(Record::ServerPacket(bytes));
         records
@@ -186,7 +242,24 @@ impl<L: OwnerLookup> FlowGuard<L> {
             Record::ClientControl(control) => control.key,
             _ => return true,
         };
-        self.flows.get(&key).is_some_and(|flow| self.lookup.still_owner(key, &flow.owner))
+        let Some(flow) = self.flows.get(&key) else {
+            return false;
+        };
+        let terminal = match record {
+            Record::ClientControl(control) => exact_client_reset(flow, *control),
+            Record::ServerPacket(bytes) => {
+                packet::parse(bytes).is_some_and(|packet| exact_server_reset(flow, &packet))
+            }
+            _ => false,
+        };
+        if terminal {
+            matches!(
+                self.lookup.terminal_owner(key, &flow.owner),
+                Ok(TerminalOwnership::Owned | TerminalOwnership::Absent)
+            )
+        } else {
+            self.lookup.still_owner(key, &flow.owner)
+        }
     }
 
     /// Retire terminal ownership only after its exact reset record was written.
@@ -217,6 +290,23 @@ impl<L: OwnerLookup> FlowGuard<L> {
         }
     }
 }
+fn exact_client_reset<O>(flow: &BoundFlow<O>, control: ClientTcpControl) -> bool {
+    let flags = control.flags & 0x3f;
+    flow.server_isn.is_some()
+        && matches!(flags, 0x04 | 0x14)
+        && control.sequence
+            == if flow.established { flow.client_next } else { flow.client_isn.wrapping_add(1) }
+        && (flags & 0x10 == 0 || control.acknowledgement == flow.server_next)
+}
+fn exact_server_reset<O>(flow: &BoundFlow<O>, packet: &packet::ServerPacket<'_>) -> bool {
+    let flags = packet.flags() & 0x3f;
+    flow.established
+        && matches!(flags, 0x04 | 0x14)
+        && packet.payload_len() == 0
+        && packet.sequence() == flow.server_next
+        && (flags & 0x10 == 0 || packet.acknowledgement() == flow.client_next)
+}
+
 fn near(sequence: u32, reference: u32) -> bool {
     sequence.wrapping_sub(reference) <= SEQUENCE_WINDOW
         || reference.wrapping_sub(sequence) <= SEQUENCE_WINDOW
@@ -235,6 +325,7 @@ mod tests {
         uncertain: bool,
         alive: bool,
         calls: usize,
+        retired: Option<FlowKey>,
     }
     impl OwnerLookup for Lookup {
         type Owner = ();
@@ -245,12 +336,39 @@ mod tests {
         fn alive(&self, _: &()) -> bool {
             self.alive
         }
-        fn still_owner(&mut self, _: FlowKey, _: &()) -> bool {
-            self.alive && self.owned && !self.uncertain
+        fn still_owner(&mut self, key: FlowKey, _: &()) -> bool {
+            self.alive && self.owned && !self.uncertain && self.retired != Some(key)
+        }
+        fn terminal_owner(
+            &mut self,
+            key: FlowKey,
+            owner: &(),
+        ) -> Result<TerminalOwnership, OwnershipError> {
+            if self.uncertain {
+                return Err(OwnershipError);
+            }
+            if !self.owned {
+                return Ok(TerminalOwnership::Conflict);
+            }
+            if self.retired == Some(key) {
+                Ok(TerminalOwnership::Absent)
+            } else {
+                Ok(if self.still_owner(key, owner) {
+                    TerminalOwnership::Owned
+                } else {
+                    TerminalOwnership::Conflict
+                })
+            }
         }
     }
     fn guard() -> FlowGuard<Lookup> {
-        FlowGuard::new(Lookup { owned: true, uncertain: false, alive: true, calls: 0 })
+        FlowGuard::new(Lookup {
+            owned: true,
+            uncertain: false,
+            alive: true,
+            calls: 0,
+            retired: None,
+        })
     }
     fn control(flags: u8, sequence: u32, acknowledgement: u32) -> ClientTcpControl {
         ClientTcpControl {
@@ -397,5 +515,82 @@ mod tests {
             assert!(!g.authorize_record(record));
             assert!(g.server(packet(0x18, 201, 101, b"after reset"), Duration::ZERO).is_empty());
         }
+    }
+    #[test]
+    fn verified_terminal_absence_retires_one_probe_without_affecting_live_flow() {
+        let mut g = guard();
+        handshake(&mut g);
+        let mut other_syn = control(2, 300, 0);
+        other_syn.key.client.set_port(46000);
+        g.client(other_syn, Duration::ZERO);
+        let mut other_synack = packet(0x12, 400, 301, &[]);
+        other_synack.get_mut(22..24).expect("port").copy_from_slice(&46000u16.to_be_bytes());
+        g.server(other_synack, Duration::ZERO);
+        let mut other_ack = control(0x10, 301, 401);
+        other_ack.key = other_syn.key;
+        g.client(other_ack, Duration::ZERO);
+        let reset = control(0x14, 101, 201);
+        g.lookup.retired = Some(reset.key);
+        let records = g.client(reset, Duration::ZERO);
+        let record = records.first().expect("exact reset");
+        assert!(matches!(record, Record::ClientControl(_)));
+        assert!(g.authorize_record(record));
+        g.record_written(record);
+        let mut other_data = packet(0x18, 401, 301, b"independent");
+        other_data.get_mut(22..24).expect("port").copy_from_slice(&46000u16.to_be_bytes());
+        assert!(matches!(
+            g.server(other_data, Duration::ZERO).as_slice(),
+            [Record::ServerPacket(_)]
+        ));
+    }
+    #[test]
+    fn terminal_grace_requires_exact_sequence_zero_payload_and_fresh_no_conflict() {
+        let mut g = guard();
+        handshake(&mut g);
+        g.lookup.retired = Some(control(2, 100, 0).key);
+        assert!(g.client(control(0x14, 102, 201), Duration::ZERO).is_empty());
+        assert!(g.server(packet(0x14, 202, 101, &[]), Duration::ZERO).is_empty());
+        assert!(matches!(
+            g.server(packet(0x14, 201, 101, b"never grace data"), Duration::ZERO).as_slice(),
+            [Record::Gap]
+        ));
+        g.lookup.retired = None;
+        handshake(&mut g);
+        g.lookup.retired = Some(control(2, 100, 0).key);
+        let records = g.server(packet(0x14, 201, 101, &[]), Duration::ZERO);
+        let record = records.first().expect("reset");
+        assert!(g.authorize_record(record));
+        g.lookup.uncertain = true;
+        assert!(!g.authorize_record(record));
+    }
+    #[test]
+    fn candidate_reset_never_promotes_without_final_ack_and_missing_synack_has_no_grace() {
+        let mut g = guard();
+        let key = control(2, 100, 0).key;
+        g.client(control(2, 100, 0), Duration::ZERO);
+        g.lookup.retired = Some(key);
+        assert!(g.client(control(0x14, 101, 201), Duration::ZERO).is_empty());
+        assert!(g.flows.is_empty());
+        g.lookup.retired = None;
+        g.client(control(2, 100, 0), Duration::ZERO);
+        g.server(packet(0x12, 200, 101, &[]), Duration::ZERO);
+        g.lookup.retired = Some(key);
+        let records = g.client(control(0x14, 101, 201), Duration::ZERO);
+        let record = records.first().expect("candidate reset");
+        assert!(!g.flows.get(&key).expect("candidate").established);
+        assert!(g.authorize_record(record));
+        g.record_written(record);
+        assert!(g.flows.is_empty());
+    }
+    #[test]
+    fn server_ack_tracks_unseen_client_data_for_exact_reset_grace() {
+        let mut g = guard();
+        handshake(&mut g);
+        g.server(packet(0x10, 201, 150, &[]), Duration::ZERO);
+        g.lookup.retired = Some(control(2, 100, 0).key);
+        assert!(matches!(
+            g.client(control(0x14, 150, 201), Duration::ZERO).as_slice(),
+            [Record::ClientControl(_)]
+        ));
     }
 }
