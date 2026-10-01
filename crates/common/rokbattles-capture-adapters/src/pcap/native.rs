@@ -75,6 +75,17 @@ type SetFilter = unsafe extern "C" fn(*mut c_void, *mut BpfProgram) -> c_int;
 type FreeCode = unsafe extern "C" fn(*mut BpfProgram);
 type Next =
     unsafe extern "C" fn(*mut c_void, *mut *const PacketHeader, *mut *const c_uchar) -> c_int;
+#[cfg(unix)]
+#[repr(C)]
+#[derive(Default)]
+struct PacketStats {
+    received: c_uint,
+    dropped: c_uint,
+    interface_dropped: c_uint,
+}
+#[cfg(unix)]
+type Stats = unsafe extern "C" fn(*mut c_void, *mut PacketStats) -> c_int;
+
 type GetError = unsafe extern "C" fn(*mut c_void) -> *const c_char;
 type Close = unsafe extern "C" fn(*mut c_void);
 
@@ -94,6 +105,8 @@ struct Api {
     setfilter: SetFilter,
     freecode: FreeCode,
     next: Next,
+    #[cfg(unix)]
+    stats: Stats,
     geterr: GetError,
     close: Close,
 
@@ -145,6 +158,8 @@ impl Pcap {
             setfilter: symbol!(c"pcap_setfilter"),
             freecode: symbol!(c"pcap_freecode"),
             next: symbol!(c"pcap_next_ex"),
+            #[cfg(unix)]
+            stats: symbol!(c"pcap_stats"),
             geterr: symbol!(c"pcap_geterr"),
             close: symbol!(c"pcap_close"),
             _library: Some(library),
@@ -302,6 +317,22 @@ pub struct Capture<'a> {
 }
 
 impl Capture<'_> {
+    /// Unix source loss is fatal to all observed TCP generations. A helper must
+    /// check this before releasing packets, including when either handle is idle.
+    #[cfg(unix)]
+    pub fn check_no_packet_loss(&mut self) -> Result<(), Error> {
+        for capture in [&mut self.server, &mut self.client] {
+            let mut stats = PacketStats::default();
+            // SAFETY: exact Unix pcap_stat ABI, live exclusive handle and output.
+            let status = unsafe { (capture.api.stats)(capture.handle.as_ptr(), &mut stats) };
+            capture.check(status, "pcap_stats")?;
+            if stats.dropped != 0 || stats.interface_dropped != 0 {
+                return Err(Error::InvalidPacket("native capture reported packet loss"));
+            }
+        }
+        Ok(())
+    }
+
     /// Poll at most one native packet per direction, without blocking.
     pub fn receive(&mut self) -> Result<Receive, Error> {
         #[cfg(windows)]
@@ -784,6 +815,21 @@ mod tests {
         })
     }
 
+    #[cfg(unix)]
+    unsafe extern "C" fn stats(_handle: *mut c_void, output: *mut PacketStats) -> c_int {
+        STATE.with_borrow(|state| {
+            // SAFETY: check_no_packet_loss passes a valid initialized output.
+            unsafe {
+                *output = PacketStats {
+                    received: 1,
+                    dropped: u32::from(state.fail == "stats_drop"),
+                    interface_dropped: u32::from(state.fail == "stats_interface_drop"),
+                }
+            };
+            if state.fail == "stats_error" { -1 } else { 0 }
+        })
+    }
+
     fn mock() -> Pcap {
         STATE.with_borrow_mut(|state| *state = State::default());
 
@@ -804,10 +850,24 @@ mod tests {
                 setfilter,
                 freecode,
                 next,
+                #[cfg(unix)]
+                stats,
                 geterr,
                 close,
                 _library: None,
             },
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn both_direction_loss_and_stats_failure_are_fatal() {
+        let api = mock();
+        let mut capture = api.open("test0", &[CLIENT]).expect("mock open");
+        capture.check_no_packet_loss().expect("no loss");
+        for failure in ["stats_drop", "stats_interface_drop", "stats_error"] {
+            STATE.with_borrow_mut(|state| state.fail = failure);
+            assert!(capture.check_no_packet_loss().is_err());
         }
     }
 
