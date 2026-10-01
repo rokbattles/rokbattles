@@ -103,8 +103,11 @@ package-hash and protected-path authenticated. This does **not** claim applicati
 Authenticode signing. The official WinDivert DLL is unsigned/hash-pinned; its SYS
 has the upstream Microsoft kernel signature.
 
-The PowerShell bootstrap commands are compressed solely to fit NSIS's bounded
-command string, compiled into the installer, and receive no user interpolation.
+The PowerShell bootstrap commands are compiled into the installer and receive no
+user interpolation. Generated chunks of at most 512 characters build one bounded
+UTF-16 command buffer, avoiding NSIS runtime string truncation. CreateProcessW uses
+the explicit native system PowerShell path and retained child handles with a
+bounded wait; there is no temporary script or executable fallback.
 No script is read from disk or fetched at runtime. A missing/untrusted maintenance
 component requires full repair, rather than silently bootstrapping over an
 existing active installation.

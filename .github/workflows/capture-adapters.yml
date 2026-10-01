@@ -114,6 +114,10 @@ jobs:
       - name: Compile Windows maintenance package without running it
         if: runner.os == 'Windows'
         run: python crates/apps/rokbattles-desktop/scripts/stage_maintenance.py --debug --target ${{ matrix.target }}
+      - name: Compile NSIS hooks without executing the fixture installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./crates/apps/rokbattles-desktop/windows/compile-hooks.ps1 -Target ${{ matrix.target }}
       - name: Shared NAT reassembly regression checks
         if: runner.os == 'Linux'
         run: |
