@@ -98,6 +98,12 @@ pub fn bind_for_user(uid: u32) -> io::Result<UnixListener> {
     check_directory(Path::new(DIRECTORY), 0)?;
     let path = endpoint(uid);
     let listener = UnixListener::bind(&path)?;
+    let metadata = fs::symlink_metadata(&path)?;
+    let mut cleanup = BoundSocketCleanup {
+        path: path.clone(),
+        identity: (metadata.dev(), metadata.ino()),
+        armed: true,
+    };
     use std::os::unix::ffi::OsStrExt;
     let name = std::ffi::CString::new(path.as_os_str().as_bytes()).map_err(|_error| denied())?;
     // SAFETY: fixed path under verified root-owned directory; no untrusted process
@@ -107,12 +113,44 @@ pub fn bind_for_user(uid: u32) -> io::Result<UnixListener> {
     }
     use std::os::unix::fs::PermissionsExt;
     fs::set_permissions(&path, fs::Permissions::from_mode(0o600))?;
+    cleanup.armed = false;
     Ok(listener)
+}
+
+// Only our just-bound socket may be removed if ownership/mode setup fails.
+struct BoundSocketCleanup {
+    path: PathBuf,
+    identity: (u64, u64),
+    armed: bool,
+}
+impl Drop for BoundSocketCleanup {
+    fn drop(&mut self) {
+        if self.armed
+            && let Ok(metadata) = fs::symlink_metadata(&self.path)
+            && metadata.file_type().is_socket()
+            && (metadata.dev(), metadata.ino()) == self.identity
+        {
+            let _removed = fs::remove_file(&self.path);
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn failed_bind_cleanup_preserves_a_replacement_regular_file() {
+        let temp = tempfile::tempdir().expect("temporary fixture");
+        let path = temp.path().join("fixture.sock");
+        fs::write(&path, b"replacement").expect("replacement file");
+        let metadata = fs::symlink_metadata(&path).expect("metadata");
+        drop(BoundSocketCleanup {
+            path: path.clone(),
+            identity: (metadata.dev(), metadata.ino()),
+            armed: true,
+        });
+        assert_eq!(fs::read(path).expect("retained replacement"), b"replacement");
+    }
     #[tokio::test]
     async fn kernel_credentials_reject_a_different_user() {
         let (one, two) = UnixStream::pair().expect("pair");
@@ -140,3 +178,7 @@ mod tests {
         assert!(check_directory(temp.path(), uid).is_err());
     }
 }
+
+#[path = "unix_trust.rs"]
+mod trust;
+pub use trust::{installed_agent_path, verify_protected_path};

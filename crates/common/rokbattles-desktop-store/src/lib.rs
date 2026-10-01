@@ -50,7 +50,7 @@ const SCHEMA: &[(&str, &str)] = &[
     ),
     (
         "status",
-        "CREATE TABLE status (id INTEGER PRIMARY KEY CHECK(id=1), heartbeat_ms INTEGER NOT NULL CHECK(heartbeat_ms>=0), running INTEGER NOT NULL CHECK(running IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), backend INTEGER NOT NULL CHECK(backend BETWEEN 0 AND 3), event INTEGER NOT NULL CHECK(event BETWEEN 0 AND 6), capture_state INTEGER NOT NULL CHECK(capture_state BETWEEN 0 AND 5), capture_backend INTEGER NOT NULL CHECK(capture_backend BETWEEN 0 AND 2)) STRICT",
+        "CREATE TABLE status (id INTEGER PRIMARY KEY CHECK(id=1), heartbeat_ms INTEGER NOT NULL CHECK(heartbeat_ms>=0), running INTEGER NOT NULL CHECK(running IN (0,1)), paused INTEGER NOT NULL CHECK(paused IN (0,1)), backend INTEGER NOT NULL CHECK(backend BETWEEN 0 AND 3), event INTEGER NOT NULL CHECK(event BETWEEN 0 AND 6), capture_state INTEGER NOT NULL CHECK(capture_state BETWEEN 0 AND 6), capture_backend INTEGER NOT NULL CHECK(capture_backend BETWEEN 0 AND 2)) STRICT",
     ),
     ("files_ready", "CREATE INDEX files_ready ON files(state,next_attempt_ms)"),
     (
@@ -515,7 +515,7 @@ impl Store {
 
     /// Capture status is independent of mailcache progress and contains no flow metadata.
     pub async fn capture_status(&self, state: u8, backend: u8) -> anyhow::Result<()> {
-        if state > 5 || backend > 2 {
+        if state > 6 || backend > 2 {
             bail!("invalid capture status");
         }
         self.before_write().await?;
@@ -540,7 +540,7 @@ impl Store {
             paused: boolean(row.try_get("paused")?)?,
             backend,
             event,
-            capture_state: bounded_code(row.try_get("capture_state")?, 5)?,
+            capture_state: bounded_code(row.try_get("capture_state")?, 6)?,
             capture_backend: bounded_code(row.try_get("capture_backend")?, 2)?,
             pending: u64::try_from(row.try_get::<i64, _>("pending")?)?,
             completed: u64::try_from(row.try_get::<i64, _>("completed")?)?,

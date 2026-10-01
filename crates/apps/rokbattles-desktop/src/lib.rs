@@ -356,12 +356,7 @@ async fn get_worker_status(app: AppHandle) -> Result<WorkerSnapshot, String> {
 
 #[tauri::command]
 async fn set_capture_opt_in(app: AppHandle, enabled: bool) -> Result<(), String> {
-    app.state::<WatcherManager>()
-        .store()
-        .await?
-        .set_capture_opt_in(enabled)
-        .await
-        .map_err(|_error| "Cannot save capture consent.".to_string())
+    app.state::<WatcherManager>().capture_opt_in(&app, enabled).await
 }
 
 #[tauri::command]

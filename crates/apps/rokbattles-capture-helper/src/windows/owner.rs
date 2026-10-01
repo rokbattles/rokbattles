@@ -1,5 +1,5 @@
 //! Bounded TCP owner snapshots used only on an observed outbound SYN.
-use crate::ownership::{OwnerLookup, OwnershipError};
+use crate::ownership::{OwnerLookup, OwnershipError, TerminalOwnership};
 use rokbattles_capture_ipc::windows::{Identity, ProcessIdentity};
 use rokbattles_capture_runtime::packet::FlowKey;
 use std::{
@@ -63,12 +63,29 @@ impl OwnerLookup for WindowsOwnerLookup {
         current.creation_time() == owner.process.creation_time()
             && current.identity() == &self.identity
     }
+    fn terminal_owner(
+        &mut self,
+        key: FlowKey,
+        owner: &OwnedFlow,
+    ) -> Result<TerminalOwnership, OwnershipError> {
+        let current = ProcessIdentity::open(owner.pid).map_err(|_error| OwnershipError)?;
+        if current.creation_time() != owner.process.creation_time()
+            || current.identity() != &self.identity
+        {
+            return Ok(TerminalOwnership::Conflict);
+        }
+        match self.query(key, false, true).map_err(|_error| OwnershipError)? {
+            None => Ok(TerminalOwnership::Absent),
+            Some(pid) if pid == owner.pid => Ok(TerminalOwnership::Owned),
+            Some(_) => Ok(TerminalOwnership::Conflict),
+        }
+    }
 }
 fn invalid() -> io::Error {
     io::Error::new(io::ErrorKind::InvalidData, "ambiguous TCP owner snapshot")
 }
 
-fn unique_owner(key: FlowKey, initial: bool) -> io::Result<Option<u32>> {
+fn unique_owner(key: FlowKey, initial: bool, terminal: bool) -> io::Result<Option<u32>> {
     let family = if key.client.is_ipv4() { AF_INET } else { AF_INET6 };
     let (buffer, returned) = snapshot(u32::from(family))?;
     let bytes = as_bytes(&buffer).get(..returned).ok_or_else(invalid)?;
@@ -92,6 +109,7 @@ fn unique_owner(key: FlowKey, initial: bool) -> io::Result<Option<u32>> {
         )
         .ok_or_else(invalid)?;
     let mut owner = None;
+    let mut matched = false;
     for row in rows.chunks_exact(stride) {
         let (tuple, pid, state) = if family == AF_INET {
             // SAFETY: exact row extent checked by chunks_exact; unaligned copy has no pointers.
@@ -136,7 +154,16 @@ fn unique_owner(key: FlowKey, initial: bool) -> io::Result<Option<u32>> {
         }
         // SYN_SENT/SYN_RCVD/ESTABLISHED only. Listeners, closed and TIME_WAIT
         // entries cannot establish ownership of a captured outbound SYN.
-        if !admissible_state(state, initial) || pid == 0 || owner.is_some() {
+        if matched {
+            return Err(invalid());
+        }
+        matched = true;
+        if terminal && matches!(state, 1 | 11 | 12) && pid == 0 {
+            continue;
+        }
+        if !(admissible_state(state, initial) || (terminal && matches!(state, 1 | 11 | 12)))
+            || pid == 0
+        {
             return Err(invalid());
         }
         owner = Some(pid);
@@ -183,6 +210,9 @@ fn as_bytes(buffer: &[u64]) -> &[u8] {
 
 impl WindowsOwnerLookup {
     fn lookup(&mut self, key: FlowKey, initial: bool) -> io::Result<Option<u32>> {
+        self.query(key, initial, false)
+    }
+    fn query(&mut self, key: FlowKey, initial: bool, terminal: bool) -> io::Result<Option<u32>> {
         if self.budget.0.elapsed() >= std::time::Duration::from_secs(1) {
             self.budget = (std::time::Instant::now(), 0);
         }
@@ -190,7 +220,7 @@ impl WindowsOwnerLookup {
             return Err(invalid());
         }
         self.budget.1 += 1;
-        unique_owner(key, initial)
+        unique_owner(key, initial, terminal)
     }
 }
 

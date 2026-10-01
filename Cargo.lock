@@ -4966,6 +4966,7 @@ dependencies = [
 name = "rokbattles-capture-helper"
 version = "1.7.1"
 dependencies = [
+ "cc",
  "libc",
  "rokbattles-capture-adapters",
  "rokbattles-capture-ipc",
@@ -4979,12 +4980,28 @@ dependencies = [
 name = "rokbattles-capture-ipc"
 version = "1.7.1"
 dependencies = [
+ "cc",
  "libc",
  "rokbattles-capture-runtime",
  "tempfile",
  "tokio",
  "windows-sys 0.61.2",
  "zeroize",
+]
+
+[[package]]
+name = "rokbattles-capture-maintenance"
+version = "1.7.1"
+dependencies = [
+ "rokbattles-capture-adapters",
+ "rokbattles-capture-helper",
+ "rokbattles-capture-ipc",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]

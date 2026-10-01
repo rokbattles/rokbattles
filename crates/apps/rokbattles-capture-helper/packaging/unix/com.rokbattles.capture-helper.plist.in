@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.rokbattles.capture-helper.@UID@</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Library/PrivilegedHelperTools/com.rokbattles.capture-helper</string>
+    <string>--service</string><string>--uid</string><string>@UID@</string>
+  </array>
+  <key>UserName</key><string>root</string>
+  <key>GroupName</key><string>wheel</string>
+  <key>WorkingDirectory</key><string>/</string>
+  <key>EnvironmentVariables</key>
+  <dict><key>PATH</key><string>/usr/bin:/bin:/usr/sbin:/sbin</string><key>LANG</key><string>C</string></dict>
+  <key>Umask</key><integer>63</integer>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><dict><key>SuccessfulExit</key><false/></dict>
+  <key>ThrottleInterval</key><integer>5</integer>
+  <key>ExitTimeOut</key><integer>10</integer>
+  <key>ProcessType</key><string>Background</string>
+  <key>StandardOutPath</key><string>/dev/null</string>
+  <key>StandardErrorPath</key><string>/dev/null</string>
+</dict>
+</plist>

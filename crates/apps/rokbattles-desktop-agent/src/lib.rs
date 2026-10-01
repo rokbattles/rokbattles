@@ -39,16 +39,37 @@ pub fn maintenance_active() -> anyhow::Result<bool> {
             image.parent().ok_or_else(|| anyhow::anyhow!("missing executable directory"))?;
         maintenance_at(directory)
     }
-    #[cfg(not(windows))]
+    #[cfg(target_os = "linux")]
+    {
+        maintenance_at(std::path::Path::new("/usr/libexec/rokbattles"))
+    }
+    #[cfg(target_os = "macos")]
+    {
+        maintenance_at(std::path::Path::new("/Library/Application Support/ROK Battles"))
+    }
+    #[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
     Ok(false)
 }
 
-#[cfg(any(windows, test))]
 fn maintenance_at(directory: &std::path::Path) -> anyhow::Result<bool> {
     match std::fs::symlink_metadata(directory.join(".capture-maintenance")) {
         Ok(_) => Ok(true),
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
         Err(error) => Err(error.into()),
+    }
+}
+
+/// Unix capture uses the separately installed, root-protected companion.
+/// Absence permits mailcache fallback; an untrusted present candidate is an error.
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+pub fn installed_capture_agent() -> std::io::Result<Option<PathBuf>> {
+    if std::env::var_os("FLATPAK_ID").is_some() {
+        return Ok(None);
+    }
+    match rokbattles_capture_ipc::unix::installed_agent_path() {
+        Ok(path) => Ok(Some(path)),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(error) => Err(error),
     }
 }
 

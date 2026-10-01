@@ -57,7 +57,7 @@ impl WatcherManager {
             return Ok(());
         }
         drop(lease);
-        spawn_background().map_err(|_error| "Background worker executable is unavailable. Reinstall the complete desktop package.".to_string())
+        spawn_background(settings.capture_opt_in).map_err(|_error| "Background worker executable is unavailable. Reinstall the complete desktop package.".to_string())
     }
 
     pub(crate) async fn start(&self, app: &AppHandle) -> Result<(), String> {
@@ -82,6 +82,40 @@ impl WatcherManager {
         self.paused.load(Ordering::SeqCst)
     }
 
+    pub(crate) async fn capture_opt_in(
+        &self,
+        app: &AppHandle,
+        enabled: bool,
+    ) -> Result<(), String> {
+        let store = self.store().await?;
+        #[cfg(unix)]
+        let before = store.settings().await.map_err(|_error| "Cannot read capture settings.")?;
+        #[cfg(unix)]
+        let protected = if enabled {
+            rokbattles_desktop_agent::installed_capture_agent().map_err(
+                |_error| "The installed capture companion is not trusted. Repair capture setup.",
+            )?
+        } else {
+            None
+        };
+        store.set_capture_opt_in(enabled).await.map_err(|_error| "Cannot save capture consent.")?;
+        #[cfg(unix)]
+        if enabled && !before.capture_opt_in && before.enabled && protected.is_some() {
+            // Switch the existing bundled worker once, on explicit opt-in. UI
+            // reopen never restarts a healthy active capture connection.
+            let lease = self.stop_for_update().await?;
+            store
+                .set_maintenance_stop(false)
+                .await
+                .map_err(|_error| "Cannot resume the background worker.")?;
+            drop(lease);
+            self.launch(app).await?;
+        }
+        #[cfg(not(unix))]
+        let _app = app;
+        Ok(())
+    }
+
     pub(crate) async fn stop_for_update(&self) -> Result<AgentLease, String> {
         let store = self.store().await?;
         store
@@ -104,13 +138,24 @@ impl WatcherManager {
     }
 }
 
-fn spawn_background() -> anyhow::Result<()> {
+fn spawn_background(capture_opt_in: bool) -> anyhow::Result<()> {
     let executable = std::env::current_exe()?;
     let parent =
         executable.parent().ok_or_else(|| anyhow::anyhow!("missing executable directory"))?;
     let name =
         if cfg!(windows) { "rokbattles-desktop-agent.exe" } else { "rokbattles-desktop-agent" };
-    let path = parent.join(name);
+    let bundled = parent.join(name);
+    #[cfg(unix)]
+    let path = if capture_opt_in {
+        rokbattles_desktop_agent::installed_capture_agent()?.unwrap_or(bundled)
+    } else {
+        bundled
+    };
+    #[cfg(not(unix))]
+    let path = {
+        let _capture_opt_in = capture_opt_in;
+        bundled
+    };
     let metadata = std::fs::symlink_metadata(&path)?;
     if !metadata.is_file() || metadata.file_type().is_symlink() {
         anyhow::bail!("invalid worker executable");

@@ -37,3 +37,6 @@ dist-ssr
 
 crates/apps/rokbattles-desktop/binaries/
 __pycache__/
+crates/apps/rokbattles-desktop/tauri.capture-*.conf.json
+# Generated, verified WinDivert resources. Never commit vendor binaries.
+crates/apps/rokbattles-desktop/vendor/windivert/

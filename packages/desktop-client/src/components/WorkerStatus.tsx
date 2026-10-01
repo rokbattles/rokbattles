@@ -77,6 +77,7 @@ export function WorkerStatus() {
           `Streaming server traffic (${captureBackend})`,
           "Helper or native capture unavailable",
           "Capture interrupted; reconnect the game",
+          "Platform capture setup or worker restart required",
         ][captureState] ?? "Unavailable");
 
   return (

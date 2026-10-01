@@ -43,9 +43,15 @@ impl Default for SessionGenerations {
 }
 impl SessionGenerations {
     fn next(&self) -> Result<u64, EvidenceError> {
-        self.0
-            .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |value| value.checked_add(1))
-            .map_err(|_error| EvidenceError)
+        let mut current = self.0.load(Ordering::Relaxed);
+        loop {
+            let next = current.checked_add(1).ok_or(EvidenceError)?;
+            match self.0.compare_exchange_weak(current, next, Ordering::Relaxed, Ordering::Relaxed)
+            {
+                Ok(value) => return Ok(value),
+                Err(observed) => current = observed,
+            }
+        }
     }
 }
 /// The host polls independently of packet arrival so a short SYN_SENT can be witnessed.

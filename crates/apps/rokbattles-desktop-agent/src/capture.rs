@@ -40,11 +40,13 @@ const WATCHING: u8 = 2;
 const UPLOADING: u8 = 3;
 const UNAVAILABLE: u8 = 4;
 const LOST: u8 = 5;
+const SETUP_REQUIRED: u8 = 6;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Failure {
     Revoked,
     Unavailable,
+    SetupRequired,
     Lost,
 }
 
@@ -330,6 +332,9 @@ async fn run(store: &Store) -> anyhow::Result<()> {
         store.capture_status(CONNECTING, 0).await?;
         let result = match tokio::time::timeout(Duration::from_secs(5), connect()).await {
             Ok(Ok(stream)) => session(stream, store).await,
+            Ok(Err(error)) if error.kind() == io::ErrorKind::NotFound => {
+                Err(Failure::SetupRequired)
+            }
             _ => Err(Failure::Unavailable),
         };
         store
@@ -337,6 +342,7 @@ async fn run(store: &Store) -> anyhow::Result<()> {
                 match result {
                     Err(Failure::Revoked) => DISABLED,
                     Err(Failure::Unavailable) => UNAVAILABLE,
+                    Err(Failure::SetupRequired) => SETUP_REQUIRED,
                     _ => LOST,
                 },
                 0,
@@ -353,8 +359,29 @@ async fn connect() -> io::Result<impl AsyncRead + AsyncWrite + Unpin + Send> {
     }
     #[cfg(any(target_os = "linux", target_os = "macos"))]
     {
-        rokbattles_capture_ipc::unix::connect_current_user().await
+        connect_protected(
+            std::env::current_exe()?,
+            crate::installed_capture_agent()?,
+            rokbattles_capture_ipc::unix::connect_current_user,
+        )
+        .await
     }
+}
+
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+async fn connect_protected<T, F: Future<Output = io::Result<T>>>(
+    current: std::path::PathBuf,
+    protected: Option<std::path::PathBuf>,
+    connector: impl FnOnce() -> F,
+) -> io::Result<T> {
+    if protected.as_ref() != Some(&current) {
+        // Do not even invoke the connector for a bundled mailcache image.
+        return Err(io::Error::new(
+            io::ErrorKind::NotFound,
+            "protected capture companion required",
+        ));
+    }
+    connector().await
 }
 
 async fn session<S: AsyncRead + AsyncWrite + Unpin + Send + 'static>(

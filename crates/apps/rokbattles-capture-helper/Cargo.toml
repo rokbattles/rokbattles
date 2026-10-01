@@ -10,6 +10,9 @@ rokbattles-capture-runtime = { path = "../../common/rokbattles-capture-runtime" 
 rokbattles-capture-ipc = { path = "../../common/rokbattles-capture-ipc" }
 tokio = { workspace = true, features = ["io-util", "macros", "net", "rt-multi-thread", "sync", "time", "signal"] }
 
+[build-dependencies]
+cc = "1.4.4"
+
 [target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
 libc.workspace = true
 

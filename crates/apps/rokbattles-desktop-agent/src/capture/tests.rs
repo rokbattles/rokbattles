@@ -221,7 +221,8 @@ async fn reader_overflow_and_truncated_frames_are_fatal_without_reparsing() {
 #[tokio::test]
 async fn persisted_consent_and_reader_loss_both_gate_transmission() {
     let temp = tempfile::tempdir().expect("tempdir");
-    let store = Store::open(&temp.path().join("state")).await.expect("store");
+    let directory = temp.path().canonicalize().expect("canonical fixture").join("state");
+    let store = Store::open(&directory).await.expect("store");
     assert!(!store.allowed().await);
     store.set_capture_opt_in(true).await.expect("consent");
     assert!(store.allowed().await);
@@ -306,4 +307,27 @@ async fn eof_during_delayed_consent_read_prevents_the_next_upload_event() {
     assert_eq!(result, Err(Failure::Revoked));
     assert_eq!(state.lock().expect("state").events.len(), before);
     assert_eq!(state.lock().expect("state").starts, 1);
+}
+
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+#[tokio::test]
+async fn absent_or_different_protected_image_never_invokes_privileged_ipc() {
+    let called = AtomicBool::new(false);
+    let current = std::path::PathBuf::from("/fixture/bundled-agent");
+    for protected in [None, Some(std::path::PathBuf::from("/fixture/protected-agent"))] {
+        let result = connect_protected(current.clone(), protected, || async {
+            called.store(true, Ordering::Release);
+            Ok(())
+        })
+        .await;
+        assert_eq!(result.expect_err("no IPC").kind(), io::ErrorKind::NotFound);
+        assert!(!called.load(Ordering::Acquire));
+    }
+    connect_protected(current.clone(), Some(current), || async {
+        called.store(true, Ordering::Release);
+        Ok(())
+    })
+    .await
+    .expect("matching verified image");
+    assert!(called.load(Ordering::Acquire));
 }
