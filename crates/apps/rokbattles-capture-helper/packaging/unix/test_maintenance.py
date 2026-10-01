@@ -267,11 +267,19 @@ class MaintenanceFixtures(unittest.TestCase):
     def test_cli_rejects_mutable_script_before_package_or_service_access(self):
         self.fs.write("setup/install-release.py", b"fixture", 0o600)
         script = self.fs.absolute("setup/install-release.py")
+        # argparse also reads flags such as ignore_environment on Python 3.14.
+        # Override only the condition under test, preserving every other flag.
+        real_flags = {
+            name: getattr(maintain.sys.flags, name)
+            for name in dir(maintain.sys.flags)
+            if not name.startswith("_")
+        }
         for root, isolated, mode in ((1001, True, 0o600), (0, False, 0o600), (0, True, 0o666)):
             with self.subTest(root=root, isolated=isolated, mode=mode):
                 script.chmod(mode)
+                flags = SimpleNamespace(**(real_flags | {"isolated": isolated}))
                 with patch.object(maintain.os, "geteuid", return_value=root), \
-                     patch.object(maintain.sys, "flags", SimpleNamespace(isolated=isolated)), \
+                     patch.object(maintain.sys, "flags", flags), \
                      patch.object(maintain.sys, "argv", ["installer", "repair", "--confirm-system-changes"]), \
                      patch.object(maintain, "__file__", "/setup/install-release.py"), \
                      patch.object(maintain, "FileSystem", return_value=self.fs), \
