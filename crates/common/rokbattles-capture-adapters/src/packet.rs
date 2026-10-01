@@ -35,6 +35,14 @@ pub(crate) fn server_packet(ip: &[u8]) -> Option<&[u8]> {
     Some(ip)
 }
 
+pub(crate) fn destination(ip: &[u8]) -> Option<std::net::IpAddr> {
+    match ip.first()? >> 4 {
+        4 => Some(std::net::IpAddr::from(<[u8; 4]>::try_from(ip.get(16..20)?).ok()?)),
+        6 => Some(std::net::IpAddr::from(<[u8; 16]>::try_from(ip.get(24..40)?).ok()?)),
+        _ => None,
+    }
+}
+
 fn be16(bytes: &[u8], offset: usize) -> Option<u16> {
     Some(u16::from_be_bytes(bytes.get(offset..offset + 2)?.try_into().ok()?))
 }
@@ -48,6 +56,8 @@ pub(crate) mod tests {
         bytes[0] = 0x45;
         bytes[2..4].copy_from_slice(&41_u16.to_be_bytes());
         bytes[9] = 6;
+        bytes[12..16].copy_from_slice(&[198, 51, 100, 1]);
+        bytes[16..20].copy_from_slice(&[192, 0, 2, 2]);
         bytes[20..22].copy_from_slice(&3101_u16.to_be_bytes());
         bytes[22..24].copy_from_slice(&45000_u16.to_be_bytes());
         bytes[32] = 0x50;

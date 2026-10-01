@@ -4,7 +4,7 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-[target.'cfg(any(target_os = "linux", target_os = "macos", all(windows, any(target_arch = "x86", target_arch = "x86_64"))))'.dependencies]
+[target.'cfg(all(any(target_os = "linux", target_os = "macos", target_os = "windows"), any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
 libloading = "0.8.9"
 
 [target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]

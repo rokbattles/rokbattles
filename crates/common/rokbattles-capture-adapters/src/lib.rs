@@ -1,20 +1,18 @@
 //! Optional, passive native capture. Nothing is loaded or started implicitly.
 //!
-//! Only inbound, unfragmented TCP packets with source port 3101 are returned.
+//! Only server-to-client, unfragmented TCP packets with source port 3101 are returned.
 //! The adapters do not decode, reassemble, persist, or send.
 
 #![deny(unsafe_op_in_unsafe_fn)]
 
-#[cfg(any(
-    target_os = "linux",
-    target_os = "macos",
-    all(windows, any(target_arch = "x86", target_arch = "x86_64"))
+#[cfg(all(
+    any(target_os = "linux", target_os = "macos", target_os = "windows"),
+    any(target_arch = "x86_64", target_arch = "aarch64")
 ))]
 mod library;
-#[cfg(any(
-    target_os = "linux",
-    target_os = "macos",
-    all(windows, any(target_arch = "x86", target_arch = "x86_64"))
+#[cfg(all(
+    any(target_os = "linux", target_os = "macos", target_os = "windows"),
+    any(target_arch = "x86_64", target_arch = "aarch64")
 ))]
 mod packet;
 pub mod pcap;
@@ -23,10 +21,9 @@ pub mod windivert;
 use std::{fmt, path::PathBuf};
 
 /// Maximum non-jumbo IPv6 packet, plus bounded link-layer framing.
-#[cfg(any(
-    target_os = "linux",
-    target_os = "macos",
-    all(windows, any(target_arch = "x86", target_arch = "x86_64"))
+#[cfg(all(
+    any(target_os = "linux", target_os = "macos", target_os = "windows"),
+    any(target_arch = "x86_64", target_arch = "aarch64")
 ))]
 const SNAPLEN: usize = 65_575 + 256;
 

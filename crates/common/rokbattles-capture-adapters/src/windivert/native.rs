@@ -17,7 +17,7 @@ const FLAGS: u64 = SNIFF | RECV_ONLY | NO_INSTALL;
 const SHUTDOWN_RECV: c_int = 1;
 
 // WinDivert 2.2 windivert.h: 8-byte timestamp, two 32-bit flag/reserved
-// words and a 64-byte union. Win32's C ABI requires 8-byte struct alignment.
+// words and a 64-byte union. The native ABI requires 8-byte struct alignment.
 #[repr(C, align(8))]
 struct Address {
     timestamp: i64,
@@ -29,8 +29,7 @@ struct Address {
 const _: () = assert!(std::mem::size_of::<Address>() == 80);
 const _: () = assert!(std::mem::align_of::<Address>() == 8);
 
-// WinDivert's exports are C (__cdecl), NOT WINAPI (__stdcall) on x86.
-// Choosing extern "system" would silently work on x64 but corrupt x86 calls.
+// WinDivert exports use the C ABI. This adapter supports Windows x64 only.
 type Open = unsafe extern "C" fn(*const c_char, c_int, i16, u64) -> *mut c_void;
 type Recv = unsafe extern "C" fn(*mut c_void, *mut c_void, u32, *mut u32, *mut Address) -> c_int;
 type Shutdown = unsafe extern "C" fn(*mut c_void, c_int) -> c_int;
@@ -52,7 +51,8 @@ pub struct WinDivert {
 
 impl WinDivert {
     /// Load a trusted, architecture-matching WinDivert 2.x DLL from an absolute
-    /// path. Dependencies are restricted to System32. No driver is opened.
+    /// path. Dependencies are restricted to its trusted directory and System32.
+    /// No driver is opened.
     ///
     /// # Safety
     /// The caller must establish that the DLL is trusted native code implementing
@@ -334,7 +334,7 @@ mod tests {
     }
 
     #[test]
-    fn address_layout_matches_win32_and_win64_abi() {
+    fn address_layout_matches_win64_abi() {
         assert_eq!(std::mem::size_of::<Address>(), 80);
         assert_eq!(std::mem::align_of::<Address>(), 8);
         assert_eq!(std::mem::offset_of!(Address, flags), 8);

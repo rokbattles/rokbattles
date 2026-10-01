@@ -16,11 +16,13 @@ pub(crate) unsafe fn load(path: &Path) -> Result<Library, Error> {
         .map_err(|error| Error::Library { path: path.to_owned(), detail: error.to_string() })?;
     #[cfg(windows)]
     // SAFETY: caller vouches for the binary and its ABI. The primary path is
-    // absolute; dependencies may only come from System32, never cwd or PATH.
+    // absolute; dependencies may only come from its trusted directory (Npcap's
+    // Packet.dll lives beside wpcap.dll) or System32, never cwd or PATH.
     let library = unsafe {
         libloading::os::windows::Library::load_with_flags(
             &path,
-            libloading::os::windows::LOAD_LIBRARY_SEARCH_SYSTEM32,
+            libloading::os::windows::LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR
+                | libloading::os::windows::LOAD_LIBRARY_SEARCH_SYSTEM32,
         )
         .map(Library::from)
     };
