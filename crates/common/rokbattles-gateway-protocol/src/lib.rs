@@ -10,6 +10,7 @@
 #![forbid(unsafe_code)]
 #![deny(missing_docs)]
 mod artifact;
+pub mod capture_session;
 mod protobuf;
 pub mod stream;
 pub mod uploader;

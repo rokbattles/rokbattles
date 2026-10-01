@@ -5,6 +5,8 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
+rokbattles-capture-runtime = { path = "../rokbattles-capture-runtime" }
+zeroize = "1.9.0"
 rustc-hash.workspace = true
 bytes.workspace = true
 flate2 = { workspace = true, features = ["zlib-rs"] }

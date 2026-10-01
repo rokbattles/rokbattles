@@ -6,6 +6,8 @@ on:
     paths:
       - "crates/common/rokbattles-capture-adapters/**"
       - "crates/common/rokbattles-capture-runtime/**"
+      - "crates/common/rokbattles-gateway-protocol/**"
+      - "crates/apps/rokbattles-ingress/**"
       - "crates/apps/rokbattles-nat-gateway/**"
       - "Cargo.toml"
       - "Cargo.lock"
@@ -15,6 +17,8 @@ on:
     paths:
       - "crates/common/rokbattles-capture-adapters/**"
       - "crates/common/rokbattles-capture-runtime/**"
+      - "crates/common/rokbattles-gateway-protocol/**"
+      - "crates/apps/rokbattles-ingress/**"
       - "crates/apps/rokbattles-nat-gateway/**"
       - "Cargo.toml"
       - "Cargo.lock"
@@ -61,11 +65,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends lld
       - name: Format
-        run: cargo fmt -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-nat-gateway -- --check
+        run: cargo fmt -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol -p rokbattles-nat-gateway -- --check
       - name: Lint
-        run: cargo clippy --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime --all-targets --target ${{ matrix.target }} -- -D warnings
+        run: cargo clippy --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --all-targets --target ${{ matrix.target }} -- -D warnings
       - name: Synthetic and mock tests only
-        run: cargo test --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime --target ${{ matrix.target }}
+        run: cargo test --locked -p rokbattles-capture-adapters -p rokbattles-capture-runtime -p rokbattles-gateway-protocol --target ${{ matrix.target }}
         # No libpcap, WinDivert DLL or driver installation. No live-capture tests.
       - name: Shared NAT reassembly regression checks
         if: runner.os == 'Linux'
