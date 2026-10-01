@@ -177,3 +177,169 @@ fn windows_error(operation: &'static str, error: std::io::Error) -> Error {
         _ => Error::Native { operation, detail: error.to_string() },
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::{cell::RefCell, ptr};
+
+    use super::*;
+
+    struct State {
+        flags: u32,
+        bytes: Vec<u8>,
+        length: Option<u32>,
+        open_result: isize,
+        recv_result: c_int,
+        closed: usize,
+        shutdown: usize,
+    }
+
+    impl Default for State {
+        fn default() -> Self {
+            Self {
+                flags: 1 << 16,
+                bytes: packet::tests::ipv4(),
+                length: None,
+                open_result: 1,
+                recv_result: 1,
+                closed: 0,
+                shutdown: 0,
+            }
+        }
+    }
+
+    thread_local! { static STATE: RefCell<State> = RefCell::new(State::default()); }
+
+    unsafe extern "C" fn open(
+        filter: *const c_char,
+        layer: c_int,
+        priority: i16,
+        flags: u64,
+    ) -> *mut c_void {
+        // SAFETY: production open provides this valid static C string.
+        assert_eq!(unsafe { CStr::from_ptr(filter) }, FILTER);
+        assert_eq!(layer, NETWORK);
+        assert_eq!(priority, 0);
+        assert_eq!(flags, 0x15); // SNIFF | RECV_ONLY | NO_INSTALL, no injection
+        STATE.with_borrow(|state| state.open_result as *mut c_void)
+    }
+
+    unsafe extern "C" fn recv(
+        _handle: *mut c_void,
+        output: *mut c_void,
+        capacity: u32,
+        length: *mut u32,
+        address: *mut Address,
+    ) -> c_int {
+        STATE.with_borrow(|state| {
+            assert!(state.bytes.len() <= capacity as usize);
+            // SAFETY: production receive provides a writable SNAPLEN-byte buffer;
+            // the synthetic packet length above is checked before copying.
+            unsafe {
+                ptr::copy_nonoverlapping(
+                    state.bytes.as_ptr(),
+                    output.cast::<u8>(),
+                    state.bytes.len(),
+                )
+            };
+            // SAFETY: production receive supplies an initialized writable u32.
+            unsafe { *length = state.length.unwrap_or(state.bytes.len() as u32) };
+            // SAFETY: production receive supplies an aligned 80-byte address.
+            unsafe { (*address).flags = state.flags };
+            state.recv_result
+        })
+    }
+
+    unsafe extern "C" fn shutdown(_handle: *mut c_void, how: c_int) -> c_int {
+        assert_eq!(how, SHUTDOWN_RECV);
+        STATE.with_borrow_mut(|state| state.shutdown += 1);
+        1
+    }
+
+    unsafe extern "C" fn close(_handle: *mut c_void) -> c_int {
+        STATE.with_borrow_mut(|state| state.closed += 1);
+        1
+    }
+
+    fn mock() -> WinDivert {
+        STATE.with_borrow_mut(|state| *state = State::default());
+        WinDivert { api: Api { open, recv, shutdown, close, _library: None } }
+    }
+
+    #[test]
+    fn mock_capture_uses_passive_flags_and_closes_once() {
+        let backend = mock();
+        let capture = backend.open().expect("mock open");
+        assert_eq!(capture.receive().expect("mock recv"), Receive::Packet(packet::tests::ipv4()));
+        capture.shutdown().expect("mock shutdown");
+        drop(capture);
+        STATE.with_borrow(|state| {
+            assert_eq!(state.shutdown, 1);
+            assert_eq!(state.closed, 1);
+        });
+    }
+
+    #[test]
+    fn receive_rejects_outbound_or_ambiguous_metadata() {
+        let backend = mock();
+        let capture = backend.open().expect("mock open");
+        for flags in [0, 1 << 17, (1 << 16) | (1 << 17), (1 << 16) | 1, (1 << 16) | (1 << 8)] {
+            STATE.with_borrow_mut(|state| state.flags = flags);
+            assert_eq!(capture.receive().expect("mock recv"), Receive::Discarded);
+        }
+    }
+
+    #[test]
+    fn invalid_lengths_or_client_packets_never_escape() {
+        let backend = mock();
+        let capture = backend.open().expect("mock open");
+        STATE.with_borrow_mut(|state| state.length = Some(SNAPLEN as u32 + 1));
+        assert!(matches!(capture.receive(), Err(Error::InvalidPacket(_))));
+        STATE.with_borrow_mut(|state| {
+            state.length = Some(0);
+        });
+        assert_eq!(capture.receive().expect("zero recv"), Receive::Discarded);
+        STATE.with_borrow_mut(|state| {
+            state.length = None;
+            state.bytes[20..22].copy_from_slice(&45000_u16.to_be_bytes());
+        });
+        assert_eq!(capture.receive().expect("client recv"), Receive::Discarded);
+    }
+
+    #[test]
+    fn null_and_invalid_handles_are_never_closed() {
+        for handle in [0, -1] {
+            let backend = mock();
+            STATE.with_borrow_mut(|state| state.open_result = handle);
+            assert!(backend.open().is_err());
+            STATE.with_borrow(|state| assert_eq!(state.closed, 0));
+        }
+    }
+
+    #[test]
+    fn errors_remain_actionable_without_requesting_elevation() {
+        assert!(matches!(
+            windows_error("open", std::io::Error::from_raw_os_error(5)),
+            Error::PermissionDenied { .. }
+        ));
+        for code in [2, 577, 654, 1060, 1275, 1753] {
+            assert!(
+                matches!(windows_error("open", std::io::Error::from_raw_os_error(code)), Error::DriverUnavailable { code: value } if value == code)
+            );
+        }
+        assert!(matches!(
+            windows_error("open", std::io::Error::from_raw_os_error(87)),
+            Error::Native { .. }
+        ));
+    }
+
+    #[test]
+    fn address_layout_matches_win32_and_win64_abi() {
+        assert_eq!(std::mem::size_of::<Address>(), 80);
+        assert_eq!(std::mem::align_of::<Address>(), 8);
+        assert_eq!(std::mem::offset_of!(Address, flags), 8);
+        assert_eq!(std::mem::offset_of!(Address, data), 16);
+        fn send_sync<T: Send + Sync>() {}
+        send_sync::<Capture<'_>>();
+    }
+}

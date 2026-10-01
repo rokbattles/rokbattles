@@ -1,0 +1,56 @@
+name: Capture Adapters
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "crates/common/rokbattles-capture-adapters/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/capture-adapters.yml"
+  push:
+    branches: [ main ]
+    paths:
+      - "crates/common/rokbattles-capture-adapters/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/capture-adapters.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: capture-adapters-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mock-tests:
+    name: Mock adapters (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            target: aarch64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: windows-latest
+            target: i686-pc-windows-msvc
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dtolnay/rust-toolchain@02cb101ec7c40f2c49e1d9714d64511d8e1b74de # v1
+        with:
+          toolchain: stable
+          targets: ${{ matrix.target }}
+          components: rustfmt, clippy
+      - name: Format
+        run: cargo fmt -p rokbattles-capture-adapters -- --check
+      - name: Lint
+        run: cargo clippy --locked -p rokbattles-capture-adapters --all-targets --target ${{ matrix.target }} -- -D warnings
+      - name: Synthetic and mock tests only
+        run: cargo test --locked -p rokbattles-capture-adapters --target ${{ matrix.target }}
+        # No libpcap, WinDivert DLL or driver installation. No live-capture tests.

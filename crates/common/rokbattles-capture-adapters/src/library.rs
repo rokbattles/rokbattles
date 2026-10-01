@@ -56,9 +56,26 @@ mod tests {
 
     #[test]
     fn missing_file_is_a_recoverable_error() {
-        let path = std::env::temp_dir().join("rokbattles-nonexistent-library-867655b1/no-file");
+        let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("Cargo.toml").join("not-a-directory");
         // SAFETY: the nonexistent path fails canonicalization without loading code.
         let error = unsafe { load(&path) }.expect_err("missing file");
         assert!(matches!(error, Error::Library { .. }));
+    }
+
+    #[test]
+    fn missing_symbol_is_a_recoverable_error() {
+        // Query only the already-running test executable; never load a capture
+        // library, execute library initializers, or open a native capture.
+        #[cfg(unix)]
+        let library = Library::from(libloading::os::unix::Library::this());
+        #[cfg(windows)]
+        let library =
+            Library::from(libloading::os::windows::Library::this().expect("current executable"));
+        // SAFETY: this deliberately absent symbol is never invoked. Its name
+        // cannot be provided by any of this crate's native test mocks.
+        let result = unsafe {
+            symbol::<unsafe extern "C" fn()>(&library, c"rokbattles_missing_symbol_867655b1")
+        };
+        assert!(matches!(result, Err(Error::Symbol { .. })));
     }
 }
