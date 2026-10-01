@@ -19,7 +19,7 @@ use windows_sys::Win32::{
         ACCESS_ALLOWED_ACE, ACE_HEADER, ACL,
         Authorization::{
             ConvertSidToStringSidW, ConvertStringSecurityDescriptorToSecurityDescriptorW,
-            GetNamedSecurityInfoW, SE_FILE_OBJECT,
+            ConvertStringSidToSidW, GetNamedSecurityInfoW, SE_FILE_OBJECT,
         },
         DACL_SECURITY_INFORMATION, EqualSid, GetAce, GetSecurityDescriptorControl,
         GetTokenInformation, IsValidSid, IsWellKnownSid, OWNER_SECURITY_INFORMATION,
@@ -48,6 +48,7 @@ impl Drop for LocalAllocation {
 
 struct User {
     data: Vec<usize>,
+    installer: LocalAllocation,
 }
 
 impl User {
@@ -78,7 +79,20 @@ impl User {
         {
             return Err(Error::Security);
         }
-        Ok(Self { data })
+        // Windows owns the volume root with its TrustedInstaller service SID.
+        // This principal is trusted only for ancestors, never private state.
+        let sid: Vec<u16> = "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464"
+            .encode_utf16()
+            .chain(Some(0))
+            .collect();
+        let mut installer = ptr::null_mut();
+        // SAFETY: fixed NUL-terminated SID text and valid output pointer.
+        if unsafe { ConvertStringSidToSidW(sid.as_ptr(), &mut installer) } == 0
+            || installer.is_null()
+        {
+            return Err(Error::Security);
+        }
+        Ok(Self { data, installer: LocalAllocation(installer) })
     }
 
     fn sid(&self) -> PSID {
@@ -139,7 +153,9 @@ fn trusted_sid(sid: PSID, user: &User, private: bool) -> bool {
         owner || system || unsafe { IsWellKnownSid(sid, WinCreatorOwnerRightsSid) != 0 }
     } else {
         // SAFETY: Administrators may mutate ancestor directories, never the private state DACL.
-        owner || system || unsafe { IsWellKnownSid(sid, WinBuiltinAdministratorsSid) != 0 }
+        let administrator = unsafe { IsWellKnownSid(sid, WinBuiltinAdministratorsSid) != 0 };
+        // SAFETY: fixed parsed service SID and validated descriptor SID remain live.
+        owner || system || administrator || unsafe { EqualSid(sid, user.installer.0) != 0 }
     }
 }
 
