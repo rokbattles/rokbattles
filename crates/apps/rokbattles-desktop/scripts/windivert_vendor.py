@@ -147,9 +147,13 @@ def safe_directory(root, create=False):
             path.mkdir()
         else:
             raise VerificationError("Staged vendor directory is missing")
-    if root.resolve() != root:
+    # Windows temp paths can contain 8.3 aliases (RUNNER~1). Resolve only after
+    # checking every supplied ancestor for links/junctions, then use the canonical
+    # spelling for all containment checks. Same-file identity is required.
+    resolved = root.resolve(strict=True)
+    if not root.samefile(resolved):
         raise VerificationError("Staging path escapes its resolved location")
-    return root
+    return resolved
 
 
 def check_directory(root, names):

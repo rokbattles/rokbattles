@@ -95,11 +95,24 @@ class VendorTests(unittest.TestCase):
                     vendor.unpack_verified(data, self.lock)
 
     def test_unsafe_unselected_paths_are_rejected(self):
-        for name in ["../escape", "/absolute", "C:/drive", "upstream/../escape", "a\\b", "a:b", "a//b", "a/./b", "a/b.", "a/b ", "a//", "a/CON", "a/nul.txt", "a/LPT1"]:
+        for name in ["../escape", "/absolute", "C:/drive", "upstream/../escape", "a:b", "a//b", "a/./b", "a/b.", "a/b ", "a//", "a/CON", "a/nul.txt", "a/LPT1"]:
             with self.subTest(name=name):
                 data = self.archive(extras=[(name, b"unused")])
                 with self.assertRaisesRegex(vendor.VerificationError, "Unsafe archive member"):
                     vendor.unpack_verified(data, self.lock)
+
+    def test_raw_backslash_member_is_rejected_on_every_host(self):
+        # ZipInfo normalizes backslashes on Windows while writing, so mutate
+        # the two on-disk filename fields to preserve the malicious raw name.
+        data = self.archive(extras=[("unsafe/entry", b"unused")])
+        data = data.replace(b"unsafe/entry", b"unsafe\\entry")
+        self.lock["archive"]["sha256"] = vendor.digest(data)
+        with self.assertRaisesRegex(vendor.VerificationError, "Unsafe archive member"):
+            vendor.unpack_verified(data, self.lock)
+
+    def test_safe_directory_returns_canonical_identity(self):
+        self.root.mkdir()
+        self.assertEqual(vendor.safe_directory(self.root), self.root.resolve())
 
     def test_unsafe_output_names_are_rejected(self):
         data = self.archive()
