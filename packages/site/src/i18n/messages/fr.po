@@ -577,11 +577,13 @@ msgid "Results"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
-msgctxt "r8aMgv"
-msgid "AP used"
+msgctxt "EaFEmm"
+msgid "AP used (est.)"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgctxt "d2x7m5"
+msgid "AP saved (est.)"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
@@ -1523,6 +1525,13 @@ msgstr ""
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgctxt "s3oHvg"
 msgid "English Soldiers"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
+msgctxt "r8aMgv"
+msgid "AP used"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx

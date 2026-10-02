@@ -65,6 +65,7 @@ function emptyGroup(): PersonalLootGroup {
     reports: 0,
     lootTotal: 0,
     apUsed: 0,
+    apSaved: 0,
     honorGained: 0,
     xpGained: 0,
     rewards: [],
@@ -201,15 +202,19 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
     if (active === "kahars-treasure") {
       return [
         { label: t("Results"), value: data?.totals.results ?? 0 },
-        { label: t("AP used"), value: data?.totals.apUsed ?? 0 },
+        { label: t("AP used (est.)"), value: data?.totals.apUsed ?? 0 },
       ];
     }
 
     const items = [
       { label: t("Results"), value: data?.totals.results ?? 0 },
-      { label: t("AP used"), value: data?.totals.apUsed ?? 0 },
-      { label: t("Honor gained"), value: data?.totals.honorGained ?? 0 },
+      { label: t("AP used (est.)"), value: data?.totals.apUsed ?? 0 },
     ];
+
+    if (active === "barbarians") {
+      items.push({ label: t("AP saved (est.)"), value: data?.totals.apSaved ?? 0 });
+    }
+    items.push({ label: t("Honor gained"), value: data?.totals.honorGained ?? 0 });
 
     return active === "barbarians"
       ? [...items, { label: t("XP gained"), value: data?.totals.xpGained ?? 0 }]
@@ -232,7 +237,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
         maxDate={maxDate}
       />
       {data ? (
-        <LootExplorerSummary items={summaryItems} maxColumns={4} />
+        <LootExplorerSummary items={summaryItems} maxColumns={summaryItems.length > 4 ? 5 : 4} />
       ) : (
         <Text>{t("Loading loot...")}</Text>
       )}

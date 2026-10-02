@@ -8,6 +8,7 @@ export type LootRewardAggregate = {
 export type PersonalLootTotals = {
   results: number;
   apUsed: number;
+  apSaved: number;
   honorGained: number;
   xpGained: number;
 };
@@ -17,6 +18,7 @@ export type PersonalLootGroup = {
   reports: number;
   lootTotal: number;
   apUsed: number;
+  apSaved: number;
   honorGained: number;
   xpGained: number;
   rewards: LootRewardAggregate[];

@@ -23,6 +23,7 @@ impl PersonalLootResponse {
         let totals = groups.iter().fold(PersonalLootTotals::default(), |mut totals, group| {
             totals.results += group.reports;
             totals.ap_used += group.ap_used;
+            totals.ap_saved += group.ap_saved;
             totals.honor_gained += group.honor_gained;
             totals.xp_gained += group.xp_gained;
             totals
@@ -37,6 +38,7 @@ impl PersonalLootResponse {
 pub(crate) struct PersonalLootTotals {
     pub results: i64,
     pub ap_used: i64,
+    pub ap_saved: i64,
     pub honor_gained: i64,
     pub xp_gained: i64,
 }
@@ -48,6 +50,7 @@ pub(crate) struct PersonalLootGroupResponse {
     pub reports: i64,
     pub loot_total: i64,
     pub ap_used: i64,
+    pub ap_saved: i64,
     pub honor_gained: i64,
     pub xp_gained: i64,
     pub rewards: Vec<LootRewardAggregateResponse>,
@@ -61,4 +64,32 @@ pub(crate) struct LootRewardAggregateResponse {
     pub sub_type: i64,
     pub total: i64,
     pub count: i64,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn response_sums_and_serializes_ap_estimates_across_levels() {
+        let groups = [(41, 80, 160), (42, 0, 80)]
+            .into_iter()
+            .map(|(level, ap_used, ap_saved)| PersonalLootGroupResponse {
+                level: Some(level),
+                reports: 1,
+                loot_total: 0,
+                ap_used,
+                ap_saved,
+                honor_gained: 0,
+                xp_gained: 0,
+                rewards: vec![],
+            })
+            .collect();
+        let response = PersonalLootResponse::new("2025-01-01".into(), "2025-01-01".into(), groups);
+        let json = serde_json::to_value(response).unwrap();
+
+        assert_eq!(json["totals"]["apUsed"], 80);
+        assert_eq!(json["totals"]["apSaved"], 240);
+        assert_eq!(json["groups"][0]["apSaved"], 160);
+    }
 }
