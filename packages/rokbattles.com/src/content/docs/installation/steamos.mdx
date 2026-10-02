@@ -1,0 +1,44 @@
+# Install on SteamOS
+
+Use the Flatpak build of ROK Battles on Steam Deck and Steam Machine. SteamOS [supports Flatpak through KDE Discover](https://help.steampowered.com/en/faqs/view/671A-4453-E8D2-323C), so you can install the app in Desktop Mode using Discover or the terminal.
+
+## Download
+
+Switch to Desktop Mode, then download the x64 Flatpak below.
+
+<DownloadOptions platform="steamos" />
+
+## Install with KDE Discover
+
+1. Open the folder containing your download and double-click the `.flatpak` file.
+2. KDE Discover will open and ask to install the local package. Review the details and select **Install**.
+3. Once installation finishes, launch ROK Battles from Discover or the application menu.
+
+## Install from the terminal
+
+Open Konsole in the folder containing your download and run:
+
+```bash
+flatpak install --user ./com.rokbattles.rokbattles-__VERSION__-x86_64.flatpak
+flatpak run com.rokbattles.rokbattles
+```
+
+Accept any prompt to install the required GNOME runtime from Flathub. ROK Battles itself is installed from the downloaded file.
+
+## Choose your mailcache folder
+
+In ROK Battles, select **Add** and choose the game's `mailcache` folder. The file picker grants access to that folder. Automatic discovery is unavailable on Linux and SteamOS.
+
+Steam/Proton paths often include hidden directories. In KDE's folder picker, enable **Show Hidden Files** with **Alt+.**, or press **Ctrl+L** to enter the full path. GTK file pickers use **Ctrl+H** to show hidden files.
+
+## Update
+
+Download the newer Flatpak and install it using Discover or the same terminal command with the new filename. Accept replacement of the installed version. Updates are delivered as bundle files; the Flatpak build does not use the in-app updater or start automatically at login.
+
+## Uninstall
+
+Remove ROK Battles through Discover, or run:
+
+```bash
+flatpak uninstall --user com.rokbattles.rokbattles
+```
