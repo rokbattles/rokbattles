@@ -48,7 +48,23 @@ pub(crate) struct BattleOpponentDocument {
     #[serde(default)]
     pub player_id: Option<Bson>,
     #[serde(default)]
+    pub start_tick: Option<Bson>,
+    #[serde(default)]
     pub npc: Option<BattleNpcDocument>,
+    #[serde(default)]
+    pub battle_results: Option<BattleResultsDocument>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub(crate) struct BattleResultsDocument {
+    #[serde(default)]
+    pub opponent: Option<BattleResultDocument>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+pub(crate) struct BattleResultDocument {
+    #[serde(default)]
+    pub remaining: Option<Bson>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -133,6 +149,8 @@ pub(crate) async fn fetch_barbarian_battle_mails(
             "_id": 0,
             "metadata.mail_time": 1,
             "opponents.player_id": 1,
+            "opponents.start_tick": 1,
+            "opponents.battle_results.opponent.remaining": 1,
             "opponents.npc.type": 1,
             "opponents.npc.b_type": 1,
             "opponents.npc.experience": 1,
@@ -169,6 +187,8 @@ pub(crate) async fn fetch_marauder_battle_mails(
             "_id": 0,
             "metadata.mail_time": 1,
             "opponents.player_id": 1,
+            "opponents.start_tick": 1,
+            "opponents.battle_results.opponent.remaining": 1,
             "opponents.npc.type": 1,
             "opponents.npc.b_type": 1,
             "opponents.npc.experience": 1,

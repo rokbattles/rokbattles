@@ -7,7 +7,7 @@ use rustc_hash::FxHashMap;
 use super::{
     query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
     store::{
-        BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument,
+        BarbarianFortMailDocument, BattleMailDocument, BattleOpponentDocument, BaulurMailDocument,
         KaharTreasureMailDocument, KaruakCeremonyMailDocument, LootEntryDocument,
     },
     types::{LootRewardAggregateResponse, PersonalLootGroupResponse},
@@ -23,6 +23,7 @@ struct LootCategoryAggregate {
     reports: i64,
     loot_total: i64,
     ap_used: i64,
+    ap_saved: i64,
     honor_gained: i64,
     xp_gained: i64,
     reward_buckets: FxHashMap<(i64, i64), LootRewardBucket>,
@@ -56,16 +57,31 @@ pub(crate) fn aggregate_personal_barbarian_loot(
             continue;
         }
 
-        for opponent in mail.opponents.unwrap_or_default() {
+        let opponents = mail.opponents.as_deref().unwrap_or_default();
+        // Identify the initial attack before filtering by NPC, defeat, or level so
+        // collateral kills (including those in fort reports) stay AP savings.
+        let initial_attack = opponents
+            .iter()
+            .enumerate()
+            .min_by_key(|(_, opponent)| {
+                opponent.start_tick.as_ref().and_then(parse_i64_loose).unwrap_or(i64::MAX)
+            })
+            .map(|(index, _)| index);
+
+        for (index, opponent) in opponents.iter().enumerate() {
             let Some(opponent_id) = opponent.player_id.as_ref().and_then(parse_i64_loose) else {
                 continue;
             };
             if opponent_id != -2 {
                 continue;
             }
-            let Some(npc) = opponent.npc else {
+            let Some(npc) = opponent.npc.as_ref() else {
                 continue;
             };
+
+            if !is_rewarded_npc_kill(opponent) {
+                continue;
+            }
 
             let npc_type = npc.npc_type.as_ref().and_then(parse_i64_loose);
             let npc_b_type = npc.b_type.as_ref().and_then(parse_i64_loose);
@@ -82,7 +98,11 @@ pub(crate) fn aggregate_personal_barbarian_loot(
             let group_key = if group_by_level { Some(metadata.level) } else { None };
             let group = groups.entry(group_key).or_default();
             add_report(group);
-            group.ap_used += i64::from(metadata.ap_cost);
+            if Some(index) != initial_attack {
+                group.ap_saved += i64::from(metadata.ap_cost);
+            } else {
+                group.ap_used += i64::from(metadata.ap_cost);
+            }
             group.honor_gained += i64::from(metadata.honor_points);
             group.xp_gained += npc.experience.as_ref().and_then(parse_i64_loose).unwrap_or(0);
             add_loot(group, npc.loot.as_deref().unwrap_or_default());
@@ -90,6 +110,23 @@ pub(crate) fn aggregate_personal_barbarian_loot(
     }
 
     into_personal_groups(groups)
+}
+
+fn is_rewarded_npc_kill(opponent: &BattleOpponentDocument) -> bool {
+    let remaining = opponent
+        .battle_results
+        .as_ref()
+        .and_then(|results| results.opponent.as_ref())
+        .and_then(|result| result.remaining.as_ref())
+        .and_then(parse_i64_loose);
+    let loot = opponent.npc.as_ref().and_then(|npc| npc.loot.as_deref()).unwrap_or_default();
+
+    remaining == Some(0)
+        && loot.iter().any(|entry| {
+            entry.reward_type.as_ref().and_then(parse_i64_loose).is_some()
+                && entry.sub_type.as_ref().and_then(parse_i64_loose).is_some()
+                && entry.value.as_ref().and_then(parse_i64_loose).is_some_and(|value| value > 0)
+        })
 }
 
 pub(crate) fn aggregate_personal_fort_loot(
@@ -320,6 +357,7 @@ fn into_personal_groups(
             let reports = aggregate.reports;
             let loot_total = aggregate.loot_total;
             let ap_used = aggregate.ap_used;
+            let ap_saved = aggregate.ap_saved;
             let honor_gained = aggregate.honor_gained;
             let xp_gained = aggregate.xp_gained;
             let rewards = into_rewards(aggregate);
@@ -328,6 +366,7 @@ fn into_personal_groups(
                 reports,
                 loot_total,
                 ap_used,
+                ap_saved,
                 honor_gained,
                 xp_gained,
                 rewards,
@@ -476,9 +515,10 @@ mod tests {
     use super::{
         super::store::{
             BarbarianFortBodyDocument, BarbarianFortContentDocument, BarbarianFortMailDocument,
-            BattleMailDocument, BattleNpcDocument, BattleOpponentDocument, BaulurMailDocument,
-            BaulurNpcDocument, BaulurParticipantDocument, KaharTreasureMailDocument,
-            LootEntryDocument, MailMetadataDocument,
+            BattleMailDocument, BattleNpcDocument, BattleOpponentDocument, BattleResultDocument,
+            BattleResultsDocument, BaulurMailDocument, BaulurNpcDocument,
+            BaulurParticipantDocument, KaharTreasureMailDocument, LootEntryDocument,
+            MailMetadataDocument,
         },
         *,
     };
@@ -589,6 +629,167 @@ mod tests {
     }
 
     #[test]
+    fn barbarian_ap_is_charged_once_per_mail() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+        let single = build_npc_mail(1_735_689_600_000, -2, 1, 1, 5, 10);
+        let mut chain = single.clone();
+        chain.opponents = Some(vec![single.opponents.as_ref().unwrap()[0].clone(); 10]);
+
+        let groups = aggregate_personal_barbarian_loot(vec![single, chain], &request);
+
+        assert_eq!(groups[0].reports, 11);
+        assert_eq!(groups[0].ap_used, 100);
+        assert_eq!(groups[0].ap_saved, 450);
+        assert_eq!(groups[0].loot_total, 55);
+        assert_eq!(groups[0].xp_gained, 110);
+    }
+
+    #[test]
+    fn barbarians_without_rewards_are_excluded() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+        let mut mail = build_npc_mail(1_735_689_600_000, -2, 401, 1, 5, 10);
+        mail.opponents.as_mut().unwrap()[0].npc.as_mut().unwrap().loot = None;
+
+        assert!(aggregate_personal_barbarian_loot(vec![mail], &request).is_empty());
+    }
+
+    #[test]
+    fn barbarian_ap_uses_oldest_tick_before_filtering_levels() {
+        let mut request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![41, 42],
+        };
+        let mut mail = build_npc_mail(1_735_689_600_000, -2, 402, 1, 5, 10);
+        let mut initial =
+            build_npc_mail(1_735_689_600_000, -2, 401, 1, 7, 11).opponents.unwrap().remove(0);
+        initial.start_tick = Some(Bson::String("90".to_string()));
+        mail.opponents.as_mut().unwrap().push(initial);
+
+        let groups = aggregate_personal_barbarian_loot(vec![mail.clone()], &request);
+
+        assert_eq!((groups[0].level, groups[0].ap_used, groups[0].ap_saved), (Some(41), 80, 0));
+        assert_eq!((groups[1].level, groups[1].ap_used, groups[1].ap_saved), (Some(42), 0, 80));
+
+        request.levels = vec![42];
+        let filtered = aggregate_personal_barbarian_loot(vec![mail], &request);
+        assert_eq!((filtered[0].reports, filtered[0].ap_used, filtered[0].ap_saved), (1, 0, 80));
+    }
+
+    #[test]
+    fn fort_report_collateral_barbarian_kill_saves_ap() {
+        // The processed sample lists the barbarian first, but the fort has the oldest tick.
+        let mut mail: BattleMailDocument = serde_json::from_str(include_str!(
+            "../../../../../../../samples/Battle/Persistent.Mail.33830971176980291131-processed.json"
+        )).unwrap();
+        mail.metadata =
+            Some(MailMetadataDocument { mail_time: Some(Bson::Int64(1_735_689_600_000)) });
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+
+        let groups = aggregate_personal_barbarian_loot(vec![mail], &request);
+
+        assert_eq!(groups[0].reports, 1);
+        assert_eq!((groups[0].ap_used, groups[0].ap_saved), (0, 50));
+        assert_eq!(groups[0].loot_total, 101);
+        assert_eq!(groups[0].xp_gained, 4760);
+    }
+
+    #[test]
+    fn barbarians_with_surviving_or_unknown_troops_are_excluded() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+        for remaining in [Some(Bson::Int64(1)), None, Some(Bson::String("invalid".to_string()))] {
+            let mut mail = build_npc_mail(1_735_689_600_000, -2, 401, 1, 5, 10);
+            mail.opponents.as_mut().unwrap()[0]
+                .battle_results
+                .as_mut()
+                .unwrap()
+                .opponent
+                .as_mut()
+                .unwrap()
+                .remaining = remaining;
+
+            assert!(aggregate_personal_barbarian_loot(vec![mail], &request).is_empty());
+        }
+    }
+
+    #[test]
+    fn barbarians_with_empty_or_invalid_rewards_are_excluded() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+        for loot in [
+            vec![],
+            vec![LootEntryDocument::default()],
+            vec![LootEntryDocument {
+                reward_type: Some(Bson::Int32(2)),
+                sub_type: Some(Bson::Int32(26)),
+                value: Some(Bson::Int32(0)),
+            }],
+        ] {
+            let mut mail = build_npc_mail(1_735_689_600_000, -2, 401, 1, 5, 10);
+            mail.opponents.as_mut().unwrap()[0].npc.as_mut().unwrap().loot = Some(loot);
+
+            assert!(aggregate_personal_barbarian_loot(vec![mail], &request).is_empty());
+        }
+    }
+
+    #[test]
+    fn undefeated_initial_barbarian_does_not_turn_collateral_kill_into_paid_attack() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+        let mut mail = build_npc_mail(1_735_689_600_000, -2, 1, 1, 5, 10);
+        let opponents = mail.opponents.as_mut().unwrap();
+        let mut undefeated = opponents[0].clone();
+        undefeated.start_tick = Some(Bson::Int64(90));
+        undefeated.battle_results.as_mut().unwrap().opponent.as_mut().unwrap().remaining =
+            Some(Bson::Int64(1));
+        opponents.push(undefeated);
+
+        let groups = aggregate_personal_barbarian_loot(vec![mail], &request);
+
+        assert_eq!((groups[0].reports, groups[0].ap_used, groups[0].ap_saved), (1, 0, 50));
+        assert_eq!((groups[0].loot_total, groups[0].xp_gained), (5, 10));
+    }
+
+    #[test]
+    fn barbarian_ap_without_ticks_uses_report_order() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Barbarians,
+            levels: vec![],
+        };
+        let mut mail = build_npc_mail(1_735_689_600_000, -2, 1, 1, 5, 10);
+        let mut opponent = mail.opponents.unwrap().remove(0);
+        opponent.start_tick = None;
+        mail.opponents = Some(vec![opponent.clone(), opponent]);
+
+        let groups = aggregate_personal_barbarian_loot(vec![mail], &request);
+
+        assert_eq!((groups[0].ap_used, groups[0].ap_saved), (50, 50));
+    }
+
+    #[test]
     fn battle_honor_points_match_kvktask_rule_visible_values() {
         assert_eq!(battle_honor_points_for_level(41, 1), 10);
         assert_eq!(battle_honor_points_for_level(45, 1), 10);
@@ -618,6 +819,68 @@ mod tests {
         assert_eq!(groups.len(), 1);
         assert_eq!(groups[0].reports, 2);
         assert_eq!(groups[0].honor_gained, 20);
+    }
+
+    #[test]
+    fn marauder_ap_is_charged_once_per_mail_at_each_existing_cost() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Marauders,
+            levels: vec![],
+        };
+        for (npc_type, ap_cost) in [(99, 50), (100, 80)] {
+            let single = build_npc_mail(1_735_689_600_000, -2, npc_type, 15, 5, 10);
+            let mut chain = single.clone();
+            chain.opponents = Some(vec![single.opponents.as_ref().unwrap()[0].clone(); 10]);
+
+            let groups = aggregate_personal_barbarian_loot(vec![single, chain], &request);
+
+            assert_eq!(groups[0].reports, 11);
+            assert_eq!((groups[0].ap_used, groups[0].ap_saved), (2 * ap_cost, 9 * ap_cost));
+            assert_eq!((groups[0].loot_total, groups[0].xp_gained), (55, 110));
+        }
+    }
+
+    #[test]
+    fn marauder_collateral_kill_stays_ap_saved_when_initial_target_is_filtered_out() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Marauders,
+            levels: vec![41],
+        };
+        let mut mail = build_npc_mail(1_735_689_600_000, -2, 100, 15, 5, 10);
+        let mut initial =
+            build_npc_mail(1_735_689_600_000, -2, 99, 15, 7, 11).opponents.unwrap().remove(0);
+        initial.start_tick = Some(Bson::Int64(90));
+        mail.opponents.as_mut().unwrap().push(initial);
+
+        let groups = aggregate_personal_barbarian_loot(vec![mail], &request);
+
+        assert_eq!((groups[0].reports, groups[0].ap_used, groups[0].ap_saved), (1, 0, 80));
+    }
+
+    #[test]
+    fn marauders_with_surviving_troops_or_no_rewards_are_excluded() {
+        let request = BarbarianLootRequest {
+            range: test_range(),
+            npc: BarbarianLootNpc::Marauders,
+            levels: vec![],
+        };
+        let mut surviving = build_npc_mail(1_735_689_600_000, -2, 100, 15, 5, 10);
+        surviving.opponents.as_mut().unwrap()[0]
+            .battle_results
+            .as_mut()
+            .unwrap()
+            .opponent
+            .as_mut()
+            .unwrap()
+            .remaining = Some(Bson::Int64(1));
+        let mut unrewarded = build_npc_mail(1_735_689_600_000, -2, 100, 15, 5, 10);
+        unrewarded.opponents.as_mut().unwrap()[0].npc.as_mut().unwrap().loot = None;
+
+        assert!(
+            aggregate_personal_barbarian_loot(vec![surviving, unrewarded], &request).is_empty()
+        );
     }
 
     #[test]
@@ -734,6 +997,10 @@ mod tests {
             metadata: Some(MailMetadataDocument { mail_time: Some(Bson::Int64(mail_time)) }),
             opponents: Some(vec![BattleOpponentDocument {
                 player_id: Some(Bson::Int64(player_id)),
+                start_tick: Some(Bson::Int64(100)),
+                battle_results: Some(BattleResultsDocument {
+                    opponent: Some(BattleResultDocument { remaining: Some(Bson::Int64(0)) }),
+                }),
                 npc: Some(BattleNpcDocument {
                     npc_type: Some(Bson::Int64(npc_type)),
                     b_type: Some(Bson::Int64(npc_b_type)),
