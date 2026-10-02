@@ -78,13 +78,24 @@ impl WatcherState {
         {
             return;
         }
-        if let Err(e) = write_processed(app, &self.config, &self.store) {
+        let config = self.config.clone();
+        if let Err(e) = self.flush_store(|store| write_processed(app, &config, store)) {
             emit_log(app, format!("Failed to flush processed store: {}", e));
-            return;
         }
+    }
+
+    fn flush_store(
+        &mut self,
+        write: impl FnOnce(&ProcessedStore) -> anyhow::Result<()>,
+    ) -> anyhow::Result<()> {
+        if self.store_dirty_updates == 0 {
+            return Ok(());
+        }
+        write(&self.store)?;
         self.store_dirty_updates = 0;
         self.store_last_flush = Instant::now();
         self.store_flushes += 1;
+        Ok(())
     }
 
     pub(crate) fn maybe_flush_upload_queue(&mut self, app: &AppHandle) {
@@ -96,15 +107,43 @@ impl WatcherState {
         {
             return;
         }
+        let config = self.config.clone();
+        if let Err(e) = self.flush_upload_queue(|queue| write_upload_queue(app, &config, queue)) {
+            emit_log(app, format!("Failed to flush upload queue: {}", e));
+        }
+    }
+
+    fn flush_upload_queue(
+        &mut self,
+        write: impl FnOnce(&UploadQueueStore) -> anyhow::Result<()>,
+    ) -> anyhow::Result<()> {
+        if self.upload_queue_dirty_updates == 0 {
+            return Ok(());
+        }
         let store =
             UploadQueueStore { version: 1, items: self.upload_queue.iter().cloned().collect() };
-        if let Err(e) = write_upload_queue(app, &self.config, &store) {
-            emit_log(app, format!("Failed to flush upload queue: {}", e));
-            return;
-        }
+        write(&store)?;
         self.upload_queue_dirty_updates = 0;
         self.upload_queue_last_flush = Instant::now();
         self.upload_queue_flushes += 1;
+        Ok(())
+    }
+
+    /// Shutdown must persist even a single update, regardless of the periodic thresholds.
+    pub(crate) fn flush_pending(
+        &mut self,
+        write_queue: impl FnOnce(&UploadQueueStore) -> anyhow::Result<()>,
+        write_store: impl FnOnce(&ProcessedStore) -> anyhow::Result<()>,
+    ) -> (anyhow::Result<()>, anyhow::Result<()>) {
+        // Attempt both writes even if one fails; each keeps its dirty flag until successful.
+        (self.flush_upload_queue(write_queue), self.flush_store(write_store))
+    }
+
+    /// Only terminal outcomes belong in the processed store. Discovery and retries must remain
+    /// recoverable by a directory scan even if the process exits before the queue is checkpointed.
+    pub(crate) fn mark_processed(&mut self, item: &QueuedUpload) {
+        self.store.entries.insert(item.path.clone(), item.sig.clone());
+        self.store_dirty_updates += 1;
     }
 
     pub(crate) fn enqueue_upload(&mut self, item: QueuedUpload) {
@@ -172,8 +211,6 @@ impl WatcherState {
             };
 
             if sig != existing {
-                self.store.entries.insert(path_str.clone(), sig.clone());
-                self.store_dirty_updates += 1;
                 self.enqueue_upload(QueuedUpload {
                     path: path_str.clone(),
                     sig,
@@ -260,6 +297,112 @@ mod tests {
 
     fn make_item(path: &str, not_before_ms: Option<u128>) -> QueuedUpload {
         QueuedUpload { path: path.to_string(), sig: make_sig(), attempts: 0, not_before_ms }
+    }
+
+    #[test]
+    fn shutdown_checkpoints_below_threshold_and_restores_interrupted_upload() {
+        let dir = tempfile::tempdir().expect("temporary checkpoint directory");
+        let queue_path = dir.path().join("queue.json");
+        let processed_path = dir.path().join("processed.json");
+        let mut state = WatcherState::new(
+            WatcherConfig::default(),
+            ProcessedStore::default(),
+            UploadQueueStore::default(),
+        );
+        state.mark_processed(&make_item("finished", None));
+        state.enqueue_upload(make_item("interrupted", None));
+        let in_flight = state.pop_ready_upload(0).expect("start upload");
+        state.requeue_upload(in_flight);
+        assert!(state.store_dirty_updates < state.config.store_flush_every_updates);
+        assert!(state.upload_queue_dirty_updates < state.config.queue_flush_every_updates);
+        assert!(state.store_last_flush.elapsed() < state.config.store_flush_interval);
+        assert!(state.upload_queue_last_flush.elapsed() < state.config.queue_flush_interval);
+
+        let (queue_result, store_result) = state.flush_pending(
+            |queue| super::super::store::atomic_write(&queue_path, &serde_json::to_vec(queue)?),
+            |processed| {
+                super::super::store::atomic_write(&processed_path, &serde_json::to_vec(processed)?)
+            },
+        );
+        queue_result.expect("checkpoint queue immediately");
+        store_result.expect("checkpoint completed signatures immediately");
+        assert_eq!(state.upload_queue_dirty_updates, 0);
+        assert_eq!(state.store_dirty_updates, 0);
+
+        let queue = serde_json::from_slice(&std::fs::read(queue_path).expect("read queue"))
+            .expect("deserialize queue");
+        let processed =
+            serde_json::from_slice(&std::fs::read(processed_path).expect("read processed"))
+                .expect("deserialize processed");
+        let mut restored = WatcherState::new(WatcherConfig::default(), processed, queue);
+        assert!(restored.store.entries.contains_key("finished"));
+        assert!(!restored.store.entries.contains_key("interrupted"));
+        assert_eq!(
+            restored.pop_ready_upload(0).expect("recover interrupted item").path,
+            "interrupted"
+        );
+    }
+
+    #[test]
+    fn failed_checkpoint_preserves_dirty_state_and_attempts_other_store() {
+        let mut state = WatcherState::new(
+            WatcherConfig::default(),
+            ProcessedStore::default(),
+            UploadQueueStore::default(),
+        );
+        state.enqueue_upload(make_item("pending", None));
+        state.mark_processed(&make_item("finished", None));
+        let (queue_result, store_result) =
+            state.flush_pending(|_| Err(anyhow::anyhow!("disk unavailable")), |_| Ok(()));
+        assert!(queue_result.is_err());
+        store_result.expect("processed checkpoint succeeds");
+        assert_eq!(state.upload_queue_dirty_updates, 1);
+        assert_eq!(state.store_dirty_updates, 0);
+        let (queue_result, store_result) = state.flush_pending(|_| Ok(()), |_| Ok(()));
+        queue_result.expect("queue checkpoint succeeds");
+        store_result.expect("processed checkpoint succeeds");
+        assert_eq!(state.upload_queue_dirty_updates, 0);
+    }
+
+    #[test]
+    fn cancelled_upload_round_trips_as_pending_without_a_processed_marker() {
+        let mut state = WatcherState::new(
+            WatcherConfig::default(),
+            ProcessedStore::default(),
+            UploadQueueStore::default(),
+        );
+        state.enqueue_upload(make_item("a", None));
+        let in_flight = state.pop_ready_upload(0).expect("start upload");
+        state.requeue_upload(in_flight);
+        let checkpoint =
+            UploadQueueStore { version: 1, items: state.upload_queue.iter().cloned().collect() };
+        let json = serde_json::to_vec(&checkpoint).expect("serialize checkpoint");
+        let restored_queue = serde_json::from_slice(&json).expect("read checkpoint");
+        let mut restored =
+            WatcherState::new(WatcherConfig::default(), ProcessedStore::default(), restored_queue);
+        assert_eq!(restored.pop_ready_upload(0).expect("retry interrupted upload").path, "a");
+        assert!(restored.store.entries.is_empty());
+    }
+
+    #[test]
+    fn processed_signature_changes_only_after_terminal_outcome() {
+        let mut state = WatcherState::new(
+            WatcherConfig::default(),
+            ProcessedStore::default(),
+            UploadQueueStore::default(),
+        );
+        let old = make_item("a", None);
+        state.mark_processed(&old);
+        let mut changed = old.clone();
+        changed.sig.size += 1;
+        state.enqueue_upload(changed);
+        let in_flight = state.pop_ready_upload(0).expect("start changed upload");
+        assert_eq!(state.store.entries.get("a"), Some(&old.sig));
+        state.requeue_upload(in_flight);
+        assert_eq!(state.store.entries.get("a"), Some(&old.sig));
+        let completed = state.pop_ready_upload(0).expect("retry changed upload");
+        state.mark_processed(&completed);
+        assert_eq!(state.store.entries.get("a"), Some(&completed.sig));
     }
 
     #[test]

@@ -41,10 +41,6 @@ pub(crate) struct WatcherConfig {
     pub(crate) file_retry_delay_ms: u128,
     /// Delay before retrying a changed file (ms).
     pub(crate) file_changed_delay_ms: u128,
-    /// Max number of recent ids to validate after a full refresh.
-    pub(crate) full_refresh_validate_recent: usize,
-    /// Max paths to revalidate after a full refresh.
-    pub(crate) full_refresh_validate_max_paths: usize,
     /// Limit filesystem events processed per tick.
     pub(crate) fs_event_budget: usize,
     /// Capacity for filesystem event channel.
@@ -77,8 +73,6 @@ impl Default for WatcherConfig {
             file_stable_age_ms: 1500,
             file_retry_delay_ms: 750,
             file_changed_delay_ms: 1000,
-            full_refresh_validate_recent: 5000,
-            full_refresh_validate_max_paths: 512,
             fs_event_budget: 512,
             fs_event_queue_capacity: 4096,
             config_refresh_interval: Duration::from_secs(2),
