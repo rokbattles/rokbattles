@@ -14,7 +14,7 @@ use serde::Serialize;
 use serde_json::Value;
 
 use crate::{
-    clamav::{ScanStatus, scan_zstream},
+    clamav::{ScanStatus, scan_instream},
     error::ApiError,
     mail_update::mutable_metadata_differs,
     raw_mail::{self, RawMailDocumentInput},
@@ -84,7 +84,7 @@ pub async fn upload(
 
     if state.config.clamav_enabled {
         let timeout = std::time::Duration::from_millis(state.config.clamav_timeout_ms);
-        match scan_zstream(&buffer, &state.config.clamav_addr, timeout).await {
+        match scan_instream(&buffer, &state.config.clamav_addr, timeout).await {
             Ok(ScanStatus::Clean) => {}
             Ok(ScanStatus::Infected(reason)) => {
                 return Err(ApiError::bad_request(format!("clamav detected malware: {reason}")));
