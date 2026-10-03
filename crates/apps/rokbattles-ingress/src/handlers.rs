@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{sync::Arc, time::Duration};
 
 use axum::{
     Json,
@@ -79,9 +79,8 @@ pub async fn upload(
     let upload = read_upload(&mut multipart).await?;
     let buffer = upload.bytes;
 
-    if state.config.clamav_enabled {
-        let timeout = std::time::Duration::from_millis(state.config.clamav_timeout_ms);
-        match scan_instream(&buffer, &state.config.clamav_addr, timeout).await {
+    if let Some(addr) = state.config.clamav_addr.as_deref() {
+        match scan_instream(&buffer, addr, Duration::from_secs(15)).await {
             Ok(ScanStatus::Clean) => {}
             Ok(ScanStatus::Infected(reason)) => {
                 return Err(ApiError::bad_request(format!("clamav detected malware: {reason}")));
