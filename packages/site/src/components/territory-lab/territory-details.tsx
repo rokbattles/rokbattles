@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { BuildingMetric } from "@/components/territory-planner/building-metric";
 import { ResourceMetric } from "@/components/territory-planner/resource-metric";
 import { TerritoryBreakdown } from "@/components/territory-planner/territory-breakdown";
@@ -22,7 +23,7 @@ const RESOURCES = [
   ["gold", "coin", "Gold"],
 ] as const;
 
-export function TerritoryDetails({
+export const TerritoryDetails = memo(function TerritoryDetails({
   plan,
   catalog,
   data,
@@ -89,4 +90,4 @@ export function TerritoryDetails({
       </section>
     </div>
   );
-}
+});

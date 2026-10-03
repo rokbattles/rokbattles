@@ -77,6 +77,7 @@ export class LabController {
   private abort = new AbortController();
   private disposed = false;
   private frame = 0;
+  private cameraStatus?: CameraStatus;
   private imageSizes = new Map<string, Point>();
   private plan?: Plan;
   private legs: RouteLeg[] = [];
@@ -660,7 +661,15 @@ export class LabController {
       try {
         this.rebuildPlacement();
         this.engine.render();
-        this.statusCallback(JSON.parse(this.engine.status()));
+        const status: CameraStatus = JSON.parse(this.engine.status());
+        if (
+          status.backend !== this.cameraStatus?.backend ||
+          status.zoom !== this.cameraStatus?.zoom ||
+          status.scale !== this.cameraStatus?.scale
+        ) {
+          this.cameraStatus = status;
+          this.statusCallback(status);
+        }
       } catch (error) {
         this.failure(String(error));
       }
