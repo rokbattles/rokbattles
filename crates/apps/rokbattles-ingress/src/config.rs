@@ -9,18 +9,14 @@ pub struct Config {
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
     pub clamav_addr: Option<String>,
-    pub zstd_level: i32,
-    pub max_upload_bytes: usize,
     pub relay_token: String,
 }
 
-/// Errors returned when configuration is missing or invalid.
+/// Errors returned when required configuration is missing.
 #[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
     #[error("missing required env var: {key}")]
     Missing { key: &'static str },
-    #[error("invalid value for {key}: {value}")]
-    Invalid { key: &'static str, value: String },
 }
 
 impl Config {
@@ -37,22 +33,11 @@ impl Config {
         let mongo_uri = required(&lookup, "MONGODB_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let clamav_addr = lookup("CLAMAV_ADDR").filter(|value| !value.is_empty());
-        let zstd_level = parse_i32("ZSTD_LEVEL", lookup("ZSTD_LEVEL"), 6)?;
-        let max_upload_bytes =
-            parse_usize("MAX_UPLOAD_BYTES", lookup("MAX_UPLOAD_BYTES"), 25 * 1024 * 1024)?;
         let relay_token = lookup("RELAY_TOKEN")
             .filter(|value| !value.is_empty())
             .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
 
-        Ok(Self {
-            bind_addr,
-            mongo_uri,
-            sentry_dsn,
-            clamav_addr,
-            zstd_level,
-            max_upload_bytes,
-            relay_token,
-        })
+        Ok(Self { bind_addr, mongo_uri, sentry_dsn, clamav_addr, relay_token })
     }
 }
 
@@ -61,24 +46,6 @@ where
     F: Fn(&str) -> Option<String>,
 {
     lookup(key).ok_or(ConfigError::Missing { key })
-}
-
-fn parse_i32(key: &'static str, value: Option<String>, default: i32) -> Result<i32, ConfigError> {
-    let Some(value) = value else {
-        return Ok(default);
-    };
-    value.parse::<i32>().map_err(|_error| ConfigError::Invalid { key, value })
-}
-
-fn parse_usize(
-    key: &'static str,
-    value: Option<String>,
-    default: usize,
-) -> Result<usize, ConfigError> {
-    let Some(value) = value else {
-        return Ok(default);
-    };
-    value.parse::<usize>().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 #[cfg(test)]
@@ -106,8 +73,6 @@ mod tests {
                 mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
                 sentry_dsn: None,
                 clamav_addr: None,
-                zstd_level: 6,
-                max_upload_bytes: 25 * 1024 * 1024,
                 relay_token: "secret".to_string(),
             }
         );
@@ -153,18 +118,6 @@ mod tests {
     fn requires_mongo_uri() {
         let err = Config::from_lookup(lookup(FxHashMap::default())).expect_err("missing uri");
         assert_eq!(err, ConfigError::Missing { key: "MONGODB_URI" });
-    }
-
-    #[test]
-    fn loads_zstd_level() {
-        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("RELAY_TOKEN", "secret"),
-            ("ZSTD_LEVEL", "8"),
-        ])))
-        .expect("config");
-
-        assert_eq!(cfg.zstd_level, 8);
     }
 
     #[test]

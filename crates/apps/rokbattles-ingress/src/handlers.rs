@@ -299,7 +299,6 @@ async fn store_compressed_raw_mail(
         mail: &mail,
         status: insert_status_for_mail_type(mail_type),
         now: DateTime::now(),
-        zstd_level: state.config.zstd_level,
     })?;
 
     let inserted = state

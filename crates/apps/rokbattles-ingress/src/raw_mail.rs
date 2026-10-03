@@ -22,7 +22,7 @@ pub struct RawMailMetadata {
 pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, ApiError> {
     let size = i64::try_from(input.original_bytes.len())
         .map_err(|_error| ApiError::internal("mail binary is too large to store size"))?;
-    let compressed = compress_raw_mail(input.original_bytes, input.zstd_level)?;
+    let compressed = compress_raw_mail(input.original_bytes)?;
 
     let document = doc! {
         "metadata": {
@@ -57,7 +57,6 @@ pub struct RawMailDocumentInput<'a> {
     pub mail: &'a RawMailMetadata,
     pub status: &'a str,
     pub now: DateTime,
-    pub zstd_level: i32,
 }
 
 /// Extract the fields required by the V2 `mail` subdocument.
@@ -94,8 +93,8 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
 }
 
 /// Compress a raw mail buffer with zstd.
-pub fn compress_raw_mail(bytes: &[u8], zstd_level: i32) -> Result<Vec<u8>, ApiError> {
-    zstd::stream::encode_all(Cursor::new(bytes), zstd_level)
+pub fn compress_raw_mail(bytes: &[u8]) -> Result<Vec<u8>, ApiError> {
+    zstd::stream::encode_all(Cursor::new(bytes), 6)
         .map_err(|error| ApiError::internal(error.to_string()))
 }
 
@@ -146,7 +145,7 @@ mod tests {
     #[test]
     fn compression_roundtrips() {
         let raw = b"small mail payload";
-        let compressed = compress_raw_mail(raw, 3).expect("compress");
+        let compressed = compress_raw_mail(raw).expect("compress");
 
         assert_eq!(decompress(&compressed), raw);
     }
@@ -199,7 +198,6 @@ mod tests {
             mail: &mail,
             status: "pending",
             now,
-            zstd_level: 3,
         })
         .expect("doc");
 
@@ -235,7 +233,7 @@ mod tests {
             let decoded = rokbattles_mail_codec::decode(&bytes).expect("decode sample");
             extract_raw_mail_metadata(&decoded).expect("extract metadata");
 
-            let compressed = compress_raw_mail(&bytes, 3).expect("compress sample");
+            let compressed = compress_raw_mail(&bytes).expect("compress sample");
             assert_eq!(decompress(&compressed), bytes);
         }
     }
