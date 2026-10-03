@@ -8,6 +8,10 @@ use axum::{
 use serde::Serialize;
 
 /// Errors returned by API handlers.
+///
+/// Request-level errors become JSON responses with an `error` field containing
+/// the display message. Axum extractor rejections bypass this conversion. Relay
+/// entry errors use the message in the batch result without changing its HTTP status.
 #[derive(Debug, thiserror::Error)]
 pub enum ApiError {
     #[error("{0}")]

@@ -5,9 +5,12 @@ use std::env;
 /// Runtime configuration loaded from environment variables.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
+    /// Connection URI including the database used by ingress.
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
+    /// A nonempty address enables scanning for direct uploads only.
     pub clamav_addr: Option<String>,
+    /// Required bearer token for relay uploads.
     pub relay_token: String,
 }
 
@@ -19,7 +22,7 @@ pub enum ConfigError {
 }
 
 impl Config {
-    /// Load configuration from the environment (and `.env` if present).
+    /// Loads configuration from the environment; startup loads `.env` separately.
     pub fn from_env() -> Result<Self, ConfigError> {
         Self::from_lookup(|key| env::var(key).ok())
     }
@@ -28,7 +31,7 @@ impl Config {
     where
         F: Fn(&str) -> Option<String>,
     {
-        let mongo_uri = required(&lookup, "MONGODB_URI")?;
+        let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::Missing { key: "MONGODB_URI" })?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let clamav_addr = lookup("CLAMAV_ADDR").filter(|value| !value.is_empty());
         let relay_token = lookup("RELAY_TOKEN")
@@ -37,13 +40,6 @@ impl Config {
 
         Ok(Self { mongo_uri, sentry_dsn, clamav_addr, relay_token })
     }
-}
-
-fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
-where
-    F: Fn(&str) -> Option<String>,
-{
-    lookup(key).ok_or(ConfigError::Missing { key })
 }
 
 #[cfg(test)]

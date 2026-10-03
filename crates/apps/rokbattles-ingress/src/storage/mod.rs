@@ -1,4 +1,9 @@
 //! MongoDB access for raw mail uploads.
+//!
+//! The unique `mail.id` index prevents duplicate IDs during concurrent inserts.
+//! Ingress inserts new documents but never updates existing mail.
+
+pub(crate) mod document;
 
 use mongodb::{
     Collection, IndexModel,
@@ -7,26 +12,26 @@ use mongodb::{
     options::IndexOptions,
 };
 
-/// Ingress collections used by upload handlers.
+/// Access to the `g_rok_mails` collection.
 #[derive(Debug, Clone)]
 pub struct Storage {
     compressed_raw: Collection<Document>,
 }
 
 impl Storage {
-    /// Bind storage helpers to the configured database.
+    /// Creates a handle to the mail collection in `db`.
     pub fn new(db: mongodb::Database) -> Self {
         Self { compressed_raw: db.collection("g_rok_mails") }
     }
 
-    /// Create indexes used by the upload paths.
+    /// Ensures the unique mail-ID index exists before serving requests.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         self.compressed_raw.create_index(source_mail_id_index()).await?;
 
         Ok(())
     }
 
-    /// Check whether a mail was uploaded, regardless of its metadata or processing status.
+    /// Checks for a stored mail ID, regardless of metadata or processing status.
     pub async fn compressed_raw_exists(&self, mail_id: &str) -> mongodb::error::Result<bool> {
         let doc = self
             .compressed_raw
@@ -37,7 +42,10 @@ impl Storage {
         Ok(doc.is_some())
     }
 
-    /// Insert an immutable raw mail; return false if another upload already stored its ID.
+    /// Inserts a raw mail document, returning `false` if its ID is already stored.
+    ///
+    /// Requires [`Self::ensure_indexes`] to have succeeded and `mail_id` to match
+    /// the document's `mail.id`. Other database errors are propagated.
     pub async fn insert_compressed_raw(
         &self,
         mail_id: &str,
@@ -46,7 +54,8 @@ impl Storage {
         match self.compressed_raw.insert_one(doc).await {
             Ok(_) => Ok(true),
             Err(error) => {
-                // The unique mail.id index also protects uploads that race the existence check.
+                // Another upload may have inserted this ID after the existence check.
+                // Confirm the ID exists so an unrelated duplicate-key error is not skipped.
                 if matches!(
                     error.kind.as_ref(),
                     ErrorKind::Write(WriteFailure::WriteError(write_error))
