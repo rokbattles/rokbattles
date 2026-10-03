@@ -16,13 +16,11 @@ use serde_json::Value;
 use crate::{
     clamav::{ScanStatus, scan_instream},
     error::ApiError,
-    mail_update::mutable_metadata_differs,
     raw_mail::{self, RawMailDocumentInput},
     state::AppState,
 };
 
 const STATUS_PENDING: &str = "pending";
-const STATUS_REPROCESS: &str = "reprocess";
 const STATUS_UNPROCESSABLE: &str = "unprocessable";
 const MAX_RELAY_BATCH_ENTRIES: usize = 512;
 
@@ -56,7 +54,6 @@ pub struct RelayBatchResponse {
 #[derive(Debug, Clone, Copy)]
 enum UploadAction {
     Insert,
-    Update,
     Skip,
 }
 
@@ -72,7 +69,7 @@ pub async fn health() -> StatusCode {
     StatusCode::OK
 }
 
-/// Store a mail report when it is new or has updated mutable metadata.
+/// Store a new mail report, skipping any previously uploaded mail ID.
 pub async fn upload(
     State(state): State<Arc<AppState>>,
     headers: HeaderMap,
@@ -118,7 +115,6 @@ pub async fn upload(
 
     let (status, label) = match action {
         UploadAction::Insert => (StatusCode::CREATED, "stored"),
-        UploadAction::Update => (StatusCode::OK, "updated"),
         UploadAction::Skip => (StatusCode::OK, "skipped"),
     };
 
@@ -251,7 +247,6 @@ async fn store_reconstructed_mail(
 fn action_label(action: UploadAction) -> &'static str {
     match action {
         UploadAction::Insert => "stored",
-        UploadAction::Update => "updated",
         UploadAction::Skip => "skipped",
     }
 }
@@ -287,90 +282,34 @@ async fn store_compressed_raw_mail(
     mail_type: &str,
     user_agent: &str,
 ) -> Result<UploadAction, ApiError> {
-    let checksum = raw_mail::sha256_hex(buffer);
-    let existing = state
+    if state
         .storage
-        .find_existing_compressed_raw(mail_id)
+        .compressed_raw_exists(mail_id)
         .await
-        .map_err(|error| ApiError::database(error.to_string()))?;
+        .map_err(|error| ApiError::database(error.to_string()))?
+    {
+        return Ok(UploadAction::Skip);
+    }
 
-    let metadata_differs = match existing.as_ref() {
-        Some(existing) if existing.checksum.as_deref() != Some(checksum.as_str()) => {
-            let Some(compressed) = state
-                .storage
-                .find_compressed_raw_binary(mail_id, existing.checksum.as_deref())
-                .await
-                .map_err(|error| ApiError::database(error.to_string()))?
-            else {
-                return Ok(UploadAction::Skip);
-            };
-            let expected_size =
-                existing.size.ok_or_else(|| ApiError::internal("stored mail size is missing"))?;
-            if existing.algorithm.as_deref() != Some("zstd") {
-                return Err(ApiError::internal("stored mail compression is unsupported"));
-            }
-            let existing_bytes = raw_mail::decompress_raw_mail(
-                &compressed,
-                expected_size,
-                state.config.max_upload_bytes,
-            )?;
-            if existing
-                .checksum
-                .as_deref()
-                .is_some_and(|expected| raw_mail::sha256_hex(&existing_bytes) != expected)
-            {
-                return Err(ApiError::internal("stored mail checksum does not match its binary"));
-            }
-            let existing_decoded =
-                rokbattles_mail_codec::decode(&existing_bytes).map_err(|error| {
-                    ApiError::internal(format!("stored mail decode failed: {error}"))
-                })?;
-            mutable_metadata_differs(&existing_decoded, decoded)?
-        }
-        _ => false,
-    };
-    let action = decide_compressed_raw_action(existing.as_ref(), &checksum, metadata_differs);
-
-    let status = match action {
-        UploadAction::Insert => insert_status_for_mail_type(mail_type),
-        UploadAction::Update => update_status_for_mail_type(mail_type),
-        UploadAction::Skip => return Ok(action),
-    };
+    let checksum = raw_mail::sha256_hex(buffer);
     let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
     let doc = raw_mail::build_raw_mail_doc(RawMailDocumentInput {
         original_bytes: buffer,
         user_agent,
         checksum: &checksum,
         mail: &mail,
-        status,
+        status: insert_status_for_mail_type(mail_type),
         now: DateTime::now(),
         zstd_level: state.config.zstd_level,
     })?;
 
-    match action {
-        UploadAction::Insert => state
-            .storage
-            .insert_compressed_raw(doc)
-            .await
-            .map_err(|error| ApiError::database(error.to_string()))?,
-        UploadAction::Update => {
-            let updated = state
-                .storage
-                .update_compressed_raw(
-                    mail_id,
-                    existing.as_ref().and_then(|mail| mail.checksum.as_deref()),
-                    doc,
-                )
-                .await
-                .map_err(|error| ApiError::database(error.to_string()))?;
-            if !updated {
-                return Ok(UploadAction::Skip);
-            }
-        }
-        UploadAction::Skip => {}
-    }
+    let inserted = state
+        .storage
+        .insert_compressed_raw(mail_id, doc)
+        .await
+        .map_err(|error| ApiError::database(error.to_string()))?;
 
-    Ok(action)
+    Ok(if inserted { UploadAction::Insert } else { UploadAction::Skip })
 }
 
 /// Acknowledge legacy TCP stream uploads without storing or validating them.
@@ -431,10 +370,6 @@ fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
 
 fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
     if is_processable_mail_type(mail_type) { STATUS_PENDING } else { STATUS_UNPROCESSABLE }
-}
-
-fn update_status_for_mail_type(mail_type: &str) -> &'static str {
-    if is_processable_mail_type(mail_type) { STATUS_REPROCESS } else { STATUS_UNPROCESSABLE }
 }
 
 fn extract_mail_id(decoded: &Value) -> Option<String> {
@@ -525,19 +460,6 @@ fn is_probably_json(bytes: &[u8]) -> bool {
     };
     let trimmed = text.trim_start_matches(|ch: char| ch.is_whitespace() || ch == '\u{feff}');
     trimmed.starts_with('{') || trimmed.starts_with('[')
-}
-
-fn decide_compressed_raw_action(
-    existing: Option<&crate::storage::ExistingCompressedRawMail>,
-    checksum: &str,
-    metadata_differs: bool,
-) -> UploadAction {
-    match existing {
-        None => UploadAction::Insert,
-        Some(existing) if existing.checksum.as_deref() == Some(checksum) => UploadAction::Skip,
-        Some(_) if metadata_differs => UploadAction::Update,
-        Some(_) => UploadAction::Skip,
-    }
 }
 
 #[cfg(test)]
@@ -796,41 +718,6 @@ mod tests {
         assert_eq!(extract_mail_id(&decoded).as_deref(), Some("meta-1"));
     }
 
-    fn existing_compressed_raw(checksum: &str) -> crate::storage::ExistingCompressedRawMail {
-        crate::storage::ExistingCompressedRawMail {
-            checksum: Some(checksum.to_string()),
-            size: Some(100),
-            algorithm: Some("zstd".to_string()),
-        }
-    }
-
-    #[test]
-    fn compressed_raw_action_inserts_when_missing() {
-        let action = decide_compressed_raw_action(None, "new", false);
-        assert!(matches!(action, UploadAction::Insert));
-    }
-
-    #[test]
-    fn compressed_raw_action_skips_matching_checksum() {
-        let existing = existing_compressed_raw("same");
-        let action = decide_compressed_raw_action(Some(&existing), "same", true);
-        assert!(matches!(action, UploadAction::Skip));
-    }
-
-    #[test]
-    fn compressed_raw_action_updates_different_checksum_and_metadata() {
-        let existing = existing_compressed_raw("old");
-        let action = decide_compressed_raw_action(Some(&existing), "new", true);
-        assert!(matches!(action, UploadAction::Update));
-    }
-
-    #[test]
-    fn compressed_raw_action_skips_different_checksum_without_metadata_change() {
-        let existing = existing_compressed_raw("old");
-        let action = decide_compressed_raw_action(Some(&existing), "new", false);
-        assert!(matches!(action, UploadAction::Skip));
-    }
-
     #[test]
     fn relay_authorization_requires_matching_bearer_token() {
         let mut headers = HeaderMap::new();
@@ -846,16 +733,9 @@ mod tests {
         assert_eq!(insert_status_for_mail_type("Rss"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemBarbarianFort"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemKaharTreasure"), STATUS_PENDING);
-        assert_eq!(update_status_for_mail_type("Battle"), STATUS_REPROCESS);
-        assert_eq!(update_status_for_mail_type("Rss"), STATUS_REPROCESS);
-        assert_eq!(update_status_for_mail_type("SystemBarbarianFort"), STATUS_REPROCESS);
-        assert_eq!(update_status_for_mail_type("SystemKaharTreasure"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleResults"), STATUS_PENDING);
-        assert_eq!(update_status_for_mail_type("AllianceAOOBattleResults"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_PENDING);
-        assert_eq!(update_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_PENDING);
-        assert_eq!(update_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_REPROCESS);
     }
 
     #[test]
