@@ -8,7 +8,6 @@ mod clamav;
 mod config;
 mod error;
 mod handlers;
-mod mail_update;
 mod raw_mail;
 mod state;
 mod storage;
