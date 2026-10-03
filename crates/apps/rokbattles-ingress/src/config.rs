@@ -8,9 +8,7 @@ pub struct Config {
     pub bind_addr: String,
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
-    pub clamav_enabled: bool,
-    pub clamav_addr: String,
-    pub clamav_timeout_ms: u64,
+    pub clamav_addr: Option<String>,
     pub zstd_level: i32,
     pub max_upload_bytes: usize,
     pub relay_token: String,
@@ -38,10 +36,7 @@ impl Config {
         let bind_addr = lookup("BIND_ADDR").unwrap_or_else(|| "0.0.0.0:8000".to_string());
         let mongo_uri = required(&lookup, "MONGODB_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
-        let clamav_enabled = parse_bool("CLAMAV_ENABLED", lookup("CLAMAV_ENABLED"), false)?;
-        let clamav_addr = lookup("CLAMAV_ADDR").unwrap_or_else(|| "127.0.0.1:3310".to_string());
-        let clamav_timeout_ms =
-            parse_u64("CLAMAV_TIMEOUT_MS", lookup("CLAMAV_TIMEOUT_MS"), 15_000)?;
+        let clamav_addr = lookup("CLAMAV_ADDR").filter(|value| !value.is_empty());
         let zstd_level = parse_i32("ZSTD_LEVEL", lookup("ZSTD_LEVEL"), 6)?;
         let max_upload_bytes =
             parse_usize("MAX_UPLOAD_BYTES", lookup("MAX_UPLOAD_BYTES"), 25 * 1024 * 1024)?;
@@ -53,9 +48,7 @@ impl Config {
             bind_addr,
             mongo_uri,
             sentry_dsn,
-            clamav_enabled,
             clamav_addr,
-            clamav_timeout_ms,
             zstd_level,
             max_upload_bytes,
             relay_token,
@@ -68,28 +61,6 @@ where
     F: Fn(&str) -> Option<String>,
 {
     lookup(key).ok_or(ConfigError::Missing { key })
-}
-
-fn parse_bool(
-    key: &'static str,
-    value: Option<String>,
-    default: bool,
-) -> Result<bool, ConfigError> {
-    let Some(value) = value else {
-        return Ok(default);
-    };
-    match value.to_ascii_lowercase().as_str() {
-        "true" | "1" | "yes" | "on" => Ok(true),
-        "false" | "0" | "no" | "off" => Ok(false),
-        _ => Err(ConfigError::Invalid { key, value }),
-    }
-}
-
-fn parse_u64(key: &'static str, value: Option<String>, default: u64) -> Result<u64, ConfigError> {
-    let Some(value) = value else {
-        return Ok(default);
-    };
-    value.parse::<u64>().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 fn parse_i32(key: &'static str, value: Option<String>, default: i32) -> Result<i32, ConfigError> {
@@ -134,14 +105,36 @@ mod tests {
                 bind_addr: "0.0.0.0:8000".to_string(),
                 mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
                 sentry_dsn: None,
-                clamav_enabled: false,
-                clamav_addr: "127.0.0.1:3310".to_string(),
-                clamav_timeout_ms: 15_000,
+                clamav_addr: None,
                 zstd_level: 6,
                 max_upload_bytes: 25 * 1024 * 1024,
                 relay_token: "secret".to_string(),
             }
         );
+    }
+
+    #[test]
+    fn loads_optional_clamav_address() {
+        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("RELAY_TOKEN", "secret"),
+            ("CLAMAV_ADDR", "clamav:3310"),
+        ])))
+        .expect("config");
+
+        assert_eq!(cfg.clamav_addr.as_deref(), Some("clamav:3310"));
+    }
+
+    #[test]
+    fn disables_clamav_when_address_is_empty() {
+        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("RELAY_TOKEN", "secret"),
+            ("CLAMAV_ADDR", ""),
+        ])))
+        .expect("config");
+
+        assert_eq!(cfg.clamav_addr, None);
     }
 
     #[test]
