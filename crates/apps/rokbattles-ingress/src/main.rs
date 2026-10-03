@@ -72,7 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/v2/relay/upload", post(handlers::upload_relay))
         .route("/v2/tcp-stream", post(handlers::upload_tcp_stream))
         .with_state(state.clone())
-        .layer(DefaultBodyLimit::max(state.config.max_upload_bytes));
+        .layer(DefaultBodyLimit::max(25 * 1024 * 1024));
 
     info!("listening on {}", state.config.bind_addr);
     let listener = tokio::net::TcpListener::bind(&state.config.bind_addr).await?;
