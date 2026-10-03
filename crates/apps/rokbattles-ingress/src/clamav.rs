@@ -1,4 +1,7 @@
-//! Minimal ClamAV zINSTREAM scanner client.
+//! ClamAV scanner client using the `zINSTREAM` command.
+//!
+//! The `z` selects NUL-terminated framing, not compression. Payload bytes are sent
+//! unchanged, and only a complete, bounded scan response is accepted.
 
 use std::time::Duration;
 
@@ -8,9 +11,11 @@ use tokio::{
     time::timeout,
 };
 
+/// A completed scan; scanner failures are returned as [`ScanError`] instead.
 #[derive(Debug)]
 pub enum ScanStatus {
     Clean,
+    /// The full detection response, without the terminating NUL.
     Infected(String),
 }
 
@@ -30,7 +35,10 @@ pub enum ScanError {
 const CHUNK_SIZE: usize = 1024 * 1024;
 const MAX_RESPONSE_BYTES: u64 = 4096;
 
-/// Scan the original payload using INSTREAM with NUL-terminated command framing.
+/// Scans the original payload using INSTREAM with NUL-terminated command framing.
+///
+/// The deadline covers connection, upload, and response reading. I/O failures,
+/// timeouts, and malformed responses return errors instead of a clean result.
 pub async fn scan_instream(
     payload: &[u8],
     addr: &str,
@@ -49,6 +57,7 @@ pub async fn scan_instream(
         stream.write_all(&0u32.to_be_bytes()).await?;
         stream.flush().await?;
 
+        // Read through NUL rather than waiting for the scanner to close the connection.
         let mut response = Vec::new();
         BufReader::new(stream.take(MAX_RESPONSE_BYTES)).read_until(0, &mut response).await?;
 
@@ -61,6 +70,7 @@ pub async fn scan_instream(
 }
 
 fn parse_response(response: &[u8]) -> Result<ScanStatus, ScanError> {
+    // EOF or the byte limit can end the read without a complete response.
     let Some(record) = response.strip_suffix(b"\0") else {
         return Err(ScanError::UnexpectedResponse("unterminated response".to_string()));
     };

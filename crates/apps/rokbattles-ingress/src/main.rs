@@ -1,3 +1,8 @@
+//! Accepts direct and relay mail uploads, storing each mail ID at most once.
+//!
+//! [`routes`] handles HTTP requests, [`mail`] stores or skips uploads, and
+//! [`storage`] builds documents and accesses MongoDB.
+
 #![forbid(unsafe_code)]
 
 #[cfg(all(target_os = "linux", target_env = "musl"))]
@@ -7,18 +12,13 @@ static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 mod clamav;
 mod config;
 mod error;
-mod handlers;
-mod raw_mail;
+mod mail;
+mod routes;
 mod state;
 mod storage;
 
 use std::{net::SocketAddr, path::PathBuf, sync::Arc};
 
-use axum::{
-    Router,
-    extract::DefaultBodyLimit,
-    routing::{get, post},
-};
 use mongodb::options::ClientOptions;
 use rokbattles_mail_reconstructor::MailReconstructor;
 use tracing::info;
@@ -33,6 +33,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let config = Config::from_env()?;
     let mail_reconstructor = Arc::new(MailReconstructor::load("artifacts/artifacts.json")?);
+
     tracing_subscriber::fmt()
         .with_env_filter(
             tracing_subscriber::EnvFilter::try_from_default_env()
@@ -66,12 +67,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let state = Arc::new(AppState { config, storage, mail_reconstructor });
 
-    let app = Router::new()
-        .route("/health", get(handlers::health))
-        .route("/v2/upload", post(handlers::upload))
-        .route("/v2/relay/upload", post(handlers::upload_relay))
-        .with_state(state)
-        .layer(DefaultBodyLimit::max(25 * 1024 * 1024));
+    let app = routes::router(state);
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
     info!("listening on {}", listener.local_addr()?);

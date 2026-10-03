@@ -1,35 +1,31 @@
-//! V2 raw binary mail storage helpers.
+//! BSON document construction, checksums, and zstd compression for stored mail.
+//!
+//! Builds documents without accessing MongoDB. The parent module handles insertion
+//! and duplicate IDs.
 
 use std::io::Cursor;
 
 use mongodb::bson::{Binary, Bson, DateTime, Document, doc, spec::BinarySubtype};
-use serde_json::Value;
 use sha2::{Digest, Sha256};
 
-use crate::error::ApiError;
+use crate::{error::ApiError, mail::metadata::MailMetadata};
 
-const ZSTD_ALGO: &str = "zstd";
-
-/// Metadata extracted from a validated decoded mail.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct RawMailMetadata {
-    pub id: String,
-    pub time: i64,
-    pub receiver: String,
-}
-
-/// Build the document inserted into `g_rok_mails`.
-pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, ApiError> {
+/// Builds a new `g_rok_mails` document from the exact uploaded bytes.
+///
+/// Checksum and size describe the uncompressed bytes. Both `createdAt` and
+/// `updatedAt` receive `input.now`.
+pub(crate) fn build(input: DocumentInput<'_>) -> Result<Document, ApiError> {
     let size = i64::try_from(input.original_bytes.len())
         .map_err(|_error| ApiError::internal("mail binary is too large to store size"))?;
     let compressed = compress_raw_mail(input.original_bytes)?;
+    let checksum = sha256_hex(input.original_bytes);
 
     let document = doc! {
         "metadata": {
             "userAgent": input.user_agent,
-            "checksum": input.checksum,
+            "checksum": checksum,
             "size": size,
-            "algo": ZSTD_ALGO,
+            "algo": "zstd",
         },
         "mail": {
             "id": &input.mail.id,
@@ -48,87 +44,33 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
     Ok(document)
 }
 
-/// Inputs needed to build the V2 raw mail document.
+/// Uploaded bytes and metadata for a new `g_rok_mails` document.
 #[derive(Debug, Clone, Copy)]
-pub struct RawMailDocumentInput<'a> {
+pub(crate) struct DocumentInput<'a> {
     pub original_bytes: &'a [u8],
     pub user_agent: &'a str,
-    pub checksum: &'a str,
-    pub mail: &'a RawMailMetadata,
+    pub mail: &'a MailMetadata,
     pub status: &'a str,
     pub now: DateTime,
 }
 
-/// Extract the fields required by the V2 `mail` subdocument.
-pub fn extract_raw_mail_metadata(decoded: &Value) -> Result<RawMailMetadata, ApiError> {
-    let root = rokbattles_mail_registry::normalize_mail_root(decoded)
-        .ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
-    let object = root.as_object().ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
-
-    let id = object
-        .get("id")
-        .and_then(value_to_string)
-        .or_else(|| object.get("mail_id").and_then(value_to_string))
-        .or_else(|| {
-            object.get("metadata").and_then(|meta| meta.get("mail_id")).and_then(value_to_string)
-        })
-        .ok_or_else(|| ApiError::bad_request("missing mail id"))?;
-    let time = object
-        .get("time")
-        .and_then(value_to_i64)
-        .or_else(|| {
-            object.get("metadata").and_then(|meta| meta.get("mail_time")).and_then(value_to_i64)
-        })
-        .ok_or_else(|| ApiError::bad_request("missing mail time"))?;
-    let receiver = extract_receiver_identity(object)?;
-
-    Ok(RawMailMetadata { id, time, receiver })
-}
-
-/// Return a stable SHA-256 checksum for the exact uploaded binary.
+/// Returns the lowercase hexadecimal SHA-256 checksum of the supplied bytes.
 #[must_use]
-pub fn sha256_hex(bytes: &[u8]) -> String {
+fn sha256_hex(bytes: &[u8]) -> String {
     let digest = Sha256::digest(bytes);
     format!("{digest:x}")
 }
 
-/// Compress a raw mail buffer with zstd.
-pub fn compress_raw_mail(bytes: &[u8]) -> Result<Vec<u8>, ApiError> {
+/// Compresses a raw mail buffer with zstd.
+fn compress_raw_mail(bytes: &[u8]) -> Result<Vec<u8>, ApiError> {
     zstd::stream::encode_all(Cursor::new(bytes), 6)
         .map_err(|error| ApiError::internal(error.to_string()))
 }
 
-fn extract_receiver_identity(object: &serde_json::Map<String, Value>) -> Result<String, ApiError> {
-    object
-        .get("receiver")
-        .and_then(Value::as_str)
-        .filter(|value| value.starts_with("player_"))
-        .map(str::to_string)
-        .ok_or_else(|| ApiError::bad_request("missing mail receiver"))
-}
-
-fn value_to_string(value: &Value) -> Option<String> {
-    match value {
-        Value::String(value) => Some(value.clone()),
-        Value::Number(value) => Some(value.to_string()),
-        _ => None,
-    }
-}
-
-fn value_to_i64(value: &Value) -> Option<i64> {
-    match value {
-        Value::Number(value) => {
-            value.as_i64().or_else(|| value.as_u64().and_then(|value| i64::try_from(value).ok()))
-        }
-        _ => None,
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use serde_json::json;
-
     use super::*;
+    use crate::mail::metadata::extract_metadata;
 
     fn decompress(compressed: &[u8]) -> Vec<u8> {
         zstd::stream::decode_all(Cursor::new(compressed)).expect("decode zstd")
@@ -151,50 +93,16 @@ mod tests {
     }
 
     #[test]
-    fn extracts_v2_metadata_from_decoded_mail() {
-        let decoded = json!({
-            "id": "12345",
-            "time": 1772127772844751_u64,
-            "sender": "system",
-            "receiver": "player_71738515"
-        });
-
-        let metadata = extract_raw_mail_metadata(&decoded).expect("metadata");
-
-        assert_eq!(
-            metadata,
-            RawMailMetadata {
-                id: "12345".to_string(),
-                time: 1772127772844751,
-                receiver: "player_71738515".to_string(),
-            }
-        );
-    }
-
-    #[test]
-    fn rejects_v2_metadata_from_singleton_array() {
-        let decoded = json!([{
-            "id": "12345",
-            "time": 1772127772844751_u64,
-            "sender": "player_11",
-            "receiver": "player_22"
-        }]);
-
-        extract_raw_mail_metadata(&decoded).expect_err("input should be rejected");
-    }
-
-    #[test]
     fn builds_v2_document_shape() {
         let now = DateTime::now();
-        let mail = RawMailMetadata {
+        let mail = MailMetadata {
             id: "12345".to_string(),
             time: 1772127772844751,
             receiver: "player_71738515".to_string(),
         };
-        let doc = build_raw_mail_doc(RawMailDocumentInput {
+        let doc = build(DocumentInput {
             original_bytes: b"raw-binary",
             user_agent: "ROKBattles/0.1.0",
-            checksum: "checksum",
             mail: &mail,
             status: "pending",
             now,
@@ -206,7 +114,10 @@ mod tests {
             doc.get_document("metadata").unwrap().get_str("userAgent").unwrap(),
             "ROKBattles/0.1.0"
         );
-        assert_eq!(doc.get_document("metadata").unwrap().get_str("checksum").unwrap(), "checksum");
+        assert_eq!(
+            doc.get_document("metadata").unwrap().get_str("checksum").unwrap(),
+            sha256_hex(b"raw-binary")
+        );
         assert_eq!(doc.get_document("metadata").unwrap().get_str("algo").unwrap(), "zstd");
         assert_eq!(doc.get_document("metadata").unwrap().get_i64("size").unwrap(), 10);
         assert_eq!(doc.get_document("mail").unwrap().get_str("id").unwrap(), "12345");
@@ -217,6 +128,12 @@ mod tests {
         assert!(matches!(doc.get_document("mail").unwrap().get("binary"), Some(Bson::Binary(_))));
         assert!(!doc.contains_key("network"));
         assert_eq!(doc.get_str("status").unwrap(), "pending");
+        assert_eq!(doc.get_datetime("createdAt").unwrap(), &now);
+        assert_eq!(doc.get_datetime("updatedAt").unwrap(), &now);
+        assert_eq!(
+            decompress(doc.get_document("mail").unwrap().get_binary_generic("binary").unwrap()),
+            b"raw-binary"
+        );
     }
 
     #[test]
@@ -231,7 +148,7 @@ mod tests {
             let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(sample);
             let bytes = std::fs::read(path).expect("read sample");
             let decoded = rokbattles_mail_codec::decode(&bytes).expect("decode sample");
-            extract_raw_mail_metadata(&decoded).expect("extract metadata");
+            extract_metadata(&decoded).expect("extract metadata");
 
             let compressed = compress_raw_mail(&bytes).expect("compress sample");
             assert_eq!(decompress(&compressed), bytes);
