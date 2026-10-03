@@ -12,6 +12,7 @@
       "!**/samples",
       "!.github",
       "!packages/site/src/app/icon.svg",
+      "!packages/rokbattles.com/src/app/icon.svg",
       "!packages/site-vite/public/assets/marketing/icon.svg"
     ]
   },

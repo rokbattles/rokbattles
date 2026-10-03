@@ -79,6 +79,9 @@ jobs:
       - name: Build @rokbattles/desktop-client
         run: pnpm -F @rokbattles/desktop-client build
 
+      - name: Build @rokbattles/rokbattles.com
+        run: pnpm -F @rokbattles/rokbattles.com build
+
   lint-rs:
     name: Lint Rust
     runs-on: ubuntu-latest
