@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox, CheckboxField, CheckboxGroup } from "@/components/ui/checkbox";
 import { Combobox, ComboboxLabel, ComboboxOption } from "@/components/ui/combobox";
@@ -13,6 +13,7 @@ import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { Text } from "@/components/ui/text";
 import { useCommanderOptions } from "@/hooks/use-commander-name";
 import { updatePlannerSelection } from "@/lib/territory/selection";
+import type { PlannedBuilding } from "@/lib/territory/types";
 import { loadMapData } from "@/lib/territory-lab/data";
 import { toggleRoutePass, toggleRouteSite } from "@/lib/territory-lab/routes";
 import { placementError, territorySummary } from "@/lib/territory-lab/territory";
@@ -151,8 +152,16 @@ export default function Editor({
     (a) => !a.name.trim() || Array.from(a.name).length > 4
   );
   const alliance = plan.alliances.find((a) => a.id === allianceId);
-  const summary =
-    data && plan.mode === "territory" ? territorySummary(plan, catalog, data, allianceId) : null;
+  const summary = useMemo(
+    () =>
+      data && plan.mode === "territory" ? territorySummary(plan, catalog, data, allianceId) : null,
+    [plan, catalog, data, allianceId]
+  );
+  const locateBuilding = useCallback((building: PlannedBuilding) => {
+    setSelected(new Set([building.id]));
+    controller.current?.locate(building.x, building.y);
+    host.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, []);
 
   useEffect(() => {
     planRef.current = plan;
@@ -906,11 +915,7 @@ export default function Editor({
               data={data}
               allianceId={allianceId}
               summary={summary}
-              onLocate={(building) => {
-                setSelected(new Set([building.id]));
-                controller.current?.locate(building.x, building.y);
-                host.current?.scrollIntoView({ block: "center", behavior: "smooth" });
-              }}
+              onLocate={locateBuilding}
             />
           )}
           {plan.mode === "baulur" && (

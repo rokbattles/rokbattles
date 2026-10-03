@@ -10,6 +10,7 @@ import {
   isProvinceRestricted,
   mapStructureCollision,
   plannedBuildingCollision,
+  type TerritoryOwnership,
 } from "@/lib/territory/geometry";
 import type { BuildingCostSchedule, PlannedBuilding } from "@/lib/territory/types";
 import type { Building, BuildingKind, Catalog, MapData, Plan } from "./types";
@@ -22,6 +23,22 @@ const legacyKinds = {
 } as const;
 export function legacyBuilding(building: Building): PlannedBuilding {
   return { ...building, kind: legacyKinds[building.kind] };
+}
+
+const ownershipCache = new WeakMap<
+  Building[],
+  { catalog: Catalog; data: MapData; ownership: TerritoryOwnership }
+>();
+
+function planOwnership(plan: Plan, catalog: Catalog, data: MapData): TerritoryOwnership {
+  const cached = ownershipCache.get(plan.buildings);
+  if (cached?.catalog === catalog && cached.data === data) return cached.ownership;
+  const ownership = buildTerritoryOwnership(
+    plan.buildings.map(legacyBuilding),
+    mapStructures(catalog, data)
+  );
+  ownershipCache.set(plan.buildings, { catalog, data, ownership });
+  return ownership;
 }
 
 export function placementError(
@@ -54,7 +71,7 @@ export function placementError(
     return "The building overlaps forbidden terrain.";
   const structures = mapStructures(catalog, data);
   if (mapStructureCollision(building, structures)) return "The building overlaps a map structure.";
-  const ownership = buildTerritoryOwnership(existing, structures);
+  const ownership = planOwnership(plan, catalog, data);
   if (!isConnectedToAlliance(building, ownership))
     return "Connect flags to this alliance’s territory. Start with a fortress.";
   if (!hasRequiredTerritoryAvailability(building, ownership))
@@ -64,7 +81,7 @@ export function placementError(
 
 export function territorySummary(plan: Plan, catalog: Catalog, data: MapData, allianceId: string) {
   const buildings = plan.buildings.map(legacyBuilding);
-  const ownership = buildTerritoryOwnership(buildings, mapStructures(catalog, data));
+  const ownership = planOwnership(plan, catalog, data);
   const covered = countCoveredResources(ownership, data.resources, allianceId);
   const production = Object.fromEntries(
     Object.entries(covered).map(([kind, count]) => [
