@@ -310,11 +310,6 @@ async fn store_compressed_raw_mail(
     Ok(if inserted { UploadAction::Insert } else { UploadAction::Skip })
 }
 
-/// Acknowledge legacy TCP stream uploads without storing or validating them.
-pub async fn upload_tcp_stream() -> StatusCode {
-    StatusCode::NO_CONTENT
-}
-
 async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError> {
     while let Some(field) =
         multipart.next_field().await.map_err(|error| ApiError::bad_request(error.to_string()))?
@@ -822,12 +817,5 @@ mod tests {
     #[test]
     fn ua_ok_rejects_suffix_without_tauri() {
         assert!(!ua_ok("ROKBattles/0.1.0 (MacOS; SomethingElse/1.2.3)"));
-    }
-
-    #[tokio::test]
-    async fn upload_tcp_stream_returns_no_content() {
-        let status = upload_tcp_stream().await;
-
-        assert_eq!(status, StatusCode::NO_CONTENT);
     }
 }
