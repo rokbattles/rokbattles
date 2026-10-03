@@ -71,11 +71,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/v2/upload", post(handlers::upload))
         .route("/v2/relay/upload", post(handlers::upload_relay))
         .route("/v2/tcp-stream", post(handlers::upload_tcp_stream))
-        .with_state(state.clone())
+        .with_state(state)
         .layer(DefaultBodyLimit::max(25 * 1024 * 1024));
 
-    info!("listening on {}", state.config.bind_addr);
-    let listener = tokio::net::TcpListener::bind(&state.config.bind_addr).await?;
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await?;
+    info!("listening on {}", listener.local_addr()?);
+
     axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await?;
 
     Ok(())

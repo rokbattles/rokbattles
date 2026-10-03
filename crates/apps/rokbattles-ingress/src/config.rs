@@ -5,7 +5,6 @@ use std::env;
 /// Runtime configuration loaded from environment variables.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
-    pub bind_addr: String,
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
     pub clamav_addr: Option<String>,
@@ -29,7 +28,6 @@ impl Config {
     where
         F: Fn(&str) -> Option<String>,
     {
-        let bind_addr = lookup("BIND_ADDR").unwrap_or_else(|| "0.0.0.0:8000".to_string());
         let mongo_uri = required(&lookup, "MONGODB_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let clamav_addr = lookup("CLAMAV_ADDR").filter(|value| !value.is_empty());
@@ -37,7 +35,7 @@ impl Config {
             .filter(|value| !value.is_empty())
             .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
 
-        Ok(Self { bind_addr, mongo_uri, sentry_dsn, clamav_addr, relay_token })
+        Ok(Self { mongo_uri, sentry_dsn, clamav_addr, relay_token })
     }
 }
 
@@ -69,7 +67,6 @@ mod tests {
         assert_eq!(
             cfg,
             Config {
-                bind_addr: "0.0.0.0:8000".to_string(),
                 mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
                 sentry_dsn: None,
                 clamav_addr: None,
