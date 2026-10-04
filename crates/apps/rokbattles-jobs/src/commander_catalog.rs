@@ -28,12 +28,13 @@ pub(crate) fn combat_lab_commander_ids(season: CombatLabSeason) -> Result<Vec<i6
 }
 
 /// Apply after unwinding opponents so an excluded march removes only its own fight.
-pub(crate) fn eligible_battle_match(commander_ids: &[i64]) -> Document {
+pub(crate) fn eligible_battle_match(commander_ids: &[i64], season: CombatLabSeason) -> Document {
     doc! { "$match": {
         "sender.commanders.primary.id": { "$in": commander_ids },
         "sender.commanders.secondary.id": { "$in": commander_ids },
         "opponents.commanders.primary.id": { "$in": commander_ids },
         "opponents.commanders.secondary.id": { "$in": commander_ids },
+        "$expr": season.opposing_sides_expr(),
     } }
 }
 
@@ -100,7 +101,7 @@ mod tests {
 
     #[test]
     fn fight_filter_requires_eligible_primary_and_secondary_on_each_side() {
-        let stage = eligible_battle_match(&[3, 6]);
+        let stage = eligible_battle_match(&[3, 6], CombatLabSeason::Soc);
         let matcher = stage.get_document("$match").expect("battle match");
         for field in [
             "sender.commanders.primary.id",

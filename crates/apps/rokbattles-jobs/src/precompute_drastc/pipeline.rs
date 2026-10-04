@@ -13,7 +13,7 @@ pub(super) fn build_drastc_pipeline(
     cutoff_mail_time: i64,
     season: CombatLabSeason,
 ) -> Vec<Document> {
-    let mut pipeline = build_pairing_entries_pipeline(commander_ids, cutoff_mail_time);
+    let mut pipeline = build_pairing_entries_pipeline(commander_ids, cutoff_mail_time, season);
     pipeline.extend([
         doc! { "$match": { "strategy": Strategy::OpenField.as_str() } },
         raw_totals_group_stage(doc! {
@@ -28,7 +28,11 @@ pub(super) fn build_drastc_pipeline(
     season.scope_pipeline(pipeline)
 }
 
-fn build_pairing_entries_pipeline(commander_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
+fn build_pairing_entries_pipeline(
+    commander_ids: &[i64],
+    cutoff_mail_time: i64,
+    season: CombatLabSeason,
+) -> Vec<Document> {
     let commander_id_values = commander_id_bson_array(commander_ids);
     let sender_condition = ids_match_condition(
         "$sender.commanders.primary.id",
@@ -83,6 +87,7 @@ fn build_pairing_entries_pipeline(commander_ids: &[i64], cutoff_mail_time: i64) 
         pair_filters,
         cutoff_mail_time,
         commander_ids,
+        season,
     )
 }
 
@@ -90,6 +95,7 @@ pub(super) fn build_supported_pairing_entries_pipeline(
     supported_pairings: &[PairingKey],
     commander_ids: &[i64],
     cutoff_mail_time: i64,
+    season: CombatLabSeason,
 ) -> Vec<Document> {
     let sender_condition = exact_pairing_condition(
         "$sender.commanders.primary.id",
@@ -156,6 +162,7 @@ pub(super) fn build_supported_pairing_entries_pipeline(
         pair_filters,
         cutoff_mail_time,
         commander_ids,
+        season,
     )
 }
 
@@ -165,6 +172,7 @@ fn build_entries_pipeline(
     pair_filters: Vec<Bson>,
     cutoff_mail_time: i64,
     commander_ids: &[i64],
+    season: CombatLabSeason,
 ) -> Vec<Document> {
     let mut initial_match = exclude_test_client_filter();
     initial_match.extend(doc! {
@@ -182,7 +190,7 @@ fn build_entries_pipeline(
             }
         },
         doc! { "$unwind": "$opponents" },
-        eligible_battle_match(commander_ids),
+        eligible_battle_match(commander_ids, season),
         doc! { "$match": { "opponents.player_id": { "$gt": 0 } } },
         doc! {
             "$project": {
@@ -985,7 +993,7 @@ mod tests {
                 .iter()
                 .position(|stage| stage.get_str("$unwind") == Ok("$opponents"))
                 .expect("unwind opponents");
-            assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids));
+            assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids, season));
         }
     }
 }
