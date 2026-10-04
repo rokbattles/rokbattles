@@ -14,7 +14,7 @@
 //! | Root `type` | Body fields | Category |
 //! | --- | --- | --- |
 //! | `System` | `subType = 11`, `subParam = 1`, `3`, or `4` | [`MailType::SystemBarbarianFort`] |
-//! | `System` | `subType = 29`, `subParam = 11` | [`MailType::SystemKaharTreasure`] |
+//! | `System` | `subType = 29`, `subParam = 11` or `15` | [`MailType::SystemKaharTreasure`] |
 //! | `Alliance` | `type = 14`, `param = 1`, or `type = 60` | [`MailType::AllianceAOOBattleResults`] |
 //! | `Alliance` | `type = 61` | [`MailType::AllianceAOOBattleInfo`] |
 //! | `Alliance` | `type = 15`, `param = 1`, or `type = 62` | [`MailType::AllianceAOOIndividualResults`] |
@@ -333,7 +333,8 @@ fn is_system_kahar_treasure_mail(root: &Map<String, Value>) -> bool {
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
 
-    matches!((sub_type, sub_param), (Some(29), Some(11)))
+    // Unclaimed treasure is delivered with param 15 and uses the same loot format.
+    matches!((sub_type, sub_param), (Some(29), Some(11 | 15)))
 }
 
 fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> {
@@ -506,6 +507,32 @@ mod tests {
         });
 
         assert_eq!(detect_mail_type(&payload), Some(MailType::SystemKaharTreasure));
+    }
+
+    #[test]
+    fn detect_mail_type_matches_unclaimed_kahar_treasure_sample() {
+        let payload: Value = serde_json::from_str(include_str!(
+            "../../../../samples/System/Persistent.Mail.42958958179098346522.json"
+        ))
+        .expect("parse unclaimed Kahar treasure sample");
+
+        assert_eq!(detect_mail_type(&payload), Some(MailType::SystemKaharTreasure));
+    }
+
+    #[test]
+    fn detect_mail_type_rejects_unrelated_treasure_subtypes() {
+        for (sub_type, sub_param) in [(29, 14), (29, 16), (30, 15)] {
+            let payload = json!({
+                "type": "System",
+                "body": {
+                    "subType": sub_type,
+                    "subParam": sub_param,
+                    "title": "Kahar's Treasure"
+                }
+            });
+
+            assert_eq!(detect_mail_type(&payload), None);
+        }
     }
 
     #[test]

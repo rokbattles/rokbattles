@@ -96,6 +96,35 @@ mod tests {
     }
 
     #[test]
+    fn run_processes_unclaimed_kahar_treasure_sample() {
+        let input_dir = tempfile::tempdir().expect("input dir");
+        let output_dir = tempfile::tempdir().expect("output dir");
+        let file_name = "Persistent.Mail.42958958179098346522";
+        let sample_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples/System");
+        fs::copy(sample_dir.join(file_name), input_dir.path().join(file_name))
+            .expect("copy unclaimed Kahar treasure sample");
+
+        run(&Config {
+            input_dir: input_dir.path().to_path_buf(),
+            output_dir: output_dir.path().to_path_buf(),
+            pretty: true,
+        })
+        .expect("decode and process unclaimed Kahar treasure");
+
+        let processed_name = format!("{file_name}-processed.json");
+        let processed: serde_json::Value = serde_json::from_slice(
+            &fs::read(output_dir.path().join(&processed_name)).expect("read processed output"),
+        )
+        .expect("parse processed output");
+        let expected: serde_json::Value = serde_json::from_slice(
+            &fs::read(sample_dir.join(processed_name)).expect("read expected Kahar rewards"),
+        )
+        .expect("parse expected Kahar rewards");
+
+        assert_eq!(processed, expected);
+    }
+
+    #[test]
     fn run_decodes_and_writes_compact_json_when_pretty_is_false() {
         let input_dir = tempfile::tempdir().expect("input dir");
         let output_dir = tempfile::tempdir().expect("output dir");
