@@ -15,6 +15,15 @@ pub(crate) enum CombatLabSeason {
 }
 
 impl CombatLabSeason {
+    /// Unknown IDs do not establish friendly fire. Compare each unwound opponent separately.
+    pub(crate) fn opposing_sides_expr(self) -> Document {
+        let field = match self {
+            Self::Soc => "camp_id",
+            Self::PreSoc => "kingdom_id",
+        };
+        doc! { "$not": [same_known_id(field)] }
+    }
+
     pub(crate) fn rage_table(self) -> RageTable {
         match self {
             Self::Soc => SOC_RAGE_TABLE,
@@ -100,6 +109,16 @@ impl CombatLabSeason {
         }
         Ok(())
     }
+}
+
+fn same_known_id(field: &str) -> Document {
+    let sender = format!("$sender.{field}");
+    let opponent = format!("$opponents.{field}");
+    doc! { "$and": [
+        { "$isNumber": &sender },
+        { "$gt": [&sender, 0_i64] },
+        { "$eq": [sender, opponent] },
+    ] }
 }
 
 fn presoc_collection(store: &ReportsStore, name: &str) -> Collection<Document> {

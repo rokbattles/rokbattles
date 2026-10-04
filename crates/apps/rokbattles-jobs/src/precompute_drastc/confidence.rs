@@ -46,6 +46,7 @@ pub(super) fn build_confidence_pipeline(
         supported_pairings,
         commander_ids,
         cutoff_mail_time,
+        season,
     );
     pipeline.extend([
         doc! {
@@ -203,7 +204,7 @@ mod tests {
                 .iter()
                 .position(|stage| stage.get_str("$unwind") == Ok("$opponents"))
                 .expect("unwind opponents");
-            assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids));
+            assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids, season));
         }
     }
 }

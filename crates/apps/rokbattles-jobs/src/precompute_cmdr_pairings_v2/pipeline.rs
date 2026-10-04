@@ -15,7 +15,7 @@ pub(super) fn performance_pipeline(
     season: CombatLabSeason,
 ) -> Vec<Document> {
     let mut pipeline =
-        pairing_entries_pipeline(commander_ids, start_ms, end_ms, EntryShape::Performance);
+        pairing_entries_pipeline(commander_ids, start_ms, end_ms, EntryShape::Performance, season);
     pipeline.extend([
         scenario_and_date_stage(PERFORMANCE_CHUNK_MS),
         doc! { "$unwind": "$c" },
@@ -58,7 +58,7 @@ pub(super) fn loadout_pipeline(
     season: CombatLabSeason,
 ) -> Vec<Document> {
     let mut pipeline =
-        pairing_entries_pipeline(commander_ids, start_ms, end_ms, EntryShape::Loadout);
+        pairing_entries_pipeline(commander_ids, start_ms, end_ms, EntryShape::Loadout, season);
     pipeline.extend([
         doc! { "$match": { "u": { "$gt": 0_i64 } } },
         loadout_scenario_and_date_stage(daily_cutoff_ms),
@@ -114,6 +114,7 @@ fn pairing_entries_pipeline(
     start_ms: i64,
     end_ms: i64,
     shape: EntryShape,
+    season: CombatLabSeason,
 ) -> Vec<Document> {
     let ids = commander_ids.iter().copied().map(Bson::Int64).collect::<Vec<_>>();
     let sender_condition = commander_condition(
@@ -184,7 +185,7 @@ fn pairing_entries_pipeline(
         doc! { "$match": initial_match },
         doc! { "$set": { "_senderScenario": sender_scenario_expr() } },
         doc! { "$unwind": "$opponents" },
-        eligible_battle_match(commander_ids),
+        eligible_battle_match(commander_ids, season),
         doc! { "$match": { "opponents.player_id": { "$gt": 0_i64 } } },
         doc! { "$project": { "x": { "$concatArrays": [sender, opponent] } } },
         doc! { "$unwind": "$x" },
@@ -578,7 +579,7 @@ mod tests {
                     .iter()
                     .position(|stage| stage.get_str("$unwind") == Ok("$opponents"))
                     .expect("unwind opponents");
-                assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids));
+                assert_eq!(pipeline[unwind + 1], eligible_battle_match(&ids, season));
             }
         }
     }
