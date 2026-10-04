@@ -1,9 +1,40 @@
 import type { Cell, SheetData } from "write-excel-file/browser";
-import { createTerritorySpreadsheet } from "@/lib/territory/export";
-import { realToGamePoint } from "@/lib/territory/presentation";
+import { realToGamePoint } from "@/lib/territory-lab/presentation";
 import { orderedRouteSites } from "./routes";
-import { legacyBuilding } from "./territory";
-import type { MapData, Plan, Site } from "./types";
+import type { BuildingKind, MapData, Plan, Site } from "./types";
+
+function createTerritorySpreadsheet(document: Plan, labels: Record<BuildingKind, string>) {
+  const allianceColumns = document.alliances.map((alliance) => {
+    const buildings = document.buildings.filter((building) => building.allianceId === alliance.id);
+    const column: Cell[] = [{ type: String, value: alliance.name, fontWeight: "bold" }, null];
+
+    for (const kind of ["center-fortress", "fortress", "horse", "flag"] as const) {
+      const placed = buildings.filter((building) => building.kind === kind);
+      if (kind === "flag" && placed.length > 0 && column.length > 2) column.push(null);
+      placed.forEach((building, index) => {
+        const label =
+          kind === "flag" || kind === "fortress" ? `${labels[kind]} ${index + 1}` : labels[kind];
+        const { x, y } = realToGamePoint(building);
+        column.push({ type: String, value: `${label}: (${x}, ${y})` });
+      });
+    }
+
+    return column;
+  });
+
+  const data: SheetData = Array.from(
+    { length: Math.max(0, ...allianceColumns.map((column) => column.length)) },
+    (_, row) =>
+      allianceColumns.flatMap((column, index) =>
+        index === 0 ? [column[row] ?? null] : [null, column[row] ?? null]
+      )
+  );
+  const columns = document.alliances.flatMap((_, index) =>
+    index === 0 ? [{ width: 40 }] : [{ width: 4 }, { width: 40 }]
+  );
+
+  return { data, columns };
+}
 
 function siteCoordinates(site: Site): string {
   const { x, y } = realToGamePoint(site);
@@ -11,25 +42,15 @@ function siteCoordinates(site: Site): string {
   return `${name}: (${x}, ${y})`;
 }
 
-/** Match the existing planner's alliance columns; Baulur columns follow route order. */
+/** Territory columns group buildings by alliance; Baulur columns follow route order. */
 export function createPlannerSpreadsheet(plan: Plan, data: MapData) {
   if (plan.mode === "territory")
-    return createTerritorySpreadsheet(
-      {
-        version: 2,
-        mapSlug: plan.map,
-        activeAllianceId: plan.alliances[0]?.id ?? "",
-        alliances: plan.alliances,
-        buildings: plan.buildings.map(legacyBuilding),
-        drawings: [],
-      },
-      {
-        mainFortress: "Center fortress",
-        subFortress: "Alliance fortress",
-        horse: "Alliance horse",
-        flag: "Flag",
-      }
-    );
+    return createTerritorySpreadsheet(plan, {
+      "center-fortress": "Center fortress",
+      fortress: "Alliance fortress",
+      horse: "Alliance horse",
+      flag: "Flag",
+    });
 
   const sites = new Map(data.sites.map((site) => [site.id, site]));
   const alliances = new Map(plan.alliances.map((alliance) => [alliance.id, alliance.name]));

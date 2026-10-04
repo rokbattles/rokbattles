@@ -1,5 +1,5 @@
-import { BuildingIcon } from "@/components/territory-planner/building-icon";
-import type { BuildingKind } from "@/lib/territory/types";
+import { BuildingIcon } from "@/components/territory-lab/building-icon";
+import type { BuildingKind } from "@/lib/territory-lab/types";
 
 type BuildingMetricProps = {
   kind: BuildingKind;

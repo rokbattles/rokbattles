@@ -1,8 +1,7 @@
 use std::sync::Arc;
 
 use crate::db::{
-    AuthRepository, GameLocalizationStore, GameQueryStore, ReportsStore, TerritoryPlannerStore,
-    TerritoryPlannerV2Store,
+    AuthRepository, GameLocalizationStore, GameQueryStore, ReportsStore, TerritoryPlannerV2Store,
 };
 
 /// Discord OAuth settings used by auth routes.
@@ -20,7 +19,6 @@ pub struct AppState {
     pub game_query: GameQueryStore,
     pub game_localizations: GameLocalizationStore,
     pub reports_store: ReportsStore,
-    pub territory_planner: TerritoryPlannerStore,
     pub territory_planner_v2: TerritoryPlannerV2Store,
     pub discord_oauth: DiscordOAuthConfig,
 }
@@ -32,7 +30,6 @@ impl AppState {
         game_query: GameQueryStore,
         game_localizations: GameLocalizationStore,
         reports_store: ReportsStore,
-        territory_planner: TerritoryPlannerStore,
         territory_planner_v2: TerritoryPlannerV2Store,
         discord_oauth: DiscordOAuthConfig,
     ) -> Self {
@@ -41,7 +38,6 @@ impl AppState {
             game_query,
             game_localizations,
             reports_store,
-            territory_planner,
             territory_planner_v2,
             discord_oauth,
         }

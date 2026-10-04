@@ -1,18 +1,17 @@
 import { memo } from "react";
-import { BuildingMetric } from "@/components/territory-planner/building-metric";
-import { ResourceMetric } from "@/components/territory-planner/resource-metric";
-import { TerritoryBreakdown } from "@/components/territory-planner/territory-breakdown";
+import { BuildingMetric } from "@/components/territory-lab/building-metric";
+import { ResourceMetric } from "@/components/territory-lab/resource-metric";
+import { TerritoryBreakdown } from "@/components/territory-lab/territory-breakdown";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
-import type { PlannedBuilding } from "@/lib/territory/types";
 import type { territorySummary } from "@/lib/territory-lab/territory";
-import type { BuildingKind, Catalog, MapData, Plan } from "@/lib/territory-lab/types";
+import type { Building, BuildingKind, Catalog, MapData, Plan } from "@/lib/territory-lab/types";
 
 const BUILDINGS = [
-  ["center-fortress", "mainFortress", "Center fortress"],
-  ["fortress", "subFortress", "Fortresses"],
-  ["horse", "horse", "Alliance horse"],
-  ["flag", "flag", "Flags"],
+  ["center-fortress", "Center fortress"],
+  ["fortress", "Fortresses"],
+  ["horse", "Alliance horse"],
+  ["flag", "Flags"],
 ] as const;
 const RESOURCES = [
   ["credits", "credits", "Alliance credits"],
@@ -36,7 +35,7 @@ export const TerritoryDetails = memo(function TerritoryDetails({
   data: MapData;
   allianceId: string;
   summary: ReturnType<typeof territorySummary>;
-  onLocate: (building: PlannedBuilding) => void;
+  onLocate: (building: Building) => void;
 }) {
   const count = (kind: BuildingKind) =>
     plan.buildings.filter((b) => b.allianceId === allianceId && b.kind === kind).length;
@@ -52,10 +51,10 @@ export const TerritoryDetails = memo(function TerritoryDetails({
       <section aria-labelledby="territory-total-heading" className="min-w-0 xl:pl-8">
         <Subheading id="territory-total-heading">Territory limits & costs</Subheading>
         <dl className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2.5 text-sm">
-          {BUILDINGS.filter(([kind]) => catalog.buildings[kind]).map(([kind, icon, label]) => (
+          {BUILDINGS.filter(([kind]) => catalog.buildings[kind]).map(([kind, label]) => (
             <BuildingMetric
               key={kind}
-              kind={icon}
+              kind={kind}
               label={label}
               value={`${count(kind)} / ${catalog.buildings[kind]?.limit}`}
             />

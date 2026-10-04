@@ -1076,7 +1076,7 @@ msgid "Instrument"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
+#: src/components/territory-lab/use-territory-labels.ts
 msgctxt "bSCV9J"
 msgid "Flag"
 msgstr ""
@@ -1366,14 +1366,12 @@ msgstr ""
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-#: src/components/territory-planner/planner-settings-drawer.tsx
 msgctxt "47FYwb"
 msgid "Cancel"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
-#: src/components/territory-planner/planner-settings-drawer.tsx
 msgctxt "jvo0vs"
 msgid "Save"
 msgstr ""
@@ -2470,7 +2468,6 @@ msgid "Loading reports..."
 msgstr ""
 
 #: src/components/reports/reports-table-head.tsx
-#: src/components/territory-planner/territory-planner.tsx
 msgctxt "zuqMfZ"
 msgid "Map"
 msgstr ""
@@ -2510,448 +2507,94 @@ msgctxt "xXbJso"
 msgid "Sign out"
 msgstr ""
 
-#: src/components/territory-planner/construction-cost.tsx
+#: src/components/territory-lab/construction-cost.tsx
 msgctxt "c3MqCM"
 msgid "No construction cost is available"
 msgstr ""
 
-#: src/components/territory-planner/construction-cost.tsx
+#: src/components/territory-lab/construction-cost.tsx
 msgctxt "vfBCdN"
 msgid "No cost"
 msgstr ""
 
-#: src/components/territory-planner/construction-cost.tsx
+#: src/components/territory-lab/construction-cost.tsx
 msgctxt "dTN5Q_"
 msgid "Construction cost"
 msgstr ""
 
-#: src/components/territory-planner/planner-canvas.tsx
-msgctxt "RuDx5_"
-msgid "X: - Y: -"
-msgstr ""
-
-#: src/components/territory-planner/planner-canvas.tsx
-#: src/components/territory-planner/territory-breakdown.tsx
-msgctxt "efq633"
-msgid "X: {x} Y: {y}"
-msgstr ""
-
-#: src/components/territory-planner/planner-canvas.tsx
-msgctxt "AqqORv"
-msgid "Interactive territory planning map. Drag to pan, choose Draw to add a line, or choose Select and Shift-click to select multiple items. Press Delete or Backspace to remove selected items."
-msgstr ""
-
-#: src/components/territory-planner/planner-canvas.tsx
-msgctxt "l9iQOz"
-msgid "Fit map"
-msgstr ""
-
-#: src/components/territory-planner/planner-canvas.tsx
-msgctxt "N2HbmZ"
-msgid "Fit"
-msgstr ""
-
-#: src/components/territory-planner/planner-canvas.tsx
-msgctxt "2YIRK6"
-msgid "{loaded}/{total} chunks"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "D-ZFS_"
-msgid "Red"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "n3m1xt"
-msgid "Orange"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "5Tw3Ta"
-msgid "Yellow"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "1W4okO"
-msgid "Green"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "YCtAVD"
-msgid "Cyan"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "k2tJ9k"
-msgid "Blue"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "tihmF3"
-msgid "Purple"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "KIm2E5"
-msgid "Pink"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "D3idYv"
-msgid "Settings"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "4dLJ2n"
-msgid "Close settings"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "j5ASqk"
-msgid "Collision overlay"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "1A0HiQ"
-msgid "Resource overlay"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "azUqAZ"
-msgid "Show villages"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "lN9YOn"
-msgid "Show caves"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "NdufDy"
-msgid "Alliances"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "_KvwGz"
-msgid "{name} territory color"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "s3IOQQ"
-msgid "Edit {name}"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "JpsXCp"
-msgid "Delete {name}"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "G-eSlG"
-msgid "Alliance tag"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "7s5xbv"
-msgid "Territory color"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "B8F_S_"
-msgid "{color} territory color"
-msgstr ""
-
-#: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "2_2yg-"
-msgid "Add"
-msgstr ""
-
-#: src/components/territory-planner/territory-breakdown.tsx
-#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-lab/territory-breakdown.tsx
 msgctxt "v5_T25"
 msgid "Alliance credits"
 msgstr ""
 
-#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-lab/territory-breakdown.tsx
 msgctxt "qEXtNB"
 msgid "Territory breakdown"
 msgstr ""
 
-#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-lab/territory-breakdown.tsx
 msgctxt "uau2JL"
 msgid "No territory buildings for this alliance."
 msgstr ""
 
-#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-lab/territory-breakdown.tsx
 msgctxt "8PV5tF"
 msgid "{building} {number}"
 msgstr ""
 
-#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-lab/territory-breakdown.tsx
+msgctxt "efq633"
+msgid "X: {x} Y: {y}"
+msgstr ""
+
+#: src/components/territory-lab/territory-breakdown.tsx
 msgctxt "S_mBkY"
 msgid "Covered alliance resource plots"
 msgstr ""
 
-#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-lab/territory-breakdown.tsx
 msgctxt "NyxynW"
 msgid "Locate {building} {number} on map"
 msgstr ""
 
-#: src/components/territory-planner/territory-export-button.tsx
-msgctxt "YHmxQm"
-msgid "The plan could not be exported. Please try again."
-msgstr ""
-
-#: src/components/territory-planner/territory-export-button.tsx
-msgctxt "SVwJTM"
-msgid "Export"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "JM6RlW"
-msgid "The map data could not be loaded."
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "HJCupX"
-msgid "Shareable plan URL copied to the clipboard."
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "h9dtUs"
-msgid "The shareable plan is now in the address bar."
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "AzTP1q"
-msgid "No maps are available."
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "NCnvW0"
-msgid "Territory Planner"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "P8QaSQ"
-msgid "Copy URL"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "DwFieO"
-msgid "Building tools"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "zmMjEn"
-msgid "Alliance"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "6xfci4"
-msgid "Planner settings"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "-znnlM"
-msgid "Loading map geometry..."
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "iO9Xom"
-msgid "Map geometry is unavailable."
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "RNqPQL"
-msgid "Scroll to zoom"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "3S5CZQ"
-msgid "Drag to pan"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "ayBb4B"
-msgid "Shift + click to multi-select"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "Ys0dmO"
-msgid "Delete / Backspace to delete selected items"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "MEA0uN"
-msgid "Territory limits & costs"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "gW7-rG"
-msgid "Center Fortress"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "xWjJGr"
-msgid "Fortresses"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "wZsBSy"
-msgid "Horse"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "Ed112w"
-msgid "Flags"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "v8GMOg"
-msgid "Crystal"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
+#: src/components/territory-lab/use-territory-labels.ts
 msgctxt "-w6K47"
 msgid "Food"
 msgstr ""
 
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
+#: src/components/territory-lab/use-territory-labels.ts
 msgctxt "OLb6AJ"
 msgid "Wood"
 msgstr ""
 
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
+#: src/components/territory-lab/use-territory-labels.ts
 msgctxt "430I4C"
 msgid "Stone"
 msgstr ""
 
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
+#: src/components/territory-lab/use-territory-labels.ts
 msgctxt "GwqiOt"
 msgid "Gold"
 msgstr ""
 
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "ZOQ7HO"
-msgid "{count, plural, one {# planned building has} other {# planned buildings have}} no construction-cost entry."
+#: src/components/territory-lab/use-territory-labels.ts
+msgctxt "v8GMOg"
+msgid "Crystal"
 msgstr ""
 
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "MP-xJh"
-msgid "Territory RSS production"
+#: src/components/territory-lab/use-territory-labels.ts
+msgctxt "gW7-rG"
+msgid "Center Fortress"
 msgstr ""
 
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "orJzQH"
-msgid "{amount}/h"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "kQAf2d"
-msgid "Select"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "i1-AIw"
-msgid "Draw"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
+#: src/components/territory-lab/use-territory-labels.ts
 msgctxt "4198KF"
 msgid "Fortress"
 msgstr ""
 
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "xaTgym"
-msgid "Home 1"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "MPTvtH"
-msgid "Home 2"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "j3P9qu"
-msgid "Home 3"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "O93KLR"
-msgid "Home 4"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "hg8Lv0"
-msgid "The Endless War"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "BiPM7e"
-msgid "A Distant Journey"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "bM2qoT"
-msgid "Light and Darkness"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "mo0a1h"
-msgid "Heroic Anthem"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "dB5nyw"
-msgid "King of the Nile"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "e5RJ5j"
-msgid "Siege of Orleans"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "oeX-OS"
-msgid "Warriors Unbound"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "eAqXUV"
-msgid "Storm of Stratagems"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "Tb3UEK"
-msgid "Tides of War"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "RQT3pQ"
-msgid "Alliance Invictus"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "jFqmEK"
-msgid "Keener Blades"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "KB_X0M"
-msgid "King of All Britain"
-msgstr ""
-
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgctxt "yFnkCB"
-msgid "Song of Troy"
+#: src/components/territory-lab/use-territory-labels.ts
+msgctxt "wZsBSy"
+msgid "Horse"
 msgstr ""
 
 #: src/hooks/use-ark-match-detail.ts

@@ -1,5 +1,5 @@
-import { BUILDING_SPRITE_CROPS, BUILDING_SPRITES } from "@/lib/territory/assets";
-import type { BuildingKind } from "@/lib/territory/types";
+import { BUILDING_SPRITE_CROPS, BUILDING_SPRITES } from "@/lib/territory-lab/assets";
+import type { BuildingKind } from "@/lib/territory-lab/types";
 
 type BuildingIconProps = {
   className: string;

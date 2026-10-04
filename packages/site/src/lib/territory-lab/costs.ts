@@ -1,21 +1,9 @@
-import type {
-  BuildingCost,
-  BuildingCostSchedule,
-  BuildingKind,
-  PlannedBuilding,
-  TerritoryApiBuildingConfig,
-} from "./types";
+import type { Building, BuildingCost, BuildingCostSchedule, BuildingKind } from "./types";
 
 export type CostTotals = Required<BuildingCost> & { unknown: number };
 
-export type BuildingCostProgress = {
-  built: number;
-  limit: number;
-  next: BuildingCost | null;
-};
-
 export type BuildingCostEntry = {
-  building: PlannedBuilding;
+  building: Building;
   number: number;
   cost: BuildingCost | null;
 };
@@ -24,25 +12,8 @@ function costAt(schedule: BuildingCostSchedule, kind: BuildingKind, number: numb
   return schedule[kind]?.find((tier) => number >= tier.from && number <= tier.to)?.cost ?? null;
 }
 
-export function buildingCostProgress(
-  kind: BuildingKind,
-  buildings: PlannedBuilding[],
-  schedule: BuildingCostSchedule,
-  allianceId: string,
-  buildingConfigs: Partial<Record<BuildingKind, TerritoryApiBuildingConfig>>
-): BuildingCostProgress {
-  const built = buildings.filter(
-    (building) => building.allianceId === allianceId && building.kind === kind
-  ).length;
-  return {
-    built,
-    limit: buildingConfigs[kind]?.limit ?? 0,
-    next: costAt(schedule, kind, built + 1),
-  };
-}
-
 export function buildingCostBreakdown(
-  buildings: PlannedBuilding[],
+  buildings: Building[],
   schedule: BuildingCostSchedule,
   allianceId: string
 ): BuildingCostEntry[] {
@@ -62,7 +33,7 @@ export function buildingCostBreakdown(
 }
 
 export function calculateCostTotals(
-  buildings: PlannedBuilding[],
+  buildings: Building[],
   schedule: BuildingCostSchedule,
   allianceId: string
 ): CostTotals {
