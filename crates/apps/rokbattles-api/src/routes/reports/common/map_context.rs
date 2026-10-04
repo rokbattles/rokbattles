@@ -175,6 +175,7 @@ fn map_banner(map: &str) -> Option<String> {
         "LostLand_Map_15_v2" => "s15alliance_invictus_cover.png",
         "LostLand_Map_16_2_v2" => "s16keener_blades_cover.png",
         "LostLand_Map_20_v2" => "s20song_of_troy_cover.png",
+        "LostLand_Map_21_v2" => "s21mighty_assembly_cover.png",
         _ => return None,
     };
     banner_url(filename)
