@@ -1,0 +1,74 @@
+{
+  "addition": "",
+  "attachments": [
+    {
+      "fbDouble": 0,
+      "id": 1,
+      "loot": [
+        {
+          "SubType": 9,
+          "Type": 1,
+          "Value": 45000
+        },
+        {
+          "SubType": 147,
+          "Type": 2,
+          "Value": 5
+        },
+        {
+          "SubType": 15,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 7052,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 76,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Sei gegrüßt, Statthalter,\n\nWir haben nicht eingeforderte Belohnungen aus Kahars Schatz gefunden und beigelegt, die dir gehören! Bitte vergiss nicht, sie einzufordern!",
+    "position": {
+      "X": 4865.2977343452085,
+      "Y": 9172.850377231953,
+      "Z": 0
+    },
+    "subParam": 15,
+    "subTitle": "Nicht eingeforderte Belohnungen aus Kahars Schatz",
+    "subType": 29,
+    "title": "Kahars Schatz"
+  },
+  "box": "SystemBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "42958958179098346522",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_92717506",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 16097,
+  "starMark": 0,
+  "time": 1790983465641826,
+  "title": "",
+  "type": "System",
+  "unread": false
+}
