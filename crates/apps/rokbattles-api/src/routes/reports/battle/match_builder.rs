@@ -118,9 +118,11 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     }
 
     let mut rally_conditions: Vec<Document> = Vec::new();
+
     if matches!(request.rally_side, ReportsFilterSide::Sender | ReportsFilterSide::Both) {
         rally_conditions.push(doc! { "sender.rally": true });
     }
+
     if matches!(request.rally_side, ReportsFilterSide::Opponent | ReportsFilterSide::Both) {
         rally_conditions.push(doc! {
             "opponents": {
@@ -131,18 +133,20 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
             }
         });
     }
+
     append_compound_condition(&mut match_pipeline, rally_conditions);
 
     let mut garrison_conditions: Vec<Document> = Vec::new();
+
     if matches!(request.garrison_side, ReportsFilterSide::Sender | ReportsFilterSide::Both) {
-        garrison_conditions.push(build_garrison_field_condition(
-            "sender.alliance_building_id",
-            request.garrison_building_type,
-        ));
+        garrison_conditions
+            .push(build_garrison_condition("sender.", request.garrison_building_type));
     }
+
     if matches!(request.garrison_side, ReportsFilterSide::Opponent | ReportsFilterSide::Both) {
         garrison_conditions.push(build_opponent_garrison_condition(request.garrison_building_type));
     }
+
     append_compound_condition(&mut match_pipeline, garrison_conditions);
 
     doc! { "$and": match_pipeline }
@@ -188,23 +192,31 @@ fn append_compound_condition(target: &mut Vec<Document>, conditions: Vec<Documen
     target.push(doc! { "$or": conditions });
 }
 
-fn build_garrison_field_condition(
-    path: &str,
+fn build_garrison_condition(
+    prefix: &str,
     garrison_type: Option<ReportsGarrisonBuildingType>,
 ) -> Document {
-    let mut condition = Document::new();
-    condition.insert(path, garrison_building_condition(garrison_type));
-    condition
+    let building_path = format!("{prefix}alliance_building_id");
+
+    if let Some(garrison_type) = garrison_type {
+        return doc! { building_path: garrison_building_condition(garrison_type) };
+    }
+
+    doc! {
+        "$or": [
+            { building_path: { "$gt": 0 } },
+            { format!("{prefix}structure_id"): { "$gt": 0 } },
+        ]
+    }
 }
 
-fn garrison_building_condition(garrison_type: Option<ReportsGarrisonBuildingType>) -> Bson {
+fn garrison_building_condition(garrison_type: ReportsGarrisonBuildingType) -> Bson {
     match garrison_type {
-        Some(ReportsGarrisonBuildingType::Flag) => Bson::Int32(1),
-        Some(ReportsGarrisonBuildingType::Fortress) => Bson::Int32(3),
-        Some(ReportsGarrisonBuildingType::Other) => {
+        ReportsGarrisonBuildingType::Flag => Bson::Int32(1),
+        ReportsGarrisonBuildingType::Fortress => Bson::Int32(3),
+        ReportsGarrisonBuildingType::Other => {
             Bson::Document(doc! { "$gt": 0, "$nin": [Bson::Int32(1), Bson::Int32(3)] })
         }
-        None => Bson::Document(doc! { "$gt": 0 }),
     }
 }
 
@@ -212,14 +224,11 @@ fn build_opponent_garrison_condition(
     garrison_type: Option<ReportsGarrisonBuildingType>,
 ) -> Document {
     let mut elem_match = doc! { "player_id": { "$gt": 0 } };
-    elem_match.insert("alliance_building_id", garrison_building_condition(garrison_type));
+    elem_match.extend(build_garrison_condition("", garrison_type));
 
     doc! {
         "$and": [
-            build_garrison_field_condition(
-                "opponents.alliance_building_id",
-                garrison_type,
-            ),
+            build_garrison_condition("opponents.", garrison_type),
             {
                 "opponents": {
                     "$elemMatch": elem_match,
@@ -435,17 +444,82 @@ mod tests {
     }
 
     #[test]
-    fn sender_garrison_filter_uses_positive_numeric_building_ids() {
+    fn sender_garrison_any_includes_structures_with_commander_and_rally_filters() {
+        for player_id in [None, Some("87102301")] {
+            let mut params = FxHashMap::from_iter([
+                ("spc".to_string(), "503".to_string()),
+                ("ssc".to_string(), "184".to_string()),
+                ("rs".to_string(), "opponent".to_string()),
+                ("gs".to_string(), "sender".to_string()),
+            ]);
+
+            if let Some(player_id) = player_id {
+                params.insert("pid".to_string(), player_id.to_string());
+            }
+
+            let request = parse_reports_request(&params).expect("valid pass garrison filter");
+
+            assert!(match_conditions(&build_reports_match(&request)).contains(&Bson::Document(
+                doc! {
+                    "$or": [
+                        { "sender.alliance_building_id": { "$gt": 0 } },
+                        { "sender.structure_id": { "$gt": 0 } },
+                    ]
+                }
+            )));
+        }
+    }
+
+    #[test]
+    fn opponent_garrison_any_requires_a_human_with_a_building_or_structure() {
         let request = parse_reports_request(&FxHashMap::from_iter([(
             "gs".to_string(),
-            "sender".to_string(),
+            "opponent".to_string(),
         )]))
-        .expect("valid sender garrison filter");
+        .expect("valid opponent garrison filter");
 
-        assert!(
-            match_conditions(&build_reports_match(&request))
-                .contains(&Bson::Document(doc! { "sender.alliance_building_id": { "$gt": 0 } },))
-        );
+        assert!(match_conditions(&build_reports_match(&request)).contains(&Bson::Document(doc! {
+            "$and": [
+                {
+                    "$or": [
+                        { "opponents.alliance_building_id": { "$gt": 0 } },
+                        { "opponents.structure_id": { "$gt": 0 } },
+                    ]
+                },
+                {
+                    "opponents": {
+                        "$elemMatch": {
+                            "player_id": { "$gt": 0 },
+                            "$or": [
+                                { "alliance_building_id": { "$gt": 0 } },
+                                { "structure_id": { "$gt": 0 } },
+                            ]
+                        }
+                    }
+                },
+            ]
+        })));
+    }
+
+    #[test]
+    fn specific_sender_garrison_buildings_remain_alliance_only() {
+        for (building, expected) in [
+            ("flag", Bson::Int32(1)),
+            ("fortress", Bson::Int32(3)),
+            ("other", Bson::Document(doc! { "$gt": 0, "$nin": [1, 3] })),
+        ] {
+            let request = parse_reports_request(&FxHashMap::from_iter([
+                ("gs".to_string(), "sender".to_string()),
+                ("gb".to_string(), building.to_string()),
+            ]))
+            .expect("valid sender building filter");
+
+            assert!(match_conditions(&build_reports_match(&request)).contains(&Bson::Document(
+                doc! {
+                    "sender.alliance_building_id": expected,
+                }
+            )));
+        }
     }
 
     #[test]

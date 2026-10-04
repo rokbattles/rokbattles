@@ -267,6 +267,36 @@ impl ReportsStore {
                         .build(),
                 )
                 .build(),
+
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_time": -1, "sender.structure_id": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "opponents.player_id": { "$gt": 0 },
+                            "$or": [
+                                { "sender.alliance_building_id": { "$gt": 0 } },
+                                { "sender.structure_id": { "$gt": 0 } },
+                            ],
+                        })
+                        .build(),
+                )
+                .build(),
+
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_time": -1, "opponents.structure_id": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "opponents.player_id": { "$gt": 0 },
+                            "$or": [
+                                { "opponents.alliance_building_id": { "$gt": 0 } },
+                                { "opponents.structure_id": { "$gt": 0 } },
+                            ],
+                        })
+                        .build(),
+                )
+                .build(),
         ];
 
         for model in models {
