@@ -96,19 +96,27 @@ pub async fn get(
 }
 
 fn build_battle_list_find_options(request: &ReportsRequest) -> FindOptions {
-    let hint_home_partial_index = should_hint_home_partial_index(request);
     let hint = battle_list_index_hint(request);
-    let max = request.before_cursor.filter(|_| hint_home_partial_index).map(|before_cursor| {
-        doc! {
-            "metadata.mail_time": before_cursor,
-            "metadata.kvk": Bson::MinKey,
+
+    // Explicit bounds keep partial-index scans from starting outside the requested page.
+    let cursor_index_field = if should_hint_home_partial_index(request) {
+        Some("metadata.kvk")
+    } else if request.garrison_building_type.is_none() && hint.is_some() {
+        match request.garrison_side {
+            ReportsFilterSide::Sender => Some("sender.structure_id"),
+            ReportsFilterSide::Opponent => Some("opponents.structure_id"),
+            ReportsFilterSide::None | ReportsFilterSide::Both => None,
         }
+    } else {
+        None
+    };
+
+    let max = request.before_cursor.zip(cursor_index_field).map(|(before_cursor, field)| {
+        doc! { "metadata.mail_time": before_cursor, field: Bson::MinKey }
     });
-    let min = request.after_cursor.filter(|_| hint_home_partial_index).map(|after_cursor| {
-        doc! {
-            "metadata.mail_time": after_cursor,
-            "metadata.kvk": Bson::MaxKey,
-        }
+
+    let min = request.after_cursor.zip(cursor_index_field).map(|(after_cursor, field)| {
+        doc! { "metadata.mail_time": after_cursor, field: Bson::MaxKey }
     });
 
     FindOptions::builder()
@@ -134,21 +142,38 @@ fn battle_list_index_hint(request: &ReportsRequest) -> Option<Hint> {
         return None;
     }
 
-    match request.garrison_side {
-        ReportsFilterSide::Sender => {
+    // Alliance-building partial indexes omit structure-only garrisons.
+    match (request.garrison_side, request.garrison_building_type) {
+        (ReportsFilterSide::Sender, Some(_)) => {
             return Some(Hint::Keys(doc! {
                 "metadata.mail_time": -1,
                 "sender.alliance_building_id": 1,
             }));
         }
-        ReportsFilterSide::Opponent => {
+
+        (ReportsFilterSide::Opponent, Some(_)) => {
             return Some(Hint::Keys(doc! {
                 "metadata.mail_time": -1,
                 "opponents.alliance_building_id": 1,
             }));
         }
-        ReportsFilterSide::Both => return None,
-        ReportsFilterSide::None => {}
+
+        (ReportsFilterSide::Sender, None) => {
+            return Some(Hint::Keys(doc! {
+                "metadata.mail_time": -1,
+                "sender.structure_id": 1,
+            }));
+        }
+
+        (ReportsFilterSide::Opponent, None) => {
+            return Some(Hint::Keys(doc! {
+                "metadata.mail_time": -1,
+                "opponents.structure_id": 1,
+            }));
+        }
+
+        (ReportsFilterSide::None, _) => {}
+        (ReportsFilterSide::Both, _) => return None,
     }
 
     match request.rally_side {
@@ -324,21 +349,119 @@ mod tests {
     }
 
     #[test]
-    fn sender_garrison_list_options_hint_the_sender_garrison_index() {
-        assert_filter_uses_hint(
-            "gs",
-            "sender",
-            doc! { "metadata.mail_time": -1, "sender.alliance_building_id": 1 },
-        );
+    fn any_garrison_list_options_hint_indexes_that_include_structures() {
+        for (side, field) in
+            [("sender", "sender.structure_id"), ("opponent", "opponents.structure_id")]
+        {
+            let request = parse_reports_request(&FxHashMap::from_iter([(
+                "gs".to_string(),
+                side.to_string(),
+            )]))
+            .expect("valid garrison filter");
+
+            assert!(matches!(
+                build_battle_list_find_options(&request).hint,
+                Some(Hint::Keys(keys)) if keys == doc! { "metadata.mail_time": -1, field: 1 }
+            ));
+        }
     }
 
     #[test]
-    fn opponent_garrison_list_options_hint_the_opponent_garrison_index() {
-        assert_filter_uses_hint(
-            "gs",
-            "opponent",
-            doc! { "metadata.mail_time": -1, "opponents.alliance_building_id": 1 },
-        );
+    fn garrison_before_cursor_bounds_the_structure_index() {
+        for (side, field) in
+            [("sender", "sender.structure_id"), ("opponent", "opponents.structure_id")]
+        {
+            let request = parse_reports_request(&FxHashMap::from_iter([
+                ("gs".to_string(), side.to_string()),
+                ("before".to_string(), "123456".to_string()),
+            ]))
+            .expect("valid garrison before cursor");
+
+            let options = build_battle_list_find_options(&request);
+
+            assert_eq!(
+                options.max,
+                Some(doc! { "metadata.mail_time": 123456_i64, field: Bson::MinKey }),
+            );
+            assert!(options.min.is_none());
+        }
+    }
+
+    #[test]
+    fn garrison_after_cursor_bounds_the_structure_index() {
+        for (side, field) in
+            [("sender", "sender.structure_id"), ("opponent", "opponents.structure_id")]
+        {
+            let request = parse_reports_request(&FxHashMap::from_iter([
+                ("gs".to_string(), side.to_string()),
+                ("after".to_string(), "123456".to_string()),
+            ]))
+            .expect("valid garrison after cursor");
+
+            let options = build_battle_list_find_options(&request);
+
+            assert_eq!(
+                options.min,
+                Some(doc! { "metadata.mail_time": 123456_i64, field: Bson::MaxKey }),
+            );
+            assert!(options.max.is_none());
+        }
+    }
+
+    #[test]
+    fn both_garrison_list_options_do_not_hint_a_single_side_index() {
+        let request =
+            parse_reports_request(&FxHashMap::from_iter([("gs".to_string(), "both".to_string())]))
+                .expect("valid garrison filter");
+
+        assert!(build_battle_list_find_options(&request).hint.is_none());
+    }
+
+    #[test]
+    fn garrison_list_options_allow_specialized_player_and_commander_indexes() {
+        for side in ["sender", "opponent"] {
+            for (parameter, value) in [
+                ("pid", "87102301"),
+                ("spc", "503"),
+                ("ssc", "184"),
+                ("opc", "503"),
+                ("osc", "184"),
+            ] {
+                let request = parse_reports_request(&FxHashMap::from_iter([
+                    ("gs".to_string(), side.to_string()),
+                    (parameter.to_string(), value.to_string()),
+                    ("before".to_string(), "123456".to_string()),
+                ]))
+                .expect("valid garrison player or commander filter");
+
+                let options = build_battle_list_find_options(&request);
+
+                assert!(options.hint.is_none());
+                assert!(options.max.is_none());
+                assert!(options.min.is_none());
+            }
+        }
+    }
+
+    #[test]
+    fn specific_garrison_buildings_keep_alliance_index_hints() {
+        for (side, field) in [
+            ("sender", "sender.alliance_building_id"),
+            ("opponent", "opponents.alliance_building_id"),
+        ] {
+            for building in ["flag", "fortress", "other"] {
+                let request = parse_reports_request(&FxHashMap::from_iter([
+                    ("gs".to_string(), side.to_string()),
+                    ("gb".to_string(), building.to_string()),
+                ]))
+                .expect("valid garrison building filter");
+
+                assert!(matches!(
+                    build_battle_list_find_options(&request).hint,
+                    Some(Hint::Keys(keys)) if keys == doc! { "metadata.mail_time": -1, field: 1 }
+                ));
+            }
+        }
     }
 
     #[test]
