@@ -13,6 +13,7 @@ import {
   type TerritoryOwnership,
 } from "@/lib/territory/geometry";
 import type { BuildingCostSchedule, PlannedBuilding } from "@/lib/territory/types";
+import { nearbyTerrainInstances } from "./terrain";
 import type { Building, BuildingKind, Catalog, MapData, Plan } from "./types";
 
 const legacyKinds = {
@@ -50,12 +51,15 @@ export function placementError(
   const existing = plan.buildings.map(legacyBuilding);
   const building = legacyBuilding(candidate);
   const limit = catalog.buildings[candidate.kind]?.limit ?? 0;
+
   if (
     plan.buildings.filter((b) => b.kind === candidate.kind && b.allianceId === candidate.allianceId)
       .length >= limit
   )
     return "This alliance has reached the building limit.";
+
   const radius = buildingRules[building.kind].baseClearance;
+
   if (
     candidate.x - radius < 0 ||
     candidate.y - radius < 0 ||
@@ -63,19 +67,34 @@ export function placementError(
     candidate.y + radius > catalog.nativeMapSize
   )
     return "Place the building inside the playable map.";
+
   if (isProvinceRestricted(data.province, building.kind, candidate.x, candidate.y))
     return "This province does not allow that building.";
+
   if (plannedBuildingCollision(building, existing))
     return "Another building occupies this position.";
-  if (boundaryCollision(candidate.x, candidate.y, radius, data.definitions, data.instances))
+
+  if (
+    boundaryCollision(
+      candidate.x,
+      candidate.y,
+      radius,
+      data.definitions,
+      nearbyTerrainInstances(data, candidate.x, candidate.y, radius)
+    )
+  )
     return "The building overlaps forbidden terrain.";
+
   const structures = mapStructures(catalog, data);
   if (mapStructureCollision(building, structures)) return "The building overlaps a map structure.";
+
   const ownership = planOwnership(plan, catalog, data);
   if (!isConnectedToAlliance(building, ownership))
     return "Connect flags to this alliance’s territory. Start with a fortress.";
+
   if (!hasRequiredTerritoryAvailability(building, ownership))
     return "Too much of this footprint belongs to another alliance.";
+
   return null;
 }
 

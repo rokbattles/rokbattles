@@ -526,9 +526,11 @@ impl Gpu {
                     [0.0, 0.0, 1.0, 1.0],
                     [1.0, 1.0, 1.0, alpha],
                 );
-                images.push((*key, start..vertices.len() as u32));
+
+                crate::batches::append(&mut images, key, start..vertices.len() as u32);
             }
         }
+
         // Share the detail image's fade, keeping forbidden terrain absent from
         // the overview. The shader's negative UV sentinel selects screen-space
         // hatching without adding a texture or changing sprite sampling.
@@ -552,8 +554,10 @@ impl Gpu {
                     });
                 }
             }
-            images.push(("white", start..vertices.len() as u32));
+
+            crate::batches::append(&mut images, "white", start..vertices.len() as u32);
         }
+
         // needed_tiles() is coarse-first, so missing detail leaves its parent visible.
         for t in scene.needed_tiles() {
             if let Some(texture) = self.tiles.get_mut(&t) {
@@ -592,8 +596,10 @@ impl Gpu {
             } else {
                 quad(&mut vertices, scene, rect, [0.0, 0.0, 1.0, 1.0], color);
             }
-            images.push((overlay.texture.as_str(), start..vertices.len() as u32));
+
+            crate::batches::append(&mut images, &overlay.texture, start..vertices.len() as u32);
         }
+
         let solid_start = vertices.len() as u32;
         for o in &scene.objects {
             let selected = scene.selected.contains(&o.id());
