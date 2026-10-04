@@ -5,7 +5,9 @@ use std::collections::BTreeMap;
 use mongodb::bson::{Document, doc};
 use serde::Deserialize;
 
-use crate::{combat_lab_season::CombatLabSeason, error::JobsError};
+use crate::{
+    combat_lab_season::CombatLabSeason, combat_lab_troops::eligible_troop_kp_expr, error::JobsError,
+};
 
 const COMMANDERS_YAML: &str = include_str!("../../../../datasets/commanders.yaml");
 
@@ -34,7 +36,7 @@ pub(crate) fn eligible_battle_match(commander_ids: &[i64], season: CombatLabSeas
         "sender.commanders.secondary.id": { "$in": commander_ids },
         "opponents.commanders.primary.id": { "$in": commander_ids },
         "opponents.commanders.secondary.id": { "$in": commander_ids },
-        "$expr": season.opposing_sides_expr(),
+        "$expr": { "$and": [season.opposing_sides_expr(), eligible_troop_kp_expr()] },
     } }
 }
 

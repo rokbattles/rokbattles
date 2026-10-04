@@ -3,6 +3,7 @@
 //! Shared code for the jobs.
 
 pub(crate) mod combat_lab_season;
+pub(crate) mod combat_lab_troops;
 pub(crate) mod commander_catalog;
 pub mod config;
 pub mod error;
