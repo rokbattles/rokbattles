@@ -1,0 +1,76 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": null,
+        "id": 1,
+        "logo": null,
+        "name": ""
+      },
+      "is_blue": true,
+      "members": 0,
+      "members_max": 30,
+      "power": null,
+      "score": 0,
+      "server_id": null,
+      "team": null
+    },
+    {
+      "alliance": {
+        "abbreviation": null,
+        "id": 2,
+        "logo": null,
+        "name": ""
+      },
+      "is_blue": false,
+      "members": 0,
+      "members_max": 30,
+      "power": null,
+      "score": 0,
+      "server_id": null,
+      "team": null
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 2
+    },
+    "battle_type": "diy_egypt",
+    "param": 1,
+    "type": 14,
+    "win": false
+  },
+  "metadata": {
+    "mail_id": "45751947179103946211",
+    "mail_receiver": "player_26063425",
+    "mail_time": 1791039462972176,
+    "server_id": 5
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "building_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "flag_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "gather_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "healing_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "killed_score": {
+      "alliance_score": 0,
+      "mvp": null
+    }
+  },
+  "participants": []
+}

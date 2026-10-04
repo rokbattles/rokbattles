@@ -17,10 +17,11 @@
 //! | `overview` | object | Alliance scores and optional MVPs from the six `body.kvs.max*` blocks. |
 //!
 //! All six overview category objects and their `AsScore` values are required.
-//! An absent `PlyScore` produces a null MVP; a present null is rejected. Optional
-//! alliance identity and team fields become null. Body `type` and `param` accept
-//! unsigned integers or numeric strings; the other fields use their declared JSON
-//! types. List order and numeric score representations are preserved.
+//! An absent `PlyScore` or a placeholder with `Name: "-"`, zero `Score`, and no
+//! `PlyId` produces a null MVP; a present null is rejected. Optional alliance
+//! identity and team fields become null. Body `type` and `param` accept unsigned
+//! integers or numeric strings; the other fields use their declared JSON types.
+//! List order and numeric score representations are preserved.
 //!
 //! # Examples
 //!
@@ -81,7 +82,7 @@ fn processor() -> Processor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use serde_json::Value;
+    use serde_json::{Value, json};
 
     use super::*;
 
@@ -99,5 +100,29 @@ mod tests {
         assert!(sections.contains_key("body"));
         assert!(sections.contains_key("participants"));
         assert!(sections.contains_key("overview"));
+    }
+
+    #[test]
+    fn process_handles_standard_and_custom_ark_samples_with_mvp_placeholders() {
+        for (mail_id, battle_type, participant_count) in
+            [("16442946168216529525", "Egype", 16), ("45751947179103946211", "diy_egypt", 0)]
+        {
+            let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join(format!("../../../samples/Alliance/Persistent.Mail.{mail_id}.json"));
+            let input: Value = serde_json::from_slice(&fs::read(sample_path).expect("read sample"))
+                .expect("parse sample");
+
+            let processed = process(&input).expect("process sample with MVP placeholders");
+            let output = serde_json::to_value(processed).expect("serialize processed mail");
+
+            assert_eq!(output["metadata"]["mail_id"], mail_id);
+            assert_eq!(output["body"]["battle_type"], battle_type);
+            assert_eq!(output["participants"].as_array().unwrap().len(), participant_count);
+            let overview = output["overview"].as_object().expect("overview object");
+            assert_eq!(overview.len(), 6);
+            for category in overview.values() {
+                assert_eq!(category, &json!({ "alliance_score": 0, "mvp": null }));
+            }
+        }
     }
 }

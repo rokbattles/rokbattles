@@ -1,0 +1,310 @@
+{
+  "addition": "",
+  "attachments": [
+    {
+      "id": 1,
+      "loot": [
+        {
+          "SubType": 29,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 44,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 9999,
+          "Type": 2,
+          "Value": 5
+        },
+        {
+          "SubType": 113,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 50
+        },
+        {
+          "SubType": 405,
+          "Type": 2,
+          "Value": 10
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "kvs": {
+      "AlreadyGetReward": false,
+      "BattleType": "Egype",
+      "FlagCnt": 0,
+      "IsEnroll": true,
+      "OccupyRelocateTowerCnt": 0,
+      "RelocateCnt": 0,
+      "asInfos": [
+        {
+          "Abbr": "-QTW",
+          "AllianceId": 4874324,
+          "IsBlue": true,
+          "Logo": "13_1_18_6_0_0",
+          "MemberMax": 30,
+          "Members": 0,
+          "Name": "FARM_VILLAGE_IDN",
+          "Power": 64010703,
+          "Score": 0,
+          "ServerId": 1828,
+          "isMine": true
+        },
+        {
+          "Abbr": "IDN!",
+          "AllianceId": 1719585,
+          "IsBlue": false,
+          "Logo": "5_10_63_6_0_0",
+          "MemberMax": 30,
+          "Members": 2,
+          "Name": "Imperial D' Nations",
+          "Power": 229848174,
+          "Score": 43039,
+          "ServerId": 724,
+          "isWin": true
+        }
+      ],
+      "gradeId": 0,
+      "isWin": false,
+      "maxBeKilled": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxBuildingScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxFlagScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxGatherScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxHealingScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxKilled": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "myAsId": 4874324,
+      "old_grade": 1,
+      "plyRanks": [
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "Pr1melord",
+          "Score": -1,
+          "rank_index": 1
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "LYyyy",
+          "Score": -1,
+          "rank_index": 2
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "Pr1meCount",
+          "Score": -1,
+          "rank_index": 3
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "SamsudinPsatir",
+          "Score": -1,
+          "rank_index": 4
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "Света0310",
+          "Score": -1,
+          "rank_index": 5
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "WarHammer1",
+          "Score": -1,
+          "rank_index": 6
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "ᴾᴴFumik0",
+          "Score": -1,
+          "rank_index": 7
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "CubanBroF2",
+          "Score": -1,
+          "rank_index": 8
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "Knight5",
+          "Score": -1,
+          "rank_index": 9
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "RealIshowSpeed",
+          "Score": -1,
+          "rank_index": 10
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "jonnix 8 Farm",
+          "Score": -1,
+          "rank_index": 11
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "mistermaske2020",
+          "Score": -1,
+          "rank_index": 12
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "Aralya",
+          "Score": -1,
+          "rank_index": 13
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "Dadehhyy",
+          "Score": -1,
+          "rank_index": 14
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "三通桥",
+          "Score": -1,
+          "rank_index": 15
+        },
+        {
+          "AsAbbr": "-QTW",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "KillScore": 0,
+          "Name": "palakkere",
+          "Score": -1,
+          "rank_index": 16
+        }
+      ]
+    },
+    "param": 1,
+    "subTitle": "Defeat",
+    "title": "Ark of Osiris Battle Results",
+    "type": 14
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "id": "16442946168216529525",
+  "mailScene": 0,
+  "receiver": "player_155019784",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "serverId": 2,
+  "time": 1682165295895159,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}
