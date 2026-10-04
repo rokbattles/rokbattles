@@ -12,14 +12,14 @@ import { Link } from "@/components/ui/link";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { Text } from "@/components/ui/text";
 import { useCommanderOptions } from "@/hooks/use-commander-name";
-import { updatePlannerSelection } from "@/lib/territory/selection";
-import type { PlannedBuilding } from "@/lib/territory/types";
 import { loadMapData } from "@/lib/territory-lab/data";
 import { toggleRoutePass, toggleRouteSite } from "@/lib/territory-lab/routes";
+import { updatePlannerSelection } from "@/lib/territory-lab/selection";
 import { placementError, territorySummary } from "@/lib/territory-lab/territory";
 import {
   type Annotation,
   API,
+  type Building,
   type BuildingKind,
   type Catalog,
   type MapData,
@@ -157,7 +157,7 @@ export default function Editor({
       data && plan.mode === "territory" ? territorySummary(plan, catalog, data, allianceId) : null,
     [plan, catalog, data, allianceId]
   );
-  const locateBuilding = useCallback((building: PlannedBuilding) => {
+  const locateBuilding = useCallback((building: Building) => {
     setSelected(new Set([building.id]));
     controller.current?.locate(building.x, building.y);
     host.current?.scrollIntoView({ block: "center", behavior: "smooth" });

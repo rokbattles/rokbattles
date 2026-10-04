@@ -11,7 +11,7 @@ use rokbattles_api::{
     build_router,
     config::Config,
     db::{
-        GameLocalizationStore, GameQueryStore, MongoAuthStore, ReportsStore, TerritoryPlannerStore,
+        GameLocalizationStore, GameQueryStore, MongoAuthStore, ReportsStore,
         TerritoryPlannerV2Store,
     },
     state::{AppState, DiscordOAuthConfig},
@@ -62,9 +62,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let game_query = GameQueryStore::new(database.clone());
     game_query.ensure_indexes().await?;
 
-    let territory_planner = TerritoryPlannerStore::new(database.clone());
-    territory_planner.ensure_indexes().await?;
-
     let territory_planner_v2 = TerritoryPlannerV2Store::new(database.clone());
     territory_planner_v2.ensure_indexes().await?;
 
@@ -81,7 +78,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         game_query,
         game_localizations,
         reports_store,
-        territory_planner,
         territory_planner_v2,
         discord_oauth,
     ));
