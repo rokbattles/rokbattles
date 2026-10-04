@@ -18,9 +18,10 @@ fn error(message: impl ToString) -> JsValue {
 }
 
 fn decode_overlays(json: &str, maximum: usize) -> Result<Vec<crate::gpu::Overlay>, JsValue> {
-    if json.len() > 4 * 1024 * 1024 {
+    if json.len() > 16 * 1024 * 1024 {
         return Err(error("Overlay payload too large"));
     }
+
     let overlays: Vec<crate::gpu::Overlay> = serde_json::from_str(json).map_err(error)?;
     if overlays.len() > maximum
         || overlays.iter().any(|overlay| {
@@ -107,11 +108,13 @@ impl MapEngine {
     /// # Errors
     ///
     /// Invalid JSON, non-finite geometry, invalid size/style ranges, more than
-    /// 20,000 overlays or a payload larger than 4 MiB leave existing overlays intact.
+    /// 64,000 overlays or a payload larger than 16 MiB leave existing overlays intact.
     pub fn set_overlays(&mut self, json: &str) -> Result<(), JsValue> {
-        let overlays = decode_overlays(json, 20_000)?;
+        let overlays = decode_overlays(json, 64_000)?;
+
         self.gpu.retain_label_images(overlays.iter().map(|overlay| overlay.texture.as_str()));
         self.gpu.overlays = overlays;
+
         Ok(())
     }
 

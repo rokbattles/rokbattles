@@ -31,10 +31,10 @@ use crate::{
 };
 
 const CDN_BASE: &str = "https://cdn.rokbattles.com/game/territory";
-const MAX_BODY_BYTES: usize = 256 * 1024;
-const MAX_ALLIANCES: usize = 16;
+const MAX_BODY_BYTES: usize = 4 * 1024 * 1024;
+const MAX_ALLIANCES: usize = 32;
 const MAX_ANNOTATIONS: usize = 500;
-const MAX_BUILDINGS: usize = 1_000;
+const MAX_BUILDINGS: usize = 10_000;
 const MAX_ROUTES: usize = 5;
 const MAX_ROUTE_SITES: usize = 512;
 const MAX_PASSES: usize = 128;
@@ -638,6 +638,56 @@ mod tests {
     #[test]
     fn validation_should_accept_minimal_plan() {
         validate_plan(&plan(), &catalog()).expect("minimal plan should validate");
+    }
+
+    #[test]
+    fn validation_should_accept_sixteen_alliances_with_five_hundred_flags_each() {
+        let mut value = plan();
+
+        value.alliances = (0..16)
+            .map(|index| PlanAlliance {
+                id: format!("a{index}"),
+                name: format!("A{index}"),
+                color: "#aabbcc".into(),
+            })
+            .collect();
+
+        value.buildings = value
+            .alliances
+            .iter()
+            .flat_map(|alliance| {
+                (0..500).map(|index| PlanBuilding {
+                    id: format!("{}-b{index}", alliance.id),
+                    kind: "flag".into(),
+                    alliance_id: alliance.id.clone(),
+                    x: 10.0,
+                    y: 10.0,
+                })
+            })
+            .collect();
+
+        validate_plan(&value, &catalog())
+            .expect("all alliances' flags should fit in a shared plan");
+        assert!(serde_json::to_vec(&value).unwrap().len() <= MAX_BODY_BYTES);
+    }
+
+    #[test]
+    fn validation_should_reject_buildings_above_the_total_budget() {
+        let mut value = plan();
+        let mut catalog = catalog();
+        catalog.buildings.get_mut("flag").unwrap().limit = 20_000;
+
+        value.buildings = (0..=MAX_BUILDINGS)
+            .map(|index| PlanBuilding {
+                id: format!("b{index}"),
+                kind: "flag".into(),
+                alliance_id: "a1".into(),
+                x: 10.0,
+                y: 10.0,
+            })
+            .collect();
+
+        assert!(validate_plan(&value, &catalog).is_err());
     }
 
     #[test]

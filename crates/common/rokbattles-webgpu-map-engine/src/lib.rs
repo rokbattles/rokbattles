@@ -62,6 +62,8 @@
 //! the `wasm32-unknown-unknown` target and a `wasm-bindgen-cli` version matching the
 //! workspace dependency. WebGPU requires browser support and HTTPS or localhost.
 
+#[cfg(any(target_arch = "wasm32", test))]
+mod batches;
 #[cfg(target_arch = "wasm32")]
 mod browser;
 mod forbidden;
