@@ -79,6 +79,9 @@ impl ReportsStore {
                 .keys(doc! { "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()

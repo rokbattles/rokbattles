@@ -45,6 +45,7 @@ pub(crate) struct ReportsRequest {
     pub filter_type: Option<ReportsFilterType>,
     pub filter_subtype: Option<ReportsFilterSubtype>,
     pub player_id: Option<i64>,
+    pub receiver_id: Option<i64>,
     pub sender_primary_commander_id: Option<i64>,
     pub sender_secondary_commander_id: Option<i64>,
     pub opponent_primary_commander_id: Option<i64>,
@@ -76,6 +77,13 @@ pub(crate) fn parse_reports_request(
         parse_filter_subtype(filter_type, params.get("subtype").map(String::as_str))?;
     let player_id =
         parse_optional_i64(params.get("pid").map(String::as_str), "Invalid governor id")?;
+    let receiver_id = parse_optional_i64(
+        params.get("receiver").map(String::as_str),
+        "Invalid receiver governor id",
+    )?;
+    if receiver_id.is_some_and(|id| id <= 0) {
+        return Err(ApiError::bad_request("Invalid receiver governor id"));
+    }
     let sender_primary_commander_id = parse_optional_i64(
         params.get("spc").map(String::as_str),
         "Invalid sender primary commander id",
@@ -114,6 +122,7 @@ pub(crate) fn parse_reports_request(
         filter_type,
         filter_subtype,
         player_id,
+        receiver_id,
         sender_primary_commander_id,
         sender_secondary_commander_id,
         opponent_primary_commander_id,
@@ -221,6 +230,29 @@ fn selection_has_side(selection: ReportsFilterSide, side: ReportsFilterSide) -> 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn parses_receiver_governor_id_separately_from_participant() {
+        let parsed = parse_reports_request(&FxHashMap::from_iter([(
+            "receiver".to_string(),
+            "123".to_string(),
+        )]))
+        .expect("valid receiver");
+
+        assert_eq!(parsed.receiver_id, Some(123));
+        assert_eq!(parsed.player_id, None);
+    }
+
+    #[test]
+    fn rejects_invalid_receiver_governor_id() {
+        for value in ["", "abc", "player_123", "0", "-1", "9223372036854775808"] {
+            parse_reports_request(&FxHashMap::from_iter([(
+                "receiver".to_string(),
+                value.to_string(),
+            )]))
+            .expect_err("invalid receiver should be rejected");
+        }
+    }
 
     #[test]
     fn parses_filter_side() {
