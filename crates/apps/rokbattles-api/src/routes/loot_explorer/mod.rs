@@ -370,7 +370,7 @@ impl From<RawBaulurDocument> for BaulurDocument {
 #[derive(Debug, Clone, Deserialize)]
 struct RawKaruakCeremonyDocument {
     kind: i32,
-    loot: Vec<LootDrop>,
+    slots: Vec<KaruakCeremonySlot>,
     totals: KaruakCeremonyTotals,
     refreshed_at: DateTime,
 }
@@ -379,7 +379,7 @@ struct RawKaruakCeremonyDocument {
 #[serde(rename_all = "camelCase")]
 struct KaruakCeremonyDocument {
     kind: i32,
-    loot: Vec<LootDrop>,
+    slots: Vec<KaruakCeremonySlot>,
     totals: KaruakCeremonyTotals,
     refreshed_at: String,
 }
@@ -388,7 +388,7 @@ impl From<RawKaruakCeremonyDocument> for KaruakCeremonyDocument {
     fn from(value: RawKaruakCeremonyDocument) -> Self {
         Self {
             kind: value.kind,
-            loot: value.loot,
+            slots: value.slots,
             totals: value.totals,
             refreshed_at: date_time_to_string(value.refreshed_at),
         }
@@ -468,6 +468,18 @@ struct BaulurTotals {
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct KaruakCeremonyTotals {
     results: i64,
+    reports: i64,
+    duplicate_reports: i64,
+    empty_results: i64,
+    unmatched_results: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct KaruakCeremonySlot {
+    slot: i32,
+    results: i64,
+    loot: Vec<LootDrop>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -548,8 +560,9 @@ mod tests {
     use rustc_hash::FxHashMap;
 
     use super::{
-        BaulurDocument, KaharTreasureDocument, RawBaulurDocument, RawKaharTreasureDocument,
-        parse_kind_request, parse_level_request,
+        BaulurDocument, KaharTreasureDocument, KaruakCeremonyDocument, RawBaulurDocument,
+        RawKaharTreasureDocument, RawKaruakCeremonyDocument, parse_kind_request,
+        parse_level_request,
     };
 
     #[test]
@@ -635,5 +648,57 @@ mod tests {
         assert!(slot.get("receiveRate").is_none());
         assert!(json.get("resourcePool").is_some());
         assert!(json.get("lootPools").is_none());
+    }
+
+    #[test]
+    fn karuak_document_serializes_slots_and_excluded_result_counts() {
+        let raw = from_document::<RawKaruakCeremonyDocument>(doc! {
+            "kind": 30_005,
+            "slots": (1..=5).map(|slot| doc! {
+                "slot": slot, "results": 2_i64,
+                "loot": [{
+                    "type": 2, "sub_type": 147,
+                    "results": 2_i64, "drop_rate": 1.0,
+                    "quantity": { "min": 30_i64, "max": 30_i64 },
+                    "total_quantity": 60_i64, "average_quantity": 30.0,
+                }],
+            }).collect::<Vec<_>>(),
+            "totals": {
+                "results": 2_i64, "reports": 3_i64, "duplicate_reports": 1_i64,
+                "empty_results": 1_i64, "unmatched_results": 0_i64,
+            },
+            "refreshed_at": DateTime::from_millis(1_783_480_000_000),
+        })
+        .expect("raw Karuak document");
+
+        let json = serde_json::to_value(KaruakCeremonyDocument::from(raw)).expect("API JSON");
+        let slots = json.get("slots").and_then(serde_json::Value::as_array).expect("slots");
+
+        assert_eq!(slots.len(), 5);
+
+        for (index, slot) in slots.iter().enumerate() {
+            assert_eq!(slot.get("slot"), Some(&serde_json::json!(index + 1)));
+            assert_eq!(slot.get("results"), Some(&serde_json::json!(2)));
+
+            let loot = slot.get("loot").and_then(serde_json::Value::as_array).expect("loot");
+            let item = loot.first().expect("item");
+
+            assert_eq!(item.get("subType"), Some(&serde_json::json!(147)));
+            assert_eq!(item.get("dropRate"), Some(&serde_json::json!(1.0)));
+            assert_eq!(item.get("totalQuantity"), Some(&serde_json::json!(60)));
+            assert!(slot.get("noItemRate").is_none());
+        }
+
+        let totals = json.get("totals").expect("totals");
+        assert_eq!(totals.get("duplicateReports"), Some(&serde_json::json!(1)));
+        assert_eq!(totals.get("emptyResults"), Some(&serde_json::json!(1)));
+        assert_eq!(totals.get("unmatchedResults"), Some(&serde_json::json!(0)));
+
+        assert!(json.get("loot").is_none());
+        assert!(
+            json.get("refreshedAt")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|date| date.starts_with("2026-07-08T"))
+        );
     }
 }

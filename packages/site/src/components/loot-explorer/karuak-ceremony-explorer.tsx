@@ -13,12 +13,12 @@ import { LootTable } from "./loot-table";
 
 export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string }) {
   const t = useExtracted();
-  const locale = useLocale();
   const [items, setItems] = useState<KaruakCeremonyLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     let ignore = false;
+
     fetchLootExplorerItems<KaruakCeremonyLootDocument>("karuak-ceremony")
       .then((response) => {
         if (!ignore) {
@@ -29,6 +29,7 @@ export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string
       .catch(() => {
         if (!ignore) setStatus("error");
       });
+
     return () => {
       ignore = true;
     };
@@ -39,6 +40,7 @@ export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string
       <LootExplorerStatus active="karuak-ceremony" message={t("Loading loot explorer data...")} />
     );
   }
+
   if (status === "error") {
     return (
       <LootExplorerStatus
@@ -48,8 +50,22 @@ export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string
     );
   }
 
+  return <KaruakCeremonyExplorerContent items={items} selectedType={selectedType} />;
+}
+
+export function KaruakCeremonyExplorerContent({
+  items,
+  selectedType,
+}: {
+  items: KaruakCeremonyLootDocument[];
+  selectedType?: string;
+}) {
+  const t = useExtracted();
+  const locale = useLocale();
+
   const boss = findKaruakBoss(selectedType, items);
   const item = items.find((candidate) => candidate.kind === boss.kind);
+
   const labels = new Map([
     ["bladefist-andaal", t("Bladefist Andaal")],
     ["bearkeeper-lukor", t("Bearkeeper Lukor")],
@@ -72,10 +88,14 @@ export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string
         generatedAt={item?.refreshedAt}
         items={[{ label: t("Results"), value: item?.totals.results ?? 0 }]}
       />
-      <section className="space-y-3">
-        <Subheading>{labels.get(boss.key) ?? boss.label}</Subheading>
-        <LootTable loot={item?.loot ?? []} locale={locale} />
-      </section>
+      <div className="space-y-8">
+        {item?.slots.map((slot) => (
+          <section key={slot.slot} className="space-y-3">
+            <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
+            <LootTable loot={slot.loot} locale={locale} />
+          </section>
+        ))}
+      </div>
     </LootExplorerLayout>
   );
 }
