@@ -17,6 +17,10 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.push(doc! { "metadata.mail_time": { "$lt": after_cursor } });
     }
 
+    if let Some(receiver_id) = request.receiver_id {
+        match_pipeline.push(doc! { "metadata.mail_receiver": format!("player_{receiver_id}") });
+    }
+
     if let Some(player_id) = request.player_id {
         match_pipeline.push(doc! {
             "$or": [
@@ -245,6 +249,48 @@ mod tests {
 
     use super::*;
     use crate::routes::reports::battle::query::parse_reports_request;
+
+    #[test]
+    fn receiver_filter_selects_only_the_governors_received_reports() {
+        let request = parse_reports_request(&FxHashMap::from_iter([
+            ("receiver".to_string(), "123".to_string()),
+            ("after".to_string(), "456".to_string()),
+        ]))
+        .expect("valid receiver filter");
+
+        assert_eq!(
+            build_reports_match(&request),
+            doc! {
+                "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    { "opponents.player_id": { "$gt": 0 } },
+                    { "metadata.mail_time": { "$lt": 456_i64 } },
+                    { "metadata.mail_receiver": "player_123" },
+                ]
+            }
+        );
+    }
+
+    #[test]
+    fn public_player_filter_still_matches_either_participant() {
+        let request =
+            parse_reports_request(&FxHashMap::from_iter([("pid".to_string(), "123".to_string())]))
+                .expect("valid player filter");
+
+        assert_eq!(
+            build_reports_match(&request),
+            doc! {
+                "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    { "opponents.player_id": { "$gt": 0 } },
+                    { "$or": [
+                        { "sender.player_id": 123_i64 },
+                        { "opponents.player_id": 123_i64 },
+                    ] },
+                ]
+            }
+        );
+    }
 
     #[test]
     fn home_filter_matches_non_kvk_non_dungeon_non_strife_reports() {

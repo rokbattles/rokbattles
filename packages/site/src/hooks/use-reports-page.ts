@@ -100,7 +100,8 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       const query = buildReportsQueryParams({
         after,
         before,
-        playerId,
+        playerId: scope === "mine" ? undefined : playerId,
+        receiverId: scope === "mine" ? playerId : undefined,
         type,
         subtype,
         senderPrimaryCommanderId,
@@ -134,6 +135,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       garrisonSide,
       garrisonBuildingType,
       t,
+      scope,
     ]
   );
 

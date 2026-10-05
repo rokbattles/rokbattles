@@ -134,6 +134,7 @@ fn battle_list_index_hint(request: &ReportsRequest) -> Option<Hint> {
     }
 
     if request.player_id.is_some()
+        || request.receiver_id.is_some()
         || request.sender_primary_commander_id.is_some()
         || request.sender_secondary_commander_id.is_some()
         || request.opponent_primary_commander_id.is_some()
@@ -199,6 +200,7 @@ fn battle_list_index_hint(request: &ReportsRequest) -> Option<Hint> {
 fn should_hint_home_partial_index(request: &ReportsRequest) -> bool {
     matches!(request.filter_type, Some(ReportsFilterType::Home))
         && request.player_id.is_none()
+        && request.receiver_id.is_none()
         && request.sender_primary_commander_id.is_none()
         && request.sender_secondary_commander_id.is_none()
         && request.opponent_primary_commander_id.is_none()
@@ -473,6 +475,36 @@ mod tests {
         .expect("valid KVK player filter");
 
         assert!(build_battle_list_find_options(&request).hint.is_none());
+    }
+
+    #[test]
+    fn receiver_list_options_allow_receiver_index_with_filters_and_pagination() {
+        for (parameter, value) in [
+            ("type", "home"),
+            ("type", "kvk"),
+            ("rs", "sender"),
+            ("gs", "sender"),
+            ("gs", "opponent"),
+        ] {
+            for cursor in ["before", "after"] {
+                let request = parse_reports_request(&FxHashMap::from_iter([
+                    ("receiver".to_string(), "123".to_string()),
+                    (parameter.to_string(), value.to_string()),
+                    (cursor.to_string(), "456".to_string()),
+                ]))
+                .expect("valid receiver query");
+
+                let options = build_battle_list_find_options(&request);
+
+                assert!(options.hint.is_none());
+                assert!(options.min.is_none());
+                assert!(options.max.is_none());
+                assert_eq!(
+                    options.sort,
+                    Some(doc! { "metadata.mail_time": if cursor == "before" { 1 } else { -1 } })
+                );
+            }
+        }
     }
 
     #[test]

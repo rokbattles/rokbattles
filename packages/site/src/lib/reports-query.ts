@@ -9,6 +9,7 @@ export type ReportsQueryParams = {
   after?: string;
   before?: string;
   playerId?: number;
+  receiverId?: number;
   type?: ReportsFilterType;
   subtype?: ReportsFilterSubtype;
   senderPrimaryCommanderId?: number;
@@ -24,6 +25,7 @@ export function buildReportsQueryParams({
   after,
   before,
   playerId,
+  receiverId,
   type,
   subtype,
   senderPrimaryCommanderId,
@@ -43,6 +45,9 @@ export function buildReportsQueryParams({
   }
   if (typeof playerId === "number" && Number.isFinite(playerId)) {
     params.set("pid", String(playerId));
+  }
+  if (typeof receiverId === "number" && Number.isFinite(receiverId)) {
+    params.set("receiver", String(receiverId));
   }
   if (type) params.set("type", type);
   if (subtype && (type === "kvk" || type === "ark")) params.set("subtype", subtype);
