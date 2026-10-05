@@ -2,8 +2,8 @@
 //!
 //! Output categories cover Ark, occupation, severely wounded, provisions, healing,
 //! and kill scores. Each object requires numeric `AsScore`. An absent `PlyScore`
-//! yields a null MVP; if present, it must be an object with `PlyId`, `Name`, and
-//! `Score`. In particular, explicit null does not count as an absent MVP object.
+//! or a placeholder with `Name: "-"`, zero `Score`, and no `PlyId` yields a null
+//! MVP. Other entries require `PlyId`, `Name`, and `Score`; explicit null is invalid.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
@@ -53,9 +53,15 @@ impl Extractor for OverviewExtractor {
 fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Value, ExtractError> {
     let category = require_child_object(kvs, field)?;
     let alliance_score = require_number_field(category, "AsScore")?;
-    // Only an absent key means no MVP; a present null or empty object is invalid.
     let mvp = match category.get("PlyScore") {
         None => Value::Null,
+        Some(ply_score)
+            if ply_score.get("PlyId").is_none()
+                && ply_score.get("Name").and_then(Value::as_str) == Some("-")
+                && ply_score.get("Score").and_then(Value::as_f64) == Some(0.0) =>
+        {
+            Value::Null
+        }
         Some(ply_score) => {
             let ply_score = ply_score
                 .as_object()
@@ -205,6 +211,65 @@ mod tests {
         assert!(fields["gather_score"]["mvp"].is_null());
         assert!(fields["healing_score"]["mvp"].is_null());
         assert!(fields["killed_score"]["mvp"].is_null());
+    }
+
+    #[test]
+    fn category_treats_placeholder_player_as_no_mvp() {
+        for score in [json!(0), json!(0.0)] {
+            let input = json!({
+                "maxFlagScore": { "AsScore": 0, "PlyScore": { "Name": "-", "Score": score } }
+            });
+
+            let category = extract_category(input.as_object().unwrap(), "maxFlagScore").unwrap();
+
+            assert_eq!(category, json!({ "alliance_score": 0, "mvp": null }));
+        }
+    }
+
+    #[test]
+    fn category_preserves_identified_player_with_placeholder_name_and_zero_score() {
+        let input = json!({
+            "maxFlagScore": {
+                "AsScore": 0,
+                "PlyScore": { "PlyId": 42, "Name": "-", "Score": 0 }
+            }
+        });
+
+        let category = extract_category(input.as_object().unwrap(), "maxFlagScore").unwrap();
+
+        assert_eq!(category["mvp"], json!({ "player_id": 42, "player_name": "-", "score": 0 }));
+    }
+
+    #[test]
+    fn category_requires_player_id_for_non_placeholder_objects() {
+        for ply_score in [
+            json!({}),
+            json!({ "Name": "Player", "Score": 0 }),
+            json!({ "Name": "-", "Score": 1 }),
+            json!({ "Name": "-", "Score": -1 }),
+            json!({ "Name": "-", "Score": "0" }),
+            json!({ "Name": "-" }),
+        ] {
+            let input = json!({ "maxFlagScore": { "AsScore": 0, "PlyScore": ply_score } });
+
+            let error = extract_category(input.as_object().unwrap(), "maxFlagScore").unwrap_err();
+
+            assert!(matches!(error, ExtractError::MissingField { field: "PlyId" }));
+        }
+    }
+
+    #[test]
+    fn category_rejects_placeholder_with_null_player_id() {
+        let input = json!({
+            "maxFlagScore": {
+                "AsScore": 0,
+                "PlyScore": { "PlyId": null, "Name": "-", "Score": 0 }
+            }
+        });
+
+        let error = extract_category(input.as_object().unwrap(), "maxFlagScore").unwrap_err();
+
+        assert!(matches!(error, ExtractError::InvalidFieldType { field: "PlyId", .. }));
     }
 
     #[test]

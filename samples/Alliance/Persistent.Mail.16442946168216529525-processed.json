@@ -1,0 +1,205 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": "-QTW",
+        "id": 4874324,
+        "logo": "13_1_18_6_0_0",
+        "name": "FARM_VILLAGE_IDN"
+      },
+      "is_blue": true,
+      "members": 0,
+      "members_max": 30,
+      "power": 64010703,
+      "score": 0,
+      "server_id": 1828,
+      "team": null
+    },
+    {
+      "alliance": {
+        "abbreviation": "IDN!",
+        "id": 1719585,
+        "logo": "5_10_63_6_0_0",
+        "name": "Imperial D' Nations"
+      },
+      "is_blue": false,
+      "members": 2,
+      "members_max": 30,
+      "power": 229848174,
+      "score": 43039,
+      "server_id": 724,
+      "team": null
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 4874324
+    },
+    "battle_type": "Egype",
+    "param": 1,
+    "type": 14,
+    "win": false
+  },
+  "metadata": {
+    "mail_id": "16442946168216529525",
+    "mail_receiver": "player_155019784",
+    "mail_time": 1682165295895159,
+    "server_id": 2
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "building_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "flag_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "gather_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "healing_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "killed_score": {
+      "alliance_score": 0,
+      "mvp": null
+    }
+  },
+  "participants": [
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Pr1melord"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "LYyyy"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Pr1meCount"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "SamsudinPsatir"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Света0310"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "WarHammer1"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "ᴾᴴFumik0"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "CubanBroF2"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Knight5"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "RealIshowSpeed"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "jonnix 8 Farm"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "mistermaske2020"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Aralya"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Dadehhyy"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "三通桥"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "palakkere"
+    }
+  ]
+}

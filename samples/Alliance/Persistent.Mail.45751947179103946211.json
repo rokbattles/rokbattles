@@ -1,0 +1,110 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "diy_egypt",
+      "BossEnable": 1,
+      "BossScore": 0,
+      "BossWinCnt": 0,
+      "FlagCnt": 0,
+      "IsEnroll": true,
+      "OccupyRelocateTowerCnt": 0,
+      "RelocateCnt": 0,
+      "asInfos": [
+        {
+          "AllianceId": 1,
+          "IsBlue": true,
+          "MemberMax": 30,
+          "Members": 0,
+          "Name": "",
+          "Score": 0
+        },
+        {
+          "AllianceId": 2,
+          "IsBlue": false,
+          "MemberMax": 30,
+          "Members": 0,
+          "Name": "",
+          "Score": 0,
+          "isMine": true
+        }
+      ],
+      "isWin": false,
+      "maxBeKilled": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxBuildingScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxFlagScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxGatherScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxHealingScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "maxKilled": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Name": "-",
+          "Score": 0
+        }
+      },
+      "myAsId": 2,
+      "old_grade": 1,
+      "plyRanks": []
+    },
+    "param": 1,
+    "subTitle": "Porażka",
+    "title": "Rezultat niestandardowego starcia Arki Ozyrysa",
+    "type": 14
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "45751947179103946211",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_26063425",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 5,
+  "starMark": 0,
+  "time": 1791039462972176,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}
