@@ -20,6 +20,7 @@ rokbattles-bson = { path = "../../common/rokbattles-bson" }
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
 sha2.workspace = true
+subtle.workspace = true
 thiserror.workspace = true
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net"] }
 tracing.workspace = true

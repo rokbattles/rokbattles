@@ -11,6 +11,7 @@ pub struct Config {
     pub discord_client_secret: String,
     pub discord_redirect_uri: String,
     pub sentry_dsn: Option<String>,
+    pub pk_token: Option<String>,
 }
 
 /// Errors for missing or invalid config.
@@ -36,6 +37,7 @@ impl Config {
         let discord_client_secret = required(&lookup, "DISCORD_CLIENT_SECRET")?;
         let discord_redirect_uri = required(&lookup, "DISCORD_REDIRECT_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
+        let pk_token = lookup("PK_TOKEN").filter(|value| !value.trim().is_empty());
 
         Ok(Self {
             bind_addr,
@@ -44,6 +46,7 @@ impl Config {
             discord_client_secret,
             discord_redirect_uri,
             sentry_dsn,
+            pk_token,
         })
     }
 }
@@ -81,6 +84,7 @@ mod tests {
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
         assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
         assert_eq!(cfg.sentry_dsn, None);
+        assert_eq!(cfg.pk_token, None);
     }
 
     #[test]
@@ -95,6 +99,24 @@ mod tests {
         .expect("config");
 
         assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
+    }
+
+    #[test]
+    fn loads_pk_token_and_disables_access_for_blank_values() {
+        for (token, expected) in
+            [("partner-secret", Some("partner-secret")), ("", None), ("  ", None)]
+        {
+            let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+                ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+                ("DISCORD_CLIENT_ID", "client"),
+                ("DISCORD_CLIENT_SECRET", "secret"),
+                ("DISCORD_REDIRECT_URI", "https://example.com/callback"),
+                ("PK_TOKEN", token),
+            ])))
+            .expect("config");
+
+            assert_eq!(cfg.pk_token.as_deref(), expected);
+        }
     }
 
     #[test]

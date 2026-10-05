@@ -80,6 +80,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         reports_store,
         territory_planner_v2,
         discord_oauth,
+        config.pk_token,
     ));
     let app = build_router(state);
 
