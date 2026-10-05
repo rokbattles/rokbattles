@@ -21,6 +21,7 @@ pub struct AppState {
     pub reports_store: ReportsStore,
     pub territory_planner_v2: TerritoryPlannerV2Store,
     pub discord_oauth: DiscordOAuthConfig,
+    pub(crate) pk_token: Option<String>,
 }
 
 impl AppState {
@@ -32,6 +33,7 @@ impl AppState {
         reports_store: ReportsStore,
         territory_planner_v2: TerritoryPlannerV2Store,
         discord_oauth: DiscordOAuthConfig,
+        pk_token: Option<String>,
     ) -> Self {
         Self {
             auth_store,
@@ -40,6 +42,7 @@ impl AppState {
             reports_store,
             territory_planner_v2,
             discord_oauth,
+            pk_token,
         }
     }
 }

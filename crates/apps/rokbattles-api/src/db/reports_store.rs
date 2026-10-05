@@ -73,6 +73,9 @@ impl ReportsStore {
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let models = vec![
             IndexModel::builder()
+                .keys(doc! { "metadata.server_id": 1, "metadata.mail_time": 1, "_id": 1 })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()

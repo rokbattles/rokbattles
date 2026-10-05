@@ -1,6 +1,9 @@
 use std::sync::Arc;
 
-use axum::{Router, routing::get};
+use axum::{
+    Router,
+    routing::{get, post},
+};
 
 use crate::state::AppState;
 
@@ -10,6 +13,7 @@ mod game;
 mod governor;
 mod health;
 mod loot_explorer;
+mod pk;
 mod reports;
 pub(crate) mod territory_planner_v2;
 
@@ -35,6 +39,7 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
+        .route("/pk/battle-reports", post(pk::battle_reports))
         .route("/global/loot-explorer/barbarians", get(loot_explorer::get_barbarians))
         .route("/global/loot-explorer/barbarian-forts", get(loot_explorer::get_barbarian_forts))
         .route("/global/loot-explorer/baulurs", get(loot_explorer::get_baulurs))
