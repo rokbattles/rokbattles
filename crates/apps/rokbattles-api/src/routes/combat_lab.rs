@@ -169,7 +169,12 @@ pub async fn get_rankings(
     State(state): State<Arc<AppState>>,
     Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    rankings_response(state.reports_store.precomputed_drastc_collection(), &params).await
+    rankings_response(
+        state.reports_store.precomputed_drastc_collection(),
+        &params,
+        doc! { "drastc.confidence.score": { "$gte": 4.0 } },
+    )
+    .await
 }
 
 /// Return pre-SoC DRASTC rankings.
@@ -177,17 +182,19 @@ pub async fn get_rankings_presoc(
     State(state): State<Arc<AppState>>,
     Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    rankings_response(state.reports_store.precomputed_drastc_presoc_collection(), &params).await
+    rankings_response(state.reports_store.precomputed_drastc_presoc_collection(), &params, doc! {})
+        .await
 }
 
 async fn rankings_response(
     collection: &Collection<Document>,
     params: &FxHashMap<String, String>,
+    filter: Document,
 ) -> Result<impl IntoResponse + use<>, ApiError> {
     let request = parse_rankings_request(params)?;
     let collection = collection.clone_with_type::<RawCombatLabRankingDocument>();
     let cursor = collection
-        .find(doc! {})
+        .find(filter)
         .with_options(rankings_find_options(request))
         .await
         .map_err(internal_mongo)?;
