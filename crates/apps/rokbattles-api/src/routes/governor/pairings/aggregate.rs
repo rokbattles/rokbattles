@@ -77,7 +77,7 @@ pub(crate) fn aggregate_pairings(
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
-    finalize_totals(&mut items, |item| (&mut item.totals, item.count));
+    finalize_totals(&mut items, |item| &mut item.totals);
     sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
     items
 }
@@ -120,7 +120,7 @@ pub(crate) fn aggregate_loadouts(
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
-    finalize_totals(&mut items, |item| (&mut item.totals, item.count));
+    finalize_totals(&mut items, |item| &mut item.totals);
     sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
     items
 }
@@ -179,7 +179,7 @@ pub(crate) fn aggregate_opponents(
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
-    finalize_totals(&mut items, |item| (&mut item.totals, item.count));
+    finalize_totals(&mut items, |item| &mut item.totals);
     sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
     items
 }
@@ -307,20 +307,11 @@ fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, batt
     totals.sps += delta.enemy_severely_wounded;
     totals.tps += delta.severely_wounded;
     totals.battle_duration += battle_duration;
-    totals.trade_percent_total += if delta.kill_score == delta.enemy_kill_score {
-        100
-    } else if delta.enemy_kill_score <= 0 {
-        0
-    } else {
-        ((delta.kill_score as f64 / delta.enemy_kill_score as f64) * 100.0).round() as i64
-    };
 }
 
-fn finalize_totals<T>(items: &mut [T], lookup: impl Fn(&mut T) -> (&mut PairingTotals, i64)) {
+fn finalize_totals<T>(items: &mut [T], lookup: impl Fn(&mut T) -> &mut PairingTotals) {
     for item in items {
-        let (totals, count) = lookup(item);
-        totals.trade_percent =
-            if count > 0 { totals.trade_percent_total as f64 / count as f64 } else { 0.0 };
+        let totals = lookup(item);
         totals.weighted_trade_percent =
             compute_trade_percent(totals.kill_score, totals.enemy_kill_score);
         totals.hps = if totals.battle_duration > 0 {
@@ -654,11 +645,12 @@ mod tests {
         assert_eq!(first.totals.enemy_atk_power_loss, -500);
         assert_eq!(first.totals.enemy_skill_power_loss, -700);
         assert_eq!(first.totals.dps, 48);
-        assert!((first.totals.trade_percent - 125.0).abs() < 1e-9);
         assert!((first.totals.weighted_trade_percent - 80.0).abs() < 1e-9);
         assert!((first.totals.hps - 5.0).abs() < 1e-9);
 
         let serialized = to_document(&first.totals).expect("serialized pairing totals");
+        assert!(!serialized.contains_key("tradePercent"));
+        assert_eq!(serialized.get_f64("weightedTradePercent"), Ok(80.0));
         assert_eq!(serialized.get_i64("powerLoss"), Ok(-600));
         assert_eq!(serialized.get_i64("atkPowerLoss"), Ok(-200));
         assert_eq!(serialized.get_i64("skillPowerLoss"), Ok(-400));

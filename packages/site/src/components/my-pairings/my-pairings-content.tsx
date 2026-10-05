@@ -296,57 +296,49 @@ export function MyPairingsContent() {
     return [
       {
         id: "battles",
-        name: t("Battles"),
+        name: t("Battle reports"),
         value: formatNumber(selectedLoadoutCard.count),
         description: t("Total battle reports recorded for this loadout."),
       },
       {
         id: "killPoints",
-        name: t("Kill Points"),
+        name: t("Kill points gained"),
         value: formatNumber(selectedLoadoutCard.totals.killScore),
         description: t("Total kill points earned while using this pairing."),
       },
       {
         id: "enemyKillPoints",
-        name: t("Opponent Kill Points"),
+        name: t("Kill points lost"),
         value: formatNumber(selectedLoadoutCard.totals.enemyKillScore),
         description: t("Total kill points earned by opponents against this pairing."),
       },
       {
         id: "severelyWounded",
-        name: t("Severely Wounded (Taken)"),
+        name: t("Severely wounded taken"),
         value: formatNumber(selectedLoadoutCard.totals.severelyWounded),
         description: t("Number of troops that became severely wounded while using this pairing."),
       },
       {
         id: "enemySeverelyWounded",
-        name: t("Severely Wounded (Inflicted)"),
+        name: t("Severely wounded inflicted"),
         value: formatNumber(selectedLoadoutCard.totals.enemySeverelyWounded),
         description: t("Number of opponent troops this pairing caused to become severely wounded."),
       },
       {
         id: "avgDuration",
-        name: t("Avg. Battle Duration"),
+        name: t("Avg. battle duration"),
         value: formatDurationSeconds(avgDurationSeconds),
         description: t("Average battle duration for this pairing."),
       },
       {
-        id: "avgTradePercent",
-        name: t("Avg. Trade Percentage"),
-        value: formatPercent(selectedLoadoutCard.totals.tradePercent),
-        description: t(
-          "Each battle's kill points gained divided by kill points lost, then averaged across battles."
-        ),
-      },
-      {
         id: "weightedTradePercent",
-        name: t("Weighted Trade Percentage"),
+        name: t("Trade percentage"),
         value: formatPercent(selectedLoadoutCard.totals.weightedTradePercent),
         description: t("Total kill points gained divided by total kill points lost."),
       },
       {
         id: "dps",
-        name: t("Damage Per Second (DPS)"),
+        name: t("Damage per second (DPS)"),
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
         ),
@@ -354,7 +346,7 @@ export function MyPairingsContent() {
       },
       {
         id: "sps",
-        name: t("Sevs Per Second (SPS)"),
+        name: t("Sevs per second (SPS)"),
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
         ),
@@ -364,7 +356,7 @@ export function MyPairingsContent() {
       },
       {
         id: "tps",
-        name: t("Sevs Taken Per Second (TPS)"),
+        name: t("Sevs taken per second (TPS)"),
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
         ),
@@ -374,7 +366,7 @@ export function MyPairingsContent() {
       },
       {
         id: "hps",
-        name: t("Healing Per Second (HPS)"),
+        name: t("Healing per second (HPS)"),
         value: formatPerSecond(selectedLoadoutCard.totals.hps),
         description: t("Average healing performed per second while using this pairing."),
       },
