@@ -258,6 +258,7 @@ msgstr "#"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "goGXET"
 msgid "Pairing"
 msgstr "Ghép cặp"
@@ -274,8 +275,6 @@ msgid "Kill Count"
 msgstr "Số Lượng Tiêu Diệt"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
@@ -727,12 +726,14 @@ msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "a8wkKu"
 msgid "Severely wounded inflicted"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "nHRTeq"
 msgid "Severely wounded taken"
 msgstr ""
@@ -754,6 +755,7 @@ msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "RwXuHc"
 msgid "Trade percentage"
 msgstr ""
@@ -1247,41 +1249,51 @@ msgid "Combat breakdown"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "H3G-_A"
 msgid "Battle reports"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "T6fLvD"
 msgid "Kill points gained"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "4dEukv"
 msgid "Kill points lost"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "PI-sR4"
 msgid "Avg. battle duration"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "pTywiR"
 msgid "Damage per second (DPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "X5d0pn"
 msgid "Sevs per second (SPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "LgMoVb"
 msgid "Sevs taken per second (TPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "gl_xty"
 msgid "Healing per second (HPS)"
 msgstr ""
@@ -1664,14 +1676,6 @@ msgid "Loadout {index}"
 msgstr "Thanh trang bị {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/olympian-arena/olympian-arena-row.tsx
-#: src/components/reports/reports-table-row.tsx
-msgctxt "9bVtCz"
-msgid "Battles"
-msgstr "Trận chiến"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "B4KaVd"
 msgid "Total battle reports recorded for this loadout."
 msgstr "Tổng số trận chiến được ghi nhận cho thanh trang bị này."
@@ -1682,20 +1686,9 @@ msgid "Total kill points earned while using this pairing."
 msgstr "Tổng điểm tiêu diệt nhận được khi sử dụng bộ ghép cặp này."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "nGp3S1"
-msgid "Opponent Kill Points"
-msgstr "Điểm tiêu diệt của đối phương"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "rD9xWZ"
 msgid "Total kill points earned by opponents against this pairing."
 msgstr "Tổng điểm tiêu diệt nhận được khi sử dụng cặp này."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "04DUsx"
-msgid "Severely Wounded (Taken)"
-msgstr "Đơn vị bị thương nặng (Nhận vào)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "SDG3OT"
@@ -1703,19 +1696,9 @@ msgid "Number of troops that became severely wounded while using this pairing."
 msgstr "Số đơn vị của bạn bị thương nặng khi sử dụng cặp này."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "87sFXA"
-msgid "Severely Wounded (Inflicted)"
-msgstr "Đơn vị bị thương nặng (Gây ra)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "OZfiOO"
 msgid "Number of opponent troops this pairing caused to become severely wounded."
 msgstr "Số quân đối phương bị thương nặng do bạn gây ra khi sử dụng cặp này."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "8RNVtf"
-msgid "Avg. Battle Duration"
-msgstr "Thời lượng trung bình của trận đấu"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "adRA-N"
@@ -1723,29 +1706,9 @@ msgid "Average battle duration for this pairing."
 msgstr "Thời lượng trận chiến trung bình cho cặp này."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "j80Jf5"
-msgid "Avg. Trade Percentage"
-msgstr "Tỉ lệ trao đổi trung bình (%)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "rsO25J"
-msgid "Each battle's kill points gained divided by kill points lost, then averaged across battles."
-msgstr "Lấy điểm tiêu diệt nhận được chia cho điểm tiêu diệt bị mất trong mỗi trận đấu, sau đó tính giá trị trung bình qua các trận."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "WkJcLb"
-msgid "Weighted Trade Percentage"
-msgstr "Tỷ lệ trao đổi có trọng số (%)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "pckGja"
 msgid "Total kill points gained divided by total kill points lost."
 msgstr "Tổng điểm tiêu diệt nhận được chia cho điểm tiêu diệt bị mất."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "jVC9W_"
-msgid "Damage Per Second (DPS)"
-msgstr "Sát thương mỗi giây (DPS)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "cgKoQG"
@@ -1753,29 +1716,14 @@ msgid "Average damage inflicted per second while using this pairing."
 msgstr "Lượng sát thương trung bình gây ra mỗi giây khi sử dụng sự kết hợp này."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "lsS3Jr"
-msgid "Sevs Per Second (SPS)"
-msgstr "Thương nặng mỗi giây (SPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "-6NJWI"
 msgid "Average severely wounded troops inflicted per second while using this pairing."
 msgstr "Số lượng đơn vị bị thương nặng gây ra mỗi giây khi sử dụng cặp này."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "CY224M"
-msgid "Sevs Taken Per Second (TPS)"
-msgstr "Thương nặng nhận vào mỗi giây (TPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "siJBnS"
 msgid "Average severely wounded troops taken per second while using this pairing."
 msgstr "Số lượng đơn vị bị thương nặng nhận vào trung bình mỗi giây khi sử dụng cặp này."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "5LIA_9"
-msgid "Healing Per Second (HPS)"
-msgstr "Chữa lành mỗi giây"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "6pYaNr"
@@ -1890,9 +1838,11 @@ msgid "No enemy pairings found for this selection."
 msgstr "Không có bộ ghép cặp của đối phương cho lựa chọn này."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "cSiC2v"
-msgid "Opponent pairing"
-msgstr "Bộ ghép cặp"
+#: src/components/olympian-arena/olympian-arena-row.tsx
+#: src/components/reports/reports-table-row.tsx
+msgctxt "9bVtCz"
+msgid "Battles"
+msgstr "Trận chiến"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "-yzdej"

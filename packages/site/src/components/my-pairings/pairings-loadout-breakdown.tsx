@@ -119,14 +119,16 @@ export function PairingsLoadoutBreakdown({
                   <TableHead>
                     <TableRow>
                       <TableHeader className="w-12">{t("#")}</TableHeader>
-                      <TableHeader>{t("Opponent pairing")}</TableHeader>
-                      <TableHeader className="w-24">{t("Battles")}</TableHeader>
-                      <TableHeader className="w-32">{t("Kill Points")}</TableHeader>
-                      <TableHeader className="w-40">{t("Opponent Kill Points")}</TableHeader>
-                      <TableHeader className="w-20">{t("DPS")}</TableHeader>
-                      <TableHeader className="w-20">{t("SPS")}</TableHeader>
-                      <TableHeader className="w-20">{t("TPS")}</TableHeader>
-                      <TableHeader className="w-20">{t("HPS")}</TableHeader>
+                      <TableHeader>{t("Pairing")}</TableHeader>
+                      <TableHeader className="w-24 text-right">{t("Battles")}</TableHeader>
+                      <TableHeader className="w-32 text-right">
+                        {t("Kill points gained")}
+                      </TableHeader>
+                      <TableHeader className="w-40 text-right">{t("Kill points lost")}</TableHeader>
+                      <TableHeader className="w-20 text-right">{t("DPS")}</TableHeader>
+                      <TableHeader className="w-20 text-right">{t("SPS")}</TableHeader>
+                      <TableHeader className="w-20 text-right">{t("TPS")}</TableHeader>
+                      <TableHeader className="w-20 text-right">{t("HPS")}</TableHeader>
                     </TableRow>
                   </TableHead>
                   <TableBody id={opponentsId}>
@@ -138,13 +140,15 @@ export function PairingsLoadoutBreakdown({
                         <TableCell className="text-zinc-900 dark:text-white">
                           {entry.pairing}
                         </TableCell>
-                        <TableCell className="w-24">{entry.battles}</TableCell>
-                        <TableCell className="w-32">{entry.killPoints}</TableCell>
-                        <TableCell className="w-40">{entry.opponentKillPoints}</TableCell>
-                        <TableCell className="w-20">{entry.dps}</TableCell>
-                        <TableCell className="w-20">{entry.sps}</TableCell>
-                        <TableCell className="w-20">{entry.tps}</TableCell>
-                        <TableCell className="w-20">{entry.hps}</TableCell>
+                        <TableCell className="w-24 text-right">{entry.battles}</TableCell>
+                        <TableCell className="w-32 text-right">{entry.killPoints}</TableCell>
+                        <TableCell className="w-40 text-right">
+                          {entry.opponentKillPoints}
+                        </TableCell>
+                        <TableCell className="w-20 text-right">{entry.dps}</TableCell>
+                        <TableCell className="w-20 text-right">{entry.sps}</TableCell>
+                        <TableCell className="w-20 text-right">{entry.tps}</TableCell>
+                        <TableCell className="w-20 text-right">{entry.hps}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

@@ -249,6 +249,7 @@ msgstr "#"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "goGXET"
 msgid "Pairing"
 msgstr "Pairing"
@@ -265,8 +266,6 @@ msgid "Kill Count"
 msgstr "Kill Count"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
@@ -718,12 +717,14 @@ msgstr "Damage dealt"
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "a8wkKu"
 msgid "Severely wounded inflicted"
 msgstr "Severely wounded inflicted"
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "nHRTeq"
 msgid "Severely wounded taken"
 msgstr "Severely wounded taken"
@@ -745,6 +746,7 @@ msgstr "Battle tempo"
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "RwXuHc"
 msgid "Trade percentage"
 msgstr "Trade percentage"
@@ -1238,41 +1240,51 @@ msgid "Combat breakdown"
 msgstr "Combat breakdown"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "H3G-_A"
 msgid "Battle reports"
 msgstr "Battle reports"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "T6fLvD"
 msgid "Kill points gained"
 msgstr "Kill points gained"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "4dEukv"
 msgid "Kill points lost"
 msgstr "Kill points lost"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "PI-sR4"
 msgid "Avg. battle duration"
 msgstr "Avg. battle duration"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "pTywiR"
 msgid "Damage per second (DPS)"
 msgstr "Damage per second (DPS)"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "X5d0pn"
 msgid "Sevs per second (SPS)"
 msgstr "Sevs per second (SPS)"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "LgMoVb"
 msgid "Sevs taken per second (TPS)"
 msgstr "Sevs taken per second (TPS)"
 
 #: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "gl_xty"
 msgid "Healing per second (HPS)"
 msgstr "Healing per second (HPS)"
@@ -1655,14 +1667,6 @@ msgid "Loadout {index}"
 msgstr "Loadout {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/olympian-arena/olympian-arena-row.tsx
-#: src/components/reports/reports-table-row.tsx
-msgctxt "9bVtCz"
-msgid "Battles"
-msgstr "Battles"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "B4KaVd"
 msgid "Total battle reports recorded for this loadout."
 msgstr "Total battle reports recorded for this loadout."
@@ -1673,20 +1677,9 @@ msgid "Total kill points earned while using this pairing."
 msgstr "Total kill points earned while using this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "nGp3S1"
-msgid "Opponent Kill Points"
-msgstr "Opponent Kill Points"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "rD9xWZ"
 msgid "Total kill points earned by opponents against this pairing."
 msgstr "Total kill points earned by opponents against this pairing."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "04DUsx"
-msgid "Severely Wounded (Taken)"
-msgstr "Severely Wounded (Taken)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "SDG3OT"
@@ -1694,19 +1687,9 @@ msgid "Number of troops that became severely wounded while using this pairing."
 msgstr "Number of troops that became severely wounded while using this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "87sFXA"
-msgid "Severely Wounded (Inflicted)"
-msgstr "Severely Wounded (Inflicted)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "OZfiOO"
 msgid "Number of opponent troops this pairing caused to become severely wounded."
 msgstr "Number of opponent troops this pairing caused to become severely wounded."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "8RNVtf"
-msgid "Avg. Battle Duration"
-msgstr "Avg. Battle Duration"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "adRA-N"
@@ -1714,29 +1697,9 @@ msgid "Average battle duration for this pairing."
 msgstr "Average battle duration for this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "j80Jf5"
-msgid "Avg. Trade Percentage"
-msgstr "Avg. Trade Percentage"
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "rsO25J"
-msgid "Each battle's kill points gained divided by kill points lost, then averaged across battles."
-msgstr "Each battle's kill points gained divided by kill points lost, then averaged across battles."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "WkJcLb"
-msgid "Weighted Trade Percentage"
-msgstr "Weighted Trade Percentage"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "pckGja"
 msgid "Total kill points gained divided by total kill points lost."
 msgstr "Total kill points gained divided by total kill points lost."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "jVC9W_"
-msgid "Damage Per Second (DPS)"
-msgstr "Damage Per Second (DPS)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "cgKoQG"
@@ -1744,29 +1707,14 @@ msgid "Average damage inflicted per second while using this pairing."
 msgstr "Average damage inflicted per second while using this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "lsS3Jr"
-msgid "Sevs Per Second (SPS)"
-msgstr "Sevs Per Second (SPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "-6NJWI"
 msgid "Average severely wounded troops inflicted per second while using this pairing."
 msgstr "Average severely wounded troops inflicted per second while using this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "CY224M"
-msgid "Sevs Taken Per Second (TPS)"
-msgstr "Sevs Taken Per Second (TPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "siJBnS"
 msgid "Average severely wounded troops taken per second while using this pairing."
 msgstr "Average severely wounded troops taken per second while using this pairing."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "5LIA_9"
-msgid "Healing Per Second (HPS)"
-msgstr "Healing Per Second (HPS)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "6pYaNr"
@@ -1881,9 +1829,11 @@ msgid "No enemy pairings found for this selection."
 msgstr "No enemy pairings found for this selection."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "cSiC2v"
-msgid "Opponent pairing"
-msgstr "Opponent pairing"
+#: src/components/olympian-arena/olympian-arena-row.tsx
+#: src/components/reports/reports-table-row.tsx
+msgctxt "9bVtCz"
+msgid "Battles"
+msgstr "Battles"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "-yzdej"
