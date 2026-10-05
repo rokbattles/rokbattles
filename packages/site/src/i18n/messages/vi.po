@@ -467,7 +467,6 @@ msgstr "Nghi lễ Karuak"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgctxt "c5aU-N"
 msgid "Kahar's Treasure"
@@ -1565,6 +1564,7 @@ msgid "No matching reward results have been observed yet."
 msgstr ""
 
 #: src/components/loot-explorer/baulur-rolls.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgctxt "bMC_V5"
 msgid "Slot {slot}"

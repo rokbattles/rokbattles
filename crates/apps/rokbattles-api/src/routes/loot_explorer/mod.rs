@@ -398,7 +398,7 @@ impl From<RawKaruakCeremonyDocument> for KaruakCeremonyDocument {
 #[derive(Debug, Clone, Deserialize)]
 struct RawKaharTreasureDocument {
     kind: String,
-    loot: Vec<LootDrop>,
+    slots: Vec<KaharTreasureSlot>,
     totals: KaharTreasureTotals,
     refreshed_at: DateTime,
 }
@@ -407,7 +407,7 @@ struct RawKaharTreasureDocument {
 #[serde(rename_all = "camelCase")]
 struct KaharTreasureDocument {
     kind: String,
-    loot: Vec<LootDrop>,
+    slots: Vec<KaharTreasureSlot>,
     totals: KaharTreasureTotals,
     refreshed_at: String,
 }
@@ -416,7 +416,7 @@ impl From<RawKaharTreasureDocument> for KaharTreasureDocument {
     fn from(value: RawKaharTreasureDocument) -> Self {
         Self {
             kind: value.kind,
-            loot: value.loot,
+            slots: value.slots,
             totals: value.totals,
             refreshed_at: date_time_to_string(value.refreshed_at),
         }
@@ -487,6 +487,16 @@ struct KaruakCeremonySlot {
 struct KaharTreasureTotals {
     results: i64,
     ap_used: i64,
+    empty_results: i64,
+    unmatched_results: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct KaharTreasureSlot {
+    slot: i32,
+    results: i64,
+    loot: Vec<LootDrop>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -586,33 +596,59 @@ mod tests {
     }
 
     #[test]
-    fn kahar_treasure_document_maps_precomputed_shape_to_api_shape() {
+    fn kahar_treasure_document_serializes_five_slots_in_camel_case() {
         let raw = from_document::<RawKaharTreasureDocument>(doc! {
             "kind": "all",
-            "loot": [
-                {
+            "slots": (1..=5).map(|slot| doc! {
+                "slot": slot,
+                "results": 16_i64,
+                "loot": [{
                     "type": 2,
-                    "sub_type": 147,
+                    "sub_type": 74,
                     "results": 12_i64,
                     "drop_rate": 0.75,
-                    "quantity": { "min": 5_i64, "max": 5_i64 },
-                    "total_quantity": 60_i64,
-                    "average_quantity": 5.0,
-                },
-            ],
-            "totals": { "results": 17_i64, "ap_used": 3_400_i64 },
+                    "quantity": { "min": 1_i64, "max": 1_i64 },
+                    "total_quantity": 12_i64,
+                    "average_quantity": 1.0,
+                }],
+            }).collect::<Vec<_>>(),
+            "totals": {
+                "results": 16_i64, "ap_used": 3_200_i64,
+                "empty_results": 1_i64, "unmatched_results": 2_i64,
+            },
             "refreshed_at": DateTime::from_millis(1_783_480_000_000),
         })
         .expect("raw Kahar treasure document");
 
-        let document = KaharTreasureDocument::from(raw);
+        let json = serde_json::to_value(KaharTreasureDocument::from(raw)).expect("API JSON");
 
-        assert_eq!(document.kind, "all");
-        assert_eq!(document.totals.results, 17);
-        assert_eq!(document.totals.ap_used, 3_400);
-        assert_eq!(document.loot.len(), 1);
-        assert!(document.refreshed_at.starts_with("2026-07-08T"));
+        assert_eq!(json["kind"], "all");
+        assert_eq!(json["totals"]["results"], 16);
+        assert_eq!(json["totals"]["apUsed"], 3_200);
+        assert_eq!(json["totals"]["emptyResults"], 1);
+        assert_eq!(json["totals"]["unmatchedResults"], 2);
+
+        assert!(json["refreshedAt"].as_str().expect("timestamp").starts_with("2026-07-08T"));
+        assert!(json.get("loot").is_none());
+
+        let slots = json["slots"].as_array().expect("slots");
+
+        assert_eq!(slots.len(), 5);
+
+        for (index, slot) in slots.iter().enumerate() {
+            assert_eq!(slot["slot"], index + 1);
+            assert_eq!(slot["results"], 16);
+
+            let reward = &slot["loot"][0];
+
+            assert_eq!(reward["subType"], 74);
+            assert_eq!(reward["results"], 12);
+            assert_eq!(reward["dropRate"], 0.75);
+            assert_eq!(reward["totalQuantity"], 12);
+            assert_eq!(reward["averageQuantity"], 1.0);
+        }
     }
+
     #[test]
     fn baulur_document_serializes_five_rolls_in_camel_case() {
         let raw = from_document::<RawBaulurDocument>(doc! {
