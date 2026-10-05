@@ -105,9 +105,17 @@ export type KaharTreasureLootDocument = {
 
 export type KaruakCeremonyLootDocument = {
   kind: number;
-  loot: LootDrop[];
+  slots: Array<{
+    slot: number;
+    results: number;
+    loot: LootDrop[];
+  }>;
   totals: {
     results: number;
+    reports: number;
+    duplicateReports: number;
+    emptyResults: number;
+    unmatchedResults: number;
   };
   refreshedAt: string;
 };

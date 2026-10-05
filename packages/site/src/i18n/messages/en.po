@@ -1556,6 +1556,7 @@ msgid "No matching reward results have been observed yet."
 msgstr "No matching reward results have been observed yet."
 
 #: src/components/loot-explorer/baulur-rolls.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgctxt "bMC_V5"
 msgid "Slot {slot}"
 msgstr "Slot {slot}"
