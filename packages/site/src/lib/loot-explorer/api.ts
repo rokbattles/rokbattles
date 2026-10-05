@@ -95,10 +95,16 @@ export type BaulurLootDocument = {
 
 export type KaharTreasureLootDocument = {
   kind: string;
-  loot: LootDrop[];
+  slots: Array<{
+    slot: number;
+    results: number;
+    loot: LootDrop[];
+  }>;
   totals: {
     results: number;
     apUsed: number;
+    emptyResults: number;
+    unmatchedResults: number;
   };
   refreshedAt: string;
 };

@@ -177,6 +177,8 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                     info!(
                         documents_read = stats.documents_read,
                         mails_counted = stats.mails_counted,
+                        empty_results_skipped = stats.empty_results_skipped,
+                        unmatched_results = stats.unmatched_results,
                         documents_written = stats.documents_written,
                         "precomputed Kahar treasure data"
                     );

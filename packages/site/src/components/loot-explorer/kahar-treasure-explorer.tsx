@@ -11,7 +11,7 @@ import { LootTable } from "./loot-table";
 
 export function KaharTreasureExplorer() {
   const t = useExtracted();
-  const locale = useLocale();
+
   const [item, setItem] = useState<KaharTreasureLootDocument | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -19,11 +19,13 @@ export function KaharTreasureExplorer() {
     let ignore = false;
 
     setStatus("loading");
+
     fetchKaharTreasureLoot()
       .then((response) => {
         if (ignore) {
           return;
         }
+
         setItem(response);
         setStatus("ready");
       })
@@ -53,6 +55,13 @@ export function KaharTreasureExplorer() {
     );
   }
 
+  return <KaharTreasureExplorerContent item={item} />;
+}
+
+export function KaharTreasureExplorerContent({ item }: { item: KaharTreasureLootDocument | null }) {
+  const t = useExtracted();
+  const locale = useLocale();
+
   return (
     <LootExplorerLayout active="kahars-treasure">
       <LootExplorerSummary
@@ -62,12 +71,15 @@ export function KaharTreasureExplorer() {
           { label: t("AP used"), value: item?.totals.apUsed ?? 0 },
         ]}
       />
-      <section className="space-y-3">
-        <div>
-          <Subheading>{t("Kahar's Treasure")}</Subheading>
-        </div>
-        <LootTable loot={item?.loot ?? []} locale={locale} />
-      </section>
+
+      <div className="space-y-8">
+        {item?.slots.map((slot) => (
+          <section key={slot.slot} className="space-y-3">
+            <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
+            <LootTable loot={slot.loot} locale={locale} />
+          </section>
+        ))}
+      </div>
     </LootExplorerLayout>
   );
 }
