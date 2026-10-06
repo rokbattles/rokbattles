@@ -1,0 +1,53 @@
+import { cn } from "cn";
+import { BookOpen, ChevronDown } from "lucide-react";
+import { downloads, releaseUrl } from "../../lib/(marketing)/downloads";
+import { Button } from "./ui/button";
+import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from "./ui/dropdown";
+import { Heading } from "./ui/heading";
+import { card, GridMarkers, sectionHeading } from "./ui/layout";
+import { Subheading } from "./ui/subheading";
+
+export function Downloads() {
+  return (
+    <section id="downloads" aria-label="Downloads" className="relative border-b border-white/10">
+      <GridMarkers />
+      <div className={sectionHeading}>
+        <Heading id="downloads-heading">ROK Battles, wherever you play.</Heading>
+      </div>
+      <div className="grid gap-px border-t border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
+        {downloads.map(({ id, name, icon: Icon, builds }) => (
+          <article key={name} className={cn(card, "flex min-w-0 flex-col")}>
+            <Icon className="mb-8 size-6 text-orange-400" strokeWidth={1.5} aria-hidden="true" />
+            <Subheading>{name}</Subheading>
+            <div className="mt-8 flex items-stretch gap-2">
+              {builds?.length === 1 ? (
+                <Button href={`${releaseUrl}/${builds[0].file}`} className="w-full">
+                  Download for {name}
+                </Button>
+              ) : null}
+              {builds && builds.length > 1 ? (
+                <Dropdown>
+                  <DropdownButton render={<Button className="w-full" />}>
+                    Download for {name} <ChevronDown aria-hidden="true" />
+                  </DropdownButton>
+                  <DropdownMenu align="end" aria-label={`${name} builds`}>
+                    {builds.map(({ label, file }) => (
+                      <DropdownItem key={file} href={`${releaseUrl}/${file}`}>
+                        {label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
+              ) : null}
+              {!builds ? (
+                <Button href={`/docs/installation/${id}`} className="w-full">
+                  {name} install guide <BookOpen aria-hidden="true" />
+                </Button>
+              ) : null}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}

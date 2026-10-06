@@ -1,5 +1,5 @@
+import createMDX from "@next/mdx";
 import { withSentryConfig } from "@sentry/nextjs/config";
-import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
@@ -17,7 +17,7 @@ const withNextIntl = createNextIntlPlugin({
   },
 });
 
-const withMDX = createMDX({});
+const withMDX = createMDX({ extension: /\.mdx?$/ });
 
 const withSentry = (nextConfig?: NextConfig) =>
   withSentryConfig(nextConfig, {
@@ -65,8 +65,8 @@ const config: NextConfig = {
         permanent: false,
       },
       {
-        source: "/docs",
-        destination: "/docs/installation",
+        source: "/docs/installation",
+        destination: "/docs/installation/windows",
         permanent: false,
       },
       {
