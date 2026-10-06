@@ -83,6 +83,8 @@ pub enum MailType {
     DuelBattle2,
     /// Baulur reports.
     BarCanyonKillBoss,
+    /// Elite barbarian reward reports.
+    KillEliteBarReport,
     /// GVE alliance boss member loot reports.
     EventMemberLootReport,
     /// Resource gathering reports.
@@ -103,10 +105,11 @@ impl MailType {
     /// All categories registered for processing, in registry order.
     ///
     /// Available even when the `processors` feature is disabled.
-    pub const ALL: [Self; 10] = [
+    pub const ALL: [Self; 11] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
+        Self::KillEliteBarReport,
         Self::EventMemberLootReport,
         Self::Rss,
         Self::SystemBarbarianFort,
@@ -136,6 +139,7 @@ impl MailType {
             "Battle" => Some(Self::Battle),
             "DuelBattle2" => Some(Self::DuelBattle2),
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
+            "KillEliteBarReport" => Some(Self::KillEliteBarReport),
             "EventMemberLootReport" => Some(Self::EventMemberLootReport),
             "Rss" => Some(Self::Rss),
             MAIL_TYPE_SYSTEM_BARBARIAN_FORT => Some(Self::SystemBarbarianFort),
@@ -166,6 +170,7 @@ impl MailType {
             Self::Battle => "Battle",
             Self::DuelBattle2 => "DuelBattle2",
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
+            Self::KillEliteBarReport => "KillEliteBarReport",
             Self::EventMemberLootReport => "EventMemberLootReport",
             Self::Rss => "Rss",
             Self::SystemBarbarianFort => MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
@@ -185,6 +190,7 @@ impl MailType {
             Self::Battle => "mails_battle",
             Self::DuelBattle2 => "mails_duelbattle2",
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
+            Self::KillEliteBarReport => "mails_killelitebarreport",
             Self::EventMemberLootReport => "mails_eventmemberlootreport",
             Self::Rss => "mails_rss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
@@ -395,6 +401,9 @@ pub fn process_mail(
         MailType::Battle => rokbattles_mail_processor_battle::process(input),
         MailType::DuelBattle2 => rokbattles_mail_processor_duelbattle2::process(input),
         MailType::BarCanyonKillBoss => rokbattles_mail_processor_barcanyonkillboss::process(input),
+        MailType::KillEliteBarReport => {
+            rokbattles_mail_processor_killelitebarreport::process(input)
+        }
         MailType::EventMemberLootReport => {
             rokbattles_mail_processor_eventmemberlootreport::process(input)
         }
@@ -447,6 +456,13 @@ mod tests {
             Some(MailType::BarCanyonKillBoss)
         );
         assert_eq!(detect_mail_type(&json!({ "type": "rss" })), Some(MailType::Rss));
+
+        assert_eq!(
+            detect_mail_type(&json!({ "type": "KILLELITEBARREPORT" })),
+            Some(MailType::KillEliteBarReport)
+        );
+
+        assert_eq!(MailType::from_label("KillEliteBarReport"), Some(MailType::KillEliteBarReport));
     }
 
     #[test]
@@ -687,6 +703,7 @@ mod tests {
         assert_eq!(MailType::Battle.collection_name(), "mails_battle");
         assert_eq!(MailType::DuelBattle2.collection_name(), "mails_duelbattle2");
         assert_eq!(MailType::BarCanyonKillBoss.collection_name(), "mails_barcanyonkillboss");
+        assert_eq!(MailType::KillEliteBarReport.collection_name(), "mails_killelitebarreport");
         assert_eq!(
             MailType::EventMemberLootReport.collection_name(),
             "mails_eventmemberlootreport"

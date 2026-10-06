@@ -596,6 +596,20 @@ mod tests {
             (
                 include_bytes!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
+                    "/../../../samples/KillEliteBarReport/Persistent.Mail.58081597179130534931"
+                )),
+                MailType::KillEliteBarReport,
+            ),
+            (
+                include_bytes!(concat!(
+                    env!("CARGO_MANIFEST_DIR"),
+                    "/../../../samples/KillEliteBarReport/Persistent.Mail.58095236179130567531"
+                )),
+                MailType::KillEliteBarReport,
+            ),
+            (
+                include_bytes!(concat!(
+                    env!("CARGO_MANIFEST_DIR"),
                     "/../../../samples/EventMemberLootReport/Persistent.Mail.28722408178369207531"
                 )),
                 MailType::EventMemberLootReport,

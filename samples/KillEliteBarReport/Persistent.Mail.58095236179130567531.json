@@ -1,0 +1,108 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Dauntless Lohar (Elite)",
+      "infos": [
+        {
+          "avatar": "{\"avatarFrame\":\"null\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png\"}",
+          "damageRate": 55.58833312988281,
+          "idx": 2,
+          "loots": [
+            {
+              "SubType": 7,
+              "Type": 2,
+              "Value": 5
+            },
+            {
+              "SubType": 74,
+              "Type": 2,
+              "Value": 2
+            },
+            {
+              "SubType": 10370,
+              "Type": 2,
+              "Value": 4
+            },
+            {
+              "SubType": 9,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 75,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Grigvar",
+          "order": 1,
+          "playerId": 71738515
+        },
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_239.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88504567/2026-07-03/91D0A53A54563BAD688D6A8E5B22B5E7_250x250.jpg\"}",
+          "damageRate": 44.41166687011719,
+          "idx": 1,
+          "loots": [
+            {
+              "SubType": 7,
+              "Type": 2,
+              "Value": 5
+            },
+            {
+              "SubType": 74,
+              "Type": 2,
+              "Value": 2
+            },
+            {
+              "SubType": 10370,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 9,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Fayst cav",
+          "order": 1,
+          "playerId": 109277746
+        }
+      ],
+      "npcLevel": 2,
+      "npcType": 112,
+      "pos": {
+        "x": 3804.764404296875,
+        "y": 3971.28076171875
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "58095236179130567531",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1791305675590863,
+  "title": "",
+  "type": "KillEliteBarReport",
+  "unread": false
+}

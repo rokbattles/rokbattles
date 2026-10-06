@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "mail_id": "58095236179130567531",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1791305675590863,
+    "server_id": 1804
+  },
+  "npc": {
+    "level": 2,
+    "location": {
+      "x": 3804.764404296875,
+      "y": 3971.28076171875
+    },
+    "type": 112
+  },
+  "participants": [
+    {
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png",
+      "damage_rate": 55.58833312988281,
+      "frame_url": null,
+      "loot": [
+        {
+          "sub_type": 7,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 74,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 10370,
+          "type": 2,
+          "value": 4
+        },
+        {
+          "sub_type": 9,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 75,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 71738515,
+      "player_name": "Grigvar"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88504567/2026-07-03/91D0A53A54563BAD688D6A8E5B22B5E7_250x250.jpg",
+      "damage_rate": 44.41166687011719,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_239.png",
+      "loot": [
+        {
+          "sub_type": 7,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 74,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 10370,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 109277746,
+      "player_name": "Fayst cav"
+    }
+  ]
+}
