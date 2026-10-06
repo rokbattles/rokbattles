@@ -15,15 +15,20 @@ const sizes = {
   icon: "size-11 p-0",
 };
 
+type ButtonElementProps =
+  | ({ href: string } & Omit<ComponentProps<typeof SiteLink>, "href" | "className" | "ref">)
+  | ({ href?: never } & Omit<ComponentProps<"button">, "className" | "ref">);
+
 type ButtonProps = {
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   className?: string;
   ref?: Ref<HTMLElement>;
-} & (
-  | ({ href: string } & Omit<ComponentProps<typeof SiteLink>, "href" | "className" | "ref">)
-  | ({ href?: never } & Omit<ComponentProps<"button">, "className" | "ref">)
-);
+} & ButtonElementProps;
+
+function isLink(props: ButtonElementProps): props is Extract<ButtonElementProps, { href: string }> {
+  return typeof props.href === "string";
+}
 
 export function Button({
   variant = "secondary",
@@ -40,7 +45,7 @@ export function Button({
     className
   );
 
-  if (typeof props.href === "string") {
+  if (isLink(props)) {
     const { href, ...linkProps } = props;
     return (
       <SiteLink
