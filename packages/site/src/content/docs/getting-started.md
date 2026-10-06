@@ -16,4 +16,4 @@ Choose the installation guide for the device you use to play Rise of Kingdoms. E
 
 ## Need a hand?
 
-[Join us on Discord](https://discord.gg/G33SzQgx6d) for help from the community.
+[Join us on Discord](/discord) for help from the community.
