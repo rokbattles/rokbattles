@@ -14,7 +14,7 @@ use rokbattles_bson::{
 use rustc_hash::FxHashSet;
 use serde::ser::Error as _;
 
-use crate::error::JobsError;
+use crate::{error::JobsError, loot_window::loot_cutoff_mail_time};
 
 const BAULUR_TARGET_KINDS: [i32; 2] = [102_000_055, 102_000_063];
 const ROLL_SLOTS: usize = 5;
@@ -53,9 +53,12 @@ pub async fn precompute_baulur_data(
 pub async fn compute_baulur_documents(
     reports_store: &ReportsStore,
 ) -> Result<(Vec<Document>, BaulurPrecomputeStats), JobsError> {
-    let (aggregate, stats) =
-        read_observed_baulur_reports(reports_store.barcanyonkillboss_collection()).await?;
     let refreshed_at = DateTime::now();
+    let (aggregate, stats) = read_observed_baulur_reports(
+        reports_store.barcanyonkillboss_collection(),
+        loot_cutoff_mail_time(refreshed_at),
+    )
+    .await?;
     let documents = aggregate
         .iter()
         .map(|(&kind, kind_stats)| build_precomputed_document(kind, kind_stats, refreshed_at))
@@ -65,10 +68,14 @@ pub async fn compute_baulur_documents(
 
 async fn read_observed_baulur_reports(
     source: &Collection<Document>,
+    cutoff_mail_time: i64,
 ) -> Result<(BTreeMap<i32, KindStats>, BaulurPrecomputeStats), JobsError> {
     let mut cursor = source
         .aggregate([
-            doc! { "$match": { "npc.type": { "$in": BAULUR_TARGET_KINDS.to_vec() } } },
+            doc! { "$match": {
+                "npc.type": { "$in": BAULUR_TARGET_KINDS.to_vec() },
+                "metadata.mail_time": { "$gte": cutoff_mail_time },
+            } },
             doc! { "$project": {
                 "_id": 0,
                 "metadata.mail_time": 1,
