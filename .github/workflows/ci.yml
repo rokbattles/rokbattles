@@ -73,6 +73,9 @@ jobs:
       - name: Generate site WASM modules
         run: pnpm -F @rokbattles/site generate:wasm
 
+      - name: Sync site legal documents
+        run: pnpm -F @rokbattles/site sync:legal
+
       - name: Build @rokbattles/site
         run: pnpm -F @rokbattles/site generate:datasets && pnpm -F @rokbattles/site build
 
