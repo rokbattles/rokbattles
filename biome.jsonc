@@ -7,13 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!**/samples",
-      "!.github",
-      "!packages/site/src/app/icon.svg",
-      "!packages/site-vite/public/assets/marketing/icon.svg"
-    ]
+    "includes": ["**", "!**/samples", "!.github", "!packages/site/src/app/icon.svg"]
   },
   "formatter": {
     "enabled": true,
