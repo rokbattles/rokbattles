@@ -8,8 +8,8 @@ export function CommunityMetrics() {
       <GridMarkers />
       <dl className="grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-3">
         {[
-          { value: "1.5K+", label: "Users" },
-          { value: "40M+", label: "Battle reports" },
+          { value: "1.7K+", label: "Users" },
+          { value: "45M+", label: "Battle reports" },
           { value: "400K+", label: "Governors seen" },
         ].map(({ value, label }) => (
           <div key={value} className={cn(card, "flex flex-col-reverse gap-3")}>
