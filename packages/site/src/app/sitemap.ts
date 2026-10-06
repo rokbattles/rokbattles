@@ -16,6 +16,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/loot-explorer/karuak-ceremony",
     "/loot-explorer/kahars-treasure",
     "/legal",
+    "/docs",
+    "/docs/quick-start",
+    "/docs/migrating-report-managers",
   ];
 
   installationDocs.map(({ slug }) => routes.push(`/docs/installation/${slug}`));

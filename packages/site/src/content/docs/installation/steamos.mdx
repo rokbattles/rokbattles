@@ -11,15 +11,15 @@ Switch to Desktop Mode, then download the x64 Flatpak below.
 ## Install with KDE Discover
 
 1. Open the folder containing your download and double-click the `.flatpak` file.
-2. KDE Discover will open and ask to install the local package. Review the details and select **Install**.
+2. KDE Discover will open and ask to install the local package. Review the details and select Install.
 3. Once installation finishes, launch ROK Battles from Discover or the application menu.
 
 ## Install from the terminal
 
-Open Konsole in the folder containing your download and run:
+If you prefer commands or do not have KDE Discover, open Konsole in the folder containing your download. Replace `VERSION` with the version in the downloaded filename:
 
 ```bash
-flatpak install --user ./com.rokbattles.rokbattles-__VERSION__-x86_64.flatpak
+flatpak install --user ./com.rokbattles.rokbattles-VERSION-x86_64.flatpak
 flatpak run com.rokbattles.rokbattles
 ```
 
@@ -27,13 +27,13 @@ Accept any prompt to install the required GNOME runtime from Flathub. ROK Battle
 
 ## Choose your mailcache folder
 
-In ROK Battles, select **Add** and choose the game's `mailcache` folder. The file picker grants access to that folder. Automatic discovery is unavailable on Linux and SteamOS.
+In ROK Battles, select Add and choose the game's `mailcache` folder. Automatic discovery is unavailable on Linux and SteamOS.
 
-Steam/Proton paths often include hidden directories. In KDE's folder picker, enable **Show Hidden Files** with **Alt+.**, or press **Ctrl+L** to enter the full path. GTK file pickers use **Ctrl+H** to show hidden files.
+Steam/Proton paths often include hidden directories. In KDE's folder picker, enable Show Hidden Files with **Alt+.**, or press **Ctrl+L** to enter the full path. GTK file pickers use **Ctrl+H** to show hidden files.
 
 ## Update
 
-Download the newer Flatpak and install it using Discover or the same terminal command with the new filename. Accept replacement of the installed version. Updates are delivered as bundle files; the Flatpak build does not use the in-app updater or start automatically at login.
+Download the newer Flatpak and install it using Discover or the same terminal command with the new filename. Accept replacement of the installed version. Updates are delivered as bundle files; the Flatpak build does not use the in-app updater.
 
 ## Uninstall
 

@@ -27,6 +27,8 @@ export function DocsNavigation() {
   return (
     <nav aria-label="Documentation" className="md:sticky md:top-8">
       <NavLink href="/docs">Overview</NavLink>
+      <NavLink href="/docs/quick-start">Quick Start</NavLink>
+      <NavLink href="/docs/migrating-report-managers">Migrating Report Managers</NavLink>
       <p className="mt-6 mb-2 px-3 text-sm font-medium text-white">Installation</p>
       <div className="grid grid-cols-2 gap-1 md:grid-cols-1">
         {installationDocs.map(({ slug, title }) => (

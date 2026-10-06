@@ -14,6 +14,11 @@ Choose the installation guide for the device you use to play Rise of Kingdoms. E
 - [iPhone and iPad](/docs/installation/ios) — Download and install the ROK Battles configuration profile.
 - [Android](/docs/installation/android) — Install Intra and configure it for ROK Battles.
 
+## After installation
+
+- [Quick Start](/docs/quick-start) — Connect your mailcache folder and start uploading reports.
+- [Migrating Report Managers](/docs/migrating-report-managers) — Import reports saved by another report manager.
+
 ## Need a hand?
 
 [Join us on Discord](/discord) for help from the community.
