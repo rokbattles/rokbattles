@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date().toISOString().split("T")[0];
   const routes = [
     "",
+    "/home",
     "/olympian-arena",
     "/combat-lab",
     "/combat-lab/rankings",

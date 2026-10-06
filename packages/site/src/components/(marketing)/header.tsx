@@ -57,7 +57,7 @@ export function MarketingHeader() {
     <div className="border-b border-white/10">
       <header className={cn(frame, gutter, "flex items-center justify-between gap-4 py-5")}>
         <nav aria-label="Main navigation" className="flex shrink-0 items-center gap-8">
-          <Link href="/" aria-label="ROK Battles home" className="shrink-0">
+          <Link href="/home" aria-label="ROK Battles home" className="shrink-0">
             <Logo />
           </Link>
           <Link href="/docs" className="text-sm! max-md:hidden">
@@ -82,7 +82,7 @@ export function MarketingHeader() {
             <Dialog.Popup className="fixed inset-y-0 left-0 z-50 flex w-[calc(100%-1rem)] max-w-80 flex-col overflow-y-auto overscroll-contain border-r border-white/10 bg-zinc-950 p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-white shadow-xl outline-none transition-transform duration-300 ease-in-out data-starting-style:-translate-x-full data-ending-style:-translate-x-full motion-reduce:transition-none">
               <Dialog.Title className="sr-only">Navigation</Dialog.Title>
               <div className="flex shrink-0 items-center justify-between gap-4">
-                <Link href="/" aria-label="ROK Battles home" onClick={() => setOpen(false)}>
+                <Link href="/home" aria-label="ROK Battles home" onClick={() => setOpen(false)}>
                   <Logo />
                 </Link>
                 <Dialog.Close

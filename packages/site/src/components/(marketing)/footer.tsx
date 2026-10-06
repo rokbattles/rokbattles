@@ -6,7 +6,7 @@ import { Link } from "./ui/link";
 export function MarketingFooter() {
   return (
     <footer className={cn(gutter, "flex flex-wrap items-center justify-between gap-6 py-8")}>
-      <Link href="/" className="shrink-0">
+      <Link href="/home" className="shrink-0">
         <Image
           src="/assets/logo.svg"
           alt="ROK Battles"
