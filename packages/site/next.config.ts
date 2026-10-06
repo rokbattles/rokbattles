@@ -65,6 +65,11 @@ const config: NextConfig = {
         permanent: false,
       },
       {
+        source: "/docs/installation",
+        destination: "/docs/installation/windows",
+        permanent: false,
+      },
+      {
         source: "/combat-lab/new",
         destination: "/combat-lab",
         permanent: false,
