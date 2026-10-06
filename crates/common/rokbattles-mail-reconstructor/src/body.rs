@@ -40,7 +40,7 @@ impl MailReconstructor {
                 let content = decode_message(body, "MailRss", &self.schema.descriptors)?;
                 Ok(json!({ "content": content }))
             }
-            "BarCanyonKillBoss" => self.reconstruct_bar_canyon(body),
+            "BarCanyonKillBoss" | "KillEliteBarReport" => self.reconstruct_elite_bar_report(body),
             "EventMemberLootReport" => self.reconstruct_event_member_loot(body),
             "System" => self.reconstruct_system(body),
             "Alliance" => self.reconstruct_alliance(body),
@@ -48,10 +48,11 @@ impl MailReconstructor {
         }
     }
 
-    fn reconstruct_bar_canyon(&self, body: &[u8]) -> Result<Value, ReconstructionError> {
+    fn reconstruct_elite_bar_report(&self, body: &[u8]) -> Result<Value, ReconstructionError> {
         let decoded = decode_message(body, "EliteBarReportInfo", &self.schema.descriptors)?;
         let root = object(&decoded, "EliteBarReportInfo")?;
         let infos = format_report_infos(root.get("Infos"), true)?;
+
         Ok(json!({
             "content": {
                 "pos": rename_position(root.get("Pos")),
@@ -485,6 +486,7 @@ mod tests {
         let cases = [
             ("DuelBattle2", duel_body(&reconstructor)),
             ("BarCanyonKillBoss", bar_canyon_body(&reconstructor)),
+            ("KillEliteBarReport", bar_canyon_body(&reconstructor)),
             ("EventMemberLootReport", event_member_loot_body(&reconstructor)),
             ("Rss", rss_body(&reconstructor)),
             ("System", system_body(&reconstructor, 11, 1)),
@@ -500,6 +502,53 @@ mod tests {
                 .reconstruct_body(mail_type, &body, &[])
                 .unwrap_or_else(|error| panic!("{mail_type} should reconstruct: {error}"));
         }
+    }
+
+    #[test]
+    fn reconstructs_killelitebarreport_from_network_envelope() {
+        let reconstructor = MailReconstructor::synthetic();
+        let schema = &reconstructor.schema;
+
+        let mut body = bar_canyon_body(&reconstructor);
+        push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "NpcType"), 112);
+        push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "Level"), 2);
+
+        let mut entry = Vec::new();
+        push_bytes(&mut entry, schema.mail_id, b"elite-report");
+        push_bytes(&mut entry, schema.mail_type, b"KillEliteBarReport");
+        push_bytes(&mut entry, schema.receiver, b"player_7");
+        push_varint(&mut entry, schema.timestamp, 1234);
+        push_bytes(&mut entry, schema.body, &body);
+
+        let mail = reconstructor
+            .reconstruct(
+                &entry,
+                crate::ReconstructionContext { server_id: Some(1804), ..Default::default() },
+            )
+            .expect("elite barbarian report should reconstruct");
+
+        let decoded = rokbattles_mail_codec::decode(&mail.bytes).expect("persistent mail");
+
+        assert_eq!(
+            rokbattles_mail_registry::detect_mail_type(&decoded),
+            Some(rokbattles_mail_registry::MailType::KillEliteBarReport)
+        );
+
+        assert_eq!(decoded["id"], "elite-report");
+        assert_eq!(decoded["receiver"], "player_7");
+        assert_eq!(decoded["time"], 1234);
+        assert_eq!(decoded["serverId"], 1804);
+
+        assert_eq!(
+            decoded["body"]["content"],
+            json!({
+                "npcType": 112,
+                "npcLevel": 2,
+                "pos": { "x": 12.5, "y": 24.5 },
+                "eliteBarName": "",
+                "infos": []
+            })
+        );
     }
 
     #[test]

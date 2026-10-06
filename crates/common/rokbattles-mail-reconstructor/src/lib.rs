@@ -16,7 +16,7 @@
 //! | `Battle`, `Battle2` | JSON and split attack records become `body.content`. |
 //! | `DuelBattle2` | `DuelMailReport` protobuf becomes `body.detail`. |
 //! | `Rss` | `MailRss` protobuf becomes `body.content`. |
-//! | `BarCanyonKillBoss` | `EliteBarReportInfo` fields become `body.content`. |
+//! | `BarCanyonKillBoss`, `KillEliteBarReport` | `EliteBarReportInfo` fields become `body.content`. |
 //! | `EventMemberLootReport` | `EventMemeberLootInfo` fields become `body.content`. |
 //! | `System` | `MailSys` fields become subtype fields and generated reward text. |
 //! | `Alliance` | `MailSys` fields become `type`, `param`, and decoded `kvs`. |

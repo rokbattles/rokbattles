@@ -1,0 +1,102 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Junior Lohar (Elite)",
+      "infos": [
+        {
+          "avatar": "{\"avatarFrame\":\"null\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png\"}",
+          "damageRate": 55.589996337890625,
+          "idx": 2,
+          "loots": [
+            {
+              "SubType": 1,
+              "Type": 2,
+              "Value": 3
+            },
+            {
+              "SubType": 72,
+              "Type": 2,
+              "Value": 2
+            },
+            {
+              "SubType": 22098,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 9,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 94,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Grigvar",
+          "order": 1,
+          "playerId": 71738515
+        },
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_239.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88504567/2026-07-03/91D0A53A54563BAD688D6A8E5B22B5E7_250x250.jpg\"}",
+          "damageRate": 44.40999984741211,
+          "idx": 1,
+          "loots": [
+            {
+              "SubType": 7,
+              "Type": 2,
+              "Value": 3
+            },
+            {
+              "SubType": 62,
+              "Type": 2,
+              "Value": 2
+            },
+            {
+              "SubType": 10370,
+              "Type": 2,
+              "Value": 3
+            }
+          ],
+          "name": "Fayst cav",
+          "order": 1,
+          "playerId": 109277746
+        }
+      ],
+      "npcLevel": 1,
+      "npcType": 111,
+      "pos": {
+        "x": 3816.540771484375,
+        "y": 3958.83203125
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "58081597179130534931",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1791305349582940,
+  "title": "",
+  "type": "KillEliteBarReport",
+  "unread": true
+}

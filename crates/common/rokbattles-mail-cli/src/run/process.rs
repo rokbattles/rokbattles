@@ -220,6 +220,43 @@ mod tests {
     }
 
     #[test]
+    fn write_processed_json_writes_killelitebarreport_sections() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let value: Value = serde_json::from_str(include_str!(
+            "../../../../../samples/KillEliteBarReport/Persistent.Mail.58081597179130534931.json"
+        ))
+        .expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).expect("write processed report");
+
+        let output = processed_output_path(temp.path(), &input).expect("output path");
+        let parsed: Value = serde_json::from_slice(&fs::read(output).expect("read processed"))
+            .expect("parse processed");
+
+        assert_eq!(parsed["metadata"]["mail_id"], json!("58081597179130534931"));
+
+        assert_eq!(
+            parsed["npc"],
+            json!({
+                "type": 111,
+                "level": 1,
+                "location": { "x": 3816.540771484375, "y": 3958.83203125 }
+            })
+        );
+
+        assert_eq!(parsed["participants"].as_array().expect("participants").len(), 2);
+        assert_eq!(
+            parsed["participants"][0]["loot"][0],
+            json!({
+                "type": 2,
+                "sub_type": 1,
+                "value": 3
+            })
+        );
+    }
+
+    #[test]
     fn write_processed_json_writes_duelbattle2_metadata() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");

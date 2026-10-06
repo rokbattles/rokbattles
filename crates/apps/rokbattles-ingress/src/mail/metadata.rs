@@ -166,6 +166,7 @@ mod tests {
         assert!(is_supported_mail_type("Battle"));
         assert!(is_supported_mail_type("DuelBattle2"));
         assert!(is_supported_mail_type("BarCanyonKillBoss"));
+        assert!(is_supported_mail_type("KillEliteBarReport"));
         assert!(is_supported_mail_type("EventMemberLootReport"));
         assert!(is_supported_mail_type("Rss"));
         assert!(is_supported_mail_type("SystemBarbarianFort"));
