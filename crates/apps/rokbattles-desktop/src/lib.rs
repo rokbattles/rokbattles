@@ -1,4 +1,6 @@
 mod app_config;
+#[cfg(any(target_os = "windows", target_os = "linux", test))]
+mod autostart_path;
 mod mailcache_discovery;
 mod tray;
 mod updater;
@@ -29,16 +31,20 @@ fn tray_supported() -> bool {
 
 #[cfg(desktop)]
 fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
-    use tauri_plugin_autostart::MacosLauncher;
-
-    // The native plugin writes a host autostart entry with an /app executable path.
+    // Native autostart would write a host entry with an inaccessible /app path.
     if is_flatpak() {
         return Ok(());
     }
 
     let handle = app.handle();
-    handle.plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))?;
+    #[cfg(target_os = "macos")]
+    handle.plugin(tauri_plugin_autostart::init(
+        tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+        None,
+    ))?;
 
+    // Reapply the saved preference, repairing old unquoted entries only when
+    // startup is enabled. Keep using the existing application name for migration.
     let enabled = app_config::get_auto_start(handle).unwrap_or(true);
     match apply_auto_start_setting(handle, enabled) {
         Ok(()) => {}
@@ -52,13 +58,41 @@ fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
 
 #[cfg(desktop)]
 fn apply_auto_start_setting(app: &AppHandle, enabled: bool) -> Result<(), String> {
+    #[cfg(target_os = "macos")]
     use tauri_plugin_autostart::ManagerExt;
 
     if is_flatpak() {
         return Err("Automatic startup is unavailable in the Flatpak package.".to_string());
     }
 
+    #[cfg(target_os = "macos")]
     let autolaunch = app.autolaunch();
+
+    // auto-launch 0.5 writes app_path verbatim into the Windows Run command and
+    // Linux desktop entry. Supply the platform-specific command representation;
+    // the Tauri plugin does not expose a path override.
+    #[cfg(any(target_os = "windows", target_os = "linux"))]
+    let autolaunch = {
+        // Disabling only needs the entry name, even when a path cannot be encoded.
+        let command = if enabled {
+            let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+            #[cfg(target_os = "linux")]
+            let appimage = app.env().appimage;
+            #[cfg(target_os = "linux")]
+            let executable = autostart_path::linux_path(&executable, appimage.as_deref());
+            let executable = executable
+                .to_str()
+                .ok_or_else(|| "The automatic startup path is not valid Unicode.".to_string())?;
+            #[cfg(target_os = "windows")]
+            let command = autostart_path::windows_executable(executable)?;
+            #[cfg(target_os = "linux")]
+            let command = autostart_path::linux_executable(executable)?;
+            command
+        } else {
+            String::new()
+        };
+        auto_launch::AutoLaunch::new(&app.package_info().name, &command, &[] as &[&str])
+    };
     if enabled {
         autolaunch.enable().map_err(|e| e.to_string())
     } else {

@@ -32,8 +32,13 @@ tauri-plugin-updater.workspace = true
 notify.workspace = true
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]
-tauri-plugin-autostart.workspace = true
 tauri-plugin-single-instance.workspace = true
+
+[target.'cfg(any(target_os = "windows", target_os = "linux"))'.dependencies]
+auto-launch.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+tauri-plugin-autostart.workspace = true
 
 [build-dependencies]
 tauri-build.workspace = true

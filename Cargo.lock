@@ -4790,6 +4790,7 @@ name = "rokbattles-desktop"
 version = "1.7.2"
 dependencies = [
  "anyhow",
+ "auto-launch",
  "notify",
  "reqwest 0.12.28",
  "rokbattles-mail-codec",
