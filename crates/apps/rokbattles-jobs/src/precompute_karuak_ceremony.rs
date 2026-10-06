@@ -12,7 +12,7 @@ use rokbattles_bson::{bson_to_i64_exact, nested_i64_exact as nested_i64};
 use rustc_hash::FxHashSet;
 use serde::ser::Error as _;
 
-use crate::error::JobsError;
+use crate::{error::JobsError, loot_window::loot_cutoff_mail_time};
 
 const BOSS_IDS: [i64; 5] = [30_001, 30_002, 30_003, 30_004, 30_005];
 const REWARD_SLOTS: usize = 5;
@@ -50,10 +50,13 @@ pub async fn precompute_karuak_ceremony_data(
 pub async fn compute_karuak_ceremony_documents(
     reports_store: &ReportsStore,
 ) -> Result<(Vec<Document>, KaruakCeremonyPrecomputeStats), JobsError> {
-    let (aggregates, stats) =
-        read_observed_reports(reports_store.event_member_loot_report_collection()).await?;
-
     let refreshed_at = DateTime::now();
+    let (aggregates, stats) = read_observed_reports(
+        reports_store.event_member_loot_report_collection(),
+        loot_cutoff_mail_time(refreshed_at),
+    )
+    .await?;
+
     let documents = aggregates
         .iter()
         .map(|(&kind, aggregate)| build_document(kind, aggregate, refreshed_at))
@@ -64,10 +67,14 @@ pub async fn compute_karuak_ceremony_documents(
 
 async fn read_observed_reports(
     source: &Collection<Document>,
+    cutoff_mail_time: i64,
 ) -> Result<(BTreeMap<i64, AggregateStats>, KaruakCeremonyPrecomputeStats), JobsError> {
     let mut cursor = source
         .aggregate([
-            doc! { "$match": { "boss.id": { "$in": BOSS_IDS.to_vec() } } },
+            doc! { "$match": {
+                "boss.id": { "$in": BOSS_IDS.to_vec() },
+                "metadata.mail_time": { "$gte": cutoff_mail_time },
+            } },
             doc! { "$project": {
                 "_id": 0,
                 "boss.id": 1,

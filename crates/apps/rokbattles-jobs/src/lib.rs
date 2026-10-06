@@ -7,6 +7,7 @@ pub(crate) mod combat_lab_troops;
 pub(crate) mod commander_catalog;
 pub mod config;
 pub mod error;
+mod loot_window;
 pub mod precompute_barbarian;
 pub mod precompute_barbarianfort;
 pub mod precompute_baulur;

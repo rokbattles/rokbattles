@@ -10,7 +10,7 @@ use mongodb::{
 use rokbattles_api::db::ReportsStore;
 use rokbattles_bson::{bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64};
 
-use crate::error::JobsError;
+use crate::{error::JobsError, loot_window::loot_cutoff_mail_time};
 
 const KAHAR_TREASURE_AGGREGATE_KEY: &str = "all";
 const KAHAR_AP_COST: i64 = 200;
@@ -47,20 +47,24 @@ pub async fn precompute_kahar_treasure_data(
 pub async fn compute_kahar_treasure_document(
     reports_store: &ReportsStore,
 ) -> Result<(Document, KaharTreasurePrecomputeStats), JobsError> {
-    let (aggregate, stats) =
-        read_observed_kahar_treasure_reports(reports_store.system_kahar_treasure_collection())
-            .await?;
+    let refreshed_at = DateTime::now();
+    let (aggregate, stats) = read_observed_kahar_treasure_reports(
+        reports_store.system_kahar_treasure_collection(),
+        loot_cutoff_mail_time(refreshed_at),
+    )
+    .await?;
 
-    let document = build_precomputed_document(&aggregate, DateTime::now());
+    let document = build_precomputed_document(&aggregate, refreshed_at);
 
     Ok((document, stats))
 }
 
 async fn read_observed_kahar_treasure_reports(
     source: &Collection<Document>,
+    cutoff_mail_time: i64,
 ) -> Result<(AggregateStats, KaharTreasurePrecomputeStats), JobsError> {
     let mut cursor = source
-        .find(doc! {})
+        .find(doc! { "metadata.mail_time": { "$gte": cutoff_mail_time } })
         .projection(doc! {
             "_id": 0,
             "loot": 1,
