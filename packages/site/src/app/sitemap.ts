@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getLegalDocuments } from "@/lib/legal-docs";
-import { source } from "@/lib/source";
+import { installationDocs, legalDocuments } from "@/content/metadata";
 
 const BASE_URL = "https://rokbattles.com";
 
@@ -19,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/legal",
   ];
 
-  getLegalDocuments().map((doc) => routes.push(`/legal/${doc.slug}`));
-  source.getPages().map((page) => routes.push(page.url));
+  installationDocs.map(({ slug }) => routes.push(`/docs/installation/${slug}`));
+  legalDocuments.map(({ id }) => routes.push(`/legal/${id}`));
 
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
