@@ -450,6 +450,11 @@ msgid "Baulurs"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
+msgctxt "2yDlMY"
+msgid "Lohars"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgctxt "xRJGes"
 msgid "Karuak Ceremony"
@@ -469,8 +474,8 @@ msgid "My Loot"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgctxt "zwmya7"
-msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
+msgctxt "LXDXC0"
+msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Lohars, Karuak Ceremony, and Kahar's Treasure."
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -517,6 +522,16 @@ msgstr ""
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgctxt "1j7NiE"
 msgid "Miser Khaolak"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgctxt "PpZxHs"
+msgid "Junior Lohar"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgctxt "w26f2G"
+msgid "Dauntless Lohar"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx

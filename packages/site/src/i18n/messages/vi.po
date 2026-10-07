@@ -459,6 +459,11 @@ msgid "Baulurs"
 msgstr "Thiết thủ Baulur"
 
 #: src/components/account-loot/account-loot-layout.tsx
+msgctxt "2yDlMY"
+msgid "Lohars"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgctxt "xRJGes"
 msgid "Karuak Ceremony"
@@ -478,9 +483,9 @@ msgid "My Loot"
 msgstr "Chiến lợi phẩm của tôi"
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgctxt "zwmya7"
-msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
-msgstr "Khám phá chiến lợi phẩm thu được từ Người man rợ, Pháo đài man rợ, Thiết thủ Baulur, Nghi lễ Karuak và Kho báu của Kahar."
+msgctxt "LXDXC0"
+msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Lohars, Karuak Ceremony, and Kahar's Treasure."
+msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgctxt "HAlOn1"
@@ -527,6 +532,16 @@ msgstr "Thiết thủ Baulur"
 msgctxt "1j7NiE"
 msgid "Miser Khaolak"
 msgstr "Tên bủn xỉn Khaolak"
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgctxt "PpZxHs"
+msgid "Junior Lohar"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgctxt "w26f2G"
+msgid "Dauntless Lohar"
+msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx

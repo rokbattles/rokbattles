@@ -27,6 +27,7 @@ pub struct ReportsStore {
     mails_system_kahartreasure: Collection<Document>,
     mails_eventmemberlootreport: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
+    mails_killelitebarreport: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
@@ -55,6 +56,7 @@ impl ReportsStore {
             mails_system_kahartreasure: db.collection("mails_system_kahartreasure"),
             mails_eventmemberlootreport: db.collection("mails_eventmemberlootreport"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
+            mails_killelitebarreport: db.collection("mails_killelitebarreport"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
@@ -399,6 +401,19 @@ impl ReportsStore {
             self.mails_barcanyonkillboss.create_index(model).await?;
         }
 
+        self.mails_killelitebarreport
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! {
+                        "metadata.mail_receiver": 1,
+                        "participants.player_id": 1,
+                        "npc.type": 1,
+                        "metadata.mail_time": -1,
+                    })
+                    .build(),
+            )
+            .await?;
+
         self.mails_eventmemberlootreport
             .create_index(
                 IndexModel::builder()
@@ -578,6 +593,11 @@ impl ReportsStore {
     /// Access the bar canyon kill boss mail collection.
     pub fn barcanyonkillboss_collection(&self) -> &Collection<Document> {
         &self.mails_barcanyonkillboss
+    }
+
+    /// Access elite barbarian (Lohar) reward reports.
+    pub fn killelitebarreport_collection(&self) -> &Collection<Document> {
+        &self.mails_killelitebarreport
     }
 
     /// Access the RSS mail collection.

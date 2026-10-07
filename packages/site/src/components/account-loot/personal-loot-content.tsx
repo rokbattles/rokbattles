@@ -114,6 +114,17 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       };
     }
 
+    if (active === "lohars") {
+      return {
+        defaultType: "junior-lohar",
+        typeOptions: [
+          { value: "junior-lohar", label: t("Junior Lohar") },
+          { value: "dauntless-lohar", label: t("Dauntless Lohar") },
+        ],
+        showLevelFilter: false,
+      };
+    }
+
     if (active === "kahars-treasure") {
       return {
         defaultType: "kahars-treasure",
@@ -199,7 +210,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       return [{ label: t("Results"), value: data?.totals.results ?? 0 }];
     }
 
-    if (active === "kahars-treasure") {
+    if (active === "kahars-treasure" || active === "lohars") {
       return [
         { label: t("Results"), value: data?.totals.results ?? 0 },
         { label: t("AP used (est.)"), value: data?.totals.apUsed ?? 0 },
