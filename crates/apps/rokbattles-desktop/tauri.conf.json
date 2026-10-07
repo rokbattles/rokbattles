@@ -13,7 +13,10 @@
       "script": "pnpm build",
       "cwd": "../../../packages/desktop-client"
     },
-    "frontendDist": "../../../packages/desktop-client/dist"
+    "frontendDist": "../../../packages/desktop-client/dist",
+    "windows": {
+      "staticVCRuntime": true
+    }
   },
   "app": {
     "windows": [
@@ -71,6 +74,9 @@
       "icons/icon.ico"
     ],
     "createUpdaterArtifacts": true,
+    "windows": {
+      "bundleVCRuntime": true
+    },
     "macOS": {
       "entitlements": "./Entitlements.plist"
     }
