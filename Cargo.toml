@@ -8,7 +8,7 @@ resolver = "3"
 [workspace.package]
 edition = "2024"
 rust-version = "1.98"
-version = "1.7.3"
+version = "1.7.4"
 
 [workspace.dependencies]
 rustc-hash = "2.1.3"
