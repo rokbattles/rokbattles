@@ -139,5 +139,9 @@ jobs:
       - name: Build
         run: cargo build --workspace --all-targets --verbose
 
-      - name: Test
-        run: cargo test --workspace --all-features --verbose
+      # Tauri's Windows msvcrt.lib shim must stay out of other crates' doctest library paths.
+      - name: Test workspace (excluding desktop)
+        run: cargo test --workspace --exclude rokbattles-desktop --all-features --verbose
+
+      - name: Test desktop
+        run: cargo test -p rokbattles-desktop --all-features --verbose
