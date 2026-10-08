@@ -48,19 +48,24 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const resolvedSearchParams = (await searchParams) ?? {};
   const fromParam = resolveSearchParam(resolvedSearchParams.from);
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
+  const arkMatchId =
+    fromParam === "ark" ? resolveSearchParam(resolvedSearchParams.matchId) : undefined;
   const backBase = isAccountReports ? "/account/reports" : "/";
   const backLabel = isAccountReports ? t("Back to My Reports") : t("Explore Battles");
   const backQuery = buildQueryString(resolvedSearchParams, "from");
+  const backHref = arkMatchId
+    ? `/account/ark/${encodeURIComponent(arkMatchId)}?tab=reports`
+    : `${backBase}${backQuery}`;
 
   return (
     <>
-      <div className="max-lg:hidden mb-8">
+      <div className={arkMatchId ? "mb-8" : "max-lg:hidden mb-8"}>
         <Link
-          href={`${backBase}${backQuery}`}
+          href={backHref}
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
         >
           <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
-          {backLabel}
+          {arkMatchId ? t("Back to Ark Recap") : backLabel}
         </Link>
       </div>
       <ReportView id={id ?? ""} />

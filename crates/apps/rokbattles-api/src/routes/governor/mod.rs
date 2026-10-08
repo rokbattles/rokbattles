@@ -23,6 +23,7 @@ pub fn router() -> Router<Arc<AppState>> {
         .route("/{governor_id}/bind/default", patch(bind::patch_default))
         .route("/{governor_id}/ark", get(ark::get))
         .route("/{governor_id}/ark/{match_id}", get(ark::get_by_id))
+        .route("/{governor_id}/ark/{match_id}/reports", get(ark::reports::get))
         .route("/{governor_id}/loot/barbarians", get(loot::get_barbarians))
         .route("/{governor_id}/loot/barbarian-forts", get(loot::get_barbarian_forts))
         .route("/{governor_id}/loot/baulurs", get(loot::get_baulurs))

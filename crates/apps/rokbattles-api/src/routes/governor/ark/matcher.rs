@@ -1,21 +1,18 @@
 use std::{cmp::Ordering, collections::BTreeMap};
 
-use mongodb::bson::{Bson, Document};
-use rokbattles_bson::bson_to_f64;
+use mongodb::bson::Document;
 
-use crate::time_utils::normalize_timestamp_millis;
-
-const DEFAULT_MATCH_DELTA_MILLIS: i64 = 60_000;
+use super::{
+    MATCH_DELTA_MILLIS,
+    mapper::{extract_mail_time_millis, parse_string},
+};
 
 #[derive(Debug)]
 pub(crate) struct MatchedArkMailSet {
     pub battle_results: Document,
     pub battle_results_mail_id: Option<String>,
     pub battle_results_time_millis: i64,
-    pub battle_info: Option<Document>,
-    pub battle_info_mail_id: Option<String>,
     pub individual_results: Option<Document>,
-    pub individual_results_mail_id: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
@@ -35,22 +32,14 @@ struct MatchCandidate {
 
 type CandidatePool = BTreeMap<MatchKey, MatchCandidate>;
 
-#[derive(Debug)]
-struct MatchedSecondary {
-    doc: Document,
-    mail_id: Option<String>,
-}
-
 pub(crate) fn match_ark_mails(
     battle_results: Vec<Document>,
-    battle_info: Vec<Document>,
     individual_results: Vec<Document>,
     max_delta_millis: i64,
 ) -> Vec<MatchedArkMailSet> {
     let safe_max_delta_millis =
-        if max_delta_millis > 0 { max_delta_millis } else { DEFAULT_MATCH_DELTA_MILLIS };
+        if max_delta_millis > 0 { max_delta_millis } else { MATCH_DELTA_MILLIS };
 
-    let mut battle_info_pool = build_pool(battle_info);
     let mut individual_results_pool = build_pool(individual_results);
     let mut matches = Vec::new();
 
@@ -60,38 +49,17 @@ pub(crate) fn match_ark_mails(
             continue;
         };
 
-        let matched_battle_info = consume_best_candidate(
-            &mut battle_info_pool,
-            primary.mail_time_millis,
-            safe_max_delta_millis,
-        );
-        let matched_individual_results = consume_best_candidate(
+        let individual_results = consume_best_candidate(
             &mut individual_results_pool,
             primary.mail_time_millis,
             safe_max_delta_millis,
         );
 
-        let (battle_info, battle_info_mail_id) = if let Some(entry) = matched_battle_info {
-            (Some(entry.doc), entry.mail_id)
-        } else {
-            (None, None)
-        };
-
-        let (individual_results, individual_results_mail_id) =
-            if let Some(entry) = matched_individual_results {
-                (Some(entry.doc), entry.mail_id)
-            } else {
-                (None, None)
-            };
-
         matches.push(MatchedArkMailSet {
             battle_results: primary.doc,
             battle_results_mail_id: primary.mail_id,
             battle_results_time_millis: primary.mail_time_millis,
-            battle_info,
-            battle_info_mail_id,
             individual_results,
-            individual_results_mail_id,
         });
     }
 
@@ -115,11 +83,11 @@ fn consume_best_candidate(
     pool: &mut CandidatePool,
     primary_time_millis: i64,
     max_delta_millis: i64,
-) -> Option<MatchedSecondary> {
+) -> Option<Document> {
     let best_key = choose_best_candidate_key(pool, primary_time_millis, max_delta_millis)?;
     let candidate = pool.remove(&best_key)?;
 
-    Some(MatchedSecondary { mail_id: candidate.mail_id, doc: candidate.doc })
+    Some(candidate.doc)
 }
 
 fn choose_best_candidate_key(
@@ -156,7 +124,7 @@ fn choose_best_candidate_key(
             continue;
         };
 
-        if absolute_delta(candidate.mail_time_millis, primary_time_millis) > max_delta_millis {
+        if candidate.mail_time_millis.abs_diff(primary_time_millis) > max_delta_millis {
             continue;
         }
 
@@ -180,8 +148,8 @@ fn is_better_candidate(
     current_best: &MatchCandidate,
     primary_time_millis: i64,
 ) -> Ordering {
-    let candidate_delta = absolute_delta(candidate.mail_time_millis, primary_time_millis);
-    let current_delta = absolute_delta(current_best.mail_time_millis, primary_time_millis);
+    let candidate_delta = candidate.mail_time_millis.abs_diff(primary_time_millis);
+    let current_delta = current_best.mail_time_millis.abs_diff(primary_time_millis);
 
     match candidate_delta.cmp(&current_delta) {
         Ordering::Equal => match current_best.mail_time_millis.cmp(&candidate.mail_time_millis) {
@@ -196,14 +164,10 @@ fn is_better_candidate(
     }
 }
 
-fn absolute_delta(a: i64, b: i64) -> u64 {
-    a.abs_diff(b)
-}
-
 fn to_candidate(document: Document, sequence: u32) -> Option<MatchCandidate> {
     let metadata = document.get_document("metadata").ok()?;
-    let mail_time_millis = extract_mail_time_millis(metadata.get("mail_time")?)?;
-    let mail_id = to_mail_id(metadata.get("mail_id"));
+    let mail_time_millis = extract_mail_time_millis(&document)?;
+    let mail_id = parse_string(metadata.get("mail_id"));
     let mail_id_key = mail_id.clone().unwrap_or_default();
 
     Some(MatchCandidate {
@@ -214,49 +178,56 @@ fn to_candidate(document: Document, sequence: u32) -> Option<MatchCandidate> {
     })
 }
 
-fn extract_mail_time_millis(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::DateTime(value) => Some(value.timestamp_millis()),
-        Bson::String(value) => {
-            value.trim().parse::<f64>().ok().and_then(normalize_timestamp_millis)
-        }
-        other => bson_to_f64(other).and_then(normalize_timestamp_millis),
-    }
-}
-
-fn to_mail_id(value: Option<&Bson>) -> Option<String> {
-    let value = value?;
-
-    match value {
-        Bson::String(value) => {
-            let trimmed = value.trim();
-            (!trimmed.is_empty()).then(|| trimmed.to_string())
-        }
-        Bson::Int32(value) => Some(value.to_string()),
-        Bson::Int64(value) => Some(value.to_string()),
-        Bson::Double(value) if value.is_finite() => Some(value.to_string()),
-        _ => None,
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use mongodb::bson::doc;
 
     use super::*;
 
+    fn individual_mail_id(matched: &MatchedArkMailSet) -> Option<&str> {
+        matched.individual_results.as_ref()?.get_document("metadata").ok()?.get_str("mail_id").ok()
+    }
+
     #[test]
     fn matches_exact_timestamp_candidates() {
         let matched = match_ark_mails(
             vec![doc! { "metadata": { "mail_id": "r1", "mail_time": 1_700_000_000_i64 } }],
-            vec![doc! { "metadata": { "mail_id": "i1", "mail_time": 1_700_000_000_i64 } }],
             vec![doc! { "metadata": { "mail_id": "n1", "mail_time": 1_700_000_000_i64 } }],
             60_000,
         );
 
         assert_eq!(matched.len(), 1);
-        assert_eq!(matched[0].battle_info_mail_id.as_deref(), Some("i1"));
-        assert_eq!(matched[0].individual_results_mail_id.as_deref(), Some("n1"));
+        assert_eq!(individual_mail_id(&matched[0]), Some("n1"));
+    }
+
+    #[test]
+    fn consumes_each_individual_result_only_once() {
+        let matched = match_ark_mails(
+            vec![
+                doc! { "metadata": { "mail_id": "r1", "mail_time": 1_700_000_000_i64 } },
+                doc! { "metadata": { "mail_id": "r2", "mail_time": 1_700_000_001_i64 } },
+            ],
+            vec![doc! { "metadata": { "mail_id": "n1", "mail_time": 1_700_000_000_i64 } }],
+            60_000,
+        );
+
+        assert_eq!(matched.len(), 2);
+        assert_eq!(individual_mail_id(&matched[0]), Some("n1"));
+        assert!(matched[1].individual_results.is_none());
+    }
+
+    #[test]
+    fn matches_bson_dates_with_string_encoded_timestamps() {
+        let timestamp = mongodb::bson::DateTime::from_millis(1_700_000_000_000);
+        let matched = match_ark_mails(
+            vec![doc! { "metadata": { "mail_id": "r1", "mail_time": timestamp } }],
+            vec![doc! { "metadata": { "mail_id": "n1", "mail_time": "1700000000000000" } }],
+            60_000,
+        );
+
+        assert_eq!(matched.len(), 1);
+        assert_eq!(matched[0].battle_results_time_millis, timestamp.timestamp_millis());
+        assert_eq!(individual_mail_id(&matched[0]), Some("n1"));
     }
 
     #[test]
@@ -269,11 +240,10 @@ mod tests {
                 doc! { "metadata": { "mail_id": "older", "mail_time": base_micros - 100_000 } },
                 doc! { "metadata": { "mail_id": "newer", "mail_time": base_micros + 100_000 } },
             ],
-            vec![],
             500,
         );
 
-        assert_eq!(matched[0].battle_info_mail_id.as_deref(), Some("newer"));
+        assert_eq!(individual_mail_id(&matched[0]), Some("newer"));
     }
 
     #[test]
@@ -286,11 +256,10 @@ mod tests {
                 doc! { "metadata": { "mail_id": "z-id", "mail_time": base_micros } },
                 doc! { "metadata": { "mail_id": "a-id", "mail_time": base_micros } },
             ],
-            vec![],
             500,
         );
 
-        assert_eq!(matched[0].battle_info_mail_id.as_deref(), Some("a-id"));
+        assert_eq!(individual_mail_id(&matched[0]), Some("a-id"));
     }
 
     #[test]
@@ -300,10 +269,9 @@ mod tests {
         let matched = match_ark_mails(
             vec![doc! { "metadata": { "mail_id": "r1", "mail_time": base_micros } }],
             vec![doc! { "metadata": { "mail_id": "far", "mail_time": base_micros + 10_000_000 } }],
-            vec![],
             500,
         );
 
-        assert_eq!(matched[0].battle_info_mail_id, None);
+        assert!(matched[0].individual_results.is_none());
     }
 }

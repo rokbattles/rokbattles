@@ -6,6 +6,7 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+use futures::{StreamExt, TryStreamExt, stream};
 use rustc_hash::FxHashMap;
 
 use self::{
@@ -16,10 +17,10 @@ use self::{
     matcher::match_ark_mails,
     query::{parse_ark_list_request, parse_match_id},
     store::{
-        fetch_ark_battle_info_mails, fetch_ark_battle_results_mail_by_id,
-        fetch_ark_battle_results_mails, fetch_ark_individual_results_mails,
+        fetch_ark_battle_results_mail_by_id, fetch_ark_battle_results_mails,
+        fetch_ark_individual_results_mails,
     },
-    types::{ArkDetailResponse, ArkHistoryResponse},
+    types::{ArkDetailResponse, ArkHistoryResponse, ArkLeague},
 };
 use crate::{
     auth::AuthenticatedSession,
@@ -32,6 +33,7 @@ use crate::{
 mod mapper;
 mod matcher;
 mod query;
+pub(crate) mod reports;
 mod store;
 mod types;
 
@@ -45,7 +47,7 @@ pub async fn get(
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
-    let request = parse_ark_list_request(&params)?;
+    let request = parse_ark_list_request(&params);
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
 
@@ -60,25 +62,40 @@ pub async fn get(
     }
 
     let primary_times = extract_mail_times(&battle_results);
-    let (battle_info, individual_results) =
-        match build_secondary_window(&primary_times, MATCH_DELTA_MILLIS) {
-            Some(window) => {
-                let time_match = build_mail_time_match(window.start_millis, window.end_millis);
-                tokio::try_join!(
-                    fetch_ark_battle_info_mails(&state, &mail_receiver, &time_match),
-                    fetch_ark_individual_results_mails(&state, &mail_receiver, &time_match),
-                )?
-            }
-            None => (Vec::new(), Vec::new()),
-        };
+    let individual_results = match build_secondary_window(&primary_times, MATCH_DELTA_MILLIS) {
+        Some(window) => {
+            let time_match = build_mail_time_match(window.start_millis, window.end_millis);
+            fetch_ark_individual_results_mails(&state, &mail_receiver, &time_match).await?
+        }
+        None => Vec::new(),
+    };
 
-    let matched =
-        match_ark_mails(battle_results, battle_info, individual_results, MATCH_DELTA_MILLIS);
-    let items = matched
-        .iter()
-        .enumerate()
-        .map(|(index, entry)| map_match_record(entry, index))
-        .collect::<Vec<_>>();
+    let matched = match_ark_mails(battle_results, individual_results, MATCH_DELTA_MILLIS);
+    let summaries: Vec<_> =
+        matched.iter().enumerate().map(|(index, entry)| map_match_record(entry, index)).collect();
+
+    let mut items = stream::iter(summaries.into_iter().map(|mut summary| {
+        let state = Arc::clone(&state);
+        let receiver = mail_receiver.clone();
+
+        async move {
+            if summary.league == ArkLeague::Unknown {
+                let scope = reports::resolve_report_scope(&state, &receiver, &summary).await?;
+                if let Some(league) = scope.league {
+                    summary.league = league;
+                }
+            }
+
+            Ok::<_, ApiError>(summary)
+        }
+    }))
+    .buffered(6)
+    .try_collect::<Vec<_>>()
+    .await?;
+
+    items.retain(|item| {
+        matches!(item.league, ArkLeague::Golden | ArkLeague::Silver | ArkLeague::Osiris)
+    });
 
     let response = ArkHistoryResponse {
         limit: request.limit,
@@ -119,14 +136,21 @@ pub async fn get_by_id(
         mail_time_millis.saturating_sub(MATCH_DELTA_MILLIS),
         mail_time_millis.saturating_add(MATCH_DELTA_MILLIS).saturating_add(1),
     );
-    let (battle_info, individual_results) = tokio::try_join!(
-        fetch_ark_battle_info_mails(&state, &mail_receiver, &time_match),
-        fetch_ark_individual_results_mails(&state, &mail_receiver, &time_match),
-    )?;
+    let individual_results =
+        fetch_ark_individual_results_mails(&state, &mail_receiver, &time_match).await?;
 
-    let matched =
-        match_ark_mails(vec![battle_results], battle_info, individual_results, MATCH_DELTA_MILLIS);
-    let detail = matched.first().map(|entry| map_match_detail(entry, 0));
+    let matched = match_ark_mails(vec![battle_results], individual_results, MATCH_DELTA_MILLIS);
+    let mut detail = matched.first().map(|entry| map_match_detail(entry, 0));
+
+    if let Some(detail) = detail.as_mut() {
+        let scope = reports::resolve_report_scope(&state, &mail_receiver, &detail.summary).await?;
+
+        if let Some(league) = scope.league {
+            detail.summary.league = league;
+        }
+
+        detail.battle_reports = scope.coverage;
+    }
 
     let response = ArkDetailResponse { id: match_id, ark_match: detail };
 

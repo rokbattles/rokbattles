@@ -1,11 +1,12 @@
 use mongodb::bson::{Bson, Document};
-use rokbattles_bson::{bson_to_f64, bson_to_i64, nested_array, nested_document};
+use rokbattles_bson::{bson_to_f64, bson_to_i64, nested_array, nested_document, nested_value};
 
 use super::{
     matcher::MatchedArkMailSet,
     types::{
-        ArkMatchAlliance, ArkMatchDetail, ArkMatchDetailIndividualResults, ArkMatchDetailOverview,
-        ArkMatchDetailPairing, ArkMatchSummary,
+        ArkHighlight, ArkLeague, ArkMatchAlliance, ArkMatchDetail, ArkMatchDetailIndividualResults,
+        ArkMatchDetailOverview, ArkMatchDetailPairing, ArkMatchSummary, ArkParticipant,
+        ArkReportCoverage, ArkReportStatus,
     },
 };
 use crate::time_utils::normalize_timestamp_millis;
@@ -68,12 +69,11 @@ pub(crate) fn map_match_record(
     ArkMatchSummary {
         match_id: entry.battle_results_mail_id.clone().unwrap_or(fallback_mail_id),
         mail_time_millis: entry.battle_results_time_millis,
-        battle_results_mail_id: entry.battle_results_mail_id.clone(),
-        battle_info_mail_id: entry.battle_info_mail_id.clone(),
-        individual_results_mail_id: entry.individual_results_mail_id.clone(),
         alliances,
         winner_alliance_id,
-        has_battle_info: entry.battle_info.is_some(),
+        self_alliance_id,
+        league: league_from_mail(&entry.battle_results),
+        personal_score: map_match_overview(entry.individual_results.as_ref()).score,
         has_individual_results: entry.individual_results.is_some(),
     }
 }
@@ -86,6 +86,9 @@ pub(crate) fn map_match_detail(entry: &MatchedArkMailSet, fallback_index: usize)
         overview: map_match_overview(entry.individual_results.as_ref()),
         individual_results: map_individual_results(entry.individual_results.as_ref()),
         pairings: map_pairings(entry.individual_results.as_ref()),
+        participants: map_participants(&entry.battle_results),
+        highlights: map_highlights(&entry.battle_results),
+        battle_reports: ArkReportCoverage { status: ArkReportStatus::Missing, total: 0 },
     }
 }
 
@@ -93,6 +96,7 @@ fn map_alliance(document: &Document) -> ArkMatchAlliance {
     ArkMatchAlliance {
         id: parse_i64(nested_value(document, &["alliance", "id"])),
         name: parse_string(nested_value(document, &["alliance", "name"])),
+        logo: parse_string(nested_value(document, &["alliance", "logo"])),
         abbreviation: parse_string(nested_value(document, &["alliance", "abbreviation"])),
         score: parse_i64(nested_value(document, &["score"])),
         members: parse_i64(nested_value(document, &["members"])),
@@ -122,18 +126,14 @@ fn derive_winner_alliance_id(
 fn map_match_overview(individual_results: Option<&Document>) -> ArkMatchDetailOverview {
     ArkMatchDetailOverview {
         rank: individual_results
-            .and_then(|doc| parse_i64(nested_value(doc, &["overview", "rank"]))),
+            .and_then(|doc| parse_i64(nested_value(doc, &["overview", "rank"])))
+            .filter(|rank| *rank > 0),
         score: individual_results
-            .and_then(|doc| parse_i64(nested_value(doc, &["overview", "score"]))),
-        battles: individual_results.and_then(|doc| {
-            parse_i64(nested_value(doc, &["overview", "total_results", "battles"]))
-        }),
-        kill_points_gain: individual_results.and_then(|doc| {
-            parse_i64(nested_value(doc, &["overview", "total_results", "kill_points"]))
-        }),
-        kill_points_loss: individual_results.and_then(|doc| {
-            parse_i64(nested_value(doc, &["overview", "total_results", "severely_wounded"]))
-        }),
+            .and_then(|doc| {
+                parse_i64(nested_value(doc, &["overview", "score"]))
+                    .or_else(|| parse_i64(nested_value(doc, &["results", "total_score"])))
+            })
+            .filter(|score| *score >= 0),
     }
 }
 
@@ -153,18 +153,18 @@ fn map_individual_results(
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "severely_wounded"]))),
         units_healed: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "units_healed"]))),
-        speedups: individual_results
+        speedups_minutes: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "speedups"]))),
         teleports: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "teleports"]))),
-        structures: individual_results
-            .and_then(|doc| parse_i64(nested_value(doc, &["results", "structures"]))),
         provisions_score: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "gather_score"]))),
         ark_of_osiris_score: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "flag_score"]))),
         kill_score: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "kill_score"]))),
+        healing_score: individual_results
+            .and_then(|doc| parse_i64(nested_value(doc, &["results", "healing_score"]))),
         occupation_score: individual_results
             .and_then(|doc| parse_i64(nested_value(doc, &["results", "building_score"]))),
     }
@@ -192,15 +192,71 @@ fn map_pairings(individual_results: Option<&Document>) -> Vec<ArkMatchDetailPair
             battles_win: parse_i64(nested_value(pairing, &["battles_win"])),
             kill_count: parse_i64(nested_value(pairing, &["kill_count"])),
             kill_points: parse_i64(nested_value(pairing, &["kill_points"])),
-            severely_wounded: parse_i64(nested_value(pairing, &["severely_wounded"])),
+            loss_points: parse_i64(nested_value(pairing, &["severely_wounded"])),
         })
         .collect()
 }
 
-fn nested_value<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
-    let (key, parents) = path.split_last()?;
-    let parent = nested_document(document, parents)?;
-    parent.get(*key)
+fn league_from_mail(document: &Document) -> ArkLeague {
+    match nested_value(document, &["body", "battle_type"]).and_then(Bson::as_str) {
+        Some("EgyptLeague") => ArkLeague::Osiris,
+        Some("diy_egypt" | "DiyEgypt" | "InviteMatch") => ArkLeague::Custom,
+        Some("Practice" | "InvitePractice") => ArkLeague::Practice,
+        Some("SilverEgypt") => ArkLeague::Silver,
+        // Egypt/Egype does not distinguish Golden from Silver in older stored mail.
+        _ => ArkLeague::Unknown,
+    }
+}
+
+fn nonnegative_number(value: Option<&Bson>) -> Option<f64> {
+    let number = rokbattles_bson::bson_to_f64_loose(value?)?;
+    (number.is_finite() && number >= 0.0).then_some(number)
+}
+
+fn map_participants(document: &Document) -> Vec<ArkParticipant> {
+    nested_array(document, &["participants"])
+        .into_iter()
+        .flatten()
+        .filter_map(Bson::as_document)
+        .enumerate()
+        .map(|(index, participant)| ArkParticipant {
+            rank: index + 1,
+            name: parse_string(participant.get("player_name")),
+            participated: participant
+                .get("individual_points")
+                .and_then(rokbattles_bson::bson_to_f64_loose)
+                .filter(|value| value.is_finite())
+                .map(|value| value >= 0.0),
+            // Negative scores mean the governor did not enter the match.
+            score: nonnegative_number(participant.get("individual_points")),
+            occupation_score: nonnegative_number(participant.get("building_score")),
+            provisions_score: nonnegative_number(participant.get("gather_score")),
+            kill_score: nonnegative_number(participant.get("kill_score")),
+            ark_score: nonnegative_number(participant.get("flag_score")),
+        })
+        .collect()
+}
+
+fn map_highlights(document: &Document) -> Vec<ArkHighlight> {
+    [
+        "flag_score",
+        "building_score",
+        "gather_score",
+        "killed_score",
+        "be_killed_score",
+        "healing_score",
+    ]
+    .into_iter()
+    .filter_map(|category| {
+        let value = nested_document(document, &["overview", category])?;
+        Some(ArkHighlight {
+            category: category.to_string(),
+            alliance_value: nonnegative_number(value.get("alliance_score")),
+            player_name: parse_string(nested_value(value, &["mvp", "player_name"])),
+            player_value: nonnegative_number(nested_value(value, &["mvp", "score"])),
+        })
+    })
+    .collect()
 }
 
 fn parse_timestamp_millis(value: &Bson) -> Option<i64> {
@@ -261,7 +317,7 @@ fn parse_bool(value: Option<&Bson>) -> Option<bool> {
     }
 }
 
-fn parse_string(value: Option<&Bson>) -> Option<String> {
+pub(super) fn parse_string(value: Option<&Bson>) -> Option<String> {
     let value = value?;
 
     match value {
@@ -302,14 +358,72 @@ mod tests {
             },
             battle_results_mail_id: Some("m1".to_string()),
             battle_results_time_millis: 1_000,
-            battle_info: None,
-            battle_info_mail_id: None,
             individual_results: None,
-            individual_results_mail_id: None,
         };
 
         let mapped = map_match_record(&entry, 0);
         assert_eq!(mapped.winner_alliance_id, Some(8));
         assert_eq!(mapped.match_id, "m1");
+    }
+
+    #[test]
+    fn participant_scores_preserve_decimals_and_distinguish_absence_from_nonparticipation() {
+        let participants = map_participants(&doc! { "participants": [
+            { "player_name": "Active", "individual_points": 250, "gather_score": 2.5 },
+            { "player_name": "Absent", "individual_points": -1 },
+            { "player_name": "Unknown" },
+        ] });
+        assert_eq!(participants[0].score, Some(250.0));
+        assert_eq!(participants[0].provisions_score, Some(2.5));
+        assert_eq!(participants[0].participated, Some(true));
+        assert_eq!(participants[1].score, None);
+        assert_eq!(participants[1].participated, Some(false));
+        assert_eq!(participants[2].participated, None);
+    }
+
+    #[test]
+    fn maps_pairing_loss_points_without_confusing_wounded_units() {
+        let individual = doc! {
+            "overview": { "rank": 0 },
+            "results": { "total_score": 123123, "severely_wounded": 2760854 },
+            "pairings": [{ "battles": 323, "kill_points": 28554639, "severely_wounded": 10580340 }],
+        };
+        let overview = map_match_overview(Some(&individual));
+        assert_eq!(overview.rank, None);
+        assert_eq!(overview.score, Some(123123));
+        assert_eq!(map_individual_results(Some(&individual)).severely_wounded, Some(2760854));
+        assert_eq!(map_pairings(Some(&individual))[0].loss_points, Some(10580340));
+    }
+
+    #[test]
+    fn missing_individual_mail_stays_unknown_and_does_not_invent_zeroes() {
+        let overview = map_match_overview(None);
+        assert_eq!(overview.score, None);
+        assert!(map_pairings(None).is_empty());
+        assert_eq!(map_individual_results(None).kill_score, None);
+    }
+
+    #[test]
+    fn speedup_minutes_preserve_recorded_duration_and_missing_values() {
+        for (value, expected) in
+            [(Bson::Int64(125), Some(125)), (Bson::Int32(0), Some(0)), (Bson::Null, None)]
+        {
+            let individual = doc! { "results": { "speedups": value } };
+            assert_eq!(map_individual_results(Some(&individual)).speedups_minutes, expected);
+        }
+        assert_eq!(map_individual_results(Some(&doc! {})).speedups_minutes, None);
+        assert_eq!(map_individual_results(None).speedups_minutes, None);
+    }
+
+    #[test]
+    fn older_regular_mail_does_not_guess_golden_or_silver_without_a_session() {
+        assert_eq!(
+            league_from_mail(&doc! { "body": { "battle_type": "Egypt" } }),
+            ArkLeague::Unknown
+        );
+        assert_eq!(
+            league_from_mail(&doc! { "body": { "battle_type": "EgyptLeague" } }),
+            ArkLeague::Osiris
+        );
     }
 }

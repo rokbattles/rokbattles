@@ -10,11 +10,10 @@ pub(crate) struct ArkListRequest {
     pub limit: i64,
 }
 
-pub(crate) fn parse_ark_list_request(
-    params: &FxHashMap<String, String>,
-) -> Result<ArkListRequest, ApiError> {
+pub(crate) fn parse_ark_list_request(params: &FxHashMap<String, String>) -> ArkListRequest {
     let limit = resolve_limit(params.get("limit").map(String::as_str));
-    Ok(ArkListRequest { limit })
+
+    ArkListRequest { limit }
 }
 
 pub(crate) fn parse_match_id(raw_match_id: &str) -> Result<String, ApiError> {
@@ -47,14 +46,13 @@ mod tests {
 
     #[test]
     fn parse_list_request_uses_default_limit_for_missing_or_invalid_value() {
-        let default_request = parse_ark_list_request(&FxHashMap::default()).expect("request");
+        let default_request = parse_ark_list_request(&FxHashMap::default());
         assert_eq!(default_request.limit, DEFAULT_LIMIT);
 
         let invalid_request = parse_ark_list_request(&FxHashMap::from_iter([(
             "limit".to_string(),
             "abc".to_string(),
-        )]))
-        .expect("request");
+        )]));
         assert_eq!(invalid_request.limit, DEFAULT_LIMIT);
     }
 
@@ -63,15 +61,13 @@ mod tests {
         let min_request = parse_ark_list_request(&FxHashMap::from_iter([(
             "limit".to_string(),
             "-10".to_string(),
-        )]))
-        .expect("request");
+        )]));
         assert_eq!(min_request.limit, 1);
 
         let max_request = parse_ark_list_request(&FxHashMap::from_iter([(
             "limit".to_string(),
             "999".to_string(),
-        )]))
-        .expect("request");
+        )]));
         assert_eq!(max_request.limit, MAX_LIMIT);
     }
 
