@@ -47,6 +47,7 @@ pub(crate) struct ResourceDailyValueByTypeResponse {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct ResourceDailyResponse {
     pub date: String,
+    pub reports: i64,
     pub crystals_gain: i64,
     pub resources: Vec<ResourceDailyValueByTypeResponse>,
 }

@@ -15,6 +15,7 @@ export type ResourceDailyValueByType = {
 
 export type ResourcesDailyAggregate = {
   date: string;
+  reports: number;
   crystalsGain: number;
   resources: ResourceDailyValueByType[];
 };
