@@ -70,14 +70,6 @@ function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): React
   return (
     <section className="min-w-0 rounded-md border border-zinc-200 p-4 sm:p-5 dark:border-zinc-800">
       <Subheading>{title}</Subheading>
-      <div className="mt-2 flex flex-wrap gap-4 text-xs text-zinc-500 dark:text-zinc-400">
-        {series.map((entry) => (
-          <span key={entry.key} className="inline-flex items-center gap-1.5">
-            <span className="size-2 rounded-full" style={{ backgroundColor: entry.color }} />
-            {entry.name}
-          </span>
-        ))}
-      </div>
       {hasValues ? (
         <div className="mt-4 h-60" role="group" aria-label={title}>
           <ResponsiveContainer>
