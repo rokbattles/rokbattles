@@ -1,78 +1,83 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { toDateInput, todayUtcStartMillis } from "@/lib/loot/date";
+import { useEffect, useState } from "react";
 import type { ResourcesQueryResult } from "@/lib/types/resources";
 
 type ResourcesOptions = {
   governorId: number | null | undefined;
-  startParam?: string | null;
-  endParam?: string | null;
+  startParam: string;
+  endParam: string;
 };
 
-export type UseResourcesResult = {
+type ResourcesResult = {
   data: ResourcesQueryResult | null;
   loading: boolean;
   error: string | null;
+  retry: () => void;
 };
 
-function buildRangeParams(options: { startParam?: string | null; endParam?: string | null }) {
-  const { startParam, endParam } = options;
-  if (startParam && endParam) {
-    return new URLSearchParams({ start: startParam, end: endParam });
-  }
+type ResourcesRequestResult = {
+  key: string;
+  data: ResourcesQueryResult | null;
+  error: string | null;
+};
 
-  const currentYear = new Date().getUTCFullYear();
-  return new URLSearchParams({
-    start: `${currentYear}-01-01`,
-    end: toDateInput(todayUtcStartMillis()),
-  });
-}
+export function useResources({
+  governorId,
+  startParam,
+  endParam,
+}: ResourcesOptions): ResourcesResult {
+  const [result, setResult] = useState<ResourcesRequestResult | null>(null);
+  const [attempt, setAttempt] = useState(0);
+  const hasGovernor = governorId != null && Number.isFinite(governorId);
+  const key = `${governorId}:${startParam}:${endParam}:${attempt}`;
 
-export function useResources(options: ResourcesOptions): UseResourcesResult {
-  const { governorId, startParam, endParam } = options;
-  const [data, setData] = useState<ResourcesQueryResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchResources = useCallback(async () => {
-    if (governorId == null || !Number.isFinite(governorId)) {
-      setData(null);
-      setError(null);
-      setLoading(false);
+  useEffect(() => {
+    if (!hasGovernor) {
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    const controller = new AbortController();
 
-    try {
-      const params = buildRangeParams({ startParam, endParam });
-      const response = await fetch(
-        `/proxy/v1/governor/${governorId}/resources?${params.toString()}`,
-        {
+    async function fetchResources(): Promise<void> {
+      try {
+        const params = new URLSearchParams({ start: startParam, end: endParam });
+        const response = await fetch(`/proxy/v1/governor/${governorId}/resources?${params}`, {
           cache: "no-store",
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to load resources: ${response.status}`);
         }
-      );
 
-      if (!response.ok) {
-        throw new Error(`Failed to load resources: ${response.status}`);
+        const data = (await response.json()) as ResourcesQueryResult;
+
+        if (!controller.signal.aborted) {
+          setResult({ key, data, error: null });
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          setResult({
+            key,
+            data: null,
+            error: error instanceof Error ? error.message : String(error),
+          });
+        }
       }
-
-      const payload = (await response.json()) as ResourcesQueryResult;
-      setData(payload);
-      setError(null);
-    } catch (fetchError) {
-      setData(null);
-      setError(fetchError instanceof Error ? fetchError.message : "Failed to load resources.");
-    } finally {
-      setLoading(false);
     }
-  }, [endParam, governorId, startParam]);
 
-  useEffect(() => {
     void fetchResources();
-  }, [fetchResources]);
 
-  return { data, loading, error };
+    return () => controller.abort();
+  }, [governorId, hasGovernor, startParam, endParam, key]);
+
+  const current = hasGovernor && result?.key === key ? result : null;
+
+  return {
+    data: current?.data ?? null,
+    loading: hasGovernor && !current,
+    error: current?.error ?? null,
+    retry: () => setAttempt((value) => value + 1),
+  };
 }

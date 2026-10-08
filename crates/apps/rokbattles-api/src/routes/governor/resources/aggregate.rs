@@ -58,13 +58,14 @@ impl ResourceTotals {
 #[derive(Debug, Clone, Default)]
 struct DailyBucket {
     date: String,
+    reports: i64,
     crystals_gain: i64,
     resources: FxHashMap<i64, i64>,
 }
 
 impl DailyBucket {
     fn new(date: String) -> Self {
-        Self { date, crystals_gain: 0, resources: FxHashMap::default() }
+        Self { date, reports: 0, crystals_gain: 0, resources: FxHashMap::default() }
     }
 
     fn add_crystals_gain(&mut self, value: i64) {
@@ -83,7 +84,12 @@ impl DailyBucket {
             .collect::<Vec<_>>();
         resources.sort_by_key(|left| left.type_id);
 
-        ResourceDailyResponse { date: self.date, crystals_gain: self.crystals_gain, resources }
+        ResourceDailyResponse {
+            date: self.date,
+            reports: self.reports,
+            crystals_gain: self.crystals_gain,
+            resources,
+        }
     }
 }
 
@@ -119,6 +125,7 @@ pub(crate) fn aggregate_resources(
 
         let day =
             daily_buckets.entry(date_key.clone()).or_insert_with(|| DailyBucket::new(date_key));
+        day.reports += 1;
 
         if let Some(crystals_total) = extract_floor_non_negative_i64(rss.crystals_gain.as_ref())
             && crystals_total > 0
@@ -283,11 +290,13 @@ mod tests {
 
         assert_eq!(aggregated.daily.len(), 2);
         assert_eq!(aggregated.daily[0].date, "2025-01-01");
+        assert_eq!(aggregated.daily[0].reports, 2);
         assert_eq!(aggregated.daily[0].crystals_gain, 20);
         assert_eq!(find_daily_total(&aggregated.daily[0], 1), Some(4104));
         assert_eq!(find_daily_total(&aggregated.daily[0], 5), Some(2));
 
         assert_eq!(aggregated.daily[1].date, "2025-01-02");
+        assert_eq!(aggregated.daily[1].reports, 2);
         assert_eq!(aggregated.daily[1].crystals_gain, 3);
         assert_eq!(find_daily_total(&aggregated.daily[1], 4), Some(1850));
     }

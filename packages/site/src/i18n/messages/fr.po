@@ -637,14 +637,12 @@ msgid "Level"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
-#: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgctxt "n5QvJy"
 msgid "Start date"
 msgstr "Date de début"
 
 #: src/components/account-loot/personal-loot-filters.tsx
-#: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgctxt "Humfno"
 msgid "End date"
@@ -658,19 +656,48 @@ msgid "Apply"
 msgstr ""
 
 #: src/components/account-resources/account-resources-content.tsx
-msgctxt "e4-7ni"
-msgid "See daily gathered resources, gems, and crystals from RSS reports."
+msgctxt "RiXSmR"
+msgid "Loading gathering reports…"
+msgstr ""
+
+#: src/components/account-resources/account-resources-content.tsx
+msgctxt "QTvbTs"
+msgid "Failed to load resources."
+msgstr ""
+
+#: src/components/account-resources/account-resources-content.tsx
+msgctxt "FazwRl"
+msgid "Try again"
+msgstr ""
+
+#: src/components/account-resources/account-resources-content.tsx
+msgctxt "JLKGPc"
+msgid "Select a governor to view gathering reports."
+msgstr ""
+
+#: src/components/account-resources/account-resources-content.tsx
+msgctxt "WkcT4q"
+msgid "Track your gathering, understand your bonuses, and see how each resource adds up."
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "-U6ozc"
-msgid "Type"
+msgctxt "kA8aGG"
+msgid "Gathering breakdown"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
-msgctxt "x9zwkN"
-msgid "Gain"
+msgctxt "NxFOGW"
+msgid "Base gathering and bonus gains across the selected date range."
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx
+msgctxt "wmyg6t"
+msgid "Resource"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx
+msgctxt "qTA0Sk"
+msgid "Base gain"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
@@ -683,24 +710,202 @@ msgctxt "MJ2jZQ"
 msgid "Total"
 msgstr ""
 
-#: src/components/account-resources/resources-error-state.tsx
-msgctxt "QTvbTs"
-msgid "Failed to load resources."
+#: src/components/account-resources/resources-breakdown-table.tsx
+msgctxt "VmIg6x"
+msgid "Bonus share"
 msgstr ""
 
-#: src/components/account-resources/resources-report-section.tsx
+#: src/components/account-resources/resources-dashboard-client.tsx
+#: src/components/account-resources/resources-ledger-client.tsx
 msgctxt "sdkaef"
 msgid "No reports in this date range."
 msgstr "Aucun rapport dans cette plage de dates."
 
-#: src/components/account-resources/resources-table-section.tsx
-msgctxt "F1tgWX"
-msgid "Resource breakdown"
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "qMdUZN"
+msgid "Try another range or upload gathering reports from the desktop app."
 msgstr ""
 
-#: src/components/account-resources/resources-table-section.tsx
-msgctxt "9pjHcG"
-msgid "No resources in this date range."
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "u53-FB"
+msgid "Select a resource above to view its trends and ledger."
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "VRGg29"
+msgid "Gathering trends"
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "bW8Cwi"
+msgid "Running totals start at the beginning of your selected range. Each chart has its own scale."
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "8qWCPo"
+msgid "Recorded daily gains, including bonuses. Each chart has its own scale."
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "fj7Xir"
+msgid "Chart values"
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "PN8BnV"
+msgid "Periodic"
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "4fSUVQ"
+msgid "Cumulative"
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "AbTyDp"
+msgid "Gathering overview"
+msgstr ""
+
+#: src/components/account-resources/resources-dashboard-client.tsx
+msgctxt "XJNWkY"
+msgid "Select cards to filter charts and tables. Averages include every day in the range."
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "DPAMOb"
+msgid "Last 7d"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "X6C_0g"
+msgid "Last 30d"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "SwCtE-"
+msgid "Last 90d"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "RMYm0n"
+msgid "YTD"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "cRAFPp"
+msgid "Resource date ranges"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "Er9Eoe"
+msgid "Choose a date range"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "U9joOF"
+msgid "Select a start and end day. All dates use UTC; up to {days} days."
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "8mRNBD"
+msgid "Previous month"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "JthvI-"
+msgid "Select the end day"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "_y-saR"
+msgid "Select the start day"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "PqmLVn"
+msgid "Next month"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "csXCbk"
+msgid "Choose a valid range of up to {days} days, ending today or earlier."
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+#: src/components/combat-lab/commander-pairing-drawer.tsx
+#: src/components/language-selector.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "47FYwb"
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "9TAHDn"
+msgid "Apply range"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "3pfoDu"
+msgid "Day (UTC)"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "Ppx673"
+msgid "Reports"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "s69Svz"
+msgid "Gathering ledger"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "28GpxC"
+msgid "Exact totals for selected resources. Report counts include all resources."
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "TE51b7"
+msgid "Export CSV"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "rCTBuD"
+msgid "Only days with reports"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+msgctxt "_2CGVZ"
+msgid "Page {page}/{pages}"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
+msgctxt "JJNc3c"
+msgid "Previous"
+msgstr ""
+
+#: src/components/account-resources/resources-ledger-client.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
+msgctxt "9-Ddtu"
+msgid "Next"
+msgstr ""
+
+#: src/components/account-resources/resources-summary-client.tsx
+msgctxt "OZ5glg"
+msgid "Show {resource}"
+msgstr ""
+
+#: src/components/account-resources/resources-summary-client.tsx
+msgctxt "gvmvNK"
+msgid "{amount} / day"
+msgstr ""
+
+#: src/components/account-resources/resources-timeline-chart-client.tsx
+msgctxt "dmob01"
+msgid "Gathered resources"
 msgstr ""
 
 #: src/components/account/account-reports-content.tsx
@@ -1385,13 +1590,6 @@ msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "47FYwb"
-msgid "Cancel"
-msgstr "Annuler"
-
-#: src/components/combat-lab/commander-pairing-drawer.tsx
-#: src/components/language-selector.tsx
 msgctxt "jvo0vs"
 msgid "Save"
 msgstr "Sauvegarder"
@@ -2025,20 +2223,8 @@ msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgctxt "JJNc3c"
-msgid "Previous"
-msgstr ""
-
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
 msgctxt "rBj9Ib"
 msgid "Next page"
-msgstr ""
-
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgctxt "9-Ddtu"
-msgid "Next"
 msgstr ""
 
 #: src/components/platform-layout.tsx
@@ -2320,6 +2506,11 @@ msgstr ""
 #: src/components/reports/reports-filter-dialog.tsx
 msgctxt "-XTzdP"
 msgid "Battle"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "-U6ozc"
+msgid "Type"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
