@@ -120,7 +120,6 @@ export function ResourcesLedgerClient({
       </label>
       <Table
         dense
-        striped
         style={{ "--ledger-min-width": `${10 + (rows.length + 1) * 8}rem` } as CSSProperties}
         className="[--gutter:--spacing(4)] lg:[&_table]:w-full lg:[&_table]:min-w-(--ledger-min-width) lg:[&_table]:table-fixed"
       >

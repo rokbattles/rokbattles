@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cn";
 import { useExtracted, useFormatter } from "next-intl";
 import { type ReactElement, useMemo } from "react";
 import {
@@ -47,9 +48,9 @@ export function ResourcesTimelineChartClient({
   const common = { points, cumulative };
 
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className={cn("grid gap-4", gems.length > 0 && crystals.length > 0 && "lg:grid-cols-2")}>
       {standard.length > 0 ? (
-        <div className="lg:col-span-2">
+        <div className="col-span-full">
           <ResourceChart {...common} rows={standard} title={t("Gathered resources")} />
         </div>
       ) : null}
@@ -66,18 +67,8 @@ function ResourceChart({ points, rows, title, cumulative }: ResourceChartProps):
 
   return (
     <section className="min-w-0 rounded-md border border-zinc-200 p-4 sm:p-5 dark:border-zinc-800">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <Subheading>{title}</Subheading>
-        <div className="flex flex-wrap gap-3 text-xs text-zinc-600 dark:text-zinc-400">
-          {rows.map((row) => (
-            <span key={row.key} className="flex items-center gap-1.5">
-              <span className="size-2 rounded-full" style={{ backgroundColor: row.color }} />
-              {row.name}
-            </span>
-          ))}
-        </div>
-      </div>
-      <div className="h-64 w-full" role="group" aria-label={title}>
+      <Subheading>{title}</Subheading>
+      <div className="mt-4 h-64 w-full" role="group" aria-label={title}>
         <ResponsiveContainer>
           <ComposedChart
             accessibilityLayer
