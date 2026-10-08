@@ -16,14 +16,21 @@ msgstr ""
 "PO-Revision-Date: 2026-07-28 18:48\n"
 
 #: src/app/(legacy)/account/ark/[matchId]/page.tsx
+#: src/app/(legacy)/report/[id]/page.tsx
+msgctxt "rjqJlg"
+msgid "Back to Ark Recap"
+msgstr ""
+
+#: src/app/(legacy)/account/ark/[matchId]/page.tsx
 msgctxt "WDt8Y9"
 msgid "Ark Match"
-msgstr "Trận đấu AoO"
+msgstr ""
 
 #: src/app/(legacy)/account/ark/page.tsx
-msgctxt "P2Qqmh"
-msgid "Ark Match History"
-msgstr "Lịch sử các trận đấu AoO"
+#: src/components/platform-layout.tsx
+msgctxt "kWMM_y"
+msgid "Ark Recap"
+msgstr ""
 
 #: src/app/(legacy)/account/pairings/page.tsx
 #: src/components/platform-layout.tsx
@@ -97,6 +104,52 @@ msgctxt "8PEDrB"
 msgid "Explore Battles"
 msgstr "Khám phá các Trận đấu"
 
+#: src/components/account-ark/ark-battle-reports.tsx
+msgctxt "xO41e7"
+msgid "Loading battle reports…"
+msgstr ""
+
+#: src/components/account-ark/ark-battle-reports.tsx
+msgctxt "asnyQ3"
+msgid "Failed to load battle reports."
+msgstr ""
+
+#: src/components/account-ark/ark-battle-reports.tsx
+msgctxt "1o6JVD"
+msgid "More than one possible battle session was found. Reports are not linked until this match can be identified reliably."
+msgstr ""
+
+#: src/components/account-ark/ark-battle-reports.tsx
+msgctxt "SNqubh"
+msgid "No uploaded battle reports could be linked to this match. Upload the governor’s Ark battle mails to include them here."
+msgstr ""
+
+#: src/components/account-ark/ark-battle-reports.tsx
+#: src/components/reports/reports-table.tsx
+msgctxt "IuFETn"
+msgid "Duration"
+msgstr "Thời lượng"
+
+#: src/components/account-ark/ark-battle-reports.tsx
+#: src/components/olympian-arena/olympian-arena-row.tsx
+#: src/components/reports/reports-table-row.tsx
+msgctxt "juxgDa"
+msgid "View battle report"
+msgstr ""
+
+#: src/components/account-ark/ark-battle-reports.tsx
+#: src/components/account-ark/ark-match-detail-content.tsx
+#: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgctxt "H3G-_A"
+msgid "Battle reports"
+msgstr ""
+
+#: src/components/account-ark/ark-battle-reports.tsx
+msgctxt "7QE-uk"
+msgid "All of your uploaded battle reports from this match."
+msgstr ""
+
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
@@ -113,58 +166,142 @@ msgctxt "-sdDeh"
 msgid "{name} icon"
 msgstr "{name} biểu tượng"
 
-#: src/components/account-ark/ark-match-detail-error-state.tsx
-msgctxt "Xe3O7i"
-msgid "Failed to load Ark match details."
-msgstr "Không thể tải chi tiết trận đấu AoO"
+#: src/components/account-ark/ark-history-charts.tsx
+msgctxt "HOCcH1"
+msgid "Alliance score trend"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
+#: src/components/account-ark/ark-history-charts.tsx
+msgctxt "c6pSzf"
+msgid "Your alliance"
+msgstr ""
+
+#: src/components/account-ark/ark-history-charts.tsx
+#: src/components/olympian-arena/duel-summary-tooltip.tsx
+#: src/components/report/report-battle-summary-tooltip.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+#: src/components/reports/reports-table-head.tsx
+msgctxt "Mdj7Fr"
+msgid "Opponent"
+msgstr "Đối phương"
+
+#: src/components/account-ark/ark-history-charts.tsx
+msgctxt "nOedIj"
+msgid "Individual score trend"
+msgstr ""
+
+#: src/components/account-ark/ark-history-charts.tsx
+#: src/components/account-ark/ark-match-history-table.tsx
+msgctxt "JoUgIU"
+msgid "Your score"
+msgstr ""
+
+#: src/components/account-ark/ark-history-charts.tsx
+msgctxt "6EOktq"
+msgid "No scores available for this selection."
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "NBCXyR"
+msgid "Your matches, your team, and the moments that made the difference."
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "4fhVRj"
+msgid "Ark leagues"
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "5peMvt"
+msgid "Match overview"
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "8VcU7H"
+msgid "Results and averages for the selected league."
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "iudNd-"
+msgid "Matches"
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "AcjGNH"
+msgid "{wins} wins · {losses} losses · {draws} draws"
+msgstr ""
+
+#: src/components/account-ark/ark-history-dashboard.tsx
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/report/report-overview-column.tsx
-msgctxt "PW-sL4"
-msgid "N/A"
-msgstr "N/A"
+msgctxt "frdDRv"
+msgid "Win rate"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "gkoU0i"
-msgid "Individual Results"
-msgstr "Kết quả cá nhân"
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "XpYD27"
+msgid "Average alliance score"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "FsjcN7"
-msgid "Ark of Osiris Score"
-msgstr "Điểm Trận đấu AoO"
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "ZiZAeN"
+msgid "Average individual score"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "JPFyHU"
-msgid "Kill Score"
-msgstr "Điểm Tiêu diệt"
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "q8mdjz"
+msgid "Match history"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "g_Nwxg"
-msgid "Occupation Score"
-msgstr "Điểm Chiếm đóng"
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "uE6CWk"
+msgid "Open a match to explore scores, pairings, and battle reports."
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "5YClsN"
-msgid "Provisions Score"
-msgstr "Điểm Quy định"
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "hKKb_h"
+msgid "No matches in this league."
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "nCGWau"
-msgid "Battles Won"
-msgstr "Số Trận Thắng"
+#: src/components/account-ark/ark-history-dashboard.tsx
+msgctxt "Hg7lgE"
+msgid "Try another league or upload Ark reports from the desktop app."
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "Hw0iax"
-msgid "Battles Lost"
-msgstr "Trận Thua"
+#: src/components/account-ark/ark-match-detail-content.tsx
+msgctxt "0dH4Gs"
+msgid "Loading Ark recap…"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "BXfxPW"
-msgid "Win Percentage"
-msgstr "% Chiến thắng"
+#: src/components/account-ark/ark-match-detail-content.tsx
+msgctxt "1rv-fR"
+msgid "Failed to load this Ark recap."
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-content.tsx
+msgctxt "ea5qjS"
+msgid "This match is not available for the selected governor."
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-content.tsx
+msgctxt "9uOFF3"
+msgid "Overview"
+msgstr "Tổng quan"
+
+#: src/components/account-ark/ark-match-detail-content.tsx
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "1dRw6L"
+msgid "Team scores"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-content.tsx
+msgctxt "mTUGYn"
+msgid "Pairings"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-content.tsx
+msgctxt "n4DXWJ"
+msgid "Match sections"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgctxt "Sl01xK"
@@ -172,22 +309,107 @@ msgid "Kills"
 msgstr "Số giết"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgctxt "sz3C4k"
-msgid "Severely Wounded"
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "3mLSQN"
+msgid "Occupation"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "8Na2J4"
+msgid "Ark of Osiris"
+msgstr "Chiếc rương của Thần Osiris"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "hvr2gV"
+msgid "Provisions"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/combat-lab/combat-lab-charts.tsx
+msgctxt "6nP3O3"
+msgid "Healing"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "HHP5jB"
+msgid "Ark score"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "1nv6U4"
+msgid "Occupation score"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "xT2UF1"
+msgid "Provisions score"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/olympian-arena/duel-results-chart.tsx
+#: src/components/report/report-battle-results-chart.tsx
+msgctxt "CtBzuU"
+msgid "Severely wounded"
 msgstr "Bị thương nặng"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "mJwM5A"
-msgid "Units Healed"
-msgstr "Đơn vị được chữa lành"
+msgctxt "SkBQDw"
+msgid "Units healed"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "itiyNN"
-msgid "Speedups (minutes)"
-msgstr "Tăng tốc (phút)"
+msgctxt "AMOMHS"
+msgid "Your contribution"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "DfNepN"
+msgid "Your individual result, from combat to objectives."
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "2yuDcH"
+msgid "Upload the individual result mail to see your score breakdown and pairing performance."
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "zqkKgQ"
+msgid "Individual score"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "7vLI4n"
+msgid "Rank #{rank}"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "yfbRDR"
+msgid "Battle win rate"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "YgbiU0"
+msgid "{wins} won · {losses} lost"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "zO1dYq"
+msgid "Individual score breakdown"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "N1BzYP"
+msgid "Match activity"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "pSo7oD"
+msgid "Speedups used (mins)"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgctxt "lcP4aP"
@@ -195,66 +417,39 @@ msgid "Teleports"
 msgstr "Dịch Chuyển"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgctxt "5g03Dq"
-msgid "Structures Entered"
-msgstr "Công trình đã vào"
+msgctxt "5m4Bcv"
+msgid "Alliance highlights"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-loading-state.tsx
-msgctxt "ksU1u5"
-msgid "Loading Ark match details..."
-msgstr "Đang tải chi tiết trận đấu AoO"
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "FSas5S"
+msgid "Your alliance totals and the MVP in each category."
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-not-found-state.tsx
-msgctxt "gwll_b"
-msgid "Ark match not found."
-msgstr "Không tìm thấy trận đấu AoO"
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "_qbWKS"
+msgid "MVP · {value}"
+msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgctxt "9uOFF3"
-msgid "Overview"
-msgstr "Tổng quan"
-
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgctxt "VP5-CR"
-msgid "Rank"
-msgstr "Hạng"
-
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgctxt "oLkLww"
-msgid "Score"
-msgstr "Điểm"
-
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgctxt "b5C-CG"
-msgid "Total Battles"
-msgstr "Tổng Trận đấu"
-
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgctxt "GY2gN9"
-msgid "Kill Points Gain"
-msgstr "Điểm tiêu diệt nhận được"
-
-#: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgctxt "9otZoU"
-msgid "Kill Points Loss"
-msgstr "Điểm tiêu diệt tổn thất"
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+msgctxt "OgJHtE"
+msgid "No MVP recorded"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-msgctxt "fq2V8a"
-msgid "Pairings Performance"
-msgstr "Hiệu suất của bộ ghép cặp"
+msgctxt "jY9zkM"
+msgid "Pairing performance"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+msgctxt "KcZInA"
+msgid "Compare your commander pairings across battles, kills, and trades."
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgctxt "Tm8lLF"
 msgid "No pairings found for this match."
 msgstr "Không tìm thấy bộ ghép cặp nào cho trận này"
-
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "02koas"
-msgid "#"
-msgstr "#"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
@@ -264,51 +459,77 @@ msgid "Pairing"
 msgstr "Ghép cặp"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-msgctxt "ZtK0ZT"
-msgid "Battles (win/total)"
-msgstr "Trận đấu (Thắng/Tổng)"
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/olympian-arena/olympian-arena-row.tsx
+#: src/components/reports/reports-table-cells.tsx
+msgctxt "9bVtCz"
+msgid "Battles"
+msgstr "Trận chiến"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/reports/reports-table-head.tsx
-msgctxt "Y3Z7jw"
-msgid "Kill Count"
-msgstr "Số Lượng Tiêu Diệt"
+msgctxt "6YtmQu"
+msgid "Battles won"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgctxt "RCtKQ2"
-msgid "Kill Points"
-msgstr "Điểm tiêu diệt"
+msgctxt "RJlW3j"
+msgid "Kill count"
+msgstr ""
 
-#: src/components/account-ark/ark-match-history-empty-state.tsx
-msgctxt "7fThOd"
-msgid "No Ark match history found."
-msgstr "Không tìm thấy lịch sử trận đấu AoO"
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+msgctxt "T6fLvD"
+msgid "Kill points gained"
+msgstr ""
 
-#: src/components/account-ark/ark-match-history-error-state.tsx
-msgctxt "6IRh9u"
-msgid "Failed to load Ark match history."
-msgstr "Không thể tải lịch sử trận đấu AoO"
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+msgctxt "4dEukv"
+msgid "Kill points lost"
+msgstr ""
 
-#: src/components/account-ark/ark-match-history-loading-state.tsx
-msgctxt "raC1gL"
-msgid "Loading Ark match history..."
-msgstr "Đang tải lịch sử trận đấu AoO"
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/combat-lab/combat-lab-charts.tsx
+#: src/components/combat-lab/combat-lab.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgctxt "RwXuHc"
+msgid "Trade percentage"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-content.tsx
+msgctxt "0wgrWn"
+msgid "Loading Ark matches…"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-content.tsx
+msgctxt "9iPtpH"
+msgid "Failed to load Ark matches."
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-content.tsx
+msgctxt "t6M5mx"
+msgid "No Ark matches yet. Upload your match result mails to start your recap."
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgctxt "T4H9Lz"
-msgid "Seth"
-msgstr "Seth"
+msgctxt "UFNhAb"
+msgid "Win"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgctxt "lsSmtD"
-msgid "Iset"
-msgstr "Iset"
+msgctxt "mv038n"
+msgid "Loss"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "i1-AIw"
+msgid "Draw"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
@@ -320,30 +541,201 @@ msgid "Unknown"
 msgstr "Không xác định"
 
 #: src/components/account-ark/ark-match-history-row.tsx
-msgctxt "lgBBrD"
-msgid "View Ark match details"
-msgstr "Xem chi tiết trận đấu AoO"
+msgctxt "_wj1mV"
+msgid "View Ark recap"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
+#: src/components/account-ark/ark-scoreboard.tsx
 msgctxt "iVlule"
 msgid "Unknown alliance"
 msgstr "Liên minh không xác định"
 
-#: src/components/account-ark/ark-match-history-table.tsx
-msgctxt "ug01Mk"
-msgid "Time"
-msgstr "Thời gian"
+#: src/components/account-ark/ark-match-history-row.tsx
+msgctxt "ts-V5_"
+msgid "vs {alliance}"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgctxt "H-vBOj"
-msgid "Winner"
-msgstr "Phe thắng"
+msgctxt "P7PLVj"
+msgid "Date"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
-msgctxt "-a-2ug"
-msgid "Members"
-msgstr "Thành viên"
+msgctxt "xNia4q"
+msgid "Matchup"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-table.tsx
+msgctxt "P3y4Fp"
+msgid "League"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-table.tsx
+msgctxt "ZpQ6us"
+msgid "Result"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-table.tsx
+msgctxt "EdH9Ps"
+msgid "Alliance score"
+msgstr ""
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "xOF-e5"
+msgid "Victory"
+msgstr ""
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "lj4I6x"
+msgid "Defeat"
+msgstr ""
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "rfSq53"
+msgid "Result unavailable"
+msgstr ""
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "CqH5Rj"
+msgid "{date} at {time} UTC"
+msgstr ""
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "lsSmtD"
+msgid "Iset"
+msgstr "Iset"
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "T4H9Lz"
+msgid "Seth"
+msgstr "Seth"
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "kJ5W29"
+msgid "You"
+msgstr ""
+
+#: src/components/account-ark/ark-scoreboard.tsx
+msgctxt "DtHOmN"
+msgid "Members: {members} / {max}"
+msgstr ""
+
+#: src/components/account-ark/ark-shared.tsx
+msgctxt "FdYDDg"
+msgid "All matches"
+msgstr ""
+
+#: src/components/account-ark/ark-shared.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "gvEP4o"
+msgid "Golden Battleground"
+msgstr "Chiến Trường Bạch Ngân"
+
+#: src/components/account-ark/ark-shared.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "BQ9UYa"
+msgid "Silver Battleground"
+msgstr "Chiến Trường Hoàng Kim"
+
+#: src/components/account-ark/ark-shared.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "XE8i_T"
+msgid "Osiris League"
+msgstr "Liên Minh Osiris"
+
+#: src/components/account-ark/ark-shared.tsx
+msgctxt "KV-O0y"
+msgid "Practice"
+msgstr ""
+
+#: src/components/account-ark/ark-shared.tsx
+msgctxt "Sjo1P4"
+msgid "Custom"
+msgstr ""
+
+#: src/components/account-ark/ark-shared.tsx
+msgctxt "dYPZKZ"
+msgid "Unclassified"
+msgstr ""
+
+#: src/components/account-ark/ark-shared.tsx
+msgctxt "3Wa6z8"
+msgid "Page {page} / {pages}"
+msgstr ""
+
+#: src/components/account-ark/ark-shared.tsx
+#: src/components/account-resources/resources-ledger-client.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
+msgctxt "JJNc3c"
+msgid "Previous"
+msgstr "Trước"
+
+#: src/components/account-ark/ark-shared.tsx
+#: src/components/account-resources/resources-ledger-client.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
+msgctxt "9-Ddtu"
+msgid "Next"
+msgstr "Tiếp"
+
+#: src/components/account-ark/ark-shared.tsx
+#: src/components/account-resources/account-resources-content.tsx
+msgctxt "FazwRl"
+msgid "Try again"
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "s_owye"
+msgid "Kill score"
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "2Aq1cc"
+msgid "Individual scores and activity values. Select a column to sort."
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "zptHdR"
+msgid "Search teammates"
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "AWE_wS"
+msgid "Search teammates…"
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "JbPr8j"
+msgid "No teammate scores were included in this result mail."
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "VP5-CR"
+msgid "Rank"
+msgstr "Hạng"
+
+#: src/components/account-ark/ark-team-scores.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "dfPU6h"
+msgid "Governor"
+msgstr "Thống đốc"
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "jH-Z_0"
+msgid "Unknown governor"
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "U9FDab"
+msgid "Did not participate"
+msgstr ""
+
+#: src/components/account-ark/ark-team-scores.tsx
+msgctxt "5kqD1p"
+msgid "No teammates match your search."
+msgstr ""
 
 #: src/components/account-binds/account-binds-content.tsx
 msgctxt "XongGf"
@@ -666,11 +1058,6 @@ msgid "Failed to load resources."
 msgstr "Không thể tải tài nguyên"
 
 #: src/components/account-resources/account-resources-content.tsx
-msgctxt "FazwRl"
-msgid "Try again"
-msgstr ""
-
-#: src/components/account-resources/account-resources-content.tsx
 msgctxt "JLKGPc"
 msgid "Select a governor to view gathering reports."
 msgstr ""
@@ -879,20 +1266,6 @@ msgctxt "_2CGVZ"
 msgid "Page {page}/{pages}"
 msgstr ""
 
-#: src/components/account-resources/resources-ledger-client.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgctxt "JJNc3c"
-msgid "Previous"
-msgstr "Trước"
-
-#: src/components/account-resources/resources-ledger-client.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgctxt "9-Ddtu"
-msgid "Next"
-msgstr "Tiếp"
-
 #: src/components/account-resources/resources-summary-client.tsx
 msgctxt "OZ5glg"
 msgid "Show {resource}"
@@ -944,11 +1317,6 @@ msgid "Severely wounded taken"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgctxt "6nP3O3"
-msgid "Healing"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
 msgctxt "bHc-kK"
 msgid "Kill points"
 msgstr ""
@@ -956,13 +1324,6 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-charts.tsx
 msgctxt "4LmEJw"
 msgid "Battle tempo"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
-#: src/components/combat-lab/combat-lab.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "RwXuHc"
-msgid "Trade percentage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
@@ -1455,26 +1816,6 @@ msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
-msgctxt "H3G-_A"
-msgid "Battle reports"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "T6fLvD"
-msgid "Kill points gained"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgctxt "4dEukv"
-msgid "Kill points lost"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
 msgctxt "PI-sR4"
 msgid "Avg. battle duration"
 msgstr ""
@@ -1934,11 +2275,6 @@ msgid "Analyze performance across commander pairings, loadouts, and matchups"
 msgstr "Phân tích hiệu suất dựa trên các ghép cặp chỉ huy, trang bị và các trận đấu."
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgctxt "8Na2J4"
-msgid "Ark of Osiris"
-msgstr "Chiếc rương của Thần Osiris"
-
-#: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/report-map-cell.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgctxt "ejEGdx"
@@ -2036,11 +2372,9 @@ msgid "No enemy pairings found for this selection."
 msgstr "Không có bộ ghép cặp của đối phương cho lựa chọn này."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/olympian-arena/olympian-arena-row.tsx
-#: src/components/reports/reports-table-row.tsx
-msgctxt "9bVtCz"
-msgid "Battles"
-msgstr "Trận chiến"
+msgctxt "02koas"
+msgid "#"
+msgstr "#"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgctxt "-yzdej"
@@ -2115,6 +2449,11 @@ msgid "Loading duel report..."
 msgstr "Đâng tải báo cáo trận đấu tay đôi"
 
 #: src/components/olympian-arena/duel-participant-card.tsx
+msgctxt "H-vBOj"
+msgid "Winner"
+msgstr "Phe thắng"
+
+#: src/components/olympian-arena/duel-participant-card.tsx
 #: src/components/report/report-participant-card.tsx
 msgctxt "DqkPqe"
 msgid "Commanders"
@@ -2167,12 +2506,6 @@ msgid "Dead"
 msgstr "Chết"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-msgctxt "CtBzuU"
-msgid "Severely wounded"
-msgstr "Bị thương nặng"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
 msgctxt "NboP8s"
 msgid "Wounded"
 msgstr "Bị thương"
@@ -2181,6 +2514,14 @@ msgstr "Bị thương"
 msgctxt "YoPSLI"
 msgid "Healed"
 msgstr "Chữa lành"
+
+#: src/components/olympian-arena/duel-results-chart.tsx
+#: src/components/report/report-battle-results-chart.tsx
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
+msgctxt "RCtKQ2"
+msgid "Kill Points"
+msgstr "Điểm tiêu diệt"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 msgctxt "YXoHk0"
@@ -2195,20 +2536,6 @@ msgstr "Sức Mạnh"
 msgctxt "nbwXXN"
 msgid "Sender"
 msgstr "Người gửi"
-
-#: src/components/olympian-arena/duel-summary-tooltip.tsx
-#: src/components/report/report-battle-summary-tooltip.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-#: src/components/reports/reports-table-head.tsx
-msgctxt "Mdj7Fr"
-msgid "Opponent"
-msgstr "Đối phương"
-
-#: src/components/olympian-arena/olympian-arena-row.tsx
-#: src/components/reports/reports-table-row.tsx
-msgctxt "juxgDa"
-msgid "View battle report"
-msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 msgctxt "XndZ-Z"
@@ -2256,11 +2583,6 @@ msgstr "Dữ liệu của tôi"
 msgctxt "NFE4yO"
 msgid "My Battles"
 msgstr "Trận chiến của tôi"
-
-#: src/components/platform-layout.tsx
-msgctxt "odeufe"
-msgid "My Ark Matches"
-msgstr "Trận chiến AoO của tôi"
 
 #: src/components/platform-layout.tsx
 msgctxt "7oFrM6"
@@ -2379,9 +2701,20 @@ msgstr "Quân số"
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
+msgctxt "sz3C4k"
+msgid "Severely Wounded"
+msgstr "Bị thương nặng"
+
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgctxt "1ISgLB"
 msgid "Slightly Wounded"
 msgstr "Bị thương nhẹ"
+
+#: src/components/report/report-overview-column.tsx
+msgctxt "PW-sL4"
+msgid "N/A"
+msgstr "N/A"
 
 #: src/components/report/report-relic-section.tsx
 msgctxt "Ft8yjo"
@@ -2484,11 +2817,6 @@ msgid "Filter battle reports by governor, commanders, and battle roles."
 msgstr "Lọc báo cáo trận chiến theo siêu dữ liệu, chỉ huy và vai trò trong trận chiến."
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgctxt "dfPU6h"
-msgid "Governor"
-msgstr "Thống đốc"
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgctxt "rS3oIg"
 msgid "Primary Commander"
 msgstr "Chỉ huy chính"
@@ -2537,21 +2865,6 @@ msgstr "Mùa 2"
 msgctxt "Ygh1LR"
 msgid "Season 3"
 msgstr "Mùa 3"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "gvEP4o"
-msgid "Golden Battleground"
-msgstr "Chiến Trường Bạch Ngân"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "BQ9UYa"
-msgid "Silver Battleground"
-msgstr "Chiến Trường Hoàng Kim"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "XE8i_T"
-msgid "Osiris League"
-msgstr "Liên Minh Osiris"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgctxt "Qf8fwC"
@@ -2629,14 +2942,14 @@ msgid "Trade %"
 msgstr "Tỉ lệ trao đổi (%)"
 
 #: src/components/reports/reports-table-head.tsx
+msgctxt "Y3Z7jw"
+msgid "Kill Count"
+msgstr "Số Lượng Tiêu Diệt"
+
+#: src/components/reports/reports-table-head.tsx
 msgctxt "McnLsx"
 msgid "When"
 msgstr ""
-
-#: src/components/reports/reports-table.tsx
-msgctxt "IuFETn"
-msgid "Duration"
-msgstr "Thời lượng"
 
 #: src/components/sidebar-governor-header.tsx
 msgctxt "JoFtLa"
@@ -2748,8 +3061,6 @@ msgctxt "wZsBSy"
 msgid "Horse"
 msgstr ""
 
-#: src/hooks/use-ark-match-detail.ts
-#: src/hooks/use-ark-match-history.ts
 #: src/hooks/use-olympian-arena-duel.ts
 #: src/hooks/use-olympian-arena-duels.ts
 #: src/hooks/use-report.ts

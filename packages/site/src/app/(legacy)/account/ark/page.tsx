@@ -15,7 +15,7 @@ export default async function Page() {
 
   return (
     <>
-      <Heading>{t("Ark Match History")}</Heading>
+      <Heading>{t("Ark Recap")}</Heading>
       <ArkMatchHistoryContent />
     </>
   );

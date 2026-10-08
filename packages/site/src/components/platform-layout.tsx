@@ -165,7 +165,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       current={pathname === "/account/ark" || pathname.startsWith("/account/ark/")}
                     >
                       <FlagIcon />
-                      <SidebarLabel>{t("My Ark Matches")}</SidebarLabel>
+                      <SidebarLabel>{t("Ark Recap")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}

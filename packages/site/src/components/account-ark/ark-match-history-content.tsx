@@ -1,41 +1,45 @@
 "use client";
 
-import { use } from "react";
-import { ArkMatchHistoryEmptyState } from "@/components/account-ark/ark-match-history-empty-state";
-import { ArkMatchHistoryErrorState } from "@/components/account-ark/ark-match-history-error-state";
-import { ArkMatchHistoryLoadingState } from "@/components/account-ark/ark-match-history-loading-state";
-import { ArkMatchHistoryTable } from "@/components/account-ark/ark-match-history-table";
-import { useArkMatchHistory } from "@/hooks/use-ark-match-history";
+import { useExtracted } from "next-intl";
+import { type ReactElement, use } from "react";
+import { ArkHistoryDashboard } from "@/components/account-ark/ark-history-dashboard";
+import { ArkRequestState } from "@/components/account-ark/ark-shared";
+import { useArkQuery } from "@/hooks/use-ark-query";
+import type { ArkMatchHistoryResult } from "@/lib/types/ark";
 import { GovernorContext } from "@/providers/governor-context";
 
-type ArkMatchHistoryContentProps = {
-  limit?: number;
-};
+export function ArkMatchHistoryContent(): ReactElement {
+  const t = useExtracted();
+  const context = use(GovernorContext);
 
-export function ArkMatchHistoryContent({ limit }: ArkMatchHistoryContentProps) {
-  const governorContext = use(GovernorContext);
-  if (!governorContext) {
-    throw new Error("Ark match history must be used within a GovernorProvider");
+  if (!context) {
+    throw new Error("Ark Recap must be used within a GovernorProvider");
   }
 
-  const governorId = governorContext.activeGovernor?.governorId;
-  const { data, loading, error } = useArkMatchHistory({ governorId, limit });
-
-  if (loading) {
-    return <ArkMatchHistoryLoadingState />;
-  }
-
-  if (error) {
-    return <ArkMatchHistoryErrorState />;
-  }
-
-  if (!data || data.items.length === 0) {
-    return <ArkMatchHistoryEmptyState />;
-  }
-
-  return (
-    <section className="mt-8 space-y-4">
-      <ArkMatchHistoryTable rows={data.items} />
-    </section>
+  const governorId = context.activeGovernor?.governorId;
+  const query = useArkQuery<ArkMatchHistoryResult>(
+    governorId ? `/proxy/v1/governor/${governorId}/ark?limit=250` : null
   );
+
+  if (query.loading) {
+    return <ArkRequestState>{t("Loading Ark matches…")}</ArkRequestState>;
+  }
+
+  if (query.error) {
+    return (
+      <ArkRequestState error retry={query.retry}>
+        {t("Failed to load Ark matches.")}
+      </ArkRequestState>
+    );
+  }
+
+  if (!query.data) {
+    return (
+      <ArkRequestState>
+        {t("No Ark matches yet. Upload your match result mails to start your recap.")}
+      </ArkRequestState>
+    );
+  }
+
+  return <ArkHistoryDashboard key={governorId} data={query.data} />;
 }

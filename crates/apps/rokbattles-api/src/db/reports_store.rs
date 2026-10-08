@@ -21,7 +21,6 @@ pub struct ReportsStore {
     lostland_list: Collection<Document>,
     mails_duelbattle2: Collection<Document>,
     mails_alliance_aoobattleresults: Collection<Document>,
-    mails_alliance_aoobattleinfo: Collection<Document>,
     mails_alliance_aooindividualresults: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
     mails_system_kahartreasure: Collection<Document>,
@@ -48,7 +47,6 @@ impl ReportsStore {
             lostland_list: db.collection("g_rok_lostland_list"),
             mails_duelbattle2: db.collection("mails_duelbattle2"),
             mails_alliance_aoobattleresults: db.collection("mails_alliance_aoobattleresults"),
-            mails_alliance_aoobattleinfo: db.collection("mails_alliance_aoobattleinfo"),
             mails_alliance_aooindividualresults: db
                 .collection("mails_alliance_aooindividualresults"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
@@ -334,18 +332,10 @@ impl ReportsStore {
             self.mails_alliance_aoobattleresults.create_index(model).await?;
         }
 
-        let ark_secondary_models = vec![
-            IndexModel::builder()
-                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
-                .build(),
-        ];
-
-        for model in ark_secondary_models.clone() {
-            self.mails_alliance_aoobattleinfo.create_index(model).await?;
-        }
-        for model in ark_secondary_models {
-            self.mails_alliance_aooindividualresults.create_index(model).await?;
-        }
+        let ark_individual_results_index = IndexModel::builder()
+            .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+            .build();
+        self.mails_alliance_aooindividualresults.create_index(ark_individual_results_index).await?;
 
         let barbarian_fort_models = vec![
             IndexModel::builder().keys(doc! { "body.sub_param": 1, "body.sub_type": 1 }).build(),
@@ -548,11 +538,6 @@ impl ReportsStore {
     /// Access Ark of Osiris battle results mails.
     pub fn alliance_aoobattleresults_collection(&self) -> &Collection<Document> {
         &self.mails_alliance_aoobattleresults
-    }
-
-    /// Access Ark of Osiris battle info mails.
-    pub fn alliance_aoobattleinfo_collection(&self) -> &Collection<Document> {
-        &self.mails_alliance_aoobattleinfo
     }
 
     /// Access Ark of Osiris individual results mails.

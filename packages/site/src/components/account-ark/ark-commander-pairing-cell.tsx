@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted, useLocale } from "next-intl";
+import type { ReactElement } from "react";
 import { CommanderIcon } from "@/components/commander-icon";
 import { getCommanderName } from "@/lib/commander";
 
@@ -13,9 +14,13 @@ function isValidCommanderId(id: number | null | undefined): id is number {
   return typeof id === "number" && Number.isFinite(id) && id > 0;
 }
 
-export function ArkCommanderPairingCell({ primaryId, secondaryId }: ArkCommanderPairingCellProps) {
+export function ArkCommanderPairingCell({
+  primaryId,
+  secondaryId,
+}: ArkCommanderPairingCellProps): ReactElement {
   const t = useExtracted();
   const locale = useLocale();
+
   const unknownLabel = t("Unknown commander");
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId, locale) ?? String(primaryId))
@@ -27,23 +32,21 @@ export function ArkCommanderPairingCell({ primaryId, secondaryId }: ArkCommander
     : null;
 
   return (
-    <div className="flex flex-col">
-      <span className="inline-flex items-center gap-2">
+    <div className="flex items-center gap-2">
+      <span title={primaryName}>
         <CommanderIcon
           alt={t("{name} icon", { name: primaryName })}
           className="size-8 rounded-full"
           id={primaryId}
         />
-        <span>{primaryName}</span>
       </span>
       {hasSecondary ? (
-        <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+        <span title={secondaryName ?? undefined}>
           <CommanderIcon
             alt={t("{name} icon", { name: secondaryName })}
             className="size-8 rounded-full"
             id={secondaryId}
           />
-          <span>{secondaryName}</span>
         </span>
       ) : null}
     </div>

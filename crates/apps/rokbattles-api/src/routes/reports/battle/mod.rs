@@ -27,13 +27,13 @@ use crate::{
 };
 
 mod detail_mapper;
-mod list_mapper;
+pub(crate) mod list_mapper;
 mod map_context;
 mod match_builder;
 mod query;
 mod stratagems;
 mod structure_override;
-mod types;
+pub(crate) mod types;
 
 const PAGE_SIZE: usize = 100;
 const FETCH_LIMIT: i64 = PAGE_SIZE as i64 + 1;
