@@ -130,7 +130,7 @@ fn upload_queue_file(app: &AppHandle, config: &WatcherConfig) -> anyhow::Result<
     Ok(dir.join(config.upload_queue_file_name))
 }
 
-fn atomic_write(path: &Path, bytes: &[u8]) -> anyhow::Result<()> {
+pub(super) fn atomic_write(path: &Path, bytes: &[u8]) -> anyhow::Result<()> {
     let tmp_path = path.with_extension("tmp");
     let mut file = fs::File::create(&tmp_path)
         .with_context(|| format!("Failed creating temp file {:?}", tmp_path))?;
