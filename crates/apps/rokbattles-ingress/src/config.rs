@@ -12,13 +12,19 @@ pub struct Config {
     pub clamav_addr: Option<String>,
     /// Required bearer token for relay uploads.
     pub relay_token: String,
+
+    /// Enables the per-IP rate limit on direct uploads only.
+    pub rate_limit: bool,
 }
 
-/// Errors returned when required configuration is missing.
+/// Errors returned when configuration is missing or invalid.
 #[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
     #[error("missing required env var: {key}")]
     Missing { key: &'static str },
+
+    #[error("invalid env var: {key} (expected true or false)")]
+    InvalidBool { key: &'static str },
 }
 
 impl Config {
@@ -34,11 +40,18 @@ impl Config {
         let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::Missing { key: "MONGODB_URI" })?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let clamav_addr = lookup("CLAMAV_ADDR").filter(|value| !value.is_empty());
+
         let relay_token = lookup("RELAY_TOKEN")
             .filter(|value| !value.is_empty())
             .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
 
-        Ok(Self { mongo_uri, sentry_dsn, clamav_addr, relay_token })
+        let rate_limit = lookup("RATELIMIT")
+            .map(|value| value.parse::<bool>())
+            .transpose()
+            .map_err(|_error| ConfigError::InvalidBool { key: "RATELIMIT" })?
+            .unwrap_or(false);
+
+        Ok(Self { mongo_uri, sentry_dsn, clamav_addr, relay_token, rate_limit })
     }
 }
 
@@ -67,8 +80,37 @@ mod tests {
                 sentry_dsn: None,
                 clamav_addr: None,
                 relay_token: "secret".to_string(),
+                rate_limit: false,
             }
         );
+    }
+
+    #[test]
+    fn loads_rate_limit_toggle() {
+        for (value, expected) in [("true", true), ("false", false)] {
+            let config = Config::from_lookup(lookup(FxHashMap::from_iter([
+                ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+                ("RELAY_TOKEN", "secret"),
+                ("RATELIMIT", value),
+            ])))
+            .expect("valid rate limit toggle");
+
+            assert_eq!(config.rate_limit, expected);
+        }
+    }
+
+    #[test]
+    fn rejects_invalid_rate_limit_toggle() {
+        for value in ["", "1", "TRUE", "enabled"] {
+            let error = Config::from_lookup(lookup(FxHashMap::from_iter([
+                ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+                ("RELAY_TOKEN", "secret"),
+                ("RATELIMIT", value),
+            ])))
+            .expect_err("invalid rate limit toggle");
+
+            assert_eq!(error, ConfigError::InvalidBool { key: "RATELIMIT" });
+        }
     }
 
     #[test]
