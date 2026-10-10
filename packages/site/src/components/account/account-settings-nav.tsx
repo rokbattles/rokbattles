@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
 import { Navbar, NavbarItem, NavbarLabel, NavbarSection } from "@/components/ui/navbar";
 
-export function AccountSettingsNav() {
+export function AccountSettingsNav({ showOverlay }: { showOverlay: boolean }) {
   const t = useExtracted();
   const pathname = usePathname() ?? "";
   const settingsItems = [
@@ -19,6 +19,13 @@ export function AccountSettingsNav() {
       isActive: (path: string) => path.startsWith("/account/settings/governors"),
     },
   ];
+  if (showOverlay) {
+    settingsItems.push({
+      href: "/account/settings/overlay",
+      label: t("Stream overlay"),
+      isActive: (path: string) => path.startsWith("/account/settings/overlay"),
+    });
+  }
 
   return (
     <Navbar className="gap-2">

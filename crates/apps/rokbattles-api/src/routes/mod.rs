@@ -13,6 +13,7 @@ mod game;
 mod governor;
 mod health;
 mod loot_explorer;
+mod overlays;
 mod pk;
 mod reports;
 pub(crate) mod territory_planner_v2;
@@ -39,6 +40,13 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
+        .route("/overlay/{overlay}", get(overlays::battles))
+        .route("/overlay/{overlay}/settings", get(overlays::token_settings))
+        .route(
+            "/governor/{governor_id}/overlay",
+            get(overlays::settings).put(overlays::save).delete(overlays::revoke),
+        )
+        .route("/governor/{governor_id}/overlay/rotate", post(overlays::rotate))
         .route("/pk/battle-reports", post(pk::battle_reports))
         .route("/global/loot-explorer/barbarians", get(loot_explorer::get_barbarians))
         .route("/global/loot-explorer/barbarian-forts", get(loot_explorer::get_barbarian_forts))
