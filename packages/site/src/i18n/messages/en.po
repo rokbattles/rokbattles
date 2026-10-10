@@ -2581,6 +2581,21 @@ msgid "Max marches"
 msgstr "Max marches"
 
 #: src/components/overlay/overlay-settings.tsx
+msgctxt "vgoCqg"
+msgid "Branding"
+msgstr "Branding"
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "rVHzYq"
+msgid "Icon watermark"
+msgstr "Icon watermark"
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "-vYV26"
+msgid "Text watermark"
+msgstr "Text watermark"
+
+#: src/components/overlay/overlay-settings.tsx
 msgctxt "muqizb"
 msgid "Save settings"
 msgstr "Save settings"
