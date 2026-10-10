@@ -128,7 +128,7 @@ export function BattleCards({ battles, commanders, status }: BattleCardsProps): 
     <main
       aria-label="Recent battles"
       data-status={status}
-      className="flex w-[390px] max-w-screen flex-col gap-2 p-1 text-[#fff9e9] tabular-nums [font-family:Segoe_UI,Arial,sans-serif]"
+      className="flex w-[390px] max-w-screen flex-col gap-1 p-1 text-[#fff9e9] tabular-nums [font-family:Segoe_UI,Arial,sans-serif]"
     >
       {battles.map((battle) => (
         <BattleCard key={battle.id} battle={battle} commanders={commanders} />
