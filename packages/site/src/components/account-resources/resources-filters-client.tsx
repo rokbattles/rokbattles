@@ -82,7 +82,7 @@ export function ResourcesFiltersClient({
 
   return (
     <div
-      className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-950/10 dark:border-white/10"
+      className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10"
       aria-busy={isPending}
     >
       <nav className="flex gap-5" aria-label={t("Resource date ranges")}>
@@ -103,8 +103,8 @@ export function ResourcesFiltersClient({
               aria-current={active ? "page" : undefined}
               className={`-mb-px whitespace-nowrap border-b-2 py-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 ${
                 active
-                  ? "border-zinc-950 text-zinc-950 dark:border-white dark:text-white"
-                  : "border-transparent text-zinc-500 hover:border-zinc-300 hover:text-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:text-white"
+                  ? "border-white text-white"
+                  : "border-transparent text-zinc-400 hover:border-zinc-600 hover:text-white"
               }`}
             >
               {label}
@@ -201,10 +201,7 @@ function ResourceRangeDialog({
             <ResourceCalendar month={nextMonth} range={range} today={today} onSelect={chooseDate} />
           </div>
         </div>
-        <div
-          className="mt-4 text-center text-sm tabular-nums text-zinc-600 dark:text-zinc-400"
-          aria-live="polite"
-        >
+        <div className="mt-4 text-center text-sm tabular-nums text-zinc-400" aria-live="polite">
           {intl.dateTime(new Date(`${range.start}T00:00:00Z`), {
             dateStyle: "medium",
             timeZone: "UTC",
@@ -216,7 +213,7 @@ function ResourceRangeDialog({
           })}
         </div>
         {!valid ? (
-          <p className="mt-3 text-sm text-red-600 dark:text-red-400" role="alert">
+          <p className="mt-3 text-sm text-red-400" role="alert">
             {t("Choose a valid range of up to {days} days, ending today or earlier.", {
               days: String(MAX_RANGE_DAYS),
             })}
@@ -246,7 +243,7 @@ function ResourceCalendar({ month, range, today, onSelect }: ResourceCalendarPro
 
   return (
     <div>
-      <p className="mb-3 text-center text-sm font-semibold text-zinc-950 dark:text-white">
+      <p className="mb-3 text-center text-sm font-semibold text-white">
         {intl.dateTime(first, { month: "long", year: "numeric", timeZone: "UTC" })}
       </p>
       <div className="grid grid-cols-7 text-center text-xs text-zinc-500" aria-hidden="true">
@@ -261,13 +258,12 @@ function ResourceCalendar({ month, range, today, onSelect }: ResourceCalendarPro
           const date = toDateInput(Date.UTC(year, monthIndex, index + 1));
           const selected = date >= range.start && date <= range.end;
           const endpoint = date === range.start || date === range.end;
-          let dayClasses =
-            "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800";
+          let dayClasses = "text-zinc-300 hover:bg-zinc-800";
 
           if (endpoint) {
-            dayClasses = "bg-zinc-900 font-semibold text-white dark:bg-white dark:text-zinc-900";
+            dayClasses = "font-semibold bg-white text-zinc-900";
           } else if (selected) {
-            dayClasses = "bg-zinc-100 text-zinc-950 dark:bg-zinc-700 dark:text-white";
+            dayClasses = "bg-zinc-700 text-white";
           }
 
           return (

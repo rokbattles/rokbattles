@@ -21,9 +21,9 @@ export default async function Page({ params }: PageProps<"/account/ark/[matchId]
       <div className="mb-8">
         <Link
           href="/account/ark"
-          className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
+          className="inline-flex items-center gap-2 text-sm/6 text-zinc-400"
         >
-          <ChevronLeftIcon aria-hidden="true" className="size-4 fill-zinc-400 dark:fill-zinc-500" />
+          <ChevronLeftIcon aria-hidden="true" className="size-4 fill-zinc-500" />
           {t("Back to Ark Recap")}
         </Link>
       </div>

@@ -60,7 +60,7 @@ export function ResourcesDashboardClient({
 
   if (data.totalReports === 0) {
     report = (
-      <div className="rounded-md border border-dashed border-zinc-300 px-6 py-10 text-center dark:border-zinc-700">
+      <div className="rounded-md border border-dashed px-6 py-10 text-center border-zinc-700">
         <Subheading>{t("No reports in this date range.")}</Subheading>
         <Text className="mt-2">
           {t("Try another range or upload gathering reports from the desktop app.")}
@@ -85,19 +85,19 @@ export function ResourcesDashboardClient({
               </Text>
             </div>
             <div
-              className="flex shrink-0 self-start gap-1 rounded-lg bg-zinc-100 p-1 dark:bg-zinc-900"
+              className="flex shrink-0 self-start gap-1 rounded-lg p-1 bg-zinc-900"
               role="group"
               aria-label={t("Chart values")}
             >
               <Button
-                {...(!cumulative ? { color: "light" } : { plain: true })}
+                {...(!cumulative ? { color: "dark" } : { plain: true })}
                 aria-pressed={!cumulative}
                 onClick={() => onViewChange({ cumulative: false })}
               >
                 {t("Periodic")}
               </Button>
               <Button
-                {...(cumulative ? { color: "light" } : { plain: true })}
+                {...(cumulative ? { color: "dark" } : { plain: true })}
                 aria-pressed={cumulative}
                 onClick={() => onViewChange({ cumulative: true })}
               >

@@ -71,7 +71,7 @@ export function CombatLabRankingsFrame({
   lastUpdated?: string;
 }) {
   return (
-    <div className="min-h-dvh text-zinc-950 dark:text-white">
+    <div className="min-h-dvh text-white">
       <CombatLabHeader active="rankings">
         {lastUpdated ? <Text className="mt-4 !text-sm/6 !text-zinc-400">{lastUpdated}</Text> : null}
       </CombatLabHeader>

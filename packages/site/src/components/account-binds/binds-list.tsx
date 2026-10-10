@@ -27,7 +27,7 @@ export function BindsList({ binds, pendingAction, onSetDefault, onUnlink }: Bind
       {binds.length === 0 ? (
         <Text>{t("No binds yet.")}</Text>
       ) : (
-        <ul className="divide-y divide-zinc-950/5 rounded border border-zinc-950/10 text-sm dark:divide-white/10 dark:border-white/10">
+        <ul className="divide-y rounded border text-sm divide-white/10 border-white/10">
           {binds.map((bind) => (
             <BindListItem
               key={bind.governorId}

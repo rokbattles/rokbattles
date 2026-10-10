@@ -87,7 +87,7 @@ export function PaginationPage({
       className={cn(
         className,
         "min-w-9 before:absolute before:-inset-px before:rounded-lg",
-        current && "before:bg-zinc-950/5 dark:before:bg-white/10"
+        current && "before:bg-white/10"
       )}
       href={href}
       plain
@@ -106,10 +106,7 @@ export function PaginationGap({
     <span
       aria-hidden="true"
       {...props}
-      className={cn(
-        className,
-        "w-9 select-none text-center font-semibold text-sm/6 text-zinc-950 dark:text-white"
-      )}
+      className={cn(className, "w-9 select-none text-center font-semibold text-sm/6 text-white")}
     >
       {children}
     </span>

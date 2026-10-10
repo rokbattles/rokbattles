@@ -41,7 +41,7 @@ export const TerritoryDetails = memo(function TerritoryDetails({
     plan.buildings.filter((b) => b.allianceId === allianceId && b.kind === kind).length;
 
   return (
-    <div className="grid min-h-0 gap-8 overflow-hidden pt-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(20rem,1fr)] xl:divide-x xl:divide-zinc-950/10 dark:xl:divide-white/10">
+    <div className="grid min-h-0 gap-8 overflow-hidden pt-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(20rem,1fr)] xl:divide-x xl:divide-white/10">
       <TerritoryBreakdown
         entries={summary.entries}
         resources={data.resources}
@@ -73,7 +73,7 @@ export const TerritoryDetails = memo(function TerritoryDetails({
             Costs are unavailable for {summary.costs.unknown} planned buildings.
           </Text>
         )}
-        <div className="mt-6 border-t border-zinc-950/10 pt-6 dark:border-white/10">
+        <div className="mt-6 border-t pt-6 border-white/10">
           <Subheading>Territory RSS production</Subheading>
           <dl className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2.5 text-sm">
             {RESOURCES.filter(([kind]) => kind !== "credits").map(([kind, icon, label]) => (

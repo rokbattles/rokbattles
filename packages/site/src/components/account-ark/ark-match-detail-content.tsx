@@ -108,7 +108,7 @@ function ArkMatchDashboard({ detail, governorId }: ArkMatchDashboardProps): Reac
       <ArkScoreboard detail={detail} />
       <nav
         aria-label={t("Match sections")}
-        className="flex gap-6 overflow-x-auto border-b border-zinc-200 dark:border-zinc-800"
+        className="flex gap-6 overflow-x-auto border-b border-zinc-800"
       >
         {TABS.map((value) => (
           <button
@@ -119,14 +119,12 @@ function ArkMatchDashboard({ detail, governorId }: ArkMatchDashboardProps): Reac
             className={cn(
               "flex shrink-0 items-center gap-2 border-b-2 pb-3 text-sm font-medium",
               "focus-visible:outline-2 focus-visible:outline-blue-500",
-              tab === value
-                ? "border-zinc-950 text-zinc-950 dark:border-white dark:text-white"
-                : "border-transparent text-zinc-500 dark:text-zinc-400"
+              tab === value ? "border-white text-white" : "border-transparent text-zinc-400"
             )}
           >
             {labels[value]}
             {counts[value] != null ? (
-              <span className="rounded bg-zinc-100 px-1.5 py-0.5 text-xs tabular-nums dark:bg-zinc-800">
+              <span className="rounded px-1.5 py-0.5 text-xs tabular-nums bg-zinc-800">
                 {counts[value]}
               </span>
             ) : null}

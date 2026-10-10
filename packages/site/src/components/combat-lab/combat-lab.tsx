@@ -95,7 +95,7 @@ export function CombatLab({
   const updated = formatRefreshedAt(new Date(data.generatedAtMs).toISOString(), locale);
 
   return (
-    <div className="min-h-dvh text-zinc-950 dark:text-white">
+    <div className="min-h-dvh text-white">
       <CombatLabHeader active="explore">
         <button
           className="group mt-5 flex w-full cursor-pointer items-center gap-3 rounded-md border border-transparent bg-transparent p-3 text-left transition hover:border-white/10 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 sm:w-fit sm:min-w-xl sm:p-4"
@@ -148,7 +148,7 @@ export function CombatLab({
         secondaryCommanderId={data.pairing.secondaryCommanderId}
       />
 
-      <div className="z-20 -mx-6 border-zinc-950/10 border-b bg-white/95 backdrop-blur lg:sticky lg:top-0 lg:-mx-10 dark:border-white/10 dark:bg-zinc-950/90">
+      <div className="z-20 -mx-6 border-b backdrop-blur lg:sticky lg:top-0 lg:-mx-10 border-white/10 bg-zinc-950/90">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
           <FilterGroup
             label={t("Time range")}
@@ -169,10 +169,10 @@ export function CombatLab({
 
       <div className="mx-auto max-w-7xl space-y-10 px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
         {drastc ? (
-          <div className="rounded-md border border-amber-300/60 bg-amber-50 px-4 py-3 text-amber-950 dark:border-amber-300/20 dark:bg-amber-400/10 dark:text-amber-100">
+          <div className="rounded-md border px-4 py-3 border-amber-300/20 bg-amber-400/10 text-amber-100">
             <div className="flex items-center gap-3">
-              <InformationCircleIcon className="size-5 shrink-0 text-amber-600 dark:text-amber-300" />
-              <Text className="!text-sm/5 !text-amber-950 dark:!text-amber-100">
+              <InformationCircleIcon className="size-5 shrink-0 text-amber-300" />
+              <Text className="!text-amber-100">
                 <strong>{t("Changing the filters will not change the DRASTC results.")}</strong>{" "}
                 {t("DRASTC uses the most recent year of open-field battle reports.")}
               </Text>
@@ -197,20 +197,20 @@ export function CombatLab({
                 label={t("Kill points gained")}
                 value={formatCount(summary.killPointsGained, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(Math.round(summary.killPointsGained))}
-                accent="text-blue-600 dark:text-blue-400"
+                accent="text-blue-400"
               />
               <MetricCard
                 available={hasSummaryMetric("killPointsLost")}
                 label={t("Kill points lost")}
                 value={formatCount(summary.killPointsLost, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(Math.round(summary.killPointsLost))}
-                accent="text-rose-600 dark:text-rose-400"
+                accent="text-rose-400"
               />
               <MetricCard
                 available={hasSummaryMetric("weightedTradePercent")}
                 label={t("Trade percentage")}
                 value={`${decimalFormatter.format(summary.weightedTradePercent)}%`}
-                accent="text-emerald-700 dark:text-emerald-400"
+                accent="text-emerald-400"
               />
               <MetricCard
                 available={hasSummaryMetric("averageBattleDurationSeconds")}
@@ -304,12 +304,12 @@ function FilterGroup<T extends string>({
       <legend className="mb-1.5 font-semibold text-xs uppercase tracking-wider text-zinc-500">
         {label}
       </legend>
-      <div className="flex gap-1 overflow-x-auto rounded-lg bg-zinc-950/5 p-1 dark:bg-white/5">
+      <div className="flex gap-1 overflow-x-auto rounded-lg p-1 bg-white/5">
         {options.map((option) => (
           <button
             key={option}
             aria-pressed={selected === option}
-            className="shrink-0 rounded-md px-3 py-1.5 font-medium text-sm text-zinc-600 transition hover:text-zinc-950 aria-pressed:bg-white aria-pressed:text-zinc-950 dark:text-zinc-300 dark:hover:text-white dark:aria-pressed:bg-zinc-700 dark:aria-pressed:text-white"
+            className="shrink-0 rounded-md px-3 py-1.5 font-medium text-sm transition text-zinc-300 hover:text-white aria-pressed:bg-zinc-700 aria-pressed:text-white"
             onClick={() => onSelect(option)}
             type="button"
           >
@@ -322,7 +322,7 @@ function FilterGroup<T extends string>({
 }
 
 function MetricCard({
-  accent = "text-zinc-950 dark:text-white",
+  accent = "text-white",
   available = true,
   exactValue,
   label,
@@ -337,10 +337,10 @@ function MetricCard({
   const t = useExtracted();
 
   return (
-    <article className="rounded-md border border-zinc-950/10 bg-white/70 px-4 py-3.5 dark:border-white/10 dark:bg-white/[.035]">
+    <article className="rounded-md border px-4 py-3.5 border-white/10 bg-white/[.035]">
       <Text className="!text-sm/5">{label}</Text>
       <div
-        className={`mt-1.5 font-semibold text-2xl tracking-tight tabular-nums ${available ? accent : "text-zinc-400 dark:text-zinc-500"}`}
+        className={`mt-1.5 font-semibold text-2xl tracking-tight tabular-nums ${available ? accent : "text-zinc-500"}`}
         title={available ? exactValue : undefined}
       >
         {available ? value : t("No data")}
@@ -411,11 +411,8 @@ function ChartSkeleton() {
   return (
     <div className="grid animate-pulse gap-5 xl:grid-cols-2">
       {["kill-points", "battle-tempo"].map((chart) => (
-        <div
-          className="overflow-hidden rounded-md border border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900"
-          key={chart}
-        >
-          <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+        <div className="overflow-hidden rounded-md border border-white/10 bg-zinc-900" key={chart}>
+          <div className="border-b px-5 py-4 border-white/10">
             <SkeletonBlock className="h-5 w-28" />
             <SkeletonBlock className="mt-4 h-9 w-full max-w-sm" />
           </div>
@@ -430,8 +427,8 @@ function ChartSkeleton() {
           </div>
         </div>
       ))}
-      <div className="overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900">
-        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+      <div className="overflow-hidden rounded-md border xl:col-span-2 border-white/10 bg-zinc-900">
+        <div className="border-b px-5 py-4 border-white/10">
           <SkeletonBlock className="h-5 w-36" />
         </div>
         <div className="flex h-72 items-end gap-4 px-6 pt-8 pb-6">
@@ -449,5 +446,5 @@ function ChartSkeleton() {
 }
 
 function SkeletonBlock({ className = "", style }: { className?: string; style?: CSSProperties }) {
-  return <div className={`rounded bg-zinc-200 dark:bg-zinc-800 ${className}`} style={style} />;
+  return <div className={`rounded bg-zinc-800 ${className}`} style={style} />;
 }

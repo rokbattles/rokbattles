@@ -21,9 +21,7 @@ const ArkHistoryCharts = dynamic(
   () =>
     import("@/components/account-ark/ark-history-charts").then((module) => module.ArkHistoryCharts),
   {
-    loading: () => (
-      <div className="h-80 rounded-md bg-zinc-100 dark:bg-zinc-900" aria-hidden="true" />
-    ),
+    loading: () => <div className="h-80 rounded-md bg-zinc-900" aria-hidden="true" />,
   }
 );
 
@@ -55,7 +53,7 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
       <Text>{t("Your matches, your team, and the moments that made the difference.")}</Text>
       <nav
         aria-label={t("Ark leagues")}
-        className="flex gap-6 overflow-x-auto border-b border-zinc-200 dark:border-zinc-800"
+        className="flex gap-6 overflow-x-auto border-b border-zinc-800"
       >
         {LEAGUES.map((key) => (
           <button
@@ -70,8 +68,8 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
               "shrink-0 border-b-2 pb-3 text-sm font-medium",
               "focus-visible:outline-2 focus-visible:outline-blue-500",
               league === key
-                ? "border-zinc-950 text-zinc-950 dark:border-white dark:text-white"
-                : "border-transparent text-zinc-500 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white"
+                ? "border-white text-white"
+                : "border-transparent text-zinc-400 hover:text-white"
             )}
           >
             {labels[key]}
@@ -122,7 +120,7 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
           </section>
         </>
       ) : (
-        <div className="rounded-md border border-dashed border-zinc-300 px-6 py-10 text-center dark:border-zinc-700">
+        <div className="rounded-md border border-dashed px-6 py-10 text-center border-zinc-700">
           <Subheading>{t("No matches in this league.")}</Subheading>
           <Text className="mt-2">
             {t("Try another league or upload Ark reports from the desktop app.")}

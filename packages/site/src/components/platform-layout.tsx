@@ -8,18 +8,15 @@ import {
   GiftIcon,
   HeartIcon,
   MapIcon,
-  MoonIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
   ShieldCheckIcon,
-  SunIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
-import { useTheme } from "@wrksz/themes/client";
 import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
 import type React from "react";
-import { use, useCallback, useEffect, useState } from "react";
+import { use, useCallback } from "react";
 import { LanguageSelector } from "@/components/language-selector";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Navbar } from "@/components/ui/navbar";
@@ -54,10 +51,8 @@ const fullWidthRoutes = new Set([
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const t = useExtracted();
   const pathname = usePathname();
-  const { resolvedTheme, setTheme } = useTheme();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
   const governorContext = use(GovernorContext);
-  const [isMounted, setIsMounted] = useState(false);
 
   if (!governorContext) {
     throw new Error("PlatformLayout must be used within a GovernorProvider");
@@ -66,18 +61,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const { activeGovernor } = governorContext;
   const showGovernorSection = Boolean(!loading && user);
   const showMyReports = Boolean(!loading && user && activeGovernor);
-  const isDark = isMounted ? resolvedTheme === "dark" : false;
-  const ThemeIcon = isDark ? SunIcon : MoonIcon;
-  const themeLabel = isMounted ? (isDark ? t("Light mode") : t("Dark mode")) : t("Theme");
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const handleThemeToggle = useCallback(() => {
-    setTheme(isDark ? "light" : "dark");
-  }, [isDark, setTheme]);
-
   const handleLogout = useCallback(async () => {
     const response = await fetch("/proxy/v1/auth/logout", { method: "POST" });
 
@@ -203,10 +186,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               >
                 <ArrowDownTrayIcon />
                 <SidebarLabel>{t("Desktop App")}</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem onClick={handleThemeToggle} aria-label={t("Toggle theme")}>
-                <ThemeIcon />
-                <SidebarLabel>{themeLabel}</SidebarLabel>
               </SidebarItem>
               <LanguageSelector />
             </SidebarSection>

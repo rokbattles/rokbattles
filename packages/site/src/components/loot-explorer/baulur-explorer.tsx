@@ -90,7 +90,7 @@ export function BaulurExplorerContent({
           <section className="space-y-3">
             <div>
               <Subheading>{t("1% damage or below")}</Subheading>
-              <div className="text-sm/6 text-zinc-500 dark:text-zinc-400">
+              <div className="text-sm/6 text-zinc-400">
                 {t("This has been seen {count, plural, one {# time} other {# times}}.", {
                   count: item.resourcePool.results,
                 })}

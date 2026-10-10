@@ -87,7 +87,7 @@ export function CombatLabRankingsTable({
 
   return (
     <Table dense>
-      <TableHead ref={headRef} className="relative z-10 bg-white dark:bg-zinc-900">
+      <TableHead ref={headRef} className="relative z-10 bg-zinc-900">
         <TableRow>
           <TableHeader className="w-12 min-w-12 text-right">#</TableHeader>
           <TableHeader>Pairing</TableHeader>
@@ -131,7 +131,7 @@ export function CombatLabRankingsTable({
               href={href}
               title={`Explore ${primaryName} and ${secondaryName}`}
             >
-              <TableCell className="w-12 min-w-12 text-right text-zinc-600 tabular-nums dark:text-zinc-400">
+              <TableCell className="w-12 min-w-12 text-right tabular-nums text-zinc-400">
                 {index + 1}
               </TableCell>
               <TableCell>
@@ -144,7 +144,7 @@ export function CombatLabRankingsTable({
                     />
                     <span>{primaryName}</span>
                   </span>
-                  <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                  <span className="inline-flex items-center gap-2 text-zinc-400">
                     <CommanderIcon
                       id={item.secondaryCommanderId}
                       alt={`${secondaryName} icon`}
@@ -155,7 +155,7 @@ export function CombatLabRankingsTable({
                 </div>
               </TableCell>
               <CombatLabRankingsScoreCell className="w-0 px-2" score={item.drastc.overall} />
-              <TableCell className="w-0 px-2 text-right text-zinc-600 tabular-nums dark:text-zinc-400">
+              <TableCell className="w-0 px-2 text-right tabular-nums text-zinc-400">
                 {scoreFormatter.format(
                   Math.min(99.99, clampScore(item.drastc.confidence.score) * 10)
                 )}
