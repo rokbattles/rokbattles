@@ -27,11 +27,7 @@ export function BaulurDetails({
     <section aria-label="Routes and assigned passes" className="space-y-6">
       <Subheading>Routes</Subheading>
       {plan.routes.map((route) => (
-        <section
-          key={route.id}
-          aria-label={route.name}
-          className="border-t border-zinc-950/10 pt-5 dark:border-white/10"
-        >
+        <section key={route.id} aria-label={route.name} className="border-t pt-5 border-white/10">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <Subheading className="flex items-center gap-2">
@@ -70,7 +66,7 @@ export function BaulurDetails({
                       ))}
                     </Listbox>
                   </Field>
-                  <ol className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+                  <ol className="space-y-2 text-sm text-zinc-300">
                     {orderedRouteSites(route).map((id, index) => (
                       <li key={id} className="flex flex-wrap items-center gap-2">
                         <span className="min-w-0 flex-1">

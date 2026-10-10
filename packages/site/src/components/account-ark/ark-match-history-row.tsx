@@ -34,7 +34,7 @@ export function ArkMatchHistoryRow({ row }: ArkMatchHistoryRowProps): ReactEleme
             timeZone: "UTC",
           })}
         </div>
-        <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="mt-1 text-xs text-zinc-400">
           {intl.dateTime(row.mailTimeMillis, {
             hour: "2-digit",
             minute: "2-digit",
@@ -49,7 +49,7 @@ export function ArkMatchHistoryRow({ row }: ArkMatchHistoryRowProps): ReactEleme
           <ArkAllianceEmblem logo={own?.logo ?? null} isBlue={own?.isBlue ?? null} />
           <div>
             <div className="font-medium">{formatArkAllianceLabel(own, t("Unknown alliance"))}</div>
-            <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="mt-1 text-xs text-zinc-400">
               {t("vs {alliance}", {
                 alliance: formatArkAllianceLabel(opponent, t("Unknown alliance")),
               })}
@@ -57,13 +57,13 @@ export function ArkMatchHistoryRow({ row }: ArkMatchHistoryRowProps): ReactEleme
           </div>
         </div>
       </TableCell>
-      <TableCell className="text-zinc-500 dark:text-zinc-400">{leagues[row.league]}</TableCell>
+      <TableCell className="text-zinc-400">{leagues[row.league]}</TableCell>
       <TableCell>
         <Badge color={colors[outcome]}>{outcomes[outcome]}</Badge>
       </TableCell>
       <TableCell className="text-right tabular-nums">
         <span className="font-medium">{number(own?.score)}</span>
-        <span className="text-zinc-500 dark:text-zinc-400">{` / ${number(opponent?.score)}`}</span>
+        <span className="text-zinc-400">{` / ${number(opponent?.score)}`}</span>
       </TableCell>
       <TableCell className="text-right tabular-nums">{number(row.personalScore)}</TableCell>
     </TableRow>

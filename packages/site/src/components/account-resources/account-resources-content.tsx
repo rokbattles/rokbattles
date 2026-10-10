@@ -48,10 +48,7 @@ export function AccountResourcesContent({
 
   if (loading) {
     content = (
-      <div
-        className="rounded-md border border-zinc-200 px-6 py-16 text-center dark:border-zinc-800"
-        role="status"
-      >
+      <div className="rounded-md border px-6 py-16 text-center border-zinc-800" role="status">
         <Text>{t("Loading gathering reports…")}</Text>
       </div>
     );

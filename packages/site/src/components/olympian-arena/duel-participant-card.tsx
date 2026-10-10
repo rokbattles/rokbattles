@@ -82,12 +82,10 @@ export function DuelParticipantCard({
         />
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <div className="text-base font-semibold text-zinc-900 dark:text-white">
-              {playerName}
-            </div>
+            <div className="text-base font-semibold text-white">{playerName}</div>
             {isWinner ? <Badge color="emerald">{t("Winner")}</Badge> : null}
           </div>
-          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
               <Badge>{playerId.toString()}</Badge>
             ) : null}

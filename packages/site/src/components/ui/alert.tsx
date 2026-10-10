@@ -37,7 +37,7 @@ export function Alert({
   return (
     <HeadlessDialog {...props}>
       <HeadlessDialogBackdrop
-        className="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/15 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50"
+        className="fixed inset-0 flex w-screen justify-center overflow-y-auto px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 bg-zinc-950/50"
         transition
       />
 
@@ -47,7 +47,7 @@ export function Alert({
             className={cn(
               className,
               sizes[size],
-              "row-start-2 w-full rounded-2xl bg-white p-8 shadow-lg ring-1 ring-zinc-950/10 sm:rounded-2xl sm:p-6 dark:bg-zinc-900 dark:ring-white/10 forced-colors:outline",
+              "row-start-2 w-full rounded-2xl p-8 shadow-lg ring-1 sm:rounded-2xl sm:p-6 bg-zinc-900 ring-white/10 forced-colors:outline",
               "transition duration-100 will-change-transform data-closed:data-enter:scale-95 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
             )}
             transition
@@ -69,7 +69,7 @@ export function AlertTitle({
       {...props}
       className={cn(
         className,
-        "text-balance text-center font-semibold text-base/6 text-zinc-950 sm:text-wrap sm:text-left sm:text-sm/6 dark:text-white"
+        "text-balance text-center font-semibold text-base/6 sm:text-wrap sm:text-left sm:text-sm/6 text-white"
       )}
     />
   );

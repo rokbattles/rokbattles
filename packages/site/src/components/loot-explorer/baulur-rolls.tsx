@@ -16,14 +16,14 @@ export function BaulurRolls({
     <section className="space-y-8">
       <div>
         <Subheading>{t("Over 1% damage")}</Subheading>
-        <div className="text-sm/6 text-zinc-500 dark:text-zinc-400">
+        <div className="text-sm/6 text-zinc-400">
           {t("This has been seen {count, plural, one {# time} other {# times}}.", {
             count: pool.matchedResults,
           })}
         </div>
       </div>
       {pool.unmatchedResults > 0 ? (
-        <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm/6 text-amber-900 dark:bg-amber-500/10 dark:text-amber-200">
+        <p className="rounded-lg px-4 py-3 text-sm/6 bg-amber-500/10 text-amber-200">
           {t(
             "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots.",
             { count: pool.unmatchedResults }
@@ -31,7 +31,7 @@ export function BaulurRolls({
         </p>
       ) : null}
       {pool.matchedResults === 0 ? (
-        <p className="text-sm/6 text-zinc-500 dark:text-zinc-400">
+        <p className="text-sm/6 text-zinc-400">
           {t("No matching reward results have been observed yet.")}
         </p>
       ) : null}

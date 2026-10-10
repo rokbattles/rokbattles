@@ -137,10 +137,10 @@ export function FortExplorer({
             {item.rewardTiers.map((tier) => (
               <div key={tier.tier} className="space-y-3">
                 <div>
-                  <div className="font-medium text-sm/6 text-zinc-950 dark:text-white">
+                  <div className="font-medium text-sm/6 text-white">
                     {t("Reward Tier {tier}", { tier: tier.tier.toString() })}
                   </div>
-                  <div className="text-sm/6 text-zinc-500 dark:text-zinc-400">
+                  <div className="text-sm/6 text-zinc-400">
                     {t(
                       "This reward tier has been seen {count, plural, one {# time} other {# times}}, requiring damage {damage}.",
                       {

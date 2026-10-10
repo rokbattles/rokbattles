@@ -33,7 +33,7 @@ export default function ReportsSkeletonRows({ count = 10 }: Props) {
             <TableCell key={c} className={cell}>
               <div
                 className={cn(
-                  "inline-block h-4 max-w-full animate-pulse rounded align-middle bg-zinc-200/80 dark:bg-zinc-700/60",
+                  "inline-block h-4 max-w-full animate-pulse rounded align-middle bg-zinc-700/60",
                   width
                 )}
               />

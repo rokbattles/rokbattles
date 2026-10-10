@@ -16,7 +16,7 @@ export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
   }
 
   return (
-    <div className="space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
+    <div className="space-y-1 text-xs text-zinc-300">
       {armaments.map((buff) => {
         const fallbackId = typeof buff.id === "number" ? buff.id.toString() : "?";
         const name =
@@ -27,9 +27,7 @@ export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
         return (
           <div key={`${buff.id}-${buff.value ?? "none"}`} className="flex items-center gap-2">
             <span className="min-w-0 flex-1 truncate">{name}</span>
-            {valueLabel ? (
-              <span className="tabular-nums text-zinc-500 dark:text-zinc-400">{valueLabel}</span>
-            ) : null}
+            {valueLabel ? <span className="tabular-nums text-zinc-400">{valueLabel}</span> : null}
           </div>
         );
       })}

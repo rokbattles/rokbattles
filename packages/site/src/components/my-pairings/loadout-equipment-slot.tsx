@@ -26,7 +26,7 @@ export function LoadoutEquipmentSlot({ token }: LoadoutEquipmentSlotProps) {
 
   return (
     <div
-      className="relative h-12 w-12 select-none overflow-hidden rounded-lg bg-zinc-600/10 dark:bg-white/5 sm:h-14 sm:w-14"
+      className="relative h-12 w-12 select-none overflow-hidden rounded-lg bg-white/5 sm:h-14 sm:w-14"
       title={label}
     >
       {equipmentSpriteUrl ? (

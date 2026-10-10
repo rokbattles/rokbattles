@@ -112,7 +112,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
   const tooltipLabels = { count: t("Count"), usage: t("Usage") };
 
   return (
-    <article className="min-w-0 rounded-md border border-zinc-950/10 bg-white p-5 dark:border-white/10 dark:bg-zinc-900 sm:p-6">
+    <article className="min-w-0 rounded-md border p-5 border-white/10 bg-zinc-900 sm:p-6">
       <Subheading level={3} className="!text-lg/7">
         {t("Skills")}: {commanderName}
       </Subheading>
@@ -125,27 +125,27 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
       ) : (
         <>
           <div className="mt-3 grid grid-cols-[auto_auto_minmax(0,1fr)] gap-x-2">
-            <div className="col-start-3 text-center font-medium text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="col-start-3 text-center font-medium text-xs text-zinc-400">
               {t("Skills 1 & 2")}
             </div>
-            <div className="col-start-3 mt-1.5 mb-1.5 grid grid-cols-5 font-medium text-[0.625rem]/4 text-zinc-500 tabular-nums dark:text-zinc-400">
+            <div className="col-start-3 mt-1.5 mb-1.5 grid grid-cols-5 font-medium text-[0.625rem]/4 tabular-nums text-zinc-400">
               {axisTickIndexes.map((index) => (
                 <span className="text-center" key={index}>
                   {skillPairs[index]}
                 </span>
               ))}
             </div>
-            <div className="col-start-1 row-start-3 flex items-center [writing-mode:vertical-rl] rotate-180 justify-center font-medium text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="col-start-1 row-start-3 flex items-center [writing-mode:vertical-rl] rotate-180 justify-center font-medium text-xs text-zinc-400">
               {t("Skills 3 & 4")}
             </div>
-            <div className="col-start-2 row-start-3 flex flex-col justify-between py-0.5 font-medium text-[0.625rem]/4 text-zinc-500 tabular-nums dark:text-zinc-400">
+            <div className="col-start-2 row-start-3 flex flex-col justify-between py-0.5 font-medium text-[0.625rem]/4 tabular-nums text-zinc-400">
               {axisTickIndexes.map((index) => (
                 <span key={index}>{skillPairs[index]}</span>
               ))}
             </div>
             <div
               aria-label={t("Heatmap of four-skill level combinations from 1111 to 5555")}
-              className="col-start-3 row-start-3 grid aspect-square grid-cols-[repeat(25,minmax(0,1fr))] gap-px rounded-sm bg-zinc-950/10 p-px shadow-inner dark:bg-white/10"
+              className="col-start-3 row-start-3 grid aspect-square grid-cols-[repeat(25,minmax(0,1fr))] gap-px rounded-sm p-px shadow-inner bg-white/10"
               role="img"
             >
               {preview.heatmap.map((point) => (
@@ -163,7 +163,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
             </div>
           </div>
 
-          <div className="mt-3 flex items-center justify-end gap-1.5 font-medium text-xs text-zinc-600 dark:text-zinc-300">
+          <div className="mt-3 flex items-center justify-end gap-1.5 font-medium text-xs text-zinc-300">
             <span>{t("Fewer")}</span>
             {[0.16, 0.32, 0.52, 0.72, 0.94].map((opacity) => (
               <span
@@ -296,7 +296,7 @@ function HeatmapCell({
 
 function ChartLegend({ color, label }: { color: string; label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-300">
+    <span className="inline-flex items-center gap-1.5 text-zinc-300">
       <span className="size-2 rounded-full" style={{ backgroundColor: color }} />
       {label}
     </span>
@@ -334,10 +334,10 @@ function ExpertiseTooltip({
 
   return (
     <div
-      className="min-w-44 rounded-md border border-zinc-950/10 bg-white px-3 py-2 text-xs text-zinc-950 dark:border-white/10 dark:bg-zinc-900 dark:text-white"
+      className="min-w-44 rounded-md border px-3 py-2 text-xs border-white/10 bg-zinc-900 text-white"
       data-chart-tooltip=""
     >
-      <div className="mb-2 text-zinc-500 dark:text-zinc-400">{label}</div>
+      <div className="mb-2 text-zinc-400">{label}</div>
       <div className="space-y-1">
         {statuses.map((status) => (
           <div className="flex items-center justify-between gap-4" key={status.name}>

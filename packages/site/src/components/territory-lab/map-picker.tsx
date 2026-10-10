@@ -47,7 +47,7 @@ export function MapPicker({
       </RadioGroup>
       <section
         aria-labelledby="find-map-heading"
-        className="space-y-4 border-y border-zinc-950/10 py-6 dark:border-white/10"
+        className="space-y-4 border-y py-6 border-white/10"
       >
         <div>
           <Subheading id="find-map-heading">Find my map</Subheading>
@@ -108,7 +108,7 @@ export function MapPicker({
                       <span className="truncate text-sm/6" title={map.name}>
                         {map.name}
                       </span>
-                      <span className="text-xs/4 font-normal text-zinc-500 dark:text-zinc-400">
+                      <span className="text-xs/4 font-normal text-zinc-400">
                         {!map.categories.includes("structures") && "Structures unavailable"}
                       </span>
                     </span>

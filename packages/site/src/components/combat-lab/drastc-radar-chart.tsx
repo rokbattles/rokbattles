@@ -29,7 +29,7 @@ export function DrastcRadarChart({ data }: DrastcRadarChartProps) {
     <div className="h-80 min-h-80">
       <svg
         aria-label="DRASTC score radar chart"
-        className="h-full w-full overflow-visible text-zinc-700 dark:text-zinc-200"
+        className="h-full w-full overflow-visible text-zinc-200"
         role="img"
         viewBox={`0 0 ${CHART_SIZE} ${CHART_SIZE}`}
       >
@@ -47,7 +47,7 @@ export function DrastcRadarChart({ data }: DrastcRadarChartProps) {
                 return `${gridPoint.x},${gridPoint.y}`;
               })
               .join(" ")}
-            className="fill-none stroke-zinc-300 dark:stroke-zinc-700"
+            className="fill-none stroke-zinc-700"
             strokeWidth="1"
           />
         ))}
@@ -58,7 +58,7 @@ export function DrastcRadarChart({ data }: DrastcRadarChartProps) {
             x2={point.x}
             y1={CHART_CENTER}
             y2={point.y}
-            className="stroke-zinc-200 dark:stroke-zinc-800"
+            className="stroke-zinc-800"
             strokeWidth="1"
           />
         ))}

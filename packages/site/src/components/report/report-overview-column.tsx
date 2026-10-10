@@ -28,7 +28,7 @@ export function ReportOverviewColumn({
   const participantName = participant?.player_name?.trim();
   const sideTitle = side === "self" ? participantName || t("Unknown") : t("All Enemies");
   return (
-    <div className="space-y-3 rounded bg-zinc-600/10 p-4 dark:bg-white/5">
+    <div className="space-y-3 rounded p-4 bg-white/5">
       <Subheading>{sideTitle}</Subheading>
       <DescriptionList>
         {OVERVIEW_METRICS.map((metric) => {

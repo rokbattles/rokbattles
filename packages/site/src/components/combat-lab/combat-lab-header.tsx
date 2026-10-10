@@ -29,7 +29,7 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
   };
 
   return (
-    <header className="relative -mx-6 -mt-6 overflow-hidden border-zinc-950/10 border-b bg-zinc-950 text-white lg:-mx-10 lg:-mt-10 lg:rounded-t-lg dark:border-white/10">
+    <header className="relative -mx-6 -mt-6 overflow-hidden border-b bg-zinc-950 text-white lg:-mx-10 lg:-mt-10 lg:rounded-t-lg border-white/10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(37,99,235,.28),transparent_42%),radial-gradient(circle_at_20%_100%,rgba(124,58,237,.18),transparent_38%)]" />
       <div className="relative mx-auto max-w-7xl px-4 pt-7 pb-4 sm:px-6 sm:pt-10 sm:pb-6 lg:px-8">
         <div className="max-w-xl">
@@ -44,7 +44,7 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
           aria-label={t("Combat Lab sections")}
           className="mt-5 flex flex-wrap items-center gap-2 border-white/10 border-b pb-3"
         >
-          <div className="dark w-full sm:w-64">
+          <div className=" w-full sm:w-64">
             <Listbox<CombatLabSeason>
               aria-label={t("Combat Lab season")}
               value={season}

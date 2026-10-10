@@ -154,7 +154,7 @@ export function CommanderPairingDrawer({
             />
             <button
               aria-label={t("Swap primary and secondary commanders")}
-              className="rounded-full border border-zinc-950/10 bg-white p-2 text-zinc-500 shadow-sm transition hover:border-zinc-950/20 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-white/10 dark:bg-white/5 dark:text-zinc-400 dark:hover:border-white/20 dark:hover:text-white"
+              className="rounded-full border p-2 shadow-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-white"
               onClick={() => {
                 setDraftPrimaryId(draftSecondaryId);
                 setDraftSecondaryId(draftPrimaryId);
@@ -209,10 +209,7 @@ export function CommanderPairingDrawer({
 
         <section aria-labelledby="commander-results-heading">
           <div className="mb-3 flex items-end justify-between gap-3">
-            <h3
-              className="font-semibold text-sm/6 text-zinc-950 dark:text-white"
-              id="commander-results-heading"
-            >
+            <h3 className="font-semibold text-sm/6 text-white" id="commander-results-heading">
               {activeSlot === "primary"
                 ? t("Choose the primary commander")
                 : t("Choose the secondary commander")}
@@ -220,7 +217,7 @@ export function CommanderPairingDrawer({
             <div className="flex shrink-0 items-center gap-3">
               {hasFilters ? (
                 <button
-                  className="font-medium text-blue-600 text-xs hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="font-medium text-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 text-blue-400 hover:text-blue-300"
                   onClick={() => {
                     setQuery("");
                     setSelectedTalents([]);
@@ -230,7 +227,7 @@ export function CommanderPairingDrawer({
                   {t("Clear filters")}
                 </button>
               ) : null}
-              <p aria-live="polite" className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p aria-live="polite" className="text-xs text-zinc-400">
                 {numberFormatter.format(filteredCommanders.length)}{" "}
                 {filteredCommanders.length === 1 ? t("commander") : t("commanders")}
               </p>
@@ -248,8 +245,8 @@ export function CommanderPairingDrawer({
                     className={cn(
                       "group flex min-w-0 items-center gap-3 rounded-md border p-2.5 text-left transition [contain-intrinsic-size:auto_68px] [content-visibility:auto] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400/70",
                       selected
-                        ? "border-blue-400/60 bg-blue-50/60 dark:border-blue-400/50 dark:bg-blue-500/10"
-                        : "border-zinc-950/10 hover:border-zinc-950/20 hover:bg-zinc-950/2.5 dark:border-white/10 dark:hover:border-white/20 dark:hover:bg-white/5",
+                        ? "border-blue-400/50 bg-blue-500/10"
+                        : "border-white/10 hover:border-white/20 hover:bg-white/5",
                       unavailable && "cursor-not-allowed opacity-40"
                     )}
                     disabled={unavailable}
@@ -265,29 +262,25 @@ export function CommanderPairingDrawer({
                       sizes="44px"
                     />
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold text-sm text-zinc-950 dark:text-white">
+                      <span className="block truncate font-semibold text-sm text-white">
                         {commander.name}
                       </span>
-                      <span className="mt-0.5 block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="mt-0.5 block truncate text-xs text-zinc-400">
                         {commander.talents.map(talentLabel).join(" · ")}
                       </span>
                     </span>
-                    {selected ? (
-                      <CheckIcon className="size-4 shrink-0 text-blue-600 dark:text-blue-400" />
-                    ) : null}
+                    {selected ? <CheckIcon className="size-4 shrink-0 text-blue-400" /> : null}
                   </button>
                 );
               })}
             </div>
           ) : (
             <div
-              className="rounded-md border border-dashed border-zinc-950/15 px-5 py-10 text-center dark:border-white/15"
+              className="rounded-md border border-dashed px-5 py-10 text-center border-white/15"
               data-testid="commander-results-empty"
             >
-              <p className="font-semibold text-sm text-zinc-950 dark:text-white">
-                {t("No commanders match")}
-              </p>
-              <p className="mt-1 text-sm/6 text-zinc-500 dark:text-zinc-400">
+              <p className="font-semibold text-sm text-white">{t("No commanders match")}</p>
+              <p className="mt-1 text-sm/6 text-zinc-400">
                 {t("Try removing a talent or changing your search.")}
               </p>
             </div>
@@ -323,14 +316,12 @@ function PairingSlotButton({
       aria-pressed={active}
       className={cn(
         "min-w-0 rounded-md border p-2.5 text-left transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400/70",
-        active
-          ? "border-blue-400/60 bg-blue-50/60 dark:border-blue-400/50 dark:bg-blue-500/10"
-          : "border-zinc-950/10 hover:border-zinc-950/20 dark:border-white/10 dark:hover:border-white/20"
+        active ? "border-blue-400/50 bg-blue-500/10" : "border-white/10 hover:border-white/20"
       )}
       onClick={onClick}
       type="button"
     >
-      <span className="block font-semibold text-[0.65rem] uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+      <span className="block font-semibold text-[0.65rem] uppercase tracking-wider text-zinc-400">
         {label}
       </span>
       <span className="mt-1 flex min-w-0 items-center gap-2">
@@ -343,9 +334,7 @@ function PairingSlotButton({
             sizes="32px"
           />
         ) : null}
-        <span className="truncate font-semibold text-sm text-zinc-950 dark:text-white">
-          {commander?.name ?? "—"}
-        </span>
+        <span className="truncate font-semibold text-sm text-white">{commander?.name ?? "—"}</span>
       </span>
     </button>
   );
