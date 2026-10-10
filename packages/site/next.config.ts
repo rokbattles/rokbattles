@@ -31,6 +31,7 @@ const isProdEnv = process.env.NODE_ENV === "production";
 
 const config: NextConfig = {
   agentRules: false,
+  poweredByHeader: false,
   compiler: {
     reactRemoveProperties: true,
     removeConsole: isProdEnv,
@@ -108,6 +109,15 @@ const config: NextConfig = {
       {
         source: "/:path*{/}?",
         headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-XSS-Protection", value: "0" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value:
+              "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+          },
           {
             key: "X-Accel-Buffering",
             value: "no",
