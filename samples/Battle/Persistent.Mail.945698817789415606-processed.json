@@ -23,6 +23,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "79901",
         "x": 743.16016,
         "y": 341.10797
@@ -215,6 +216,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "80501",
         "x": 744.1966,
         "y": 341.5566
@@ -407,6 +409,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "81001",
         "x": 744.1966,
         "y": 341.5566
@@ -599,6 +602,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "81901",
         "x": 744.7086,
         "y": 339.65027
@@ -791,6 +795,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "82001",
         "x": 744.8731,
         "y": 341.81946
@@ -983,6 +988,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "83001",
         "x": 745.37427,
         "y": 340.08762
@@ -1175,6 +1181,7 @@
       "app_uid": 203340339,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "83201",
         "x": 743.71075,
         "y": 339.93524
@@ -1400,6 +1407,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "83301",
         "x": 744.6157,
         "y": 342.12784
@@ -1592,6 +1600,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "83601",
         "x": 745.3179,
         "y": 340.6963
@@ -1784,6 +1793,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "83701",
         "x": 744.1966,
         "y": 341.5566
@@ -1976,6 +1986,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "84401",
         "x": 744.1966,
         "y": 341.5566
@@ -2168,6 +2179,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "84701",
         "x": 744.7086,
         "y": 339.65027
@@ -2360,6 +2372,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 0,
         "id": "85201",
         "x": 744.6157,
         "y": 342.12784
@@ -2552,6 +2565,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "85301",
         "x": 744.6157,
         "y": 342.12784
@@ -2744,6 +2758,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "85501",
         "x": 745.9576,
         "y": 340.51993
@@ -2936,6 +2951,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "85601",
         "x": 744.6157,
         "y": 342.12784
@@ -3128,6 +3144,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "85901",
         "x": 745.9552,
         "y": 338.66647
@@ -3320,6 +3337,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "86001",
         "x": 744.6157,
         "y": 342.12784
@@ -3512,6 +3530,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "86201",
         "x": 745.72437,
         "y": 338.85764
@@ -3704,6 +3723,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "86301",
         "x": 745.72437,
         "y": 338.85764
@@ -3896,6 +3916,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "86401",
         "x": 745.72437,
         "y": 338.85764
@@ -4088,6 +4109,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "86701",
         "x": 745.9552,
         "y": 338.66647
@@ -4280,6 +4302,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "86901",
         "x": 746.08203,
         "y": 338.48697
@@ -4472,6 +4495,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "87101",
         "x": 744.7644,
         "y": 338.0232
@@ -4664,6 +4688,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "87201",
         "x": 745.72437,
         "y": 338.85764
@@ -4856,6 +4881,7 @@
       "app_uid": 244028767,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "87501",
         "x": 744.6157,
         "y": 342.12784
@@ -5069,6 +5095,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "87601",
         "x": 746.08203,
         "y": 338.48697
@@ -5261,6 +5288,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "87701",
         "x": 745.72437,
         "y": 338.85764
@@ -5453,6 +5481,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "87901",
         "x": 745.72437,
         "y": 338.85764
@@ -5645,6 +5674,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "88901",
         "x": 744.7644,
         "y": 338.0232
@@ -5837,6 +5867,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "89001",
         "x": 746.08203,
         "y": 338.48697
@@ -6029,6 +6060,7 @@
       "app_uid": 203340339,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "89401",
         "x": 746.08203,
         "y": 338.48697
@@ -6254,6 +6286,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "89501",
         "x": 746.08203,
         "y": 338.48697
@@ -6446,6 +6479,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "89601",
         "x": 746.08203,
         "y": 338.48697
@@ -6638,6 +6672,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "89701",
         "x": 747.7313,
         "y": 337.72882
@@ -6830,6 +6865,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "90201",
         "x": 747.7313,
         "y": 337.72882
@@ -7022,6 +7058,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "90501",
         "x": 746.08203,
         "y": 338.48697
@@ -7214,6 +7251,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 2,
         "id": "90901",
         "x": 747.7313,
         "y": 337.72882
@@ -7406,6 +7444,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 0,
         "id": "91501",
         "x": 747.7313,
         "y": 337.72882
@@ -7598,6 +7637,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 0,
         "id": "91801",
         "x": 747.7313,
         "y": 337.72882
@@ -7790,6 +7830,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 0,
         "id": "92201",
         "x": 747.7313,
         "y": 337.72882
@@ -7982,6 +8023,7 @@
       "app_uid": null,
       "as_battle_type": 2,
       "attack": {
+        "def": 0,
         "id": "93101",
         "x": 747.7313,
         "y": 337.72882
