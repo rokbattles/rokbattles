@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { JSX } from "react";
 import { getGameSpriteUrl } from "@/lib/game-sprite";
 import type { OverlayCommander } from "@/lib/overlay-commanders";
+import type { OverlayBranding } from "@/lib/types/overlay";
 
 export type BattleCardData = {
   id: string;
@@ -26,16 +27,22 @@ type PortraitProps = {
 type BattleCardProps = {
   battle: BattleCardData;
   commanders: Record<string, OverlayCommander>;
+  branding: OverlayBranding;
 };
 
 type BattleCardsProps = {
   battles: BattleCardData[];
   commanders: Record<string, OverlayCommander>;
+  branding: OverlayBranding;
   status: string;
 };
 
 const numbers = new Intl.NumberFormat("en-US");
 const labels = { victory: "Victory", defeat: "Defeat", battle: "Battle", unknown: "Battle" };
+const watermarks = {
+  icon_watermark: { src: "/assets/rokbattles-icon-white.svg", width: 32, height: 32 },
+  text_watermark: { src: "/assets/rokbattles-wordmark-white.svg", width: 112, height: 13 },
+};
 const awakenedBackgrounds: Record<string, string> = {
   legendary: "img_icon_HeroProfile_BGMask_Orange.png",
   epic: "img_icon_HeroProfile_BGMask_pink.png",
@@ -77,18 +84,28 @@ function Portrait({ commander, awakened, secondary = false }: PortraitProps): JS
   );
 }
 
-function BattleCard({ battle, commanders }: BattleCardProps): JSX.Element {
+function BattleCard({ battle, commanders, branding }: BattleCardProps): JSX.Element {
   const trade = battle.tradePercent === null ? "∞" : numbers.format(battle.tradePercent);
+  const watermark = watermarks[branding] ?? watermarks.text_watermark;
 
   return (
     <article
       data-outcome={battle.outcome}
       className={cn(
-        "flex min-h-[94px] animate-battle-arrive items-center rounded-[9px] border-8 border-transparent px-2.5 py-1.5",
+        "relative flex min-h-[94px] animate-battle-arrive items-center rounded-[9px] border-8 border-transparent px-2.5 py-1.5",
         "bg-[rgb(73_52_21/75%)] bg-clip-padding drop-shadow-[0_2px_2px_#0006] motion-reduce:animate-none",
         "[border-image:url('https://cdn.rokbattles.com/game/sprites/img_mailbg4.png')_14_fill_/_14px_/_0_stretch]"
       )}
     >
+      <Image
+        src={watermark.src}
+        alt=""
+        width={watermark.width}
+        height={watermark.height}
+        unoptimized
+        className="pointer-events-none absolute top-2 right-2 h-auto opacity-15"
+      />
+
       <div className="relative h-[62px] w-[94px] shrink-0">
         <Portrait
           commander={commanders[battle.commanders.secondaryCommanderId]}
@@ -101,7 +118,7 @@ function BattleCard({ battle, commanders }: BattleCardProps): JSX.Element {
         />
       </div>
 
-      <div className="min-w-0">
+      <div className="relative min-w-0">
         <h1
           className={cn(
             "mb-[3px] text-[22px]/6 font-bold",
@@ -123,7 +140,12 @@ function BattleCard({ battle, commanders }: BattleCardProps): JSX.Element {
   );
 }
 
-export function BattleCards({ battles, commanders, status }: BattleCardsProps): JSX.Element {
+export function BattleCards({
+  battles,
+  commanders,
+  branding = "text_watermark",
+  status,
+}: BattleCardsProps): JSX.Element {
   return (
     <main
       aria-label="Recent battles"
@@ -131,7 +153,7 @@ export function BattleCards({ battles, commanders, status }: BattleCardsProps): 
       className="flex w-[390px] max-w-screen flex-col gap-1 p-1 text-[#fff9e9] tabular-nums [font-family:Segoe_UI,Arial,sans-serif]"
     >
       {battles.map((battle) => (
-        <BattleCard key={battle.id} battle={battle} commanders={commanders} />
+        <BattleCard key={battle.id} battle={battle} commanders={commanders} branding={branding} />
       ))}
     </main>
   );

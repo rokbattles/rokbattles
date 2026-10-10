@@ -25,15 +25,24 @@ const BATTLE_LIFETIME_MS: i64 = 5 * 60 * 1000;
 const ALLOWED_DISCORD_IDS: [&str; 3] =
     ["187342661060001792", "188044055698079756", "1126322387240095824"];
 
+#[derive(Debug, Clone, Copy, Default, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub(super) enum Branding {
+    IconWatermark,
+    #[default]
+    TextWatermark,
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(default)]
 pub(super) struct Settings {
     pub limit: usize,
+    pub branding: Branding,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { limit: 5 }
+        Self { limit: 5, branding: Branding::default() }
     }
 }
 
@@ -219,7 +228,12 @@ pub async fn battles(
 
     Ok((
         NO_STORE,
-        Json(serde_json::json!({"items": items, "serverTime": now, "pollIntervalMs": 3000})),
+        Json(serde_json::json!({
+            "items": items,
+            "serverTime": now,
+            "pollIntervalMs": 3000,
+            "branding": settings.branding
+        })),
     ))
 }
 
@@ -241,10 +255,10 @@ mod tests {
     #[test]
     fn validates_limits() {
         for limit in 1..=7 {
-            Settings { limit }.validate().expect("valid limit");
+            Settings { limit, ..Settings::default() }.validate().expect("valid limit");
         }
         for limit in [0, 8] {
-            assert!(Settings { limit }.validate().is_err());
+            assert!(Settings { limit, ..Settings::default() }.validate().is_err());
         }
     }
 
@@ -255,7 +269,45 @@ mod tests {
             "limit": 3, "startAt": 1000, "primaryCommanderId": 575, "secondaryCommanderId": 579
         }})
         .expect("previously saved settings");
-        assert_eq!(serde_json::to_value(settings).unwrap(), serde_json::json!({"limit": 3}));
+        assert_eq!(
+            serde_json::to_value(settings).unwrap(),
+            serde_json::json!({"limit": 3, "branding": "text_watermark"})
+        );
         assert_eq!(serde_json::from_str::<Settings>("{}").unwrap().limit, 5);
+    }
+
+    #[test]
+    fn defaults_missing_branding_to_text_watermark() {
+        for claim in [doc! {}, doc! {"overlaySettings": {"limit": 7}}] {
+            let settings = Settings::from_claim(&claim).expect("existing settings");
+
+            assert_eq!(settings.branding, Branding::TextWatermark);
+        }
+
+        let settings: Settings = serde_json::from_str("{}").expect("default settings");
+        assert_eq!(settings.branding, Branding::TextWatermark);
+    }
+
+    #[test]
+    fn preserves_branding_through_json_and_stored_settings() {
+        for branding in ["icon_watermark", "text_watermark"] {
+            let input = serde_json::json!({"limit": 3, "branding": branding});
+            let settings: Settings = serde_json::from_value(input.clone()).expect("valid settings");
+            let stored = mongodb::bson::to_document(&settings).expect("stored settings");
+            let restored =
+                Settings::from_claim(&doc! {"overlaySettings": stored}).expect("restored settings");
+
+            assert_eq!(serde_json::to_value(restored).unwrap(), input);
+        }
+    }
+
+    #[test]
+    fn rejects_unsupported_branding() {
+        for branding in ["header", "footer", "watermark", "unknown"] {
+            serde_json::from_value::<Settings>(
+                serde_json::json!({"limit": 5, "branding": branding}),
+            )
+            .expect_err("unsupported branding should be rejected");
+        }
     }
 }

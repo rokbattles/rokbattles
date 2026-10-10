@@ -7,13 +7,12 @@ import { Description, Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { Text } from "@/components/ui/text";
+import type { OverlayPreferences } from "@/lib/types/overlay";
 import { GovernorContext } from "@/providers/governor-context";
 
 type OverlayConfig = {
   enabled: boolean;
-  settings: {
-    limit: number;
-  };
+  settings: OverlayPreferences;
 };
 
 type GovernorOverlaySettingsProps = { governorId: number };
@@ -84,7 +83,7 @@ function GovernorOverlaySettings({ governorId }: GovernorOverlaySettingsProps): 
 
 function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
   const t = useExtracted();
-  const [limit, setLimit] = useState(config.settings.limit);
+  const [settings, setSettings] = useState(config.settings);
   const [enabled, setEnabled] = useState(config.enabled);
   const [url, setUrl] = useState("");
   const [busy, setBusy] = useState(false);
@@ -103,7 +102,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
     setError("");
 
     try {
-      await request(endpoint, "PUT", { limit });
+      await request(endpoint, "PUT", settings);
 
       if (!enabled) {
         await rotate();
@@ -140,12 +139,34 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
       <form onSubmit={submit} className="space-y-5">
         <Field className="w-1/2">
           <Label>{t("Max marches")}</Label>
-          <Listbox name="limit" value={limit} onChange={setLimit} disabled={busy}>
+          <Listbox
+            name="limit"
+            value={settings.limit}
+            onChange={(limit) => setSettings({ ...settings, limit })}
+            disabled={busy}
+          >
             {[1, 2, 3, 4, 5, 6, 7].map((count) => (
               <ListboxOption key={count} value={count}>
                 <ListboxLabel>{count}</ListboxLabel>
               </ListboxOption>
             ))}
+          </Listbox>
+        </Field>
+
+        <Field className="w-1/2">
+          <Label>{t("Branding")}</Label>
+          <Listbox
+            name="branding"
+            value={settings.branding ?? "text_watermark"}
+            onChange={(branding) => setSettings({ ...settings, branding })}
+            disabled={busy}
+          >
+            <ListboxOption value="icon_watermark">
+              <ListboxLabel>{t("Icon watermark")}</ListboxLabel>
+            </ListboxOption>
+            <ListboxOption value="text_watermark">
+              <ListboxLabel>{t("Text watermark")}</ListboxLabel>
+            </ListboxOption>
           </Listbox>
         </Field>
 

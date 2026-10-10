@@ -2,10 +2,11 @@
 
 import { type JSX, useEffect, useState } from "react";
 import type { OverlayCommander } from "@/lib/overlay-commanders";
+import type { OverlayBranding } from "@/lib/types/overlay";
 import { type BattleCardData, BattleCards } from "./battle-cards";
 
 type Battle = BattleCardData & { expiresAt: number };
-type Feed = { items: Battle[]; serverTime: number };
+type Feed = { items: Battle[]; serverTime: number; branding: OverlayBranding };
 
 type BattleOverlayProps = {
   token: string;
@@ -15,7 +16,7 @@ type BattleOverlayProps = {
 const POLL_INTERVAL_MS = 3000;
 
 export function BattleOverlay({ token, commanders }: BattleOverlayProps): JSX.Element {
-  const [feed, setFeed] = useState<Feed>({ items: [], serverTime: 0 });
+  const [feed, setFeed] = useState<Feed>({ items: [], serverTime: 0, branding: "text_watermark" });
   const [now, setNow] = useState(0);
   const [status, setStatus] = useState("connecting");
 
@@ -42,7 +43,7 @@ export function BattleOverlay({ token, commanders }: BattleOverlayProps): JSX.El
         }
 
         if (response.status === 404 || response.status === 401) {
-          setFeed({ items: [], serverTime: 0 });
+          setFeed({ items: [], serverTime: 0, branding: "text_watermark" });
           setStatus("unavailable");
 
           return;
@@ -84,5 +85,12 @@ export function BattleOverlay({ token, commanders }: BattleOverlayProps): JSX.El
 
   const visibleBattles = feed.items.filter((battle) => battle.expiresAt > now).slice(0, 7);
 
-  return <BattleCards battles={visibleBattles} commanders={commanders} status={status} />;
+  return (
+    <BattleCards
+      battles={visibleBattles}
+      commanders={commanders}
+      branding={feed.branding}
+      status={status}
+    />
+  );
 }

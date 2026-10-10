@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { JSX } from "react";
 import { type BattleCardData, BattleCards } from "@/components/overlay/battle-cards";
 import { getOverlayCommanders } from "@/lib/overlay-commanders";
+import type { OverlayPreferences } from "@/lib/types/overlay";
 
 const samples: Pick<BattleCardData, "outcome" | "killCount" | "tradePercent">[] = [
   { outcome: "victory", killCount: 28107, tradePercent: 215 },
@@ -49,12 +50,13 @@ export default async function Page({
     throw new Error("Unable to load overlay settings");
   }
 
-  const { limit }: { limit: number } = await response.json();
+  const { limit, branding }: OverlayPreferences = await response.json();
 
   return (
     <BattleCards
       battles={battles.slice(0, limit)}
       commanders={getOverlayCommanders()}
+      branding={branding}
       status="test"
     />
   );
