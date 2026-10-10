@@ -23,6 +23,7 @@
       "app_uid": 26855535,
       "as_battle_type": null,
       "attack": {
+        "def": 0,
         "id": "20385801",
         "x": 7394.313,
         "y": 8221.317

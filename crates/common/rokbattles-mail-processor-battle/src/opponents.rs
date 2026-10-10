@@ -104,10 +104,11 @@ fn extract_attack_entry(
     let position = require_child_object(attack, "Pos")?;
     let attack_x = require_number_field(position, "X")?;
     let attack_y = require_number_field(position, "Y")?;
+    let attack_def = optional_u64_field(attack, "Def")?;
     let (start_tick, end_tick) = extract_attack_tick_bounds(attack)?;
     fields.insert(
         "attack".to_string(),
-        json!({ "id": attack_key.clone(), "x": attack_x, "y": attack_y }),
+        json!({ "id": attack_key.clone(), "x": attack_x, "y": attack_y, "def": attack_def }),
     );
     fields.insert("start_tick".to_string(), Value::from(start_tick));
     fields.insert("end_tick".to_string(), Value::from(end_tick));
@@ -471,6 +472,63 @@ mod tests {
                 }
             })
         );
+    }
+
+    #[test]
+    fn opponents_extractor_preserves_attack_def_values() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../samples/Battle/Persistent.Mail.1002579517552941234.json");
+        let input = fs::read_to_string(sample_path).expect("read sample");
+        let mut value: Value = serde_json::from_str(&input).expect("parse sample");
+
+        for def in [0, 1, 2] {
+            value["body"]["content"]["Attacks"]["603103"]["Def"] = json!(def);
+
+            let section = OpponentsExtractor::new().extract(&value).expect("extract opponents");
+            let opponent = section.array().expect("opponents array").first().expect("opponent");
+            assert_eq!(opponent["attack"].get("def"), Some(&json!(def)));
+        }
+    }
+
+    #[test]
+    fn opponents_extractor_emits_null_for_missing_or_null_attack_def() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../samples/Battle/Persistent.Mail.1002579517552941234.json");
+        let input = fs::read_to_string(sample_path).expect("read sample");
+        let mut value: Value = serde_json::from_str(&input).expect("parse sample");
+
+        for def in [None, Some(Value::Null)] {
+            let attack = value["body"]["content"]["Attacks"]["603103"]
+                .as_object_mut()
+                .expect("attack object");
+            if let Some(def) = def {
+                attack.insert("Def".to_string(), def);
+            } else {
+                attack.remove("Def");
+            }
+
+            let section = OpponentsExtractor::new().extract(&value).expect("extract opponents");
+            let opponent = section.array().expect("opponents array").first().expect("opponent");
+            assert_eq!(opponent["attack"].get("def"), Some(&Value::Null));
+        }
+    }
+
+    #[test]
+    fn opponents_extractor_rejects_invalid_attack_def() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../samples/Battle/Persistent.Mail.1002579517552941234.json");
+        let input = fs::read_to_string(sample_path).expect("read sample");
+        let mut value: Value = serde_json::from_str(&input).expect("parse sample");
+
+        for def in [json!(-1), json!(1.5), json!("1"), json!(true)] {
+            value["body"]["content"]["Attacks"]["603103"]["Def"] = def;
+
+            let error = OpponentsExtractor::new().extract(&value).expect_err("invalid Def");
+            assert_eq!(
+                error,
+                ExtractError::InvalidFieldType { field: "Def", expected: "unsigned integer" },
+            );
+        }
     }
 
     #[test]
