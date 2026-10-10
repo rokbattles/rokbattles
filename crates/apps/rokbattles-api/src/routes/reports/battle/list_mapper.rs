@@ -77,7 +77,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
     projection
 }
 
-pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
+pub(crate) fn build_report_dedupe_key(document: &Document) -> Option<String> {
     if !is_shared_combat_report(document) {
         return build_field_report_dedupe_key(document).or_else(|| {
             nested_str(document, &["metadata", "mail_id"]).map(|mail_id| format!("mail:{mail_id}"))

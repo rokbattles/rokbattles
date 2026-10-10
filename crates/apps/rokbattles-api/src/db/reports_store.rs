@@ -71,6 +71,9 @@ impl ReportsStore {
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let models = vec![
             IndexModel::builder()
+                .keys(doc! { "sender.player_id": 1, "sender.tracking_key": 1, "metadata.server_id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "metadata.server_id": 1, "metadata.mail_time": 1, "_id": 1 })
                 .build(),
             IndexModel::builder()
@@ -416,6 +419,10 @@ impl ReportsStore {
         }
 
         let claimed_governor_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "overlayTokenHash": 1 })
+                .options(IndexOptions::builder().unique(true).sparse(true).build())
+                .build(),
             IndexModel::builder()
                 .keys(doc! { "governorId": 1 })
                 .options(IndexOptions::builder().unique(true).build())

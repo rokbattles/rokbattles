@@ -1297,6 +1297,11 @@ msgctxt "q5TmbN"
 msgid "Governors"
 msgstr "Thống đốc"
 
+#: src/components/account/account-settings-nav.tsx
+msgctxt "MBNGoX"
+msgid "Stream overlay"
+msgstr ""
+
 #: src/components/combat-lab/combat-lab-charts.tsx
 msgctxt "3UfoyS"
 msgid "Damage dealt"
@@ -2553,6 +2558,71 @@ msgstr "Trang trước"
 msgctxt "rBj9Ib"
 msgid "Next page"
 msgstr "Trang tiếp theo"
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "I49EvO"
+msgid "Select a governor to configure your stream overlay."
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "HEfT9E"
+msgid "Unable to load overlay settings."
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "dBYWeU"
+msgid "Loading overlay settings…"
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "uXjeqW"
+msgid "Unable to save overlay settings. Please try again."
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "odrvqj"
+msgid "Unable to update the overlay URL. Please try again."
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "ix_yT1"
+msgid "Max marches"
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "muqizb"
+msgid "Save settings"
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "uyX5SK"
+msgid "Create overlay URL"
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "8p-4_8"
+msgid "OBS browser source URL"
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "LC6U8B"
+msgid "Copy this URL into a Browser Source. Keep this URL private."
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "3akvWT"
+msgid "For your privacy, an existing URL is only shown when created."
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "CUsq_T"
+msgid "Replace URL"
+msgstr ""
+
+#: src/components/overlay/overlay-settings.tsx
+msgctxt "EVTylt"
+msgid "Revoke overlay"
+msgstr ""
 
 #: src/components/platform-layout.tsx
 msgctxt "Q7dLbA"

@@ -6,6 +6,19 @@
 @theme {
   --font-sans: var(--font-inter), system-ui;
   --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  --animate-battle-arrive: battle-arrive 180ms ease-out both;
+
+  @keyframes battle-arrive {
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
