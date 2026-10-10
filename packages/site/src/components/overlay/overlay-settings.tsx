@@ -138,7 +138,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
     <div className="max-w-2xl space-y-6">
       <form onSubmit={submit} className="space-y-5">
         <Field className="w-1/2">
-          <Label>{t("Max marches")}</Label>
+          <Label>{t("Max reports")}</Label>
           <Listbox
             name="limit"
             value={settings.limit}

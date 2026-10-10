@@ -2585,8 +2585,8 @@ msgid "Unable to update the overlay URL. Please try again."
 msgstr ""
 
 #: src/components/overlay/overlay-settings.tsx
-msgctxt "ix_yT1"
-msgid "Max marches"
+msgctxt "evQBoW"
+msgid "Max reports"
 msgstr ""
 
 #: src/components/overlay/overlay-settings.tsx
