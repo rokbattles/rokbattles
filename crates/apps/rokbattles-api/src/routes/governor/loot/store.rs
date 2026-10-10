@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use mongodb::{
+    Collection,
     bson::{Bson, Document, doc},
     options::FindOptions,
 };
@@ -100,7 +101,7 @@ pub(crate) struct BarbarianFortContentDocument {
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
-pub(crate) struct BaulurParticipantDocument {
+pub(crate) struct LootParticipantDocument {
     #[serde(default)]
     pub player_id: Option<Bson>,
     #[serde(default)]
@@ -108,13 +109,13 @@ pub(crate) struct BaulurParticipantDocument {
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
-pub(crate) struct BaulurMailDocument {
+pub(crate) struct NpcLootMailDocument {
     #[serde(default)]
     pub metadata: Option<MailMetadataDocument>,
     #[serde(default)]
-    pub npc: Option<BaulurNpcDocument>,
+    pub npc: Option<LootNpcDocument>,
     #[serde(default)]
-    pub participants: Option<Vec<BaulurParticipantDocument>>,
+    pub participants: Option<Vec<LootParticipantDocument>>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -130,11 +131,11 @@ pub(crate) struct KaruakCeremonyMailDocument {
     #[serde(default)]
     pub metadata: Option<MailMetadataDocument>,
     #[serde(default)]
-    pub participants: Option<Vec<BaulurParticipantDocument>>,
+    pub participants: Option<Vec<LootParticipantDocument>>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
-pub(crate) struct BaulurNpcDocument {
+pub(crate) struct LootNpcDocument {
     #[serde(default, rename = "type")]
     pub npc_type: Option<Bson>,
 }
@@ -272,7 +273,41 @@ pub(crate) async fn fetch_baulur_mails(
     governor_id: i64,
     npc_types: Option<&[i64]>,
     time_match: &Document,
-) -> Result<Vec<BaulurMailDocument>, ApiError> {
+) -> Result<Vec<NpcLootMailDocument>, ApiError> {
+    fetch_npc_loot_mails(
+        state.reports_store.barcanyonkillboss_collection(),
+        mail_receiver,
+        governor_id,
+        npc_types,
+        time_match,
+    )
+    .await
+}
+
+pub(crate) async fn fetch_lohar_mails(
+    state: &Arc<AppState>,
+    mail_receiver: &str,
+    governor_id: i64,
+    npc_type: i64,
+    time_match: &Document,
+) -> Result<Vec<NpcLootMailDocument>, ApiError> {
+    fetch_npc_loot_mails(
+        state.reports_store.killelitebarreport_collection(),
+        mail_receiver,
+        governor_id,
+        Some(&[npc_type]),
+        time_match,
+    )
+    .await
+}
+
+async fn fetch_npc_loot_mails(
+    collection: &Collection<Document>,
+    mail_receiver: &str,
+    governor_id: i64,
+    npc_types: Option<&[i64]>,
+    time_match: &Document,
+) -> Result<Vec<NpcLootMailDocument>, ApiError> {
     let options = FindOptions::builder()
         .projection(doc! {
             "_id": 0,
@@ -282,18 +317,29 @@ pub(crate) async fn fetch_baulur_mails(
             "participants.loot": 1,
         })
         .build();
+
+    let filter = build_npc_loot_filter(mail_receiver, governor_id, npc_types, time_match);
+
+    fetch_collection_documents(collection, filter, options).await
+}
+
+fn build_npc_loot_filter(
+    mail_receiver: &str,
+    governor_id: i64,
+    npc_types: Option<&[i64]>,
+    time_match: &Document,
+) -> Document {
     let mut clauses = vec![
         doc! { "metadata.mail_receiver": mail_receiver },
         doc! { "participants.player_id": governor_id },
         time_match.clone(),
     ];
+
     if let Some(npc_types) = npc_types {
         clauses.push(doc! { "npc.type": { "$in": npc_types } });
     }
-    let filter = doc! { "$and": clauses };
 
-    fetch_collection_documents(state.reports_store.barcanyonkillboss_collection(), filter, options)
-        .await
+    doc! { "$and": clauses }
 }
 
 pub(crate) async fn fetch_kahar_treasure_mails(
@@ -390,6 +436,25 @@ mod tests {
     use mongodb::bson::Document;
 
     use super::*;
+
+    #[test]
+    fn lohar_filter_restricts_receiver_participant_npc_and_dates() {
+        let time_match = doc! { "metadata.mail_time": { "$gte": 100, "$lt": 200 } };
+
+        let filter = build_npc_loot_filter("player_42", 42, Some(&[112]), &time_match);
+
+        assert_eq!(
+            filter,
+            doc! {
+                "$and": [
+                    { "metadata.mail_receiver": "player_42" },
+                    { "participants.player_id": 42_i64 },
+                    time_match,
+                    { "npc.type": { "$in": [112_i64] } },
+                ]
+            }
+        );
+    }
 
     #[test]
     fn barbarian_fort_filter_uses_sub_type_11_and_fort_sub_params() {
