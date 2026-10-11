@@ -182,7 +182,7 @@ impl ConfigStore {
 
     fn save(&self, config: AppConfig, last_good: &mut Option<AppConfig>) -> anyhow::Result<()> {
         let temporary = prepare_config(&self.path, &config)?;
-        temporary.persist(&self.path).context("Failed to replace settings")?;
+        publish_config(temporary, &self.path).context("Failed to replace settings")?;
         *last_good = Some(config);
 
         sync_config_directory(&self.path)
@@ -211,9 +211,9 @@ impl ConfigStore {
             ));
         }
 
-        if let Err(error) = temporary.persist(&self.path) {
+        if let Err(error) = publish_config(temporary, &self.path) {
             return Err(restore_auto_start(
-                anyhow::Error::new(error).context("Failed to replace settings"),
+                error.context("Failed to replace settings"),
                 previous,
                 &apply,
             ));
@@ -249,8 +249,19 @@ fn prepare_config(path: &Path, config: &AppConfig) -> anyhow::Result<tempfile::N
     temporary.write_all(&bytes).context("Write settings temp")?;
     temporary.as_file().sync_all().context("Sync settings temp")?;
 
-    // NamedTempFile::persist atomically replaces an existing destination on Windows too.
     Ok(temporary)
+}
+
+fn publish_config(temporary: tempfile::NamedTempFile, path: &Path) -> anyhow::Result<()> {
+    // Keep cleanup armed before keep() clears Windows' temporary-file attribute.
+    let cleanup = tempfile::TempPath::try_from_path(temporary.path())?;
+    let (_file, _) = temporary.keep()?;
+
+    // std's Windows rename supports replacing a snapshot held open by readers;
+    // NamedTempFile::persist uses MoveFileExW without that fallback.
+    fs::rename(&cleanup, path)?;
+
+    Ok(())
 }
 
 fn sync_config_directory(path: &Path) -> anyhow::Result<()> {
@@ -528,6 +539,98 @@ mod tests {
     }
 
     #[test]
+    fn settings_replacement_preserves_readers_of_the_previous_snapshot() {
+        use std::io::Read;
+
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store
+            .update(|config| config.dirs = Some(vec!["mail".to_string()]))
+            .expect("initial settings");
+        let previous = store.read(|_| {}).expect("previous settings");
+        let mut reader = fs::File::open(&path).expect("hold the previous snapshot open");
+
+        store.update(|config| config.auto_update = false).expect("replace while a reader is open");
+
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).expect("read the previous snapshot");
+        assert_eq!(parse_config_bytes(&bytes).expect("complete previous settings"), previous);
+
+        let mut expected = previous;
+        expected.auto_update = false;
+        assert_eq!(ConfigStore::new(path).read(|_| {}).expect("new snapshot"), expected);
+    }
+
+    #[test]
+    fn autostart_replacement_succeeds_while_the_previous_snapshot_is_open() {
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store
+            .update(|config| config.dirs = Some(vec!["mail".to_string()]))
+            .expect("initial settings");
+        let _reader = fs::File::open(&path).expect("hold the previous snapshot open");
+        let os_enabled = std::cell::Cell::new(true);
+
+        store
+            .set_auto_start(
+                false,
+                || Ok(os_enabled.get()),
+                |enabled| {
+                    os_enabled.set(enabled);
+                    Ok(())
+                },
+            )
+            .expect("replace while a reader is open");
+
+        assert!(!os_enabled.get());
+        let saved = ConfigStore::new(path).read(|_| {}).expect("new snapshot");
+        assert!(!saved.auto_start);
+        assert_eq!(saved.dirs, Some(vec!["mail".to_string()]));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn blocked_replacement_preserves_settings_and_restores_autostart() {
+        use std::os::windows::fs::OpenOptionsExt;
+
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store
+            .update(|config| config.dirs = Some(vec!["mail".to_string()]))
+            .expect("initial settings");
+        let previous = fs::read(&path).expect("previous bytes");
+        let os_enabled = std::cell::Cell::new(true);
+        let reader = fs::OpenOptions::new()
+            .read(true)
+            .share_mode(0x0001 | 0x0002) // FILE_SHARE_READ | FILE_SHARE_WRITE, without FILE_SHARE_DELETE.
+            .open(&path)
+            .expect("deny replacement while allowing reads");
+
+        store.update(|config| config.auto_update = false).expect_err("replacement is blocked");
+        store
+            .set_auto_start(
+                false,
+                || Ok(os_enabled.get()),
+                |enabled| {
+                    os_enabled.set(enabled);
+                    Ok(())
+                },
+            )
+            .expect_err("autostart publication is blocked");
+
+        assert_eq!(fs::read(&path).expect("previous file remains"), previous);
+        assert!(os_enabled.get(), "failed publication must restore the previous OS setting");
+        assert_eq!(fs::read_dir(dir.path()).expect("settings directory").count(), 1);
+        drop(reader);
+
+        store.update(|config| config.auto_update = false).expect("save after the reader closes");
+        assert!(!ConfigStore::new(path).read(|_| {}).expect("saved settings").auto_update);
+    }
+
+    #[test]
     fn unlocked_readers_see_only_complete_old_or_new_settings_during_publication() {
         use std::sync::{
             Barrier,
@@ -594,7 +697,7 @@ mod tests {
         let prepared = prepare_config(&path, &AppConfig::default()).expect("prepare again");
         fs::remove_file(prepared.path()).expect("inject missing temp at replacement");
 
-        prepared.persist(&path).expect_err("replacement must fail without its source");
+        publish_config(prepared, &path).expect_err("replacement must fail without its source");
         assert_eq!(fs::read(&path).expect("previous file survives replacement failure"), previous);
     }
 
