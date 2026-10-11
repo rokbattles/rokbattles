@@ -1,3 +1,10 @@
+//! Settings snapshots shared by frontend commands and the watcher.
+//!
+//! [`ConfigStore`] serializes updates and caches the last successfully loaded or
+//! published configuration. Reads can fall back to that cache. Updates refuse to
+//! overwrite an unreadable or invalid existing file. Legacy directory arrays are
+//! read as configurations with default preferences.
+
 use std::{
     fs,
     io::{self, Write},
@@ -32,7 +39,10 @@ impl<'de> Deserialize<'de> for CloseBehavior {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub(crate) struct AppConfig {
-    // Absence is not permission to cancel recovered uploads, even after saving a preference.
+    /// Directories selected for scanning, or `None` if the selection is unknown.
+    ///
+    /// The watcher preserves recovered uploads when this is `None`. `Some(vec![])`
+    /// explicitly removes all watched directories and cancels their pending sources.
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -74,6 +84,12 @@ fn default_auto_start() -> bool {
     true
 }
 
+/// Reads and replaces settings while preserving the last valid configuration.
+///
+/// Updates publish a complete snapshot before updating the cache. On Unix, syncing
+/// the parent directory can fail after publication: the new settings are visible,
+/// but their durability is uncertain. A returned error therefore does not always
+/// mean that settings were left unchanged.
 pub(crate) struct ConfigStore {
     path: PathBuf,
     last_good: Mutex<Option<AppConfig>>,
@@ -108,6 +124,10 @@ impl ConfigStore {
         Ok(config)
     }
 
+    /// Reads the current settings or reports a load failure and returns a cached copy.
+    ///
+    /// A missing file returns defaults only before any valid configuration has been
+    /// cached. Other read failures return an error if there is no cached copy.
     pub(crate) fn read(
         &self,
         report_error: impl FnOnce(&anyhow::Error),
@@ -127,6 +147,10 @@ impl ConfigStore {
         }
     }
 
+    /// Edits freshly loaded settings while holding the settings lock.
+    ///
+    /// Use [`Self::update_dirs`] for edits that resolve filesystem paths. See
+    /// [`ConfigStore`] for errors that can occur after the new settings are visible.
     pub(crate) fn update<T>(&self, edit: impl FnOnce(&mut AppConfig) -> T) -> anyhow::Result<T> {
         let mut last_good =
             self.last_good.lock().map_err(|error| anyhow!("Settings lock poisoned: {error}"))?;
@@ -140,6 +164,12 @@ impl ConfigStore {
         Ok(result)
     }
 
+    /// Edits watched directories without holding the settings lock during `edit`.
+    ///
+    /// If another operation changes the directory selection, the edit is retried
+    /// against the new selection. The closure may run more than once and should
+    /// avoid side effects outside its directory list. Concurrent preference changes
+    /// are preserved. See [`ConfigStore`] for errors after publication.
     pub(crate) fn update_dirs<T>(
         &self,
         mut edit: impl FnMut(&mut Vec<String>) -> T,
@@ -168,7 +198,7 @@ impl ConfigStore {
                 continue;
             }
 
-            // Preserve unknown directories and preferences changed during path resolution.
+            // An empty edit must not turn an unknown selection into an explicit removal.
             if snapshot.is_some() || !dirs.is_empty() {
                 current.dirs = Some(dirs);
             }
@@ -188,6 +218,11 @@ impl ConfigStore {
         sync_config_directory(&self.path)
     }
 
+    /// Changes OS autostart registration and saves the corresponding preference.
+    ///
+    /// If applying the OS change or publishing settings fails, attempts to restore
+    /// the previous OS registration, which may differ from the saved preference.
+    /// A directory-sync failure after publication leaves both changes in place.
     pub(crate) fn set_auto_start(
         &self,
         enabled: bool,
@@ -253,11 +288,12 @@ fn prepare_config(path: &Path, config: &AppConfig) -> anyhow::Result<tempfile::N
 }
 
 fn publish_config(temporary: tempfile::NamedTempFile, path: &Path) -> anyhow::Result<()> {
-    // Keep cleanup armed before keep() clears Windows' temporary-file attribute.
+    // Retain a cleanup guard in case keep() or the subsequent rename fails.
     let cleanup = tempfile::TempPath::try_from_path(temporary.path())?;
     let (_file, _) = temporary.keep()?;
 
-    // std's Windows rename supports replacing a snapshot held open by readers;
+    // keep() clears the Windows temporary-file attribute before publication.
+    // Use std's rename fallback for readers opened with delete sharing;
     // NamedTempFile::persist uses MoveFileExW without that fallback.
     fs::rename(&cleanup, path)?;
 

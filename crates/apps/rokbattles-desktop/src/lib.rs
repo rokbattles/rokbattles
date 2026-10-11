@@ -1,3 +1,14 @@
+//! Desktop application setup and commands exposed to the Tauri frontend.
+//!
+//! `app_config` stores preferences and watched directories. `mailcache_discovery`
+//! locates candidate directories, and `directory_operations` limits the blocking
+//! filesystem work requested by frontend commands.
+//!
+//! `watcher_manager` coordinates scanning, pausing, reprocessing, and shutdown.
+//! The `watcher` module discovers mail and persists upload progress. `updater`
+//! downloads updates while scanning continues, then asks the manager to stop the
+//! watcher before installation. `tray` reflects the manager's lifecycle status.
+
 mod app_config;
 mod directory_operations;
 mod mailcache_discovery;
@@ -29,7 +40,8 @@ fn tray_supported() -> bool {
 fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
     use tauri_plugin_autostart::MacosLauncher;
 
-    // The native plugin writes a host autostart entry with an /app executable path.
+    // The plugin's /app executable path is only valid inside the Flatpak sandbox,
+    // so a host autostart entry cannot launch it directly.
     if is_flatpak() {
         return Ok(());
     }
@@ -385,6 +397,11 @@ mod watcher_commands {
     }
 }
 
+/// Starts the Tauri application and its background services.
+///
+/// # Panics
+///
+/// Panics if Tauri cannot build or initialize the application.
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder = tauri::Builder::default();

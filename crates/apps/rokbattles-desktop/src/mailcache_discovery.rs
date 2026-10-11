@@ -1,3 +1,14 @@
+//! Finds mail caches in common installation layouts and platform-specific hints.
+//!
+//! Windows searches standard locations, registry install paths, and a limited
+//! directory fallback. macOS searches application containers. Linux searches Wine
+//! prefixes and locations described by Steam, Lutris, and Bottles.
+//!
+//! A candidate must contain a regular file named `Persistent.Mail.<digits>`;
+//! discovery does not decode mail or confirm that an empty cache belongs to the game.
+//! Search limits can produce partial results. Deadlines are checked between blocking
+//! operations and cannot interrupt a stalled filesystem or registry call.
+
 #[cfg(target_os = "linux")]
 mod linux;
 #[cfg(target_os = "windows")]
@@ -16,16 +27,23 @@ use std::{
     path::{Path, PathBuf},
 };
 
+/// Validated cache paths found within the supported layouts and search limits.
 #[derive(Debug, Default)]
 pub(crate) struct Discovery {
     pub(crate) dirs: Vec<PathBuf>,
+    /// A search limit, unreadable location, or invalid metadata prevented a full search.
+    ///
+    /// `false` does not guarantee that every installation on the machine was found.
     pub(crate) incomplete: bool,
 }
 
+/// Searches for mail caches synchronously, returning any matches even if a search is incomplete.
+///
+/// Call from a blocking worker through [`crate::directory_operations::DirectoryOperations`].
 pub(crate) fn discover_mailcache_dirs() -> Discovery {
     #[cfg(target_os = "windows")]
     {
-        // Let the bounded search handle unavailable drives instead of probing them on the UI thread.
+        // Probe drives within the search so failures and limits contribute to its result.
         let roots = (b'A'..=b'Z')
             .map(|letter| PathBuf::from(format!("{}:\\", char::from(letter))))
             .collect::<Vec<_>>();
@@ -76,6 +94,10 @@ pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
     normalized
 }
 
+/// Returns a key for deduplicating directory aliases, falling back to the supplied path.
+///
+/// Canonicalization performs blocking filesystem I/O. The key is separate from the
+/// path displayed or saved for the user; Windows keys also normalize case and prefixes.
 pub(crate) fn path_identity_key(path: &Path) -> String {
     let normalized = fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
     let text = normalized.to_string_lossy().to_string();
@@ -269,8 +291,8 @@ fn collect_windows_from_roots(
     search: &mut Search,
     collect_installation_hints: impl FnOnce(&mut Search),
 ) {
-    // Establish direct standard installs across all drives before expanding any
-    // directory tree. A large earlier drive must not hide a cheap later match.
+    // Check direct standard paths on every drive before expanding directory trees,
+    // so one large tree cannot exhaust the budget before another drive is checked.
     for root in roots {
         if !search.within_deadline() || search.remaining_operations == 0 {
             search.incomplete = true;
@@ -356,7 +378,7 @@ fn collect_windows_candidates_fallback(root: &Path, search: &mut Search) {
                 continue;
             }
 
-            // Bound the queued frontier as well as visited directories.
+            // Limit scheduled directories too, so the queue cannot grow without bound.
             if scheduled >= 3500 {
                 search.incomplete = true;
                 continue;

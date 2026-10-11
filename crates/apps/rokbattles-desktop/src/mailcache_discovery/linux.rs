@@ -1,3 +1,9 @@
+//! Discovers Wine and Proton installations through common prefixes and launcher metadata.
+//!
+//! Metadata supplies path hints and is never executed. Prefix fallback searches
+//! start at `drive_c`, avoiding Wine's `dosdevices` mappings to host drives.
+//! Metadata collection, standard paths, and fallback traversal have separate budgets.
+
 #[path = "steam.rs"]
 mod steam;
 
@@ -137,7 +143,8 @@ fn discover_in(locations: &Locations) -> Discovery {
 
     standard.append_to(&mut result);
 
-    // Each prefix gets a bounded fallback; a shared deadline bounds a large prefix collection.
+    // Limit each prefix's traversal and stop starting searches at the shared deadline.
+    // An in-progress filesystem call may still finish after that deadline.
     let deadline = Instant::now() + Duration::from_secs(6);
     for root in roots {
         if Instant::now() >= deadline {

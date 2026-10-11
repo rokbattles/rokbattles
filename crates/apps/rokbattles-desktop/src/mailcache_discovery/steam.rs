@@ -1,7 +1,10 @@
 use std::path::PathBuf;
 
-/// Read just the library paths from Steam's KeyValues file. The input size is
-/// bounded by the caller; nesting is iterative and capped, including unknown keys.
+/// Extracts absolute library paths from modern or legacy Steam KeyValues metadata.
+///
+/// The caller must bound the input size. Relative paths and unrelated keys are
+/// ignored; malformed input or excessive nesting returns an error, including
+/// when the excessive nesting occurs inside an unrelated key.
 pub(super) fn library_paths(input: &str) -> Result<Vec<PathBuf>, ()> {
     let mut tokens = Tokens(input.trim_start_matches('\u{feff}').chars().peekable());
     let mut parents = Vec::new();

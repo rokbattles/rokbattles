@@ -1,3 +1,14 @@
+//! Mail discovery, upload preparation, and recovery after interrupted uploads.
+//!
+//! [`scan`] combines filesystem notifications with periodic directory passes.
+//! Discovered sources enter the pending queue in [`store::UploadStore`] before
+//! an upload starts. [`upload`] validates ingress acknowledgements; a successful
+//! acknowledgement covers all local copies of the same exact mail ID.
+//!
+//! [`runtime`] owns the mutable [`state::WatcherState`] and applies upload results.
+//! Starting a request leaves its source pending, so interruption causes a retry
+//! on restart. Rejected sources are reconsidered when their file signature changes.
+
 mod mail;
 pub(crate) mod runtime;
 mod scan;
@@ -36,7 +47,6 @@ struct LogPayload {
 }
 
 fn build_user_agent() -> String {
-    // Format: ROKBattles/<app_version> (<os>; <arch>) Tauri/<tauri_version>
     format!(
         "ROKBattles/{version} ({os}; {arch}) Tauri/{tauri}",
         version = env!("CARGO_PKG_VERSION"),
@@ -71,6 +81,10 @@ fn now_epoch_ms() -> u128 {
     SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO).as_millis()
 }
 
+/// Clears upload history and pending work so watched directories can be reprocessed.
+///
+/// Call after the watcher has finished. Returns an error if the state-file lock is held.
+/// Invalid recovery data returns an error and is retained for inspection.
 pub fn reset_upload_state(app: &AppHandle) -> anyhow::Result<()> {
     StateFile::for_app(app)?.reset()
 }

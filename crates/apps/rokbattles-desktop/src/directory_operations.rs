@@ -2,8 +2,11 @@ use std::sync::Arc;
 
 use tokio::sync::Semaphore;
 
-/// Admission is held by the blocking worker, even if its IPC caller goes away.
-/// A stuck filesystem cannot create an unbounded queue of additional workers.
+/// Limits concurrent blocking directory operations requested by the frontend.
+///
+/// Each worker holds its semaphore permits until it finishes, even if the calling
+/// future is cancelled. A blocked filesystem therefore cannot cause repeated
+/// commands to start an unbounded number of workers.
 pub(crate) struct DirectoryOperations {
     workers: Arc<Semaphore>,
     discovery: Arc<Semaphore>,
@@ -16,6 +19,11 @@ impl Default for DirectoryOperations {
 }
 
 impl DirectoryOperations {
+    /// Runs `work` on a blocking worker if the required permits are available.
+    ///
+    /// When `discover` is true, this also reserves the single discovery permit.
+    /// Returns an error immediately if either limit is reached; otherwise returns
+    /// the operation's result or a worker failure.
     pub(crate) async fn run<T: Send + 'static>(
         &self,
         discover: bool,
@@ -71,7 +79,7 @@ mod tests {
         });
         ready.await.expect("worker started");
 
-        // A cancelled IPC future must not release admission for its still-running worker.
+        // Cancelling the caller must not release the running worker's permits.
         task.abort();
         task.await.expect_err("caller was cancelled");
         assert!(operations.run(true, || Ok(())).await.is_err());

@@ -1,3 +1,10 @@
+//! Ingress requests, acknowledgement validation, and retry classification.
+//!
+//! Success requires either HTTP 201 with `stored` or HTTP 200 with `skipped`, plus
+//! the exact mail ID from the uploaded filename. A successful HTTP status alone
+//! is insufficient. Invalid acknowledgements are retryable because ingress may
+//! have stored the upload even when the client cannot confirm it.
+
 use std::time::Duration;
 
 use reqwest::{
@@ -6,10 +13,13 @@ use reqwest::{
 };
 use serde::Deserialize;
 
+/// Confirmed ingress outcomes that both complete an upload.
 #[derive(Debug, Clone, Copy, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub(crate) enum UploadStatus {
+    /// Ingress stored a new mail ID.
     Stored,
+    /// Ingress already has this mail ID; uploading again does not replace its contents.
     Skipped,
 }
 
@@ -35,6 +45,10 @@ pub(crate) enum UploadApiError {
 }
 
 impl UploadApiError {
+    /// Returns whether the failure leaves the source eligible for another attempt.
+    ///
+    /// Transport and protocol failures, rate limits, and server errors are retried.
+    /// Other HTTP rejections exclude this source until its file signature changes.
     pub(crate) fn is_retryable(&self) -> bool {
         match self {
             Self::Request(_) | Self::Protocol { .. } => true,
@@ -62,6 +76,10 @@ struct UploadResponse {
     mail_id: String,
 }
 
+/// Uploads prepared mail bytes and validates the acknowledgement against `file_name`.
+///
+/// Cancelling this future does not establish whether ingress accepted the request.
+/// The caller must leave interrupted uploads pending for a later attempt.
 pub(crate) async fn post_file_to_api(
     client: &reqwest::Client,
     api_url: &str,

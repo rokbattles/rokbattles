@@ -1,3 +1,13 @@
+//! Runs the watcher and coordinates directory scans with one upload at a time.
+//!
+//! The watcher owns its mutable state and holds the snapshot lock until shutdown
+//! finishes. Upload preparation and HTTP requests run separately; only this owner
+//! applies their results. Pending work is saved before starting a request.
+//!
+//! Shutdown cancels HTTP waits, joins blocking reads, and saves remaining state.
+//! Blocking filesystem calls cannot be interrupted, so callers must wait for the
+//! worker to finish before starting another watcher or resetting upload history.
+
 use std::{
     future::Future,
     path::PathBuf,
@@ -27,10 +37,15 @@ use super::{
 };
 
 pub(crate) enum TaskEvent {
+    /// Upload state has been locked and loaded; the initial scan may still be pending.
     Ready,
     Finished(anyhow::Result<()>),
 }
 
+/// A watcher worker, its readiness notification, and its stop signal.
+///
+/// Dropping this handle requests a stop but does not wait for completion. Lifecycle
+/// operations must join the worker before releasing ownership or replacing it.
 pub(crate) struct WatcherTask {
     shutdown: watch::Sender<bool>,
     handle: tauri::async_runtime::JoinHandle<anyhow::Result<()>>,

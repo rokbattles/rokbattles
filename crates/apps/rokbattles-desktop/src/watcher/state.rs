@@ -1,3 +1,9 @@
+//! In-memory upload transitions and directory scan progress.
+//!
+//! [`WatcherState`] keeps its pending-path index in sync with [`UploadStore`] and
+//! marks persistent changes as dirty. [`WatcherState::flush`] publishes those
+//! changes; mutations alone do not update the recovery file.
+
 use std::{
     collections::VecDeque,
     path::PathBuf,
@@ -75,7 +81,11 @@ impl WatcherState {
         self.dirty = true;
     }
 
-    /// Selecting work does not remove it: an interrupted request must reload as pending.
+    /// Returns a copy of the next pending upload whose retry delay has elapsed.
+    ///
+    /// Selection rotates the queue without removing the source. An interrupted
+    /// request therefore remains pending when the saved state is loaded again.
+    /// The caller checks the separate API-wide rate limit before selecting work.
     pub(crate) fn next_ready_upload(&mut self, now_ms: u128) -> Option<QueuedUpload> {
         for _ in 0..self.uploads.pending.len() {
             let item = self.uploads.pending.pop_front()?;

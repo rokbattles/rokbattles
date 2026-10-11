@@ -1,3 +1,13 @@
+//! Serializes watcher lifecycle operations from frontend, tray, and updater requests.
+//!
+//! The manager owns at most one watcher. Once a command is queued, cancelling its
+//! caller does not cancel the operation. Pausing, reprocessing, and installation
+//! all wait for the current watcher to finish before changing ownership.
+//!
+//! A stop timeout leaves the worker in `Stopping` and fails pause, reprocess, or
+//! installation requests. Exit continues waiting for that worker; a timeout never
+//! permits a replacement watcher, upload-state reset, or installer to run alongside it.
+
 use std::{
     sync::{
         Arc,
@@ -41,6 +51,7 @@ struct Request {
     reply: oneshot::Sender<Result<(), String>>,
 }
 
+/// Sends lifecycle requests to the task that owns the watcher.
 pub(crate) struct WatcherManager {
     commands: mpsc::Sender<Request>,
     status: watch::Receiver<WatcherStatus>,
@@ -104,6 +115,7 @@ impl WatcherManager {
         self.exiting.subscribe()
     }
 
+    /// Marks exit as requested and returns whether this is the first request.
     pub(crate) fn mark_exit_requested(&self) -> bool {
         !self.exiting.send_replace(true)
     }
@@ -124,10 +136,15 @@ impl WatcherManager {
             .map_err(|error| format!("Watcher manager stopped during the operation: {error}"))?
     }
 
+    /// Requests a watcher if none exists, without waiting for its initial scan.
     pub(crate) async fn start(&self) -> Result<(), String> {
         self.request(Operation::Start).await
     }
 
+    /// Requests a stop and waits for the worker within the stop budget.
+    ///
+    /// A timeout returns an error while the manager continues to own the worker.
+    /// Its status remains [`WatcherStatus::Stopping`] until it finishes.
     pub(crate) async fn pause(&self) -> Result<(), String> {
         self.request(Operation::Pause).await
     }
@@ -136,15 +153,21 @@ impl WatcherManager {
         self.request(Operation::Toggle).await
     }
 
+    /// Stops the watcher, resets upload history, and starts scanning again.
     pub(crate) async fn reprocess(&self) -> Result<(), String> {
         self.request(Operation::Reprocess).await
     }
 
+    /// Waits for the watcher to finish before allowing the application to exit.
     pub(crate) async fn exit(&self) -> Result<(), String> {
         self.mark_exit_requested();
         self.request(Operation::Exit).await
     }
 
+    /// Stops the watcher before installation and requests a restart on success.
+    ///
+    /// If installation fails, scanning resumes only if the watcher was active
+    /// before the request and application exit has not been requested.
     pub(crate) async fn install_update(
         &self,
         install: impl FnOnce() -> anyhow::Result<()> + Send + 'static,
