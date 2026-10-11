@@ -2862,6 +2862,11 @@ msgctxt "Hszv-5"
 msgid "{percentage}% applied"
 msgstr "{percentage}% applied"
 
+#: src/components/report/report-supreme-strife-talent-section.tsx
+msgctxt "qStYC4"
+msgid "Supreme Strife Talents"
+msgstr "Supreme Strife Talents"
+
 #: src/components/report/report-view.tsx
 msgctxt "x5Tz6M"
 msgid "Report"

@@ -177,6 +177,7 @@ function mapPlayerToParticipant(
     armament_buffs: armamentFields.armamentBuffs,
     inscriptions: armamentFields.inscriptions,
     stratagems: stratagems && stratagems.length > 0 ? stratagems : undefined,
+    supreme_strife_talents: player.supremeStrife?.talents,
   };
 }
 

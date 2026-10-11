@@ -8,6 +8,7 @@ import { ReportEquipmentSection } from "@/components/report/report-equipment-sec
 import { ReportRelicSection } from "@/components/report/report-relic-section";
 import { ReportStratagemSection } from "@/components/report/report-stratagem-section";
 import { ReportSupportSkills } from "@/components/report/report-support-skills";
+import { ReportSupremeStrifeTalentSection } from "@/components/report/report-supreme-strife-talent-section";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
@@ -49,7 +50,7 @@ export function ReportParticipantCard({
   const showSecondary = hasCommander(secondaryCommander);
 
   return (
-    <div className="grid gap-5 lg:row-span-7 lg:grid-rows-subgrid">
+    <div className="grid gap-5 lg:row-span-8 lg:grid-rows-subgrid">
       <div className="flex items-start gap-3">
         <GameAvatar
           avatarUrl={participant?.avatar_url ?? null}
@@ -102,6 +103,9 @@ export function ReportParticipantCard({
       </div>
       <div className="contents lg:block">
         <ReportStratagemSection stratagems={participant?.stratagems} />
+      </div>
+      <div className="contents lg:block">
+        <ReportSupremeStrifeTalentSection talentIds={participant?.supreme_strife_talents} />
       </div>
     </div>
   );

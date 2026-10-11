@@ -65,6 +65,7 @@ export interface RawParticipantInfo {
   armament_buffs?: string;
   inscriptions?: string;
   stratagems?: readonly BattleStratagem[];
+  supreme_strife_talents?: readonly number[];
 }
 
 export interface RawSupportSkillsInfo {
