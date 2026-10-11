@@ -22,8 +22,8 @@ use self::{
     mail::file_name_for_upload,
     scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches},
     state::WatcherState,
-    store::{file_sig, read_processed, read_upload_queue},
-    upload::{is_retryable_status, post_file_to_api, upload_backoff},
+    store::{QueuedUpload, file_sig, read_processed, read_upload_queue},
+    upload::{UploadApiError, UploadStatus, post_file_to_api, upload_backoff},
 };
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
@@ -75,6 +75,39 @@ pub fn delete_processed(app: &AppHandle) -> anyhow::Result<()> {
 
 pub fn delete_upload_queue(app: &AppHandle) -> anyhow::Result<()> {
     store::delete_upload_queue(app, &WatcherConfig::default())
+}
+
+fn apply_upload_result(
+    state: &mut WatcherState,
+    mut item: QueuedUpload,
+    file_name: &str,
+    result: Result<UploadStatus, UploadApiError>,
+    now_ms: u128,
+) -> String {
+    match result {
+        Ok(status) => status.log_message(file_name),
+        Err(error) => {
+            if error.is_retryable() {
+                item.attempts = item.attempts.saturating_add(1);
+
+                let backoff = error
+                    .retry_after()
+                    .filter(|delay| !delay.is_zero())
+                    .unwrap_or_else(|| upload_backoff(item.attempts));
+
+                item.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
+                state.requeue_upload(item);
+
+                if error.is_rate_limited() && state.extend_rate_limit(now_ms, backoff) {
+                    let wait_secs = (backoff.as_millis().saturating_add(999) / 1000).max(1);
+
+                    return format!("Rate limited by API (429). Pausing uploads for {wait_secs}s.");
+                }
+            }
+
+            format!("Failed to upload {file_name}: {error}")
+        }
+    }
 }
 
 pub struct WatcherTask {
@@ -263,47 +296,10 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     continue;
                 }
 
-                match post_file_to_api(client, &api_url, &file_name, bytes).await {
-                    Ok(status) => {
-                        emit_log(&app, status.log_message(&file_name));
-                    }
-                    Err(e) => {
-                        let retryable = is_retryable_status(e.status);
-                        if retryable {
-                            let mut next = item;
-                            next.attempts = next.attempts.saturating_add(1);
-                            let retry_after = e.retry_after.filter(|delay| delay.as_millis() > 0);
-                            let backoff =
-                                retry_after.unwrap_or_else(|| upload_backoff(next.attempts));
-                            next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
-                            state.requeue_upload(next);
+                let result = post_file_to_api(client, &api_url, &file_name, bytes).await;
 
-                            if e.status == Some(reqwest::StatusCode::TOO_MANY_REQUESTS) {
-                                if state.extend_rate_limit(now_ms, backoff) {
-                                    let wait_secs =
-                                        (backoff.as_millis().saturating_add(999) / 1000).max(1);
-                                    emit_log(
-                                        &app,
-                                        format!(
-                                            "Rate limited by API (429). Pausing uploads for {}s.",
-                                            wait_secs
-                                        ),
-                                    );
-                                }
-                            } else {
-                                emit_log(
-                                    &app,
-                                    format!("Failed to upload {}: {}", file_name, e.message),
-                                );
-                            }
-                        } else {
-                            emit_log(
-                                &app,
-                                format!("Failed to upload {}: {}", file_name, e.message),
-                            );
-                        }
-                    }
-                }
+                emit_log(&app, apply_upload_result(&mut state, item, &file_name, result, now_ms));
+
                 continue;
             }
 
