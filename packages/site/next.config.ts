@@ -34,6 +34,8 @@ const imageSources = [
   "https://imv2-gl.lilithgame.com",
   "https://plat-fau-global.lilithgame.com",
   "https://static-gl.lilithgame.com",
+  "https://imv2.lilithgame.com",
+  "https://static.lilithgame.com",
   "https://cdn.rokbattles.com",
 ];
 
