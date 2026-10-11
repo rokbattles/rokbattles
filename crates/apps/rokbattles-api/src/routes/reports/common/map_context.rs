@@ -6,7 +6,7 @@ use rokbattles_bson::{nested_bool, nested_i64, nested_str};
 
 use crate::{db::ReportsStore, error::ApiError};
 
-const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/banners/";
+const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/sprites/";
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum BattleMapContext {
@@ -53,13 +53,21 @@ impl BattleMapContext {
     pub(crate) fn resolve(self, snapshots: &[Document]) -> (String, Option<String>) {
         match self {
             Self::Home { kingdom } => {
-                (kingdom_label(kingdom, "Home"), banner_url("preparation_season01_cover.png"))
+                (kingdom_label(kingdom, "Home"), banner_url("img_ServerBanner1.png"))
             }
             Self::Ark { kingdom, kind } => {
                 let label = kind.map_or_else(|| "Ark".into(), |kind| format!("Ark ({kind})"));
-                (kingdom_label(kingdom, &label), None)
+                let banner = match kind {
+                    Some("GL") => banner_url("img_MailTypeBG_GVGClassification1.png"),
+                    Some("SL") => banner_url("img_MailTypeBG_GVGClassification2.png"),
+                    Some("OL") => banner_url("img_MailTypeBG_Egyptianleague.png"),
+                    _ => None,
+                };
+                (kingdom_label(kingdom, &label), banner)
             }
-            Self::Strife { kingdom } => (kingdom_label(kingdom, "Strife"), None),
+            Self::Strife { kingdom } => {
+                (kingdom_label(kingdom, "Strife"), banner_url("img_MailTypeBG_TopKVK.png"))
+            }
             Self::Unknown => ("Unknown".into(), None),
             Self::Kvk { server_id, time } => {
                 let mut matches = snapshots.iter().filter(|snapshot| {
@@ -162,20 +170,22 @@ fn banner_url(filename: &str) -> Option<String> {
 
 fn map_banner(map: &str) -> Option<String> {
     let filename = match map {
-        "LostLand_Map_1_2_v2" => "S1Endless-War.png",
-        "LostLand_Map_2_2_v2" => "S2Distant-Journey.png",
-        "LostLand_Map_3_v2" => "S3Light-and-Darkness.png",
-        "LostLand_Map_3_2_v2" | "LostLand_Map_19_2" => "s19king_of_all_britain_cover.png",
-        "LostLand_Map_4_2_v2" => "s4heroic_anthem_cover.png",
-        "LostLand_Map_9_2_v2" => "s9king_of_the_nile_cover.png",
-        "LostLand_Map_10" => "s10siege_of_orleans_cover.png",
-        "LostLand_Map_11_2_v2" => "s11warriors_unbound_cover.png",
-        "LostLand_Map_12_2_v2" => "s12storm_of_stratagems_cover.png",
-        "LostLand_Map_14_v2" => "s14tides_of_war_cover.png",
-        "LostLand_Map_15_v2" => "s15alliance_invictus_cover.png",
-        "LostLand_Map_16_2_v2" => "s16keener_blades_cover.png",
-        "LostLand_Map_20_v2" => "s20song_of_troy_cover.png",
-        "LostLand_Map_21_v2" => "s21mighty_assembly_cover.png",
+        "LostLand_Map_1_2_v2" => "img_ServerBanner2.png",
+        "LostLand_Map_2_2_v2" => "img_ServerBanner2_1.png",
+        "LostLand_Map_3_v2" => "img_ServerBanner4.png",
+        "LostLand_Map_3_2_v2" | "LostLand_Map_19_2" => "img_ServerBanner19.png",
+        "LostLand_Map_4_2_v2" => "img_ServerBanner5.png",
+        "LostLand_Map_5_v2" => "img_ServerBanner6.png",
+        "LostLand_Map_9_2_v2" => "img_ServerBanner10.png",
+        "LostLand_Map_10" => "img_ServerBanner12.png",
+        "LostLand_Map_11_2_v2" => "img_ServerBanner11.png",
+        "LostLand_Map_12_2_v2" => "img_ServerBanner13.png",
+        "LostLand_Map_14_v2" => "img_ServerBanner14.png",
+        "LostLand_Map_15_v2" => "img_ServerBanner15.png",
+        "LostLand_Map_16_2_v2" => "img_ServerBanner16.png",
+        "LostLand_Map_18_v2" => "img_ServerBanner18.png",
+        "LostLand_Map_20_v2" => "img_ServerBanner20.png",
+        "LostLand_Map_21_v2" => "img_ServerBannerS21.png",
         _ => return None,
     };
     banner_url(filename)
@@ -257,8 +267,8 @@ mod tests {
         info.insert("Season", 3);
         let context = BattleMapContext::Kvk { server_id: 16053, time: 1500 };
         for (map, filename) in [
-            ("LostLand_Map_3_v2", "S3Light-and-Darkness.png"),
-            ("LostLand_Map_3_2_v2", "s19king_of_all_britain_cover.png"),
+            ("LostLand_Map_3_v2", "img_ServerBanner4.png"),
+            ("LostLand_Map_3_2_v2", "img_ServerBanner19.png"),
         ] {
             info.insert("MapName", map);
             assert_eq!(context.resolve(&[info.clone()]), ("#S13249".into(), banner_url(filename)));
@@ -266,10 +276,26 @@ mod tests {
     }
 
     #[test]
+    fn strife_of_the_eight_and_shifting_gears_resolve_to_sprite_banners() {
+        let context = BattleMapContext::Kvk { server_id: 16053, time: 1500 };
+        for (map, url) in [
+            ("LostLand_Map_5_v2", "https://cdn.rokbattles.com/game/sprites/img_ServerBanner6.png"),
+            (
+                "LostLand_Map_18_v2",
+                "https://cdn.rokbattles.com/game/sprites/img_ServerBanner18.png",
+            ),
+        ] {
+            let mut info = snapshot();
+            info.insert("MapName", map);
+            assert_eq!(context.resolve(&[info]), ("#C13249".into(), Some(url.into())));
+        }
+    }
+
+    #[test]
     fn known_kvk_with_unsupported_or_missing_map_keeps_code_without_banner() {
         let context = BattleMapContext::Kvk { server_id: 16053, time: 1500 };
         let mut info = snapshot();
-        info.insert("MapName", "LostLand_Map_5_v2");
+        info.insert("MapName", "unsupported_map");
         assert_eq!(context.resolve(&[info.clone()]), ("#C13249".into(), None));
         info.remove("MapName");
         assert_eq!(context.resolve(&[info]), ("#C13249".into(), None));
@@ -289,7 +315,7 @@ mod tests {
             );
             assert_eq!(
                 BattleMapContext::from_document(&report, 1500).resolve(&[]),
-                ("Strife".into(), None)
+                ("Strife".into(), banner_url("img_MailTypeBG_TopKVK.png"))
             );
         }
     }
@@ -299,7 +325,7 @@ mod tests {
         assert_eq!(
             BattleMapContext::from_document(&doc! { "metadata": { "kvk": false } }, 1500)
                 .resolve(&[]),
-            ("Home".into(), banner_url("preparation_season01_cover.png"))
+            ("Home".into(), banner_url("img_ServerBanner1.png"))
         );
         assert_eq!(
             BattleMapContext::from_document(&doc! {}, 1500).resolve(&[]),
@@ -313,7 +339,7 @@ mod tests {
     }
 
     #[test]
-    fn strife_uses_sender_kingdom_and_has_no_banner() {
+    fn strife_uses_sender_kingdom_and_its_sprite_banner() {
         let report = doc! {
             "metadata": { "kvk": true, "mail_role": "dungeon", "server_id": 99 },
             "sender": {
@@ -323,7 +349,7 @@ mod tests {
         };
         assert_eq!(
             BattleMapContext::from_document(&report, 1500).resolve(&[]),
-            ("#2804 \u{00B7} Strife".into(), None)
+            ("#2804 \u{00B7} Strife".into(), banner_url("img_MailTypeBG_TopKVK.png"))
         );
     }
 
@@ -335,18 +361,22 @@ mod tests {
         };
         assert_eq!(
             BattleMapContext::from_document(&report, 1500).resolve(&[]),
-            ("#2804 \u{00B7} Home".into(), banner_url("preparation_season01_cover.png"))
+            ("#2804 \u{00B7} Home".into(), banner_url("img_ServerBanner1.png"))
         );
     }
 
     #[test]
-    fn ark_labels_all_supported_match_types_with_sender_kingdom() {
-        for (session, kind) in [
-            ("cfg_id=4&id=3538&mode=ab&role_id=113&submode=", "GL"),
-            ("submode=SilverEgypt&mode=ab", "SL"),
-            ("mode=abl&submode=", "OL"),
-            ("mode=abp&submode=gvgn", "P"),
-            ("mode=abp&submode=DiyEgypt", "C"),
+    fn ark_labels_match_types_and_only_banners_selected_modes() {
+        for (session, kind, filename) in [
+            (
+                "cfg_id=4&id=3538&mode=ab&role_id=113&submode=",
+                "GL",
+                Some("img_MailTypeBG_GVGClassification1.png"),
+            ),
+            ("submode=SilverEgypt&mode=ab", "SL", Some("img_MailTypeBG_GVGClassification2.png")),
+            ("mode=abl&submode=", "OL", Some("img_MailTypeBG_Egyptianleague.png")),
+            ("mode=abp&submode=gvgn", "P", None),
+            ("mode=abp&submode=DiyEgypt", "C", None),
         ] {
             let report = doc! {
                 "metadata": { "mail_role": "dungeon", "server_id": 1804 },
@@ -354,7 +384,7 @@ mod tests {
             };
             assert_eq!(
                 BattleMapContext::from_document(&report, 1500).resolve(&[]),
-                (format!("#117 \u{00B7} Ark ({kind})"), None)
+                (format!("#117 \u{00B7} Ark ({kind})"), filename.and_then(banner_url))
             );
         }
     }
