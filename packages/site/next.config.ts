@@ -102,7 +102,7 @@ const config: NextConfig = {
     return [
       {
         source: "/discord",
-        destination: "https://discord.gg/G33SzQgx6d",
+        destination: "https://discord.gg/rokbattles",
         permanent: false,
       },
       {
