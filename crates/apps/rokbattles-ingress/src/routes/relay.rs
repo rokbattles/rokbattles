@@ -110,16 +110,13 @@ async fn read_batch(multipart: &mut Multipart) -> Result<RelayBatch, ApiError> {
     let mut player_id = None;
     let mut entries = Vec::new();
 
-    while let Some(field) =
-        multipart.next_field().await.map_err(|error| ApiError::bad_request(error.to_string()))?
-    {
+    while let Some(field) = multipart.next_field().await? {
         match field.name() {
             Some("server_id") => {
                 server_id = Some(
                     field
                         .text()
-                        .await
-                        .map_err(|error| ApiError::bad_request(error.to_string()))?
+                        .await?
                         .parse::<i32>()
                         .map_err(|_error| ApiError::bad_request("server_id must be an i32"))?,
                 );
@@ -128,8 +125,7 @@ async fn read_batch(multipart: &mut Multipart) -> Result<RelayBatch, ApiError> {
                 player_id = Some(
                     field
                         .text()
-                        .await
-                        .map_err(|error| ApiError::bad_request(error.to_string()))?
+                        .await?
                         .parse::<i64>()
                         .map_err(|_error| ApiError::bad_request("player_id must be an i64"))?,
                 );
@@ -148,12 +144,7 @@ async fn read_batch(multipart: &mut Multipart) -> Result<RelayBatch, ApiError> {
                     )));
                 }
 
-                entries.push(
-                    field
-                        .bytes()
-                        .await
-                        .map_err(|error| ApiError::bad_request(error.to_string()))?,
-                );
+                entries.push(field.bytes().await?);
             }
             Some(name) => {
                 return Err(ApiError::bad_request(format!(

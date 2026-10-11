@@ -4,7 +4,7 @@ use std::{sync::Arc, time::Duration};
 
 use axum::{
     Json,
-    extract::{Multipart, State},
+    extract::{Multipart, State, multipart::Field},
     http::{HeaderMap, HeaderValue, StatusCode},
     response::IntoResponse,
 };
@@ -97,12 +97,20 @@ pub(super) async fn upload(
 /// Reads the first nonempty file, rejecting invalid headers or JSON-like data.
 ///
 /// Empty files are skipped only after validating their filename and headers.
-/// Returns as soon as a file is selected; later parts are not read.
+/// Later parts are drained before returning so the request-wide body limit is enforced.
 async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError> {
-    while let Some(field) =
-        multipart.next_field().await.map_err(|error| ApiError::bad_request(error.to_string()))?
-    {
+    let mut upload = None;
+    let mut has_trailing_part = false;
+
+    while let Some(field) = multipart.next_field().await? {
+        if upload.is_some() {
+            drain_field(field).await?;
+            has_trailing_part = true;
+            continue;
+        }
+
         if field.file_name().is_none() && field.name().is_none() {
+            drain_field(field).await?;
             continue;
         }
 
@@ -122,8 +130,7 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
             return Err(ApiError::bad_request("unsupported content encoding (must be identity)"));
         }
 
-        let bytes =
-            field.bytes().await.map_err(|error| ApiError::bad_request(error.to_string()))?;
+        let bytes = field.bytes().await?;
 
         if bytes.is_empty() {
             continue;
@@ -133,10 +140,20 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
             return Err(ApiError::bad_request("expected binary mail buffer, received JSON"));
         }
 
-        return Ok(UploadInput { bytes, file_name, file_id });
+        upload = Some(UploadInput { bytes, file_name, file_id });
     }
 
-    Err(ApiError::bad_request("missing upload file"))
+    if has_trailing_part {
+        return Err(ApiError::bad_request("unexpected field after upload file"));
+    }
+
+    upload.ok_or_else(|| ApiError::bad_request("missing upload file"))
+}
+
+/// Consumes an ignored field without buffering it so body limits still observe every byte.
+async fn drain_field(mut field: Field<'_>) -> Result<(), ApiError> {
+    while field.chunk().await?.is_some() {}
+    Ok(())
 }
 
 /// Extracts consecutive digits after `Persistent.Mail.` in the basename.
@@ -180,8 +197,42 @@ fn is_probably_json(bytes: &[u8]) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use axum::{
+        Router,
+        body::Body,
+        extract::DefaultBodyLimit,
+        http::{Request, StatusCode, header},
+        response::Response,
+        routing::post,
+    };
+    use tower::ServiceExt;
+    use tower_http::limit::RequestBodyLimitLayer;
+
     use super::*;
     use crate::routes::tests::multipart;
+
+    async fn read_request(mut multipart: Multipart) -> Result<StatusCode, ApiError> {
+        let _upload = read_upload(&mut multipart).await?;
+        Ok(StatusCode::OK)
+    }
+
+    async fn read_with_limit(body: String, limit: usize) -> Response {
+        let app = Router::new()
+            .route("/", post(read_request))
+            .layer(DefaultBodyLimit::disable())
+            .layer(RequestBodyLimitLayer::new(limit));
+
+        app.oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/")
+                .header(header::CONTENT_TYPE, "multipart/form-data; boundary=mail-boundary")
+                .body(Body::from(body))
+                .expect("upload request"),
+        )
+        .await
+        .expect("upload response")
+    }
 
     #[tokio::test]
     async fn reads_first_nonempty_upload_file() {
@@ -201,6 +252,51 @@ mod tests {
         assert_eq!(upload.file_id, "2");
         assert_eq!(upload.file_name, "Persistent.Mail.2");
         assert_eq!(upload.bytes.as_ref(), b"binary-mail");
+    }
+
+    #[tokio::test]
+    async fn rejects_a_trailing_part_after_draining_it() {
+        let mut multipart = multipart(concat!(
+            "--mail-boundary\r\n",
+            "Content-Disposition: form-data; name=\"file\"; filename=\"Persistent.Mail.1\"\r\n",
+            "Content-Type: application/octet-stream\r\n\r\n",
+            "binary-mail\r\n--mail-boundary\r\n",
+            "Content-Disposition: form-data; name=\"extra\"\r\n\r\n",
+            "extra\r\n--mail-boundary--\r\n",
+        ))
+        .await;
+
+        assert!(matches!(
+            read_upload(&mut multipart).await,
+            Err(ApiError::BadRequest(message)) if message == "unexpected field after upload file"
+        ));
+    }
+
+    #[tokio::test]
+    async fn oversized_unknown_length_trailing_part_returns_payload_too_large() {
+        let single_part = concat!(
+            "--mail-boundary\r\n",
+            "Content-Disposition: form-data; name=\"file\"; filename=\"Persistent.Mail.1\"\r\n",
+            "Content-Type: application/octet-stream\r\n\r\n",
+            "binary-mail\r\n--mail-boundary--\r\n",
+        );
+        assert_eq!(read_with_limit(single_part.to_string(), 300).await.status(), StatusCode::OK);
+
+        let oversized_tail = format!(
+            concat!(
+                "--mail-boundary\r\n",
+                "Content-Disposition: form-data; name=\"file\"; filename=\"Persistent.Mail.1\"\r\n",
+                "Content-Type: application/octet-stream\r\n\r\n",
+                "binary-mail\r\n--mail-boundary\r\n",
+                "Content-Disposition: form-data; name=\"extra\"\r\n\r\n",
+                "{}\r\n--mail-boundary--\r\n",
+            ),
+            "x".repeat(512)
+        );
+        assert_eq!(
+            read_with_limit(oversized_tail, 300).await.status(),
+            StatusCode::PAYLOAD_TOO_LARGE
+        );
     }
 
     #[tokio::test]

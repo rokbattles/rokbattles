@@ -2,6 +2,7 @@
 
 mod headers;
 mod relay;
+mod security;
 mod upload;
 
 use std::sync::Arc;
@@ -10,10 +11,14 @@ use axum::{
     Router,
     extract::DefaultBodyLimit,
     http::StatusCode,
+    middleware,
     routing::{get, post},
 };
+use tower_http::limit::RequestBodyLimitLayer;
 
 use crate::state::AppState;
+
+const MAX_REQUEST_BODY_BYTES: usize = 25 * 1024 * 1024;
 
 /// Builds the router with a 25 MiB request body limit for both upload endpoints.
 pub(crate) fn router(state: Arc<AppState>) -> Router {
@@ -22,7 +27,12 @@ pub(crate) fn router(state: Arc<AppState>) -> Router {
         .route("/v2/upload", post(upload::upload))
         .route("/v2/relay/upload", post(relay::upload))
         .with_state(state)
-        .layer(DefaultBodyLimit::max(25 * 1024 * 1024))
+        // Use one request-wide limiter; it eagerly rejects a known oversized Content-Length and
+        // caps streamed bodies. Disabling the extractor wrapper avoids nesting two limiters.
+        .layer(DefaultBodyLimit::disable())
+        .layer(RequestBodyLimitLayer::new(MAX_REQUEST_BODY_BYTES))
+        // Keep response hardening outermost so extractor, routing, and body-limit errors get it.
+        .layer(middleware::from_fn(security::response_headers))
 }
 
 /// Liveness only; does not probe MongoDB or ClamAV.
