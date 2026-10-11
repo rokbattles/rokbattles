@@ -17,12 +17,12 @@ use super::{
         BattleReportTimeline,
     },
 };
-use crate::db::exclude_test_client_filter;
+use crate::db::exclude_test_reports_filter;
 
 pub(super) fn build_battle_detail_filter(report_id: &str) -> Document {
     doc! {
         "$and": [
-            exclude_test_client_filter(),
+            exclude_test_reports_filter(),
             { "metadata.mail_id": report_id },
         ]
     }
@@ -492,6 +492,7 @@ mod tests {
         build_battle_detail_filter, build_battle_detail_projection, map_battle_detail_document,
         map_detail_player,
     };
+    use crate::db::exclude_test_reports_filter;
 
     #[test]
     fn builds_filter_from_report_id() {
@@ -500,7 +501,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
-                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    exclude_test_reports_filter(),
                     { "metadata.mail_id": "mail-123" },
                 ]
             }

@@ -16,7 +16,9 @@ pub use game_localization_store::{
 pub use game_query_store::{
     GameQueryColumn, GameQueryRepository, GameQuerySheet, GameQueryStore, GameQueryStoreError,
 };
-pub use reports_store::{ReportsStore, TEST_CLIENT_APP_ID, exclude_test_client_filter};
+pub use reports_store::{
+    ReportsStore, TEST_CLIENT_APP_ID, exclude_test_client_filter, exclude_test_reports_filter,
+};
 pub use territory_planner_v2_store::{
     TerritoryAsset, TerritoryBuildingRule, TerritoryCollisionRule, TerritoryCostTier,
     TerritoryMapCatalog, TerritoryMapSummary, TerritoryPlanSnapshot, TerritoryPlannerV2Store,
