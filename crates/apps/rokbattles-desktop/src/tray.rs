@@ -4,37 +4,41 @@ use tauri::{
     tray::TrayIconBuilder,
 };
 
+use crate::watcher_manager::WatcherStatus;
+
 pub(crate) const MAIN_WINDOW_LABEL: &str = "main";
 pub(crate) const TRAY_ID: &str = "main";
 pub(crate) const TRAY_SHOW_MENU_ID: &str = "tray_show";
 pub(crate) const TRAY_TOGGLE_WATCHER_MENU_ID: &str = "tray_toggle_watcher";
 pub(crate) const TRAY_QUIT_MENU_ID: &str = "tray_quit";
 
-fn tray_toggle_label(paused: bool) -> &'static str {
-    if paused { "Resume watcher" } else { "Pause watcher" }
+fn tray_toggle_label(status: WatcherStatus) -> (&'static str, bool) {
+    match status {
+        WatcherStatus::Starting | WatcherStatus::Running => ("Pause watcher", true),
+        WatcherStatus::Paused => ("Resume watcher", true),
+        WatcherStatus::Failed => ("Retry watcher", true),
+        WatcherStatus::Stopping => ("Stopping watcher...", false),
+        WatcherStatus::Updating => ("Installing update...", false),
+        WatcherStatus::Exiting => ("Exiting...", false),
+    }
 }
 
-fn build_tray_menu(app: &AppHandle, paused: bool) -> tauri::Result<Menu<tauri::Wry>> {
+fn build_tray_menu(app: &AppHandle, status: WatcherStatus) -> tauri::Result<Menu<tauri::Wry>> {
     let show = MenuItem::with_id(app, TRAY_SHOW_MENU_ID, "Show", true, None::<&str>)?;
-    let toggle = MenuItem::with_id(
-        app,
-        TRAY_TOGGLE_WATCHER_MENU_ID,
-        tray_toggle_label(paused),
-        true,
-        None::<&str>,
-    )?;
+    let (label, enabled) = tray_toggle_label(status);
+    let toggle = MenuItem::with_id(app, TRAY_TOGGLE_WATCHER_MENU_ID, label, enabled, None::<&str>)?;
     let quit = MenuItem::with_id(app, TRAY_QUIT_MENU_ID, "Quit", true, None::<&str>)?;
     let separator = PredefinedMenuItem::separator(app)?;
 
     Menu::with_items(app, &[&show, &toggle, &separator, &quit])
 }
 
-pub(crate) fn refresh_tray_menu(app: &AppHandle, paused: bool) {
+pub(crate) fn refresh_tray_menu(app: &AppHandle, status: WatcherStatus) {
     let Some(tray) = app.tray_by_id(TRAY_ID) else {
         return;
     };
 
-    match build_tray_menu(app, paused) {
+    match build_tray_menu(app, status) {
         Ok(menu) => {
             if let Err(e) = tray.set_menu(Some(menu)) {
                 eprintln!("[rokbattles] failed to refresh tray menu: {}", e);
@@ -74,8 +78,8 @@ pub(crate) fn hide_main_window(app: &AppHandle) {
     }
 }
 
-pub(crate) fn setup_tray(app: &tauri::App<tauri::Wry>, paused: bool) -> tauri::Result<()> {
-    let tray_menu = build_tray_menu(&app.handle().clone(), paused)?;
+pub(crate) fn setup_tray(app: &tauri::App<tauri::Wry>, status: WatcherStatus) -> tauri::Result<()> {
+    let tray_menu = build_tray_menu(app.handle(), status)?;
     let mut tray = TrayIconBuilder::with_id(TRAY_ID)
         .menu(&tray_menu)
         .tooltip("ROK Battles")

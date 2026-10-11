@@ -146,7 +146,7 @@ pub(super) mod tests {
 
     use super::*;
     use crate::watcher::{
-        WatcherConfig, apply_upload_result,
+        apply_upload_result,
         state::WatcherState,
         store::{FileSig, QueuedUpload, UploadStore},
     };
@@ -160,37 +160,7 @@ pub(super) mod tests {
         let task = tokio::spawn(async move {
             tokio::time::timeout(Duration::from_secs(5), async move {
                 let (mut stream, _) = listener.accept().await.expect("accept upload");
-                let mut request = Vec::new();
-                let mut buffer = [0; 4096];
-
-                loop {
-                    let count = stream.read(&mut buffer).await.expect("read upload");
-                    assert_ne!(count, 0, "request ended before its body");
-                    request.extend_from_slice(buffer.get(..count).expect("read fits buffer"));
-
-                    if let Some(header_end) =
-                        request.windows(4).position(|part| part == b"\r\n\r\n")
-                    {
-                        let headers = std::str::from_utf8(
-                            request.get(..header_end).expect("request headers"),
-                        )
-                        .expect("ASCII request headers");
-
-                        let body_len = headers
-                            .lines()
-                            .filter_map(|line| line.split_once(':'))
-                            .find(|(name, _)| name.eq_ignore_ascii_case("content-length"))
-                            .expect("multipart content length")
-                            .1
-                            .trim()
-                            .parse::<usize>()
-                            .expect("numeric content length");
-
-                        if request.len() >= header_end + 4 + body_len {
-                            break;
-                        }
-                    }
-                }
+                let request = read_request(&mut stream).await;
 
                 stream.write_all(response.as_bytes()).await.expect("write API response");
                 stream.shutdown().await.expect("close response");
@@ -202,6 +172,39 @@ pub(super) mod tests {
         });
 
         (url, task)
+    }
+
+    pub(in crate::watcher) async fn read_request(stream: &mut tokio::net::TcpStream) -> Vec<u8> {
+        let mut request = Vec::new();
+        let mut buffer = [0; 4096];
+
+        loop {
+            let count = stream.read(&mut buffer).await.expect("read upload");
+            assert_ne!(count, 0, "request ended before its body");
+            request.extend_from_slice(buffer.get(..count).expect("read fits buffer"));
+
+            if let Some(header_end) = request.windows(4).position(|part| part == b"\r\n\r\n") {
+                let headers =
+                    std::str::from_utf8(request.get(..header_end).expect("request headers"))
+                        .expect("ASCII request headers");
+
+                let body_len = headers
+                    .lines()
+                    .filter_map(|line| line.split_once(':'))
+                    .find(|(name, _)| name.eq_ignore_ascii_case("content-length"))
+                    .expect("multipart content length")
+                    .1
+                    .trim()
+                    .parse::<usize>()
+                    .expect("numeric content length");
+
+                if request.len() >= header_end + 4 + body_len {
+                    break;
+                }
+            }
+        }
+
+        request
     }
 
     pub(in crate::watcher) fn response(status: &str, body: &str) -> String {
@@ -220,7 +223,7 @@ pub(super) mod tests {
     }
 
     fn pending_upload() -> (WatcherState, QueuedUpload) {
-        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        let mut state = WatcherState::new(UploadStore::default());
 
         state.enqueue_upload(QueuedUpload {
             path: "Persistent.Mail.123".to_string(),

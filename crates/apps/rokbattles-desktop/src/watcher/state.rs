@@ -1,9 +1,12 @@
-use std::{collections::VecDeque, path::PathBuf, time::Instant};
+use std::{
+    collections::VecDeque,
+    path::PathBuf,
+    time::{Duration, Instant},
+};
 
 use rustc_hash::FxHashSet;
 
 use super::{
-    config::WatcherConfig,
     mail::mail_id_for_path,
     store::{QueuedUpload, RejectedUpload, StateFile, UploadStore},
     truncate_reason,
@@ -11,7 +14,6 @@ use super::{
 };
 
 pub(crate) struct WatcherState {
-    pub(crate) config: WatcherConfig,
     pub(crate) scans: VecDeque<super::scan::DirScan>,
     pub(crate) dirs: Vec<PathBuf>,
     pub(crate) dirs_last_read: Instant,
@@ -21,17 +23,14 @@ pub(crate) struct WatcherState {
 }
 
 impl WatcherState {
-    pub(crate) fn new(config: WatcherConfig, uploads: UploadStore) -> Self {
+    pub(crate) fn new(uploads: UploadStore) -> Self {
         let pending_paths = uploads.pending.iter().map(|item| item.path.clone()).collect();
 
-        let refresh_interval = config.config_refresh_interval;
-
         Self {
-            config,
             scans: VecDeque::new(),
             dirs: Vec::new(),
             dirs_last_read: Instant::now()
-                .checked_sub(refresh_interval)
+                .checked_sub(Duration::from_secs(2))
                 .unwrap_or_else(Instant::now),
             pending_paths,
             uploads,
@@ -198,7 +197,7 @@ mod tests {
     fn discovery_and_in_flight_work_reload_as_pending() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item("Persistent.Mail.123"));
         state.enqueue_upload(item("Persistent.Mail.123"));
         state.flush(&file).expect("persist discovery before request");
@@ -209,7 +208,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart during request");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
 
         assert_eq!(restored.uploads.pending.len(), 1);
         assert_eq!(
@@ -223,7 +222,7 @@ mod tests {
     fn unsaved_acknowledgement_retries_but_saved_acknowledgement_covers_all_copies() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item("first/Persistent.Mail.123"));
         state.enqueue_upload(item("second/Persistent.Mail.123"));
         state.flush(&file).expect("persist pending sources");
@@ -233,7 +232,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart before acknowledgement write");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
 
         assert_eq!(restored.uploads.pending.len(), 2);
         assert!(!restored.is_acknowledged("second/Persistent.Mail.123"));
@@ -243,7 +242,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart after acknowledgement write");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
         restored.enqueue_upload(item("third/Persistent.Mail.123"));
 
         assert!(restored.uploads.pending.is_empty());
@@ -255,7 +254,7 @@ mod tests {
     fn retry_reason_deadline_and_rate_limit_survive_graceful_pause() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item("Persistent.Mail.123"));
         state.retry_upload(
             item("Persistent.Mail.123"),
@@ -267,7 +266,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("resume watcher");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
 
         assert!(restored.next_ready_upload(2999).is_none());
         assert_eq!(restored.rate_limit_remaining_ms(1000), Some(7000));
@@ -282,7 +281,7 @@ mod tests {
     fn failed_flush_reports_error_and_preserves_pending_recovery_and_dirty_acknowledgement() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item("Persistent.Mail.123"));
         state.flush(&file).expect("persist pending upload");
         state.acknowledge_upload("Persistent.Mail.123");
@@ -314,7 +313,7 @@ mod tests {
     fn rejected_source_does_not_block_other_copies_and_changes_allow_retry() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item("first/Persistent.Mail.123"));
         state.enqueue_upload(item("second/Persistent.Mail.123"));
         state.reject_upload(item("first/Persistent.Mail.123"), "decode failed".to_string());
@@ -322,7 +321,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
         restored.enqueue_upload(item("first/Persistent.Mail.123"));
 
         assert_eq!(restored.uploads.pending.len(), 1);
@@ -353,7 +352,7 @@ mod tests {
     fn removing_directory_cancels_its_sources_but_preserves_other_work_and_acknowledgements() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item("active/Persistent.Mail.1"));
         state.enqueue_upload(item("removed/Persistent.Mail.1"));
         state.enqueue_upload(item("removed/Persistent.Mail.2"));
@@ -366,7 +365,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
 
         assert_eq!(restored.uploads.pending.len(), 1);
         assert_eq!(

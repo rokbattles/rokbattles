@@ -14,7 +14,7 @@ use tauri::{
     tray::{MouseButton, MouseButtonState, TrayIconEvent},
 };
 
-use crate::{watcher::reset_upload_state, watcher_manager::WatcherManager};
+use crate::watcher_manager::WatcherManager;
 
 pub(crate) fn is_flatpak() -> bool {
     cfg!(target_os = "linux") && Path::new("/.flatpak-info").exists()
@@ -332,37 +332,23 @@ mod watcher_commands {
 
     #[tauri::command]
     pub(super) async fn reprocess_all(app: AppHandle) -> Result<(), String> {
-        let watcher = app.state::<WatcherManager>();
-        watcher.stop(&app).await;
-
-        reset_upload_state(&app).map_err(|e| e.to_string())?;
-
-        watcher.start(&app).await;
-        tray::refresh_tray_menu(&app, watcher.is_paused());
-
-        Ok(())
+        app.state::<WatcherManager>().reprocess().await
     }
 
     #[tauri::command]
     pub(super) async fn pause_watcher(app: AppHandle) -> Result<(), String> {
-        let watcher = app.state::<WatcherManager>();
-        watcher.stop(&app).await;
-        tray::refresh_tray_menu(&app, watcher.is_paused());
-        Ok(())
+        app.state::<WatcherManager>().pause().await
     }
 
     #[tauri::command]
     pub(super) async fn resume_watcher(app: AppHandle) -> Result<(), String> {
-        let watcher = app.state::<WatcherManager>();
-        watcher.start(&app).await;
-        tray::refresh_tray_menu(&app, watcher.is_paused());
-        Ok(())
+        app.state::<WatcherManager>().start().await
     }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let builder = tauri::Builder::default().manage(WatcherManager::default());
+    let builder = tauri::Builder::default();
 
     #[cfg(desktop)]
     let builder = builder.plugin(single_instance_plugin());
@@ -390,13 +376,9 @@ pub fn run() {
             if event.id() == tray::TRAY_TOGGLE_WATCHER_MENU_ID {
                 let app = app.clone();
                 tauri::async_runtime::spawn(async move {
-                    let watcher = app.state::<WatcherManager>();
-                    if watcher.is_paused() {
-                        watcher.start(&app).await;
-                    } else {
-                        watcher.stop(&app).await;
+                    if let Err(error) = app.state::<WatcherManager>().toggle().await {
+                        watcher::emit_log(&app, error);
                     }
-                    tray::refresh_tray_menu(&app, watcher.is_paused());
                 });
                 return;
             }
@@ -426,20 +408,16 @@ pub fn run() {
             #[cfg(desktop)]
             setup_autostart(app)?;
 
-            let paused = app.state::<WatcherManager>().is_paused();
+            app.manage(WatcherManager::new(app.handle()));
+            let status = app.state::<WatcherManager>().status();
             if tray_supported() {
-                tray::setup_tray(app, paused)?;
+                tray::setup_tray(app, status)?;
             }
 
             let handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
                 let auto_update = app_config::get_auto_update(&handle).unwrap_or(true);
                 updater::maybe_check_for_updates(handle.clone(), auto_update).await;
-
-                // Let the updater run first so we don't scan if we're about to restart.
-                let watcher = handle.state::<WatcherManager>();
-                watcher.start(&handle).await;
-                tray::refresh_tray_menu(&handle, watcher.is_paused());
             });
 
             Ok(())
@@ -467,15 +445,21 @@ pub fn run() {
     app.run(|app, event| {
         if let RunEvent::ExitRequested { api, .. } = event {
             let manager = app.state::<WatcherManager>();
-            if !manager.mark_exit_requested() {
+            if manager.exit_ready() {
                 return;
             }
+
             api.prevent_exit();
-            let handle = app.clone();
-            tauri::async_runtime::spawn(async move {
-                handle.state::<WatcherManager>().stop(&handle).await;
-                handle.exit(0);
-            });
+
+            if manager.mark_exit_requested() {
+                let handle = app.clone();
+                tauri::async_runtime::spawn(async move {
+                    match handle.state::<WatcherManager>().exit().await {
+                        Ok(()) => handle.exit(0),
+                        Err(error) => watcher::emit_log(&handle, error),
+                    }
+                });
+            }
         }
     });
 }

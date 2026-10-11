@@ -8,11 +8,9 @@ use std::{
 use anyhow::Context;
 use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
 use rustc_hash::FxHashSet;
-use tauri::AppHandle;
 use tokio::sync::mpsc;
 
 use super::{
-    emit_log,
     mail::mail_id_for_path,
     state::WatcherState,
     store::{QueuedUpload, file_sig},
@@ -68,15 +66,20 @@ impl DirScan {
     }
 }
 
-pub(crate) fn refresh_watched_dirs(app: &AppHandle, state: &mut WatcherState, now: Instant) {
-    if now.duration_since(state.dirs_last_read) < state.config.config_refresh_interval {
+pub(crate) fn refresh_watched_dirs(
+    state: &mut WatcherState,
+    now: Instant,
+    read_dirs: &impl Fn() -> anyhow::Result<Vec<PathBuf>>,
+    log: &impl Fn(String),
+) {
+    if now.duration_since(state.dirs_last_read) < Duration::from_secs(2) {
         return;
     }
 
-    let dirs = match crate::read_dirs(app) {
-        Ok(dirs) => dirs.into_iter().map(PathBuf::from).collect(),
+    let dirs = match read_dirs() {
+        Ok(dirs) => dirs,
         Err(error) => {
-            emit_log(app, format!("Failed to read config: {error}"));
+            log(format!("Failed to read config: {error}"));
             return;
         }
     };
@@ -85,7 +88,7 @@ pub(crate) fn refresh_watched_dirs(app: &AppHandle, state: &mut WatcherState, no
     state.dirs_last_read = now;
 
     if removed > 0 {
-        emit_log(app, format!("Cancelled {removed} source(s) in directories no longer watched."));
+        log(format!("Cancelled {removed} source(s) in directories no longer watched."));
     }
 }
 
@@ -236,7 +239,7 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
 }
 
 pub(crate) fn sync_fs_watches(
-    app: &AppHandle,
+    log: &impl Fn(String),
     watcher: Option<&mut RecommendedWatcher>,
     watched_dirs: &mut FxHashSet<PathBuf>,
     desired_dirs: &[PathBuf],
@@ -249,14 +252,14 @@ pub(crate) fn sync_fs_watches(
 
     for dir in watched_dirs.difference(&desired).cloned().collect::<Vec<_>>() {
         if let Err(e) = watcher.unwatch(&dir) {
-            emit_log(app, format!("Failed to unwatch {:?}: {}", dir, e));
+            log(format!("Failed to unwatch {:?}: {}", dir, e));
         }
         watched_dirs.remove(&dir);
     }
 
     for dir in desired.difference(watched_dirs).cloned().collect::<Vec<_>>() {
         if let Err(e) = watcher.watch(&dir, RecursiveMode::NonRecursive) {
-            emit_log(app, format!("Failed to watch {:?}: {}", dir, e));
+            log(format!("Failed to watch {:?}: {}", dir, e));
             continue;
         }
         watched_dirs.insert(dir);
@@ -271,7 +274,7 @@ mod tests {
 
     use super::*;
     use crate::watcher::{
-        WatcherConfig, apply_upload_result, process_upload,
+        apply_upload_result, process_upload,
         store::{StateFile, UploadStore},
         upload::{
             UploadStatus,
@@ -294,7 +297,7 @@ mod tests {
     }
 
     fn new_state(dirs: Vec<PathBuf>, now: Instant) -> WatcherState {
-        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        let mut state = WatcherState::new(UploadStore::default());
         set_watched_dirs(&mut state, dirs, now);
 
         state
@@ -393,8 +396,7 @@ mod tests {
         drop(state_file);
 
         let state_file = StateFile::open(dir.path()).expect("restart");
-        let mut state =
-            WatcherState::new(WatcherConfig::default(), state_file.load().expect("load"));
+        let mut state = WatcherState::new(state_file.load().expect("load"));
         set_watched_dirs(&mut state, vec![mail_dir.clone()], start);
         reconcile_next_directory(&mut state, start, 3000).await.expect("unchanged rejected mail");
 
@@ -430,7 +432,7 @@ mod tests {
         }
 
         let start = Instant::now();
-        let mut state = WatcherState::new(WatcherConfig::default(), uploads);
+        let mut state = WatcherState::new(uploads);
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], start);
         let path = write_mail(dir.path(), "99999", b"partial");
         discover_source(&mut state, path.clone(), 1000);

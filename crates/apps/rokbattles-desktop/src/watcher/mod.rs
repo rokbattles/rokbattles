@@ -1,5 +1,5 @@
-mod config;
 mod mail;
+pub(crate) mod runtime;
 mod scan;
 mod state;
 mod store;
@@ -9,25 +9,17 @@ use std::{
     fs,
     io::Read as _,
     path::{Path, PathBuf},
-    sync::{
-        Arc, OnceLock,
-        atomic::{AtomicBool, Ordering},
-    },
-    time::{Duration, Instant, SystemTime},
+    sync::OnceLock,
+    time::{Duration, SystemTime},
 };
 
-use rustc_hash::FxHashSet;
 use serde::Serialize;
 use tauri::{AppHandle, Emitter};
-use tokio::sync::{mpsc, watch};
+use tokio::sync::watch;
 
-pub(crate) use self::config::WatcherConfig;
+pub(crate) use self::runtime::{WatcherTask, spawn_watcher};
 use self::{
     mail::file_name_for_upload,
-    scan::{
-        discover_source, queue_fs_event, reconcile_next_directory, refresh_watched_dirs,
-        request_reconciliation, sync_fs_watches,
-    },
     state::WatcherState,
     store::{FileSig, QueuedUpload, StateFile, file_sig},
     upload::{UploadApiError, UploadStatus, post_file_to_api, upload_backoff},
@@ -69,7 +61,7 @@ fn http_client() -> &'static reqwest::Client {
     })
 }
 
-fn emit_log(app: &AppHandle, message: impl Into<String>) {
+pub(crate) fn emit_log(app: &AppHandle, message: impl Into<String>) {
     if let Err(error) = app.emit("rokbattles", LogPayload { message: message.into() }) {
         eprintln!("[rokbattles] failed to emit watcher log: {error}");
     }
@@ -141,171 +133,56 @@ fn apply_upload_result(
     }
 }
 
-pub struct WatcherTask {
-    shutdown: watch::Sender<bool>,
-    handle: tauri::async_runtime::JoinHandle<()>,
-    shutdown_timeout: Duration,
+enum AttemptOutcome {
+    Waiting(FileSig),
+    Retry(String),
+    Rejected(String),
+    Response(Result<UploadStatus, UploadApiError>),
+    Cancelled,
 }
 
-impl WatcherTask {
-    pub async fn shutdown(self, app: &AppHandle) {
-        // No receiver means the watcher has already stopped; still join its task below.
-        let _shutdown_result = self.shutdown.send(true);
-        let mut handle = self.handle;
-        tokio::select! {
-            _ = &mut handle => {}
-            _ = tokio::time::sleep(self.shutdown_timeout) => {
-                emit_log(app, "Watcher shutdown timed out; aborting task");
-                handle.abort();
-            }
-        }
-    }
-}
-
-pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
-    let app = app.clone();
-
-    let config = WatcherConfig::default();
-    let api_url = config.api_ingress_url.to_string();
-    let shutdown_timeout = config.shutdown_timeout;
-    let client = http_client();
-
-    let (shutdown_tx, mut shutdown_rx) = watch::channel(false);
-    let (fs_tx, mut fs_rx) = mpsc::channel::<PathBuf>(4096);
-    let rescan_requested = Arc::new(AtomicBool::new(false));
-    let config_for_task = config.clone();
-    let handle = tauri::async_runtime::spawn(async move {
-        let state_file = match StateFile::for_app(&app) {
-            Ok(file) => file,
-            Err(error) => {
-                emit_log(&app, format!("Watcher stopped: {error:#}"));
-                return;
-            }
-        };
-
-        let uploads = match state_file.load() {
-            Ok(uploads) => uploads,
-            Err(error) => {
-                emit_log(&app, format!("Watcher stopped; upload state retained: {error:#}"));
-                return;
-            }
-        };
-
-        let mut state = WatcherState::new(config_for_task, uploads);
-
-        let mut fs_watcher = match notify::recommended_watcher({
-            let fs_tx = fs_tx.clone();
-            let rescan_requested = Arc::clone(&rescan_requested);
-
-            move |event| queue_fs_event(&fs_tx, &rescan_requested, event)
-        }) {
-            Ok(w) => Some(w),
-            Err(e) => {
-                emit_log(&app, format!("Failed to initialize filesystem watcher: {}", e));
-                None
-            }
-        };
-        let mut fs_watched_dirs: FxHashSet<PathBuf> = FxHashSet::default();
-
-        loop {
-            if *shutdown_rx.borrow() {
-                break;
-            }
-
-            let now = Instant::now();
-            let now_ms = now_epoch_ms();
-
-            refresh_watched_dirs(&app, &mut state, now);
-            sync_fs_watches(&app, fs_watcher.as_mut(), &mut fs_watched_dirs, &state.dirs);
-
-            if rescan_requested.swap(false, Ordering::Relaxed) {
-                request_reconciliation(&mut state, now);
-            }
-
-            for _ in 0..512 {
-                let Ok(path) = fs_rx.try_recv() else {
-                    break;
-                };
-
-                discover_source(&mut state, path, now_ms);
-            }
-
-            let scanned = match reconcile_next_directory(&mut state, now, now_ms).await {
-                Ok(scanned) => scanned,
-                Err(error) => {
-                    emit_log(&app, format!("{error:#}"));
-                    true
-                }
-            };
-
-            // Persist discovery and earlier outcomes before starting another request.
-            // A failed write leaves memory dirty and prevents unsaved work from being sent.
-            if let Err(error) = state.flush(&state_file) {
-                emit_log(&app, format!("Uploads paused; failed to save state: {error:#}"));
-
-                tokio::select! {
-                    _ = tokio::time::sleep(Duration::from_secs(2)) => {}
-                    _ = shutdown_rx.changed() => {}
-                }
-
-                continue;
-            }
-
-            let now_ms = now_epoch_ms();
-
-            if state.rate_limit_remaining_ms(now_ms).is_none()
-                && let Some(item) = state.next_ready_upload(now_ms)
-            {
-                let message = process_upload(&mut state, client, &api_url, item, now_ms).await;
-
-                emit_log(&app, message);
-
-                continue;
-            }
-
-            if scanned {
-                tokio::task::yield_now().await;
-                continue;
-            }
-
-            tokio::select! {
-                _ = tokio::time::sleep(state.config.idle_sleep) => {}
-                res = shutdown_rx.changed() => {
-                    if res.is_ok() && *shutdown_rx.borrow() {
-                        break;
-                    }
-                }
-                maybe_path = fs_rx.recv() => {
-                    if let Some(path) = maybe_path {
-                        discover_source(&mut state, path, now_epoch_ms());
-                    }
-                }
-            }
-        }
-
-        if let Err(error) = state.flush(&state_file) {
-            emit_log(&app, format!("Failed to save upload state during shutdown: {error:#}"));
-        }
-    });
-
-    WatcherTask { shutdown: shutdown_tx, handle, shutdown_timeout }
-}
-
-async fn process_upload(
-    state: &mut WatcherState,
-    client: &reqwest::Client,
-    api_url: &str,
-    mut item: QueuedUpload,
+async fn attempt_upload(
+    item: QueuedUpload,
+    client: reqwest::Client,
+    api_url: String,
+    mut shutdown: watch::Receiver<bool>,
     now_ms: u128,
-) -> String {
+) -> (QueuedUpload, AttemptOutcome) {
+    let source = item.clone();
+
+    // Finish the read worker even after shutdown. It owns no mutable watcher state.
+    let prepared =
+        tauri::async_runtime::spawn_blocking(move || prepare_upload(&source, now_ms)).await;
+
+    let (file_name, bytes) = match prepared {
+        Ok(Ok(prepared)) => prepared,
+        Ok(Err(outcome)) => return (item, outcome),
+        Err(error) => {
+            return (item, AttemptOutcome::Retry(format!("Mail preparation task failed: {error}")));
+        }
+    };
+
+    let outcome = tokio::select! {
+        biased;
+
+        _ = shutdown.wait_for(|stopping| *stopping) => AttemptOutcome::Cancelled,
+        result = post_file_to_api(&client, &api_url, &file_name, bytes) => {
+            AttemptOutcome::Response(result)
+        }
+    };
+
+    (item, outcome)
+}
+
+fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>), AttemptOutcome> {
     let path = PathBuf::from(&item.path);
     let Some(file_name) =
         file_name_for_upload(&path).filter(|_| mail::mail_id_for_path(&item.path).is_some())
     else {
-        let message = truncate_reason(format!("Rejected invalid mail filename: {}", item.path));
-        state.reject_upload(item, message.clone());
-
-        return message;
+        return Err(AttemptOutcome::Rejected(truncate_reason(format!(
+            "Rejected invalid mail filename: {}",
+            item.path
+        ))));
     };
 
     let signature = fs::symlink_metadata(&path).map_err(anyhow::Error::from).and_then(|meta| {
@@ -313,67 +190,97 @@ async fn process_upload(
 
         file_sig(&meta)
     });
+    let sig = signature.map_err(|error| {
+        AttemptOutcome::Retry(truncate_reason(format!("Failed to stat file {file_name}: {error}")))
+    })?;
 
-    let sig = match signature {
-        Ok(sig) => sig,
-        Err(error) => {
-            let message = truncate_reason(format!("Failed to stat file {file_name}: {error}"));
-            state.retry_upload(item, message.clone(), now_ms);
-
-            return message;
-        }
-    };
-
-    let age_ms = now_ms.saturating_sub(sig.modified);
-
-    if item.sig.as_ref() != Some(&sig) || age_ms < 1500 {
-        item.sig = Some(sig);
-        item.not_before_ms = Some(now_ms.saturating_add(750));
-        item.last_error = Some("Waiting for file to stop changing".to_string());
-
-        state.requeue_upload(item);
-
-        return format!("Waiting for stable file {file_name}");
+    if item.sig.as_ref() != Some(&sig) || now_ms.saturating_sub(sig.modified) < 1500 {
+        return Err(AttemptOutcome::Waiting(sig));
     }
 
-    let read = tauri::async_runtime::spawn_blocking(move || read_mail_source(&path, &sig))
-        .await
-        .map_err(anyhow::Error::from)
-        .and_then(|result| result);
-
-    let bytes = match read {
-        Ok(bytes) => bytes,
-        Err(error) => {
-            let message = truncate_reason(format!("Failed to read file {file_name}: {error}"));
-            state.retry_upload(item, message.clone(), now_epoch_ms());
-
-            return message;
-        }
-    };
-
-    let decoded = match rokbattles_mail_codec::decode(&bytes) {
-        Ok(decoded) => decoded,
-        Err(error) => {
-            let message = truncate_reason(format!("Decode failed for {file_name}: {error}"));
-            state.reject_upload(item, message.clone());
-
-            return message;
-        }
-    };
+    let bytes = read_mail_source(&path, &sig).map_err(|error| {
+        AttemptOutcome::Retry(truncate_reason(format!("Failed to read file {file_name}: {error}")))
+    })?;
+    let decoded = rokbattles_mail_codec::decode(&bytes).map_err(|error| {
+        AttemptOutcome::Rejected(truncate_reason(format!("Decode failed for {file_name}: {error}")))
+    })?;
 
     if rokbattles_mail_registry::detect_mail_type(&decoded).is_none() {
         let raw_type = rokbattles_mail_registry::raw_mail_type(&decoded).unwrap_or("Unknown");
-        let message = truncate_reason(format!(
-            "Rejected unsupported mail {file_name} (detected: {raw_type})"
-        ));
-        state.reject_upload(item, message.clone());
 
-        return message;
+        return Err(AttemptOutcome::Rejected(truncate_reason(format!(
+            "Rejected unsupported mail {file_name} (detected: {raw_type})"
+        ))));
     }
 
-    let result = post_file_to_api(client, api_url, &file_name, bytes).await;
+    Ok((file_name, bytes))
+}
 
-    apply_upload_result(state, item, &file_name, result, now_epoch_ms())
+fn complete_attempt(
+    state: &mut WatcherState,
+    mut item: QueuedUpload,
+    outcome: AttemptOutcome,
+    now_ms: u128,
+) -> String {
+    let file_name =
+        file_name_for_upload(Path::new(&item.path)).unwrap_or_else(|| item.path.clone());
+
+    // A configuration refresh may have cancelled this source while its request was pending.
+    if !state.is_pending(&item.path) {
+        if let AttemptOutcome::Response(Err(error)) = &outcome
+            && error.is_rate_limited()
+        {
+            let delay = error
+                .retry_after()
+                .filter(|delay| !delay.is_zero())
+                .unwrap_or_else(|| upload_backoff(item.attempts.saturating_add(1)));
+
+            state.extend_rate_limit(now_ms, delay);
+        }
+
+        return format!("Ignored completed attempt for removed source {file_name}");
+    }
+
+    match outcome {
+        AttemptOutcome::Waiting(sig) => {
+            item.sig = Some(sig);
+            item.not_before_ms = Some(now_ms.saturating_add(750));
+            item.last_error = Some("Waiting for file to stop changing".to_string());
+            state.requeue_upload(item);
+
+            format!("Waiting for stable file {file_name}")
+        }
+        AttemptOutcome::Retry(reason) => {
+            let reason = truncate_reason(reason);
+            state.retry_upload(item, reason.clone(), now_ms);
+
+            reason
+        }
+        AttemptOutcome::Rejected(reason) => {
+            state.reject_upload(item, reason.clone());
+
+            reason
+        }
+        AttemptOutcome::Response(result) => {
+            apply_upload_result(state, item, &file_name, result, now_ms)
+        }
+        AttemptOutcome::Cancelled => format!("Upload interrupted; {file_name} remains pending"),
+    }
+}
+
+#[cfg(test)]
+async fn process_upload(
+    state: &mut WatcherState,
+    client: &reqwest::Client,
+    api_url: &str,
+    item: QueuedUpload,
+    now_ms: u128,
+) -> String {
+    let (_shutdown, receiver) = watch::channel(false);
+    let (item, outcome) =
+        attempt_upload(item, client.clone(), api_url.to_string(), receiver, now_ms).await;
+
+    complete_attempt(state, item, outcome, now_ms)
 }
 
 fn read_mail_source(path: &Path, expected: &FileSig) -> anyhow::Result<Vec<u8>> {
@@ -412,12 +319,16 @@ fn read_mail_source(path: &Path, expected: &FileSig) -> anyhow::Result<Vec<u8>> 
 
 #[cfg(test)]
 mod tests {
-    use std::{fs, path::Path, time::UNIX_EPOCH};
+    use std::{
+        fs,
+        path::Path,
+        time::{Instant, UNIX_EPOCH},
+    };
 
     use serde_json::json;
 
     use super::{
-        scan::set_watched_dirs,
+        scan::{discover_source, reconcile_next_directory, set_watched_dirs},
         store::UploadStore,
         upload::tests::{client, respond_once, response},
         *,
@@ -443,11 +354,42 @@ mod tests {
         }
     }
 
+    #[test]
+    fn removed_source_cannot_reappear_from_a_late_response_but_rate_limits_still_apply() {
+        let dir = tempfile::tempdir().expect("fixture directory");
+        let item = source(&dir.path().join("Persistent.Mail.123"), b"mail");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item.clone());
+        state.prune_removed_dirs_state(&[]);
+
+        complete_attempt(
+            &mut state,
+            item.clone(),
+            AttemptOutcome::Rejected("bad source".to_string()),
+            1000,
+        );
+        complete_attempt(
+            &mut state,
+            item,
+            AttemptOutcome::Response(Err(UploadApiError::Rejected {
+                status: reqwest::StatusCode::TOO_MANY_REQUESTS,
+                retry_after: Some(Duration::from_secs(7)),
+                message: "rate limited".to_string(),
+            })),
+            1000,
+        );
+
+        assert!(state.uploads.pending.is_empty());
+        assert!(state.uploads.rejected.is_empty());
+        assert!(state.uploads.acknowledged.is_empty());
+        assert_eq!(state.uploads.api_backoff_until_ms, Some(8000));
+    }
+
     #[tokio::test]
     async fn missing_source_retries_and_valid_copy_acknowledges_the_id_after_restart() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         let bytes = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
             .expect("mail bytes");
         let missing = source(&dir.path().join("missing/Persistent.Mail.123"), &bytes);
@@ -465,7 +407,7 @@ mod tests {
         assert!(message.contains("Failed to stat"));
 
         let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
         let ready = restored.next_ready_upload(10_000).expect("alternative source is ready");
 
         assert_eq!(ready.path, good.path);
@@ -495,7 +437,7 @@ mod tests {
         ] {
             let dir = tempfile::tempdir().expect("test directory");
             let file = StateFile::open(dir.path()).expect("state file");
-            let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+            let mut state = WatcherState::new(file.load().expect("load"));
             let path = dir.path().join("mail/Persistent.Mail.123");
             let bad = source(&path, &bytes);
             state.enqueue_upload(bad.clone());
@@ -507,8 +449,7 @@ mod tests {
             drop(file);
 
             let file = StateFile::open(dir.path()).expect("restart");
-            let mut restored =
-                WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+            let mut restored = WatcherState::new(file.load().expect("load"));
             let key = path.to_string_lossy().into_owned();
 
             assert!(restored.uploads.pending.is_empty());
@@ -540,7 +481,7 @@ mod tests {
             last_error: None,
         };
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         state.enqueue_upload(item.clone());
         state.flush(&file).expect("persist pending source");
 
@@ -576,7 +517,7 @@ mod tests {
         let path = dir.path().join("mail/Persistent.Mail.123");
         let item = source(&path, &bytes);
         let target = source(&dir.path().join("outside/Persistent.Mail.123"), &bytes);
-        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        let mut state = WatcherState::new(UploadStore::default());
         state.enqueue_upload(item.clone());
 
         fs::remove_file(&path).expect("remove queued regular file");
@@ -631,7 +572,7 @@ mod tests {
     async fn accepted_request_with_lost_response_recovers_through_skipped_acknowledgement() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         let bytes =
             rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"})).expect("mail");
         let item = source(&dir.path().join("mail/Persistent.Mail.123"), &bytes);
@@ -645,7 +586,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restored = WatcherState::new(file.load().expect("load"));
         let pending = restored
             .next_ready_upload(now_epoch_ms() + 300_000)
             .expect("uncertain request remains pending");
@@ -668,7 +609,7 @@ mod tests {
     fn discovery_with_unavailable_metadata_survives_restart() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], Instant::now());
 
         discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
@@ -687,7 +628,7 @@ mod tests {
     async fn unflushed_discovery_has_no_persistent_marker_that_blocks_rediscovery() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         source(&dir.path().join("Persistent.Mail.123"), b"discovered but not yet uploaded");
         let now = Instant::now();
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], now);
@@ -697,7 +638,7 @@ mod tests {
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart before discovery was saved");
-        let mut restarted = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut restarted = WatcherState::new(file.load().expect("load"));
         set_watched_dirs(&mut restarted, vec![dir.path().to_path_buf()], now);
         reconcile_next_directory(&mut restarted, now, 2000).await.expect("reconcile after restart");
 
@@ -707,7 +648,7 @@ mod tests {
 
     #[test]
     fn missing_event_source_remains_pending() {
-        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        let mut state = WatcherState::new(UploadStore::default());
         let dir = tempfile::tempdir().expect("mail directory");
         state.dirs.push(dir.path().to_path_buf());
 
@@ -720,7 +661,7 @@ mod tests {
     #[tokio::test]
     async fn retry_backlog_does_not_prevent_discovery_of_new_mail() {
         let dir = tempfile::tempdir().expect("mail directory");
-        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        let mut state = WatcherState::new(UploadStore::default());
         let now = Instant::now();
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], now);
 
@@ -757,7 +698,7 @@ mod tests {
         ] {
             let dir = tempfile::tempdir().expect("state directory");
             let file = StateFile::open(dir.path()).expect("state file");
-            let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+            let mut state = WatcherState::new(file.load().expect("load"));
             let item = source(&dir.path().join("Persistent.Mail.123"), b"mail");
             state.enqueue_upload(item.clone());
             state.flush(&file).expect("persist before upload");
@@ -804,7 +745,7 @@ mod tests {
     async fn oversized_local_mail_type_is_recorded_with_a_bounded_reason() {
         let dir = tempfile::tempdir().expect("state directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         let bytes = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"界".repeat(10_000)}))
             .expect("large unsupported type");
         let item = source(&dir.path().join("Persistent.Mail.123"), &bytes);
@@ -836,7 +777,7 @@ mod tests {
 
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        let mut state = WatcherState::new(file.load().expect("load"));
         let bytes =
             rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"})).expect("mail");
         let item = source(&dir.path().join("Persistent.Mail.123"), &bytes);
