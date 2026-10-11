@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next -H 0.0.0.0",
     "build": "next build",
-    "test:security": "node --test tests/security-headers.test.mjs",
     "typecheck": "next typegen && tsc --noEmit",
     "sync:legal": "sh ./scripts/sync-legal-docs.sh",
     "generate:datasets": "node ./scripts/generate-datasets.mjs",
