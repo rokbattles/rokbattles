@@ -33,6 +33,9 @@ tauri-plugin-updater.workspace = true
 notify.workspace = true
 tempfile.workspace = true
 
+[target.'cfg(unix)'.dependencies]
+libc.workspace = true
+
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]
 tauri-plugin-autostart.workspace = true
 tauri-plugin-single-instance.workspace = true

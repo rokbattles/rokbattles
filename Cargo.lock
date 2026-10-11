@@ -4771,6 +4771,7 @@ name = "rokbattles-desktop"
 version = "1.7.4"
 dependencies = [
  "anyhow",
+ "libc",
  "notify",
  "reqwest 0.12.28",
  "rokbattles-mail-codec",

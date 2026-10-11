@@ -7,9 +7,13 @@ mod upload;
 
 use std::{
     fs,
-    path::PathBuf,
-    sync::OnceLock,
-    time::{Duration, SystemTime},
+    io::Read as _,
+    path::{Path, PathBuf},
+    sync::{
+        Arc, OnceLock,
+        atomic::{AtomicBool, Ordering},
+    },
+    time::{Duration, Instant, SystemTime},
 };
 
 use rustc_hash::FxHashSet;
@@ -20,9 +24,12 @@ use tokio::sync::{mpsc, watch};
 pub(crate) use self::config::WatcherConfig;
 use self::{
     mail::file_name_for_upload,
-    scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches},
+    scan::{
+        discover_source, queue_fs_event, reconcile_next_directory, refresh_watched_dirs,
+        request_reconciliation, sync_fs_watches,
+    },
     state::WatcherState,
-    store::{QueuedUpload, StateFile, file_sig},
+    store::{FileSig, QueuedUpload, StateFile, file_sig},
     upload::{UploadApiError, UploadStatus, post_file_to_api, upload_backoff},
 };
 
@@ -164,7 +171,8 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
     let client = http_client();
 
     let (shutdown_tx, mut shutdown_rx) = watch::channel(false);
-    let (fs_tx, mut fs_rx) = mpsc::channel::<PathBuf>(config.fs_event_queue_capacity);
+    let (fs_tx, mut fs_rx) = mpsc::channel::<PathBuf>(4096);
+    let rescan_requested = Arc::new(AtomicBool::new(false));
     let config_for_task = config.clone();
     let handle = tauri::async_runtime::spawn(async move {
         let state_file = match StateFile::for_app(&app) {
@@ -187,14 +195,9 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
 
         let mut fs_watcher = match notify::recommended_watcher({
             let fs_tx = fs_tx.clone();
-            move |res: Result<notify::Event, notify::Error>| {
-                if let Ok(event) = res {
-                    for path in event.paths {
-                        // Periodic directory scans recover events dropped when the queue is full.
-                        let _send_result = fs_tx.try_send(path);
-                    }
-                }
-            }
+            let rescan_requested = Arc::clone(&rescan_requested);
+
+            move |event| queue_fs_event(&fs_tx, &rescan_requested, event)
         }) {
             Ok(w) => Some(w),
             Err(e) => {
@@ -209,20 +212,31 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                 break;
             }
 
+            let now = Instant::now();
             let now_ms = now_epoch_ms();
 
-            let _ = refresh_scans_if_needed(&app, &mut state).await;
-            state.maybe_rescan_hot(now_ms);
+            refresh_watched_dirs(&app, &mut state, now);
             sync_fs_watches(&app, fs_watcher.as_mut(), &mut fs_watched_dirs, &state.dirs);
 
-            for _ in 0..state.config.fs_event_budget {
+            if rescan_requested.swap(false, Ordering::Relaxed) {
+                request_reconciliation(&mut state, now);
+            }
+
+            for _ in 0..512 {
                 let Ok(path) = fs_rx.try_recv() else {
                     break;
                 };
-                apply_fs_event(&mut state, path, now_ms);
+
+                discover_source(&mut state, path, now_ms);
             }
 
-            prefetch_uploads(&mut state, now_ms);
+            let scanned = match reconcile_next_directory(&mut state, now, now_ms).await {
+                Ok(scanned) => scanned,
+                Err(error) => {
+                    emit_log(&app, format!("{error:#}"));
+                    true
+                }
+            };
 
             // Persist discovery and earlier outcomes before starting another request.
             // A failed write leaves memory dirty and prevents unsaved work from being sent.
@@ -249,7 +263,10 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                 continue;
             }
 
-            let now_ms = now_epoch_ms();
+            if scanned {
+                tokio::task::yield_now().await;
+                continue;
+            }
 
             tokio::select! {
                 _ = tokio::time::sleep(state.config.idle_sleep) => {}
@@ -260,7 +277,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                 }
                 maybe_path = fs_rx.recv() => {
                     if let Some(path) = maybe_path {
-                        apply_fs_event(&mut state, path, now_ms);
+                        discover_source(&mut state, path, now_epoch_ms());
                     }
                 }
             }
@@ -272,26 +289,6 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
     });
 
     WatcherTask { shutdown: shutdown_tx, handle, shutdown_timeout }
-}
-
-fn prefetch_uploads(state: &mut WatcherState, now_ms: u128) {
-    let target = state.config.upload_prefetch_target;
-    let ready = state
-        .uploads
-        .pending
-        .iter()
-        .filter(|item| item.not_before_ms.is_none_or(|deadline| deadline <= now_ms))
-        .take(target)
-        .count();
-
-    // Missing or backed-off sources must leave room to discover another usable copy.
-    for _ in ready..target {
-        let Some(item) = next_file(state) else {
-            break;
-        };
-
-        state.enqueue_upload(item);
-    }
 }
 
 async fn process_upload(
@@ -311,34 +308,38 @@ async fn process_upload(
         return message;
     };
 
-    let sig =
-        match fs::metadata(&path).map_err(anyhow::Error::from).and_then(|meta| file_sig(&meta)) {
-            Ok(sig) => sig,
-            Err(error) => {
-                let message = truncate_reason(format!("Failed to stat file {file_name}: {error}"));
-                state.retry_upload(item, message.clone(), now_ms);
+    let signature = fs::symlink_metadata(&path).map_err(anyhow::Error::from).and_then(|meta| {
+        anyhow::ensure!(meta.is_file(), "Source is not a regular file");
 
-                return message;
-            }
-        };
+        file_sig(&meta)
+    });
+
+    let sig = match signature {
+        Ok(sig) => sig,
+        Err(error) => {
+            let message = truncate_reason(format!("Failed to stat file {file_name}: {error}"));
+            state.retry_upload(item, message.clone(), now_ms);
+
+            return message;
+        }
+    };
 
     let age_ms = now_ms.saturating_sub(sig.modified);
 
-    if item.sig.as_ref() != Some(&sig) || age_ms < state.config.file_stable_age_ms {
-        item.sig = Some(sig.clone());
-        item.not_before_ms = Some(now_ms.saturating_add(state.config.file_retry_delay_ms));
+    if item.sig.as_ref() != Some(&sig) || age_ms < 1500 {
+        item.sig = Some(sig);
+        item.not_before_ms = Some(now_ms.saturating_add(750));
         item.last_error = Some("Waiting for file to stop changing".to_string());
 
-        state.discovered.insert(item.path.clone(), sig);
         state.requeue_upload(item);
 
         return format!("Waiting for stable file {file_name}");
     }
 
-    let read = tauri::async_runtime::spawn_blocking(move || fs::read(path))
+    let read = tauri::async_runtime::spawn_blocking(move || read_mail_source(&path, &sig))
         .await
         .map_err(anyhow::Error::from)
-        .and_then(|result| result.map_err(anyhow::Error::from));
+        .and_then(|result| result);
 
     let bytes = match read {
         Ok(bytes) => bytes,
@@ -375,6 +376,40 @@ async fn process_upload(
     apply_upload_result(state, item, &file_name, result, now_epoch_ms())
 }
 
+fn read_mail_source(path: &Path, expected: &FileSig) -> anyhow::Result<Vec<u8>> {
+    let mut options = fs::File::options();
+    options.read(true);
+
+    // A queued path may have been replaced since discovery or the stability check.
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt as _;
+
+        options.custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK);
+    }
+
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt as _;
+
+        options.custom_flags(0x0020_0000); // FILE_FLAG_OPEN_REPARSE_POINT
+    }
+
+    let mut file = options.open(path)?;
+    let metadata = file.metadata()?;
+
+    anyhow::ensure!(metadata.is_file(), "Source is not a regular file");
+    anyhow::ensure!(file_sig(&metadata)? == *expected, "Source changed before reading");
+
+    // Check and read the same handle so replacing the path cannot redirect this upload.
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes)?;
+
+    anyhow::ensure!(file_sig(&file.metadata()?)? == *expected, "Source changed while reading");
+
+    Ok(bytes)
+}
+
 #[cfg(test)]
 mod tests {
     use std::{fs, path::Path, time::UNIX_EPOCH};
@@ -382,7 +417,7 @@ mod tests {
     use serde_json::json;
 
     use super::{
-        scan::DirScan,
+        scan::set_watched_dirs,
         store::UploadStore,
         upload::tests::{client, respond_once, response},
         *,
@@ -484,7 +519,7 @@ mod tests {
                 .expect("supported mail");
             source(&path, &good_bytes);
             restored.dirs.push(path.parent().expect("mail directory").to_path_buf());
-            apply_fs_event(&mut restored, path.clone(), 10_000);
+            discover_source(&mut restored, path.clone(), 10_000);
             restored.flush(&file).expect("save changed input for reevaluation");
 
             assert!(restored.uploads.rejected.is_empty());
@@ -493,7 +528,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn read_failure_preserves_pending_work_and_reason() {
+    async fn non_regular_source_preserves_pending_work_and_reason() {
         let dir = tempfile::tempdir().expect("test directory");
         let path = dir.path().join("Persistent.Mail.123");
         fs::create_dir(&path).expect("path with metadata that cannot be read as mail");
@@ -522,12 +557,74 @@ mod tests {
 
         let file = StateFile::open(dir.path()).expect("restart");
         let restored = file.load().expect("load");
-        let pending = restored.pending.front().expect("read failure remains pending");
+        let pending = restored.pending.front().expect("unusable source remains pending");
 
-        assert!(message.contains("Failed to read file"));
+        assert!(message.contains("Source is not a regular file"));
         assert_eq!(pending.last_error.as_deref(), Some(message.as_str()));
         assert_eq!(pending.attempts, 1);
         assert!(restored.acknowledged.is_empty());
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn queued_source_replaced_by_symlink_is_not_uploaded_and_recovers_when_restored() {
+        use std::{io::ErrorKind, net::TcpListener, os::unix::fs::symlink};
+
+        let dir = tempfile::tempdir().expect("test directory");
+        let bytes =
+            rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"})).expect("mail");
+        let path = dir.path().join("mail/Persistent.Mail.123");
+        let item = source(&path, &bytes);
+        let target = source(&dir.path().join("outside/Persistent.Mail.123"), &bytes);
+        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        state.enqueue_upload(item.clone());
+
+        fs::remove_file(&path).expect("remove queued regular file");
+        symlink(&target.path, &path).expect("replace queued source with a symlink");
+
+        // Exercise the open itself as well as process_upload's earlier metadata check.
+        read_mail_source(&path, target.sig.as_ref().expect("target signature")).expect_err(
+            "the read must not follow a symlink even when the target signature matches",
+        );
+
+        let listener = TcpListener::bind("127.0.0.1:0").expect("local ingress listener");
+        listener.set_nonblocking(true).expect("nonblocking listener");
+        let url = format!("http://{}", listener.local_addr().expect("listener address"));
+        let message = process_upload(&mut state, &client(), &url, item, 10_000).await;
+
+        assert!(message.contains("Source is not a regular file"));
+        assert_eq!(
+            listener.accept().expect_err("no upload connection").kind(),
+            ErrorKind::WouldBlock
+        );
+        assert_eq!(state.uploads.pending.len(), 1);
+        assert!(state.uploads.acknowledged.is_empty());
+
+        fs::remove_file(&path).expect("remove symlink");
+        source(&path, &bytes);
+        let item = state.next_ready_upload(300_000).expect("restored regular source retries");
+        let (url, server) =
+            respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
+
+        process_upload(&mut state, &client(), &url, item, 300_000).await;
+        server.await.expect("restored source reaches ingress");
+
+        assert!(state.uploads.acknowledged.contains("123"));
+        assert!(state.uploads.pending.is_empty());
+    }
+
+    #[test]
+    fn source_changed_after_the_stability_check_is_retried_before_decoding() {
+        let dir = tempfile::tempdir().expect("test directory");
+        let path = dir.path().join("Persistent.Mail.123");
+        let item = source(&path, b"first partial write");
+
+        source(&path, b"a later and longer partial write");
+
+        let error = read_mail_source(&path, item.sig.as_ref().expect("original signature"))
+            .expect_err("a changed source must not be decoded or rejected using the old signature");
+
+        assert!(error.to_string().contains("Source changed before reading"));
     }
 
     #[tokio::test]
@@ -572,14 +669,9 @@ mod tests {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
         let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
-        let mut scan = DirScan::new(dir.path().to_path_buf(), Duration::ZERO, Duration::ZERO);
-        scan.ids.push(123);
-        scan.cursor = 1;
-        state.scans.push(scan.clone());
+        set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], Instant::now());
 
-        let missing =
-            next_file(&mut state).expect("discovery is retained despite missing metadata");
-        state.enqueue_upload(missing);
+        discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
         state.flush(&file).expect("save discovered source");
         drop(file);
 
@@ -591,30 +683,26 @@ mod tests {
         assert!(restored.acknowledged.is_empty());
     }
 
-    #[test]
-    fn unflushed_discovery_has_no_persistent_marker_that_blocks_rediscovery() {
+    #[tokio::test]
+    async fn unflushed_discovery_has_no_persistent_marker_that_blocks_rediscovery() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
         let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
         source(&dir.path().join("Persistent.Mail.123"), b"discovered but not yet uploaded");
-        let mut scan = DirScan::new(dir.path().to_path_buf(), Duration::ZERO, Duration::ZERO);
-        scan.ids.push(123);
-        scan.cursor = 1;
-        state.scans.push(scan.clone());
+        let now = Instant::now();
+        set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], now);
 
-        let discovered = next_file(&mut state).expect("source available");
-        state.enqueue_upload(discovered);
+        discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
         drop(state);
         drop(file);
 
         let file = StateFile::open(dir.path()).expect("restart before discovery was saved");
         let mut restarted = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
-        restarted.scans.push(scan);
+        set_watched_dirs(&mut restarted, vec![dir.path().to_path_buf()], now);
+        reconcile_next_directory(&mut restarted, now, 2000).await.expect("reconcile after restart");
 
-        assert!(
-            next_file(&mut restarted).is_some(),
-            "unsaved discovery must not leave a durable skip marker"
-        );
+        assert_eq!(restarted.uploads.pending.len(), 1);
+        assert!(restarted.uploads.acknowledged.is_empty());
     }
 
     #[test]
@@ -623,20 +711,26 @@ mod tests {
         let dir = tempfile::tempdir().expect("mail directory");
         state.dirs.push(dir.path().to_path_buf());
 
-        apply_fs_event(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
+        discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
 
         assert_eq!(state.uploads.pending.len(), 1);
         assert!(state.uploads.pending.front().expect("pending source").sig.is_none());
     }
 
-    #[test]
-    fn retry_backlog_leaves_room_to_discover_another_copy() {
+    #[tokio::test]
+    async fn retry_backlog_does_not_prevent_discovery_of_new_mail() {
         let dir = tempfile::tempdir().expect("mail directory");
         let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
+        let now = Instant::now();
+        set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], now);
 
-        for id in 1..=state.config.upload_prefetch_target {
+        for id in 1..=4 {
             state.enqueue_upload(QueuedUpload {
-                path: format!("unavailable/Persistent.Mail.{id}"),
+                path: dir
+                    .path()
+                    .join(format!("Persistent.Mail.{id}"))
+                    .to_string_lossy()
+                    .into_owned(),
                 sig: None,
                 attempts: 1,
                 not_before_ms: Some(20_000),
@@ -644,17 +738,13 @@ mod tests {
             });
         }
 
-        source(&dir.path().join("Persistent.Mail.1"), b"usable alternative source");
-        let mut scan = DirScan::new(dir.path().to_path_buf(), Duration::ZERO, Duration::ZERO);
-        scan.ids.push(1);
-        scan.cursor = 1;
-        state.scans.push(scan);
+        let alternative = dir.path().join("Persistent.Mail.5");
+        source(&alternative, b"available source");
+        reconcile_next_directory(&mut state, now, 10_000).await.expect("scan despite retries");
 
-        prefetch_uploads(&mut state, 10_000);
+        let ready = state.next_ready_upload(11_000).expect("available mail discovered");
 
-        let ready = state.next_ready_upload(10_000).expect("alternative copy discovered");
-
-        assert_eq!(ready.path, dir.path().join("Persistent.Mail.1").to_string_lossy());
+        assert_eq!(ready.path, alternative.to_string_lossy());
     }
 
     #[tokio::test]
