@@ -31,6 +31,7 @@ rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features 
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
 tauri-plugin-updater.workspace = true
 notify.workspace = true
+tempfile.workspace = true
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]
 tauri-plugin-autostart.workspace = true
@@ -40,7 +41,7 @@ tauri-plugin-single-instance.workspace = true
 tauri-build.workspace = true
 
 [dev-dependencies]
-tempfile.workspace = true
+rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["write"] }
 tokio = { workspace = true, features = ["io-util", "net"] }
 
 [lints]

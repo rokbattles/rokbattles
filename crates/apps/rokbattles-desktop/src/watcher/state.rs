@@ -1,12 +1,13 @@
 use std::{collections::VecDeque, path::PathBuf, time::Instant};
 
-use rustc_hash::FxHashSet;
-use tauri::AppHandle;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use super::{
     config::WatcherConfig,
-    emit_log,
-    store::{ProcessedStore, QueuedUpload, UploadQueueStore, write_processed, write_upload_queue},
+    mail::mail_id_for_path,
+    store::{FileSig, QueuedUpload, RejectedUpload, StateFile, UploadStore},
+    truncate_reason,
+    upload::upload_backoff,
 };
 
 pub(crate) struct WatcherState {
@@ -14,37 +15,31 @@ pub(crate) struct WatcherState {
     pub(crate) scans: Vec<super::scan::DirScan>,
     pub(crate) dirs: Vec<PathBuf>,
     pub(crate) dirs_last_read: Instant,
-    pub(crate) store: ProcessedStore,
-    pub(crate) store_dirty_updates: usize,
-    pub(crate) store_last_flush: Instant,
-    pub(crate) upload_queue: VecDeque<QueuedUpload>,
-    pub(crate) upload_queued_paths: FxHashSet<String>,
-    pub(crate) upload_queue_dirty_updates: usize,
-    pub(crate) upload_queue_last_flush: Instant,
+    pub(crate) discovered: FxHashMap<String, FileSig>,
+    pub(crate) uploads: UploadStore,
+    dirty: bool,
     pub(crate) scan_refreshes: u64,
-    pub(crate) store_flushes: u64,
-    pub(crate) upload_queue_flushes: u64,
     pub(crate) hot_paths: VecDeque<String>,
     pub(crate) hot_set: FxHashSet<String>,
     pub(crate) hot_last_scan: Instant,
-    pub(crate) api_backoff_until_ms: Option<u128>,
 }
 
 impl WatcherState {
-    pub(crate) fn new(
-        config: WatcherConfig,
-        store: ProcessedStore,
-        upload_queue_store: UploadQueueStore,
-    ) -> Self {
-        let mut upload_queue = VecDeque::new();
-        let mut upload_queued_paths = FxHashSet::default();
-        for item in upload_queue_store.items {
-            if upload_queued_paths.insert(item.path.clone()) {
-                upload_queue.push_back(item);
-            }
-        }
+    pub(crate) fn new(config: WatcherConfig, uploads: UploadStore) -> Self {
+        let discovered = uploads
+            .pending
+            .iter()
+            .filter_map(|item| item.sig.clone().map(|sig| (item.path.clone(), sig)))
+            .chain(
+                uploads
+                    .rejected
+                    .iter()
+                    .filter_map(|(path, item)| item.sig.clone().map(|sig| (path.clone(), sig))),
+            )
+            .collect();
 
         let refresh_interval = config.config_refresh_interval;
+
         Self {
             config,
             scans: Vec::new(),
@@ -52,97 +47,110 @@ impl WatcherState {
             dirs_last_read: Instant::now()
                 .checked_sub(refresh_interval)
                 .unwrap_or_else(Instant::now),
-            store,
-            store_dirty_updates: 0,
-            store_last_flush: Instant::now(),
-            upload_queue,
-            upload_queued_paths,
-            upload_queue_dirty_updates: 0,
-            upload_queue_last_flush: Instant::now(),
+            discovered,
+            uploads,
+            dirty: false,
             scan_refreshes: 0,
-            store_flushes: 0,
-            upload_queue_flushes: 0,
             hot_paths: VecDeque::new(),
             hot_set: FxHashSet::default(),
             hot_last_scan: Instant::now(),
-            api_backoff_until_ms: None,
         }
     }
 
-    pub(crate) fn maybe_flush_store(&mut self, app: &AppHandle) {
-        if self.store_dirty_updates == 0 {
-            return;
+    pub(crate) fn flush(&mut self, file: &StateFile) -> anyhow::Result<()> {
+        if self.dirty {
+            file.save(&self.uploads)?;
+
+            self.dirty = false;
         }
-        if self.store_dirty_updates < self.config.store_flush_every_updates
-            && self.store_last_flush.elapsed() < self.config.store_flush_interval
-        {
-            return;
-        }
-        if let Err(e) = write_processed(app, &self.config, &self.store) {
-            emit_log(app, format!("Failed to flush processed store: {}", e));
-            return;
-        }
-        self.store_dirty_updates = 0;
-        self.store_last_flush = Instant::now();
-        self.store_flushes += 1;
+
+        Ok(())
     }
 
-    pub(crate) fn maybe_flush_upload_queue(&mut self, app: &AppHandle) {
-        if self.upload_queue_dirty_updates == 0 {
-            return;
-        }
-        if self.upload_queue_dirty_updates < self.config.queue_flush_every_updates
-            && self.upload_queue_last_flush.elapsed() < self.config.queue_flush_interval
-        {
-            return;
-        }
-        let store =
-            UploadQueueStore { version: 1, items: self.upload_queue.iter().cloned().collect() };
-        if let Err(e) = write_upload_queue(app, &self.config, &store) {
-            emit_log(app, format!("Failed to flush upload queue: {}", e));
-            return;
-        }
-        self.upload_queue_dirty_updates = 0;
-        self.upload_queue_last_flush = Instant::now();
-        self.upload_queue_flushes += 1;
+    pub(crate) fn is_acknowledged(&self, path: &str) -> bool {
+        mail_id_for_path(path).is_some_and(|id| self.uploads.acknowledged.contains(id))
     }
 
     pub(crate) fn enqueue_upload(&mut self, item: QueuedUpload) {
-        let path = item.path.clone();
-        if !self.upload_queued_paths.insert(item.path.clone()) {
+        if self.is_acknowledged(&item.path) {
             return;
         }
-        self.upload_queue.push_back(item);
-        self.upload_queue_dirty_updates += 1;
-        self.track_hot_path(path);
+
+        if let Some(sig) = &item.sig {
+            self.discovered.insert(item.path.clone(), sig.clone());
+        }
+
+        if self.uploads.pending.iter().any(|pending| pending.path == item.path) {
+            return;
+        }
+
+        if self.uploads.rejected.get(&item.path).is_some_and(|rejected| rejected.sig == item.sig) {
+            return;
+        }
+
+        self.uploads.rejected.remove(&item.path);
+        self.track_hot_path(item.path.clone());
+        self.uploads.pending.push_back(item);
+        self.dirty = true;
     }
 
-    pub(crate) fn pop_ready_upload(&mut self, now_ms: u128) -> Option<QueuedUpload> {
-        let len = self.upload_queue.len();
-        for _ in 0..len {
-            let item = self.upload_queue.pop_front()?;
-            if item.not_before_ms.is_some_and(|t| t > now_ms) {
-                self.upload_queue.push_back(item);
-                continue;
+    /// Selecting work does not remove it: an interrupted request must reload as pending.
+    pub(crate) fn next_ready_upload(&mut self, now_ms: u128) -> Option<QueuedUpload> {
+        for _ in 0..self.uploads.pending.len() {
+            let item = self.uploads.pending.pop_front()?;
+            let ready = item.not_before_ms.is_none_or(|deadline| deadline <= now_ms);
+
+            self.uploads.pending.push_back(item.clone());
+
+            if ready {
+                return Some(item);
             }
-            self.upload_queued_paths.remove(&item.path);
-            self.upload_queue_dirty_updates += 1;
-            return Some(item);
         }
+
         None
     }
 
     pub(crate) fn requeue_upload(&mut self, item: QueuedUpload) {
-        if self.upload_queued_paths.insert(item.path.clone()) {
-            self.upload_queue.push_back(item);
-            self.upload_queue_dirty_updates += 1;
+        if let Some(pending) =
+            self.uploads.pending.iter_mut().find(|pending| pending.path == item.path)
+        {
+            *pending = item;
+            self.dirty = true;
         }
+    }
+
+    pub(crate) fn retry_upload(&mut self, mut item: QueuedUpload, reason: String, now_ms: u128) {
+        item.attempts = item.attempts.saturating_add(1);
+        item.not_before_ms = Some(now_ms.saturating_add(upload_backoff(item.attempts).as_millis()));
+        item.last_error = Some(truncate_reason(reason));
+
+        self.requeue_upload(item);
+    }
+
+    pub(crate) fn acknowledge_upload(&mut self, path: &str) {
+        let Some(id) = mail_id_for_path(path) else {
+            return;
+        };
+
+        self.uploads.acknowledged.insert(id.to_string());
+        self.uploads.pending.retain(|item| mail_id_for_path(&item.path) != Some(id));
+        self.uploads.rejected.retain(|path, _| mail_id_for_path(path) != Some(id));
+        self.dirty = true;
+    }
+
+    pub(crate) fn reject_upload(&mut self, item: QueuedUpload, reason: String) {
+        self.uploads.pending.retain(|pending| pending.path != item.path);
+        self.uploads
+            .rejected
+            .insert(item.path, RejectedUpload { sig: item.sig, reason: truncate_reason(reason) });
+        self.dirty = true;
     }
 
     pub(crate) fn maybe_rescan_hot(&mut self, now_ms: u128) {
         if self.hot_last_scan.elapsed() < self.config.hot_rescan_interval {
             return;
         }
+
         self.hot_last_scan = Instant::now();
 
         for _ in 0..self.config.hot_rescan_budget {
@@ -151,7 +159,7 @@ impl WatcherState {
             };
 
             let path = PathBuf::from(&path_str);
-            let Some(existing) = self.store.entries.get(&path_str).cloned() else {
+            let Some(existing) = self.discovered.get(&path_str).cloned() else {
                 self.hot_paths.push_back(path_str);
                 continue;
             };
@@ -163,6 +171,7 @@ impl WatcherState {
                     continue;
                 }
             };
+
             let sig = match super::store::file_sig(&meta) {
                 Ok(s) => s,
                 Err(_) => {
@@ -172,12 +181,13 @@ impl WatcherState {
             };
 
             if sig != existing {
-                self.store.entries.insert(path_str.clone(), sig.clone());
-                self.store_dirty_updates += 1;
+                self.discovered.insert(path_str.clone(), sig.clone());
+
                 self.enqueue_upload(QueuedUpload {
                     path: path_str.clone(),
-                    sig,
+                    sig: Some(sig),
                     attempts: 0,
+                    last_error: None,
                     not_before_ms: Some(now_ms.saturating_add(self.config.file_changed_delay_ms)),
                 });
             }
@@ -187,26 +197,17 @@ impl WatcherState {
     }
 
     pub(crate) fn prune_removed_dirs_state(&mut self, active_dirs: &[PathBuf]) -> usize {
-        let mut removed = 0usize;
+        let previous = self.uploads.pending.len() + self.uploads.rejected.len();
 
-        let old_queue_len = self.upload_queue.len();
-        self.upload_queue.retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
-        let queue_removed = old_queue_len.saturating_sub(self.upload_queue.len());
-        if queue_removed > 0 {
-            removed = removed.saturating_add(queue_removed);
-            self.upload_queued_paths =
-                self.upload_queue.iter().map(|item| item.path.clone()).collect::<FxHashSet<_>>();
-            self.upload_queue_dirty_updates =
-                self.upload_queue_dirty_updates.saturating_add(queue_removed);
-        }
-
-        let old_hot_len = self.hot_paths.len();
+        // Removing a watched directory deliberately cancels its sources, not its acknowledged IDs.
+        self.uploads.pending.retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
+        self.uploads.rejected.retain(|path, _| path_belongs_to_any_active_dir(path, active_dirs));
+        self.discovered.retain(|path, _| path_belongs_to_any_active_dir(path, active_dirs));
         self.hot_paths.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
-        let hot_removed = old_hot_len.saturating_sub(self.hot_paths.len());
-        if hot_removed > 0 {
-            removed = removed.saturating_add(hot_removed);
-            self.hot_set = self.hot_paths.iter().cloned().collect::<FxHashSet<_>>();
-        }
+        self.hot_set.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
+
+        let removed = previous - self.uploads.pending.len() - self.uploads.rejected.len();
+        self.dirty |= removed > 0;
 
         removed
     }
@@ -215,30 +216,39 @@ impl WatcherState {
         if self.hot_set.contains(&path) {
             return;
         }
+
         if self.hot_paths.len() >= self.config.hot_tracked_limit
             && let Some(old) = self.hot_paths.pop_front()
         {
             self.hot_set.remove(&old);
         }
+
         self.hot_set.insert(path.clone());
         self.hot_paths.push_back(path);
     }
 
     pub(crate) fn rate_limit_remaining_ms(&mut self, now_ms: u128) -> Option<u128> {
-        let until = self.api_backoff_until_ms?;
+        let until = self.uploads.api_backoff_until_ms?;
+
         if until <= now_ms {
-            self.api_backoff_until_ms = None;
+            self.uploads.api_backoff_until_ms = None;
+            self.dirty = true;
+
             return None;
         }
+
         Some(until.saturating_sub(now_ms))
     }
 
     pub(crate) fn extend_rate_limit(&mut self, now_ms: u128, backoff: std::time::Duration) -> bool {
         let until = now_ms.saturating_add(backoff.as_millis());
-        match self.api_backoff_until_ms {
+
+        match self.uploads.api_backoff_until_ms {
             Some(existing) if existing >= until => false,
             _ => {
-                self.api_backoff_until_ms = Some(until);
+                self.uploads.api_backoff_until_ms = Some(until);
+                self.dirty = true;
+
                 true
             }
         }
@@ -247,98 +257,211 @@ impl WatcherState {
 
 fn path_belongs_to_any_active_dir(path: &str, active_dirs: &[PathBuf]) -> bool {
     let path = PathBuf::from(path);
+
     active_dirs.iter().any(|dir| path.starts_with(dir))
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{super::store::FileSig, *};
+    use std::{fs, time::Duration};
 
-    fn make_sig() -> FileSig {
-        FileSig { size: 1, modified: 2 }
-    }
+    use super::*;
 
-    fn make_item(path: &str, not_before_ms: Option<u128>) -> QueuedUpload {
-        QueuedUpload { path: path.to_string(), sig: make_sig(), attempts: 0, not_before_ms }
-    }
-
-    #[test]
-    fn enqueue_upload_dedupes_paths() {
-        let mut state = WatcherState::new(
-            WatcherConfig::default(),
-            ProcessedStore::default(),
-            UploadQueueStore::default(),
-        );
-        let item = make_item("a", None);
-
-        state.enqueue_upload(item.clone());
-        state.enqueue_upload(item);
-
-        assert_eq!(state.upload_queue.len(), 1);
-        assert_eq!(state.upload_queued_paths.len(), 1);
-        assert_eq!(state.upload_queue_dirty_updates, 1);
+    fn item(path: &str) -> QueuedUpload {
+        QueuedUpload {
+            path: path.to_string(),
+            sig: Some(FileSig { size: 10, modified: 20 }),
+            attempts: 0,
+            not_before_ms: None,
+            last_error: None,
+        }
     }
 
     #[test]
-    fn pop_ready_upload_respects_not_before() {
-        let mut state = WatcherState::new(
-            WatcherConfig::default(),
-            ProcessedStore::default(),
-            UploadQueueStore::default(),
+    fn discovery_and_in_flight_work_reload_as_pending() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let file = StateFile::open(dir.path()).expect("state file");
+        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        state.enqueue_upload(item("Persistent.Mail.123"));
+        state.enqueue_upload(item("Persistent.Mail.123"));
+        state.flush(&file).expect("persist discovery before request");
+
+        let in_flight = state.next_ready_upload(1000).expect("select upload");
+        state.flush(&file).expect("even a flush during the request retains pending work");
+        drop(state);
+        drop(file);
+
+        let file = StateFile::open(dir.path()).expect("restart during request");
+        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+
+        assert_eq!(restored.uploads.pending.len(), 1);
+        assert_eq!(
+            restored.next_ready_upload(1000).expect("retry interrupted request").path,
+            in_flight.path
         );
-        let item = make_item("a", Some(150));
-
-        state.enqueue_upload(item);
-        assert!(state.pop_ready_upload(100).is_none());
-        assert_eq!(state.upload_queue.len(), 1);
-        assert!(state.upload_queued_paths.contains("a"));
-
-        let ready = state.pop_ready_upload(200).expect("expected ready upload");
-        assert_eq!(ready.path, "a");
-        assert!(state.upload_queue.is_empty());
-        assert!(!state.upload_queued_paths.contains("a"));
+        assert!(!restored.is_acknowledged(&in_flight.path));
     }
 
     #[test]
-    fn requeue_upload_adds_only_once() {
-        let mut state = WatcherState::new(
-            WatcherConfig::default(),
-            ProcessedStore::default(),
-            UploadQueueStore::default(),
-        );
-        let item = make_item("a", None);
+    fn unsaved_acknowledgement_retries_but_saved_acknowledgement_covers_all_copies() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let file = StateFile::open(dir.path()).expect("state file");
+        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        state.enqueue_upload(item("first/Persistent.Mail.123"));
+        state.enqueue_upload(item("second/Persistent.Mail.123"));
+        state.flush(&file).expect("persist pending sources");
 
-        state.enqueue_upload(item.clone());
-        let popped = state.pop_ready_upload(0).expect("expected ready upload");
-        state.requeue_upload(popped);
-        state.requeue_upload(item);
+        state.acknowledge_upload("first/Persistent.Mail.123");
+        drop(state);
+        drop(file);
 
-        assert_eq!(state.upload_queue.len(), 1);
-        assert_eq!(state.upload_queued_paths.len(), 1);
+        let file = StateFile::open(dir.path()).expect("restart before acknowledgement write");
+        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+
+        assert_eq!(restored.uploads.pending.len(), 2);
+        assert!(!restored.is_acknowledged("second/Persistent.Mail.123"));
+
+        restored.acknowledge_upload("second/Persistent.Mail.123");
+        restored.flush(&file).expect("persist acknowledgement");
+        drop(file);
+
+        let file = StateFile::open(dir.path()).expect("restart after acknowledgement write");
+        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        restored.enqueue_upload(item("third/Persistent.Mail.123"));
+
+        assert!(restored.uploads.pending.is_empty());
+        assert!(restored.is_acknowledged("third/Persistent.Mail.123"));
+        assert!(!restored.is_acknowledged("third/Persistent.Mail.0123"));
     }
 
     #[test]
-    fn prune_removed_dirs_state_drops_queue_and_hot_paths() {
-        let mut state = WatcherState::new(
-            WatcherConfig::default(),
-            ProcessedStore::default(),
-            UploadQueueStore::default(),
+    fn retry_reason_deadline_and_rate_limit_survive_graceful_pause() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let file = StateFile::open(dir.path()).expect("state file");
+        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        state.enqueue_upload(item("Persistent.Mail.123"));
+        state.retry_upload(
+            item("Persistent.Mail.123"),
+            "temporarily unavailable".to_string(),
+            1000,
         );
-        let active_dir = PathBuf::from("/active/mailcache");
-        state.enqueue_upload(make_item("/active/mailcache/Persistent.Mail.1", None));
-        state.enqueue_upload(make_item("/removed/mailcache/Persistent.Mail.2", None));
-        state.hot_paths.push_back("/active/mailcache/Persistent.Mail.1".to_string());
-        state.hot_paths.push_back("/removed/mailcache/Persistent.Mail.2".to_string());
-        state.hot_set.insert("/active/mailcache/Persistent.Mail.1".to_string());
-        state.hot_set.insert("/removed/mailcache/Persistent.Mail.2".to_string());
+        state.extend_rate_limit(1000, Duration::from_secs(7));
+        state.flush(&file).expect("final flush below all former batching thresholds");
+        drop(file);
 
-        let removed = state.prune_removed_dirs_state(&[active_dir]);
-        assert!(removed >= 2);
-        assert_eq!(state.upload_queue.len(), 1);
-        assert!(state.hot_paths.iter().all(|path| path == "/active/mailcache/Persistent.Mail.1"));
-        assert!(state.upload_queued_paths.contains("/active/mailcache/Persistent.Mail.1"));
-        assert!(state.hot_set.contains("/active/mailcache/Persistent.Mail.1"));
-        assert!(!state.upload_queued_paths.contains("/removed/mailcache/Persistent.Mail.2"));
-        assert!(!state.hot_set.contains("/removed/mailcache/Persistent.Mail.2"));
+        let file = StateFile::open(dir.path()).expect("resume watcher");
+        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+
+        assert!(restored.next_ready_upload(2999).is_none());
+        assert_eq!(restored.rate_limit_remaining_ms(1000), Some(7000));
+
+        let ready = restored.next_ready_upload(3000).expect("retry after saved deadline");
+
+        assert_eq!(ready.attempts, 1);
+        assert_eq!(ready.last_error.as_deref(), Some("temporarily unavailable"));
+    }
+
+    #[test]
+    fn failed_flush_reports_error_and_preserves_pending_recovery_and_dirty_acknowledgement() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let file = StateFile::open(dir.path()).expect("state file");
+        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        state.enqueue_upload(item("Persistent.Mail.123"));
+        state.flush(&file).expect("persist pending upload");
+        state.acknowledge_upload("Persistent.Mail.123");
+
+        // A destination that cannot be replaced injects a real filesystem write failure.
+        let snapshot = dir.path().join("upload-state-v1.json");
+        let recovery = dir.path().join("recovery.json");
+        fs::rename(&snapshot, &recovery).expect("retain previous snapshot");
+        fs::create_dir(&snapshot).expect("block replacement");
+
+        assert!(state.flush(&file).is_err());
+
+        fs::remove_dir(&snapshot).expect("restore writable destination");
+        fs::rename(&recovery, &snapshot).expect("restore previous snapshot");
+
+        let interrupted = file.load().expect("recover previous snapshot after failure");
+
+        assert_eq!(interrupted.pending.len(), 1);
+        assert!(interrupted.acknowledged.is_empty());
+
+        state.flush(&file).expect("dirty acknowledgement is retried");
+        let completed = file.load().expect("saved acknowledgement");
+
+        assert!(completed.pending.is_empty());
+        assert!(completed.acknowledged.contains("123"));
+    }
+
+    #[test]
+    fn rejected_source_does_not_block_other_copies_and_changes_allow_retry() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let file = StateFile::open(dir.path()).expect("state file");
+        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        state.enqueue_upload(item("first/Persistent.Mail.123"));
+        state.enqueue_upload(item("second/Persistent.Mail.123"));
+        state.reject_upload(item("first/Persistent.Mail.123"), "decode failed".to_string());
+        state.flush(&file).expect("persist rejection");
+        drop(file);
+
+        let file = StateFile::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        restored.enqueue_upload(item("first/Persistent.Mail.123"));
+
+        assert_eq!(restored.uploads.pending.len(), 1);
+        assert_eq!(
+            restored.next_ready_upload(1000).expect("alternative source").path,
+            "second/Persistent.Mail.123"
+        );
+        assert_eq!(
+            restored
+                .uploads
+                .rejected
+                .get("first/Persistent.Mail.123")
+                .expect("recorded rejection")
+                .reason,
+            "decode failed"
+        );
+        assert!(restored.uploads.acknowledged.is_empty());
+
+        let mut changed = item("first/Persistent.Mail.123");
+        changed.sig = Some(FileSig { size: 20, modified: 30 });
+        restored.enqueue_upload(changed);
+
+        assert_eq!(restored.uploads.pending.len(), 2);
+        assert!(restored.uploads.rejected.is_empty());
+    }
+
+    #[test]
+    fn removing_directory_cancels_its_sources_but_preserves_other_work_and_acknowledgements() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let file = StateFile::open(dir.path()).expect("state file");
+        let mut state = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+        state.enqueue_upload(item("active/Persistent.Mail.1"));
+        state.enqueue_upload(item("removed/Persistent.Mail.1"));
+        state.enqueue_upload(item("removed/Persistent.Mail.2"));
+        state.enqueue_upload(item("removed/Persistent.Mail.3"));
+        state.reject_upload(item("removed/Persistent.Mail.2"), "unsupported".to_string());
+        state.acknowledge_upload("removed/Persistent.Mail.3");
+
+        state.prune_removed_dirs_state(&[PathBuf::from("active")]);
+        state.flush(&file).expect("persist deliberate cancellation");
+        drop(file);
+
+        let file = StateFile::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(WatcherConfig::default(), file.load().expect("load"));
+
+        assert_eq!(restored.uploads.pending.len(), 1);
+        assert_eq!(
+            restored.next_ready_upload(1000).expect("remaining work").path,
+            "active/Persistent.Mail.1"
+        );
+        assert!(restored.uploads.rejected.is_empty());
+        assert!(restored.is_acknowledged("elsewhere/Persistent.Mail.3"));
+
+        restored.prune_removed_dirs_state(&[]);
+        restored.flush(&file).expect("explicit removal of last directory");
+
+        assert!(file.load().expect("cancelled work saved").pending.is_empty());
     }
 }
