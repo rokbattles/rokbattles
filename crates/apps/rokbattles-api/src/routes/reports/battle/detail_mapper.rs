@@ -1,7 +1,7 @@
 use mongodb::bson::{Bson, Document, doc};
 use rokbattles_bson::{
-    nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
-    nested_string,
+    bson_to_i64_exact, nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact,
+    nested_str, nested_string,
 };
 
 use super::{
@@ -13,7 +13,8 @@ use super::{
         BattleReportCommander, BattleReportCommanderSet, BattleReportCommanderSkill,
         BattleReportDetail, BattleReportMetadata, BattleReportNpc, BattleReportOpponent,
         BattleReportPlayer, BattleReportRelic, BattleReportSummary, BattleReportSummaryEntry,
-        BattleReportSupportSkill, BattleReportSupportSkills, BattleReportTimeline,
+        BattleReportSupportSkill, BattleReportSupportSkills, BattleReportSupremeStrife,
+        BattleReportTimeline,
     },
 };
 use crate::db::exclude_test_client_filter;
@@ -59,6 +60,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.auxiliary_skills.hero_id",
         "sender.auxiliary_skills.level",
         "sender.auxiliary_skills.skill_id",
+        "sender.supreme_strife.talents",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
         "sender.commanders.primary.level",
@@ -120,6 +122,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.auxiliary_skills.hero_id",
         "opponents.auxiliary_skills.level",
         "opponents.auxiliary_skills.skill_id",
+        "opponents.supreme_strife.talents",
         "opponents.commanders.primary.id",
         "opponents.commanders.primary.awakened",
         "opponents.commanders.primary.level",
@@ -235,7 +238,18 @@ fn map_detail_player(
         commanders: map_detail_commanders(document),
         support_skills: map_detail_support_skills(nested_document(document, &["support_skills"])),
         auxiliary_skills: map_detail_auxiliary_skills(document),
+        supreme_strife: map_detail_supreme_strife(document),
     }
+}
+
+fn map_detail_supreme_strife(document: &Document) -> Option<BattleReportSupremeStrife> {
+    let talents = nested_array(document, &["supreme_strife", "talents"])?
+        .iter()
+        .filter_map(bson_to_i64_exact)
+        .filter(|id| *id > 0)
+        .collect::<Vec<_>>();
+
+    (!talents.is_empty()).then_some(BattleReportSupremeStrife { talents })
 }
 
 fn map_detail_commanders(document: &Document) -> BattleReportCommanderSet {
@@ -409,6 +423,7 @@ fn map_detail_opponent(document: &Document, report_schema: Option<i64>) -> Battl
         commanders: base.commanders,
         support_skills: base.support_skills,
         auxiliary_skills: base.auxiliary_skills,
+        supreme_strife: base.supreme_strife,
         start_tick,
         end_tick: nested_i64(document, &["end_tick"]).unwrap_or(start_tick),
         attack: BattleReportAttack {
@@ -471,10 +486,11 @@ fn map_detail_timeline(document: Option<&Document>) -> BattleReportTimeline {
 
 #[cfg(test)]
 mod tests {
-    use mongodb::bson::{Bson, doc};
+    use mongodb::bson::{Bson, Document, doc};
 
     use super::{
         build_battle_detail_filter, build_battle_detail_projection, map_battle_detail_document,
+        map_detail_player,
     };
 
     #[test]
@@ -509,6 +525,8 @@ mod tests {
         assert_eq!(projection.get_i32("sender.support_skills.skills.skill_id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.auxiliary_skills.skill_id").ok(), Some(1));
         assert_eq!(projection.get_i32("opponents.auxiliary_skills.skill_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.supreme_strife.talents").ok(), Some(1));
+        assert_eq!(projection.get_i32("opponents.supreme_strife.talents").ok(), Some(1));
         assert_eq!(
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
             Some(1)
@@ -634,6 +652,64 @@ mod tests {
         assert_eq!(mapped.opponents[0].support_skills.enable, Some(false));
         assert_eq!(mapped.opponents[0].auxiliary_skills[0].skill_id, 303);
         assert_eq!(mapped.timeline.start_tick, 50);
+    }
+
+    #[test]
+    fn maps_supreme_strife_talents_from_report_samples() {
+        for (sample, expected_sender, expected_opponent) in [
+            (
+                include_str!(concat!(
+                    env!("CARGO_MANIFEST_DIR"),
+                    "/../../../samples/Battle/Persistent.Mail.34468067179069970029-processed.json"
+                )),
+                Some(vec![3, 18, 1]),
+                Some(vec![10, 18, 1]),
+            ),
+            (
+                include_str!(concat!(
+                    env!("CARGO_MANIFEST_DIR"),
+                    "/../../../samples/Battle/Persistent.Mail.7861550117686797332-processed.json"
+                )),
+                None,
+                None,
+            ),
+        ] {
+            let document: Document = serde_json::from_str(sample).expect("valid report sample");
+            let mapped = map_battle_detail_document(&document).expect("detail should map");
+            assert_eq!(
+                mapped.sender.supreme_strife.as_ref().map(|strife| &strife.talents),
+                expected_sender.as_ref()
+            );
+            assert!(!mapped.opponents.is_empty());
+            for opponent in &mapped.opponents {
+                assert_eq!(
+                    opponent.supreme_strife.as_ref().map(|strife| &strife.talents),
+                    expected_opponent.as_ref()
+                );
+            }
+            let serialized = serde_json::to_value(&mapped).expect("detail should serialize");
+            assert_eq!(
+                serialized["sender"].get("supremeStrife").is_some(),
+                expected_sender.is_some()
+            );
+        }
+    }
+
+    #[test]
+    fn supreme_strife_talents_omit_missing_empty_and_invalid_values() {
+        for document in [
+            doc! {},
+            doc! { "supreme_strife": { "talents": Bson::Null } },
+            doc! { "supreme_strife": { "talents": [] } },
+            doc! { "supreme_strife": { "talents": [0, -1, 3.5, "3", Bson::Null] } },
+        ] {
+            assert!(map_detail_player(Some(&document), None).supreme_strife.is_none());
+        }
+
+        let document =
+            doc! { "supreme_strife": { "talents": [3_i32, 0, 18_i64, 3.5, 999_i64, 1.0] } };
+        let mapped = map_detail_player(Some(&document), None);
+        assert_eq!(mapped.supreme_strife.expect("valid talents").talents, vec![3, 18, 999, 1]);
     }
 
     #[test]

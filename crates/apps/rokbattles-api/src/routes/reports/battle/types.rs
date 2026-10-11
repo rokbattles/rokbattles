@@ -118,6 +118,13 @@ pub(crate) struct BattleReportPlayer {
     pub commanders: BattleReportCommanderSet,
     pub support_skills: BattleReportSupportSkills,
     pub auxiliary_skills: Vec<BattleReportAuxiliarySkill>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub supreme_strife: Option<BattleReportSupremeStrife>,
+}
+
+#[derive(Debug, Serialize)]
+pub(crate) struct BattleReportSupremeStrife {
+    pub talents: Vec<i64>,
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -231,6 +238,8 @@ pub(crate) struct BattleReportOpponent {
     pub commanders: BattleReportCommanderSet,
     pub support_skills: BattleReportSupportSkills,
     pub auxiliary_skills: Vec<BattleReportAuxiliarySkill>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub supreme_strife: Option<BattleReportSupremeStrife>,
     pub start_tick: i64,
     pub end_tick: i64,
     pub attack: BattleReportAttack,

@@ -59,6 +59,9 @@ export type BattlePlayer = {
   commanders: BattleCommanderSet;
   supportSkills: BattleSupportSkills;
   auxiliarySkills: readonly BattleAuxiliarySkill[];
+  supremeStrife?: {
+    talents: readonly number[];
+  };
 };
 
 export type BattleAlliance = {
