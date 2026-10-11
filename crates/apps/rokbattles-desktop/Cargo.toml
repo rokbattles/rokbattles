@@ -24,6 +24,7 @@ serde.workspace = true
 serde_json.workspace = true
 tauri-plugin-dialog.workspace = true
 anyhow.workspace = true
+thiserror.workspace = true
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
 reqwest = { workspace = true, features = ["json", "multipart", "rustls-tls-native-roots"] }
 rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["read"] }
@@ -40,6 +41,7 @@ tauri-build.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true
+tokio = { workspace = true, features = ["io-util", "net"] }
 
 [lints]
 workspace = true
