@@ -19,7 +19,7 @@ pub(super) async fn enrich_map_context(
 mod tests {
     use mongodb::bson::{Document, doc};
 
-    const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/banners/";
+    const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/sprites/";
 
     fn snapshot() -> Document {
         doc! {
@@ -68,7 +68,7 @@ mod tests {
         (row.item.kvk_mapcode, row.item.kvk_banner) = row.map_context.resolve(&[snapshot()]);
         let value = serde_json::to_value(row.item).expect("serializable item");
         assert_eq!(value["kvkMapcode"], "#C13249");
-        assert_eq!(value["kvkBanner"], format!("{BANNER_BASE}s4heroic_anthem_cover.png"));
+        assert_eq!(value["kvkBanner"], format!("{BANNER_BASE}img_ServerBanner5.png"));
         assert_eq!(value.as_object().expect("object").len(), 12);
         for private in ["serverId", "mapContext", "Order", "OpenTime", "CloseTime", "Mode"] {
             assert!(value.get(private).is_none(), "leaked {private}");

@@ -219,7 +219,7 @@ mod tests {
             row.map_context.resolve(&snapshots),
             (
                 "#C13249".into(),
-                Some("https://cdn.rokbattles.com/game/banners/s4heroic_anthem_cover.png".into())
+                Some("https://cdn.rokbattles.com/game/sprites/img_ServerBanner5.png".into())
             )
         );
     }
