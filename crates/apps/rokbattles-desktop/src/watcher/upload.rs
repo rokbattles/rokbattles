@@ -84,17 +84,19 @@ pub(crate) async fn post_file_to_api(
             .and_then(|s| s.parse::<u64>().ok())
             .map(std::time::Duration::from_secs);
 
-        let message = resp
-            .text()
+        let message = read_response_body(resp)
             .await
+            .map(|bytes| String::from_utf8_lossy(&bytes).into_owned())
             .unwrap_or_else(|error| format!("could not read error response: {error}"));
 
         return Err(UploadApiError::Rejected { status, retry_after, message });
     }
 
-    let response = resp
-        .json::<UploadResponse>()
+    let body = read_response_body(resp)
         .await
+        .map_err(|error| UploadApiError::Protocol { status, message: error.to_string() })?;
+
+    let response = serde_json::from_slice::<UploadResponse>(&body)
         .map_err(|error| UploadApiError::Protocol { status, message: error.to_string() })?;
 
     if file_name.strip_prefix("Persistent.Mail.") != Some(response.mail_id.as_str()) {
@@ -117,6 +119,18 @@ pub(crate) async fn post_file_to_api(
     Ok(response.status)
 }
 
+async fn read_response_body(mut response: reqwest::Response) -> anyhow::Result<Vec<u8>> {
+    let mut body = Vec::new();
+
+    while let Some(chunk) = response.chunk().await? {
+        anyhow::ensure!(body.len() + chunk.len() <= 8192, "response body exceeds 8192 bytes");
+
+        body.extend_from_slice(&chunk);
+    }
+
+    Ok(body)
+}
+
 pub(crate) fn upload_backoff(attempts: u32) -> Duration {
     let seconds = 2u64.saturating_pow(attempts.min(10));
 
@@ -124,7 +138,7 @@ pub(crate) fn upload_backoff(attempts: u32) -> Duration {
 }
 
 #[cfg(test)]
-mod tests {
+pub(super) mod tests {
     use tokio::{
         io::{AsyncReadExt, AsyncWriteExt},
         net::TcpListener,
@@ -134,10 +148,12 @@ mod tests {
     use crate::watcher::{
         WatcherConfig, apply_upload_result,
         state::WatcherState,
-        store::{FileSig, ProcessedStore, QueuedUpload, UploadQueueStore},
+        store::{FileSig, QueuedUpload, UploadStore},
     };
 
-    async fn respond_once(response: String) -> (String, tokio::task::JoinHandle<Vec<u8>>) {
+    pub(in crate::watcher) async fn respond_once(
+        response: String,
+    ) -> (String, tokio::task::JoinHandle<Vec<u8>>) {
         let listener = TcpListener::bind("127.0.0.1:0").await.expect("bind local API");
         let url = format!("http://{}/v2/upload", listener.local_addr().expect("local address"));
 
@@ -188,14 +204,14 @@ mod tests {
         (url, task)
     }
 
-    fn response(status: &str, body: &str) -> String {
+    pub(in crate::watcher) fn response(status: &str, body: &str) -> String {
         format!(
             "HTTP/1.1 {status}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
             body.len()
         )
     }
 
-    fn client() -> reqwest::Client {
+    pub(in crate::watcher) fn client() -> reqwest::Client {
         reqwest::Client::builder()
             .no_proxy()
             .timeout(Duration::from_secs(5))
@@ -204,20 +220,17 @@ mod tests {
     }
 
     fn pending_upload() -> (WatcherState, QueuedUpload) {
-        let mut state = WatcherState::new(
-            WatcherConfig::default(),
-            ProcessedStore::default(),
-            UploadQueueStore::default(),
-        );
+        let mut state = WatcherState::new(WatcherConfig::default(), UploadStore::default());
 
         state.enqueue_upload(QueuedUpload {
             path: "Persistent.Mail.123".to_string(),
-            sig: FileSig { size: 1, modified: 0 },
+            sig: Some(FileSig { size: 1, modified: 0 }),
             attempts: 0,
+            last_error: None,
             not_before_ms: None,
         });
 
-        let item = state.pop_ready_upload(1000).expect("pending upload ready");
+        let item = state.next_ready_upload(1000).expect("pending upload ready");
 
         (state, item)
     }
@@ -237,7 +250,7 @@ mod tests {
         assert_eq!(result.as_ref().expect("acknowledged upload"), &UploadStatus::Stored);
 
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
-        assert!(state.upload_queue.is_empty());
+        assert!(state.uploads.pending.is_empty());
         assert_eq!(message, "Stored new mail Persistent.Mail.123");
 
         let request = server.await.expect("API task");
@@ -264,7 +277,7 @@ mod tests {
 
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
         assert_eq!(message, "Skipped mail Persistent.Mail.123 (ID already stored)");
-        assert!(state.upload_queue.is_empty());
+        assert!(state.uploads.pending.is_empty());
     }
 
     #[tokio::test]
@@ -296,14 +309,14 @@ mod tests {
 
             let message =
                 apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
-            assert!(state.pop_ready_upload(2999).is_none());
+            assert!(state.next_ready_upload(2999).is_none());
 
             let retry =
-                state.pop_ready_upload(3000).expect("invalid acknowledgement remains pending");
+                state.next_ready_upload(3000).expect("invalid acknowledgement remains pending");
             assert_eq!(retry.path, "Persistent.Mail.123");
             assert_eq!(retry.attempts, 1);
             assert!(message.starts_with("Failed to upload"));
-            assert!(state.api_backoff_until_ms.is_none());
+            assert!(state.uploads.api_backoff_until_ms.is_none());
         }
     }
 
@@ -321,7 +334,7 @@ mod tests {
         assert!(matches!(&result, Err(UploadApiError::Protocol { .. })));
 
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
-        assert!(state.pop_ready_upload(3000).is_some());
+        assert!(state.next_ready_upload(3000).is_some());
         assert!(message.contains("invalid upload acknowledgement"));
     }
 
@@ -354,8 +367,8 @@ mod tests {
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
         server.await.expect("API task");
-        assert!(state.pop_ready_upload(2999).is_none());
-        assert!(state.pop_ready_upload(3000).is_some());
+        assert!(state.next_ready_upload(2999).is_none());
+        assert!(state.next_ready_upload(3000).is_some());
         assert!(message.contains("upload request failed"));
     }
 
@@ -373,9 +386,9 @@ mod tests {
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
         server.await.expect("API task");
-        assert!(state.pop_ready_upload(3000).is_some());
+        assert!(state.next_ready_upload(3000).is_some());
         assert!(message.contains("clamav scan failed: unavailable"));
-        assert!(state.api_backoff_until_ms.is_none());
+        assert!(state.uploads.api_backoff_until_ms.is_none());
     }
 
     #[tokio::test]
@@ -393,8 +406,8 @@ mod tests {
 
         server.await.expect("API task");
         assert_eq!(state.rate_limit_remaining_ms(1000), Some(7000));
-        assert!(state.pop_ready_upload(7999).is_none());
-        assert!(state.pop_ready_upload(8000).is_some());
+        assert!(state.next_ready_upload(7999).is_none());
+        assert!(state.next_ready_upload(8000).is_some());
         assert_eq!(message, "Rate limited by API (429). Pausing uploads for 7s.");
     }
 
@@ -413,7 +426,7 @@ mod tests {
 
         server.await.expect("API task");
         assert_eq!(state.rate_limit_remaining_ms(1000), Some(2000));
-        assert!(state.pop_ready_upload(3000).is_some());
+        assert!(state.next_ready_upload(3000).is_some());
     }
 
     #[tokio::test]
@@ -433,7 +446,7 @@ mod tests {
                 apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
             server.await.expect("API task");
-            assert!(state.upload_queue.is_empty());
+            assert!(state.uploads.pending.is_empty());
             assert!(message.starts_with("Failed to upload"));
             assert!(message.contains(reason));
         }
@@ -454,7 +467,7 @@ mod tests {
                 apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
             server.await.expect("API task");
-            assert_eq!(state.pop_ready_upload(3000).is_some(), retryable);
+            assert_eq!(state.next_ready_upload(3000).is_some(), retryable);
             assert!(message.contains("could not read error response"));
         }
     }

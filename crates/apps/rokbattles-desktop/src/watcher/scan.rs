@@ -245,7 +245,7 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
                 }
                 let path = dir_path.join(format!("Persistent.Mail.{id}"));
                 let key = path.to_string_lossy().to_string();
-                let Some(existing) = state.store.entries.get(&key).cloned() else {
+                let Some(existing) = state.discovered.get(&key).cloned() else {
                     continue;
                 };
 
@@ -261,12 +261,12 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
                     continue;
                 }
                 queued += 1;
-                state.store.entries.insert(key.clone(), sig.clone());
-                state.store_dirty_updates += 1;
+                state.discovered.insert(key.clone(), sig.clone());
                 state.enqueue_upload(QueuedUpload {
                     path: key,
-                    sig,
+                    sig: Some(sig),
                     attempts: 0,
+                    last_error: None,
                     not_before_ms: Some(now_ms.saturating_add(file_changed_delay_ms)),
                 });
             }
@@ -276,7 +276,7 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
     did_refresh
 }
 
-pub(crate) fn next_file(app: &AppHandle, state: &mut WatcherState) -> Option<QueuedUpload> {
+pub(crate) fn next_file(state: &mut WatcherState) -> Option<QueuedUpload> {
     for _ in 0..state.config.scan_budget_per_tick {
         let (scan, _best_id) = state
             .scans
@@ -288,33 +288,22 @@ pub(crate) fn next_file(app: &AppHandle, state: &mut WatcherState) -> Option<Que
         let path = scan.path_for_id(id);
         let key = path.to_string_lossy().to_string();
 
-        if state.store.entries.contains_key(&key) {
+        if state.is_acknowledged(&key) || state.discovered.contains_key(&key) {
             continue;
         }
 
-        let meta = match fs::metadata(&path) {
-            Ok(m) => m,
-            Err(_) => continue,
-        };
-        let sig = match file_sig(&meta) {
-            Ok(s) => s,
-            Err(_) => continue,
-        };
+        // Discovery must remain recoverable even if metadata is temporarily unavailable.
+        let sig = fs::metadata(&path).ok().and_then(|meta| file_sig(&meta).ok());
 
-        // The upload stage reads and decodes file contents; discovery records only metadata so
-        // newly found files are not read twice.
-        state.store.entries.insert(key, sig.clone());
-        state.store_dirty_updates += 1;
-        state.maybe_flush_store(app);
         return Some(QueuedUpload {
             path: path.to_string_lossy().to_string(),
             sig,
             attempts: 0,
+            last_error: None,
             not_before_ms: None,
         });
     }
 
-    state.maybe_flush_store(app);
     None
 }
 
@@ -358,30 +347,24 @@ pub(crate) fn apply_fs_event(state: &mut WatcherState, path: PathBuf, now_ms: u1
         return;
     };
 
-    let meta = match fs::metadata(&path) {
-        Ok(m) => m,
-        Err(_) => return,
+    let sig = match fs::metadata(&path) {
+        Ok(meta) if !meta.is_file() => return,
+        Ok(meta) => file_sig(&meta).ok(),
+        Err(_) => None,
     };
-    if !meta.is_file() {
-        return;
-    }
-    let sig = match file_sig(&meta) {
-        Ok(s) => s,
-        Err(_) => return,
-    };
-
     let key = path.to_string_lossy().to_string();
-    if let Some(existing) = state.store.entries.get(&key)
-        && *existing == sig
+
+    if let Some(sig) = &sig
+        && state.discovered.get(&key) == Some(sig)
     {
         return;
     }
-    state.store.entries.insert(key.clone(), sig.clone());
-    state.store_dirty_updates += 1;
+
     state.enqueue_upload(QueuedUpload {
         path: key,
         sig,
         attempts: 0,
+        last_error: None,
         not_before_ms: Some(now_ms.saturating_add(state.config.file_retry_delay_ms)),
     });
 

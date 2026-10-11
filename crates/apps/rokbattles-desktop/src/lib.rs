@@ -14,10 +14,7 @@ use tauri::{
     tray::{MouseButton, MouseButtonState, TrayIconEvent},
 };
 
-use crate::{
-    watcher::{delete_processed, delete_upload_queue},
-    watcher_manager::WatcherManager,
-};
+use crate::{watcher::reset_upload_state, watcher_manager::WatcherManager};
 
 pub(crate) fn is_flatpak() -> bool {
     cfg!(target_os = "linux") && Path::new("/.flatpak-info").exists()
@@ -337,10 +334,12 @@ mod watcher_commands {
     pub(super) async fn reprocess_all(app: AppHandle) -> Result<(), String> {
         let watcher = app.state::<WatcherManager>();
         watcher.stop(&app).await;
-        delete_processed(&app).map_err(|e| e.to_string())?;
-        delete_upload_queue(&app).map_err(|e| e.to_string())?;
+
+        reset_upload_state(&app).map_err(|e| e.to_string())?;
+
         watcher.start(&app).await;
         tray::refresh_tray_menu(&app, watcher.is_paused());
+
         Ok(())
     }
 

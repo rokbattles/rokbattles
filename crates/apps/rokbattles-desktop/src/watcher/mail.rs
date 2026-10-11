@@ -9,6 +9,14 @@ pub(crate) fn parse_rok_mail_id(filename: &str) -> Option<u128> {
     rest.parse::<u128>().ok()
 }
 
+/// Use the exact numeric ID sent to ingress; leading zeroes are not interchangeable IDs.
+pub(crate) fn mail_id_for_path(path: &str) -> Option<&str> {
+    let name = Path::new(path).file_name()?.to_str()?;
+    parse_rok_mail_id(name)?;
+
+    name.strip_prefix("Persistent.Mail.")
+}
+
 /// Extract a non-empty file name for API uploads.
 pub(crate) fn file_name_for_upload(path: &Path) -> Option<String> {
     path.file_name().and_then(|s| s.to_str()).filter(|name| !name.is_empty()).map(str::to_string)
