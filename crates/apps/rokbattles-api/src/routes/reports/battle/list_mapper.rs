@@ -18,6 +18,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "metadata.server_id",
         "metadata.kvk",
         "metadata.mail_role",
+        "metadata.schema",
         "sender.supreme_strife.battle_id",
         "sender.supreme_strife.team_id",
         "timeline.start_timestamp",
