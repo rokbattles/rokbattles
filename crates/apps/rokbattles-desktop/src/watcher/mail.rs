@@ -1,6 +1,9 @@
 use std::path::Path;
 
-/// Parse the numeric mail id from a RoK mail filename.
+/// Parses the suffix of `Persistent.Mail.<id>` as a `u128`.
+///
+/// Only ASCII digits are accepted. Use [`mail_id_for_path`] for ingress identity,
+/// where leading zeroes must be preserved.
 pub(crate) fn parse_rok_mail_id(filename: &str) -> Option<u128> {
     let rest = filename.strip_prefix("Persistent.Mail.")?;
     if rest.is_empty() || !rest.bytes().all(|b| b.is_ascii_digit()) {
@@ -9,7 +12,10 @@ pub(crate) fn parse_rok_mail_id(filename: &str) -> Option<u128> {
     rest.parse::<u128>().ok()
 }
 
-/// Use the exact numeric ID sent to ingress; leading zeroes are not interchangeable IDs.
+/// Returns the validated mail ID from a path without changing its spelling.
+///
+/// For example, `Persistent.Mail.001` returns `"001"`, which ingress treats as
+/// distinct from `"1"`.
 pub(crate) fn mail_id_for_path(path: &str) -> Option<&str> {
     let name = Path::new(path).file_name()?.to_str()?;
     parse_rok_mail_id(name)?;
@@ -17,7 +23,9 @@ pub(crate) fn mail_id_for_path(path: &str) -> Option<&str> {
     name.strip_prefix("Persistent.Mail.")
 }
 
-/// Extract a non-empty file name for API uploads.
+/// Returns a non-empty UTF-8 filename for an upload.
+///
+/// This does not validate the mail ID; use [`mail_id_for_path`] for that check.
 pub(crate) fn file_name_for_upload(path: &Path) -> Option<String> {
     path.file_name().and_then(|s| s.to_str()).filter(|name| !name.is_empty()).map(str::to_string)
 }

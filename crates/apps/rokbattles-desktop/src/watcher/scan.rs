@@ -1,3 +1,10 @@
+//! Incremental directory scans that recover from missing filesystem notifications.
+//!
+//! Each directory retains its iterator between batches and gets another pass after
+//! completion. Directories take turns so a large backlog cannot starve other caches.
+//! Notification errors or queue overflow request another pass without discarding
+//! progress through the current one. Discovery does not assume mail IDs arrive in order.
+
 use std::{
     fs,
     path::PathBuf,
@@ -16,6 +23,7 @@ use super::{
     store::{QueuedUpload, file_sig},
 };
 
+/// Progress through one watched directory, including any requested follow-up pass.
 #[derive(Debug)]
 pub(crate) struct DirScan {
     pub(crate) dir: PathBuf,
@@ -129,6 +137,10 @@ pub(crate) fn request_reconciliation(state: &mut WatcherState, now: Instant) {
     }
 }
 
+/// Processes one batch from the next directory whose scan is due or in progress.
+///
+/// Returns `false` when no directory is ready. Entry errors are reported after
+/// discovering the readable entries in the batch, preserving progress for the next call.
 pub(crate) async fn reconcile_next_directory(
     state: &mut WatcherState,
     now: Instant,
@@ -220,7 +232,8 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         return;
     }
 
-    // Events and reconciliation both accept only immediate regular files in watched directories.
+    // Reject known non-regular files. If metadata is unavailable, upload preparation
+    // checks the source again before reading it.
     let sig = match fs::symlink_metadata(&path) {
         Ok(meta) if !meta.is_file() => return,
         Ok(meta) => file_sig(&meta).ok(),

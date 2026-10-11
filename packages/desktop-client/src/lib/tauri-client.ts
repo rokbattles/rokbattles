@@ -13,6 +13,7 @@ export type AppSettings = {
 export type DiscoverMailcacheResult = {
   added_dirs: string[];
   already_watched_dirs: string[];
+  incomplete: boolean;
   message: string;
 };
 

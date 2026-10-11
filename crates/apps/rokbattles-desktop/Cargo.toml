@@ -6,12 +6,9 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+# A distinct library name avoids collisions with the binary's Windows debug symbols.
+# See https://github.com/rust-lang/cargo/issues/8519.
 name = "rokbattles_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 doctest = false
@@ -32,6 +29,12 @@ rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
 tauri-plugin-updater.workspace = true
 notify.workspace = true
 tempfile.workspace = true
+
+[target.'cfg(target_os = "windows")'.dependencies]
+winreg = "0.55.0"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+yaml_serde.workspace = true
 
 [target.'cfg(unix)'.dependencies]
 libc.workspace = true

@@ -1,3 +1,9 @@
+//! Update checks and downloads, with installation coordinated by the watcher manager.
+//!
+//! Network requests have deadlines and are cancelled when exit is requested.
+//! Installation waits for the watcher to finish so its pending uploads can be
+//! recovered after restart. Flatpak packages use external updates instead.
+
 use std::{future::Future, time::Duration};
 
 use anyhow::Context;

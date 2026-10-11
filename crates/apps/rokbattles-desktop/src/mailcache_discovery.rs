@@ -1,64 +1,103 @@
-#[cfg(any(target_os = "windows", target_os = "macos"))]
-use std::collections::BTreeSet;
-#[cfg(any(test, target_os = "windows", target_os = "macos"))]
-use std::path::PathBuf;
-#[cfg(any(test, target_os = "windows"))]
+//! Finds mail caches in common installation layouts and platform-specific hints.
+//!
+//! Windows searches standard locations, registry install paths, and a limited
+//! directory fallback. macOS searches application containers. Linux searches Wine
+//! prefixes and locations described by Steam, Lutris, and Bottles.
+//!
+//! A candidate must contain a regular file named `Persistent.Mail.<digits>`;
+//! discovery does not decode mail or confirm that an empty cache belongs to the game.
+//! Search limits can produce partial results. Deadlines are checked between blocking
+//! operations and cannot interrupt a stalled filesystem or registry call.
+
+#[cfg(target_os = "linux")]
+mod linux;
+#[cfg(target_os = "windows")]
+mod windows;
+
+#[cfg(any(test, target_os = "windows", target_os = "linux"))]
+use std::collections::VecDeque;
+#[cfg(any(test, target_os = "windows", target_os = "macos", target_os = "linux"))]
 use std::{
-    collections::VecDeque,
+    collections::BTreeSet,
+    io,
     time::{Duration, Instant},
 };
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
-#[cfg(any(test, target_os = "windows"))]
-const WINDOWS_MAILCACHE_SUFFIX_LOWER: &str = "\\rise of kingdoms game\\save\\mailcache";
-
-#[cfg(any(test, target_os = "windows"))]
-const WINDOWS_BASE_DIRS: &[&str] = &["Program Files (x86)", "Program Files"];
-#[cfg(any(test, target_os = "windows"))]
-const MAX_WINDOWS_BASE_CHILDREN: usize = 1024;
-#[cfg(any(test, target_os = "windows"))]
-const MAX_WINDOWS_BASE_GRANDCHILDREN: usize = 128;
-#[cfg(any(test, target_os = "windows"))]
-const MAX_WINDOWS_FALLBACK_DIRS: usize = 3500;
-#[cfg(any(test, target_os = "windows"))]
-const MAX_WINDOWS_FALLBACK_CHILDREN_PER_DIR: usize = 256;
-#[cfg(any(test, target_os = "windows"))]
-const MAX_WINDOWS_FALLBACK_DURATION: Duration = Duration::from_secs(2);
-
-#[cfg(any(test, target_os = "macos"))]
-const MAX_MACOS_CONTAINERS: usize = 2048;
-#[cfg(any(test, target_os = "windows", target_os = "macos"))]
-const MAX_MAILCACHE_FILES_TO_CHECK: usize = 4096;
-
-#[cfg(any(test, target_os = "windows"))]
-pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
-    let normalized = path.trim().replace('/', "\\");
-    if let Some(rest) = normalized.strip_prefix("\\\\?\\UNC\\") {
-        return format!("\\\\{}", rest);
-    }
-    if let Some(rest) = normalized.strip_prefix("\\\\?\\") {
-        return rest.to_string();
-    }
-    normalized
+/// Validated cache paths found within the supported layouts and search limits.
+#[derive(Debug, Default)]
+pub(crate) struct Discovery {
+    pub(crate) dirs: Vec<PathBuf>,
+    /// A search limit, unreadable location, or invalid metadata prevented a full search.
+    ///
+    /// `false` does not guarantee that every installation on the machine was found.
+    pub(crate) incomplete: bool,
 }
 
-pub(crate) fn discover_mailcache_dirs() -> anyhow::Result<Vec<String>> {
+/// Searches for mail caches synchronously, returning any matches even if a search is incomplete.
+///
+/// Call from a blocking worker through [`crate::directory_operations::DirectoryOperations`].
+pub(crate) fn discover_mailcache_dirs() -> Discovery {
     #[cfg(target_os = "windows")]
     {
-        return Ok(normalize_and_dedupe(discover_windows_mailcache_dirs()));
+        // Probe drives within the search so failures and limits contribute to its result.
+        let roots = (b'A'..=b'Z')
+            .map(|letter| PathBuf::from(format!("{}:\\", char::from(letter))))
+            .collect::<Vec<_>>();
+
+        let mut search = windows_search();
+        collect_windows_from_roots(&roots, &mut search, windows::collect_registered_installations);
+        let mut result = Discovery::default();
+        search.append_to(&mut result);
+        dedupe_results(&mut result);
+
+        return result;
     }
 
     #[cfg(target_os = "macos")]
     {
-        Ok(normalize_and_dedupe(discover_macos_mailcache_dirs()))
+        let mut bases = Vec::new();
+
+        if let Some(user_home) = std::env::var_os("HOME") {
+            bases.push(PathBuf::from(user_home).join("Library").join("Containers"));
+        }
+
+        bases.push(PathBuf::from("/Library/Containers"));
+
+        discover_macos_in_bases(&bases)
     }
 
-    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    #[cfg(target_os = "linux")]
     {
-        Ok(Vec::new())
+        linux::discover()
     }
+
+    #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "linux")))]
+    Discovery::default()
 }
 
+#[cfg(any(test, target_os = "windows"))]
+pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
+    let normalized = path.trim().replace('/', "\\");
+
+    if let Some(rest) = normalized.strip_prefix("\\\\?\\UNC\\") {
+        return format!("\\\\{rest}");
+    }
+
+    if let Some(rest) = normalized.strip_prefix("\\\\?\\") {
+        return rest.to_string();
+    }
+
+    normalized
+}
+
+/// Returns a key for deduplicating directory aliases, falling back to the supplied path.
+///
+/// Canonicalization performs blocking filesystem I/O. The key is separate from the
+/// path displayed or saved for the user; Windows keys also normalize case and prefixes.
 pub(crate) fn path_identity_key(path: &Path) -> String {
     let normalized = fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
     let text = normalized.to_string_lossy().to_string();
@@ -69,159 +108,289 @@ pub(crate) fn path_identity_key(path: &Path) -> String {
     }
 
     #[cfg(not(target_os = "windows"))]
-    {
-        text
-    }
+    text
 }
 
-#[cfg(any(target_os = "windows", target_os = "macos"))]
-fn normalize_and_dedupe(paths: Vec<PathBuf>) -> Vec<String> {
-    let mut set = BTreeSet::new();
-    for path in paths {
-        let normalized = fs::canonicalize(&path).unwrap_or(path);
-        let text = normalized.to_string_lossy().to_string();
-        #[cfg(target_os = "windows")]
-        let text = normalize_windows_path_for_display(&text);
-        set.insert(text);
-    }
-    set.into_iter().collect()
+#[cfg(any(test, target_os = "windows", target_os = "macos", target_os = "linux"))]
+struct Search {
+    deadline: Instant,
+    remaining_operations: usize,
+    checked: BTreeSet<PathBuf>,
+    found: BTreeSet<PathBuf>,
+    incomplete: bool,
 }
 
-#[cfg(target_os = "windows")]
-fn discover_windows_mailcache_dirs() -> Vec<PathBuf> {
-    discover_windows_from_roots(&windows_drive_roots())
-}
-
-#[cfg(target_os = "macos")]
-fn discover_macos_mailcache_dirs() -> Vec<PathBuf> {
-    let mut bases = Vec::new();
-    if let Some(home) = std::env::var_os("HOME") {
-        bases.push(PathBuf::from(home).join("Library").join("Containers"));
-    }
-    bases.push(PathBuf::from("/Library/Containers"));
-    discover_macos_in_bases(&bases)
-}
-
-#[cfg(any(test, target_os = "windows"))]
-fn discover_windows_from_roots(roots: &[PathBuf]) -> Vec<PathBuf> {
-    if roots.is_empty() {
-        return Vec::new();
-    }
-
-    let mut candidates = Vec::new();
-    for root in roots {
-        for base in WINDOWS_BASE_DIRS {
-            collect_windows_candidates_from_base(&root.join(base), &mut candidates);
+#[cfg(any(test, target_os = "windows", target_os = "macos", target_os = "linux"))]
+impl Search {
+    fn new() -> Self {
+        Self {
+            deadline: Instant::now() + Duration::from_secs(2),
+            remaining_operations: 3500,
+            checked: BTreeSet::new(),
+            found: BTreeSet::new(),
+            incomplete: false,
         }
     }
 
-    let mut valid = candidates
-        .into_iter()
-        .filter(|path| is_valid_windows_mailcache_dir(path))
-        .collect::<Vec<_>>();
-
-    if valid.is_empty() {
-        let mut fallback_candidates = Vec::new();
-        for root in roots {
-            collect_windows_candidates_fallback(root, &mut fallback_candidates);
+    fn within_deadline(&mut self) -> bool {
+        if Instant::now() >= self.deadline {
+            self.incomplete = true;
+            return false;
         }
-        valid.extend(
-            fallback_candidates.into_iter().filter(|path| is_valid_windows_mailcache_dir(path)),
-        );
+
+        true
     }
 
-    valid
-}
+    fn read_dir(&mut self, path: &Path) -> Option<fs::ReadDir> {
+        if !self.within_deadline() || self.remaining_operations == 0 {
+            self.incomplete = true;
+            return None;
+        }
 
-#[cfg(any(test, target_os = "windows"))]
-fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
-    if !base.is_dir() {
-        return;
+        self.remaining_operations -= 1;
+
+        match fs::read_dir(path) {
+            Ok(entries) => Some(entries),
+            Err(error) => {
+                // Missing optional layouts and paths that disappeared are not unreadable installs.
+                if !matches!(error.kind(), io::ErrorKind::NotFound | io::ErrorKind::NotADirectory) {
+                    self.incomplete = true;
+                }
+
+                None
+            }
+        }
     }
 
-    out.push(base.join("Rise of Kingdoms Game").join("save").join("mailcache"));
-
-    let Ok(read_dir) = fs::read_dir(base) else {
-        return;
-    };
-
-    for entry in read_dir.flatten().take(MAX_WINDOWS_BASE_CHILDREN) {
-        let Ok(file_type) = entry.file_type() else {
-            continue;
+    fn entries(&mut self, path: &Path, limit: usize) -> Vec<fs::DirEntry> {
+        let Some(mut entries) = self.read_dir(path) else {
+            return Vec::new();
         };
-        if !file_type.is_dir() {
-            continue;
-        }
-        let child = entry.path();
-        out.push(child.join("Rise of Kingdoms Game").join("save").join("mailcache"));
+        let mut collected = Vec::new();
 
-        // Handle installs with a nested directory before "Rise of Kingdoms Game".
-        let Ok(nested_read_dir) = fs::read_dir(&child) else {
-            continue;
+        // Errors consume the budget too; flatten().take(limit) can hide an unbounded error stream.
+        for index in 0..=limit {
+            if !self.within_deadline() {
+                break;
+            }
+
+            let Some(entry) = entries.next() else {
+                break;
+            };
+
+            if index == limit {
+                self.incomplete = true;
+                break;
+            }
+
+            match entry {
+                Ok(entry) => collected.push(entry),
+                Err(_) => self.incomplete = true,
+            }
+        }
+
+        collected
+    }
+
+    fn child_dirs(&mut self, path: &Path, limit: usize) -> Vec<PathBuf> {
+        let mut dirs = Vec::new();
+
+        for entry in self.entries(path, limit) {
+            if !self.within_deadline() {
+                break;
+            }
+
+            match entry.file_type() {
+                Ok(kind) if kind.is_dir() && !kind.is_symlink() => dirs.push(entry.path()),
+                Ok(_) => {}
+                Err(_) => self.incomplete = true,
+            }
+        }
+
+        dirs
+    }
+
+    fn check_mailcache(&mut self, path: PathBuf) {
+        if !self.checked.insert(path.clone()) {
+            return;
+        }
+
+        let Some(mut entries) = self.read_dir(&path) else {
+            return;
         };
-        for nested_entry in nested_read_dir.flatten().take(MAX_WINDOWS_BASE_GRANDCHILDREN) {
-            let Ok(nested_type) = nested_entry.file_type() else {
+
+        // Stop as soon as validity is established, even in a cache with many reports.
+        for index in 0..=4096 {
+            if !self.within_deadline() {
+                return;
+            }
+
+            let Some(entry) = entries.next() else {
+                return;
+            };
+
+            if index == 4096 {
+                self.incomplete = true;
+                return;
+            }
+
+            let Ok(entry) = entry else {
+                self.incomplete = true;
                 continue;
             };
-            if !nested_type.is_dir() {
+
+            if !entry.file_name().to_str().is_some_and(is_persistent_mail_filename) {
                 continue;
             }
-            out.push(
-                nested_entry.path().join("Rise of Kingdoms Game").join("save").join("mailcache"),
-            );
+
+            match entry.file_type() {
+                Ok(kind) if kind.is_file() => {
+                    self.found.insert(path);
+                    return;
+                }
+                Ok(_) => {}
+                Err(_) => self.incomplete = true,
+            }
+        }
+    }
+
+    fn append_to(self, result: &mut Discovery) {
+        result.dirs.extend(self.found);
+        result.incomplete |= self.incomplete;
+    }
+}
+
+#[cfg(any(test, target_os = "windows", target_os = "macos", target_os = "linux"))]
+fn dedupe_results(result: &mut Discovery) {
+    let mut seen = BTreeSet::new();
+    result.dirs.retain(|path| seen.insert(path_identity_key(path)));
+    result.dirs.sort();
+}
+
+#[cfg(any(test, target_os = "windows"))]
+fn windows_search() -> Search {
+    let mut search = Search::new();
+    search.deadline = Instant::now() + Duration::from_secs(8);
+    search.remaining_operations = 14_000;
+    search
+}
+
+#[cfg(test)]
+fn discover_windows_from_roots(roots: &[PathBuf]) -> Discovery {
+    let mut search = windows_search();
+    collect_windows_from_roots(roots, &mut search, |_| {});
+    let mut result = Discovery::default();
+    search.append_to(&mut result);
+    dedupe_results(&mut result);
+    result
+}
+
+#[cfg(any(test, target_os = "windows"))]
+fn collect_windows_from_roots(
+    roots: &[PathBuf],
+    search: &mut Search,
+    collect_installation_hints: impl FnOnce(&mut Search),
+) {
+    // Check direct standard paths on every drive before expanding directory trees,
+    // so one large tree cannot exhaust the budget before another drive is checked.
+    for root in roots {
+        if !search.within_deadline() || search.remaining_operations == 0 {
+            search.incomplete = true;
+            return;
+        }
+
+        for base in ["Program Files (x86)", "Program Files"] {
+            check_install_location(&root.join(base), search);
+        }
+    }
+
+    for root in roots {
+        if !search.within_deadline() || search.remaining_operations == 0 {
+            search.incomplete = true;
+            return;
+        }
+
+        for base in ["Program Files (x86)", "Program Files"] {
+            collect_windows_candidates_from_base(&root.join(base), search);
+        }
+    }
+
+    // Unrelated installer metadata must not exhaust the budget before standard probes.
+    collect_installation_hints(search);
+
+    for root in roots {
+        if !search.within_deadline() || search.remaining_operations == 0 {
+            search.incomplete = true;
+            return;
+        }
+
+        collect_windows_candidates_fallback(root, search);
+    }
+}
+
+#[cfg(any(test, target_os = "windows", target_os = "linux"))]
+fn check_install_location(location: &Path, search: &mut Search) {
+    search.check_mailcache(location.join("save").join("mailcache"));
+    search.check_mailcache(location.join("Rise of Kingdoms Game").join("save").join("mailcache"));
+}
+
+#[cfg(any(test, target_os = "windows", target_os = "linux"))]
+fn collect_windows_candidates_from_base(base: &Path, search: &mut Search) {
+    check_install_location(base, search);
+
+    for child in search.child_dirs(base, 1024) {
+        check_install_location(&child, search);
+
+        // Preserve the extra parent directory used by regional and nested installations.
+        for nested in search.child_dirs(&child, 128) {
+            check_install_location(&nested, search);
         }
     }
 }
 
-#[cfg(any(test, target_os = "windows"))]
-fn collect_windows_candidates_fallback(root: &Path, out: &mut Vec<PathBuf>) {
-    if !root.is_dir() {
-        return;
-    }
-
-    let started = Instant::now();
-    let mut visited = 0usize;
-    let mut queue = VecDeque::new();
-    queue.push_back(root.to_path_buf());
+#[cfg(any(test, target_os = "windows", target_os = "linux"))]
+fn collect_windows_candidates_fallback(root: &Path, search: &mut Search) {
+    let mut queue = VecDeque::from([root.to_path_buf()]);
+    let mut scheduled = 1;
 
     while let Some(dir) = queue.pop_front() {
-        if visited >= MAX_WINDOWS_FALLBACK_DIRS
-            || started.elapsed() >= MAX_WINDOWS_FALLBACK_DURATION
-        {
+        if !search.within_deadline() || search.remaining_operations == 0 {
+            search.incomplete = true;
             break;
         }
-        visited = visited.saturating_add(1);
 
-        let Ok(read_dir) = fs::read_dir(&dir) else {
-            continue;
-        };
-
-        for entry in read_dir.flatten().take(MAX_WINDOWS_FALLBACK_CHILDREN_PER_DIR) {
-            let Ok(file_type) = entry.file_type() else {
-                continue;
-            };
-            if !file_type.is_dir() || file_type.is_symlink() {
-                continue;
-            }
-
-            let child = entry.path();
+        for child in search.child_dirs(&dir, 256) {
             let Some(name) = child.file_name().and_then(|name| name.to_str()) else {
                 continue;
             };
 
             if name.eq_ignore_ascii_case("Rise of Kingdoms Game") {
-                out.push(child.join("save").join("mailcache"));
+                let mailcache = child.join("save").join("mailcache");
+
+                if path_matches_windows_mailcache_suffix(&mailcache) {
+                    search.check_mailcache(mailcache);
+                }
+
                 continue;
             }
 
-            if !should_skip_windows_dir(name) {
-                queue.push_back(child);
+            if should_skip_windows_dir(name) {
+                continue;
             }
+
+            // Limit scheduled directories too, so the queue cannot grow without bound.
+            if scheduled >= 3500 {
+                search.incomplete = true;
+                continue;
+            }
+
+            queue.push_back(child);
+            scheduled += 1;
         }
     }
 }
 
-#[cfg(any(test, target_os = "windows"))]
+#[cfg(any(test, target_os = "windows", target_os = "linux"))]
 fn should_skip_windows_dir(name: &str) -> bool {
     let lower = name.to_ascii_lowercase();
     matches!(
@@ -239,49 +408,33 @@ fn should_skip_windows_dir(name: &str) -> bool {
     )
 }
 
-#[cfg(any(test, target_os = "windows"))]
-fn is_valid_windows_mailcache_dir(path: &Path) -> bool {
-    path_matches_windows_mailcache_suffix(path) && is_valid_mailcache_dir(path)
-}
-
-#[cfg(any(test, target_os = "windows"))]
+#[cfg(any(test, target_os = "windows", target_os = "linux"))]
 fn path_matches_windows_mailcache_suffix(path: &Path) -> bool {
     let normalized = path.to_string_lossy().replace('/', "\\").to_ascii_lowercase();
-    normalized.ends_with(WINDOWS_MAILCACHE_SUFFIX_LOWER)
+    normalized.ends_with("\\rise of kingdoms game\\save\\mailcache")
 }
 
 #[cfg(any(test, target_os = "macos"))]
-fn discover_macos_in_bases(bases: &[PathBuf]) -> Vec<PathBuf> {
-    let mut candidates = Vec::new();
+fn discover_macos_in_bases(bases: &[PathBuf]) -> Discovery {
+    let mut result = Discovery::default();
+
     for base in bases {
-        if !base.is_dir() {
-            continue;
-        }
+        let mut search = Search::new();
 
-        let Ok(read_dir) = fs::read_dir(base) else {
-            continue;
-        };
+        for container in search.child_dirs(base, 2048) {
+            let candidate = container.join("Data").join("Documents").join("mailcache");
 
-        for entry in read_dir.flatten().take(MAX_MACOS_CONTAINERS) {
-            let Ok(file_type) = entry.file_type() else {
-                continue;
-            };
-            if !file_type.is_dir() {
-                continue;
-            }
-
-            let candidate = entry.path().join("Data").join("Documents").join("mailcache");
-            if is_valid_macos_mailcache_dir(&candidate) {
-                candidates.push(candidate);
+            if path_matches_macos_container_pattern(&candidate) {
+                search.check_mailcache(candidate);
             }
         }
+
+        search.append_to(&mut result);
     }
-    candidates
-}
 
-#[cfg(any(test, target_os = "macos"))]
-fn is_valid_macos_mailcache_dir(path: &Path) -> bool {
-    path_matches_macos_container_pattern(path) && is_valid_mailcache_dir(path)
+    dedupe_results(&mut result);
+
+    result
 }
 
 #[cfg(any(test, target_os = "macos"))]
@@ -290,54 +443,13 @@ fn path_matches_macos_container_pattern(path: &Path) -> bool {
     normalized.ends_with("/Data/Documents/mailcache") && normalized.contains("/Library/Containers/")
 }
 
-#[cfg(any(test, target_os = "windows", target_os = "macos"))]
-fn is_valid_mailcache_dir(path: &Path) -> bool {
-    if !path.is_dir() {
-        return false;
-    }
-    dir_has_persistent_mail_files(path)
-}
-
-#[cfg(any(test, target_os = "windows", target_os = "macos"))]
-fn dir_has_persistent_mail_files(path: &Path) -> bool {
-    let Ok(read_dir) = fs::read_dir(path) else {
-        return false;
-    };
-    for entry in read_dir.flatten().take(MAX_MAILCACHE_FILES_TO_CHECK) {
-        let Ok(file_type) = entry.file_type() else {
-            continue;
-        };
-        if !file_type.is_file() {
-            continue;
-        }
-        let Some(name) = entry.file_name().to_str().map(str::to_owned) else {
-            continue;
-        };
-        if is_persistent_mail_filename(&name) {
-            return true;
-        }
-    }
-    false
-}
-
-#[cfg(any(test, target_os = "windows", target_os = "macos"))]
+#[cfg(any(test, target_os = "windows", target_os = "macos", target_os = "linux"))]
 fn is_persistent_mail_filename(name: &str) -> bool {
     let Some(rest) = name.strip_prefix("Persistent.Mail.") else {
         return false;
     };
-    !rest.is_empty() && rest.bytes().all(|byte| byte.is_ascii_digit())
-}
 
-#[cfg(target_os = "windows")]
-fn windows_drive_roots() -> Vec<PathBuf> {
-    let mut roots = Vec::new();
-    for letter in b'A'..=b'Z' {
-        let root = PathBuf::from(format!("{}:\\", letter as char));
-        if root.exists() {
-            roots.push(root);
-        }
-    }
-    roots
+    !rest.is_empty() && rest.bytes().all(|byte| byte.is_ascii_digit())
 }
 
 #[cfg(test)]
@@ -399,7 +511,7 @@ mod tests {
         fs::write(mailcache.join("Persistent.Mail.123"), b"test").expect("write file");
 
         let found = discover_windows_from_roots(&[temp.path().to_path_buf()]);
-        assert!(found.contains(&mailcache));
+        assert!(found.dirs.contains(&mailcache));
     }
 
     #[test]
@@ -427,8 +539,8 @@ mod tests {
             .expect("write nested kr file");
 
         let found = discover_windows_from_roots(&[temp.path().to_path_buf()]);
-        assert!(found.contains(&standard_mailcache));
-        assert!(found.contains(&nested_kr_mailcache));
+        assert!(found.dirs.contains(&standard_mailcache));
+        assert!(found.dirs.contains(&nested_kr_mailcache));
     }
 
     #[test]
@@ -449,7 +561,7 @@ mod tests {
         fs::write(deep_mailcache.join("Persistent.Mail.3"), b"test").expect("write deep file");
 
         let found = discover_windows_from_roots(&[temp.path().to_path_buf()]);
-        assert!(found.contains(&deep_mailcache));
+        assert!(found.dirs.contains(&deep_mailcache));
     }
 
     #[test]
@@ -465,7 +577,7 @@ mod tests {
         fs::write(mailcache.join("Persistent.Mail.42"), b"test").expect("write file");
 
         let found = discover_macos_in_bases(&[containers]);
-        assert_eq!(found, vec![mailcache]);
+        assert_eq!(found.dirs, vec![mailcache]);
     }
 
     #[test]
@@ -478,6 +590,140 @@ mod tests {
         fs::write(mailcache.join("README.txt"), b"test").expect("write file");
 
         let found = discover_macos_in_bases(&[containers]);
-        assert!(found.is_empty());
+        assert!(found.dirs.is_empty());
+    }
+
+    #[test]
+    fn mixed_standard_and_custom_installations_on_multiple_roots_are_all_returned() {
+        let temp = tempdir().expect("roots");
+        let roots = [temp.path().join("C"), temp.path().join("D")];
+        let expected = [
+            roots[0].join("Program Files/Rise of Kingdoms Game/save/mailcache"),
+            roots[0].join("Games/Rise of Kingdoms Game/save/mailcache"),
+            roots[1].join("Custom/Rise of Kingdoms Game/save/mailcache"),
+        ];
+        for cache in &expected {
+            fs::create_dir_all(cache).expect("cache directory");
+            fs::write(cache.join("Persistent.Mail.1"), b"fixture").expect("report");
+        }
+
+        let result = discover_windows_from_roots(&roots);
+        assert!(!result.incomplete);
+        assert_eq!(result.dirs.len(), expected.len());
+        for cache in expected {
+            assert!(result.dirs.contains(&cache));
+        }
+    }
+
+    #[test]
+    fn exhausted_budgets_preserve_found_directories_and_report_partial_search() {
+        let temp = tempdir().expect("cache");
+        fs::write(temp.path().join("Persistent.Mail.1"), b"fixture").expect("report");
+        let mut search = super::Search::new();
+        search.remaining_operations = 1;
+        search.check_mailcache(temp.path().to_path_buf());
+        search.child_dirs(&temp.path().join("another location"), 256);
+        let mut result = super::Discovery::default();
+        search.append_to(&mut result);
+
+        assert_eq!(result.dirs, vec![temp.path().to_path_buf()]);
+        assert!(result.incomplete);
+    }
+
+    #[test]
+    fn entry_and_time_limits_are_observable_without_discarding_results() {
+        let temp = tempdir().expect("entries");
+        for name in ["one", "two", "three"] {
+            fs::create_dir(temp.path().join(name)).expect("entry");
+        }
+        let mut search = super::Search::new();
+        assert_eq!(search.child_dirs(temp.path(), 2).len(), 2);
+        assert!(search.incomplete);
+
+        let mut search = super::Search::new();
+        search.deadline = std::time::Instant::now();
+        assert!(search.child_dirs(temp.path(), 10).is_empty());
+        assert!(search.incomplete);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn permission_failure_is_partial_and_does_not_hide_another_root() {
+        use std::os::unix::fs::PermissionsExt;
+        let temp = tempdir().expect("roots");
+        let denied = temp.path().join("denied");
+        let other = temp.path().join("other");
+        fs::create_dir(&denied).expect("denied root");
+        let cache = other.join("Games/Rise of Kingdoms Game/save/mailcache");
+        fs::create_dir_all(&cache).expect("cache");
+        fs::write(cache.join("Persistent.Mail.1"), b"fixture").expect("report");
+        fs::set_permissions(&denied, fs::Permissions::from_mode(0o0)).expect("restrict access");
+        let access_denied = fs::read_dir(&denied).is_err();
+        let result = discover_windows_from_roots(&[denied.clone(), other]);
+        fs::set_permissions(&denied, fs::Permissions::from_mode(0o700)).expect("restore access");
+
+        assert_eq!(result.dirs, vec![cache]);
+        if access_denied {
+            assert!(result.incomplete);
+        }
+    }
+
+    #[test]
+    fn multiple_roots_cannot_reset_the_shared_windows_budget() {
+        let temp = tempdir().expect("roots");
+        let cache = temp.path().join("second/Program Files/Rise of Kingdoms Game/save/mailcache");
+        fs::create_dir_all(&cache).expect("cache");
+        fs::write(cache.join("Persistent.Mail.1"), b"fixture").expect("report");
+        let roots = [temp.path().join("first"), temp.path().join("second")];
+        let mut search = super::windows_search();
+        search.remaining_operations = 1;
+        super::collect_windows_from_roots(&roots, &mut search, |_| {});
+
+        assert!(search.found.is_empty());
+        assert!(search.incomplete);
+        assert_eq!(search.remaining_operations, 0);
+
+        let mut search = super::windows_search();
+        search.deadline = std::time::Instant::now();
+        super::collect_windows_from_roots(&roots, &mut search, |_| {});
+        assert!(search.found.is_empty());
+        assert!(search.incomplete);
+    }
+
+    #[test]
+    fn exhausting_installation_metadata_cannot_hide_standard_caches() {
+        let temp = tempdir().expect("root");
+        let cache = temp.path().join("Program Files/Rise of Kingdoms Game/save/mailcache");
+        fs::create_dir_all(&cache).expect("cache");
+        fs::write(cache.join("Persistent.Mail.1"), b"fixture").expect("report");
+        let mut search = super::windows_search();
+
+        super::collect_windows_from_roots(&[temp.path().to_path_buf()], &mut search, |search| {
+            search.remaining_operations = 0;
+            search.incomplete = true;
+        });
+
+        assert!(search.found.contains(&cache));
+        assert!(search.incomplete);
+    }
+
+    #[test]
+    fn early_drive_expansion_cannot_hide_a_later_direct_standard_installation() {
+        let temp = tempdir().expect("roots");
+        let early = temp.path().join("C");
+        let later = temp.path().join("Z");
+        fs::create_dir_all(early.join("Program Files/Unrelated Application/Nested"))
+            .expect("early expansion");
+        let cache = later.join("Program Files/Rise of Kingdoms Game/save/mailcache");
+        fs::create_dir_all(&cache).expect("cache");
+        fs::write(cache.join("Persistent.Mail.1"), b"fixture").expect("report");
+        let mut search = super::windows_search();
+        search.remaining_operations = 12;
+
+        super::collect_windows_from_roots(&[early, later], &mut search, |_| {});
+
+        assert!(search.found.contains(&cache));
+        assert!(search.incomplete);
+        assert_eq!(search.remaining_operations, 0);
     }
 }

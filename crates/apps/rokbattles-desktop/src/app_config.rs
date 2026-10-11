@@ -1,3 +1,10 @@
+//! Settings snapshots shared by frontend commands and the watcher.
+//!
+//! [`ConfigStore`] serializes updates and caches the last successfully loaded or
+//! published configuration. Reads can fall back to that cache. Updates refuse to
+//! overwrite an unreadable or invalid existing file. Legacy directory arrays are
+//! read as configurations with default preferences.
+
 use std::{
     fs,
     io::{self, Write},
@@ -32,7 +39,10 @@ impl<'de> Deserialize<'de> for CloseBehavior {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub(crate) struct AppConfig {
-    // Absence is not permission to cancel recovered uploads, even after saving a preference.
+    /// Directories selected for scanning, or `None` if the selection is unknown.
+    ///
+    /// The watcher preserves recovered uploads when this is `None`. `Some(vec![])`
+    /// explicitly removes all watched directories and cancels their pending sources.
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -74,6 +84,12 @@ fn default_auto_start() -> bool {
     true
 }
 
+/// Reads and replaces settings while preserving the last valid configuration.
+///
+/// Updates publish a complete snapshot before updating the cache. On Unix, syncing
+/// the parent directory can fail after publication: the new settings are visible,
+/// but their durability is uncertain. A returned error therefore does not always
+/// mean that settings were left unchanged.
 pub(crate) struct ConfigStore {
     path: PathBuf,
     last_good: Mutex<Option<AppConfig>>,
@@ -108,6 +124,10 @@ impl ConfigStore {
         Ok(config)
     }
 
+    /// Reads the current settings or reports a load failure and returns a cached copy.
+    ///
+    /// A missing file returns defaults only before any valid configuration has been
+    /// cached. Other read failures return an error if there is no cached copy.
     pub(crate) fn read(
         &self,
         report_error: impl FnOnce(&anyhow::Error),
@@ -127,6 +147,10 @@ impl ConfigStore {
         }
     }
 
+    /// Edits freshly loaded settings while holding the settings lock.
+    ///
+    /// Use [`Self::update_dirs`] for edits that resolve filesystem paths. See
+    /// [`ConfigStore`] for errors that can occur after the new settings are visible.
     pub(crate) fn update<T>(&self, edit: impl FnOnce(&mut AppConfig) -> T) -> anyhow::Result<T> {
         let mut last_good =
             self.last_good.lock().map_err(|error| anyhow!("Settings lock poisoned: {error}"))?;
@@ -135,33 +159,70 @@ impl ConfigStore {
         let mut config = self.load(&mut last_good)?;
         let result = edit(&mut config);
 
-        let temporary = prepare_config(&self.path, &config)?;
-        temporary.persist(&self.path).context("Failed to replace settings")?;
-        *last_good = Some(config);
-
-        sync_config_directory(&self.path)?;
+        self.save(config, &mut last_good)?;
 
         Ok(result)
     }
 
+    /// Edits watched directories without holding the settings lock during `edit`.
+    ///
+    /// If another operation changes the directory selection, the edit is retried
+    /// against the new selection. The closure may run more than once and should
+    /// avoid side effects outside its directory list. Concurrent preference changes
+    /// are preserved. See [`ConfigStore`] for errors after publication.
     pub(crate) fn update_dirs<T>(
         &self,
-        edit: impl FnOnce(&mut Vec<String>) -> T,
+        mut edit: impl FnMut(&mut Vec<String>) -> T,
     ) -> anyhow::Result<T> {
-        self.update(|config| {
-            let had_saved_dirs = config.dirs.is_some();
-            let mut dirs = config.dirs.take().unwrap_or_default();
+        // Resolving paths may block on a disconnected drive. Never do that while
+        // holding the settings lock, which is also used by preferences and the watcher.
+        for _ in 0..3 {
+            let snapshot = {
+                let mut last_good = self
+                    .last_good
+                    .lock()
+                    .map_err(|error| anyhow!("Settings lock poisoned: {error}"))?;
+
+                self.load(&mut last_good)?.dirs
+            };
+            let mut dirs = snapshot.clone().unwrap_or_default();
             let result = edit(&mut dirs);
 
-            // An empty add/remove request cannot turn an unknown list into a deliberate removal.
-            if had_saved_dirs || !dirs.is_empty() {
-                config.dirs = Some(dirs);
+            let mut last_good = self
+                .last_good
+                .lock()
+                .map_err(|error| anyhow!("Settings lock poisoned: {error}"))?;
+            let mut current = self.load(&mut last_good)?;
+
+            if current.dirs != snapshot {
+                continue;
             }
 
-            result
-        })
+            // An empty edit must not turn an unknown selection into an explicit removal.
+            if snapshot.is_some() || !dirs.is_empty() {
+                current.dirs = Some(dirs);
+            }
+
+            self.save(current, &mut last_good)?;
+            return Ok(result);
+        }
+
+        Err(anyhow!("Watched directories changed during this operation. Please try again."))
     }
 
+    fn save(&self, config: AppConfig, last_good: &mut Option<AppConfig>) -> anyhow::Result<()> {
+        let temporary = prepare_config(&self.path, &config)?;
+        publish_config(temporary, &self.path).context("Failed to replace settings")?;
+        *last_good = Some(config);
+
+        sync_config_directory(&self.path)
+    }
+
+    /// Changes OS autostart registration and saves the corresponding preference.
+    ///
+    /// If applying the OS change or publishing settings fails, attempts to restore
+    /// the previous OS registration, which may differ from the saved preference.
+    /// A directory-sync failure after publication leaves both changes in place.
     pub(crate) fn set_auto_start(
         &self,
         enabled: bool,
@@ -185,9 +246,9 @@ impl ConfigStore {
             ));
         }
 
-        if let Err(error) = temporary.persist(&self.path) {
+        if let Err(error) = publish_config(temporary, &self.path) {
             return Err(restore_auto_start(
-                anyhow::Error::new(error).context("Failed to replace settings"),
+                error.context("Failed to replace settings"),
                 previous,
                 &apply,
             ));
@@ -223,8 +284,20 @@ fn prepare_config(path: &Path, config: &AppConfig) -> anyhow::Result<tempfile::N
     temporary.write_all(&bytes).context("Write settings temp")?;
     temporary.as_file().sync_all().context("Sync settings temp")?;
 
-    // NamedTempFile::persist atomically replaces an existing destination on Windows too.
     Ok(temporary)
+}
+
+fn publish_config(temporary: tempfile::NamedTempFile, path: &Path) -> anyhow::Result<()> {
+    // Retain a cleanup guard in case keep() or the subsequent rename fails.
+    let cleanup = tempfile::TempPath::try_from_path(temporary.path())?;
+    let (_file, _) = temporary.keep()?;
+
+    // keep() clears the Windows temporary-file attribute before publication.
+    // Use std's rename fallback for readers opened with delete sharing;
+    // NamedTempFile::persist uses MoveFileExW without that fallback.
+    fs::rename(&cleanup, path)?;
+
+    Ok(())
 }
 
 fn sync_config_directory(path: &Path) -> anyhow::Result<()> {
@@ -266,7 +339,7 @@ pub(crate) fn read_config(app: &AppHandle) -> anyhow::Result<AppConfig> {
 
 pub(crate) fn update_dirs<T>(
     app: &AppHandle,
-    edit: impl FnOnce(&mut Vec<String>) -> T,
+    edit: impl FnMut(&mut Vec<String>) -> T,
 ) -> anyhow::Result<T> {
     app.state::<ConfigStore>().update_dirs(edit)
 }
@@ -502,6 +575,98 @@ mod tests {
     }
 
     #[test]
+    fn settings_replacement_preserves_readers_of_the_previous_snapshot() {
+        use std::io::Read;
+
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store
+            .update(|config| config.dirs = Some(vec!["mail".to_string()]))
+            .expect("initial settings");
+        let previous = store.read(|_| {}).expect("previous settings");
+        let mut reader = fs::File::open(&path).expect("hold the previous snapshot open");
+
+        store.update(|config| config.auto_update = false).expect("replace while a reader is open");
+
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).expect("read the previous snapshot");
+        assert_eq!(parse_config_bytes(&bytes).expect("complete previous settings"), previous);
+
+        let mut expected = previous;
+        expected.auto_update = false;
+        assert_eq!(ConfigStore::new(path).read(|_| {}).expect("new snapshot"), expected);
+    }
+
+    #[test]
+    fn autostart_replacement_succeeds_while_the_previous_snapshot_is_open() {
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store
+            .update(|config| config.dirs = Some(vec!["mail".to_string()]))
+            .expect("initial settings");
+        let _reader = fs::File::open(&path).expect("hold the previous snapshot open");
+        let os_enabled = std::cell::Cell::new(true);
+
+        store
+            .set_auto_start(
+                false,
+                || Ok(os_enabled.get()),
+                |enabled| {
+                    os_enabled.set(enabled);
+                    Ok(())
+                },
+            )
+            .expect("replace while a reader is open");
+
+        assert!(!os_enabled.get());
+        let saved = ConfigStore::new(path).read(|_| {}).expect("new snapshot");
+        assert!(!saved.auto_start);
+        assert_eq!(saved.dirs, Some(vec!["mail".to_string()]));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn blocked_replacement_preserves_settings_and_restores_autostart() {
+        use std::os::windows::fs::OpenOptionsExt;
+
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store
+            .update(|config| config.dirs = Some(vec!["mail".to_string()]))
+            .expect("initial settings");
+        let previous = fs::read(&path).expect("previous bytes");
+        let os_enabled = std::cell::Cell::new(true);
+        let reader = fs::OpenOptions::new()
+            .read(true)
+            .share_mode(0x0001 | 0x0002) // FILE_SHARE_READ | FILE_SHARE_WRITE, without FILE_SHARE_DELETE.
+            .open(&path)
+            .expect("deny replacement while allowing reads");
+
+        store.update(|config| config.auto_update = false).expect_err("replacement is blocked");
+        store
+            .set_auto_start(
+                false,
+                || Ok(os_enabled.get()),
+                |enabled| {
+                    os_enabled.set(enabled);
+                    Ok(())
+                },
+            )
+            .expect_err("autostart publication is blocked");
+
+        assert_eq!(fs::read(&path).expect("previous file remains"), previous);
+        assert!(os_enabled.get(), "failed publication must restore the previous OS setting");
+        assert_eq!(fs::read_dir(dir.path()).expect("settings directory").count(), 1);
+        drop(reader);
+
+        store.update(|config| config.auto_update = false).expect("save after the reader closes");
+        assert!(!ConfigStore::new(path).read(|_| {}).expect("saved settings").auto_update);
+    }
+
+    #[test]
     fn unlocked_readers_see_only_complete_old_or_new_settings_during_publication() {
         use std::sync::{
             Barrier,
@@ -568,7 +733,7 @@ mod tests {
         let prepared = prepare_config(&path, &AppConfig::default()).expect("prepare again");
         fs::remove_file(prepared.path()).expect("inject missing temp at replacement");
 
-        prepared.persist(&path).expect_err("replacement must fail without its source");
+        publish_config(prepared, &path).expect_err("replacement must fail without its source");
         assert_eq!(fs::read(&path).expect("previous file survives replacement failure"), previous);
     }
 
@@ -828,5 +993,65 @@ mod tests {
         store.update_dirs(|dirs| dirs.retain(|dir| dir != "mail")).expect("remove last directory");
 
         assert_eq!(store.read(|_| {}).expect("deliberate removal").dirs, Some(Vec::new()));
+    }
+    #[test]
+    fn slow_directory_resolution_preserves_concurrent_preferences_and_directory_choices() {
+        use std::{
+            sync::{Arc, mpsc},
+            time::Duration,
+        };
+        let temp = tempfile::tempdir().expect("settings");
+        let store = Arc::new(ConfigStore::new(temp.path().join("config.json")));
+        store.update_dirs(|dirs| dirs.push("original".to_string())).expect("initial directory");
+        let (started, ready) = mpsc::channel();
+        let (release, blocked) = mpsc::channel();
+        let editing = store.clone();
+        let worker = std::thread::spawn(move || {
+            let mut first = true;
+            editing.update_dirs(|dirs| {
+                if first {
+                    first = false;
+                    started.send(()).expect("started");
+                    blocked.recv_timeout(Duration::from_secs(5)).expect("resolution released");
+                }
+                dirs.push("discovered".to_string());
+            })
+        });
+        ready.recv_timeout(Duration::from_secs(2)).expect("resolution started");
+
+        store.update(|config| config.auto_update = false).expect("preference remains responsive");
+        store
+            .update_dirs(|dirs| {
+                dirs.retain(|path| path != "original");
+                dirs.push("manual".to_string());
+            })
+            .expect("manual change remains responsive");
+        release.send(()).expect("release resolution");
+        worker.join().expect("worker").expect("merge");
+
+        let config = store.read(|_| {}).expect("settings");
+        assert!(!config.auto_update);
+        assert_eq!(config.dirs, Some(vec!["manual".to_string(), "discovered".to_string()]));
+    }
+
+    #[test]
+    fn continuous_directory_conflicts_stop_without_overwriting_new_choices() {
+        let temp = tempfile::tempdir().expect("settings");
+        let store = ConfigStore::new(temp.path().join("config.json"));
+        let mut attempts = 0;
+        let result = store.update_dirs(|dirs| {
+            attempts += 1;
+            store
+                .update(|config| config.dirs = Some(vec![format!("concurrent-{attempts}")]))
+                .expect("concurrent update");
+            dirs.push("stale".to_string());
+        });
+
+        assert!(result.is_err());
+        assert_eq!(attempts, 3);
+        assert_eq!(
+            store.read(|_| {}).expect("settings").dirs,
+            Some(vec!["concurrent-3".to_string()])
+        );
     }
 }

@@ -1,3 +1,9 @@
+//! Persistent upload snapshots, exclusive writer locking, and legacy migration.
+//!
+//! A snapshot keeps pending sources, acknowledgements, rejections, and API backoff
+//! together so recovery cannot load conflicting versions of those records.
+//! [`StateFile`] holds the writer lock across loading, uploading, and the final save.
+
 use std::{
     collections::VecDeque,
     fs,
@@ -13,13 +19,18 @@ use tauri::{AppHandle, Manager};
 
 use super::{MAX_REASON_BYTES, mail::mail_id_for_path};
 
+/// Upload records saved together in one versioned snapshot.
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub(crate) struct UploadStore {
     version: u32,
+    /// Exact ingress mail IDs, shared by all local paths with the same ID.
     pub(crate) acknowledged: FxHashSet<String>,
+    /// Sources awaiting acknowledgement, including any request in progress.
     pub(crate) pending: VecDeque<QueuedUpload>,
+    /// Sources excluded from retries until discovery observes a changed signature.
     pub(crate) rejected: FxHashMap<String, RejectedUpload>,
+    /// API-wide retry deadline in milliseconds since the Unix epoch.
     pub(crate) api_backoff_until_ms: Option<u128>,
 }
 
@@ -82,8 +93,10 @@ impl UploadStore {
 #[serde(deny_unknown_fields)]
 pub(crate) struct QueuedUpload {
     pub(crate) path: String,
+    /// Last observed metadata, or `None` when it could not be read.
     pub(crate) sig: Option<FileSig>,
     pub(crate) attempts: u32,
+    /// Earliest attempt time in milliseconds since the Unix epoch, if delayed.
     pub(crate) not_before_ms: Option<u128>,
     pub(crate) last_error: Option<String>,
 }
@@ -95,15 +108,21 @@ pub(crate) struct RejectedUpload {
     pub(crate) reason: String,
 }
 
+/// File size and modification time used to detect source changes between attempts.
+///
+/// Equal signatures can refer to different file contents.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub(crate) struct FileSig {
     pub(crate) size: u64,
+    /// Modification time in milliseconds since the Unix epoch.
     pub(crate) modified: u128,
 }
 
-// Held for the watcher's entire lifetime, including an in-flight request or final flush.
-// A timed-out task must not overwrite a replacement watcher's state.
+/// An upload snapshot path and the exclusive lock guarding its writers.
+///
+/// Keep this alive until all watcher work and the final save have finished.
+/// A stop timeout does not release ownership or allow another watcher to write.
 pub(crate) struct StateFile {
     path: PathBuf,
     _lock: fs::File,
@@ -131,6 +150,9 @@ impl StateFile {
         Ok(Self { path: dir.join("upload-state-v1.json"), _lock: lock })
     }
 
+    /// Loads and validates the snapshot, migrating legacy files if it is absent.
+    ///
+    /// Unreadable or invalid state returns an error without replacing the source file.
     pub(crate) fn load(&self) -> anyhow::Result<UploadStore> {
         if let Some(store) = read_json::<UploadStore>(&self.path)? {
             store.validate()?;
@@ -147,6 +169,10 @@ impl StateFile {
         Ok(store)
     }
 
+    /// Validates and atomically replaces the snapshot with `store`.
+    ///
+    /// On Unix, a parent-directory sync failure is reported after replacement.
+    /// The new snapshot is then visible, but its durability is uncertain.
     pub(crate) fn save(&self, store: &UploadStore) -> anyhow::Result<()> {
         store.validate()?;
 
@@ -213,6 +239,8 @@ fn migrate_legacy(dir: &Path) -> anyhow::Result<UploadStore> {
     let mut pending = FxHashMap::default();
 
     if let Some(processed) = processed {
+        // Legacy "processed" entries recorded discovery, not an ingress acknowledgement.
+        // Retry them so migration cannot mark an unconfirmed upload as complete.
         for (path, sig) in processed.entries {
             pending.insert(
                 path.clone(),
