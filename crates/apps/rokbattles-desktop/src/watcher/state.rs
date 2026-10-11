@@ -1,59 +1,41 @@
 use std::{collections::VecDeque, path::PathBuf, time::Instant};
 
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashSet;
 
 use super::{
     config::WatcherConfig,
     mail::mail_id_for_path,
-    store::{FileSig, QueuedUpload, RejectedUpload, StateFile, UploadStore},
+    store::{QueuedUpload, RejectedUpload, StateFile, UploadStore},
     truncate_reason,
     upload::upload_backoff,
 };
 
 pub(crate) struct WatcherState {
     pub(crate) config: WatcherConfig,
-    pub(crate) scans: Vec<super::scan::DirScan>,
+    pub(crate) scans: VecDeque<super::scan::DirScan>,
     pub(crate) dirs: Vec<PathBuf>,
     pub(crate) dirs_last_read: Instant,
-    pub(crate) discovered: FxHashMap<String, FileSig>,
+    pending_paths: FxHashSet<String>,
     pub(crate) uploads: UploadStore,
     dirty: bool,
-    pub(crate) scan_refreshes: u64,
-    pub(crate) hot_paths: VecDeque<String>,
-    pub(crate) hot_set: FxHashSet<String>,
-    pub(crate) hot_last_scan: Instant,
 }
 
 impl WatcherState {
     pub(crate) fn new(config: WatcherConfig, uploads: UploadStore) -> Self {
-        let discovered = uploads
-            .pending
-            .iter()
-            .filter_map(|item| item.sig.clone().map(|sig| (item.path.clone(), sig)))
-            .chain(
-                uploads
-                    .rejected
-                    .iter()
-                    .filter_map(|(path, item)| item.sig.clone().map(|sig| (path.clone(), sig))),
-            )
-            .collect();
+        let pending_paths = uploads.pending.iter().map(|item| item.path.clone()).collect();
 
         let refresh_interval = config.config_refresh_interval;
 
         Self {
             config,
-            scans: Vec::new(),
+            scans: VecDeque::new(),
             dirs: Vec::new(),
             dirs_last_read: Instant::now()
                 .checked_sub(refresh_interval)
                 .unwrap_or_else(Instant::now),
-            discovered,
+            pending_paths,
             uploads,
             dirty: false,
-            scan_refreshes: 0,
-            hot_paths: VecDeque::new(),
-            hot_set: FxHashSet::default(),
-            hot_last_scan: Instant::now(),
         }
     }
 
@@ -71,16 +53,16 @@ impl WatcherState {
         mail_id_for_path(path).is_some_and(|id| self.uploads.acknowledged.contains(id))
     }
 
+    pub(crate) fn is_pending(&self, path: &str) -> bool {
+        self.pending_paths.contains(path)
+    }
+
     pub(crate) fn enqueue_upload(&mut self, item: QueuedUpload) {
         if self.is_acknowledged(&item.path) {
             return;
         }
 
-        if let Some(sig) = &item.sig {
-            self.discovered.insert(item.path.clone(), sig.clone());
-        }
-
-        if self.uploads.pending.iter().any(|pending| pending.path == item.path) {
+        if self.is_pending(&item.path) {
             return;
         }
 
@@ -89,7 +71,7 @@ impl WatcherState {
         }
 
         self.uploads.rejected.remove(&item.path);
-        self.track_hot_path(item.path.clone());
+        self.pending_paths.insert(item.path.clone());
         self.uploads.pending.push_back(item);
         self.dirty = true;
     }
@@ -133,67 +115,19 @@ impl WatcherState {
         };
 
         self.uploads.acknowledged.insert(id.to_string());
+        self.pending_paths.retain(|path| mail_id_for_path(path) != Some(id));
         self.uploads.pending.retain(|item| mail_id_for_path(&item.path) != Some(id));
         self.uploads.rejected.retain(|path, _| mail_id_for_path(path) != Some(id));
         self.dirty = true;
     }
 
     pub(crate) fn reject_upload(&mut self, item: QueuedUpload, reason: String) {
+        self.pending_paths.remove(&item.path);
         self.uploads.pending.retain(|pending| pending.path != item.path);
         self.uploads
             .rejected
             .insert(item.path, RejectedUpload { sig: item.sig, reason: truncate_reason(reason) });
         self.dirty = true;
-    }
-
-    pub(crate) fn maybe_rescan_hot(&mut self, now_ms: u128) {
-        if self.hot_last_scan.elapsed() < self.config.hot_rescan_interval {
-            return;
-        }
-
-        self.hot_last_scan = Instant::now();
-
-        for _ in 0..self.config.hot_rescan_budget {
-            let Some(path_str) = self.hot_paths.pop_front() else {
-                break;
-            };
-
-            let path = PathBuf::from(&path_str);
-            let Some(existing) = self.discovered.get(&path_str).cloned() else {
-                self.hot_paths.push_back(path_str);
-                continue;
-            };
-
-            let meta = match std::fs::metadata(&path) {
-                Ok(m) => m,
-                Err(_) => {
-                    self.hot_paths.push_back(path_str);
-                    continue;
-                }
-            };
-
-            let sig = match super::store::file_sig(&meta) {
-                Ok(s) => s,
-                Err(_) => {
-                    self.hot_paths.push_back(path_str);
-                    continue;
-                }
-            };
-
-            if sig != existing {
-                self.discovered.insert(path_str.clone(), sig.clone());
-
-                self.enqueue_upload(QueuedUpload {
-                    path: path_str.clone(),
-                    sig: Some(sig),
-                    attempts: 0,
-                    last_error: None,
-                    not_before_ms: Some(now_ms.saturating_add(self.config.file_changed_delay_ms)),
-                });
-            }
-
-            self.hot_paths.push_back(path_str);
-        }
     }
 
     pub(crate) fn prune_removed_dirs_state(&mut self, active_dirs: &[PathBuf]) -> usize {
@@ -202,29 +136,12 @@ impl WatcherState {
         // Removing a watched directory deliberately cancels its sources, not its acknowledged IDs.
         self.uploads.pending.retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
         self.uploads.rejected.retain(|path, _| path_belongs_to_any_active_dir(path, active_dirs));
-        self.discovered.retain(|path, _| path_belongs_to_any_active_dir(path, active_dirs));
-        self.hot_paths.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
-        self.hot_set.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
+        self.pending_paths.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
 
         let removed = previous - self.uploads.pending.len() - self.uploads.rejected.len();
         self.dirty |= removed > 0;
 
         removed
-    }
-
-    fn track_hot_path(&mut self, path: String) {
-        if self.hot_set.contains(&path) {
-            return;
-        }
-
-        if self.hot_paths.len() >= self.config.hot_tracked_limit
-            && let Some(old) = self.hot_paths.pop_front()
-        {
-            self.hot_set.remove(&old);
-        }
-
-        self.hot_set.insert(path.clone());
-        self.hot_paths.push_back(path);
     }
 
     pub(crate) fn rate_limit_remaining_ms(&mut self, now_ms: u128) -> Option<u128> {
@@ -258,14 +175,14 @@ impl WatcherState {
 fn path_belongs_to_any_active_dir(path: &str, active_dirs: &[PathBuf]) -> bool {
     let path = PathBuf::from(path);
 
-    active_dirs.iter().any(|dir| path.starts_with(dir))
+    path.parent().is_some_and(|parent| active_dirs.iter().any(|dir| dir == parent))
 }
 
 #[cfg(test)]
 mod tests {
     use std::{fs, time::Duration};
 
-    use super::*;
+    use super::{super::store::FileSig, *};
 
     fn item(path: &str) -> QueuedUpload {
         QueuedUpload {
