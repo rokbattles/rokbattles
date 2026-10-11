@@ -69,15 +69,19 @@ impl DirScan {
 pub(crate) fn refresh_watched_dirs(
     state: &mut WatcherState,
     now: Instant,
-    read_dirs: &impl Fn() -> anyhow::Result<Vec<PathBuf>>,
+    read_dirs: &impl Fn() -> anyhow::Result<Option<Vec<PathBuf>>>,
     log: &impl Fn(String),
 ) {
     if now.duration_since(state.dirs_last_read) < Duration::from_secs(2) {
         return;
     }
 
+    // Throttle failed refreshes too, so a broken config cannot flood the log during a backlog.
+    state.dirs_last_read = now;
+
     let dirs = match read_dirs() {
-        Ok(dirs) => dirs,
+        Ok(Some(dirs)) => dirs,
+        Ok(None) => return,
         Err(error) => {
             log(format!("Failed to read config: {error}"));
             return;
@@ -85,7 +89,6 @@ pub(crate) fn refresh_watched_dirs(
     };
 
     let removed = set_watched_dirs(state, dirs, now);
-    state.dirs_last_read = now;
 
     if removed > 0 {
         log(format!("Cancelled {removed} source(s) in directories no longer watched."));
@@ -669,5 +672,143 @@ mod tests {
 
         assert!(state.uploads.pending.is_empty());
         assert!(state.uploads.acknowledged.is_empty());
+    }
+
+    #[test]
+    fn broken_settings_preserve_running_and_recovered_pending_uploads() {
+        use crate::app_config::ConfigStore;
+
+        for running in [false, true] {
+            for failure in ["empty", "truncated", "malformed", "unreadable", "missing"] {
+                let root = tempfile::tempdir().expect("fixture directory");
+                let mail_dir = root.path().join("mail");
+                let source = write_mail(&mail_dir, "123", b"pending mail");
+                let now = Instant::now();
+                let state_file = StateFile::open(root.path()).expect("upload state");
+                state_file.load().expect("initial upload state");
+                let mut state = new_state(vec![mail_dir.clone()], now);
+                discover_source(&mut state, source.clone(), 1000);
+                state.flush(&state_file).expect("pending upload persisted before failure");
+
+                let path = root.path().join("config.json");
+                let store = ConfigStore::new(path.clone());
+                let read_dirs = || {
+                    store.read(|_| {}).map(|config| {
+                        config.dirs.map(|dirs| dirs.into_iter().map(PathBuf::from).collect())
+                    })
+                };
+
+                if running {
+                    store
+                        .update(|config| {
+                            config.dirs = Some(vec![mail_dir.to_string_lossy().into_owned()]);
+                        })
+                        .expect("valid running settings");
+                    refresh_watched_dirs(&mut state, now, &read_dirs, &|_| {});
+                    fs::remove_file(&path).expect("inject settings failure");
+                } else {
+                    state = WatcherState::new(state_file.load().expect("recover pending upload"));
+                }
+
+                match failure {
+                    "empty" => fs::write(&path, b"").expect("empty settings"),
+                    "truncated" => fs::write(&path, br#"{"dirs":["#).expect("truncated settings"),
+                    "malformed" => fs::write(&path, br#"{"dirs":42}"#).expect("malformed settings"),
+                    "unreadable" => fs::create_dir(&path).expect("unreadable settings"),
+                    "missing" => {}
+                    value => panic!("unexpected test case: {value}"),
+                }
+
+                refresh_watched_dirs(&mut state, now + Duration::from_secs(2), &read_dirs, &|_| {});
+                state.flush(&state_file).expect("persist after failed refresh");
+                let recovered = state_file.load().expect("pending work on disk");
+
+                assert_eq!(state.uploads.pending.len(), 1, "{failure}, running={running}");
+                assert_eq!(recovered.pending.len(), 1);
+                assert_eq!(recovered.pending[0].path, source.to_string_lossy());
+                assert_eq!(state.dirs, if running { vec![mail_dir] } else { Vec::new() });
+            }
+        }
+    }
+
+    #[test]
+    fn first_run_preference_save_keeps_pending_work_until_an_explicit_empty_directory_choice() {
+        use crate::app_config::ConfigStore;
+
+        let root = tempfile::tempdir().expect("fixture directory");
+        let mail_dir = root.path().join("mail");
+        let source = write_mail(&mail_dir, "123", b"pending mail");
+        let now = Instant::now();
+        let state_file = StateFile::open(root.path()).expect("upload state");
+        state_file.load().expect("initial upload state");
+        let mut state = new_state(vec![mail_dir], now);
+        discover_source(&mut state, source, 1000);
+        state.flush(&state_file).expect("pending work");
+        state = WatcherState::new(state_file.load().expect("recover pending work"));
+        let path = root.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        let read_dirs = || {
+            store
+                .read(|_| {})
+                .map(|config| config.dirs.map(|dirs| dirs.into_iter().map(PathBuf::from).collect()))
+        };
+
+        let now = Instant::now();
+        refresh_watched_dirs(&mut state, now, &read_dirs, &|_| {});
+
+        assert_eq!(state.uploads.pending.len(), 1, "missing settings do not cancel recovery");
+
+        store.update(|config| config.auto_update = false).expect("save first preference");
+        let restarted_store = ConfigStore::new(path);
+        let read_after_restart = || {
+            restarted_store
+                .read(|_| {})
+                .map(|config| config.dirs.map(|dirs| dirs.into_iter().map(PathBuf::from).collect()))
+        };
+        refresh_watched_dirs(
+            &mut state,
+            now + Duration::from_secs(2),
+            &read_after_restart,
+            &|_| {},
+        );
+
+        assert_eq!(
+            state.uploads.pending.len(),
+            1,
+            "preference-only saves must not cancel recovery"
+        );
+
+        store
+            .update(|config| config.dirs = Some(Vec::new()))
+            .expect("deliberate directory removal");
+        let logs = std::cell::RefCell::new(Vec::new());
+        refresh_watched_dirs(
+            &mut state,
+            now + Duration::from_secs(4),
+            &read_after_restart,
+            &|line| logs.borrow_mut().push(line),
+        );
+        state.flush(&state_file).expect("save deliberate cancellation");
+
+        assert!(state.uploads.pending.is_empty());
+        assert!(state_file.load().expect("durable cancellation").pending.is_empty());
+        assert!(logs.borrow().iter().any(|line| line.contains("Cancelled 1 source")));
+    }
+
+    #[test]
+    fn failed_config_refreshes_are_throttled_during_busy_scanning() {
+        let mut state = WatcherState::new(UploadStore::default());
+        let start = Instant::now();
+        let attempts = std::cell::Cell::new(0);
+        let read_dirs = || {
+            attempts.set(attempts.get() + 1);
+            anyhow::bail!("temporarily unreadable config");
+        };
+
+        refresh_watched_dirs(&mut state, start, &read_dirs, &|_| {});
+        refresh_watched_dirs(&mut state, start + Duration::from_millis(1), &read_dirs, &|_| {});
+        refresh_watched_dirs(&mut state, start + Duration::from_secs(2), &read_dirs, &|_| {});
+
+        assert_eq!(attempts.get(), 2);
     }
 }

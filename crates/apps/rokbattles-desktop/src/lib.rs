@@ -36,7 +36,14 @@ fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
     let handle = app.handle();
     handle.plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))?;
 
-    let enabled = app_config::get_auto_start(handle).unwrap_or(true);
+    let enabled = match app_config::get_auto_start(handle) {
+        Ok(enabled) => enabled,
+        Err(error) => {
+            eprintln!("Skipping autostart setup because settings could not be read: {error:#}");
+            return Ok(());
+        }
+    };
+
     match apply_auto_start_setting(handle, enabled) {
         Ok(()) => {}
         Err(error) => {
@@ -130,7 +137,7 @@ fn dirs_for_ui(dirs: &[String]) -> Vec<String> {
 }
 
 pub(crate) fn read_dirs(app: &AppHandle) -> anyhow::Result<Vec<String>> {
-    let dirs = app_config::read_dirs(app)?;
+    let dirs = app_config::read_config(app)?.dirs.unwrap_or_default();
     Ok(dedupe_dirs_preserving_representation(dirs))
 }
 
@@ -149,35 +156,41 @@ async fn list_dirs(app: AppHandle) -> Result<Vec<String>, String> {
 
 #[tauri::command]
 fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
-    let mut next = current;
-    let mut known_keys: BTreeSet<String> = next.iter().map(|dir| dir_identity_key(dir)).collect();
+    app_config::update_dirs(&app, |dirs| {
+        *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
+        let mut known_keys: BTreeSet<String> =
+            dirs.iter().map(|dir| dir_identity_key(dir)).collect();
 
-    for p in paths {
-        let normalized = normalize_dir_for_display(&p);
-        if normalized.is_empty() {
-            continue;
-        }
-        let key = dir_identity_key(&normalized);
-        if known_keys.insert(key) {
-            next.push(normalized);
-        }
-    }
+        for path in paths {
+            let normalized = normalize_dir_for_display(&path);
+            if normalized.is_empty() {
+                continue;
+            }
 
-    next.sort();
-    app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
-    Ok(dirs_for_ui(&next))
+            let key = dir_identity_key(&normalized);
+            if known_keys.insert(key) {
+                dirs.push(normalized);
+            }
+        }
+
+        dirs.sort();
+        dirs_for_ui(dirs)
+    })
+    .map_err(|error| format!("{error:#}"))
 }
 
 #[tauri::command]
 fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
     let target_key = dir_identity_key(&path);
-    let mut next =
-        current.into_iter().filter(|dir| dir_identity_key(dir) != target_key).collect::<Vec<_>>();
-    next.sort();
-    app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
-    Ok(dirs_for_ui(&next))
+
+    app_config::update_dirs(&app, |dirs| {
+        *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
+        dirs.retain(|dir| dir_identity_key(dir) != target_key);
+        dirs.sort();
+
+        dirs_for_ui(dirs)
+    })
+    .map_err(|error| format!("{error:#}"))
 }
 
 #[derive(Debug, Serialize)]
@@ -206,7 +219,6 @@ fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, St
         });
     }
 
-    let current = read_dirs(&app).map_err(|e| e.to_string())?;
     let discovered = mailcache_discovery::discover_mailcache_dirs().map_err(|e| e.to_string())?;
 
     if discovered.is_empty() {
@@ -217,32 +229,35 @@ fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, St
         });
     }
 
-    let mut next = current;
-    let mut known_keys: BTreeSet<String> = next.iter().map(|dir| dir_identity_key(dir)).collect();
+    // Discovery may be slow. Merge its results with the latest settings only after it finishes.
+    let (added_dirs, already_watched_dirs) = app_config::update_dirs(&app, |dirs| {
+        *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
+        let mut known_keys: BTreeSet<String> =
+            dirs.iter().map(|dir| dir_identity_key(dir)).collect();
+        let mut added_dirs = Vec::new();
+        let mut already_watched_dirs = Vec::new();
 
-    let mut added_dirs = Vec::new();
-    let mut already_watched_dirs = Vec::new();
+        for dir in discovered {
+            let normalized = normalize_dir_for_display(&dir);
+            if normalized.is_empty() {
+                continue;
+            }
 
-    for dir in discovered {
-        let normalized = normalize_dir_for_display(&dir);
-        if normalized.is_empty() {
-            continue;
+            let key = dir_identity_key(&normalized);
+            if !known_keys.insert(key) {
+                already_watched_dirs.push(normalized);
+                continue;
+            }
+
+            dirs.push(normalized.clone());
+            added_dirs.push(normalized);
         }
-        let key = dir_identity_key(&normalized);
-        if known_keys.contains(&key) {
-            already_watched_dirs.push(normalized);
-            continue;
-        }
 
-        known_keys.insert(key);
-        next.push(normalized.clone());
-        added_dirs.push(normalized);
-    }
+        dirs.sort();
 
-    if !added_dirs.is_empty() {
-        next.sort();
-        app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
-    }
+        (added_dirs, already_watched_dirs)
+    })
+    .map_err(|error| format!("{error:#}"))?;
 
     let message = if !added_dirs.is_empty() {
         let count = added_dirs.len();
@@ -278,7 +293,7 @@ fn set_close_behavior(app: AppHandle, behavior: CloseBehavior) -> Result<(), Str
         return Err("Minimize to tray is not supported on this platform.".to_string());
     }
 
-    app_config::set_close_behavior(&app, behavior).map_err(|e| e.to_string())
+    app_config::set_close_behavior(&app, behavior).map_err(|error| format!("{error:#}"))
 }
 
 #[tauri::command]
@@ -294,24 +309,42 @@ fn set_auto_update(app: AppHandle, enabled: bool) -> Result<(), String> {
     if is_flatpak() {
         return Err("Install a new Flatpak bundle to update this application.".to_string());
     }
-    app_config::set_auto_update(&app, enabled).map_err(|e| e.to_string())
+    app_config::set_auto_update(&app, enabled).map_err(|error| format!("{error:#}"))
 }
 
 #[tauri::command]
 fn set_auto_start(app: AppHandle, enabled: bool) -> Result<(), String> {
-    #[cfg(desktop)]
-    apply_auto_start_setting(&app, enabled)?;
+    if is_flatpak() {
+        return Err("Automatic startup is unavailable in the Flatpak package.".to_string());
+    }
 
-    app_config::set_auto_start(&app, enabled).map_err(|e| e.to_string())
+    let store = app.state::<app_config::ConfigStore>();
+
+    #[cfg(desktop)]
+    {
+        use tauri_plugin_autostart::ManagerExt;
+
+        store
+            .set_auto_start(
+                enabled,
+                || app.autolaunch().is_enabled().map_err(anyhow::Error::new),
+                |value| apply_auto_start_setting(&app, value).map_err(anyhow::Error::msg),
+            )
+            .map_err(|error| format!("{error:#}"))
+    }
+
+    #[cfg(not(desktop))]
+    store.update(|config| config.auto_start = enabled).map_err(|error| format!("{error:#}"))
 }
 
 #[tauri::command]
 fn get_app_settings(app: AppHandle) -> Result<AppSettings, String> {
+    let config = app_config::read_config(&app).map_err(|error| format!("{error:#}"))?;
+
     Ok(AppSettings {
-        auto_update: !is_flatpak()
-            && app_config::get_auto_update(&app).map_err(|e| e.to_string())?,
-        auto_start: !is_flatpak() && app_config::get_auto_start(&app).map_err(|e| e.to_string())?,
-        close_behavior: app_config::get_close_behavior(&app).map_err(|e| e.to_string())?,
+        auto_update: !is_flatpak() && config.auto_update,
+        auto_start: !is_flatpak() && config.auto_start,
+        close_behavior: config.close_behavior,
         tray_supported: tray_supported(),
         flatpak: is_flatpak(),
     })
@@ -405,6 +438,9 @@ pub fn run() {
             }
         })
         .setup(|app| {
+            let config_path = app.path().app_config_dir()?.join("config.json");
+            app.manage(app_config::ConfigStore::new(config_path));
+
             #[cfg(desktop)]
             setup_autostart(app)?;
 
@@ -416,7 +452,17 @@ pub fn run() {
 
             let handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
-                let auto_update = app_config::get_auto_update(&handle).unwrap_or(true);
+                let auto_update = match app_config::get_auto_update(&handle) {
+                    Ok(enabled) => enabled,
+                    Err(error) => {
+                        watcher::emit_log(
+                            &handle,
+                            format!("Skipping automatic update check because settings could not be read: {error:#}"),
+                        );
+                        return;
+                    }
+                };
+
                 updater::maybe_check_for_updates(handle.clone(), auto_update).await;
             });
 
