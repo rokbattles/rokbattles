@@ -2,6 +2,7 @@ import createMDX from "@next/mdx";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { contentSecurityPolicy, imageHosts } from "./security-headers.mjs";
 
 const withNextIntl = createNextIntlPlugin({
   experimental: {
@@ -42,13 +43,11 @@ const config: NextConfig = {
   },
   images: {
     unoptimized: true,
-    remotePatterns: [
-      { protocol: "https", hostname: "imimg.lilithcdn.com", pathname: "/**" },
-      { protocol: "https", hostname: "imv2-gl.lilithgame.com", pathname: "/**" },
-      { protocol: "https", hostname: "plat-fau-global.lilithgame.com", pathname: "/**" },
-      { protocol: "https", hostname: "static-gl.lilithgame.com", pathname: "/**" },
-      { protocol: "https", hostname: "cdn.rokbattles.com", pathname: "/**" },
-    ],
+    remotePatterns: imageHosts.map((hostname) => ({
+      protocol: "https",
+      hostname,
+      pathname: "/**",
+    })),
   },
   output: "standalone",
   // Work around https://github.com/vercel/next.js/issues/90567, fixed by
@@ -109,6 +108,13 @@ const config: NextConfig = {
       {
         source: "/:path*{/}?",
         headers: [
+          {
+            key: "Content-Security-Policy",
+            value: contentSecurityPolicy({
+              development: process.env.NODE_ENV === "development",
+              sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+            }),
+          },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "X-XSS-Protection", value: "0" },
