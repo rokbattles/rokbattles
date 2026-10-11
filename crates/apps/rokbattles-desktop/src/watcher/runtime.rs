@@ -98,7 +98,16 @@ pub(crate) fn spawn_watcher(app: &AppHandle) -> WatcherTask {
 
         run_watcher(
             dir,
-            || crate::read_dirs(&app).map(|dirs| dirs.into_iter().map(PathBuf::from).collect()),
+            || {
+                crate::app_config::read_config(&app).map(|config| {
+                    config.dirs.map(|dirs| {
+                        crate::dedupe_dirs_preserving_representation(dirs)
+                            .into_iter()
+                            .map(PathBuf::from)
+                            .collect()
+                    })
+                })
+            },
             |message| emit_log(&app, message),
             http_client().clone(),
             "https://ingress.rokbattles.com/v2/upload".to_string(),
@@ -111,7 +120,7 @@ pub(crate) fn spawn_watcher(app: &AppHandle) -> WatcherTask {
 
 async fn run_watcher(
     config_dir: PathBuf,
-    read_dirs: impl Fn() -> anyhow::Result<Vec<PathBuf>>,
+    read_dirs: impl Fn() -> anyhow::Result<Option<Vec<PathBuf>>>,
     log: impl Fn(String),
     client: reqwest::Client,
     api_url: String,
@@ -264,7 +273,7 @@ mod tests {
         WatcherTask::spawn(move |shutdown, ready| async move {
             run_watcher(
                 config_dir,
-                || Ok(vec![mail_dir.clone()]),
+                || Ok(Some(vec![mail_dir.clone()])),
                 |_| {},
                 reqwest::Client::new(),
                 api_url,
