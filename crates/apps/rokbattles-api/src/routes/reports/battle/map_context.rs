@@ -53,6 +53,7 @@ mod tests {
             "metadata.server_id",
             "metadata.kvk",
             "metadata.mail_role",
+            "metadata.schema",
             "sender.kingdom_id",
             "sender.session",
             "sender.supreme_strife.battle_id",

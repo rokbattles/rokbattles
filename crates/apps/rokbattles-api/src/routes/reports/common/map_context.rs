@@ -12,7 +12,7 @@ const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/sprites/";
 pub(crate) enum BattleMapContext {
     Home { kingdom: Option<i64> },
     Ark { kingdom: Option<i64>, kind: Option<&'static str> },
-    Strife { kingdom: Option<i64> },
+    Strife { kingdom: Option<i64>, schema: Option<i64> },
     Kvk { server_id: i64, time: i64 },
     Unknown,
 }
@@ -34,7 +34,8 @@ impl BattleMapContext {
             && nested_i64(document, &["sender", "supreme_strife", "team_id"])
                 .is_some_and(|id| id > 0)
         {
-            return Self::Strife { kingdom };
+            let schema = nested_i64(document, &["metadata", "schema"]);
+            return Self::Strife { kingdom, schema };
         }
         if nested_str(document, &["metadata", "mail_role"]) == Some("dungeon") {
             let kingdom = nested_i64(document, &["sender", "kingdom_id"]).filter(|id| *id > 0);
@@ -65,8 +66,12 @@ impl BattleMapContext {
                 };
                 (kingdom_label(kingdom, &label), banner)
             }
-            Self::Strife { kingdom } => {
-                (kingdom_label(kingdom, "Strife"), banner_url("img_MailTypeBG_TopKVK.png"))
+            Self::Strife { kingdom, schema } => {
+                let filename = match schema {
+                    Some(20002) => "img_MailTypeBG_MailTopKvkBattleReport.png",
+                    _ => "img_MailTypeBG_TopKVK.png",
+                };
+                (kingdom_label(kingdom, "Strife"), banner_url(filename))
             }
             Self::Unknown => ("Unknown".into(), None),
             Self::Kvk { server_id, time } => {
@@ -339,18 +344,26 @@ mod tests {
     }
 
     #[test]
-    fn strife_uses_sender_kingdom_and_its_sprite_banner() {
-        let report = doc! {
-            "metadata": { "kvk": true, "mail_role": "dungeon", "server_id": 99 },
-            "sender": {
-                "kingdom_id": 1804,
-                "supreme_strife": { "battle_id": "match", "team_id": 1 },
-            },
-        };
-        assert_eq!(
-            BattleMapContext::from_document(&report, 1500).resolve(&[]),
-            ("#2804 \u{00B7} Strife".into(), banner_url("img_MailTypeBG_TopKVK.png"))
-        );
+    fn strife_uses_sender_kingdom_and_schema_banner() {
+        for (schema, filename) in [
+            (20001, "img_MailTypeBG_TopKVK.png"),
+            (20002, "img_MailTypeBG_MailTopKvkBattleReport.png"),
+            (0, "img_MailTypeBG_TopKVK.png"),
+        ] {
+            let report = doc! {
+                "metadata": {
+                    "kvk": true, "mail_role": "dungeon", "server_id": 99, "schema": schema,
+                },
+                "sender": {
+                    "kingdom_id": 1804,
+                    "supreme_strife": { "battle_id": "match", "team_id": 1 },
+                },
+            };
+            assert_eq!(
+                BattleMapContext::from_document(&report, 1500).resolve(&[]),
+                ("#2804 \u{00B7} Strife".into(), banner_url(filename))
+            );
+        }
     }
 
     #[test]
