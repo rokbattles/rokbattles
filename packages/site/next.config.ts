@@ -28,9 +28,7 @@ const withSentry = (nextConfig?: NextConfig) =>
 
 const plugins = [withNextIntl, withMDX, withSentry];
 const isProdEnv = process.env.NODE_ENV === "production";
-const isDevEnv = process.env.NODE_ENV === "development";
 
-// Images are unoptimized, so these are browser image sources, not optimizer rules.
 const imageSources = [
   "https://imimg.lilithcdn.com",
   "https://imv2-gl.lilithgame.com",
@@ -51,16 +49,12 @@ function sentryConnectSources(): string[] {
   if (url.protocol !== "https:" && url.protocol !== "http:") {
     throw new Error("NEXT_PUBLIC_SENTRY_DSN must be an absolute HTTP(S) URL");
   }
-  // Regional/custom ingest hosts work without exposing the DSN key/project.
   return [url.origin];
 }
 
-// Static-compatible baseline. Next's RSC/hydration and the theme bootstrap need
-// inline scripts; a strict nonce policy would require request-time rendering and
-// changing HTML caching. This deliberately does not prevent all inline-script XSS.
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'${isDevEnv ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'${!isProdEnv ? " 'unsafe-eval'" : ""}`,
   "script-src-attr 'none'",
   // React, charts, motion, and UI primitives rely on inline style attributes.
   "style-src 'self' 'unsafe-inline'",
@@ -71,7 +65,7 @@ const contentSecurityPolicy = [
     "'self'",
     "https://cdn.rokbattles.com", // Map binary fetches, not only artwork.
     ...sentryConnectSources(),
-    ...(isDevEnv ? ["ws:", "wss:"] : []), // Next HMR, including LAN/HTTPS proxies.
+    ...(!isProdEnv ? ["ws:", "wss:"] : []), // Next HMR, including LAN/HTTPS proxies.
   ].join(" ")}`,
   // Same-origin map workers; fflate uses blob workers for large XLSX exports.
   "worker-src 'self' blob:",
@@ -82,12 +76,8 @@ const contentSecurityPolicy = [
   "form-action 'self'",
   // Preserve SAMEORIGIN framing; OBS/Streamlabs browser sources load directly.
   "frame-ancestors 'self'",
-  ...(!isDevEnv ? ["upgrade-insecure-requests"] : []),
+  ...(isProdEnv ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
-
-// Do not add COEP require-corp: Lilith no-cors avatars need upstream CORP/CORS
-// cooperation. Current WASM/worker features do not require shared-memory isolation.
-// No external CSP reports: overlay document URLs contain access tokens.
 
 const config: NextConfig = {
   agentRules: false,
