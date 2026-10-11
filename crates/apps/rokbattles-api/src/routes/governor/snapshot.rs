@@ -4,7 +4,7 @@ use mongodb::{
     options::FindOneOptions,
 };
 
-use crate::{db::exclude_test_client_filter, error::ApiError};
+use crate::{db::exclude_test_reports_filter, error::ApiError};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GovernorSnapshot {
@@ -12,7 +12,7 @@ pub struct GovernorSnapshot {
     pub governor_avatar: Option<String>,
 }
 
-/// Find the latest sender snapshot for a governor in battle mail.
+/// Find the latest global governor sender snapshot in eligible battle mail.
 pub async fn find_latest_sender_snapshot(
     battle_reports: &Collection<Document>,
     governor_id: i64,
@@ -20,7 +20,7 @@ pub async fn find_latest_sender_snapshot(
     let latest_mail = battle_reports
         .find_one(doc! {
             "$and": [
-                exclude_test_client_filter(),
+                exclude_test_reports_filter(),
                 { "sender.player_id": governor_id },
             ]
         })

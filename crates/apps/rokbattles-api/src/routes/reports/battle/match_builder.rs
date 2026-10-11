@@ -4,12 +4,12 @@ use super::query::{
     ReportsFilterSide, ReportsFilterSubtype, ReportsFilterType, ReportsGarrisonBuildingType,
     ReportsRequest,
 };
-use crate::db::exclude_test_client_filter;
+use crate::db::exclude_test_reports_filter;
 
 /// Build the MongoDB `$match` object for battle report list queries.
 pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     let mut match_pipeline: Vec<Document> =
-        vec![exclude_test_client_filter(), doc! { "opponents.player_id": { "$gt": 0 } }];
+        vec![exclude_test_reports_filter(), doc! { "opponents.player_id": { "$gt": 0 } }];
 
     if let Some(before_cursor) = request.before_cursor {
         match_pipeline.push(doc! { "metadata.mail_time": { "$gt": before_cursor } });
@@ -262,7 +262,7 @@ mod tests {
             build_reports_match(&request),
             doc! {
                 "$and": [
-                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    exclude_test_reports_filter(),
                     { "opponents.player_id": { "$gt": 0 } },
                     { "metadata.mail_time": { "$lt": 456_i64 } },
                     { "metadata.mail_receiver": "player_123" },
@@ -281,7 +281,7 @@ mod tests {
             build_reports_match(&request),
             doc! {
                 "$and": [
-                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    exclude_test_reports_filter(),
                     { "opponents.player_id": { "$gt": 0 } },
                     { "$or": [
                         { "sender.player_id": 123_i64 },
@@ -306,7 +306,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
-                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    exclude_test_reports_filter(),
                     { "opponents.player_id": { "$gt": 0 } },
                     {
                         "$and": [
@@ -344,7 +344,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
-                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    exclude_test_reports_filter(),
                     { "opponents.player_id": { "$gt": 0 } },
                     {
                         "$and": [

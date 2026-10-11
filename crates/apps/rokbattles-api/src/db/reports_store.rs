@@ -14,6 +14,25 @@ pub fn exclude_test_client_filter() -> Document {
     doc! { "sender.app_id": { "$ne": TEST_CLIENT_APP_ID } }
 }
 
+/// Exclude test-client reports and custom Ark reports from the separate match server.
+pub fn exclude_test_reports_filter() -> Document {
+    let mut filter = exclude_test_client_filter();
+    // Server 1 custom Ark uses separate character IDs. Older reports retain
+    // normal regional app IDs, so the test-client exclusion alone misses them.
+    filter.insert(
+        "$nor",
+        vec![doc! {
+            "metadata.server_id": 1_i64,
+            "metadata.mail_role": "dungeon",
+            "$and": [
+                { "sender.session": { "$regex": r"(^|&)mode=abp(&|$)" } },
+                { "sender.session": { "$regex": r"(^|&)submode=DiyEgypt(&|$)" } },
+            ],
+        }],
+    );
+    filter
+}
+
 /// Mongo collections
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
@@ -631,6 +650,24 @@ impl ReportsStore {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_report_filter_excludes_only_the_test_client_or_server_one_custom_ark() {
+        assert_eq!(
+            exclude_test_reports_filter(),
+            doc! {
+                "sender.app_id": { "$ne": 10_088_010_i64 },
+                "$nor": [{
+                    "metadata.server_id": 1_i64,
+                    "metadata.mail_role": "dungeon",
+                    "$and": [
+                        { "sender.session": { "$regex": r"(^|&)mode=abp(&|$)" } },
+                        { "sender.session": { "$regex": r"(^|&)submode=DiyEgypt(&|$)" } },
+                    ],
+                }],
+            }
+        );
+    }
 
     #[test]
     fn user_visible_battle_reports_exclude_only_the_test_client() {

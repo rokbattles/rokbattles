@@ -5,7 +5,7 @@ use mongodb::{
     Collection,
     bson::{Document, doc},
 };
-use rokbattles_api::db::{ReportsStore, exclude_test_client_filter};
+use rokbattles_api::db::{ReportsStore, exclude_test_reports_filter};
 use rokbattles_bson::{bson_integer_to_i64, nested_string, nested_value};
 
 use crate::error::JobsError;
@@ -26,7 +26,7 @@ pub struct RefreshBindsStats {
     pub claims_updated: u64,
 }
 
-/// Update claimed governor binds from the newest sender snapshot available.
+/// Update claimed governor binds from the newest eligible sender snapshot.
 pub async fn refresh_claimed_governor_bindings(
     reports_store: &ReportsStore,
 ) -> Result<RefreshBindsStats, JobsError> {
@@ -84,7 +84,7 @@ async fn fetch_latest_sender_snapshots(
         doc! {
             "$match": {
                 "$and": [
-                    exclude_test_client_filter(),
+                    exclude_test_reports_filter(),
                     { "sender.player_id": { "$in": governor_ids } },
                 ]
             }

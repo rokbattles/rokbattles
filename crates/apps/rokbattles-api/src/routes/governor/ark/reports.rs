@@ -22,7 +22,7 @@ use super::{
 };
 use crate::{
     auth::AuthenticatedSession,
-    db::exclude_test_client_filter,
+    db::exclude_test_reports_filter,
     error::ApiError,
     routes::{
         governor::{
@@ -187,7 +187,7 @@ fn report_candidates_filter(receiver: &str, summary: &ArkMatchSummary) -> Option
 
     Some(doc! {
         "$and": [
-            exclude_test_client_filter(),
+            exclude_test_reports_filter(),
             build_mail_time_match(start, end),
             { "metadata.mail_receiver": receiver, "metadata.mail_role": "dungeon" },
             // Enforce both opposing alliances, including the same opponent's player ID.
