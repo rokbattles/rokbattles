@@ -172,6 +172,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "-2_1755774080_86"
@@ -327,6 +328,7 @@
       "match_id": null,
       "period": null,
       "round": 0,
+      "talents": null,
       "team_id": 0
     },
     "tracking_key": "71738515_1755790649_7_96"

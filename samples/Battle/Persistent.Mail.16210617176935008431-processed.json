@@ -302,6 +302,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "116551956_1769349801_506_186_SquareRally"
@@ -511,6 +512,7 @@
       "match_id": null,
       "period": null,
       "round": 0,
+      "talents": null,
       "team_id": 0
     },
     "tracking_key": ""

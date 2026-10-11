@@ -1,0 +1,1212 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "1024201": {
+          "Bts": 452979,
+          "CIdt": {
+            "AId": 1000006635,
+            "AName": "Rise of War",
+            "Abbr": "WAR~",
+            "AppUid": "38470983",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg\"}",
+            "CAHAH": {
+              "ASSISTSKILL": [
+                {
+                  "HeroId": 180,
+                  "Index": 2,
+                  "Level": 5,
+                  "SkillId": 1507
+                },
+                {
+                  "HeroId": 162,
+                  "Index": 3,
+                  "Level": 5,
+                  "SkillId": 1470
+                },
+                {
+                  "HeroId": 194,
+                  "Index": 4,
+                  "Level": 5,
+                  "SkillId": 1562
+                }
+              ],
+              "HeroId": 595
+            },
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 1024201,
+            "CK": "",
+            "COSId": 879,
+            "CT": 1,
+            "CTK": "46077295_1790699666_595_596",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 1454.7908,
+              "Y": 1768.124
+            },
+            "CountryId": 879,
+            "CtId": 5973,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{1:20002_414:15,2:20005_387:15,3:20026_320:15,4:20016_423:14,5:20032_277:15,6:20018_194:15,7:20040_413:13,8:20038_385:15}",
+            "HEq2": "{}",
+            "HFMs": 17,
+            "HFMs2": 17,
+            "HId": 595,
+            "HId2": 596,
+            "HLv": 60,
+            "HLv2": 40,
+            "HSS": [
+              {
+                "SkillId": 420,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1802,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1803,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1804,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              {
+                "SkillId": 423,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1805,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1806,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1807,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1808,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 4,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "20101",
+                "Buffs": "3001_0.032000;4001_0.031000;5001_0.034000",
+                "Id": "75120011_45124"
+              },
+              "2": {
+                "Affix": "17201",
+                "Buffs": "3001_0.029000;4001_0.028000;10002_0.020000",
+                "Id": "75217011_26345"
+              },
+              "3": {
+                "Affix": "20301",
+                "Buffs": "3001_0.035000;4001_0.029000;5001_0.034000",
+                "Id": "75320011_45278"
+              },
+              "4": {
+                "Affix": "20401",
+                "Buffs": "3001_0.033000;4001_0.030000;5001_0.033000",
+                "Id": "75420011_45279"
+              }
+            },
+            "Idt": "1024201",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 46077295,
+            "PName": "乂Vortex乂",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100.1",
+            "SideId": 879,
+            "TRS": [
+              10,
+              18,
+              1
+            ],
+            "Titan": {
+              "BattleId": "",
+              "IronHandSpawnTime": 0,
+              "LegionId": 0,
+              "MatchId": 0,
+              "Period": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "104444356046892183"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -28140,
+            "BadHurt": 1407,
+            "BadReduceCnt": 0,
+            "Cnt": 409006,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 9847,
+            "HurtCntEnd": 15127,
+            "InitMax": 428346,
+            "KillScore": 370480,
+            "Max": 415718,
+            "Power": -28140,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 452999,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -50940,
+            "BadHurt": 18524,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 62204,
+            "HurtCntEnd": 19029,
+            "InitMax": 449350,
+            "KillScore": 28140,
+            "Max": 426521,
+            "Power": -370480,
+            "RetreatCnt": 0,
+            "SkillPower": -319540,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5973": {
+              "Abbr": "WAR~",
+              "HId": 595,
+              "HId2": 596,
+              "HLv": 60,
+              "HLv2": 40,
+              "PId": 46077295,
+              "PName": "乂Vortex乂"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 1450.6182,
+            "Y": 1766.7773
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 21,
+          "TickStart": 452979
+        },
+        "1024301": {
+          "Bts": 452988,
+          "CIdt": {
+            "AId": 1000006635,
+            "AName": "Rise of War",
+            "Abbr": "WAR~",
+            "AppUid": "38470983",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg\"}",
+            "CAHAH": {
+              "ASSISTSKILL": [
+                {
+                  "HeroId": 141,
+                  "Index": 2,
+                  "Level": 5,
+                  "SkillId": 1420
+                },
+                {
+                  "HeroId": 186,
+                  "Index": 3,
+                  "Level": 5,
+                  "SkillId": 1583
+                },
+                {
+                  "HeroId": 6,
+                  "Index": 4,
+                  "Level": 5,
+                  "SkillId": 1011
+                }
+              ],
+              "HeroId": 509
+            },
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 1024301,
+            "CK": "",
+            "COSId": 879,
+            "CT": 1,
+            "CTK": "46077295_1790699669_509_179",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 1454.7908,
+              "Y": 1768.124
+            },
+            "CountryId": 879,
+            "CtId": 5974,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{1:20019_376:25,2:20020_433:25,3:20021_402:25,4:20022_412:24,5:20023_434:25,6:20024_437:25,7:20040_406:23,8:20039_484:23}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 509,
+            "HId2": 179,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              {
+                "SkillId": 362,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1673,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1676,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1675,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              {
+                "SkillId": 1528,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1529,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1530,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1531,
+                "SkillLevel": 1
+              },
+              {
+                "SkillId": 243,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "19101",
+                "Buffs": "3003_0.029000;4003_0.028000;10002_0.020000",
+                "Id": "75119010_42987"
+              },
+              "2": {
+                "Affix": "19201",
+                "Buffs": "3003_0.026000;4003_0.035000;5003_0.024000",
+                "Id": "75219011_47121"
+              },
+              "3": {
+                "Affix": "19301",
+                "Buffs": "3003_0.034000;4003_0.032000;5003_0.031000",
+                "Id": "75319011_41969"
+              },
+              "4": {
+                "Affix": "19401",
+                "Buffs": "3003_0.027000;4003_0.027000;5003_0.031000",
+                "Id": "75419011_41968"
+              }
+            },
+            "Idt": "1024301",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 46077295,
+            "PName": "乂Vortex乂",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100.1",
+            "SideId": 879,
+            "TRS": [
+              10,
+              18,
+              1
+            ],
+            "Titan": {
+              "BattleId": "",
+              "IronHandSpawnTime": 0,
+              "LegionId": 0,
+              "MatchId": 0,
+              "Period": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "104444356046892183"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -6420,
+            "BadHurt": 765,
+            "BadReduceCnt": 0,
+            "Cnt": 408364,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 1368,
+            "HurtCntEnd": 15454,
+            "InitMax": 428346,
+            "KillScore": 386960,
+            "Max": 408127,
+            "Power": -15300,
+            "RetreatCnt": 0,
+            "SkillPower": -8880,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 453001,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -55920,
+            "BadHurt": 19348,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 55676,
+            "HurtCntEnd": 111523,
+            "InitMax": 448360,
+            "KillScore": 15300,
+            "Max": 320838,
+            "Power": -386960,
+            "RetreatCnt": 0,
+            "SkillPower": -331040,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5974": {
+              "Abbr": "WAR~",
+              "HId": 509,
+              "HId2": 179,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 46077295,
+              "PName": "乂Vortex乂"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 1452.9121,
+            "Y": 1765.6665
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 14,
+          "TickStart": 452988
+        },
+        "1024401": {
+          "Bts": 452991,
+          "CIdt": {
+            "AId": 1000006635,
+            "AName": "Rise of War",
+            "Abbr": "WAR~",
+            "AppUid": "38470983",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg\"}",
+            "CAHAH": {
+              "ASSISTSKILL": [
+                {
+                  "HeroId": 64,
+                  "Index": 2,
+                  "Level": 5,
+                  "SkillId": 1141
+                },
+                {
+                  "HeroId": 138,
+                  "Index": 3,
+                  "Level": 5,
+                  "SkillId": 1396
+                },
+                {
+                  "HeroId": 9,
+                  "Index": 4,
+                  "Level": 5,
+                  "SkillId": 1016
+                }
+              ],
+              "HeroId": 540
+            },
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 1024401,
+            "CK": "",
+            "COSId": 879,
+            "CT": 1,
+            "CTK": "46077295_1790699672_540_576",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 1454.7908,
+              "Y": 1768.124
+            },
+            "CountryId": 879,
+            "CtId": 5975,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{1:20007_438:35,2:20008_355:35,3:20009_382:35,4:20028_375:34,5:20033_452:35,6:20012_436:33,7:20118_407:33,8:20037_430:33}",
+            "HEq2": "{}",
+            "HFMs": 13,
+            "HId": 540,
+            "HId2": 576,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              {
+                "SkillId": 389,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1735,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1736,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1737,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1738,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              {
+                "SkillId": 412,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1791,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1792,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1793,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1794,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "13101",
+                "Buffs": "3002_0.034000;4002_0.028000;5002_0.034000",
+                "Id": "75113011_38213"
+              },
+              "2": {
+                "Affix": "13202;205",
+                "Buffs": "3002_0.026000;4002_0.023000;5002_0.033000",
+                "Id": "75213012_23391"
+              },
+              "3": {
+                "Affix": "13301",
+                "Buffs": "3002_0.033000;4002_0.029000;5002_0.034000",
+                "Id": "75313010_37880"
+              },
+              "4": {
+                "Affix": "13401",
+                "Buffs": "3002_0.028000;4002_0.034000;5002_0.031000",
+                "Id": "75413011_41557"
+              }
+            },
+            "Idt": "1024401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 46077295,
+            "PName": "乂Vortex乂",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100.1",
+            "SideId": 879,
+            "TRS": [
+              10,
+              18,
+              1
+            ],
+            "Titan": {
+              "BattleId": "",
+              "IronHandSpawnTime": 0,
+              "LegionId": 0,
+              "MatchId": 0,
+              "Period": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "104444356046892183"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 406672,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 16893,
+            "InitMax": 428346,
+            "KillScore": 92440,
+            "Max": 406797,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 453005,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 4622,
+            "BadReduceCnt": 0,
+            "Cnt": 117292,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 29428,
+            "HurtCntEnd": 284608,
+            "InitMax": 448360,
+            "KillScore": 0,
+            "Max": 340771,
+            "Power": -92440,
+            "RetreatCnt": 0,
+            "SkillPower": -92440,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5975": {
+              "Abbr": "WAR~",
+              "HId": 540,
+              "HId2": 576,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 46077295,
+              "PName": "乂Vortex乂"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 1451.1943,
+            "Y": 1764.4617
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 14,
+          "TickStart": 452991
+        },
+        "1024501": {
+          "Bts": 452988,
+          "CIdt": {
+            "AId": 1000006635,
+            "AName": "Rise of War",
+            "Abbr": "WAR~",
+            "AppUid": "38470983",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg\"}",
+            "CAHAH": {
+              "ASSISTSKILL": [
+                {
+                  "HeroId": 127,
+                  "Index": 2,
+                  "Level": 5,
+                  "SkillId": 1353
+                },
+                {
+                  "HeroId": 115,
+                  "Index": 3,
+                  "Level": 5,
+                  "SkillId": 1316
+                },
+                {
+                  "HeroId": 122,
+                  "Index": 4,
+                  "Level": 5,
+                  "SkillId": 1340
+                }
+              ],
+              "HeroId": 619
+            },
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 1024501,
+            "CK": "",
+            "COSId": 879,
+            "CT": 1,
+            "CTK": "46077295_1790699675_619_575",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 1454.7908,
+              "Y": 1768.124
+            },
+            "CountryId": 879,
+            "CtId": 5976,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{1:20001_432:35,2:20004_369:35,3:20009_391:35,4:20028_384:34,5:20033_276:35,6:20012_366:33,7:20040_364:33,8:20037_419:33}",
+            "HEq2": "{}",
+            "HFMs": 13,
+            "HFMs2": 13,
+            "HId": 619,
+            "HId2": 575,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              {
+                "SkillId": 437,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1832,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1833,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1834,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1835,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              {
+                "SkillId": 1789,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 411,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1787,
+                "SkillLevel": 5
+              },
+              {
+                "SkillId": 1790,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "13101",
+                "Buffs": "3002_0.028000;4002_0.031000;10002_0.019000",
+                "Id": "75113011_27471"
+              },
+              "2": {
+                "Affix": "13201",
+                "Buffs": "3002_0.028000;4002_0.027000;5002_0.029000",
+                "Id": "75213011_38214"
+              },
+              "3": {
+                "Affix": "13301",
+                "Buffs": "3002_0.034000;4002_0.028000;5002_0.033000",
+                "Id": "75313011_38216"
+              },
+              "4": {
+                "Affix": "13401",
+                "Buffs": "3002_0.032000;4002_0.035000;5002_0.027000",
+                "Id": "75413011_38215"
+              }
+            },
+            "Idt": "1024501",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 46077295,
+            "PName": "乂Vortex乂",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100.1",
+            "SideId": 879,
+            "TRS": [
+              10,
+              18,
+              1
+            ],
+            "Titan": {
+              "BattleId": "",
+              "IronHandSpawnTime": 0,
+              "LegionId": 0,
+              "MatchId": 0,
+              "Period": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "104444356046892183"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -11600,
+            "BadHurt": 1668,
+            "BadReduceCnt": 0,
+            "Cnt": 398066,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 8630,
+            "HurtCntEnd": 24084,
+            "InitMax": 428346,
+            "KillScore": 258480,
+            "Max": 408127,
+            "Power": -33360,
+            "RetreatCnt": 0,
+            "SkillPower": -21760,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 453008,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -32000,
+            "BadHurt": 12924,
+            "BadReduceCnt": 0,
+            "Cnt": 32070,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 83940,
+            "HurtCntEnd": 355589,
+            "InitMax": 449350,
+            "KillScore": 33360,
+            "Max": 406160,
+            "Power": -258480,
+            "RetreatCnt": 0,
+            "SkillPower": -226480,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5976": {
+              "Abbr": "WAR~",
+              "HId": 619,
+              "HId2": 575,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 46077295,
+              "PName": "乂Vortex乂"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 1452.9121,
+            "Y": 1765.6665
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 18,
+          "TickStart": 452988
+        }
+      },
+      "Btk": 452979,
+      "Bts": 1790699671,
+      "DataOmit": false,
+      "Ets": 1790699700,
+      "Events": [],
+      "GsId": 21001,
+      "Id": 754386,
+      "LLScriptSchema": 20002,
+      "LoadSource": "mongo",
+      "OOv": {
+        "BadHurt": 55418,
+        "Cnt": 149362,
+        "Dead": 0,
+        "Hurt": 231248,
+        "KillScore": 76800,
+        "Max": 1494290
+      },
+      "Role": "gsmp",
+      "RoomId": 0,
+      "SOv": {
+        "BadHurt": 3840,
+        "Cnt": 398066,
+        "Dead": 0,
+        "Hurt": 19845,
+        "KillScore": 1108360,
+        "Max": 415718
+      },
+      "STs": {
+        "5964": {
+          "Abbr": "BTA",
+          "HId": 540,
+          "HId2": 619,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 132395473,
+          "PName": "데이비 Davy D AW"
+        }
+      },
+      "Samples": [
+        {
+          "Cnt": 415718,
+          "T": 452979
+        },
+        {
+          "Cnt": 408127,
+          "T": 452988
+        },
+        {
+          "Cnt": 406797,
+          "T": 452991
+        },
+        {
+          "Cnt": 404998,
+          "T": 452996
+        },
+        {
+          "Cnt": 402973,
+          "T": 452999
+        },
+        {
+          "Cnt": 408364,
+          "T": 453001
+        },
+        {
+          "Cnt": 406672,
+          "T": 453005
+        },
+        {
+          "Cnt": 398066,
+          "T": 453008
+        }
+      ],
+      "Schema": 20002,
+      "SelfChar": {
+        "AId": 1000006625,
+        "AName": "Burn them all",
+        "Abbr": "BTA",
+        "AppUid": "104563485",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_251.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104563485/2026-07-20/C20F531579821AEBA0820CFD2D5A9952_250x250.jpg\"}",
+        "CAHAH": {
+          "ASSISTSKILL": [
+            {
+              "HeroId": 138,
+              "Index": 2,
+              "Level": 5,
+              "SkillId": 1395
+            },
+            {
+              "HeroId": 103,
+              "Index": 3,
+              "Level": 5,
+              "SkillId": 1259
+            },
+            {
+              "HeroId": 109,
+              "Index": 4,
+              "Level": 5,
+              "SkillId": 1279
+            }
+          ],
+          "HeroId": 540
+        },
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 1023301,
+        "CK": "",
+        "COSId": 473,
+        "CT": 1,
+        "CTK": "132395473_1790699544_540_619",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 1413.845,
+          "Y": 1797.2375
+        },
+        "CountryId": 473,
+        "CtId": 5964,
+        "HAw": true,
+        "HAw2": true,
+        "HEq": "{1:20001_126:34,2:20004_86:31,3:20009_93:34,4:20028_73:31,5:20033_114:34,6:20012_117:31,7:20040_147:31,8:20037_148:31}",
+        "HEq2": "{}",
+        "HFMs": 13,
+        "HId": 540,
+        "HId2": 619,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          {
+            "SkillId": 1738,
+            "SkillLevel": 1
+          },
+          {
+            "SkillId": 389,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1735,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1736,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1737,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          {
+            "SkillId": 437,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1832,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1833,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1834,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1835,
+            "SkillLevel": 1
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "HWBs": {
+          "1": {
+            "Affix": "13101",
+            "Buffs": "3002_0.031000;4002_0.020000;10002_0.020000",
+            "Id": "75113010_25914"
+          },
+          "2": {
+            "Affix": "13201",
+            "Buffs": "3002_0.026000;4002_0.035000;5002_0.031000",
+            "Id": "75213011_13328"
+          },
+          "3": {
+            "Affix": "13301",
+            "Buffs": "3002_0.034000;4002_0.031000;10002_0.020000",
+            "Id": "75313010_13470"
+          },
+          "4": {
+            "Affix": "13402",
+            "Buffs": "3002_0.025000;4002_0.019000;10002_0.017000",
+            "Id": "75413010_27546"
+          }
+        },
+        "Idt": "1023301",
+        "IfAI": 0,
+        "IsAuto": 0,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 132395473,
+        "PName": "데이비 Davy D AW",
+        "PkgNameNew": "com.lilithgames.rok.pc.int",
+        "SerSeason": "100.1",
+        "SideId": 473,
+        "TRS": [
+          3,
+          18,
+          1
+        ],
+        "Titan": {
+          "BattleId": "21001_1790510400740",
+          "IronHandSpawnTime": 0,
+          "LegionId": 200021001,
+          "MatchId": 1,
+          "Period": 9,
+          "Pioneer": false,
+          "Round": 1,
+          "TeamId": 1
+        },
+        "Udid": "23092246663371"
+      },
+      "SpotlightMatch": "",
+      "TickSkip": 100
+    }
+  },
+  "box": "Report",
+  "childNo": 3,
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "34468067179069970029",
+  "isMergeChild": true,
+  "mailScene": 0,
+  "parentId": "132395473_1790699544_540_619pvp",
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_132395473",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 21001,
+  "starMark": 0,
+  "time": 1790699700914593,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

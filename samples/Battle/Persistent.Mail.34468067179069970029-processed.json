@@ -1,0 +1,1209 @@
+{
+  "metadata": {
+    "kvk": true,
+    "ll_script_schema": 20002,
+    "mail_id": "34468067179069970029",
+    "mail_receiver": "player_132395473",
+    "mail_role": "gsmp",
+    "mail_time": 1790699700914593,
+    "report_id": 754386,
+    "room_id": 0,
+    "schema": 20002,
+    "server_id": 21001
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "WAR~",
+        "id": 1000006635,
+        "name": "Rise of War"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 38470983,
+      "as_battle_type": null,
+      "attack": {
+        "def": 2,
+        "id": "1024201",
+        "x": 1450.6182,
+        "y": 1766.7773
+      },
+      "auxiliary_skills": [
+        {
+          "hero_id": 180,
+          "level": 5,
+          "skill_id": 1507
+        },
+        {
+          "hero_id": 162,
+          "level": 5,
+          "skill_id": 1470
+        },
+        {
+          "hero_id": 194,
+          "level": 5,
+          "skill_id": 1562
+        }
+      ],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -50940,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 28140,
+          "merits": 0,
+          "power": -370480,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 18524,
+          "skill_power": -319540,
+          "slightly_wounded": 62204,
+          "troop_units": 426521,
+          "troop_units_max": 449350,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -28140,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 370480,
+          "merits": 0,
+          "power": -28140,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 409006,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1407,
+          "skill_power": 0,
+          "slightly_wounded": 9847,
+          "troop_units": 415718,
+          "troop_units_max": 428346,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 879,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 1454.7908,
+        "y": 1768.124
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "20101",
+              "buffs": "3001_0.032000;4001_0.031000;5001_0.034000",
+              "id": 1
+            },
+            {
+              "affix": "17201",
+              "buffs": "3001_0.029000;4001_0.028000;10002_0.020000",
+              "id": 2
+            },
+            {
+              "affix": "20301",
+              "buffs": "3001_0.035000;4001_0.029000;5001_0.034000",
+              "id": 3
+            },
+            {
+              "affix": "20401",
+              "buffs": "3001_0.033000;4001_0.030000;5001_0.033000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20002_414:15,2:20005_387:15,3:20026_320:15,4:20016_423:14,5:20032_277:15,6:20018_194:15,7:20040_413:13,8:20038_385:15}",
+          "formation": 17,
+          "id": 595,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 420,
+              "level": 5
+            },
+            {
+              "id": 1802,
+              "level": 5
+            },
+            {
+              "id": 1803,
+              "level": 5
+            },
+            {
+              "id": 1804,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 17,
+          "id": 596,
+          "level": 40,
+          "relics": null,
+          "skills": [
+            {
+              "id": 423,
+              "level": 5
+            },
+            {
+              "id": 1805,
+              "level": 5
+            },
+            {
+              "id": 1806,
+              "level": 5
+            },
+            {
+              "id": 1807,
+              "level": 5
+            },
+            {
+              "id": 1808,
+              "level": 1
+            }
+          ],
+          "star_level": 4
+        }
+      },
+      "end_tick": 452999,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png",
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 879,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "WAR~"
+          },
+          "commanders": {
+            "primary": {
+              "id": 595,
+              "level": 60
+            },
+            "secondary": {
+              "id": 596,
+              "level": 40
+            }
+          },
+          "participant_id": 5973,
+          "player_id": 46077295,
+          "player_name": "乂Vortex乂"
+        }
+      ],
+      "player_id": 46077295,
+      "player_name": "乂Vortex乂",
+      "rally": null,
+      "server_season": "100.1",
+      "session": null,
+      "start_tick": 452979,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": [
+          10,
+          18,
+          1
+        ],
+        "team_id": 0
+      },
+      "tracking_key": "46077295_1790699666_595_596"
+    },
+    {
+      "alliance": {
+        "abbreviation": "WAR~",
+        "id": 1000006635,
+        "name": "Rise of War"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 38470983,
+      "as_battle_type": null,
+      "attack": {
+        "def": 2,
+        "id": "1024301",
+        "x": 1452.9121,
+        "y": 1765.6665
+      },
+      "auxiliary_skills": [
+        {
+          "hero_id": 141,
+          "level": 5,
+          "skill_id": 1420
+        },
+        {
+          "hero_id": 186,
+          "level": 5,
+          "skill_id": 1583
+        },
+        {
+          "hero_id": 6,
+          "level": 5,
+          "skill_id": 1011
+        }
+      ],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -55920,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 15300,
+          "merits": 0,
+          "power": -386960,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 19348,
+          "skill_power": -331040,
+          "slightly_wounded": 55676,
+          "troop_units": 320838,
+          "troop_units_max": 448360,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -6420,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 386960,
+          "merits": 0,
+          "power": -15300,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 408364,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 765,
+          "skill_power": -8880,
+          "slightly_wounded": 1368,
+          "troop_units": 408127,
+          "troop_units_max": 428346,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 879,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 1454.7908,
+        "y": 1768.124
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "19101",
+              "buffs": "3003_0.029000;4003_0.028000;10002_0.020000",
+              "id": 1
+            },
+            {
+              "affix": "19201",
+              "buffs": "3003_0.026000;4003_0.035000;5003_0.024000",
+              "id": 2
+            },
+            {
+              "affix": "19301",
+              "buffs": "3003_0.034000;4003_0.032000;5003_0.031000",
+              "id": 3
+            },
+            {
+              "affix": "19401",
+              "buffs": "3003_0.027000;4003_0.027000;5003_0.031000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20019_376:25,2:20020_433:25,3:20021_402:25,4:20022_412:24,5:20023_434:25,6:20024_437:25,7:20040_406:23,8:20039_484:23}",
+          "formation": 2,
+          "id": 509,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 362,
+              "level": 5
+            },
+            {
+              "id": 1673,
+              "level": 5
+            },
+            {
+              "id": 1676,
+              "level": 5
+            },
+            {
+              "id": 1675,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 2,
+          "id": 179,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1528,
+              "level": 5
+            },
+            {
+              "id": 1529,
+              "level": 5
+            },
+            {
+              "id": 1530,
+              "level": 5
+            },
+            {
+              "id": 1531,
+              "level": 1
+            },
+            {
+              "id": 243,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 453001,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png",
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 879,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "WAR~"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          },
+          "participant_id": 5974,
+          "player_id": 46077295,
+          "player_name": "乂Vortex乂"
+        }
+      ],
+      "player_id": 46077295,
+      "player_name": "乂Vortex乂",
+      "rally": null,
+      "server_season": "100.1",
+      "session": null,
+      "start_tick": 452988,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": [
+          10,
+          18,
+          1
+        ],
+        "team_id": 0
+      },
+      "tracking_key": "46077295_1790699669_509_179"
+    },
+    {
+      "alliance": {
+        "abbreviation": "WAR~",
+        "id": 1000006635,
+        "name": "Rise of War"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 38470983,
+      "as_battle_type": null,
+      "attack": {
+        "def": 0,
+        "id": "1024401",
+        "x": 1451.1943,
+        "y": 1764.4617
+      },
+      "auxiliary_skills": [
+        {
+          "hero_id": 64,
+          "level": 5,
+          "skill_id": 1141
+        },
+        {
+          "hero_id": 138,
+          "level": 5,
+          "skill_id": 1396
+        },
+        {
+          "hero_id": 9,
+          "level": 5,
+          "skill_id": 1016
+        }
+      ],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -92440,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 117292,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 4622,
+          "skill_power": -92440,
+          "slightly_wounded": 29428,
+          "troop_units": 340771,
+          "troop_units_max": 448360,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 92440,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 406672,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 406797,
+          "troop_units_max": 428346,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 879,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 1454.7908,
+        "y": 1768.124
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "13101",
+              "buffs": "3002_0.034000;4002_0.028000;5002_0.034000",
+              "id": 1
+            },
+            {
+              "affix": "13202;205",
+              "buffs": "3002_0.026000;4002_0.023000;5002_0.033000",
+              "id": 2
+            },
+            {
+              "affix": "13301",
+              "buffs": "3002_0.033000;4002_0.029000;5002_0.034000",
+              "id": 3
+            },
+            {
+              "affix": "13401",
+              "buffs": "3002_0.028000;4002_0.034000;5002_0.031000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20007_438:35,2:20008_355:35,3:20009_382:35,4:20028_375:34,5:20033_452:35,6:20012_436:33,7:20118_407:33,8:20037_430:33}",
+          "formation": 13,
+          "id": 540,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 389,
+              "level": 5
+            },
+            {
+              "id": 1735,
+              "level": 5
+            },
+            {
+              "id": 1736,
+              "level": 5
+            },
+            {
+              "id": 1737,
+              "level": 5
+            },
+            {
+              "id": 1738,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 576,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 412,
+              "level": 5
+            },
+            {
+              "id": 1791,
+              "level": 5
+            },
+            {
+              "id": 1792,
+              "level": 5
+            },
+            {
+              "id": 1793,
+              "level": 5
+            },
+            {
+              "id": 1794,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 453005,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png",
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 879,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "WAR~"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 576,
+              "level": 60
+            }
+          },
+          "participant_id": 5975,
+          "player_id": 46077295,
+          "player_name": "乂Vortex乂"
+        }
+      ],
+      "player_id": 46077295,
+      "player_name": "乂Vortex乂",
+      "rally": null,
+      "server_season": "100.1",
+      "session": null,
+      "start_tick": 452991,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": [
+          10,
+          18,
+          1
+        ],
+        "team_id": 0
+      },
+      "tracking_key": "46077295_1790699672_540_576"
+    },
+    {
+      "alliance": {
+        "abbreviation": "WAR~",
+        "id": 1000006635,
+        "name": "Rise of War"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 38470983,
+      "as_battle_type": null,
+      "attack": {
+        "def": 0,
+        "id": "1024501",
+        "x": 1452.9121,
+        "y": 1765.6665
+      },
+      "auxiliary_skills": [
+        {
+          "hero_id": 127,
+          "level": 5,
+          "skill_id": 1353
+        },
+        {
+          "hero_id": 115,
+          "level": 5,
+          "skill_id": 1316
+        },
+        {
+          "hero_id": 122,
+          "level": 5,
+          "skill_id": 1340
+        }
+      ],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38470983/2026-03-18/173C2EC470E62787551F0288F71C7F0C_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -32000,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 33360,
+          "merits": 0,
+          "power": -258480,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 32070,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 12924,
+          "skill_power": -226480,
+          "slightly_wounded": 83940,
+          "troop_units": 406160,
+          "troop_units_max": 449350,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -11600,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 258480,
+          "merits": 0,
+          "power": -33360,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 398066,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1668,
+          "skill_power": -21760,
+          "slightly_wounded": 8630,
+          "troop_units": 408127,
+          "troop_units_max": 428346,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 879,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 1454.7908,
+        "y": 1768.124
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "13101",
+              "buffs": "3002_0.028000;4002_0.031000;10002_0.019000",
+              "id": 1
+            },
+            {
+              "affix": "13201",
+              "buffs": "3002_0.028000;4002_0.027000;5002_0.029000",
+              "id": 2
+            },
+            {
+              "affix": "13301",
+              "buffs": "3002_0.034000;4002_0.028000;5002_0.033000",
+              "id": 3
+            },
+            {
+              "affix": "13401",
+              "buffs": "3002_0.032000;4002_0.035000;5002_0.027000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20001_432:35,2:20004_369:35,3:20009_391:35,4:20028_384:34,5:20033_276:35,6:20012_366:33,7:20040_364:33,8:20037_419:33}",
+          "formation": 13,
+          "id": 619,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 437,
+              "level": 5
+            },
+            {
+              "id": 1832,
+              "level": 5
+            },
+            {
+              "id": 1833,
+              "level": 5
+            },
+            {
+              "id": 1834,
+              "level": 5
+            },
+            {
+              "id": 1835,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 13,
+          "id": 575,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1789,
+              "level": 5
+            },
+            {
+              "id": 411,
+              "level": 5
+            },
+            {
+              "id": 1787,
+              "level": 5
+            },
+            {
+              "id": 1790,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 453008,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_224.png",
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 879,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "WAR~"
+          },
+          "commanders": {
+            "primary": {
+              "id": 619,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 60
+            }
+          },
+          "participant_id": 5976,
+          "player_id": 46077295,
+          "player_name": "乂Vortex乂"
+        }
+      ],
+      "player_id": 46077295,
+      "player_name": "乂Vortex乂",
+      "rally": null,
+      "server_season": "100.1",
+      "session": null,
+      "start_tick": 452988,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": [
+          10,
+          18,
+          1
+        ],
+        "team_id": 0
+      },
+      "tracking_key": "46077295_1790699675_619_575"
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "BTA",
+      "id": 1000006625,
+      "name": "Burn them all"
+    },
+    "alliance_building_id": null,
+    "app_id": 2104267,
+    "app_uid": 104563485,
+    "as_battle_type": null,
+    "auxiliary_skills": [
+      {
+        "hero_id": 138,
+        "level": 5,
+        "skill_id": 1395
+      },
+      {
+        "hero_id": 103,
+        "level": 5,
+        "skill_id": 1259
+      },
+      {
+        "hero_id": 109,
+        "level": 5,
+        "skill_id": 1279
+      }
+    ],
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104563485/2026-07-20/C20F531579821AEBA0820CFD2D5A9952_250x250.jpg",
+    "camp_id": 473,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 1413.845,
+      "y": 1797.2375
+    },
+    "character_type": 1,
+    "commanders": {
+      "primary": {
+        "armaments": [
+          {
+            "affix": "13101",
+            "buffs": "3002_0.031000;4002_0.020000;10002_0.020000",
+            "id": 1
+          },
+          {
+            "affix": "13201",
+            "buffs": "3002_0.026000;4002_0.035000;5002_0.031000",
+            "id": 2
+          },
+          {
+            "affix": "13301",
+            "buffs": "3002_0.034000;4002_0.031000;10002_0.020000",
+            "id": 3
+          },
+          {
+            "affix": "13402",
+            "buffs": "3002_0.025000;4002_0.019000;10002_0.017000",
+            "id": 4
+          }
+        ],
+        "awakened": true,
+        "equipment": "{1:20001_126:34,2:20004_86:31,3:20009_93:34,4:20028_73:31,5:20033_114:34,6:20012_117:31,7:20040_147:31,8:20037_148:31}",
+        "formation": 13,
+        "id": 540,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 1738,
+            "level": 1
+          },
+          {
+            "id": 389,
+            "level": 5
+          },
+          {
+            "id": 1735,
+            "level": 5
+          },
+          {
+            "id": 1736,
+            "level": 5
+          },
+          {
+            "id": 1737,
+            "level": 5
+          }
+        ],
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{}",
+        "formation": null,
+        "id": 619,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 437,
+            "level": 5
+          },
+          {
+            "id": 1832,
+            "level": 5
+          },
+          {
+            "id": 1833,
+            "level": 5
+          },
+          {
+            "id": 1834,
+            "level": 5
+          },
+          {
+            "id": 1835,
+            "level": 1
+          }
+        ],
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_251.png",
+    "is_auto": 0,
+    "is_outpost": null,
+    "is_turret": null,
+    "kingdom_id": 473,
+    "package_identifier": "com.lilithgames.rok.pc.int",
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": "BTA"
+        },
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60
+          },
+          "secondary": {
+            "id": 619,
+            "level": 60
+          }
+        },
+        "participant_id": 5964,
+        "player_id": 132395473,
+        "player_name": "데이비 Davy D AW"
+      }
+    ],
+    "player_id": 132395473,
+    "player_name": "데이비 Davy D AW",
+    "rally": null,
+    "server_season": "100.1",
+    "session": null,
+    "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
+    "supreme_strife": {
+      "battle_id": "21001_1790510400740",
+      "ironhand_spawn_time": 0,
+      "legion_id": 200021001,
+      "match_id": 1,
+      "period": 9,
+      "round": 1,
+      "talents": [
+        3,
+        18,
+        1
+      ],
+      "team_id": 1
+    },
+    "tracking_key": "132395473_1790699544_540_619"
+  },
+  "summary": {
+    "opponent": {
+      "dead": 0,
+      "kill_points": 76800,
+      "remaining": 149362,
+      "severely_wounded": 55418,
+      "slightly_wounded": 231248,
+      "troop_units": 1494290
+    },
+    "sender": {
+      "dead": 0,
+      "kill_points": 1108360,
+      "remaining": 398066,
+      "severely_wounded": 3840,
+      "slightly_wounded": 19845,
+      "troop_units": 415718
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1790699700,
+    "events": [],
+    "sampling": [
+      {
+        "count": 415718,
+        "tick": 452979
+      },
+      {
+        "count": 408127,
+        "tick": 452988
+      },
+      {
+        "count": 406797,
+        "tick": 452991
+      },
+      {
+        "count": 404998,
+        "tick": 452996
+      },
+      {
+        "count": 402973,
+        "tick": 452999
+      },
+      {
+        "count": 408364,
+        "tick": 453001
+      },
+      {
+        "count": 406672,
+        "tick": 453005
+      },
+      {
+        "count": 398066,
+        "tick": 453008
+      }
+    ],
+    "start_tick": 452979,
+    "start_timestamp": 1790699671
+  }
+}

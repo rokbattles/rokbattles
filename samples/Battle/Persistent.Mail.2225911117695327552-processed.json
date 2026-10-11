@@ -12704,6 +12704,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": ""
@@ -12922,6 +12923,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769528414_595_545"
@@ -13140,6 +13142,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769528419_509_6"
@@ -13362,6 +13365,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769528422_195_186"
@@ -13576,6 +13580,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769528428_579_575"
@@ -13794,6 +13799,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5093787_1769528614_595_545"
@@ -14012,6 +14018,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "2728540_1769528749_509_6"
@@ -14226,6 +14233,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18663801_1769528907_579_575"
@@ -14448,6 +14456,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "121797186_1769528914_185_98"
@@ -14666,6 +14675,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769528916_595_194"
@@ -14884,6 +14894,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "121797186_1769528917_540_575"
@@ -15106,6 +15117,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769528918_545_185"
@@ -15324,6 +15336,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769528921_509_6"
@@ -15542,6 +15555,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769528924_198_140"
@@ -15764,6 +15778,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769528927_540_459"
@@ -15986,6 +16001,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769528930_179_187"
@@ -16204,6 +16220,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "121797186_1769528947_182_148"
@@ -16422,6 +16439,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "66126870_1769528987_509_179"
@@ -16640,6 +16658,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31669826_1769529108_509_179"
@@ -16858,6 +16877,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5415107_1769529111_509_6"
@@ -17072,6 +17092,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "15964597_1769529114_575_579"
@@ -17290,6 +17311,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "74546111_1769529149_509_6"
@@ -17508,6 +17530,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75908538_1769529160_509_179"
@@ -17726,6 +17749,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40812700_1769529179_198_140"
@@ -17944,6 +17968,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769529191_190_189"
@@ -18162,6 +18187,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "41802504_1769529250_595_545"
@@ -18380,6 +18406,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6108852_1769529286_509_6"
@@ -18598,6 +18625,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769529286_595_194"
@@ -18820,6 +18848,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769529288_185_98"
@@ -19042,6 +19071,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769529291_545_459"
@@ -19260,6 +19290,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769529293_509_6"
@@ -19478,6 +19509,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769529294_509_6"
@@ -19700,6 +19732,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769529297_179_195"
@@ -19922,6 +19955,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6722214_1769529310_185_98"
@@ -20144,6 +20178,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529311_540_115"
@@ -20362,6 +20397,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529317_595_545"
@@ -20580,6 +20616,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6722214_1769529318_595_545"
@@ -20802,6 +20839,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529320_185_98"
@@ -21020,6 +21058,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6722214_1769529321_540_575"
@@ -21238,6 +21277,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3987185_1769529321_509_6"
@@ -21460,6 +21500,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529323_187_179"
@@ -21678,6 +21719,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6722214_1769529324_182_148"
@@ -21896,6 +21938,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "8738170_1769529325_189_190"
@@ -22110,6 +22153,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529326_575_579"
@@ -22328,6 +22372,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31669826_1769529327_198_140"
@@ -22550,6 +22595,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31669826_1769529329_545_185"
@@ -22772,6 +22818,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31669826_1769529332_138_148"
@@ -22990,6 +23037,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31669826_1769529335_182_540"
@@ -23208,6 +23256,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6104319_1769529338_509_6"
@@ -23426,6 +23475,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6104319_1769529340_595_545"
@@ -23644,6 +23694,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "59250548_1769529348_190_189"
@@ -23866,6 +23917,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769529350_175_189"
@@ -24084,6 +24136,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26795734_1769529353_509_6"
@@ -24302,6 +24355,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769529357_198_140"
@@ -24520,6 +24574,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769529359_509_6"
@@ -24742,6 +24797,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769529362_179_187"
@@ -24964,6 +25020,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769529365_545_185"
@@ -25182,6 +25239,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21928143_1769529383_190_189"
@@ -25400,6 +25458,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "93140290_1769529387_509_179"
@@ -25618,6 +25677,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "93140290_1769529390_595_545"
@@ -25836,6 +25896,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769529395_545_130"
@@ -26050,6 +26111,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "93140290_1769529396_575_579"
@@ -26268,6 +26330,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "34851989_1769529398_595_545"
@@ -26486,6 +26549,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40812700_1769529403_190_189"
@@ -26708,6 +26772,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529403_187_179"
@@ -26922,6 +26987,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529415_575_579"
@@ -27144,6 +27210,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529418_540_576"
@@ -27362,6 +27429,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529315_509_6"
@@ -27576,6 +27644,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769529427_575_579"
@@ -27794,6 +27863,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "30216510_1769529428_190_189"
@@ -28012,6 +28082,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769529430_509_179"
@@ -28230,6 +28301,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769529433_595_545"
@@ -28448,6 +28520,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769529439_190_189"
@@ -28666,6 +28739,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "54138530_1769529497_595_545"
@@ -28884,6 +28958,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37360378_1769529519_190_189"
@@ -29106,6 +29181,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11308151_1769525279_578_576"
@@ -29324,6 +29400,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529554_509_6"
@@ -29542,6 +29619,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529557_595_545"
@@ -29764,6 +29842,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529560_185_98"
@@ -29986,6 +30065,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529563_187_179"
@@ -30200,6 +30280,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529566_575_579"
@@ -30422,6 +30503,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769529569_540_115"
@@ -30636,6 +30718,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769529300_575_579"
@@ -30984,6 +31067,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769529382_103_575_SquareRally"
@@ -31206,6 +31290,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "135030064_1769529623_185_459"
@@ -31424,6 +31509,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769529628_540_575"
@@ -31642,6 +31728,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31679831_1769529669_509_6"
@@ -31864,6 +31951,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "70176209_1769525382_578_576"
@@ -32198,6 +32286,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "41079688_1769529414_103_539_SquareRally"
@@ -32382,6 +32471,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "43067150_1769525781_99"
@@ -32600,6 +32690,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "43067150_1769525770_185_182"
@@ -32797,6 +32888,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "43067150_1769525755_61"
@@ -32998,6 +33090,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "43067150_1769525741_7"
@@ -33216,6 +33309,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529710_509_6"
@@ -33434,6 +33528,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529712_595_545"
@@ -33656,6 +33751,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529715_185_98"
@@ -33878,6 +33974,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769529718_459_140"
@@ -34096,6 +34193,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769529810_595_545"
@@ -34314,6 +34412,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769529813_509_6"
@@ -34536,6 +34635,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769529816_540_115"
@@ -34750,6 +34850,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769529819_579_575"
@@ -35116,6 +35217,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769529697_103_575_SquareRally"
@@ -35338,6 +35440,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769529960_185_140"
@@ -35556,6 +35659,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769529991_509_179"
@@ -35778,6 +35882,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769529994_545_185"
@@ -36104,6 +36209,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13537865_1769529779_197_161_SquareRally"
@@ -36318,6 +36424,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "8738170_1769528857_579_575"
@@ -36532,6 +36639,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "19854296_1769530050_190_189"
@@ -36750,6 +36858,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530054_509_6"
@@ -36972,6 +37081,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530056_187_179"
@@ -37190,6 +37300,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530059_595_545"
@@ -37412,6 +37523,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530062_459_140"
@@ -37626,6 +37738,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530065_575_579"
@@ -37848,6 +37961,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530068_540_576"
@@ -38066,6 +38180,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3480868_1769530069_509_6"
@@ -38288,6 +38403,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3480868_1769530071_179_459"
@@ -38510,6 +38626,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "71564219_1769530077_185_98"
@@ -38728,6 +38845,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769530102_595_545"
@@ -38946,6 +39064,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769530136_182_148"
@@ -39139,6 +39258,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769530168_579_575"
@@ -39357,6 +39477,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769530171_509_6"
@@ -39575,6 +39696,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769530174_595_545"
@@ -39797,6 +39919,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769530177_179_187"
@@ -40019,6 +40142,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769530180_185_194"
@@ -40241,6 +40365,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769530183_186_195"
@@ -40455,6 +40580,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "30216510_1769530194_579_575"
@@ -40677,6 +40803,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "30216510_1769530197_540_459"
@@ -40899,6 +41026,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3497995_1769530206_540_115"
@@ -41117,6 +41245,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10367779_1769530231_509_6"
@@ -41335,6 +41464,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769530245_595_545"
@@ -41557,6 +41687,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769530248_540_459"
@@ -41941,6 +42072,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769530009_103_575_SquareRally"
@@ -42155,6 +42287,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769530251_575_579"
@@ -42503,6 +42636,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "4759359_1769530073_197_10_SquareRally"
@@ -42721,6 +42855,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "133347325_1769530365_509_6"
@@ -42943,6 +43078,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11794206_1769530557_179_195"
@@ -43327,6 +43463,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "44183166_1769530333_10_131_SquareRally"
@@ -43545,6 +43682,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62393946_1769530589_595_545"
@@ -43763,6 +43901,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5093787_1769530625_509_179"
@@ -43981,6 +44120,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "74546111_1769530625_509_6"
@@ -44203,6 +44343,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "138022497_1769530648_540_115"
@@ -44421,6 +44562,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "155192039_1769530660_540_575"
@@ -44639,6 +44781,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769530661_509_179"
@@ -44861,6 +45004,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769530664_545_185"
@@ -45263,6 +45407,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13537865_1769530384_197_131_SquareRally"
@@ -45477,6 +45622,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769530667_579_575"
@@ -45695,6 +45841,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769530670_182_148"
@@ -45917,6 +46064,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769530673_540_459"
@@ -46135,6 +46283,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "29338219_1769530726_509_6"
@@ -46353,6 +46502,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769530737_509_179"
@@ -46571,6 +46721,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769530738_595_545"
@@ -46789,6 +46940,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769530740_595_194"
@@ -47011,6 +47163,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769530743_185_545"
@@ -47233,6 +47386,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769530746_195_186"
@@ -47447,6 +47601,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769530746_579_575"
@@ -47669,6 +47824,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769530749_179_187"
@@ -47891,6 +48047,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769530749_540_459"
@@ -48113,6 +48270,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769530752_195_6"
@@ -48327,6 +48485,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769530752_579_575"
@@ -48545,6 +48704,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769530755_182_540"
@@ -48767,6 +48927,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769530762_175_189"
@@ -48985,6 +49146,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769530765_509_6"
@@ -49203,6 +49365,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9766100_1769530774_540_575"
@@ -49425,6 +49588,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769530790_179_187"
@@ -49643,6 +49807,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769530792_595_185"
@@ -49857,6 +50022,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769530798_575_579"
@@ -50075,6 +50241,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769530801_182_540"
@@ -50297,6 +50464,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5415107_1769530816_185_98"
@@ -50519,6 +50687,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5415107_1769530819_179_459"
@@ -50733,6 +50902,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5415107_1769530822_579_575"
@@ -50951,6 +51121,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "42981395_1769530827_595_545"
@@ -51169,6 +51340,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5415107_1769530850_509_6"
@@ -51387,6 +51559,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3430258_1769530889_509_179"
@@ -51605,6 +51778,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5415107_1769530925_595_545"
@@ -51989,6 +52163,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769530690_103_575_SquareRally"
@@ -52207,6 +52382,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10087457_1769530995_509_6"
@@ -52591,6 +52767,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "4759359_1769530747_197_10_SquareRally"
@@ -52809,6 +52986,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "17563040_1769531005_595_545"
@@ -53002,6 +53180,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769531005_579_575"
@@ -53224,6 +53403,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769531017_185_194"
@@ -53446,6 +53626,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "40916960_1769531020_186_195"
@@ -53664,6 +53845,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "74546111_1769531046_540_575"
@@ -53882,6 +54064,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531050_595_185"
@@ -54100,6 +54283,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531053_509_179"
@@ -54322,6 +54506,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531056_540_115"
@@ -54536,6 +54721,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531059_579_575"
@@ -54758,6 +54944,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531062_148_138"
@@ -54976,6 +55163,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769531066_509_6"
@@ -55190,6 +55378,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769531080_575_579"
@@ -55408,6 +55597,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37218623_1769531089_595_194"
@@ -55626,6 +55816,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12654270_1769531147_595_185"
@@ -55844,6 +56035,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "77809884_1769531190_595_545"
@@ -56192,6 +56384,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769531000_103_575_SquareRally"
@@ -56410,6 +56603,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1201146_1769531249_595_545"
@@ -56624,6 +56818,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31492292_1769531271_579_575"
@@ -56842,6 +57037,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "28874635_1769531307_595_185"
@@ -57198,6 +57394,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13537865_1769531069_103_104_SquareRally"
@@ -57420,6 +57617,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "15964597_1769531334_179_187"
@@ -57638,6 +57836,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769531353_509_6"
@@ -57856,6 +58055,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769531359_182_148"
@@ -58074,6 +58274,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531379_595_185"
@@ -58292,6 +58493,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531382_509_179"
@@ -58514,6 +58716,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531385_540_115"
@@ -58728,6 +58931,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531388_579_575"
@@ -58950,6 +59154,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18103662_1769531391_148_138"
@@ -59172,6 +59377,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "135030064_1769531396_185_459"
@@ -59390,6 +59596,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9031871_1769531426_509_6"
@@ -59608,6 +59815,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "93140290_1769531430_595_545"
@@ -59822,6 +60030,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "138022497_1769531431_575_579"
@@ -60036,6 +60245,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9031871_1769531438_575_579"
@@ -60254,6 +60464,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37360378_1769531507_190_189"
@@ -60472,6 +60683,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62312731_1769531528_509_6"
@@ -60690,6 +60902,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "20185357_1769531537_509_6"
@@ -61056,6 +61269,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769531313_103_575_SquareRally"
@@ -61274,6 +61488,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769531555_509_6"
@@ -61496,6 +61711,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769531558_179_187"
@@ -61718,6 +61934,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769531561_185_98"
@@ -61936,6 +62153,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769531591_509_179"
@@ -62154,6 +62372,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769531594_595_194"
@@ -62376,6 +62595,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769531596_540_576"
@@ -62598,6 +62818,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769531597_185_545"
@@ -62812,6 +63033,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769531600_579_575"
@@ -63034,6 +63256,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769531602_179_459"
@@ -63256,6 +63479,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769531603_540_459"
@@ -63478,6 +63702,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769531605_540_115"
@@ -63700,6 +63925,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769531606_195_6"
@@ -63914,6 +64140,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769531608_579_575"
@@ -64280,6 +64507,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "4759359_1769531386_197_10_SquareRally"
@@ -64502,6 +64730,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769531639_540_459"
@@ -64716,6 +64945,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56024386_1769531655_575_579"
@@ -64934,6 +65164,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "10988067_1769531658_595_185"
@@ -65148,6 +65379,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769531693_579_575"
@@ -65366,6 +65598,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531696_595_194"
@@ -65588,6 +65821,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769531696_540_576"
@@ -65810,6 +66044,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531698_185_98"
@@ -66032,6 +66267,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531701_545_459"
@@ -66250,6 +66486,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531704_509_6"
@@ -66472,6 +66709,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531707_179_195"
@@ -66686,6 +66924,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531710_575_579"
@@ -66904,6 +67143,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769531726_509_179"
@@ -67126,6 +67366,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769531727_185_98"
@@ -67348,6 +67589,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769531730_545_185"
@@ -67562,6 +67804,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769531734_579_575"
@@ -67780,6 +68023,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769531738_182_148"
@@ -67998,6 +68242,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769531757_540_575"
@@ -68220,6 +68465,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6104319_1769531771_540_459"
@@ -68438,6 +68684,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13346444_1769531774_595_194"
@@ -68660,6 +68907,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769531827_540_576"
@@ -68878,6 +69126,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769531841_595_545"
@@ -69096,6 +69345,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769531847_509_6"
@@ -69318,6 +69568,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769531850_195_186"
@@ -69540,6 +69791,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769531853_179_187"
@@ -69906,6 +70158,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769531619_103_575_SquareRally"
@@ -70124,6 +70377,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37218623_1769531884_509_179"
@@ -70346,6 +70600,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37218623_1769531889_185_98"
@@ -70564,6 +70819,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37218623_1769531892_595_194"
@@ -70782,6 +71038,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37218623_1769531895_182_148"
@@ -71000,6 +71257,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "37218623_1769531898_540_575"
@@ -71218,6 +71476,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "8738170_1769531902_509_6"
@@ -71440,6 +71699,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769531288_540_459"
@@ -71662,6 +71922,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769531906_138_192"
@@ -71880,6 +72141,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31492292_1769531918_509_6"
@@ -72094,6 +72356,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31492292_1769531930_579_575"
@@ -72316,6 +72579,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769531934_179_459"
@@ -72844,6 +73108,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13537865_1769531702_131_10_SquareRally"
@@ -73058,6 +73323,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12902531_1769531953_575_579"
@@ -73276,6 +73542,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3015053_1769532020_595_185"
@@ -73498,6 +73765,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3015053_1769532032_459_545"
@@ -73720,6 +73988,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "3015053_1769532035_195_179"
@@ -73938,6 +74207,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "16709775_1769532037_595_185"
@@ -74156,6 +74426,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769532037_509_6"
@@ -74378,6 +74649,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769532060_545_194"
@@ -74600,6 +74872,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "83531919_1769532063_179_187"
@@ -74814,6 +75087,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769532063_575_579"
@@ -75032,6 +75306,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9802541_1769532066_182_540"
@@ -75250,6 +75525,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532077_595_194"
@@ -75472,6 +75748,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532079_185_98"
@@ -75694,6 +75971,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532082_545_459"
@@ -75916,6 +76194,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "8888366_1769532084_545_185"
@@ -76134,6 +76413,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532085_509_6"
@@ -76352,6 +76632,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "25499449_1769532085_509_179"
@@ -76570,6 +76851,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769532085_509_179"
@@ -76784,6 +77066,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "8888366_1769532087_575_579"
@@ -77002,6 +77285,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769532088_595_194"
@@ -77224,6 +77508,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532088_179_195"
@@ -77446,6 +77731,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "25499449_1769532091_545_459"
@@ -77668,6 +77954,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769532091_185_545"
@@ -77882,6 +78169,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532091_575_579"
@@ -78104,6 +78392,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58526952_1769532094_540_576"
@@ -78318,6 +78607,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769532094_579_575"
@@ -78540,6 +78830,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769532097_540_459"
@@ -78762,6 +79053,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "58882150_1769532100_195_6"
@@ -78984,6 +79276,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "124677212_1769532107_179_459"
@@ -79202,6 +79495,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769532130_595_545"
@@ -79420,6 +79714,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532132_509_6"
@@ -79642,6 +79937,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13346444_1769532133_545_185"
@@ -79860,6 +80156,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532135_595_185"
@@ -80082,6 +80379,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "30216510_1769532137_540_459"
@@ -80300,6 +80598,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532138_545_130"
@@ -80522,6 +80821,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532141_179_459"
@@ -80736,6 +81036,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532144_579_575"
@@ -80954,6 +81255,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13315180_1769532145_509_6"
@@ -81176,6 +81478,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532147_540_576"
@@ -81394,6 +81697,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "54138530_1769532156_595_545"
@@ -81778,6 +82082,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769531920_103_575_SquareRally"
@@ -81996,6 +82301,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769532166_509_6"
@@ -82214,6 +82520,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18850140_1769532190_509_179"
@@ -82432,6 +82739,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12695972_1769532206_595_545"
@@ -82650,6 +82958,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12695972_1769532208_509_6"
@@ -82872,6 +83181,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "38659743_1769532209_540_459"
@@ -83090,6 +83400,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12695972_1769532211_540_575"
@@ -83312,6 +83623,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12695972_1769532214_185_98"
@@ -83534,6 +83846,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "12695972_1769532217_179_187"
@@ -83752,6 +84065,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "52942505_1769532220_595_545"
@@ -83970,6 +84284,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "4825135_1769532232_509_6"
@@ -84192,6 +84507,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "94184266_1769532237_545_185"
@@ -84410,6 +84726,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769532246_595_545"
@@ -84624,6 +84941,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "54138530_1769532250_575_579"
@@ -84842,6 +85160,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532253_509_6"
@@ -85060,6 +85379,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "4759359_1769532254_509_6"
@@ -85282,6 +85602,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532256_179_187"
@@ -85500,6 +85821,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769532256_509_6"
@@ -85718,6 +86040,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13346444_1769532257_182_540"
@@ -85940,6 +86263,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769532259_185_98"
@@ -86162,6 +86486,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532259_185_98"
@@ -86380,6 +86705,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769532262_595_545"
@@ -86598,6 +86924,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532262_595_545"
@@ -86812,6 +87139,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "31679831_1769532264_575_579"
@@ -87026,6 +87354,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532265_575_579"
@@ -87248,6 +87577,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769532265_540_459"
@@ -87462,6 +87792,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "21313143_1769532268_575_579"
@@ -87684,6 +88015,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532268_540_459"
@@ -87902,6 +88234,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63903435_1769532271_182_148"
@@ -88120,6 +88453,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769532279_509_6"
@@ -88338,6 +88672,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769532288_595_545"
@@ -88556,6 +88891,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "18216035_1769532291_509_179"
@@ -88774,6 +89110,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "135030064_1769532291_509_179"
@@ -88992,6 +89329,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769532294_509_6"
@@ -89214,6 +89552,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5102061_1769532294_179_459"
@@ -89428,6 +89767,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769532294_575_579"
@@ -89650,6 +89990,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769532297_195_186"
@@ -89872,6 +90213,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11326540_1769532297_545_194"
@@ -90090,6 +90432,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769532297_509_179"
@@ -90312,6 +90655,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "14979652_1769532300_179_187"
@@ -90530,6 +90874,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769532300_595_545"
@@ -90752,6 +91097,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "45351682_1769532303_540_459"
@@ -90974,6 +91320,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5102061_1769532304_185_98"
@@ -91196,6 +91543,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11326540_1769532306_540_459"
@@ -91414,6 +91762,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5102061_1769532309_540_575"
@@ -91636,6 +91985,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "6135053_1769532312_179_459"
@@ -91850,6 +92200,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13346444_1769532322_579_575"
@@ -92072,6 +92423,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "94184266_1769532323_179_459"
@@ -92290,6 +92642,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "138022497_1769532327_595_545"
@@ -92664,6 +93017,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "13537865_1769532092_103_104_SquareRally"
@@ -92882,6 +93236,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769532332_509_6"
@@ -93100,6 +93455,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "7362219_1769532333_509_6"
@@ -93322,6 +93678,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769532334_179_459"
@@ -93540,6 +93897,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769532337_595_545"
@@ -93762,6 +94120,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769532340_185_98"
@@ -93980,6 +94339,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769532343_540_575"
@@ -94198,6 +94558,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "76160426_1769532345_595_545"
@@ -94420,6 +94781,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "168302739_1769532346_138_192"
@@ -94638,6 +95000,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532352_595_185"
@@ -94856,6 +95219,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532355_545_130"
@@ -95074,6 +95438,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "94184266_1769532356_509_6"
@@ -95292,6 +95657,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "147732473_1769532367_509_6"
@@ -95510,6 +95876,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5440338_1769532369_509_6"
@@ -95732,6 +96099,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5440338_1769532371_179_187"
@@ -95946,6 +96314,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5440338_1769532374_575_579"
@@ -96160,6 +96529,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769532375_575_579"
@@ -96378,6 +96748,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5440338_1769532377_595_545"
@@ -96600,6 +96971,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5440338_1769532380_185_98"
@@ -96818,6 +97190,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "17563040_1769532389_509_6"
@@ -97036,6 +97409,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "5440338_1769532393_182_540"
@@ -97254,6 +97628,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "85248742_1769532402_595_545"
@@ -97472,6 +97847,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "85248742_1769532405_509_179"
@@ -97686,6 +98062,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "85248742_1769532408_575_579"
@@ -97908,6 +98285,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "85248742_1769532411_540_459"
@@ -98126,6 +98504,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "85248742_1769532414_182_192"
@@ -98344,6 +98723,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769532422_595_545"
@@ -98566,6 +98946,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "85248742_1769532424_185_98"
@@ -98788,6 +99169,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769532425_185_98"
@@ -99006,6 +99388,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769532428_509_6"
@@ -99224,6 +99607,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "8738170_1769532429_189_190"
@@ -99446,6 +99830,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769532431_179_459"
@@ -99664,6 +100049,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769532434_540_115"
@@ -99878,6 +100264,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "75596147_1769532437_579_575"
@@ -100096,6 +100483,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769532441_182_148"
@@ -100314,6 +100702,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "76602855_1769532445_509_6"
@@ -100532,6 +100921,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "7155054_1769532456_595_185"
@@ -100754,6 +101144,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "7155054_1769532459_540_115"
@@ -100972,6 +101363,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "59461309_1769532471_509_179"
@@ -101190,6 +101582,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769532478_540_575"
@@ -101412,6 +101805,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11308151_1769532481_185_98"
@@ -101630,6 +102024,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11308151_1769532484_595_545"
@@ -101852,6 +102247,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "11308151_1769532490_187_179"
@@ -102070,6 +102466,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769532493_509_179"
@@ -102454,6 +102851,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "63511986_1769532218_103_575_SquareRally"
@@ -102676,6 +103074,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "157904379_1769532527_545_185"
@@ -102898,6 +103297,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769532535_179_187"
@@ -103120,6 +103520,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1618540_1769532577_540_576"
@@ -103338,6 +103739,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769532588_198_140"
@@ -103556,6 +103958,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769532590_509_6"
@@ -103774,6 +104177,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769532594_509_6"
@@ -103996,6 +104400,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769532596_545_185"
@@ -104214,6 +104619,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769532596_182_148"
@@ -104436,6 +104842,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769532599_540_459"
@@ -104658,6 +105065,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "26304903_1769532599_540_576"
@@ -104876,6 +105284,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769532599_509_179"
@@ -105094,6 +105503,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769532601_595_545"
@@ -105312,6 +105722,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "1299501_1769532277_595_545"
@@ -105534,6 +105945,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769532604_185_140"
@@ -105752,6 +106164,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "62776758_1769532605_190_189"
@@ -105970,6 +106383,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532606_509_6"
@@ -106188,6 +106602,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769532607_540_575"
@@ -106406,6 +106821,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532608_595_185"
@@ -106624,6 +107040,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "56221107_1769532610_182_148"
@@ -106842,6 +107259,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532611_545_130"
@@ -107064,6 +107482,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532614_179_459"
@@ -107278,6 +107697,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532617_579_575"
@@ -107500,6 +107920,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "9077173_1769532620_540_576"
@@ -108082,6 +108503,7 @@
         "match_id": null,
         "period": null,
         "round": 0,
+        "talents": null,
         "team_id": 0
       },
       "tracking_key": "19075788_1769532404_197_10_SquareRally"
@@ -120103,6 +120525,7 @@
       "match_id": null,
       "period": null,
       "round": 0,
+      "talents": null,
       "team_id": 0
     },
     "tracking_key": "32220019_1769525516_103_539_SquareRally"

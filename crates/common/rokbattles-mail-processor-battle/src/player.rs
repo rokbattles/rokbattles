@@ -183,15 +183,15 @@ fn read_app_uid(player: &Map<String, Value>) -> Result<Option<String>, ExtractEr
     }
 }
 
-/// Extracts Supreme Strife (`Titan`) details for the player.
+/// Extracts Supreme Strife details from `Titan` and the sibling `TRS` talent IDs.
 fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractError> {
-    let value = match player.get("Titan") {
-        None | Some(Value::Null) => return Ok(null_supreme_strife()),
-        Some(value) => value,
+    let empty_titan = Map::new();
+    let titan = match player.get("Titan") {
+        None | Some(Value::Null) => &empty_titan,
+        Some(value) => value
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "Titan", expected: "object" })?,
     };
-    let titan = value
-        .as_object()
-        .ok_or(ExtractError::InvalidFieldType { field: "Titan", expected: "object" })?;
     let battle_id = optional_string_field(titan, "BattleId")?;
     let team_id = optional_u64_field(titan, "TeamId")?;
     let round = optional_u64_field(titan, "Round")?;
@@ -199,6 +199,21 @@ fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractE
     let legion_id = optional_u64_field(titan, "LegionId")?;
     let match_id = optional_u64_field(titan, "MatchId")?;
     let period = optional_u64_field(titan, "Period")?;
+    let talents = match player.get("TRS") {
+        None | Some(Value::Null) => Value::Null,
+        Some(value) => {
+            let ids = require_array(value, "TRS")?
+                .iter()
+                .map(|id| {
+                    id.as_u64().map(Value::from).ok_or(ExtractError::InvalidFieldType {
+                        field: "TRS",
+                        expected: "unsigned integer",
+                    })
+                })
+                .collect::<Result<Vec<_>, _>>()?;
+            Value::Array(ids)
+        }
+    };
 
     Ok(json!({
         "battle_id": battle_id.map(Value::String).unwrap_or(Value::Null),
@@ -208,20 +223,8 @@ fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractE
         "legion_id": legion_id.map(Value::from).unwrap_or(Value::Null),
         "match_id": match_id.map(Value::from).unwrap_or(Value::Null),
         "period": period.map(Value::from).unwrap_or(Value::Null),
+        "talents": talents,
     }))
-}
-
-/// Builds an all-null Supreme Strife value when the data is missing.
-fn null_supreme_strife() -> Value {
-    json!({
-        "battle_id": Value::Null,
-        "team_id": Value::Null,
-        "round": Value::Null,
-        "ironhand_spawn_time": Value::Null,
-        "legion_id": Value::Null,
-        "match_id": Value::Null,
-        "period": Value::Null,
-    })
 }
 
 fn extract_commanders(player: &Map<String, Value>) -> Result<Value, ExtractError> {
@@ -681,6 +684,7 @@ mod tests {
             "Titan".to_string(),
             json!({ "BattleId": "battle-1", "TeamId": 12, "Round": 3 }),
         );
+        player.insert("TRS".to_string(), json!([3, 18, 1]));
         let fields = extract_player_fields(&player).unwrap();
         assert_eq!(
             fields.get("supreme_strife"),
@@ -691,7 +695,8 @@ mod tests {
                 "ironhand_spawn_time": null,
                 "legion_id": null,
                 "match_id": null,
-                "period": null
+                "period": null,
+                "talents": [3, 18, 1]
             }))
         );
     }
@@ -709,7 +714,8 @@ mod tests {
                 "ironhand_spawn_time": null,
                 "legion_id": null,
                 "match_id": null,
-                "period": null
+                "period": null,
+                "talents": null
             }))
         );
     }
@@ -728,9 +734,64 @@ mod tests {
                 "ironhand_spawn_time": null,
                 "legion_id": null,
                 "match_id": null,
-                "period": null
+                "period": null,
+                "talents": null
             }))
         );
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_strife_talents_without_titan() {
+        for titan in [None, Some(Value::Null)] {
+            let mut player = base_player();
+            if let Some(titan) = titan {
+                player.insert("Titan".to_string(), titan);
+            }
+            player.insert("TRS".to_string(), json!([3, 18, 1, 3]));
+
+            let fields = extract_player_fields(&player).unwrap();
+
+            assert_eq!(fields["supreme_strife"]["talents"], json!([3, 18, 1, 3]));
+        }
+    }
+
+    #[test]
+    fn extract_player_fields_distinguishes_null_and_empty_strife_talents() {
+        for value in [Value::Null, json!([])] {
+            let mut player = base_player();
+            player.insert("Titan".to_string(), json!({ "BattleId": "match" }));
+            player.insert("TRS".to_string(), value.clone());
+
+            let fields = extract_player_fields(&player).unwrap();
+
+            assert_eq!(fields["supreme_strife"]["talents"], value);
+        }
+    }
+
+    #[test]
+    fn extract_player_fields_rejects_non_array_strife_talents() {
+        for value in [json!("3,18,1"), json!(3), json!(true), json!({ "1": 3 })] {
+            let mut player = base_player();
+            player.insert("TRS".to_string(), value);
+
+            assert!(matches!(
+                extract_player_fields(&player),
+                Err(ExtractError::InvalidFieldType { field: "TRS", expected: "array" })
+            ));
+        }
+    }
+
+    #[test]
+    fn extract_player_fields_rejects_invalid_strife_talent_ids() {
+        for value in [json!(-1), json!(1.5), json!("3"), json!(true), json!({}), Value::Null] {
+            let mut player = base_player();
+            player.insert("TRS".to_string(), json!([3, value]));
+
+            assert!(matches!(
+                extract_player_fields(&player),
+                Err(ExtractError::InvalidFieldType { field: "TRS", expected: "unsigned integer" })
+            ));
+        }
     }
 
     #[test]
