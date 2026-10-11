@@ -6,10 +6,8 @@ import {
   addDirs,
   discoverMailcacheDirs,
   listDirs,
-  pauseWatcher,
   removeDir,
   reprocessAll,
-  resumeWatcher,
 } from "../lib/tauri-client.ts";
 
 type ShowBanner = (type: BannerType, message: string) => void;
@@ -51,6 +49,7 @@ const initialWatchedDirectoriesState: WatchedDirectoriesState = {
 export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirectoriesResult {
   const [state, dispatch] = useReducer(watchedDirectoriesReducer, initialWatchedDirectoriesState);
   const addPending = useRef(false);
+  const discoverPending = useRef(false);
   const refreshVersion = useRef(0);
 
   const refresh = useCallback(async () => {
@@ -119,14 +118,21 @@ export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirecto
   );
 
   const handleDiscover = useCallback(async () => {
+    if (discoverPending.current) {
+      return;
+    }
+
+    discoverPending.current = true;
+
     try {
       dispatch({ type: "discoverStarted" });
-      await pauseWatcher();
 
       const result = await discoverMailcacheDirs();
       let bannerType: BannerType = "error";
 
-      if (result.added_dirs.length > 0) {
+      if (result.incomplete) {
+        bannerType = "info";
+      } else if (result.added_dirs.length > 0) {
         bannerType = "success";
       } else if (result.already_watched_dirs.length > 0) {
         bannerType = "info";
@@ -136,10 +142,13 @@ export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirecto
       showBanner(bannerType, result.message);
     } catch (error) {
       console.error("Failed to auto-discover mailcache dirs", error);
-      showBanner("error", "No valid mailcache directories were found.");
+      showBanner(
+        "error",
+        "Could not finish directory discovery. Please try again or add folders manually."
+      );
     } finally {
+      discoverPending.current = false;
       dispatch({ type: "discoverFinished" });
-      await resumeWatcher();
     }
   }, [refresh, showBanner]);
 

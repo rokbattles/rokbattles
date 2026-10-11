@@ -1,4 +1,5 @@
 mod app_config;
+mod directory_operations;
 mod mailcache_discovery;
 mod tray;
 mod updater;
@@ -108,6 +109,7 @@ fn dedupe_dirs_preserving_representation(dirs: Vec<String>) -> Vec<String> {
         if trimmed.is_empty() {
             continue;
         }
+
         let key = dir_identity_key(trimmed);
         if seen.insert(key) {
             unique.push(trimmed.to_string());
@@ -126,6 +128,7 @@ fn dirs_for_ui(dirs: &[String]) -> Vec<String> {
         if display.is_empty() {
             continue;
         }
+
         let key = dir_identity_key(&display);
         if seen.insert(key) {
             normalized.push(display);
@@ -143,60 +146,84 @@ pub(crate) fn read_dirs(app: &AppHandle) -> anyhow::Result<Vec<String>> {
 
 #[tauri::command]
 async fn list_dirs(app: AppHandle) -> Result<Vec<String>, String> {
-    // Canonicalizing saved paths can wait on disconnected/network drives. This
-    // command runs on page load, so keep that I/O off the native UI thread and
-    // async executor to allow the folder picker to open while the list loads.
-    tauri::async_runtime::spawn_blocking(move || {
-        let current = read_dirs(&app).map_err(|e| e.to_string())?;
-        Ok(dirs_for_ui(&current))
-    })
-    .await
-    .map_err(|e| e.to_string())?
+    app.state::<directory_operations::DirectoryOperations>()
+        .run(false, {
+            let app = app.clone();
+
+            move || {
+                let current = read_dirs(&app)?;
+                Ok(dirs_for_ui(&current))
+            }
+        })
+        .await
 }
 
 #[tauri::command]
-fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
-    app_config::update_dirs(&app, |dirs| {
-        *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
-        let mut known_keys: BTreeSet<String> =
-            dirs.iter().map(|dir| dir_identity_key(dir)).collect();
+async fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
+    app.state::<directory_operations::DirectoryOperations>()
+        .run(false, {
+            let app = app.clone();
 
-        for path in paths {
-            let normalized = normalize_dir_for_display(&path);
-            if normalized.is_empty() {
-                continue;
+            move || {
+                app_config::update_dirs(&app, |dirs| {
+                    merge_directories(dirs, &paths);
+                    dirs_for_ui(dirs)
+                })
             }
+        })
+        .await
+}
 
-            let key = dir_identity_key(&normalized);
-            if known_keys.insert(key) {
-                dirs.push(normalized);
+#[tauri::command]
+async fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
+    app.state::<directory_operations::DirectoryOperations>()
+        .run(false, {
+            let app = app.clone();
+
+            move || {
+                let target_key = dir_identity_key(&path);
+
+                app_config::update_dirs(&app, |dirs| {
+                    *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
+                    dirs.retain(|dir| dir_identity_key(dir) != target_key);
+                    dirs.sort();
+
+                    dirs_for_ui(dirs)
+                })
             }
+        })
+        .await
+}
+
+fn merge_directories(dirs: &mut Vec<String>, paths: &[String]) -> (Vec<String>, Vec<String>) {
+    *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
+    let mut known_keys: BTreeSet<String> = dirs.iter().map(|dir| dir_identity_key(dir)).collect();
+    let mut added = Vec::new();
+    let mut already_watched = Vec::new();
+
+    for path in paths {
+        let normalized = normalize_dir_for_display(path);
+        if normalized.is_empty() {
+            continue;
         }
 
-        dirs.sort();
-        dirs_for_ui(dirs)
-    })
-    .map_err(|error| format!("{error:#}"))
-}
+        if known_keys.insert(dir_identity_key(&normalized)) {
+            dirs.push(normalized.clone());
+            added.push(normalized);
+        } else {
+            already_watched.push(normalized);
+        }
+    }
 
-#[tauri::command]
-fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
-    let target_key = dir_identity_key(&path);
-
-    app_config::update_dirs(&app, |dirs| {
-        *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
-        dirs.retain(|dir| dir_identity_key(dir) != target_key);
-        dirs.sort();
-
-        dirs_for_ui(dirs)
-    })
-    .map_err(|error| format!("{error:#}"))
+    dirs.sort();
+    (added, already_watched)
 }
 
 #[derive(Debug, Serialize)]
 struct DiscoverMailcacheResult {
     added_dirs: Vec<String>,
     already_watched_dirs: Vec<String>,
+    incomplete: bool,
     message: String,
 }
 
@@ -210,72 +237,51 @@ struct AppSettings {
 }
 
 #[tauri::command]
-fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, String> {
-    if !cfg!(any(target_os = "windows", target_os = "macos")) {
-        return Ok(DiscoverMailcacheResult {
-            added_dirs: Vec::new(),
-            already_watched_dirs: Vec::new(),
-            message: "Autodiscovery is only available on Windows and macOS.".to_string(),
-        });
-    }
+async fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, String> {
+    app.state::<directory_operations::DirectoryOperations>()
+        .run(true, {
+            let app = app.clone();
+            move || discover_and_save(&app)
+        })
+        .await
+}
 
-    let discovered = mailcache_discovery::discover_mailcache_dirs().map_err(|e| e.to_string())?;
+fn discover_and_save(app: &AppHandle) -> anyhow::Result<DiscoverMailcacheResult> {
+    let discovered = mailcache_discovery::discover_mailcache_dirs();
+    let paths =
+        discovered.dirs.iter().map(|path| path.to_string_lossy().into_owned()).collect::<Vec<_>>();
 
-    if discovered.is_empty() {
-        return Ok(DiscoverMailcacheResult {
-            added_dirs: Vec::new(),
-            already_watched_dirs: Vec::new(),
-            message: "No valid mailcache directories were found.".to_string(),
-        });
-    }
-
-    // Discovery may be slow. Merge its results with the latest settings only after it finishes.
-    let (added_dirs, already_watched_dirs) = app_config::update_dirs(&app, |dirs| {
-        *dirs = dedupe_dirs_preserving_representation(std::mem::take(dirs));
-        let mut known_keys: BTreeSet<String> =
-            dirs.iter().map(|dir| dir_identity_key(dir)).collect();
-        let mut added_dirs = Vec::new();
-        let mut already_watched_dirs = Vec::new();
-
-        for dir in discovered {
-            let normalized = normalize_dir_for_display(&dir);
-            if normalized.is_empty() {
-                continue;
-            }
-
-            let key = dir_identity_key(&normalized);
-            if !known_keys.insert(key) {
-                already_watched_dirs.push(normalized);
-                continue;
-            }
-
-            dirs.push(normalized.clone());
-            added_dirs.push(normalized);
-        }
-
-        dirs.sort();
-
-        (added_dirs, already_watched_dirs)
-    })
-    .map_err(|error| format!("{error:#}"))?;
-
-    let message = if !added_dirs.is_empty() {
-        let count = added_dirs.len();
-        format!(
-            "Auto-discovered and added {} mailcache director{}.",
-            count,
-            if count == 1 { "y" } else { "ies" }
-        )
+    // Read settings after the scan, then retry the merge if directory choices change.
+    let (added_dirs, already_watched_dirs) = if paths.is_empty() {
+        (Vec::new(), Vec::new())
     } else {
-        let count = already_watched_dirs.len();
-        format!(
-            "Found {} mailcache director{}, but they are already being watched.",
-            count,
-            if count == 1 { "y" } else { "ies" }
-        )
+        app_config::update_dirs(app, |dirs| merge_directories(dirs, &paths))?
     };
 
-    Ok(DiscoverMailcacheResult { added_dirs, already_watched_dirs, message })
+    let mut message = if !added_dirs.is_empty() {
+        let count = added_dirs.len();
+        format!(
+            "Auto-discovered and added {count} mailcache director{}.",
+            if count == 1 { "y" } else { "ies" }
+        )
+    } else if !already_watched_dirs.is_empty() {
+        "All discovered mailcache directories are already being watched.".to_string()
+    } else {
+        "No valid mailcache directories were found.".to_string()
+    };
+
+    if discovered.incomplete {
+        message.push_str(
+            " Some locations could not be fully searched. You can add missing folders manually.",
+        );
+    }
+
+    Ok(DiscoverMailcacheResult {
+        added_dirs,
+        already_watched_dirs,
+        incomplete: discovered.incomplete,
+        message,
+    })
 }
 
 #[tauri::command]
@@ -440,6 +446,7 @@ pub fn run() {
         .setup(|app| {
             let config_path = app.path().app_config_dir()?.join("config.json");
             app.manage(app_config::ConfigStore::new(config_path));
+            app.manage(directory_operations::DirectoryOperations::default());
 
             #[cfg(desktop)]
             setup_autostart(app)?;
@@ -508,4 +515,30 @@ pub fn run() {
             }
         }
     });
+}
+
+#[cfg(all(test, unix))]
+mod directory_tests {
+    use super::*;
+
+    #[test]
+    fn merging_discovered_alias_preserves_one_existing_manual_path() {
+        use std::os::unix::fs::symlink;
+        let temp = tempfile::tempdir().expect("directory fixture");
+        let actual = temp.path().join("mailcache");
+        let alias = temp.path().join("manual-alias");
+        std::fs::create_dir(&actual).expect("cache");
+        symlink(&actual, &alias).expect("manual alias");
+        let manual = alias.to_string_lossy().into_owned();
+        let discovered = actual.to_string_lossy().into_owned();
+        let mut saved = vec![manual.clone()];
+
+        let (added, already_watched) =
+            merge_directories(&mut saved, std::slice::from_ref(&discovered));
+
+        assert!(added.is_empty());
+        assert_eq!(already_watched, vec![discovered]);
+        assert_eq!(saved, vec![manual.clone()]);
+        assert_eq!(dirs_for_ui(&saved), vec![manual]);
+    }
 }

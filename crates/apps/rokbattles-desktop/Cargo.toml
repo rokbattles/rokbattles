@@ -33,6 +33,12 @@ tauri-plugin-updater.workspace = true
 notify.workspace = true
 tempfile.workspace = true
 
+[target.'cfg(target_os = "windows")'.dependencies]
+winreg = "0.55.0"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+yaml_serde.workspace = true
+
 [target.'cfg(unix)'.dependencies]
 libc.workspace = true
 

@@ -135,31 +135,57 @@ impl ConfigStore {
         let mut config = self.load(&mut last_good)?;
         let result = edit(&mut config);
 
-        let temporary = prepare_config(&self.path, &config)?;
-        temporary.persist(&self.path).context("Failed to replace settings")?;
-        *last_good = Some(config);
-
-        sync_config_directory(&self.path)?;
+        self.save(config, &mut last_good)?;
 
         Ok(result)
     }
 
     pub(crate) fn update_dirs<T>(
         &self,
-        edit: impl FnOnce(&mut Vec<String>) -> T,
+        mut edit: impl FnMut(&mut Vec<String>) -> T,
     ) -> anyhow::Result<T> {
-        self.update(|config| {
-            let had_saved_dirs = config.dirs.is_some();
-            let mut dirs = config.dirs.take().unwrap_or_default();
+        // Resolving paths may block on a disconnected drive. Never do that while
+        // holding the settings lock, which is also used by preferences and the watcher.
+        for _ in 0..3 {
+            let snapshot = {
+                let mut last_good = self
+                    .last_good
+                    .lock()
+                    .map_err(|error| anyhow!("Settings lock poisoned: {error}"))?;
+
+                self.load(&mut last_good)?.dirs
+            };
+            let mut dirs = snapshot.clone().unwrap_or_default();
             let result = edit(&mut dirs);
 
-            // An empty add/remove request cannot turn an unknown list into a deliberate removal.
-            if had_saved_dirs || !dirs.is_empty() {
-                config.dirs = Some(dirs);
+            let mut last_good = self
+                .last_good
+                .lock()
+                .map_err(|error| anyhow!("Settings lock poisoned: {error}"))?;
+            let mut current = self.load(&mut last_good)?;
+
+            if current.dirs != snapshot {
+                continue;
             }
 
-            result
-        })
+            // Preserve unknown directories and preferences changed during path resolution.
+            if snapshot.is_some() || !dirs.is_empty() {
+                current.dirs = Some(dirs);
+            }
+
+            self.save(current, &mut last_good)?;
+            return Ok(result);
+        }
+
+        Err(anyhow!("Watched directories changed during this operation. Please try again."))
+    }
+
+    fn save(&self, config: AppConfig, last_good: &mut Option<AppConfig>) -> anyhow::Result<()> {
+        let temporary = prepare_config(&self.path, &config)?;
+        temporary.persist(&self.path).context("Failed to replace settings")?;
+        *last_good = Some(config);
+
+        sync_config_directory(&self.path)
     }
 
     pub(crate) fn set_auto_start(
@@ -266,7 +292,7 @@ pub(crate) fn read_config(app: &AppHandle) -> anyhow::Result<AppConfig> {
 
 pub(crate) fn update_dirs<T>(
     app: &AppHandle,
-    edit: impl FnOnce(&mut Vec<String>) -> T,
+    edit: impl FnMut(&mut Vec<String>) -> T,
 ) -> anyhow::Result<T> {
     app.state::<ConfigStore>().update_dirs(edit)
 }
@@ -828,5 +854,65 @@ mod tests {
         store.update_dirs(|dirs| dirs.retain(|dir| dir != "mail")).expect("remove last directory");
 
         assert_eq!(store.read(|_| {}).expect("deliberate removal").dirs, Some(Vec::new()));
+    }
+    #[test]
+    fn slow_directory_resolution_preserves_concurrent_preferences_and_directory_choices() {
+        use std::{
+            sync::{Arc, mpsc},
+            time::Duration,
+        };
+        let temp = tempfile::tempdir().expect("settings");
+        let store = Arc::new(ConfigStore::new(temp.path().join("config.json")));
+        store.update_dirs(|dirs| dirs.push("original".to_string())).expect("initial directory");
+        let (started, ready) = mpsc::channel();
+        let (release, blocked) = mpsc::channel();
+        let editing = store.clone();
+        let worker = std::thread::spawn(move || {
+            let mut first = true;
+            editing.update_dirs(|dirs| {
+                if first {
+                    first = false;
+                    started.send(()).expect("started");
+                    blocked.recv_timeout(Duration::from_secs(5)).expect("resolution released");
+                }
+                dirs.push("discovered".to_string());
+            })
+        });
+        ready.recv_timeout(Duration::from_secs(2)).expect("resolution started");
+
+        store.update(|config| config.auto_update = false).expect("preference remains responsive");
+        store
+            .update_dirs(|dirs| {
+                dirs.retain(|path| path != "original");
+                dirs.push("manual".to_string());
+            })
+            .expect("manual change remains responsive");
+        release.send(()).expect("release resolution");
+        worker.join().expect("worker").expect("merge");
+
+        let config = store.read(|_| {}).expect("settings");
+        assert!(!config.auto_update);
+        assert_eq!(config.dirs, Some(vec!["manual".to_string(), "discovered".to_string()]));
+    }
+
+    #[test]
+    fn continuous_directory_conflicts_stop_without_overwriting_new_choices() {
+        let temp = tempfile::tempdir().expect("settings");
+        let store = ConfigStore::new(temp.path().join("config.json"));
+        let mut attempts = 0;
+        let result = store.update_dirs(|dirs| {
+            attempts += 1;
+            store
+                .update(|config| config.dirs = Some(vec![format!("concurrent-{attempts}")]))
+                .expect("concurrent update");
+            dirs.push("stale".to_string());
+        });
+
+        assert!(result.is_err());
+        assert_eq!(attempts, 3);
+        assert_eq!(
+            store.read(|_| {}).expect("settings").dirs,
+            Some(vec!["concurrent-3".to_string()])
+        );
     }
 }
