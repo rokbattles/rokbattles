@@ -18,7 +18,7 @@ mod upload;
 
 use std::{
     fs,
-    io::Read as _,
+    io::{self, Read as _},
     path::{Path, PathBuf},
     sync::OnceLock,
     time::{Duration, SystemTime},
@@ -149,6 +149,7 @@ fn apply_upload_result(
 
 enum AttemptOutcome {
     Waiting(FileSig),
+    MissingSource(String),
     Retry(String),
     Rejected(String),
     Response(Result<UploadStatus, UploadApiError>),
@@ -204,17 +205,14 @@ fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>)
 
         file_sig(&meta)
     });
-    let sig = signature.map_err(|error| {
-        AttemptOutcome::Retry(truncate_reason(format!("Failed to stat file {file_name}: {error}")))
-    })?;
+    let sig = signature.map_err(|error| source_failure("stat", &file_name, error))?;
 
     if item.sig.as_ref() != Some(&sig) || now_ms.saturating_sub(sig.modified) < 1500 {
         return Err(AttemptOutcome::Waiting(sig));
     }
 
-    let bytes = read_mail_source(&path, &sig).map_err(|error| {
-        AttemptOutcome::Retry(truncate_reason(format!("Failed to read file {file_name}: {error}")))
-    })?;
+    let bytes =
+        read_mail_source(&path, &sig).map_err(|error| source_failure("read", &file_name, error))?;
     let decoded = rokbattles_mail_codec::decode(&bytes).map_err(|error| {
         AttemptOutcome::Rejected(truncate_reason(format!("Decode failed for {file_name}: {error}")))
     })?;
@@ -230,12 +228,25 @@ fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>)
     Ok((file_name, bytes))
 }
 
+fn source_failure(operation: &str, file_name: &str, error: anyhow::Error) -> AttemptOutcome {
+    let reason = truncate_reason(format!("Failed to {operation} file {file_name}: {error}"));
+
+    if error
+        .downcast_ref::<io::Error>()
+        .is_some_and(|error| error.kind() == io::ErrorKind::NotFound)
+    {
+        AttemptOutcome::MissingSource(reason)
+    } else {
+        AttemptOutcome::Retry(reason)
+    }
+}
+
 fn complete_attempt(
     state: &mut WatcherState,
     mut item: QueuedUpload,
     outcome: AttemptOutcome,
     now_ms: u128,
-) -> String {
+) -> Option<String> {
     let file_name =
         file_name_for_upload(Path::new(&item.path)).unwrap_or_else(|| item.path.clone());
 
@@ -252,7 +263,7 @@ fn complete_attempt(
             state.extend_rate_limit(now_ms, delay);
         }
 
-        return format!("Ignored completed attempt for removed source {file_name}");
+        return Some(format!("Ignored completed attempt for removed source {file_name}"));
     }
 
     match outcome {
@@ -262,23 +273,32 @@ fn complete_attempt(
             item.last_error = Some("Waiting for file to stop changing".to_string());
             state.requeue_upload(item);
 
-            format!("Waiting for stable file {file_name}")
+            Some(format!("Waiting for stable file {file_name}"))
+        }
+        AttemptOutcome::MissingSource(reason) => {
+            // The game routinely deletes cached mail. Keep retries quiet, but retain the
+            // source because an unavailable directory can produce the same NotFound error.
+            state.retry_upload(item, reason, now_ms);
+
+            None
         }
         AttemptOutcome::Retry(reason) => {
             let reason = truncate_reason(reason);
             state.retry_upload(item, reason.clone(), now_ms);
 
-            reason
+            Some(reason)
         }
         AttemptOutcome::Rejected(reason) => {
             state.reject_upload(item, reason.clone());
 
-            reason
+            Some(reason)
         }
         AttemptOutcome::Response(result) => {
-            apply_upload_result(state, item, &file_name, result, now_ms)
+            Some(apply_upload_result(state, item, &file_name, result, now_ms))
         }
-        AttemptOutcome::Cancelled => format!("Upload interrupted; {file_name} remains pending"),
+        AttemptOutcome::Cancelled => {
+            Some(format!("Upload interrupted; {file_name} remains pending"))
+        }
     }
 }
 
@@ -289,7 +309,7 @@ async fn process_upload(
     api_url: &str,
     item: QueuedUpload,
     now_ms: u128,
-) -> String {
+) -> Option<String> {
     let (_shutdown, receiver) = watch::channel(false);
     let (item, outcome) =
         attempt_upload(item, client.clone(), api_url.to_string(), receiver, now_ms).await;
@@ -400,7 +420,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn missing_source_retries_and_valid_copy_acknowledges_the_id_after_restart() {
+    async fn missing_source_retries_quietly_and_valid_copy_acknowledges_the_id_after_restart() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
         let mut state = WatcherState::new(file.load().expect("load"));
@@ -414,14 +434,26 @@ mod tests {
         state.flush(&file).expect("save pending sources");
 
         let message =
-            process_upload(&mut state, &client(), "http://127.0.0.1:0", missing, 10_000).await;
+            process_upload(&mut state, &client(), "http://127.0.0.1:0", missing.clone(), 10_000)
+                .await;
         state.flush(&file).expect("save metadata retry");
         drop(file);
 
-        assert!(message.contains("Failed to stat"));
+        assert!(message.is_none(), "game cache deletion is not a user-facing error");
 
         let file = StateFile::open(dir.path()).expect("restart");
         let mut restored = WatcherState::new(file.load().expect("load"));
+        let retry = restored
+            .uploads
+            .pending
+            .iter()
+            .find(|item| item.path == missing.path)
+            .expect("missing source remains pending");
+
+        assert_eq!(retry.attempts, 1);
+        assert!(retry.not_before_ms.expect("retry deadline") > 10_000);
+        assert!(retry.last_error.as_ref().expect("saved diagnostic").contains("Failed to stat"));
+
         let ready = restored.next_ready_upload(10_000).expect("alternative source is ready");
 
         assert_eq!(ready.path, good.path);
@@ -429,7 +461,9 @@ mod tests {
 
         let (url, server) =
             respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
-        let message = process_upload(&mut restored, &client(), &url, ready, 10_000).await;
+        let message = process_upload(&mut restored, &client(), &url, ready, 10_000)
+            .await
+            .expect("upload acknowledgement is logged");
         server.await.expect("server received mail");
         restored.flush(&file).expect("save server acknowledgement");
         drop(file);
@@ -457,8 +491,9 @@ mod tests {
             state.enqueue_upload(bad.clone());
             state.flush(&file).expect("save pending upload");
 
-            let message =
-                process_upload(&mut state, &client(), "http://127.0.0.1:0", bad, 10_000).await;
+            let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", bad, 10_000)
+                .await
+                .expect("invalid mail is logged");
             state.flush(&file).expect("save local rejection");
             drop(file);
 
@@ -506,7 +541,8 @@ mod tests {
             item,
             now_epoch_ms() + 2000,
         )
-        .await;
+        .await
+        .expect("non-regular source is logged");
         state.flush(&file).expect("persist failed read");
         drop(file);
 
@@ -545,7 +581,9 @@ mod tests {
         let listener = TcpListener::bind("127.0.0.1:0").expect("local ingress listener");
         listener.set_nonblocking(true).expect("nonblocking listener");
         let url = format!("http://{}", listener.local_addr().expect("listener address"));
-        let message = process_upload(&mut state, &client(), &url, item, 10_000).await;
+        let message = process_upload(&mut state, &client(), &url, item, 10_000)
+            .await
+            .expect("symlink source is logged");
 
         assert!(message.contains("Source is not a regular file"));
         assert_eq!(
@@ -580,6 +618,59 @@ mod tests {
             .expect_err("a changed source must not be decoded or rejected using the old signature");
 
         assert!(error.to_string().contains("Source changed before reading"));
+    }
+
+    #[test]
+    fn source_removed_after_the_stability_check_retries_quietly() {
+        let dir = tempfile::tempdir().expect("test directory");
+        let path = dir.path().join("Persistent.Mail.123");
+        let item = source(&path, b"cached mail");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item.clone());
+        fs::remove_file(&path).expect("game deletes mail before it can be opened");
+
+        let error = read_mail_source(&path, item.sig.as_ref().expect("original signature"))
+            .expect_err("source disappeared after metadata was read");
+        let outcome = source_failure("read", "Persistent.Mail.123", error);
+        let message = complete_attempt(&mut state, item, outcome, 10_000);
+        let pending = state.uploads.pending.front().expect("missing source remains pending");
+
+        assert!(message.is_none());
+        assert_eq!(pending.attempts, 1);
+        assert!(pending.not_before_ms.expect("retry deadline") > 10_000);
+        assert!(pending.last_error.as_ref().expect("saved diagnostic").contains("Failed to read"));
+        assert!(state.uploads.acknowledged.is_empty());
+        assert!(state.uploads.rejected.is_empty());
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn unreadable_source_logs_the_error_and_preserves_pending_work() {
+        use std::os::unix::fs::PermissionsExt as _;
+
+        // Root can read files regardless of their permission bits.
+        // SAFETY: geteuid takes no arguments and has no preconditions.
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        let dir = tempfile::tempdir().expect("test directory");
+        let path = dir.path().join("Persistent.Mail.123");
+        let item = source(&path, b"cached mail");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item.clone());
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("deny read access");
+
+        let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", item, 10_000)
+            .await
+            .expect("permission failures are logged");
+        let pending = state.uploads.pending.front().expect("unreadable source remains pending");
+
+        assert!(message.contains("Failed to read"));
+        assert_eq!(pending.last_error.as_deref(), Some(message.as_str()));
+        assert_eq!(pending.attempts, 1);
+        assert!(state.uploads.acknowledged.is_empty());
+        assert!(state.uploads.rejected.is_empty());
     }
 
     #[tokio::test]
@@ -766,8 +857,9 @@ mod tests {
         state.enqueue_upload(item.clone());
         state.flush(&file).expect("save pending source");
 
-        let message =
-            process_upload(&mut state, &client(), "http://127.0.0.1:0", item, 10_000).await;
+        let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", item, 10_000)
+            .await
+            .expect("unsupported mail is logged");
         state.flush(&file).expect("save bounded rejection");
         drop(file);
 

@@ -223,7 +223,11 @@ async fn run_watcher(
             result = uploads.join_next(), if !uploads.is_empty() => {
                 match result {
                     Some(Ok((item, outcome))) => {
-                        log(complete_attempt(&mut state, item, outcome, now_epoch_ms()));
+                        if let Some(message) =
+                            complete_attempt(&mut state, item, outcome, now_epoch_ms())
+                        {
+                            log(message);
+                        }
                     }
                     Some(Err(error)) => break Err(error.into()),
                     None => {}
@@ -246,7 +250,9 @@ async fn run_watcher(
     while let Some(outcome) = uploads.join_next().await {
         match outcome {
             Ok((item, outcome)) => {
-                log(complete_attempt(&mut state, item, outcome, now_epoch_ms()));
+                if let Some(message) = complete_attempt(&mut state, item, outcome, now_epoch_ms()) {
+                    log(message);
+                }
             }
             Err(error) => log(format!("Upload task failed during shutdown: {error}")),
         }
@@ -259,7 +265,7 @@ async fn run_watcher(
 
 #[cfg(test)]
 mod tests {
-    use std::{fs, path::Path, time::UNIX_EPOCH};
+    use std::{fs, path::Path, sync::Mutex, time::UNIX_EPOCH};
 
     use serde_json::json;
     use tokio::{
@@ -268,7 +274,10 @@ mod tests {
     };
 
     use super::*;
-    use crate::watcher::store::UploadStore;
+    use crate::watcher::{
+        store::{QueuedUpload, UploadStore, file_sig},
+        upload::tests::{respond_once, response},
+    };
 
     fn write_mail(dir: &Path, id: u32) {
         fs::create_dir_all(dir).expect("mail directory");
@@ -314,6 +323,78 @@ mod tests {
         })
         .await
         .expect("expected durable watcher state")
+    }
+
+    #[tokio::test]
+    async fn deleted_mail_stays_quiet_after_restart_and_uploads_if_it_returns() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let config = root.path().join("config");
+        let mail = root.path().join("mail");
+        write_mail(&mail, 1);
+        let path = mail.join("Persistent.Mail.1");
+        let mut store = UploadStore::default();
+        store.pending.push_back(QueuedUpload {
+            path: path.to_string_lossy().into_owned(),
+            sig: Some(file_sig(&fs::metadata(&path).expect("source metadata")).expect("signature")),
+            attempts: 0,
+            not_before_ms: None,
+            last_error: None,
+        });
+        let file = StateFile::open(&config).expect("state file");
+        file.save(&store).expect("save queued source");
+        drop(file);
+        fs::remove_file(&path).expect("game deletes cached mail before restart");
+
+        let messages = Arc::new(Mutex::new(Vec::new()));
+        let captured = Arc::clone(&messages);
+        let watcher_config = config.clone();
+        let watcher_mail = mail.clone();
+        let mut watcher = WatcherTask::spawn(move |shutdown, ready| async move {
+            run_watcher(
+                watcher_config,
+                || Ok(Some(vec![watcher_mail.clone()])),
+                |message| captured.lock().expect("log capture").push(message),
+                reqwest::Client::new(),
+                "http://127.0.0.1:0".to_string(),
+                shutdown,
+                ready,
+            )
+            .await
+        });
+
+        wait_for_snapshot(&config, |store| {
+            store.pending.front().is_some_and(|item| item.attempts > 0)
+        })
+        .await;
+        watcher.request_stop();
+        watcher.join().await.expect("stop after missing-file retry");
+
+        {
+            let logs = messages.lock().expect("captured logs");
+
+            assert!(logs.iter().all(|message| !message.contains("Failed to stat")), "{logs:?}");
+            assert!(logs.iter().all(|message| !message.is_empty()));
+        }
+
+        let file = StateFile::open(&config).expect("state after shutdown");
+        let restored = file.load().expect("saved missing-file retry");
+        let pending = restored.pending.front().expect("missing source is still pending");
+
+        assert!(pending.last_error.as_ref().expect("saved diagnostic").contains("Failed to stat"));
+        assert!(restored.acknowledged.is_empty());
+        assert!(restored.rejected.is_empty());
+        drop(file);
+
+        write_mail(&mail, 1);
+        let (url, server) =
+            respond_once(response("201 Created", r#"{"status":"stored","mail_id":"1"}"#)).await;
+        let mut watcher = start_fixture(config.clone(), mail, url);
+        let completed = wait_for_snapshot(&config, |store| store.acknowledged.contains("1")).await;
+        watcher.request_stop();
+        watcher.join().await.expect("stop after restored source uploads");
+        server.await.expect("restored source reaches ingress");
+
+        assert!(completed.pending.is_empty());
     }
 
     #[tokio::test]
