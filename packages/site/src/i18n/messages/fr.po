@@ -2640,21 +2640,6 @@ msgid "Revoke overlay"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgctxt "Q7dLbA"
-msgid "Light mode"
-msgstr ""
-
-#: src/components/platform-layout.tsx
-msgctxt "hMUQH5"
-msgid "Dark mode"
-msgstr ""
-
-#: src/components/platform-layout.tsx
-msgctxt "Pe0ogR"
-msgid "Theme"
-msgstr ""
-
-#: src/components/platform-layout.tsx
 msgctxt "sqvUg2"
 msgid "Olympian Arena"
 msgstr ""
@@ -2687,11 +2672,6 @@ msgstr ""
 #: src/components/platform-layout.tsx
 msgctxt "QnWNmB"
 msgid "Desktop App"
-msgstr ""
-
-#: src/components/platform-layout.tsx
-msgctxt "EQpyb8"
-msgid "Toggle theme"
 msgstr ""
 
 #: src/components/platform-layout.tsx

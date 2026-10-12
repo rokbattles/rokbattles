@@ -76,7 +76,7 @@ export function AccountBindsContent({ initialUser }: AccountBindsContentProps) {
 
   return (
     <div className="mt-8 space-y-8">
-      {errorMessage ? <Text className="text-red-600 dark:text-red-400">{errorMessage}</Text> : null}
+      {errorMessage ? <Text className="text-red-400">{errorMessage}</Text> : null}
       <BindsList
         binds={claimedBinds}
         pendingAction={pendingAction}

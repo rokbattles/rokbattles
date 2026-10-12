@@ -186,7 +186,7 @@ export function PersonalLootFilters({
       <div>
         <button
           type="submit"
-          className="inline-flex h-10 items-center justify-center rounded-lg bg-zinc-900 px-3 font-semibold text-sm text-white shadow-sm hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
+          className="inline-flex h-10 items-center justify-center rounded-lg px-3 font-semibold text-sm shadow-sm bg-white text-zinc-950 hover:bg-zinc-200"
         >
           {t("Apply")}
         </button>

@@ -37,7 +37,7 @@ export function CombatLabRankingsSortableHeader({
     <TableHeader aria-sort={ariaSort} className={cn("text-right", className)} title={title}>
       <button
         type="button"
-        className="inline-flex items-center gap-1.5 hover:text-zinc-950 dark:hover:text-white"
+        className="inline-flex items-center gap-1.5 hover:text-white"
         aria-label={`Sort by ${accessibleLabel} ${nextDirection}`}
         onClick={() => onSort(column)}
       >

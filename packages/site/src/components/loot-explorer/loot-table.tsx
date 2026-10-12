@@ -26,7 +26,7 @@ export function LootTable({
 
   if (sortedLoot.length === 0 && !noItem) {
     return (
-      <div className="rounded-lg border border-zinc-950/10 px-4 py-6 text-sm text-zinc-500 dark:border-white/10 dark:text-zinc-400">
+      <div className="rounded-lg border px-4 py-6 text-sm border-white/10 text-zinc-400">
         {t("No drops have been observed for this selection.")}
       </div>
     );
@@ -56,7 +56,7 @@ export function LootTable({
                 <div className="flex items-center gap-3">
                   <LootIcon spriteUrls={getLootSprites(item.type, item.subType)} />
                   <div>
-                    <div className="font-medium text-zinc-950 dark:text-white">{name}</div>
+                    <div className="font-medium text-white">{name}</div>
                   </div>
                 </div>
               </TableCell>
@@ -68,7 +68,7 @@ export function LootTable({
         })}
         {noItem ? (
           <TableRow>
-            <TableCell className="text-zinc-500 dark:text-zinc-400">{t("No item")}</TableCell>
+            <TableCell className="text-zinc-400">{t("No item")}</TableCell>
             <TableCell className="w-28">—</TableCell>
             <TableCell className="w-28">{formatPercent(noItem.dropRate)}</TableCell>
             <TableCell className="w-24">{formatNumber(noItem.results)}</TableCell>

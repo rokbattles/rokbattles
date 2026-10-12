@@ -53,8 +53,8 @@ export function ResourcesTimelineTooltipClient({
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white px-3 py-2 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-      <div className="text-xs text-zinc-500 dark:text-zinc-400">
+    <div className="rounded-lg border px-3 py-2 shadow-sm border-zinc-700 bg-zinc-900">
+      <div className="text-xs text-zinc-400">
         {intl.dateTime(new Date(`${label}T00:00:00Z`), {
           month: "long",
           day: "numeric",
@@ -64,17 +64,14 @@ export function ResourcesTimelineTooltipClient({
       </div>
       <div className="mt-2 space-y-1">
         {entries.map((entry) => (
-          <div
-            key={entry.key}
-            className="flex items-center gap-2 text-xs text-zinc-700 dark:text-zinc-200"
-          >
+          <div key={entry.key} className="flex items-center gap-2 text-xs text-zinc-200">
             <span
               aria-hidden="true"
               className="size-2 rounded-full"
               style={{ backgroundColor: entry.color }}
             />
             <span className="min-w-20">{entry.name}</span>
-            <span className="ml-auto tabular-nums text-zinc-900 dark:text-zinc-100">
+            <span className="ml-auto tabular-nums text-zinc-100">
               {intl.number(entry.value, { maximumFractionDigits: 0 })}
             </span>
           </div>

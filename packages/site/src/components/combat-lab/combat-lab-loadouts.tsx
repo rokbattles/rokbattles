@@ -36,9 +36,7 @@ const CombatLabArmamentChart = dynamic(
       (module) => module.CombatLabArmamentChart
     ),
   {
-    loading: () => (
-      <div className="h-[34rem] animate-pulse rounded-md bg-zinc-950/[.035] dark:bg-white/5" />
-    ),
+    loading: () => <div className="h-[34rem] animate-pulse rounded-md bg-white/5" />,
     ssr: false,
   }
 );
@@ -49,9 +47,7 @@ const CombatLabEquipmentChart = dynamic(
       (module) => module.CombatLabEquipmentChart
     ),
   {
-    loading: () => (
-      <div className="h-[31rem] animate-pulse rounded-md bg-zinc-950/[.035] dark:bg-white/5" />
-    ),
+    loading: () => <div className="h-[31rem] animate-pulse rounded-md bg-white/5" />,
     ssr: false,
   }
 );
@@ -61,17 +57,17 @@ const equipmentSlotOrder = [1, 2, 3, 4, 5, 6, 7] as const;
 
 function FormationChartSkeleton() {
   return (
-    <article className="min-w-0 animate-pulse overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900">
-      <div className="min-h-[5.25rem] border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
-        <div className="h-5 w-32 rounded bg-zinc-200 dark:bg-zinc-800" />
+    <article className="min-w-0 animate-pulse overflow-hidden rounded-md border xl:col-span-2 border-white/10 bg-zinc-900">
+      <div className="min-h-[5.25rem] border-b px-5 py-4 border-white/10">
+        <div className="h-5 w-32 rounded bg-zinc-800" />
         <div className="mt-4 flex gap-4">
           {["one", "two", "three", "four"].map((item) => (
-            <div className="h-3 w-16 rounded bg-zinc-200 dark:bg-zinc-800" key={item} />
+            <div className="h-3 w-16 rounded bg-zinc-800" key={item} />
           ))}
         </div>
       </div>
       <div className="h-80 p-5 sm:h-96">
-        <div className="h-full rounded bg-zinc-950/[.035] dark:bg-white/5" />
+        <div className="h-full rounded bg-white/5" />
       </div>
     </article>
   );
@@ -82,11 +78,11 @@ function SkillsSkeleton() {
     <>
       {["primary", "secondary"].map((role) => (
         <article
-          className="min-h-[42rem] animate-pulse rounded-md border border-zinc-950/10 bg-white p-5 dark:border-white/10 dark:bg-zinc-900 sm:p-6"
+          className="min-h-[42rem] animate-pulse rounded-md border p-5 border-white/10 bg-zinc-900 sm:p-6"
           key={role}
         >
-          <div className="h-6 w-48 rounded bg-zinc-200 dark:bg-zinc-800" />
-          <div className="mt-5 aspect-square rounded bg-zinc-950/[.035] dark:bg-white/5" />
+          <div className="h-6 w-48 rounded bg-zinc-800" />
+          <div className="mt-5 aspect-square rounded bg-white/5" />
         </article>
       ))}
     </>
@@ -190,7 +186,7 @@ function Panel({
 }) {
   return (
     <article
-      className={`min-w-0 rounded-md border border-zinc-950/10 bg-white p-5 dark:border-white/10 dark:bg-zinc-900 sm:p-6 ${className}`}
+      className={`min-w-0 rounded-md border p-5 border-white/10 bg-zinc-900 sm:p-6 ${className}`}
     >
       <Subheading level={3} className="!text-lg/7">
         {title}

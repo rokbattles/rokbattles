@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@wrksz/themes/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { PlatformLayout } from "@/components/platform-layout";
@@ -51,11 +50,7 @@ export default async function Layout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={locale}
-      className={cn(
-        inter.variable,
-        "text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950"
-      )}
-      suppressHydrationWarning
+      className={cn(inter.variable, "antialiased bg-zinc-900 text-white lg:bg-zinc-950")}
     >
       <head>
         <DiscordEmbed />
@@ -68,14 +63,12 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <CookieConsentProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <PlatformProviders
-                initialGovernors={initialGovernors}
-                initialActiveGovernorId={initialActiveGovernorId}
-              >
-                <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-              </PlatformProviders>
-            </ThemeProvider>
+            <PlatformProviders
+              initialGovernors={initialGovernors}
+              initialActiveGovernorId={initialActiveGovernorId}
+            >
+              <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+            </PlatformProviders>
             <CookieConsentBanner />
           </CookieConsentProvider>
         </NextIntlClientProvider>

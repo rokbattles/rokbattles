@@ -10,7 +10,7 @@ type ResourceMetricProps = {
 export function ResourceMetric({ icon, label, value }: ResourceMetricProps) {
   return (
     <div className="contents">
-      <dt className="flex min-w-0 items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
+      <dt className="flex min-w-0 items-center gap-1.5 text-zinc-400">
         <ResourceIcon kind={icon} />
         <span className="truncate">{label}</span>
       </dt>

@@ -10,13 +10,13 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
   }, [error]);
 
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" style={{ colorScheme: "dark" }}>
+      <body style={{ background: "#18181b", color: "#fff" }}>
         {/* `NextError` is the default Next.js error page component. Its type
         definition requires a `statusCode` prop. However, since the App Router
         does not expose status codes for errors, we simply pass 0 to render a
         generic error message. */}
-        <NextError statusCode={0} />
+        <NextError statusCode={0} withDarkMode={false} />
       </body>
     </html>
   );

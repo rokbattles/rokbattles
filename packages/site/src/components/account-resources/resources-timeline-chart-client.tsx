@@ -66,7 +66,7 @@ function ResourceChart({ points, rows, title, cumulative }: ResourceChartProps):
   const intl = useFormatter();
 
   return (
-    <section className="min-w-0 rounded-md border border-zinc-200 p-4 sm:p-5 dark:border-zinc-800">
+    <section className="min-w-0 rounded-md border p-4 sm:p-5 border-zinc-800">
       <Subheading>{title}</Subheading>
       <div className="mt-4 h-64 w-full" role="group" aria-label={title}>
         <ResponsiveContainer>
@@ -78,7 +78,7 @@ function ResourceChart({ points, rows, title, cumulative }: ResourceChartProps):
             <CartesianGrid
               strokeDasharray="3 3"
               stroke="currentColor"
-              className="text-zinc-200 dark:text-zinc-800"
+              className="text-zinc-800"
               vertical={false}
             />
             <XAxis

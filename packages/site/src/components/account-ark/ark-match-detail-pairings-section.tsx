@@ -91,10 +91,7 @@ export function ArkMatchDetailPairingsSection({
                   </TableCell>
                   <TableCell className="text-right tabular-nums">
                     {number(pairing.killPoints)}
-                    <div
-                      aria-hidden="true"
-                      className="mt-2 h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800"
-                    >
+                    <div aria-hidden="true" className="mt-2 h-1.5 rounded-full bg-zinc-800">
                       <div
                         className="h-full rounded-full bg-blue-500"
                         style={{ width: `${((pairing.killPoints ?? 0) / maxPoints) * 100}%` }}
@@ -103,10 +100,7 @@ export function ArkMatchDetailPairingsSection({
                   </TableCell>
                   <TableCell className="text-right tabular-nums">
                     {number(pairing.lossPoints)}
-                    <div
-                      aria-hidden="true"
-                      className="mt-2 h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800"
-                    >
+                    <div aria-hidden="true" className="mt-2 h-1.5 rounded-full bg-zinc-800">
                       <div
                         className="h-full rounded-full bg-red-500"
                         style={{ width: `${((pairing.lossPoints ?? 0) / maxPoints) * 100}%` }}

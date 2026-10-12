@@ -36,14 +36,14 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
         {t("DRASTC")}
       </Heading>
 
-      <div className="overflow-hidden rounded-md border border-zinc-950/10 bg-white shadow-sm dark:border-white/10 dark:bg-zinc-900">
+      <div className="overflow-hidden rounded-md border shadow-sm border-white/10 bg-zinc-900">
         <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(22rem,.85fr)]">
           <div className="p-5 sm:p-7">
             <div className="grid gap-6 sm:grid-cols-[10rem_minmax(0,1fr)] sm:items-center">
               <div>
                 <Text className="!text-sm font-medium">{t("Overall score")}</Text>
                 <div className="mt-1 flex items-end gap-1.5">
-                  <span className="font-semibold text-5xl tracking-tight text-zinc-950 tabular-nums dark:text-white">
+                  <span className="font-semibold text-5xl tracking-tight tabular-nums text-white">
                     {scoreFormatter.format(score.overall)}
                   </span>
                   <Text className="pb-1 !text-zinc-400">/ 10</Text>
@@ -55,7 +55,7 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
             </div>
           </div>
 
-          <div className="border-zinc-950/10 border-t bg-zinc-50/80 p-5 sm:p-7 lg:border-t-0 lg:border-l dark:border-white/10 dark:bg-white/[.025]">
+          <div className="border-t p-5 sm:p-7 lg:border-t-0 lg:border-l border-white/10 bg-white/[.025]">
             <ConfidenceScore score={score.confidence.score} />
             <Text className="mt-2 !text-sm/6">
               {t("Based on {battles} battle reports and {governors} governors.", {
@@ -75,16 +75,14 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
                     key={category.key}
                     className="grid grid-cols-[7.25rem_1fr_3rem] items-center gap-3 text-sm"
                   >
-                    <Text className="!text-sm/5 !text-zinc-600 dark:!text-zinc-300">
-                      {category.label}
-                    </Text>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
+                    <Text className="!text-zinc-300">{category.label}</Text>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-zinc-700">
                       <div
                         className="h-full rounded-full bg-blue-600"
                         style={{ width: `${Math.min(100, value * 10)}%` }}
                       />
                     </div>
-                    <Text className="text-right font-medium !text-sm/5 !text-zinc-950 tabular-nums dark:!text-white">
+                    <Text className="text-right font-medium tabular-nums !text-white">
                       {scoreFormatter.format(value)}
                     </Text>
                   </div>
@@ -94,7 +92,7 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
           </div>
         </div>
 
-        <div className="border-zinc-950/10 border-t px-5 py-5 sm:px-7 dark:border-white/10">
+        <div className="border-t px-5 py-5 sm:px-7 border-white/10">
           <DrastcCredits />
         </div>
       </div>

@@ -47,7 +47,7 @@ export function ReportStratagemSection({ stratagems }: ReportStratagemSectionPro
           <details className="group" key={stratagem.id}>
             <summary className="flex cursor-pointer list-none items-start justify-between gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 [&::-webkit-details-marker]:hidden">
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-1.5 font-medium text-base/6 text-zinc-950 sm:text-sm/6 dark:text-white">
+                <div className="flex flex-wrap items-center gap-1.5 font-medium text-base/6 sm:text-sm/6 text-white">
                   <span>{stratagem.name}</span>
                   {typeof stratagem.effectivePercentage === "number" ? (
                     <Badge color="emerald">
@@ -64,10 +64,10 @@ export function ReportStratagemSection({ stratagems }: ReportStratagemSectionPro
                   <dl className="mt-1 space-y-0.5 text-base/6 sm:text-sm/6">
                     {stratagem.statistics.map((statistic) => (
                       <div className="flex gap-1" key={statistic.key}>
-                        <dt className="text-zinc-500 dark:text-zinc-400">
+                        <dt className="text-zinc-400">
                           {statisticLabels[statistic.key] ?? statistic.key}:
                         </dt>
-                        <dd className="font-medium tabular-nums text-zinc-800 dark:text-zinc-200">
+                        <dd className="font-medium tabular-nums text-zinc-200">
                           {formatStratagemStatistic(statistic, locale)}
                         </dd>
                       </div>
@@ -75,9 +75,9 @@ export function ReportStratagemSection({ stratagems }: ReportStratagemSectionPro
                   </dl>
                 ) : null}
               </div>
-              <ChevronDownIcon className="mt-1 size-4 shrink-0 fill-zinc-400 transition-transform group-open:rotate-180 dark:fill-zinc-500" />
+              <ChevronDownIcon className="mt-1 size-4 shrink-0 transition-transform group-open:rotate-180 fill-zinc-500" />
             </summary>
-            <p className="mt-2 whitespace-pre-line text-base/6 text-zinc-600 sm:text-sm/6 dark:text-zinc-300">
+            <p className="mt-2 whitespace-pre-line text-base/6 sm:text-sm/6 text-zinc-300">
               {stratagem.description}
             </p>
           </details>

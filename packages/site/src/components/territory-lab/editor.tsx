@@ -523,7 +523,7 @@ export default function Editor({
       <div className="mb-8">
         <Link
           href="/territory-lab"
-          className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
+          className="inline-flex items-center gap-2 text-sm/6 text-zinc-400"
           onClick={(event) => {
             if (
               event.button !== 0 ||
@@ -537,7 +537,7 @@ export default function Editor({
             back();
           }}
         >
-          <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
+          <ChevronLeftIcon className="size-4 fill-zinc-500" />
           Maps
         </Link>
       </div>
@@ -609,7 +609,7 @@ export default function Editor({
       {!catalog.categories.includes("structures") && (
         <div
           role="status"
-          className="rounded-md border border-orange-300/60 bg-orange-50 px-4 py-3 text-sm text-orange-950 dark:border-orange-300/20 dark:bg-orange-400/10 dark:text-orange-100"
+          className="rounded-md border px-4 py-3 text-sm border-orange-300/20 bg-orange-400/10 text-orange-100"
         >
           Structure data is currently unavailable for this map.
         </div>
@@ -617,7 +617,7 @@ export default function Editor({
       {error && (
         <div
           role="alert"
-          className="rounded-md border border-red-300/60 bg-red-50 px-4 py-3 text-sm text-red-950 dark:border-red-300/20 dark:bg-red-400/10 dark:text-red-100"
+          className="rounded-md border px-4 py-3 text-sm border-red-300/20 bg-red-400/10 text-red-100"
         >
           {error}
         </div>
