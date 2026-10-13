@@ -142,6 +142,14 @@ impl Search {
     }
 
     fn read_dir(&mut self, path: &Path) -> Option<fs::ReadDir> {
+        self.read_dir_with(path, |path| fs::read_dir(path))
+    }
+
+    fn read_dir_with(
+        &mut self,
+        path: &Path,
+        open_dir: impl FnOnce(&Path) -> io::Result<fs::ReadDir>,
+    ) -> Option<fs::ReadDir> {
         if !self.within_deadline() || self.remaining_operations == 0 {
             self.incomplete = true;
             return None;
@@ -149,7 +157,7 @@ impl Search {
 
         self.remaining_operations -= 1;
 
-        match fs::read_dir(path) {
+        match open_dir(path) {
             Ok(entries) => Some(entries),
             Err(error) => {
                 // Missing optional layouts and paths that disappeared are not unreadable installs.
@@ -210,15 +218,20 @@ impl Search {
         dirs
     }
 
+    #[cfg(any(test, target_os = "windows", target_os = "linux"))]
     fn check_mailcache(&mut self, path: PathBuf) {
         if !self.checked.insert(path.clone()) {
             return;
         }
 
-        let Some(mut entries) = self.read_dir(&path) else {
+        let Some(entries) = self.read_dir(&path) else {
             return;
         };
 
+        self.check_mailcache_entries(path, entries);
+    }
+
+    fn check_mailcache_entries(&mut self, path: PathBuf, mut entries: fs::ReadDir) {
         // Stop as soon as validity is established, even in a cache with many reports.
         for index in 0..=4096 {
             if !self.within_deadline() {
@@ -420,21 +433,59 @@ fn discover_macos_in_bases(bases: &[PathBuf]) -> Discovery {
 
     for base in bases {
         let mut search = Search::new();
-
-        for container in search.child_dirs(base, 2048) {
-            let candidate = container.join("Data").join("Documents").join("mailcache");
-
-            if path_matches_macos_container_pattern(&candidate) {
-                search.check_mailcache(candidate);
-            }
-        }
-
+        collect_macos_from_base(base, &mut search, |path| fs::read_dir(path));
         search.append_to(&mut result);
     }
 
     dedupe_results(&mut result);
 
     result
+}
+
+#[cfg(any(test, target_os = "macos"))]
+fn collect_macos_from_base(
+    base: &Path,
+    search: &mut Search,
+    mut open_cache: impl FnMut(&Path) -> io::Result<fs::ReadDir>,
+) {
+    for container in search.child_dirs(base, 2048) {
+        if !search.within_deadline() || search.remaining_operations == 0 {
+            search.incomplete = true;
+            break;
+        }
+
+        let candidate = container.join("Data").join("Documents").join("mailcache");
+
+        if !path_matches_macos_container_pattern(&candidate)
+            || !search.checked.insert(candidate.clone())
+        {
+            continue;
+        }
+
+        // Stat before opening: probing absent caches with read_dir can request
+        // access to unrelated apps' protected containers on macOS.
+        search.remaining_operations -= 1;
+        match fs::metadata(&candidate) {
+            Ok(metadata) if metadata.is_dir() => {}
+            Ok(_) => continue,
+            Err(error) => {
+                if !matches!(error.kind(), io::ErrorKind::NotFound | io::ErrorKind::NotADirectory) {
+                    search.incomplete = true;
+                }
+                continue;
+            }
+        }
+
+        // A first-run privacy prompt can block this open past the search deadline.
+        // Preserve the remaining scan time once the user grants or denies access.
+        let started = Instant::now();
+        let entries = search.read_dir_with(&candidate, &mut open_cache);
+        search.deadline += started.elapsed();
+
+        if let Some(entries) = entries {
+            search.check_mailcache_entries(candidate, entries);
+        }
+    }
 }
 
 #[cfg(any(test, target_os = "macos"))]
@@ -591,6 +642,105 @@ mod tests {
 
         let found = discover_macos_in_bases(&[containers]);
         assert!(found.dirs.is_empty());
+    }
+
+    #[test]
+    fn macos_discovery_finds_uuid_container_after_permission_prompt() {
+        let temp = tempdir().expect("tempdir");
+        let containers = temp.path().join("Library/Containers");
+        let mailcache =
+            containers.join("C062704A-3A28-4489-BC85-0A4916611E16/Data/Documents/mailcache");
+        fs::create_dir_all(&mailcache).expect("cache");
+        fs::write(mailcache.join("Persistent.Mail.42"), b"fixture").expect("report");
+        let mut search = super::Search::new();
+
+        super::collect_macos_from_base(&containers, &mut search, |path| {
+            // Opening another app's container can wait for a macOS permission prompt.
+            std::thread::sleep(std::time::Duration::from_millis(2100));
+            fs::read_dir(path)
+        });
+
+        assert_eq!(search.found.into_iter().collect::<Vec<_>>(), vec![mailcache]);
+        assert!(!search.incomplete);
+    }
+
+    #[test]
+    fn macos_discovery_does_not_open_nonexistent_caches_in_unrelated_containers() {
+        let temp = tempdir().expect("tempdir");
+        let containers = temp.path().join("Library/Containers");
+        fs::create_dir_all(containers.join("com.example.unrelated/Data/Documents"))
+            .expect("unrelated container");
+        let mailcache = containers.join("com.lilithgame.rok/Data/Documents/mailcache");
+        fs::create_dir_all(&mailcache).expect("cache");
+        fs::write(mailcache.join("Persistent.Mail.42"), b"fixture").expect("report");
+        let mut search = super::Search::new();
+        let mut opened = Vec::new();
+
+        super::collect_macos_from_base(&containers, &mut search, |path| {
+            opened.push(path.to_path_buf());
+            fs::read_dir(path)
+        });
+
+        assert_eq!(opened, vec![mailcache.clone()]);
+        assert_eq!(search.found.into_iter().collect::<Vec<_>>(), vec![mailcache]);
+        assert!(!search.incomplete);
+    }
+
+    #[test]
+    fn macos_discovery_continues_after_permission_prompt_is_denied() {
+        let temp = tempdir().expect("tempdir");
+        let containers = temp.path().join("Library/Containers");
+        for name in ["one", "two"] {
+            let mailcache = containers.join(name).join("Data/Documents/mailcache");
+            fs::create_dir_all(&mailcache).expect("cache");
+            fs::write(mailcache.join("Persistent.Mail.42"), b"fixture").expect("report");
+        }
+        let mut search = super::Search::new();
+        let mut denied = None;
+        let mut readable = None;
+
+        super::collect_macos_from_base(&containers, &mut search, |path| {
+            if denied.is_none() {
+                denied = Some(path.to_path_buf());
+                std::thread::sleep(std::time::Duration::from_millis(2100));
+                return Err(std::io::ErrorKind::PermissionDenied.into());
+            }
+
+            readable = Some(path.to_path_buf());
+            fs::read_dir(path)
+        });
+
+        assert_eq!(
+            search.found.into_iter().collect::<Vec<_>>(),
+            vec![readable.expect("continued to the next container")]
+        );
+        assert!(search.incomplete);
+    }
+
+    #[test]
+    fn macos_discovery_respects_search_limits_before_opening_cache() {
+        let temp = tempdir().expect("tempdir");
+        let containers = temp.path().join("Library/Containers");
+        let mailcache = containers.join("com.lilithgame.rok/Data/Documents/mailcache");
+        fs::create_dir_all(&mailcache).expect("cache");
+        fs::write(mailcache.join("Persistent.Mail.42"), b"fixture").expect("report");
+        let mut exhausted = super::Search::new();
+        // Enumerating the containers and checking cache metadata use the budget.
+        exhausted.remaining_operations = 2;
+        let mut expired = super::Search::new();
+        expired.deadline = std::time::Instant::now();
+
+        for mut search in [exhausted, expired] {
+            let mut opened = false;
+            super::collect_macos_from_base(&containers, &mut search, |path| {
+                opened = true;
+                fs::read_dir(path)
+            });
+
+            assert!(!opened);
+            assert!(search.found.is_empty());
+            assert!(search.incomplete);
+        }
     }
 
     #[test]
