@@ -24,21 +24,6 @@ export const barbarianFamilies: BarbarianFamily[] = [
       (item.kind >= 1 && item.kind <= 40) || (item.kind >= 401 && item.kind <= 415),
   },
   {
-    key: "barbarian-wolf-tamers-pack-striders",
-    label: "Barbarian Wolf Tamers/Pack Striders",
-    matches: (item) => item.kind >= 701 && item.kind <= 740,
-  },
-  {
-    key: "barbarian-bone-archers-heavy-archers",
-    label: "Barbarian Bone Archers/Heavy Archers",
-    matches: (item) => item.kind >= 801 && item.kind <= 840,
-  },
-  {
-    key: "barbarian-beast-riders-blitz-hunters",
-    label: "Barbarian Beast Riders/Blitz Hunters",
-    matches: (item) => item.kind >= 901 && item.kind <= 940,
-  },
-  {
     key: "english-soldiers",
     label: "English Soldiers",
     matches: (item) => item.kind >= 150_009 && item.kind <= 150_023,

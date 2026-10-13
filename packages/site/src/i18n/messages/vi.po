@@ -2061,21 +2061,6 @@ msgid "Failed to load loot explorer data."
 msgstr "Không thể tải dữ liệu Khám phá Chiến lợi phẩm."
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgctxt "qmJC1g"
-msgid "Barbarian Wolf Tamers/Pack Striders"
-msgstr "Man Rợ Thuần Hoá Sói/Bầy Man Rợ Lang Thang"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgctxt "S5oZQH"
-msgid "Barbarian Bone Archers/Heavy Archers"
-msgstr "Cung Thủ Xương Man Rợ/Cung Thủ Hạng Nặng Man Rợ"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgctxt "9k2_Bx"
-msgid "Barbarian Beast Riders/Blitz Hunters"
-msgstr "Man Rợ Cưỡi Thú/Thợ Săn Man Tốc Chiến"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgctxt "s3oHvg"
 msgid "English Soldiers"
 msgstr "Binh Sĩ Anh"

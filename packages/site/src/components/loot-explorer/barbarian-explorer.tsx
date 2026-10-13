@@ -63,9 +63,6 @@ export function BarbarianExplorer({
 
   const familyLabels = new Map([
     ["barbarians", t("Barbarians")],
-    ["barbarian-wolf-tamers-pack-striders", t("Barbarian Wolf Tamers/Pack Striders")],
-    ["barbarian-bone-archers-heavy-archers", t("Barbarian Bone Archers/Heavy Archers")],
-    ["barbarian-beast-riders-blitz-hunters", t("Barbarian Beast Riders/Blitz Hunters")],
     ["english-soldiers", t("English Soldiers")],
     ["marauders", t("Marauders")],
   ]);

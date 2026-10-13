@@ -1,6 +1,6 @@
 //! Precompute aggregate reward data for barbarians.
 
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
 
 use futures::StreamExt;
 use mongodb::{
@@ -28,16 +28,21 @@ pub async fn precompute_barbarian_data(
     reports_store: &ReportsStore,
 ) -> Result<BarbarianPrecomputeStats, JobsError> {
     let targets = target_catalog();
-    let target_ids = targets.iter().map(|target| target.kind).collect::<BTreeSet<_>>();
     let target_by_kind =
         targets.iter().map(|target| (target.kind, *target)).collect::<BTreeMap<_, _>>();
+    let output_targets = targets
+        .iter()
+        .map(|target| {
+            let key = target.key();
+            (key, TargetMetadata { kind: key.kind, ..*target })
+        })
+        .collect::<BTreeMap<_, _>>();
     let (mut aggregate, mut stats) =
         read_observed_barbarian_reports(reports_store.battle_collection(), &target_by_kind).await?;
     let precomputed = reports_store.precomputed_barbarian_collection();
     let refreshed_at = DateTime::now();
 
-    for target in targets {
-        let key = target.key();
+    for (key, target) in output_targets {
         let level_stats = aggregate.remove(&key).unwrap_or_default();
 
         let document = build_precomputed_document(target, &level_stats, refreshed_at);
@@ -45,8 +50,6 @@ pub async fn precompute_barbarian_data(
         precomputed.replace_one(selector, document).upsert(true).await?;
         stats.documents_written += 1;
     }
-
-    debug_assert_eq!(target_ids.len(), stats.documents_written);
 
     Ok(stats)
 }
@@ -292,7 +295,12 @@ struct TargetMetadata {
 
 impl TargetMetadata {
     fn key(self) -> TargetKey {
-        TargetKey { kind: self.kind, level: self.level }
+        // Named barbarian variants share the traditional barbarian's loot pool at each level.
+        let kind = match self.kind {
+            701..=740 | 801..=840 | 901..=940 => self.level,
+            _ => self.kind,
+        };
+        TargetKey { kind, level: self.level }
     }
 
     fn selector(self) -> Document {
@@ -459,6 +467,87 @@ mod tests {
         assert_eq!(barbarian.honor_points, 10);
         assert_eq!(marauder.honor_points, barbarian.honor_points);
         assert_eq!(english_soldier.honor_points, barbarian.honor_points);
+    }
+
+    #[test]
+    fn all_barbarian_variants_share_the_traditional_target_at_the_same_level() {
+        let targets = target_catalog();
+        let keys =
+            targets.iter().map(|target| target.key()).collect::<std::collections::BTreeSet<_>>();
+
+        // 55 barbarian levels, 15 English Soldier levels, and two Marauder levels.
+        assert_eq!(keys.len(), 72);
+        for level in 1..=40 {
+            let barbarian = targets.iter().find(|target| target.kind == level).expect("barbarian");
+            for offset in [700, 800, 900] {
+                let variant =
+                    targets.iter().find(|target| target.kind == offset + level).expect("variant");
+                assert_eq!(variant.key(), barbarian.key());
+                assert_eq!(variant.ap_cost, barbarian.ap_cost);
+                assert_eq!(variant.honor_points, barbarian.honor_points);
+                assert_eq!(variant.base_xp, barbarian.base_xp);
+            }
+        }
+    }
+
+    #[test]
+    fn accumulate_report_document_combines_variant_loot_and_preserves_other_targets() {
+        let targets = target_catalog();
+        let target_by_kind =
+            targets.iter().map(|target| (target.kind, *target)).collect::<BTreeMap<_, _>>();
+        let mut aggregate = targets
+            .iter()
+            .map(|target| (target.key(), LevelStats::default()))
+            .collect::<BTreeMap<_, _>>();
+        let report = doc! {
+            "opponents": [
+                { "player_id": -2, "npc": { "type": 1, "b_type": 1, "experience": 100,
+                    "loot": [{ "type": 2, "sub_type": 7005, "value": 2 }] } },
+                { "player_id": -2, "npc": { "type": 701, "b_type": 1, "experience": 200,
+                    "loot": [{ "type": 2, "sub_type": 7005, "value": 4 }] } },
+                { "player_id": -2, "npc": { "type": 801, "b_type": 1, "experience": 300,
+                    "loot": [{ "type": 2, "sub_type": 7005, "value": 8 }] } },
+                { "player_id": -2, "npc": { "type": 901, "b_type": 1, "experience": 400 } },
+                { "player_id": -2, "npc": { "type": 702, "b_type": 1, "experience": 250 } },
+                { "player_id": -2, "npc": { "type": 99, "b_type": 15, "experience": 3000 } },
+                { "player_id": -2, "npc": { "type": 100, "b_type": 15, "experience": 8200 } },
+                { "player_id": -2, "npc": { "type": 401, "b_type": 1, "experience": 9000 } },
+                { "player_id": -2, "npc": { "type": 150_009, "b_type": 1, "experience": 8500 } },
+                { "player_id": -2, "npc": { "type": 701, "b_type": 15, "experience": 100 } },
+                { "player_id": 123, "npc": { "type": 801, "b_type": 1, "experience": 100 } },
+            ],
+        };
+
+        assert_eq!(accumulate_report_document(&report, &target_by_kind, &mut aggregate), 9);
+        let stats = aggregate.get(&TargetKey { kind: 1, level: 1 }).expect("combined level 1");
+        let target = *target_by_kind.get(&1).expect("barbarian");
+        let document = build_precomputed_document(target, stats, DateTime::now());
+
+        assert_eq!(document.get_i32("kind"), Ok(1));
+        assert_eq!(document.get_i32("level"), Ok(1));
+        assert_eq!(
+            document.get_document("totals"),
+            Ok(&doc! {
+                "results": 4_i64, "ap_used": 200_i64,
+                "honor_points_gained": 0_i64, "xp_gained": 1000_i64,
+            })
+        );
+        let loot = document.get_array("loot").expect("loot");
+        assert_eq!(
+            loot,
+            &vec![Bson::Document(doc! {
+                "type": 2, "sub_type": 7005, "results": 3_i64, "drop_rate": 0.75,
+                "quantity": { "min": 2_i64, "max": 8_i64 },
+                "total_quantity": 14_i64, "average_quantity": 14.0 / 3.0,
+            })]
+        );
+        for (kind, level, xp) in
+            [(2, 2, 250), (99, 1, 3000), (100, 41, 8200), (401, 41, 9000), (150_009, 41, 8500)]
+        {
+            let stats = aggregate.get(&TargetKey { kind, level }).expect("separate target");
+            assert_eq!(stats.results, 1);
+            assert_eq!(stats.xp_gained, xp);
+        }
     }
 
     #[test]

@@ -2061,21 +2061,6 @@ msgid "Failed to load loot explorer data."
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgctxt "qmJC1g"
-msgid "Barbarian Wolf Tamers/Pack Striders"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgctxt "S5oZQH"
-msgid "Barbarian Bone Archers/Heavy Archers"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgctxt "9k2_Bx"
-msgid "Barbarian Beast Riders/Blitz Hunters"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgctxt "s3oHvg"
 msgid "English Soldiers"
 msgstr ""
