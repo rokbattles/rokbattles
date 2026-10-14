@@ -1,0 +1,370 @@
+{
+  "metadata": {
+    "kvk": false,
+    "ll_script_schema": 0,
+    "mail_id": "47355787178921172331",
+    "mail_receiver": "player_223645970",
+    "mail_role": "gsmp",
+    "mail_time": 1789211723627280,
+    "report_id": 15337869,
+    "room_id": 0,
+    "schema": 10,
+    "server_id": 3068
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "",
+        "id": 0,
+        "name": ""
+      },
+      "alliance_building_id": null,
+      "app_id": null,
+      "app_uid": null,
+      "as_battle_type": null,
+      "attack": {
+        "def": 2,
+        "id": "430687401",
+        "x": 3253.575,
+        "y": 3706.8816
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -81618,
+          "dead": 39227,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -150171,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": -68553,
+          "slightly_wounded": 0,
+          "troop_units": 100000,
+          "troop_units_max": 100000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -160,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -170,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 253152,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 17,
+          "skill_power": -10,
+          "slightly_wounded": 1631,
+          "troop_units": 254800,
+          "troop_units_max": 254800,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 0,
+        "watchtower": null,
+        "x": 3259.1096,
+        "y": 3706.772
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": null,
+          "id": 597,
+          "level": 25,
+          "relics": null,
+          "skills": [
+            {
+              "id": 947,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 1
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": null,
+          "formation": null,
+          "id": 0,
+          "level": 0,
+          "relics": null,
+          "skills": null,
+          "skins": null,
+          "star_level": 0
+        }
+      },
+      "end_tick": 1397970,
+      "frame_url": null,
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 0,
+      "npc": {
+        "b_type": 1,
+        "experience": 3375,
+        "loot": [
+          {
+            "sub_type": 144,
+            "type": 2,
+            "value": 50
+          },
+          {
+            "sub_type": 71,
+            "type": 2,
+            "value": 5
+          },
+          {
+            "sub_type": 129,
+            "type": 2,
+            "value": 5
+          },
+          {
+            "sub_type": 9996,
+            "type": 2,
+            "value": 1
+          }
+        ],
+        "type": 665
+      },
+      "package_identifier": null,
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 597,
+              "level": 25
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 3138710,
+          "player_id": -2,
+          "player_name": ""
+        }
+      ],
+      "player_id": -2,
+      "player_name": "",
+      "rally": null,
+      "server_season": "",
+      "session": null,
+      "start_tick": 1397961,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": null,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": null,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "-2_1789207720_597"
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "4068",
+      "id": 8642753,
+      "name": "MINISTRY OF AURELIUM"
+    },
+    "alliance_building_id": null,
+    "app_id": 2104267,
+    "app_uid": 91390444,
+    "as_battle_type": null,
+    "auxiliary_skills": [],
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/91390444/2026-08-31/F1803ACB23EEE5AFE96A1968A3388E49_250x250.jpg",
+    "camp_id": null,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 3241.7363,
+      "y": 3709.4297
+    },
+    "character_type": 1,
+    "commanders": {
+      "primary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{}",
+        "formation": null,
+        "id": 6,
+        "level": 52,
+        "relics": null,
+        "skills": [
+          {
+            "id": 63,
+            "level": 5
+          },
+          {
+            "id": 1009,
+            "level": 5
+          },
+          {
+            "id": 1010,
+            "level": 5
+          },
+          {
+            "id": 1011,
+            "level": 5
+          }
+        ],
+        "skins": {
+          "12": 70006,
+          "21": 77004,
+          "22": 100204
+        },
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{}",
+        "formation": null,
+        "id": 1,
+        "level": 51,
+        "relics": null,
+        "skills": [
+          {
+            "id": 61,
+            "level": 5
+          },
+          {
+            "id": 1041,
+            "level": 5
+          },
+          {
+            "id": 1006,
+            "level": 5
+          },
+          {
+            "id": 1007,
+            "level": 5
+          }
+        ],
+        "skins": null,
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_250.png",
+    "is_auto": 1,
+    "is_outpost": null,
+    "is_turret": null,
+    "kingdom_id": 3068,
+    "package_identifier": "com.lilithgames.rok.pc.int",
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": "4068"
+        },
+        "commanders": {
+          "primary": {
+            "id": 6,
+            "level": 52
+          },
+          "secondary": {
+            "id": 1,
+            "level": 51
+          }
+        },
+        "participant_id": 3147003,
+        "player_id": 223645970,
+        "player_name": "省 Zeus"
+      }
+    ],
+    "player_id": 223645970,
+    "player_name": "省 Zeus",
+    "rally": null,
+    "server_season": "2.1",
+    "session": null,
+    "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
+    "supreme_strife": {
+      "battle_id": "",
+      "ironhand_spawn_time": null,
+      "legion_id": 0,
+      "match_id": 0,
+      "period": null,
+      "round": 0,
+      "talents": null,
+      "team_id": 0
+    },
+    "tracking_key": "223645970_1789211707_6_1"
+  },
+  "summary": {
+    "opponent": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    },
+    "sender": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1789211723,
+    "events": [],
+    "sampling": [
+      {
+        "count": 254800,
+        "tick": 1397961
+      },
+      {
+        "count": 253152,
+        "tick": 1397971
+      }
+    ],
+    "start_tick": 1397961,
+    "start_timestamp": 1789211713
+  }
+}

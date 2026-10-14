@@ -243,6 +243,7 @@ struct CommanderFieldSet {
     equipment: &'static str,
     skills: &'static str,
     relics: &'static str,
+    skins: &'static str,
     armaments: Option<&'static str>,
 }
 
@@ -256,6 +257,7 @@ impl CommanderFieldSet {
         equipment: "HEq",
         skills: "HSS",
         relics: "HClt",
+        skins: "HSkins",
         armaments: Some("HWBs"),
     };
     const SECONDARY: CommanderFieldSet = CommanderFieldSet {
@@ -267,6 +269,7 @@ impl CommanderFieldSet {
         equipment: "HEq2",
         skills: "HSS2",
         relics: "HClt2",
+        skins: "HSkins2",
         armaments: None,
     };
 }
@@ -283,6 +286,7 @@ fn extract_commander(
     let equipment = optional_string_field(player, fields.equipment)?;
     let skills = optional_skills_field(player, fields.skills)?;
     let relics = optional_relics_field(player, fields.relics)?;
+    let skins = optional_skins_field(player, fields.skins)?;
     let armaments = match fields.armaments {
         Some(field) => optional_armaments_field(player, field)?,
         None => Value::Null,
@@ -297,8 +301,29 @@ fn extract_commander(
         "equipment": equipment,
         "skills": skills,
         "relics": relics,
+        "skins": skins,
         "armaments": armaments,
     }))
+}
+
+fn optional_skins_field(
+    player: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Value, ExtractError> {
+    let skins = match player.get(field) {
+        None | Some(Value::Null) => return Ok(Value::Null),
+        Some(Value::Object(skins)) => skins,
+        Some(Value::Array(values)) if values.is_empty() => return Ok(json!({})),
+        Some(_) => {
+            return Err(ExtractError::InvalidFieldType { field, expected: "object" });
+        }
+    };
+    for id in skins.values() {
+        if id.as_u64().is_none() {
+            return Err(ExtractError::InvalidFieldType { field, expected: "unsigned integer" });
+        }
+    }
+    Ok(Value::Object(skins.clone()))
 }
 
 fn optional_skills_field(
@@ -922,6 +947,66 @@ mod tests {
     }
 
     #[test]
+    fn extract_player_fields_preserves_commander_skin_maps_by_slot() {
+        let mut player = base_player();
+        let primary = json!({ "12": 70006, "21": 77004, "22": 100204, "99": 123456 });
+        let secondary = json!({ "12": 70003 });
+        player.insert("HSkins".to_string(), primary.clone());
+        player.insert("HSkins2".to_string(), secondary.clone());
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["commanders"]["primary"]["skins"], primary);
+        assert_eq!(fields["commanders"]["secondary"]["skins"], secondary);
+    }
+
+    #[test]
+    fn extract_player_fields_distinguishes_absent_and_empty_skins() {
+        for (input, expected) in [
+            (None, Value::Null),
+            (Some(Value::Null), Value::Null),
+            (Some(json!({})), json!({})),
+            (Some(json!([])), json!({})),
+        ] {
+            let mut player = base_player();
+            if let Some(input) = input {
+                player.insert("HSkins".to_string(), input.clone());
+                player.insert("HSkins2".to_string(), input);
+            }
+            let fields = extract_player_fields(&player).unwrap();
+            for slot in ["primary", "secondary"] {
+                assert_eq!(fields["commanders"][slot]["skins"], expected);
+            }
+        }
+    }
+
+    #[test]
+    fn extract_player_fields_rejects_invalid_skin_maps() {
+        for field in ["HSkins", "HSkins2"] {
+            for input in [json!(true), json!(70006), json!("70006"), json!([70006])] {
+                let mut player = base_player();
+                player.insert(field.to_string(), input);
+                assert!(matches!(
+                    extract_player_fields(&player),
+                    Err(ExtractError::InvalidFieldType { field: actual, expected: "object" })
+                        if actual == field
+                ));
+            }
+            for id in [json!(-1), json!(1.5), json!("70006"), json!(true), Value::Null] {
+                let mut player = base_player();
+                player.insert(field.to_string(), json!({ "12": id }));
+                assert!(matches!(
+                    extract_player_fields(&player),
+                    Err(ExtractError::InvalidFieldType {
+                        field: actual,
+                        expected: "unsigned integer",
+                    }) if actual == field
+                ));
+            }
+        }
+    }
+
+    #[test]
     fn extract_player_fields_reads_commanders() {
         let mut player = base_player();
         player.insert("HId".to_string(), json!(501));
@@ -957,6 +1042,7 @@ mod tests {
                     "equipment": "{1:200}",
                     "skills": [{ "id": 111, "level": 3 }],
                     "relics": [{ "id": 10001 }],
+                    "skins": null,
                     "armaments": [{ "id": 1, "affix": "-1", "buffs": "buffs-1" }]
                 },
                 "secondary": {
@@ -968,6 +1054,7 @@ mod tests {
                     "equipment": "{2:201}",
                     "skills": [{ "id": 222, "level": 5 }],
                     "relics": [{ "id": 20001 }],
+                    "skins": null,
                     "armaments": null
                 }
             }))
@@ -1132,6 +1219,7 @@ mod tests {
                     "equipment": null,
                     "skills": null,
                     "relics": null,
+                    "skins": null,
                     "armaments": null
                 },
                 "secondary": {
@@ -1143,6 +1231,7 @@ mod tests {
                     "equipment": null,
                     "skills": null,
                     "relics": null,
+                    "skins": null,
                     "armaments": null
                 }
             }))

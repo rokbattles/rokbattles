@@ -1,0 +1,341 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "430687401": {
+          "Bts": 1397961,
+          "CIdt": {
+            "AId": 0,
+            "AName": "",
+            "Abbr": "",
+            "Avatar": "",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 430687401,
+            "CK": "",
+            "COSId": 0,
+            "CT": 1,
+            "CTK": "-2_1789207720_597",
+            "CastleLevel": 0,
+            "CastlePos": {
+              "X": 3259.1096,
+              "Y": 3706.772
+            },
+            "CtId": 3138710,
+            "DisappearTick": 1415543,
+            "HAw": false,
+            "HAw2": false,
+            "HEq": "{}",
+            "HId": 597,
+            "HId2": 0,
+            "HLv": 25,
+            "HLv2": 0,
+            "HSS": [
+              {
+                "SkillId": 947,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 1,
+            "HSt2": 0,
+            "HTE": 0,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "Idt": "430687401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "NpcBType": 1,
+            "NpcType": 665,
+            "PId": -2,
+            "PName": "",
+            "SerSeason": "",
+            "Titan": {
+              "BattleId": "",
+              "LegionId": 0,
+              "MatchId": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            }
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -160,
+            "BadHurt": 17,
+            "BadReduceCnt": 0,
+            "Cnt": 253152,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 1631,
+            "HurtCntEnd": 1631,
+            "InitMax": 254800,
+            "KillScore": 0,
+            "Max": 254800,
+            "Power": -170,
+            "RetreatCnt": 0,
+            "SkillPower": -10,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 1397970,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -81618,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 39227,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 100000,
+            "KillScore": 0,
+            "Max": 100000,
+            "Power": -150171,
+            "RetreatCnt": 0,
+            "SkillPower": -68553,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 3375,
+          "NpcKillLoot": [
+            {
+              "SubType": 144,
+              "Type": 2,
+              "Value": 50
+            },
+            {
+              "SubType": 71,
+              "Type": 2,
+              "Value": 5
+            },
+            {
+              "SubType": 129,
+              "Type": 2,
+              "Value": 5
+            },
+            {
+              "SubType": 9996,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "OTs": {
+            "3138710": {
+              "Abbr": "",
+              "HId": 597,
+              "HId2": 0,
+              "HLv": 25,
+              "HLv2": 0,
+              "PId": -2,
+              "PName": ""
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3253.575,
+            "Y": 3706.8816
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 10,
+          "TickStart": 1397961
+        }
+      },
+      "Btk": 1397961,
+      "Bts": 1789211713,
+      "DataOmit": false,
+      "Ets": 1789211723,
+      "Events": [],
+      "GsId": 3068,
+      "Id": 15337869,
+      "LLScriptSchema": 0,
+      "LoadSource": "oss",
+      "Role": "gsmp",
+      "RoomId": 0,
+      "STs": {
+        "3147003": {
+          "Abbr": "4068",
+          "HId": 6,
+          "HId2": 1,
+          "HLv": 52,
+          "HLv2": 51,
+          "HSkin": {
+            "12": 70006,
+            "21": 77004,
+            "22": 100204
+          },
+          "PId": 223645970,
+          "PName": "省 Zeus"
+        }
+      },
+      "Samples": [
+        {
+          "Cnt": 254800,
+          "T": 1397961
+        },
+        {
+          "Cnt": 253152,
+          "T": 1397971
+        }
+      ],
+      "Schema": 10,
+      "SelfChar": {
+        "AId": 8642753,
+        "AName": "MINISTRY OF AURELIUM",
+        "Abbr": "4068",
+        "AppUid": "91390444",
+        "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/91390444/2026-08-31/F1803ACB23EEE5AFE96A1968A3388E49_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_250.png\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 431787601,
+        "CK": "",
+        "COSId": 3068,
+        "CT": 1,
+        "CTK": "223645970_1789211707_6_1",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3241.7363,
+          "Y": 3709.4297
+        },
+        "CtId": 3147003,
+        "HAw": true,
+        "HAw2": true,
+        "HEq": "{}",
+        "HEq2": "{}",
+        "HId": 6,
+        "HId2": 1,
+        "HLv": 52,
+        "HLv2": 51,
+        "HSS": [
+          {
+            "SkillId": 63,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1009,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1010,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1011,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          {
+            "SkillId": 61,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1041,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1006,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1007,
+            "SkillLevel": 5
+          }
+        ],
+        "HSkins": {
+          "12": 70006,
+          "21": 77004,
+          "22": 100204
+        },
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "Idt": "431787601",
+        "IfAI": 0,
+        "IsAuto": 1,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 223645970,
+        "PName": "省 Zeus",
+        "PkgNameNew": "com.lilithgames.rok.pc.int",
+        "SerSeason": "2.1",
+        "Titan": {
+          "BattleId": "",
+          "LegionId": 0,
+          "MatchId": 0,
+          "Pioneer": false,
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "23092246662184485"
+      },
+      "SpotlightMatch": "",
+      "TickSkip": 100
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "47355787178921172331",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_223645970",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 3068,
+  "starMark": 0,
+  "time": 1789211723627280,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

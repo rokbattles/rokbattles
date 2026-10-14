@@ -82,6 +82,20 @@ mod tests {
     }
 
     #[test]
+    fn sender_extractor_reads_cosmetics_from_report_samples() {
+        for (mail_id, slot, expected) in [
+            ("2327650417885316042", "secondary", json!({ "12": 70006, "22": 100204 })),
+            ("47355787178921172331", "primary", json!({ "12": 70006, "21": 77004, "22": 100204 })),
+        ] {
+            let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join(format!("../../../samples/Battle/Persistent.Mail.{mail_id}.json"));
+            let input = serde_json::from_str(&fs::read_to_string(sample_path).unwrap()).unwrap();
+            let section = SenderExtractor::new().extract(&input).unwrap();
+            assert_eq!(section.fields()["commanders"][slot]["skins"], expected);
+        }
+    }
+
+    #[test]
     fn sender_extractor_reads_basic_fields() {
         let input = json!({
             "body": {

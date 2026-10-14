@@ -107,6 +107,7 @@
               "level": 2
             }
           ],
+          "skins": null,
           "star_level": 1
         },
         "secondary": {
@@ -123,6 +124,7 @@
               "level": 1
             }
           ],
+          "skins": null,
           "star_level": 1
         }
       },
@@ -248,6 +250,7 @@
             "level": 1
           }
         ],
+        "skins": null,
         "star_level": 4
       },
       "secondary": {
@@ -276,6 +279,7 @@
             "level": 5
           }
         ],
+        "skins": null,
         "star_level": 4
       }
     },

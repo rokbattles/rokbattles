@@ -111,6 +111,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 5
         },
         "secondary": {
@@ -122,6 +123,7 @@
           "level": 0,
           "relics": null,
           "skills": null,
+          "skins": null,
           "star_level": 0
         }
       },
@@ -301,6 +303,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 5
         },
         "secondary": {
@@ -312,6 +315,7 @@
           "level": 0,
           "relics": null,
           "skills": null,
+          "skins": null,
           "star_level": 0
         }
       },
@@ -491,6 +495,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 5
         },
         "secondary": {
@@ -502,6 +507,7 @@
           "level": 0,
           "relics": null,
           "skills": null,
+          "skins": null,
           "star_level": 0
         }
       },
@@ -681,6 +687,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 5
         },
         "secondary": {
@@ -692,6 +699,7 @@
           "level": 0,
           "relics": null,
           "skills": null,
+          "skins": null,
           "star_level": 0
         }
       },
@@ -847,6 +855,7 @@
             "level": 5
           }
         ],
+        "skins": null,
         "star_level": 6
       },
       "secondary": {
@@ -879,6 +888,7 @@
             "level": 1
           }
         ],
+        "skins": null,
         "star_level": 6
       }
     },
