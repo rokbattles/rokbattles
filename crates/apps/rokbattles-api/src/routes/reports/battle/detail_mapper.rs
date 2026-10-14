@@ -5,6 +5,7 @@ use rokbattles_bson::{
 };
 
 use super::{
+    commander_skins::map_commander_skins,
     stratagems::resolve_battle_effects,
     structure_override::resolve_avatar_override,
     types::{
@@ -63,6 +64,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.supreme_strife.talents",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
+        "sender.commanders.primary.skins",
         "sender.commanders.primary.level",
         "sender.commanders.primary.formation",
         "sender.commanders.primary.equipment",
@@ -73,6 +75,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.commanders.primary.armaments.buffs",
         "sender.commanders.secondary.id",
         "sender.commanders.secondary.awakened",
+        "sender.commanders.secondary.skins",
         "sender.commanders.secondary.level",
         "sender.commanders.secondary.skills.id",
         "sender.commanders.secondary.skills.level",
@@ -125,6 +128,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.supreme_strife.talents",
         "opponents.commanders.primary.id",
         "opponents.commanders.primary.awakened",
+        "opponents.commanders.primary.skins",
         "opponents.commanders.primary.level",
         "opponents.commanders.primary.formation",
         "opponents.commanders.primary.equipment",
@@ -135,6 +139,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.commanders.primary.armaments.buffs",
         "opponents.commanders.secondary.id",
         "opponents.commanders.secondary.awakened",
+        "opponents.commanders.secondary.skins",
         "opponents.commanders.secondary.level",
         "opponents.commanders.secondary.skills.id",
         "opponents.commanders.secondary.skills.level",
@@ -267,6 +272,7 @@ fn map_detail_commander(document: Option<&Document>) -> BattleReportCommander {
     BattleReportCommander {
         id: nested_i64_exact(document, &["id"]),
         awakened: nested_bool(document, &["awakened"]),
+        skins: map_commander_skins(nested_document(document, &["skins"])),
         level: nested_i64_exact(document, &["level"]),
         formation: nested_i64_exact(document, &["formation"]),
         equipment: nested_string(document, &["equipment"]),

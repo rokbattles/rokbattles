@@ -4,9 +4,12 @@ use mongodb::bson::{Bson, Document};
 use rokbattles_bson::{nested_bool, nested_document, nested_i64, nested_str};
 use sha2::{Digest, Sha256};
 
-use super::types::{
-    ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
-    ReportTimeline, TimelineSample,
+use super::{
+    commander_skins::map_commander_skins,
+    types::{
+        ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary,
+        ReportSummaryEntry, ReportTimeline, TimelineSample,
+    },
 };
 
 pub(crate) fn build_battle_list_projection() -> Document {
@@ -34,8 +37,10 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "sender.structure_id",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
+        "sender.commanders.primary.skins",
         "sender.commanders.secondary.id",
         "sender.commanders.secondary.awakened",
+        "sender.commanders.secondary.skins",
         "summary.sender.kill_points",
         "summary.sender.dead",
         "summary.sender.severely_wounded",
@@ -57,8 +62,10 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "opponents.structure_id",
         "opponents.commanders.primary.id",
         "opponents.commanders.primary.awakened",
+        "opponents.commanders.primary.skins",
         "opponents.commanders.secondary.id",
         "opponents.commanders.secondary.awakened",
+        "opponents.commanders.secondary.skins",
         "opponents.battle_results.sender.kill_points",
         "opponents.battle_results.sender.dead",
         "opponents.battle_results.sender.severely_wounded",
@@ -184,6 +191,7 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
         kvk_banner: None,
         time_start,
         time_end,
+
         sender: ReportListParticipant {
             primary_commander_id: nested_i64(document, &["sender", "commanders", "primary", "id"])
                 .unwrap_or(0),
@@ -191,6 +199,11 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
                 document,
                 &["sender", "commanders", "primary", "awakened"],
             ),
+            primary_commander_skins: map_commander_skins(nested_document(
+                document,
+                &["sender", "commanders", "primary", "skins"],
+            )),
+
             secondary_commander_id: nested_i64(
                 document,
                 &["sender", "commanders", "secondary", "id"],
@@ -200,7 +213,12 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
                 document,
                 &["sender", "commanders", "secondary", "awakened"],
             ),
+            secondary_commander_skins: map_commander_skins(nested_document(
+                document,
+                &["sender", "commanders", "secondary", "skins"],
+            )),
         },
+
         opponent: ReportListParticipant {
             primary_commander_id: nested_i64(preferred_opponent, &["commanders", "primary", "id"])
                 .unwrap_or(0),
@@ -208,6 +226,11 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
                 preferred_opponent,
                 &["commanders", "primary", "awakened"],
             ),
+            primary_commander_skins: map_commander_skins(nested_document(
+                preferred_opponent,
+                &["commanders", "primary", "skins"],
+            )),
+
             secondary_commander_id: nested_i64(
                 preferred_opponent,
                 &["commanders", "secondary", "id"],
@@ -217,7 +240,12 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
                 preferred_opponent,
                 &["commanders", "secondary", "awakened"],
             ),
+            secondary_commander_skins: map_commander_skins(nested_document(
+                preferred_opponent,
+                &["commanders", "secondary", "skins"],
+            )),
         },
+
         battles,
         kill_count,
         trade_percent,

@@ -22,6 +22,7 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
     <CommanderLoadoutRow
       id={commander?.id}
       awakened={commander?.awakened}
+      skinId={commander?.skins?.["22"]}
       level={commander?.level}
       skills={commander?.skills}
       formationLabel={formationLabel}

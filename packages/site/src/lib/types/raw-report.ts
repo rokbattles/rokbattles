@@ -19,6 +19,7 @@ export interface RawReportMetadata {
 export interface RawCommanderInfo {
   id?: number;
   awakened?: boolean | null;
+  skins?: Record<string, number> | null;
   level?: number;
   skills?: RawCommanderSkillInfo[] | null;
   relics?: RawRelicInfo[] | null;

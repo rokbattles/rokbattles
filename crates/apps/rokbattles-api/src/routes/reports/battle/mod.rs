@@ -26,6 +26,7 @@ use crate::{
     error::ApiError, routes::reports::common::pagination::paginate_cursor_rows, state::AppState,
 };
 
+mod commander_skins;
 mod detail_mapper;
 pub(crate) mod list_mapper;
 mod map_context;

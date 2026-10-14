@@ -17,6 +17,7 @@ type CommanderSkillEntry = {
 type CommanderCatalogEntry = {
   name: Record<string, string | undefined>;
   rarity?: string;
+  override?: Record<string, string | undefined>;
   sprite?: string | string[];
   skills?: CommanderSkillEntry[];
 };
@@ -67,22 +68,31 @@ export function getCommanderName(id: number | null | undefined, locale?: string)
 
 export function getCommanderSprites(
   id: number | null | undefined,
-  awakened = false
+  awakened = false,
+  skinId?: number | null
 ): string[] | undefined {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }
 
-  const commander = commanderMap[String(id) as CommanderIdKey];
+  const commander = commanderCatalog[String(id)];
+
   if (!commander?.sprite) {
     return undefined;
   }
 
-  const sprites = Array.isArray(commander.sprite) ? commander.sprite : [commander.sprite];
+  const sprites = (Array.isArray(commander.sprite) ? commander.sprite : [commander.sprite]).filter(
+    (sprite): sprite is string => typeof sprite === "string" && sprite.length > 0
+  );
+
+  const portraitOverride = skinId == null ? undefined : commander.override?.[String(skinId)];
 
   return sprites
-    .filter((sprite): sprite is string => typeof sprite === "string" && sprite.length > 0)
     .map((sprite, index) => {
+      if (portraitOverride && index === sprites.length - 1) {
+        return portraitOverride;
+      }
+
       if (!awakened || index !== 0) {
         return sprite;
       }
