@@ -22,8 +22,8 @@ const NO_STORE: [(&str, &str); 2] =
 const QUERY_TIMEOUT: Duration = Duration::from_secs(5);
 const BATTLE_LIFETIME_MS: i64 = 5 * 60 * 1000;
 
-const ALLOWED_DISCORD_IDS: [&str; 3] =
-    ["187342661060001792", "188044055698079756", "1126322387240095824"];
+const ALLOWED_DISCORD_IDS: [&str; 4] =
+    ["187342661060001792", "188044055698079756", "1126322387240095824", "695479485797105695"];
 
 #[derive(Debug, Clone, Copy, Default, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
