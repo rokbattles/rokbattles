@@ -1,1 +1,180 @@
 @import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  background: #09090b;
+}
+
+/* Logical pixels match shell.rs so child webviews never cover the chrome. */
+.launcher-shell {
+  display: grid;
+  grid-template-rows: 48px minmax(0, 1fr) 34px;
+  height: 100dvh;
+  overflow: hidden;
+  background: #18181b;
+  color: #a1a1aa;
+  font-size: 12px;
+  user-select: none;
+}
+
+.launcher-titlebar,
+.launcher-tabs,
+.launcher-window-controls,
+.launcher-footer,
+.launcher-footer-actions,
+.launcher-capture,
+.launcher-feedback {
+  display: flex;
+  align-items: center;
+}
+
+.launcher-titlebar {
+  padding-left: 18px;
+  gap: 24px;
+}
+
+.launcher-wordmark {
+  flex-shrink: 0;
+  width: 144px;
+  height: auto;
+}
+
+.launcher-tabs {
+  gap: 4px;
+}
+
+.launcher-tab {
+  border-radius: 5px;
+  padding: 6px 12px;
+  line-height: 18px;
+}
+
+.launcher-tab[aria-current="page"] {
+  background: #3f3f46;
+  color: #fafafa;
+}
+
+.launcher-tab:hover:not([aria-current="page"]),
+.launcher-window-controls button:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+.launcher-shell button:focus-visible {
+  outline: 2px solid #a1a1aa;
+  outline-offset: -2px;
+}
+
+.launcher-shell button:disabled {
+  cursor: wait;
+}
+
+.launcher-shell svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.launcher-drag-region {
+  flex: 1;
+  align-self: stretch;
+}
+
+.launcher-window-controls {
+  height: 100%;
+  align-self: stretch;
+}
+
+.launcher-window-controls button {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 46px;
+}
+
+.launcher-window-controls .launcher-close:hover {
+  background: #c42b1c;
+  color: white;
+}
+
+.launcher-content {
+  display: grid;
+  place-items: center;
+  margin: 0 8px;
+  border: 1px solid #3f3f46;
+  background: #09090b;
+  overflow: hidden;
+}
+
+.launcher-loading {
+  color: #71717a;
+}
+
+.launcher-footer {
+  gap: 16px;
+  padding: 0 14px;
+  font-size: 11px;
+}
+
+.launcher-capture {
+  gap: 7px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.launcher-capture[data-tone="green"] {
+  color: #4ade80;
+}
+
+.launcher-capture[data-tone="orange"] {
+  color: #fb923c;
+}
+
+.launcher-capture[data-tone="red"] {
+  color: #f87171;
+}
+
+.launcher-status-dot {
+  flex: 0 0 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateY(-1px);
+}
+
+.launcher-footer-actions {
+  gap: 8px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.launcher-version {
+  color: #a1a1aa;
+}
+
+.launcher-feedback {
+  padding: 2px 0;
+  color: #d4d4d8;
+  line-height: 18px;
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+}
+
+.launcher-feedback:hover {
+  color: #fafafa;
+}
+
+.launcher-footer-separator {
+  color: #71717a;
+}
+
+.launcher-error {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.launcher-error {
+  color: #f87171;
+}

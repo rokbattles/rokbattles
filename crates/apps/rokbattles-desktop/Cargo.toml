@@ -14,15 +14,18 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 doctest = false
 
 [dependencies]
+base64.workspace = true
+rand.workspace = true
+sha2.workspace = true
 rustc-hash.workspace = true
-tauri = { workspace = true, features = ["tray-icon"] }
+tauri = { workspace = true, features = ["tray-icon", "unstable"] }
 tauri-plugin-opener.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tauri-plugin-dialog.workspace = true
 anyhow.workspace = true
 thiserror.workspace = true
-tokio = { workspace = true, features = ["macros", "sync", "time"] }
+tokio = { workspace = true, features = ["macros", "sync", "time", "net", "io-util"] }
 reqwest = { workspace = true, features = ["json", "multipart", "rustls-tls-native-roots"] }
 rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
@@ -34,6 +37,7 @@ tempfile.workspace = true
 winreg = "0.55.0"
 
 [target.'cfg(target_os = "linux")'.dependencies]
+gtk = "0.18.2"
 yaml_serde.workspace = true
 
 [target.'cfg(unix)'.dependencies]

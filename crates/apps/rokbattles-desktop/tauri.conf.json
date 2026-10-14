@@ -22,8 +22,12 @@
     "windows": [
       {
         "title": "ROK Battles",
-        "width": 800,
-        "height": 600,
+        "width": 1200,
+        "height": 800,
+        "minWidth": 640,
+        "minHeight": 480,
+        "decorations": false,
+        "backgroundColor": "#18181b",
         "fullscreen": false,
         "resizable": true
       }

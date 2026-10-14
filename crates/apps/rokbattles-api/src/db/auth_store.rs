@@ -29,6 +29,25 @@ pub struct OAuthStateRecord {
     pub verifier: String,
     pub created_at: DateTime,
     pub expires_at: DateTime,
+    pub desktop: Option<DesktopLogin>,
+}
+
+/// Loopback destination and PKCE binding for a desktop-initiated login.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct DesktopLogin {
+    pub port: u16,
+    pub state: String,
+    pub code_challenge: String,
+}
+
+/// Temporary desktop OAuth handoff state; the single-use code is stored only as a hash.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DesktopOAuthState {
+    pub code_hash: String,
+    pub code_challenge: String,
+    pub user_id: String,
+    pub expires_at: DateTime,
 }
 
 /// User payload written during Discord OAuth callback.
@@ -56,6 +75,19 @@ pub enum AuthStoreError {
 
 /// Auth-store interface so handlers are testable without MongoDB.
 pub trait AuthRepository: Send + Sync {
+    fn insert_desktop_oauth_state(
+        &self,
+        oauth_state: DesktopOAuthState,
+    ) -> BoxFuture<'_, Result<(), AuthStoreError>>;
+
+    /// Atomically consume an unexpired code only when its PKCE proof matches.
+    fn consume_desktop_oauth_state<'a>(
+        &'a self,
+        code_hash: &'a str,
+        code_challenge: &'a str,
+        now: DateTime,
+    ) -> BoxFuture<'a, Result<Option<DesktopOAuthState>, AuthStoreError>>;
+
     fn find_session_by_id<'a>(
         &'a self,
         sid: &'a str,
@@ -97,6 +129,7 @@ pub struct MongoAuthStore {
     sessions: Collection<SessionDocument>,
     users: Collection<UserDocument>,
     oauth_states: Collection<OAuthStateDocument>,
+    desktop_oauth_states: Collection<DesktopOAuthState>,
 }
 
 impl MongoAuthStore {
@@ -106,6 +139,7 @@ impl MongoAuthStore {
             sessions: db.collection::<SessionDocument>("userSessions"),
             users: db.collection::<UserDocument>("users"),
             oauth_states: db.collection::<OAuthStateDocument>("oauthStates"),
+            desktop_oauth_states: db.collection("desktopOauthStates"),
         }
     }
 
@@ -151,11 +185,63 @@ impl MongoAuthStore {
             self.oauth_states.create_index(index).await?;
         }
 
+        self.desktop_oauth_states
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! { "codeHash": 1 })
+                    .options(IndexOptions::builder().unique(true).build())
+                    .build(),
+            )
+            .await?;
+
+        self.desktop_oauth_states
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! { "expiresAt": 1 })
+                    .options(
+                        IndexOptions::builder()
+                            .expire_after(Some(std::time::Duration::ZERO))
+                            .build(),
+                    )
+                    .build(),
+            )
+            .await?;
+
         Ok(())
     }
 }
 
 impl AuthRepository for MongoAuthStore {
+    fn insert_desktop_oauth_state(
+        &self,
+        oauth_state: DesktopOAuthState,
+    ) -> BoxFuture<'_, Result<(), AuthStoreError>> {
+        async move {
+            self.desktop_oauth_states.insert_one(oauth_state).await?;
+            Ok(())
+        }
+        .boxed()
+    }
+
+    fn consume_desktop_oauth_state<'a>(
+        &'a self,
+        code_hash: &'a str,
+        code_challenge: &'a str,
+        now: DateTime,
+    ) -> BoxFuture<'a, Result<Option<DesktopOAuthState>, AuthStoreError>> {
+        async move {
+            Ok(self
+                .desktop_oauth_states
+                .find_one_and_delete(doc! {
+                    "codeHash": code_hash,
+                    "codeChallenge": code_challenge,
+                    "expiresAt": { "$gt": now },
+                })
+                .await?)
+        }
+        .boxed()
+    }
+
     fn find_session_by_id<'a>(
         &'a self,
         sid: &'a str,
@@ -309,6 +395,8 @@ struct OAuthStateDocument {
     created_at: DateTime,
     #[serde(rename = "expiresAt")]
     expires_at: DateTime,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    desktop: Option<DesktopLogin>,
 }
 
 impl From<OAuthStateDocument> for OAuthStateRecord {
@@ -318,6 +406,7 @@ impl From<OAuthStateDocument> for OAuthStateRecord {
             verifier: value.verifier,
             created_at: value.created_at,
             expires_at: value.expires_at,
+            desktop: value.desktop,
         }
     }
 }
@@ -329,6 +418,25 @@ impl From<OAuthStateRecord> for OAuthStateDocument {
             verifier: value.verifier,
             created_at: value.created_at,
             expires_at: value.expires_at,
+            desktop: value.desktop,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn preexisting_website_oauth_states_do_not_require_desktop_metadata() {
+        let document: OAuthStateDocument = mongodb::bson::from_document(doc! {
+            "state": "existing-state", "verifier": "existing-verifier",
+            "createdAt": DateTime::now(), "expiresAt": DateTime::now(),
+        })
+        .expect("legacy OAuth state");
+        let record = OAuthStateRecord::from(document);
+
+        assert!(record.desktop.is_none());
+        assert_eq!(record.verifier, "existing-verifier");
     }
 }

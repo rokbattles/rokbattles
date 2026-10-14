@@ -4771,14 +4771,18 @@ name = "rokbattles-desktop"
 version = "1.8.0"
 dependencies = [
  "anyhow",
+ "base64 0.22.1",
+ "gtk",
  "libc",
  "notify",
+ "rand 0.10.2",
  "reqwest 0.12.28",
  "rokbattles-mail-codec",
  "rokbattles-mail-registry",
  "rustc-hash 2.1.3",
  "serde",
  "serde_json",
+ "sha2 0.10.9",
  "tauri",
  "tauri-build",
  "tauri-plugin-autostart",

@@ -69,7 +69,10 @@ impl WatcherManager {
         Self::with_services(
             move || spawn_watcher(&start_app),
             move || reset_upload_state(&reset_app),
-            move |status| crate::tray::refresh_tray_menu(&tray_app, status),
+            move |status| {
+                crate::tray::refresh_tray_menu(&tray_app, status);
+                crate::shell::notify_capture_changed(&tray_app);
+            },
             move |message| emit_log(&log_app, message),
         )
     }
