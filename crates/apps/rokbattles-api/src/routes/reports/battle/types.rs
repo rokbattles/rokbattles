@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use mongodb::bson::Bson;
 use serde::Serialize;
 
@@ -38,8 +40,11 @@ pub(crate) struct ReportListItem {
 pub(crate) struct ReportListParticipant {
     pub primary_commander_id: i64,
     pub primary_commander_awakened: Option<bool>,
+    pub primary_commander_skins: Option<BTreeMap<String, i64>>,
+
     pub secondary_commander_id: i64,
     pub secondary_commander_awakened: Option<bool>,
+    pub secondary_commander_skins: Option<BTreeMap<String, i64>>,
 }
 
 #[derive(Debug, Serialize)]
@@ -152,6 +157,7 @@ pub(crate) struct BattleReportCommanderSet {
 pub(crate) struct BattleReportCommander {
     pub id: Option<i64>,
     pub awakened: Option<bool>,
+    pub skins: Option<BTreeMap<String, i64>>,
     pub level: Option<i64>,
     pub formation: Option<i64>,
     pub equipment: Option<String>,

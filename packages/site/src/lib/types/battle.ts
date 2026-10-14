@@ -81,6 +81,7 @@ export type BattleCommanderSet = {
 export type BattleCommander = {
   id: number | null;
   awakened: boolean | null;
+  skins?: Record<string, number> | null;
   level: number | null;
   formation: number | null;
   equipment: string | null;

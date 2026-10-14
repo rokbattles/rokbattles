@@ -12,6 +12,7 @@ import { type CommanderSkillLevel, getCommanderSkillDisplays } from "@/lib/comma
 type CommanderLoadoutRowProps = {
   id?: number | null;
   awakened?: boolean | null;
+  skinId?: number | null;
   level?: number | null;
   skills?: readonly CommanderSkillLevel[] | null;
   formationLabel?: string | null;
@@ -20,6 +21,7 @@ type CommanderLoadoutRowProps = {
 export function CommanderLoadoutRow({
   id,
   awakened,
+  skinId,
   level,
   skills,
   formationLabel,
@@ -40,6 +42,7 @@ export function CommanderLoadoutRow({
           awakened={awakened}
           className="size-12 outline-0!"
           id={id}
+          skinId={skinId}
           sizes="48px"
         />
         <div className="min-w-0">

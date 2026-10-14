@@ -152,20 +152,25 @@ function mapPlayerToParticipant(
     npc_type: npc?.type ?? undefined,
     npc_btype: npc?.bType ?? undefined,
     tracking_key: player.trackingKey ?? undefined,
+
     primary_commander: {
       id: player.commanders.primary.id ?? undefined,
       awakened: player.commanders.primary.awakened ?? undefined,
+      skins: player.commanders.primary.skins,
       level: player.commanders.primary.level ?? undefined,
       skills: [...(player.commanders.primary.skills ?? [])],
       relics: [...(player.commanders.primary.relics ?? [])],
     },
+
     secondary_commander: {
       id: player.commanders.secondary.id ?? undefined,
       awakened: player.commanders.secondary.awakened ?? undefined,
+      skins: player.commanders.secondary.skins,
       level: player.commanders.secondary.level ?? undefined,
       skills: [...(player.commanders.secondary.skills ?? [])],
       relics: [...(player.commanders.secondary.relics ?? [])],
     },
+
     support_skills: {
       enable: player.supportSkills?.enable ?? undefined,
       skills: [...(player.supportSkills?.skills ?? [])].map(mapSupportSkill),

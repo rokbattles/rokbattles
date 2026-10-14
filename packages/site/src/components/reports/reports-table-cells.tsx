@@ -23,8 +23,10 @@ export default function ReportsTableCells({ report, now }: ReportsTableCellsProp
         <ParticipantCell
           primaryAwakened={report.sender.primaryCommanderAwakened}
           primaryId={report.sender.primaryCommanderId}
+          primarySkinId={report.sender.primaryCommanderSkins?.["22"]}
           secondaryAwakened={report.sender.secondaryCommanderAwakened}
           secondaryId={report.sender.secondaryCommanderId}
+          secondarySkinId={report.sender.secondaryCommanderSkins?.["22"]}
         />
       </TableCell>
       <TableCell className="w-1/10 text-center tabular-nums">
@@ -34,8 +36,10 @@ export default function ReportsTableCells({ report, now }: ReportsTableCellsProp
         <ParticipantCell
           primaryAwakened={report.opponent.primaryCommanderAwakened}
           primaryId={report.opponent.primaryCommanderId}
+          primarySkinId={report.opponent.primaryCommanderSkins?.["22"]}
           secondaryAwakened={report.opponent.secondaryCommanderAwakened}
           secondaryId={report.opponent.secondaryCommanderId}
+          secondarySkinId={report.opponent.secondaryCommanderSkins?.["22"]}
         />
         {report.battles > 1 ? (
           <Badge className="ml-1 align-middle tabular-nums" title={t("Battles")}>

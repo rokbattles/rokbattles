@@ -1,8 +1,11 @@
 export type ReportsListParticipant = {
   primaryCommanderId: number;
   primaryCommanderAwakened: boolean | null;
+  primaryCommanderSkins?: Record<string, number> | null;
+
   secondaryCommanderId: number;
   secondaryCommanderAwakened: boolean | null;
+  secondaryCommanderSkins?: Record<string, number> | null;
 };
 
 export type ReportsSummaryEntry = {

@@ -7,8 +7,10 @@ import { getCommanderName } from "@/hooks/use-commander-name";
 type Props = {
   primaryId: number | null | undefined;
   primaryAwakened?: boolean | null;
+  primarySkinId?: number | null;
   secondaryId: number | null | undefined;
   secondaryAwakened?: boolean | null;
+  secondarySkinId?: number | null;
 };
 
 function isValidCommanderId(id: number | null | undefined): id is number {
@@ -18,8 +20,10 @@ function isValidCommanderId(id: number | null | undefined): id is number {
 export default function ParticipantCell({
   primaryId,
   primaryAwakened,
+  primarySkinId,
   secondaryId,
   secondaryAwakened,
+  secondarySkinId,
 }: Props) {
   const t = useExtracted();
   const unknownLabel = t("Unknown commander");
@@ -40,6 +44,7 @@ export default function ParticipantCell({
           alt={t("{name} icon", { name: primaryName })}
           awakened={primaryAwakened}
           className="size-8"
+          skinId={primarySkinId}
           id={primaryId}
         />
       </span>
@@ -49,6 +54,7 @@ export default function ParticipantCell({
             alt={t("{name} icon", { name: secondaryName })}
             awakened={secondaryAwakened}
             className="size-8"
+            skinId={secondarySkinId}
             id={secondaryId}
           />
         </span>

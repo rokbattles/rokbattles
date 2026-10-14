@@ -6,6 +6,7 @@ type CommanderIconProps = {
   id: number | null | undefined;
   alt: string;
   awakened?: boolean | null;
+  skinId?: number | null;
   className?: string;
   loading?: "eager" | "lazy";
   sizes?: string;
@@ -15,11 +16,12 @@ export function CommanderIcon({
   id,
   alt,
   awakened = false,
+  skinId,
   className,
   loading = "lazy",
   sizes = "32px",
 }: CommanderIconProps) {
-  const spriteUrls = getCommanderSprites(id, awakened === true);
+  const spriteUrls = getCommanderSprites(id, awakened === true, skinId);
 
   if (!spriteUrls?.length) {
     return null;
