@@ -829,6 +829,8 @@ commanders:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_151.png
+    override:
+      100204: img_icon_HeroProfile_204.png
 
   7:
     name:
@@ -12969,6 +12971,8 @@ commanders:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_111.png
+    override:
+      100202: img_icon_HeroProfile_199.png
 
   141:
     name:
@@ -13969,6 +13973,8 @@ commanders:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_118.png
+    override:
+      100201: img_icon_HeroProfile_198.png
 
   161:
     name:
@@ -21467,6 +21473,8 @@ commanders:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_178.png
+    override:
+      100203: img_icon_HeroProfile_200.png
 
   576:
     name:
