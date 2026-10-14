@@ -68,7 +68,12 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <CookieConsentProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              forcedTheme="dark"
+              enableSystem={false}
+            >
               <PlatformProviders
                 initialGovernors={initialGovernors}
                 initialActiveGovernorId={initialActiveGovernorId}
