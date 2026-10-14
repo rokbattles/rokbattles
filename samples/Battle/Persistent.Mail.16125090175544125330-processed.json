@@ -144,6 +144,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         },
         "secondary": {
@@ -176,6 +177,7 @@
               "level": 1
             }
           ],
+          "skins": null,
           "star_level": 6
         }
       },
@@ -374,6 +376,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         },
         "secondary": {
@@ -406,6 +409,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         }
       },
@@ -608,6 +612,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         },
         "secondary": {
@@ -640,6 +645,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         }
       },
@@ -842,6 +848,7 @@
               "level": 1
             }
           ],
+          "skins": null,
           "star_level": 6
         },
         "secondary": {
@@ -874,6 +881,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 4
         }
       },
@@ -1072,6 +1080,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         },
         "secondary": {
@@ -1104,6 +1113,7 @@
               "level": 5
             }
           ],
+          "skins": null,
           "star_level": 6
         }
       },
@@ -1247,6 +1257,7 @@
             "level": 5
           }
         ],
+        "skins": null,
         "star_level": 6
       },
       "secondary": {
@@ -1279,6 +1290,7 @@
             "level": 5
           }
         ],
+        "skins": null,
         "star_level": 6
       }
     },

@@ -1,0 +1,367 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "294599401": {
+          "Bts": 717673,
+          "CIdt": {
+            "AId": 0,
+            "AName": "",
+            "Abbr": "",
+            "Avatar": "",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 294599401,
+            "CK": "",
+            "COSId": 0,
+            "CT": 1,
+            "CTK": "-2_1788531006_86",
+            "CastleLevel": 0,
+            "CastlePos": {
+              "X": 3784.9133,
+              "Y": 5934.7827
+            },
+            "CtId": 1994166,
+            "DisappearTick": 738553,
+            "HAw": false,
+            "HAw2": false,
+            "HEq": "{}",
+            "HId": 86,
+            "HId2": 0,
+            "HLv": 37,
+            "HLv2": 0,
+            "HSS": [
+              {
+                "SkillId": 111,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 5,
+            "HSt2": 0,
+            "HTE": 0,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "Idt": "294599401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "NpcBType": 1,
+            "NpcType": 37,
+            "PId": -2,
+            "PName": "",
+            "SerSeason": "",
+            "Titan": {
+              "BattleId": "",
+              "LegionId": 0,
+              "MatchId": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            }
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -100,
+            "BadHurt": 10,
+            "BadReduceCnt": 0,
+            "Cnt": 223647,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 1848,
+            "HurtCntEnd": 593,
+            "InitMax": 224250,
+            "KillScore": 0,
+            "Max": 224250,
+            "Power": -100,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 717683,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -87172,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 21793,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 172000,
+            "KillScore": 0,
+            "Max": 166573,
+            "Power": -87172,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 5550,
+          "NpcKillLoot": [
+            {
+              "SubType": 142,
+              "Type": 2,
+              "Value": 64
+            },
+            {
+              "SubType": 71,
+              "Type": 2,
+              "Value": 9
+            },
+            {
+              "SubType": 128,
+              "Type": 2,
+              "Value": 37
+            },
+            {
+              "SubType": 414,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "OTs": {
+            "1994166": {
+              "Abbr": "",
+              "HId": 86,
+              "HId2": 0,
+              "HLv": 37,
+              "HLv2": 0,
+              "PId": -2,
+              "PName": ""
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3784.9133,
+            "Y": 5928.398
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [
+            {
+              "Ids": [
+                20,
+                31,
+                19
+              ],
+              "Source": "policy_v2"
+            }
+          ],
+          "StatShowType": 1,
+          "Tick": 11,
+          "TickStart": 717673
+        }
+      },
+      "Btk": 717673,
+      "Bts": 1788531593,
+      "DataOmit": false,
+      "Ets": 1788531604,
+      "Events": [],
+      "GsId": 11507,
+      "Id": 81798609,
+      "LLScriptSchema": 203,
+      "LoadSource": "oss",
+      "Role": "gsmp",
+      "RoomId": 0,
+      "STs": {
+        "1996924": {
+          "Abbr": "~S70",
+          "HId": 7,
+          "HId2": 6,
+          "HLv": 50,
+          "HLv2": 60,
+          "HSkin2": {
+            "12": 70006,
+            "22": 100204
+          },
+          "PId": 212527176,
+          "PName": "Ashborn乂Cryoo"
+        }
+      },
+      "Samples": [
+        {
+          "Cnt": 224250,
+          "T": 717673
+        },
+        {
+          "Cnt": 222392,
+          "T": 717683
+        },
+        {
+          "Cnt": 223647,
+          "T": 717684
+        }
+      ],
+      "Schema": 203,
+      "SelfChar": {
+        "AId": 8408203,
+        "AName": "Secret Socıety",
+        "Abbr": "~S70",
+        "AppUid": "244847791",
+        "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/244847791/2026-09-04/CB865BCC94BFB854CD53E44B873EA3CB_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_233.png\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 294940501,
+        "CK": "",
+        "COSId": 2970,
+        "CT": 1,
+        "CTK": "212527176_1788531575_7_6",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3796.7144,
+          "Y": 5906.838
+        },
+        "CountryId": 4,
+        "CtId": 1996924,
+        "HAw": true,
+        "HAw2": true,
+        "HClt2": [
+          20008,
+          3
+        ],
+        "HCte2": [
+          {
+            "ColId": 20008
+          }
+        ],
+        "HEq": "{}",
+        "HEq2": "{}",
+        "HFMs2": 2,
+        "HId": 7,
+        "HId2": 6,
+        "HLv": 50,
+        "HLv2": 60,
+        "HSS": [
+          {
+            "SkillId": 25,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1101,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1013,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1042,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1103,
+            "SkillLevel": 1
+          }
+        ],
+        "HSS2": [
+          {
+            "SkillId": 1010,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1011,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 63,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1009,
+            "SkillLevel": 5
+          }
+        ],
+        "HSkins2": {
+          "12": 70006,
+          "22": 100204
+        },
+        "HSt": 5,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "Idt": "294940501",
+        "IfAI": 0,
+        "IsAuto": 1,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 212527176,
+        "PName": "Ashborn乂Cryoo",
+        "PkgNameNew": "com.lilithgame.roc.gp",
+        "SerSeason": "3",
+        "Titan": {
+          "BattleId": "",
+          "LegionId": 0,
+          "MatchId": 0,
+          "Pioneer": false,
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "7FD8F055D2967B6553F95B6A5AD73226"
+      },
+      "SpotlightMatch": "",
+      "TickSkip": 100
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "2327650417885316042",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_212527176",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 11507,
+  "starMark": 0,
+  "time": 1788531604105139,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

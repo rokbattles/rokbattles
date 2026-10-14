@@ -289,6 +289,27 @@ mod tests {
     use super::*;
 
     #[test]
+    fn opponents_extractor_reads_cosmetics_by_commander_slot() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../samples/Battle/Persistent.Mail.46629976178921151427.json");
+        let mut input: Value =
+            serde_json::from_str(&fs::read_to_string(sample_path).unwrap()).unwrap();
+        for slot in ["primary", "secondary"] {
+            if slot == "secondary" {
+                let player = input["body"]["content"]["Attacks"]["665437801"]["CIdt"]
+                    .as_object_mut()
+                    .unwrap();
+                let skins = player.remove("HSkins").unwrap();
+                player.insert("HSkins2".to_string(), skins);
+            }
+            let section = OpponentsExtractor::new().extract(&input).unwrap();
+            let opponents = section.array().unwrap();
+            let opponent = opponents.iter().find(|o| o["attack"]["id"] == "665437801").unwrap();
+            assert_eq!(opponent["commanders"][slot]["skins"], json!({ "22": 100204 }));
+        }
+    }
+
+    #[test]
     fn opponents_extractor_reads_attacks() {
         let input = json!({
             "body": {
