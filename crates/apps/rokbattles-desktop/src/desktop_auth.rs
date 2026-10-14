@@ -559,13 +559,26 @@ mod tests {
     }
 
     async fn expect_listener_closed(address: std::net::SocketAddr) {
-        // The reactor can retain a registration until its next I/O turn.
-        tokio::time::timeout(Duration::from_secs(1), async {
-            while TcpStream::connect(address).await.is_ok() {
+        // Allow reactor cleanup and the refusal probe to finish. Windows can take
+        // a few seconds to report ConnectionRefused even after the port is closed.
+        tokio::time::timeout(Duration::from_secs(10), async {
+            loop {
+                match TcpStream::connect(address).await {
+                    Ok(stream) => drop(stream),
+                    Err(error) => {
+                        assert_eq!(
+                            error.kind(),
+                            std::io::ErrorKind::ConnectionRefused,
+                            "unexpected error when probing {address}: {error}"
+                        );
+                        break;
+                    }
+                }
+
                 tokio::time::sleep(Duration::from_millis(5)).await;
             }
         })
         .await
-        .expect("listener closes after cancellation");
+        .expect("listener stops accepting connections");
     }
 }
