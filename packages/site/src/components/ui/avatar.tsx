@@ -25,6 +25,9 @@ export function Avatar({
   className,
   ...props
 }: AvatarProps & React.ComponentPropsWithoutRef<"span">) {
+  // Older game snapshots contain HTTP URLs; the site's image policy requires HTTPS.
+  const imageSrc = src?.replace(/^http:\/\//i, "https://");
+
   return (
     <span
       data-slot="avatar"
@@ -58,7 +61,7 @@ export function Avatar({
           </text>
         </svg>
       )}
-      {src && <Image alt={alt} className="object-cover" fill sizes="100%" src={src} />}
+      {imageSrc && <Image alt={alt} className="object-cover" fill sizes="100%" src={imageSrc} />}
     </span>
   );
 }

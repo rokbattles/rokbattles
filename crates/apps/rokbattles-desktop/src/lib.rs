@@ -10,8 +10,10 @@
 //! watcher before installation. `tray` reflects the manager's lifecycle status.
 
 mod app_config;
+mod desktop_auth;
 mod directory_operations;
 mod mailcache_discovery;
+mod shell;
 mod tray;
 mod updater;
 mod watcher;
@@ -419,6 +421,7 @@ pub fn run() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
+        .on_window_event(shell::on_window_event)
         .on_menu_event(|app, event| {
             if !tray_supported() {
                 return;
@@ -464,6 +467,9 @@ pub fn run() {
             let config_path = app.path().app_config_dir()?.join("config.json");
             app.manage(app_config::ConfigStore::new(config_path));
             app.manage(directory_operations::DirectoryOperations::default());
+            app.manage(shell::ShellState::new()?);
+            app.manage(desktop_auth::AuthState::default());
+            shell::setup(app.handle())?;
 
             #[cfg(desktop)]
             setup_autostart(app)?;
@@ -507,7 +513,11 @@ pub fn run() {
             minimize_to_tray,
             watcher_commands::reprocess_all,
             watcher_commands::pause_watcher,
-            watcher_commands::resume_watcher
+            watcher_commands::resume_watcher,
+            shell::select_view,
+            shell::open_feedback,
+            shell::close_main_window,
+            shell::get_capture_status
         ])
         .build(context)
         .expect("error while building tauri application");

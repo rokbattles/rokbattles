@@ -7,8 +7,8 @@ mod reports_store;
 mod territory_planner_v2_store;
 
 pub use auth_store::{
-    AuthRepository, AuthStoreError, DiscordUserUpsert, MongoAuthStore, NewSessionRecord,
-    OAuthStateRecord, SessionRecord, UserRecord,
+    AuthRepository, AuthStoreError, DesktopLogin, DesktopOAuthState, DiscordUserUpsert,
+    MongoAuthStore, NewSessionRecord, OAuthStateRecord, SessionRecord, UserRecord,
 };
 pub use game_localization_store::{
     GameLocalizationStore, GameLocalizationStoreError, GameTranslation,

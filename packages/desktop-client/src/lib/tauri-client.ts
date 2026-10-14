@@ -2,6 +2,34 @@ import { invoke } from "@tauri-apps/api/core";
 
 import type { CloseBehavior } from "./close-behavior.ts";
 
+export type LauncherView = "desktop" | "app";
+
+export type CaptureStatus =
+  | "not_configured"
+  | "active"
+  | "paused"
+  | "starting"
+  | "stopping"
+  | "failed"
+  | "updating"
+  | "exiting";
+
+export function selectView(view: LauncherView): Promise<void> {
+  return invoke("select_view", { view });
+}
+
+export function getCaptureStatus(): Promise<CaptureStatus> {
+  return invoke("get_capture_status");
+}
+
+export function closeMainWindow(): Promise<void> {
+  return invoke("close_main_window");
+}
+
+export function openFeedback(): Promise<void> {
+  return invoke("open_feedback");
+}
+
 export type AppSettings = {
   auto_update: boolean;
   auto_start: boolean;

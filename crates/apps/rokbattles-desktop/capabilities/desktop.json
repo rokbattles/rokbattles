@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "desktop",
+  "description": "Bundled capture and settings view",
+  "webviews": ["desktop"],
+  "permissions": ["core:default", "dialog:default"]
+}

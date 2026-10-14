@@ -341,7 +341,9 @@ pub(crate) fn update_dirs<T>(
     app: &AppHandle,
     edit: impl FnMut(&mut Vec<String>) -> T,
 ) -> anyhow::Result<T> {
-    app.state::<ConfigStore>().update_dirs(edit)
+    let result = app.state::<ConfigStore>().update_dirs(edit);
+    crate::shell::notify_capture_changed(app);
+    result
 }
 
 pub(crate) fn get_close_behavior(app: &AppHandle) -> anyhow::Result<CloseBehavior> {

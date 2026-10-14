@@ -21,12 +21,13 @@ use serde::Deserialize;
 
 use crate::{
     auth::{AuthenticatedSession, extract_cookie_value},
-    db::{DiscordUserUpsert, NewSessionRecord, OAuthStateRecord},
+    db::{DesktopLogin, DiscordUserUpsert, NewSessionRecord, OAuthStateRecord},
     error::ApiError,
     state::{AppState, DiscordOAuthConfig},
 };
 
 mod cookies;
+mod desktop;
 mod oauth;
 mod types;
 
@@ -42,6 +43,8 @@ pub fn router() -> Router<Arc<AppState>> {
         .route("/logout", post(post_logout))
         .route("/discord/login", get(get_discord_login))
         .route("/discord/callback", get(get_discord_callback))
+        .route("/desktop/login", get(desktop::login))
+        .route("/desktop/exchange", post(desktop::exchange))
 }
 
 async fn get_me(
@@ -86,6 +89,13 @@ async fn post_logout(
 }
 
 async fn get_discord_login(State(state): State<Arc<AppState>>) -> Result<Redirect, ApiError> {
+    begin_discord_login(&state, None).await
+}
+
+async fn begin_discord_login(
+    state: &AppState,
+    desktop: Option<DesktopLogin>,
+) -> Result<Redirect, ApiError> {
     let verifier = oauth::generate_code_verifier();
     let challenge = oauth::derive_code_challenge(&verifier);
     let state_token = oauth::generate_state();
@@ -99,6 +109,7 @@ async fn get_discord_login(State(state): State<Arc<AppState>>) -> Result<Redirec
             verifier,
             created_at: now,
             expires_at,
+            desktop,
         })
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
@@ -122,13 +133,6 @@ async fn get_discord_callback(
     State(state): State<Arc<AppState>>,
     Query(query): Query<DiscordCallbackQuery>,
 ) -> Result<Response, ApiError> {
-    if let Some(error) = query.error {
-        return Err(ApiError::bad_request(error));
-    }
-
-    let Some(code) = query.code else {
-        return Err(ApiError::bad_request("missing code"));
-    };
     let Some(state_token) = query.state else {
         return Err(ApiError::bad_request("missing state"));
     };
@@ -146,7 +150,33 @@ async fn get_discord_callback(
         return Err(ApiError::bad_request("invalid or expired state"));
     }
 
-    let token = exchange_discord_token(&state.discord_oauth, &code, &oauth_state.verifier).await?;
+    if let Some(error) = query.error {
+        return match oauth_state.desktop {
+            Some(login) => desktop::callback(&login, "error", "access_denied"),
+            None => Err(ApiError::bad_request(error)),
+        };
+    }
+
+    let Some(code) = query.code else {
+        return Err(ApiError::bad_request("missing code"));
+    };
+
+    let desktop_login = oauth_state.desktop.clone();
+    match (finish_discord_login(&state, &code, oauth_state).await, desktop_login) {
+        (Err(error), Some(login)) => {
+            tracing::warn!(%error, "desktop Discord sign-in failed");
+            desktop::callback(&login, "error", "sign_in_failed")
+        }
+        (result, _) => result,
+    }
+}
+
+async fn finish_discord_login(
+    state: &AppState,
+    code: &str,
+    oauth_state: OAuthStateRecord,
+) -> Result<Response, ApiError> {
+    let token = exchange_discord_token(&state.discord_oauth, code, &oauth_state.verifier).await?;
     let profile = fetch_discord_profile(&token.access_token).await?;
 
     let Some(email) = profile.email else {
@@ -161,6 +191,10 @@ async fn get_discord_callback(
         .upsert_discord_user(DiscordUserUpsert { discord_id: profile.id.clone(), email })
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    if let Some(login) = oauth_state.desktop {
+        return desktop::authorize(state, &login, profile.id).await;
+    }
 
     let now = DateTime::now();
     let expires_at = DateTime::from_millis(now.timestamp_millis() + SESSION_TTL_MILLIS);
