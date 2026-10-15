@@ -154,6 +154,7 @@ fn create_view(window: &Window, view: View) -> Result<Webview, String> {
                 })
         }
     }
+    .devtools(cfg!(debug_assertions))
     .disable_drag_drop_handler()
     .background_color(tauri::utils::config::Color(9, 9, 11, 255));
 
