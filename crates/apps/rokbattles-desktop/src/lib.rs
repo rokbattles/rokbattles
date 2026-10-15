@@ -411,11 +411,21 @@ pub fn run() {
     #[cfg(desktop)]
     let builder = builder.plugin(single_instance_plugin());
 
+    #[cfg(not(debug_assertions))]
+    let builder = builder.plugin(
+        tauri::plugin::Builder::<tauri::Wry>::new("release-ui")
+            .js_init_script_on_all_frames(include_str!("release-ui.js"))
+            .build(),
+    );
+
     #[expect(
         clippy::disallowed_types,
         reason = "Tauri's generated context uses std::collections::HashMap internally"
     )]
-    let context = tauri::generate_context!();
+    let mut context = tauri::generate_context!();
+    for window in &mut context.config_mut().app.windows {
+        window.devtools = Some(cfg!(debug_assertions));
+    }
 
     let app = builder
         .plugin(tauri_plugin_updater::Builder::new().build())
