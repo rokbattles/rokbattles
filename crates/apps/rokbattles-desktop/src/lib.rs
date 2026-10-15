@@ -420,7 +420,9 @@ pub fn run() {
     let app = builder
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_opener::init())
+        // Remote App content has no opener IPC permission. Let new-tab clicks
+        // reach shell's native on_new_window handler instead of cancelling them.
+        .plugin(tauri_plugin_opener::Builder::new().open_js_links_on_click(false).build())
         .on_window_event(shell::on_window_event)
         .on_menu_event(|app, event| {
             if !tray_supported() {
