@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin-variable.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
 :root {
   color-scheme: dark;
   background: #09090b;
@@ -44,6 +60,7 @@
 }
 
 .launcher-tab {
+  cursor: pointer;
   border-radius: 5px;
   padding: 6px 12px;
   line-height: 18px;
@@ -140,7 +157,6 @@
   height: 6px;
   border-radius: 50%;
   background: currentColor;
-  transform: translateY(-1px);
 }
 
 .launcher-footer-actions {
@@ -154,6 +170,7 @@
 }
 
 .launcher-feedback {
+  cursor: pointer;
   padding: 2px 0;
   color: #d4d4d8;
   line-height: 18px;
