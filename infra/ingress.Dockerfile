@@ -1,5 +1,5 @@
-# syntax=docker/dockerfile:1.27.0@sha256:bde3983e9c939224420ddaf6b784cc30e09b035a4dea01f581230c50809f372e
-FROM rust:1.98.1-alpine@sha256:1716b3aa042d735f4566d14dc54e8037de9d69556e2d5dd58131d93a613d173d AS builder
+# syntax=docker/dockerfile:1.28.0@sha256:bb22d9815c728170f72750f4e5b0d672e06176142e1d602c7e66c050100b7e5b
+FROM rust:1.99.1-alpine@sha256:dc578ff3ca62ef489ad9ae743f477b94d98739c3092d0023490ecd417c2eebea AS builder
 ENV CARGO_INCREMENTAL=0
 WORKDIR /app
 RUN apk add --no-cache \
@@ -17,7 +17,7 @@ RUN --mount=type=bind,source=.,target=/src \
     mkdir -p /app/artifacts && \
     cp /src/crates/apps/rokbattles-ingress/artifacts/artifacts.json /app/artifacts/artifacts.json
 
-FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS files
+FROM alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6 AS files
 RUN apk add --no-cache ca-certificates tzdata
 RUN addgroup --system --gid 10001 rokb && \
     adduser  --system --uid 10001 --ingroup rokb --home /nonexistent --shell /sbin/nologin rokb

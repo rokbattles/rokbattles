@@ -11,7 +11,7 @@ ROK Battles combines a Rust workspace with pnpm frontend packages.
 
 ## Build, Test, and Development Commands
 
-Use Rust 1.98+, Node.js 24+, and the pnpm version pinned in `package.json`. Backend services require MongoDB.
+Use Rust 1.99.1+, Node.js 26+, and the pnpm version pinned in `package.json`. Backend services require MongoDB.
 
 - `pnpm install --frozen-lockfile`: install frontend dependencies.
 - `pnpm -F @rokbattles/site-vite dev`: start the Vite site; `pnpm -F @rokbattles/site dev`: start Next.js.
