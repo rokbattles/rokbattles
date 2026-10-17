@@ -12,16 +12,17 @@ use self::{
     aggregate::{
         aggregate_personal_barbarian_loot, aggregate_personal_baulur_loot,
         aggregate_personal_fort_loot, aggregate_personal_kahar_treasure_loot,
-        aggregate_personal_karuak_ceremony_loot,
+        aggregate_personal_karuak_ceremony_loot, aggregate_personal_lohar_loot,
     },
     query::{
         parse_barbarian_loot_request, parse_baulur_loot_request, parse_fort_loot_request,
         parse_kahar_treasure_loot_request, parse_karuak_ceremony_loot_request,
+        parse_lohar_loot_request,
     },
     store::{
         fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails,
-        fetch_kahar_treasure_mails, fetch_karuak_ceremony_mails, fetch_marauder_battle_mails,
-        fetch_marauder_encampment_mails,
+        fetch_kahar_treasure_mails, fetch_karuak_ceremony_mails, fetch_lohar_mails,
+        fetch_marauder_battle_mails, fetch_marauder_encampment_mails,
     },
     types::PersonalLootResponse,
 };
@@ -165,6 +166,31 @@ pub async fn get_baulurs(
         fetch_baulur_mails(&state, &mail_receiver, governor_id, Some(npc_types), &time_match)
             .await?;
     let groups = aggregate_personal_baulur_loot(mails, governor_id, request.npc, &request.range);
+    let response = PersonalLootResponse::new(request.range.start, request.range.end, groups);
+
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
+}
+
+/// Returns personal Lohar loot aggregates for a claimed governor.
+pub async fn get_lohars(
+    State(state): State<Arc<AppState>>,
+    Path(governor_id_raw): Path<String>,
+    Query(params): Query<FxHashMap<String, String>>,
+    session: AuthenticatedSession,
+) -> Result<impl IntoResponse, ApiError> {
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
+    let request = parse_lohar_loot_request(&params)?;
+
+    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+
+    let mail_receiver = format!("player_{governor_id}");
+    let time_match = request.range.build_mail_time_match();
+
+    let mails =
+        fetch_lohar_mails(&state, &mail_receiver, governor_id, request.npc.npc_type(), &time_match)
+            .await?;
+
+    let groups = aggregate_personal_lohar_loot(mails, governor_id, &request);
     let response = PersonalLootResponse::new(request.range.start, request.range.end, groups);
 
     Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))

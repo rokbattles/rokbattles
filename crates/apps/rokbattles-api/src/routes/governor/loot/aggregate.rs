@@ -5,10 +5,14 @@ use rokbattles_bson::bson_to_i64_loose;
 use rustc_hash::FxHashMap;
 
 use super::{
-    query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
+    query::{
+        BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest,
+        LoharLootRequest,
+    },
     store::{
-        BarbarianFortMailDocument, BattleMailDocument, BattleOpponentDocument, BaulurMailDocument,
+        BarbarianFortMailDocument, BattleMailDocument, BattleOpponentDocument,
         KaharTreasureMailDocument, KaruakCeremonyMailDocument, LootEntryDocument,
+        NpcLootMailDocument,
     },
     types::{LootRewardAggregateResponse, PersonalLootGroupResponse},
 };
@@ -17,6 +21,7 @@ use crate::{
 };
 
 const KAHAR_AP_COST: i64 = 200;
+const LOHAR_AP_COST: i64 = 150;
 
 #[derive(Debug, Default)]
 struct LootCategoryAggregate {
@@ -166,9 +171,38 @@ pub(crate) fn aggregate_personal_fort_loot(
 }
 
 pub(crate) fn aggregate_personal_baulur_loot(
-    mails: Vec<BaulurMailDocument>,
+    mails: Vec<NpcLootMailDocument>,
     governor_id: i64,
     npc: BaulurLootNpc,
+    range: &GovernorDateRange,
+) -> Vec<PersonalLootGroupResponse> {
+    let npc_type = match npc {
+        BaulurLootNpc::IronhandBaulur => 102_000_055,
+        BaulurLootNpc::MiserKhaolak => 102_000_063,
+    };
+
+    aggregate_personal_npc_loot(mails, governor_id, npc_type, 0, range)
+}
+
+pub(crate) fn aggregate_personal_lohar_loot(
+    mails: Vec<NpcLootMailDocument>,
+    governor_id: i64,
+    request: &LoharLootRequest,
+) -> Vec<PersonalLootGroupResponse> {
+    aggregate_personal_npc_loot(
+        mails,
+        governor_id,
+        request.npc.npc_type(),
+        LOHAR_AP_COST,
+        &request.range,
+    )
+}
+
+fn aggregate_personal_npc_loot(
+    mails: Vec<NpcLootMailDocument>,
+    governor_id: i64,
+    selected_npc_type: i64,
+    ap_cost: i64,
     range: &GovernorDateRange,
 ) -> Vec<PersonalLootGroupResponse> {
     let mut aggregate = LootCategoryAggregate::default();
@@ -179,29 +213,35 @@ pub(crate) fn aggregate_personal_baulur_loot(
         ) else {
             continue;
         };
+
         if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
             continue;
         }
+
         let npc_type =
             mail.npc.as_ref().and_then(|npc| npc.npc_type.as_ref()).and_then(parse_i64_loose);
-        if !personal_baulur_npc_matches(npc, npc_type) {
+        if npc_type != Some(selected_npc_type) {
             continue;
         }
 
         let mut found_matching_participant = false;
+
         for participant in mail.participants.unwrap_or_default() {
             let Some(participant_id) = participant.player_id.as_ref().and_then(parse_i64_loose)
             else {
                 continue;
             };
+
             if participant_id != governor_id {
                 continue;
             }
 
             if !found_matching_participant {
                 add_report(&mut aggregate);
+                aggregate.ap_used += ap_cost;
                 found_matching_participant = true;
             }
+
             add_loot(&mut aggregate, participant.loot.as_deref().unwrap_or_default());
         }
     }
@@ -501,24 +541,20 @@ fn personal_fort_npc_matches(npc: FortLootNpc, kind: FortTargetKind) -> bool {
     }
 }
 
-fn personal_baulur_npc_matches(npc: BaulurLootNpc, npc_type: Option<i64>) -> bool {
-    match npc {
-        BaulurLootNpc::IronhandBaulur => npc_type == Some(102_000_055),
-        BaulurLootNpc::MiserKhaolak => npc_type == Some(102_000_063),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use mongodb::bson::Bson;
 
     use super::{
-        super::store::{
-            BarbarianFortBodyDocument, BarbarianFortContentDocument, BarbarianFortMailDocument,
-            BattleMailDocument, BattleNpcDocument, BattleOpponentDocument, BattleResultDocument,
-            BattleResultsDocument, BaulurMailDocument, BaulurNpcDocument,
-            BaulurParticipantDocument, KaharTreasureMailDocument, LootEntryDocument,
-            MailMetadataDocument,
+        super::{
+            query::LoharLootNpc,
+            store::{
+                BarbarianFortBodyDocument, BarbarianFortContentDocument, BarbarianFortMailDocument,
+                BattleMailDocument, BattleNpcDocument, BattleOpponentDocument,
+                BattleResultDocument, BattleResultsDocument, KaharTreasureMailDocument,
+                LootEntryDocument, LootNpcDocument, LootParticipantDocument, MailMetadataDocument,
+                NpcLootMailDocument,
+            },
         },
         *,
     };
@@ -949,9 +985,9 @@ mod tests {
 
         let groups = aggregate_personal_baulur_loot(
             vec![
-                build_baulur_mail(mail_time, 102_000_055, 42, 11),
-                build_baulur_mail(mail_time, 102_000_057, 42, 17),
-                build_baulur_mail(mail_time, 102_000_063, 42, 19),
+                build_npc_loot_mail(mail_time, 102_000_055, 42, 11),
+                build_npc_loot_mail(mail_time, 102_000_057, 42, 17),
+                build_npc_loot_mail(mail_time, 102_000_063, 42, 19),
             ],
             42,
             BaulurLootNpc::IronhandBaulur,
@@ -961,6 +997,98 @@ mod tests {
         assert_eq!(groups.len(), 1);
         assert_eq!(groups[0].reports, 1);
         assert_eq!(groups[0].loot_total, 11);
+    }
+
+    #[test]
+    fn aggregate_personal_lohar_loot_filters_npc_and_charges_150_ap_per_report() {
+        for (npc, expected_loot) in
+            [(LoharLootNpc::JuniorLohar, 28), (LoharLootNpc::DauntlessLohar, 42)]
+        {
+            let request = LoharLootRequest { range: test_range(), npc };
+            let time = request.range.start_millis;
+
+            let groups = aggregate_personal_lohar_loot(
+                vec![
+                    build_npc_loot_mail(time, 111, 42, 11),
+                    build_npc_loot_mail(time, 111, 42, 17),
+                    build_npc_loot_mail(time, 112, 42, 19),
+                    build_npc_loot_mail(time, 112, 42, 23),
+                    build_npc_loot_mail(time, 102_000_055, 42, 100),
+                ],
+                42,
+                &request,
+            );
+            let response = super::super::types::PersonalLootResponse::new(
+                request.range.start,
+                request.range.end,
+                groups,
+            );
+            let json = serde_json::to_value(response).expect("response JSON");
+
+            assert_eq!(json["totals"]["results"], 2);
+            assert_eq!(json["totals"]["apUsed"], 300);
+            assert_eq!(json["groups"][0]["lootTotal"], expected_loot);
+            assert_eq!(json["groups"][0]["rewards"][0]["total"], expected_loot);
+            assert_eq!(json["groups"][0]["rewards"][0]["count"], 2);
+        }
+    }
+
+    #[test]
+    fn aggregate_personal_lohar_loot_only_counts_selected_governor_once_per_report() {
+        let request = LoharLootRequest { range: test_range(), npc: LoharLootNpc::JuniorLohar };
+        let time = request.range.start_millis;
+        let mut mail = build_npc_loot_mail(time, 111, 99, 1000);
+        let participants = mail.participants.as_mut().expect("participants");
+
+        for loot in [11, 17] {
+            participants.extend(build_npc_loot_mail(time, 111, 42, loot).participants.unwrap());
+        }
+
+        let groups = aggregate_personal_lohar_loot(
+            vec![mail, build_npc_loot_mail(time, 111, 99, 2000)],
+            42,
+            &request,
+        );
+
+        assert_eq!(groups[0].reports, 1);
+        assert_eq!(groups[0].ap_used, 150);
+        assert_eq!(groups[0].loot_total, 28);
+    }
+
+    #[test]
+    fn aggregate_personal_lohar_loot_includes_both_date_boundaries_with_microsecond_timestamps() {
+        let request = LoharLootRequest { range: test_range(), npc: LoharLootNpc::DauntlessLohar };
+        let start = request.range.start_millis;
+        let end = request.range.end_millis;
+
+        let groups = aggregate_personal_lohar_loot(
+            vec![
+                build_npc_loot_mail((start - 1) * 1000, 112, 42, 1000),
+                build_npc_loot_mail(start * 1000, 112, 42, 11),
+                build_npc_loot_mail(end * 1000 - 1, 112, 42, 17),
+                build_npc_loot_mail(end * 1000, 112, 42, 2000),
+            ],
+            42,
+            &request,
+        );
+
+        assert_eq!(groups[0].reports, 2);
+        assert_eq!(groups[0].ap_used, 300);
+        assert_eq!(groups[0].loot_total, 28);
+    }
+
+    #[test]
+    fn aggregate_personal_lohar_loot_returns_zero_totals_without_matching_records() {
+        let request = LoharLootRequest { range: test_range(), npc: LoharLootNpc::JuniorLohar };
+
+        for mails in [vec![], vec![NpcLootMailDocument::default()]] {
+            let groups = aggregate_personal_lohar_loot(mails, 42, &request);
+
+            assert_eq!(groups[0].reports, 0);
+            assert_eq!(groups[0].ap_used, 0);
+            assert_eq!(groups[0].loot_total, 0);
+            assert!(groups[0].rewards.is_empty());
+        }
     }
 
     #[test]
@@ -1035,16 +1163,16 @@ mod tests {
         }
     }
 
-    fn build_baulur_mail(
+    fn build_npc_loot_mail(
         mail_time: i64,
         npc_type: i64,
         player_id: i64,
         loot_value: i64,
-    ) -> BaulurMailDocument {
-        BaulurMailDocument {
+    ) -> NpcLootMailDocument {
+        NpcLootMailDocument {
             metadata: Some(MailMetadataDocument { mail_time: Some(Bson::Int64(mail_time)) }),
-            npc: Some(BaulurNpcDocument { npc_type: Some(Bson::Int64(npc_type)) }),
-            participants: Some(vec![BaulurParticipantDocument {
+            npc: Some(LootNpcDocument { npc_type: Some(Bson::Int64(npc_type)) }),
+            participants: Some(vec![LootParticipantDocument {
                 player_id: Some(Bson::Int64(player_id)),
                 loot: Some(vec![LootEntryDocument {
                     reward_type: Some(Bson::Int64(2)),
