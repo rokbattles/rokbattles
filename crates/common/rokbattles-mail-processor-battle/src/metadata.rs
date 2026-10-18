@@ -36,9 +36,9 @@ impl Extractor for MetadataExtractor {
         let content = require_content(input)?;
         let report_id = require_u64_field(content, "Id")?;
         let mail_role = require_string_field(content, "Role")?;
-        let kvk = resolve_kvk(&mail_role, content, metadata.server_id)?;
-        let room_id = optional_u64_field(content, "RoomId")?;
         let schema = optional_u64_field(content, "Schema")?;
+        let kvk = resolve_kvk(&mail_role, content, metadata.server_id, schema)?;
+        let room_id = optional_u64_field(content, "RoomId")?;
         let ll_script_schema = optional_u64_field(content, "LLScriptSchema")?;
 
         let mut section = metadata.into_section();
@@ -62,14 +62,20 @@ fn resolve_kvk(
     mail_role: &str,
     content: &Map<String, Value>,
     server_id: u64,
+    schema: Option<u64>,
 ) -> Result<bool, ExtractError> {
     if mail_role == "dungeon" {
         return Ok(false);
     }
 
     let sender = require_child_object(content, "SelfChar")?;
+    let is_conquer_season = optional_bool_field(content, "isConquerSeason")?;
 
-    if let Some(value) = optional_bool_field(content, "isConquerSeason")? {
+    if mail_role == "gsmp" && schema == Some(10) {
+        return Ok(false);
+    }
+
+    if let Some(value) = is_conquer_season {
         return Ok(value);
     }
 
@@ -256,6 +262,49 @@ mod tests {
         let section = extractor.extract(&input).unwrap();
         let fields = section.fields();
         assert_eq!(fields["kvk"], json!(false));
+    }
+
+    #[test]
+    fn radiant_rivalry_samples_are_non_kvk_from_both_perspectives() {
+        for mail_id in ["86860474179232862328", "87606059179232864423", "85293596179232871819"] {
+            let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join(format!("../../../samples/Battle/Persistent.Mail.{mail_id}.json"));
+            let input: Value = serde_json::from_slice(&fs::read(path).expect("read RR sample"))
+                .expect("parse RR sample");
+
+            let section = MetadataExtractor::new().extract(&input).expect("extract RR metadata");
+
+            assert_eq!(section.fields()["kvk"], json!(false), "report {mail_id}");
+        }
+    }
+
+    #[test]
+    fn home_schema_overrides_season_flag_and_foreign_sender() {
+        for season_flag in [Value::Null, json!(false), json!(true)] {
+            for ll_schema in [0, 224] {
+                let mut input = metadata_input_with_schema(Some(json!(10)));
+                input["body"]["content"]["isConquerSeason"] = season_flag.clone();
+                input["body"]["content"]["LLScriptSchema"] = json!(ll_schema);
+
+                let section = MetadataExtractor::new().extract(&input).expect("extract metadata");
+
+                assert_eq!(section.fields()["kvk"], json!(false));
+            }
+        }
+    }
+
+    #[test]
+    fn kvk_samples_keep_their_classification() {
+        for mail_id in ["67826590176494996531", "100439187175234501131", "106171761165497242010"] {
+            let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join(format!("../../../samples/Battle/Persistent.Mail.{mail_id}.json"));
+            let input: Value = serde_json::from_slice(&fs::read(path).expect("read KvK sample"))
+                .expect("parse KvK sample");
+
+            let section = MetadataExtractor::new().extract(&input).expect("extract KvK metadata");
+
+            assert_eq!(section.fields()["kvk"], json!(true), "report {mail_id}");
+        }
     }
 
     #[test]
