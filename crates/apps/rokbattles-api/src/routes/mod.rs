@@ -12,6 +12,7 @@ mod combat_lab;
 mod game;
 mod governor;
 mod health;
+mod kdmt;
 mod loot_explorer;
 mod overlays;
 mod pk;
@@ -40,6 +41,7 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
+        .nest("/kdmt", kdmt::router())
         .route("/overlay/{overlay}", get(overlays::battles))
         .route("/overlay/{overlay}/settings", get(overlays::token_settings))
         .route(

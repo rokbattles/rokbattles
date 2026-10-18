@@ -18,6 +18,10 @@ pub enum ApiError {
     NotFound(String),
     #[error("unauthorized")]
     Unauthorized,
+    #[error("{0}")]
+    Forbidden(String),
+    #[error("{0}")]
+    Gone(String),
     #[error("internal error: {0}")]
     Internal(String),
 }
@@ -54,6 +58,8 @@ impl ApiError {
             ApiError::Conflict(_) => StatusCode::CONFLICT,
             ApiError::NotFound(_) => StatusCode::NOT_FOUND,
             ApiError::Unauthorized => StatusCode::UNAUTHORIZED,
+            ApiError::Forbidden(_) => StatusCode::FORBIDDEN,
+            ApiError::Gone(_) => StatusCode::GONE,
             ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
@@ -64,6 +70,9 @@ impl ApiError {
             ApiError::Conflict(message) => ErrorResponse { error: message.clone() },
             ApiError::NotFound(message) => ErrorResponse { error: message.clone() },
             ApiError::Unauthorized => ErrorResponse { error: "unauthorized".to_string() },
+            ApiError::Forbidden(message) | ApiError::Gone(message) => {
+                ErrorResponse { error: message.clone() }
+            }
             ApiError::Internal(_) => ErrorResponse { error: "internal-server-error".to_string() },
         }
     }

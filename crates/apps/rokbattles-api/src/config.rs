@@ -12,6 +12,7 @@ pub struct Config {
     pub discord_redirect_uri: String,
     pub sentry_dsn: Option<String>,
     pub pk_token: Option<String>,
+    pub kdmt_token: Option<String>,
 }
 
 /// Errors for missing or invalid config.
@@ -38,6 +39,7 @@ impl Config {
         let discord_redirect_uri = required(&lookup, "DISCORD_REDIRECT_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let pk_token = lookup("PK_TOKEN").filter(|value| !value.trim().is_empty());
+        let kdmt_token = lookup("KDMT_TOKEN").filter(|value| !value.trim().is_empty());
 
         Ok(Self {
             bind_addr,
@@ -47,6 +49,7 @@ impl Config {
             discord_redirect_uri,
             sentry_dsn,
             pk_token,
+            kdmt_token,
         })
     }
 }
@@ -85,6 +88,7 @@ mod tests {
         assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
         assert_eq!(cfg.sentry_dsn, None);
         assert_eq!(cfg.pk_token, None);
+        assert_eq!(cfg.kdmt_token, None);
     }
 
     #[test]
@@ -116,6 +120,23 @@ mod tests {
             .expect("config");
 
             assert_eq!(cfg.pk_token.as_deref(), expected);
+        }
+    }
+
+    #[test]
+    fn loads_kdmt_independently_and_disables_blank_values() {
+        for (token, expected) in [("kdmt-secret", Some("kdmt-secret")), ("", None), ("  ", None)] {
+            let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+                ("MONGODB_URI", "mongodb://localhost/rokbattles"),
+                ("DISCORD_CLIENT_ID", "client"),
+                ("DISCORD_CLIENT_SECRET", "secret"),
+                ("DISCORD_REDIRECT_URI", "https://example.com/callback"),
+                ("PK_TOKEN", "pk-secret"),
+                ("KDMT_TOKEN", token),
+            ])))
+            .expect("config");
+            assert_eq!(cfg.kdmt_token.as_deref(), expected);
+            assert_eq!(cfg.pk_token.as_deref(), Some("pk-secret"));
         }
     }
 
