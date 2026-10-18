@@ -7,7 +7,7 @@ use crate::state::AppState;
 mod query;
 mod translate;
 
-pub(super) const DEFAULT_VERSION: &str = "1.1.11.25";
+pub(super) const DEFAULT_VERSION: &str = "1.1.12.20";
 
 /// Build game routes.
 pub fn router() -> Router<Arc<AppState>> {
