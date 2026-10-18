@@ -54,6 +54,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "summary.opponent.remaining",
         "summary.opponent.troop_units",
         "opponents.player_id",
+        "opponents.kingdom_id",
         "opponents.tracking_key",
         "opponents.rally",
         "opponents.attack.id",

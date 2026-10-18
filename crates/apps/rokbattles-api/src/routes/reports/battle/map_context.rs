@@ -58,6 +58,7 @@ mod tests {
             "sender.session",
             "sender.supreme_strife.battle_id",
             "sender.supreme_strife.team_id",
+            "opponents.kingdom_id",
         ] {
             assert_eq!(projection.get_i32(field), Ok(1));
         }
@@ -73,6 +74,36 @@ mod tests {
         assert_eq!(value.as_object().expect("object").len(), 12);
         for private in ["serverId", "mapContext", "Order", "OpenTime", "CloseTime", "Mode"] {
             assert!(value.get(private).is_none(), "leaked {private}");
+        }
+    }
+
+    #[test]
+    fn radiant_rivalry_samples_use_the_battle_kingdom_for_both_sides() {
+        use super::super::list_mapper::map_battle_list_document;
+
+        for sample in [
+            include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/../../../samples/Battle/Persistent.Mail.86860474179232862328-processed.json"
+            )),
+            include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/../../../samples/Battle/Persistent.Mail.87606059179232864423-processed.json"
+            )),
+            include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/../../../samples/Battle/Persistent.Mail.85293596179232871819-processed.json"
+            )),
+        ] {
+            let document: Document = serde_json::from_str(sample).expect("valid RR sample");
+            let row = map_battle_list_document(&document).expect("valid battle report");
+
+            assert_eq!(
+                row.map_context.resolve(&[]),
+                ("#4030 · Home (RR)".into(), Some(format!("{BANNER_BASE}img_ServerBanner1.png"))),
+                "report {}",
+                row.item.mail_id
+            );
         }
     }
 }
