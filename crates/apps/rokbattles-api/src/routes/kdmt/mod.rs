@@ -23,7 +23,7 @@ use crate::{
 mod auth;
 mod cursor;
 
-const KINGDOM_ID: i64 = 1821;
+const KINGDOM_ID: i64 = 821;
 const WINDOW_MILLIS: i64 = 90 * 24 * 60 * 60 * 1000;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
@@ -171,8 +171,11 @@ async fn ensure_membership(store: &ReportsStore, player_id: i64, now: i64) -> Re
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
+    validate_membership(latest.as_ref())
+}
+
+fn validate_membership(latest: Option<&Document>) -> Result<(), ApiError> {
     let kingdom = latest
-        .as_ref()
         .and_then(|report| report.get_document("sender").ok())
         .and_then(|sender| sender.get("kingdom_id"))
         .and_then(integer);
@@ -289,6 +292,39 @@ mod tests {
 
     fn request(player_id: Option<i64>, size: u32, cursor: Option<String>) -> Request {
         Request { player_id, size, cursor }
+    }
+
+    #[test]
+    fn battle_and_barbarian_filters_use_internal_kingdom_id() {
+        for (feed, player_id) in
+            [(Feed::Battles, None), (Feed::Battles, Some(42)), (Feed::Barbarians, Some(42))]
+        {
+            let filter = report_filter(feed, player_id, None, WINDOW_MILLIS);
+            assert_eq!(filter.get_i64("sender.kingdom_id").unwrap(), 821);
+        }
+    }
+
+    #[test]
+    fn membership_accepts_internal_id_for_kingdom_1821() {
+        for kingdom_id in [Bson::Int32(821), Bson::Int64(821)] {
+            let report = doc! { "sender": { "kingdom_id": kingdom_id } };
+            validate_membership(Some(&report)).unwrap();
+        }
+    }
+
+    #[test]
+    fn membership_rejects_other_kingdoms_and_missing_ids() {
+        for report in [
+            doc! { "sender": { "kingdom_id": 1821_i64 } },
+            doc! { "sender": { "kingdom_id": 822_i64 } },
+            doc! { "sender": { "kingdom_id": "821" } },
+            doc! { "sender": { "kingdom_id": Bson::Null } },
+            doc! { "sender": {} },
+            doc! {},
+        ] {
+            assert!(matches!(validate_membership(Some(&report)), Err(ApiError::Forbidden(_))));
+        }
+        assert!(matches!(validate_membership(None), Err(ApiError::Forbidden(_))));
     }
 
     #[test]
