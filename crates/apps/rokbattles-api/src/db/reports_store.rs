@@ -45,6 +45,7 @@ pub struct ReportsStore {
     mails_system_kahartreasure: Collection<Document>,
     mails_eventmemberlootreport: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
+    mails_killelitebarreport: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
@@ -72,6 +73,7 @@ impl ReportsStore {
             mails_system_kahartreasure: db.collection("mails_system_kahartreasure"),
             mails_eventmemberlootreport: db.collection("mails_eventmemberlootreport"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
+            mails_killelitebarreport: db.collection("mails_killelitebarreport"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
@@ -549,6 +551,43 @@ impl ReportsStore {
     /// Access the battle reports collection.
     pub fn battle_collection(&self) -> &Collection<Document> {
         &self.mails_battle
+    }
+
+    pub async fn ensure_kdmt_indexes(&self) -> mongodb::error::Result<()> {
+        for keys in [
+            doc! { "sender.kingdom_id": 1, "_id": 1, "metadata.mail_time": 1 },
+            doc! { "sender.kingdom_id": 1, "sender.player_id": 1, "_id": 1, "metadata.mail_time": 1 },
+            doc! { "sender.player_id": 1, "metadata.mail_time": -1, "_id": -1 },
+        ] {
+            self.mails_battle.create_index(IndexModel::builder().keys(keys).build()).await?;
+        }
+
+        for collection in [
+            &self.mails_battle,
+            &self.mails_rss,
+            &self.mails_system_barbarianfort,
+            &self.mails_system_kahartreasure,
+            &self.mails_eventmemberlootreport,
+            &self.mails_barcanyonkillboss,
+            &self.mails_killelitebarreport,
+        ] {
+            collection
+                .create_index(
+                    IndexModel::builder()
+                        .keys(doc! {
+                            "metadata.mail_receiver": 1, "_id": 1, "metadata.mail_time": 1,
+                        })
+                        .build(),
+                )
+                .await?;
+        }
+
+        Ok(())
+    }
+
+    /// Access elite barbarian participant reward reports.
+    pub fn kill_elite_bar_report_collection(&self) -> &Collection<Document> {
+        &self.mails_killelitebarreport
     }
 
     /// Access the scheduled KvK snapshots, indexed by Id, OpenTime, and CloseTime.

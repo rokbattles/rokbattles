@@ -22,6 +22,7 @@ pub struct AppState {
     pub territory_planner_v2: TerritoryPlannerV2Store,
     pub discord_oauth: DiscordOAuthConfig,
     pub(crate) pk_token: Option<String>,
+    pub(crate) kdmt_token: Option<String>,
 }
 
 impl AppState {
@@ -43,6 +44,12 @@ impl AppState {
             territory_planner_v2,
             discord_oauth,
             pk_token,
+            kdmt_token: None,
         }
+    }
+
+    pub fn with_kdmt_token(mut self, token: Option<String>) -> Self {
+        self.kdmt_token = token;
+        self
     }
 }

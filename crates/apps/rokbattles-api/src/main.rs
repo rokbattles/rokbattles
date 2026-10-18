@@ -55,6 +55,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let database = client.database(&database_name);
     let reports_store = ReportsStore::new(database.clone());
     reports_store.ensure_indexes().await?;
+    if config.kdmt_token.is_some() {
+        reports_store.ensure_kdmt_indexes().await?;
+    }
 
     let game_localizations = GameLocalizationStore::new(database.clone());
     game_localizations.ensure_indexes().await?;
@@ -73,15 +76,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         client_secret: config.discord_client_secret.clone(),
         redirect_uri: config.discord_redirect_uri.clone(),
     };
-    let state = Arc::new(AppState::new(
-        auth_store,
-        game_query,
-        game_localizations,
-        reports_store,
-        territory_planner_v2,
-        discord_oauth,
-        config.pk_token,
-    ));
+    let state = Arc::new(
+        AppState::new(
+            auth_store,
+            game_query,
+            game_localizations,
+            reports_store,
+            territory_planner_v2,
+            discord_oauth,
+            config.pk_token,
+        )
+        .with_kdmt_token(config.kdmt_token),
+    );
     let app = build_router(state);
 
     info!(bind_addr = %config.bind_addr, "starting rokbattles-api");
