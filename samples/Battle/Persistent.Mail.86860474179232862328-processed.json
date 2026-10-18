@@ -1,0 +1,390 @@
+{
+  "metadata": {
+    "kvk": true,
+    "ll_script_schema": 0,
+    "mail_id": "86860474179232862328",
+    "mail_receiver": "player_219768947",
+    "mail_role": "gsmp",
+    "mail_time": 1792328623716221,
+    "report_id": 18389153,
+    "room_id": 0,
+    "schema": 10,
+    "server_id": 3030
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "HL30",
+        "id": 8548506,
+        "name": "High Rollers"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 235816058,
+      "as_battle_type": null,
+      "attack": {
+        "def": 2,
+        "id": "627037401",
+        "x": 3314.1272,
+        "y": 2162.365
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/235816058/2026-06-25/67D4B6A526BB80ACDCD9DB95E8883EB7_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -14463,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 880,
+          "merits": 0,
+          "power": -14463,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 14463,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 61003,
+          "troop_units_max": 61003,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -440,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 2892,
+          "merits": 0,
+          "power": -440,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 209951,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 44,
+          "skill_power": 0,
+          "slightly_wounded": 5,
+          "troop_units": 210000,
+          "troop_units_max": 210000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 3030,
+      "castle": {
+        "level": 22,
+        "watchtower": null,
+        "x": 3385.2852,
+        "y": 2105.1504
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "-1",
+              "buffs": "2004_0.044000;4004_0.006000;10101_0.026000",
+              "id": 1
+            },
+            {
+              "affix": "-1",
+              "buffs": "2004_0.044000;8000_0.040000;5004_0.017000",
+              "id": 2
+            }
+          ],
+          "awakened": false,
+          "equipment": "{}",
+          "formation": 6,
+          "id": 102,
+          "level": 27,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1250,
+              "level": 1
+            },
+            {
+              "id": 141,
+              "level": 2
+            },
+            {
+              "id": 1249,
+              "level": 2
+            }
+          ],
+          "skins": null,
+          "star_level": 3
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": null,
+          "id": 572,
+          "level": 1,
+          "relics": null,
+          "skills": [
+            {
+              "id": 413,
+              "level": 1
+            }
+          ],
+          "skins": null,
+          "star_level": 1
+        }
+      },
+      "end_tick": 2268248,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 3030,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "HL30"
+          },
+          "commanders": {
+            "primary": {
+              "id": 102,
+              "level": 27
+            },
+            "secondary": {
+              "id": 572,
+              "level": 1
+            }
+          },
+          "participant_id": 4691806,
+          "player_id": 225349830,
+          "player_name": "Hoost F06"
+        }
+      ],
+      "player_id": 225349830,
+      "player_name": "Hoost F06",
+      "rally": null,
+      "server_season": "3.1",
+      "session": null,
+      "start_tick": 2268244,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "225349830_1792318798_102_572"
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "Huns",
+      "id": 8544069,
+      "name": "The Huns"
+    },
+    "alliance_building_id": null,
+    "app_id": 2104267,
+    "app_uid": 230304787,
+    "as_battle_type": null,
+    "auxiliary_skills": [],
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/230304787/2026-08-28/8AC9BF5C75C07D691B212B016C45E279_250x250.jpg",
+    "camp_id": 3028,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 3332.4226,
+      "y": 2158.41
+    },
+    "character_type": 1,
+    "commanders": {
+      "primary": {
+        "armaments": [
+          {
+            "affix": "-1",
+            "buffs": "3002_0.025000;4002_0.034000;5002_0.027000",
+            "id": 1
+          },
+          {
+            "affix": "-1",
+            "buffs": "3002_0.029000;4003_0.015000;5002_0.020000",
+            "id": 2
+          },
+          {
+            "affix": "315",
+            "buffs": "6002_0.028000;4002_0.030000;5002_0.026000",
+            "id": 3
+          },
+          {
+            "affix": "415",
+            "buffs": "6002_0.023000;4002_0.024000;10002_0.018000",
+            "id": 4
+          }
+        ],
+        "awakened": false,
+        "equipment": "{1:20061_55:30,2:20090_10:30,3:20064_58:30,4:20028_115:30,5:20033_102:0,6:20012_84:1}",
+        "formation": 2,
+        "id": 64,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 86,
+            "level": 5
+          },
+          {
+            "id": 1141,
+            "level": 5
+          },
+          {
+            "id": 1143,
+            "level": 5
+          },
+          {
+            "id": 1142,
+            "level": 1
+          }
+        ],
+        "skins": null,
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": false,
+        "equipment": "{}",
+        "formation": null,
+        "id": 540,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 389,
+            "level": 5
+          },
+          {
+            "id": 1735,
+            "level": 5
+          },
+          {
+            "id": 1736,
+            "level": 2
+          },
+          {
+            "id": 1737,
+            "level": 1
+          }
+        ],
+        "skins": null,
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png",
+    "is_auto": 0,
+    "is_outpost": null,
+    "is_turret": null,
+    "kingdom_id": 3028,
+    "package_identifier": "com.lilithgames.rok.pc.int",
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": "Huns"
+        },
+        "commanders": {
+          "primary": {
+            "id": 64,
+            "level": 60
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60
+          }
+        },
+        "participant_id": 4713376,
+        "player_id": 219768947,
+        "player_name": "HINK ᴴᴺ"
+      }
+    ],
+    "player_id": 219768947,
+    "player_name": "HINK ᴴᴺ",
+    "rally": null,
+    "server_season": "3.1",
+    "session": null,
+    "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
+    "supreme_strife": {
+      "battle_id": "",
+      "ironhand_spawn_time": 0,
+      "legion_id": 0,
+      "match_id": 0,
+      "period": 0,
+      "round": 0,
+      "talents": null,
+      "team_id": 0
+    },
+    "tracking_key": "219768947_1792328612_64_540"
+  },
+  "summary": {
+    "opponent": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    },
+    "sender": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1792328623,
+    "events": [],
+    "sampling": [
+      {
+        "count": 210000,
+        "tick": 2268244
+      },
+      {
+        "count": 209951,
+        "tick": 2268249
+      }
+    ],
+    "start_tick": 2268244,
+    "start_timestamp": 1792328618
+  }
+}

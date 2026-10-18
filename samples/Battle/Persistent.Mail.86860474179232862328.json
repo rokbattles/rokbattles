@@ -1,0 +1,368 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "627037401": {
+          "Bts": 2268244,
+          "CIdt": {
+            "AId": 8548506,
+            "AName": "High Rollers",
+            "Abbr": "HL30",
+            "AppUid": "235816058",
+            "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/235816058/2026-06-25/67D4B6A526BB80ACDCD9DB95E8883EB7_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 627037401,
+            "CK": "",
+            "COSId": 3030,
+            "CT": 1,
+            "CTK": "225349830_1792318798_102_572",
+            "CastleLevel": 22,
+            "CastlePos": {
+              "X": 3385.2852,
+              "Y": 2105.1504
+            },
+            "CountryId": 3030,
+            "CtId": 4691806,
+            "HAw": false,
+            "HAw2": false,
+            "HEq": "{}",
+            "HEq2": "{}",
+            "HFMs": 6,
+            "HId": 102,
+            "HId2": 572,
+            "HLv": 27,
+            "HLv2": 1,
+            "HSS": [
+              {
+                "SkillId": 1250,
+                "SkillLevel": 1
+              },
+              {
+                "SkillId": 141,
+                "SkillLevel": 2
+              },
+              {
+                "SkillId": 1249,
+                "SkillLevel": 2
+              }
+            ],
+            "HSS2": [
+              {
+                "SkillId": 413,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 3,
+            "HSt2": 1,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "-1",
+                "Buffs": "2004_0.044000;4004_0.006000;10101_0.026000",
+                "Id": "73106010_40"
+              },
+              "2": {
+                "Affix": "-1",
+                "Buffs": "2004_0.044000;8000_0.040000;5004_0.017000",
+                "Id": "73206010_67"
+              }
+            },
+            "Idt": "627037401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 225349830,
+            "PName": "Hoost F06",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "3.1",
+            "SideId": 3030,
+            "Titan": {
+              "BattleId": "",
+              "IronHandSpawnTime": 0,
+              "LegionId": 0,
+              "MatchId": 0,
+              "Period": 0,
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "44448408771505058"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -440,
+            "BadHurt": 44,
+            "BadReduceCnt": 0,
+            "Cnt": 209951,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 5,
+            "HurtCntEnd": 5,
+            "InitMax": 210000,
+            "KillScore": 2892,
+            "Max": 210000,
+            "Power": -440,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 2268248,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -14463,
+            "BadHurt": 14463,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 61003,
+            "KillScore": 880,
+            "Max": 61003,
+            "Power": -14463,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "4691806": {
+              "Abbr": "HL30",
+              "HId": 102,
+              "HId2": 572,
+              "HLv": 27,
+              "HLv2": 1,
+              "PId": 225349830,
+              "PName": "Hoost F06"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3314.1272,
+            "Y": 2162.365
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 4,
+          "TickStart": 2268244
+        }
+      },
+      "Btk": 2268244,
+      "Bts": 1792328618,
+      "DataOmit": false,
+      "Ets": 1792328623,
+      "Events": [],
+      "GsId": 3030,
+      "Id": 18389153,
+      "LLScriptSchema": 0,
+      "LoadSource": "oss",
+      "Role": "gsmp",
+      "RoomId": 0,
+      "STs": {
+        "4713376": {
+          "Abbr": "Huns",
+          "HId": 64,
+          "HId2": 540,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 219768947,
+          "PName": "HINK ᴴᴺ"
+        }
+      },
+      "Samples": [
+        {
+          "Cnt": 210000,
+          "T": 2268244
+        },
+        {
+          "Cnt": 209951,
+          "T": 2268249
+        }
+      ],
+      "Schema": 10,
+      "SelfChar": {
+        "AId": 8544069,
+        "AName": "The Huns",
+        "Abbr": "Huns",
+        "AppUid": "230304787",
+        "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/230304787/2026-08-28/8AC9BF5C75C07D691B212B016C45E279_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 627069201,
+        "CK": "",
+        "COSId": 3028,
+        "CT": 1,
+        "CTK": "219768947_1792328612_64_540",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3332.4226,
+          "Y": 2158.41
+        },
+        "CountryId": 3028,
+        "CtId": 4713376,
+        "HAw": false,
+        "HAw2": false,
+        "HEq": "{1:20061_55:30,2:20090_10:30,3:20064_58:30,4:20028_115:30,5:20033_102:0,6:20012_84:1}",
+        "HEq2": "{}",
+        "HFMs": 2,
+        "HId": 64,
+        "HId2": 540,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          {
+            "SkillId": 86,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1141,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1143,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1142,
+            "SkillLevel": 1
+          }
+        ],
+        "HSS2": [
+          {
+            "SkillId": 389,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1735,
+            "SkillLevel": 5
+          },
+          {
+            "SkillId": 1736,
+            "SkillLevel": 2
+          },
+          {
+            "SkillId": 1737,
+            "SkillLevel": 1
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "HWBs": {
+          "1": {
+            "Affix": "-1",
+            "Buffs": "3002_0.025000;4002_0.034000;5002_0.027000",
+            "Id": "75119010_25"
+          },
+          "2": {
+            "Affix": "-1",
+            "Buffs": "3002_0.029000;4003_0.015000;5002_0.020000",
+            "Id": "75219010_458"
+          },
+          "3": {
+            "Affix": "315",
+            "Buffs": "6002_0.028000;4002_0.030000;5002_0.026000",
+            "Id": "75319011_103"
+          },
+          "4": {
+            "Affix": "415",
+            "Buffs": "6002_0.023000;4002_0.024000;10002_0.018000",
+            "Id": "75419011_846"
+          }
+        },
+        "Idt": "627069201",
+        "IfAI": 0,
+        "IsAuto": 0,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 219768947,
+        "PName": "HINK ᴴᴺ",
+        "PkgNameNew": "com.lilithgames.rok.pc.int",
+        "SerSeason": "3.1",
+        "SideId": 3028,
+        "Titan": {
+          "BattleId": "",
+          "IronHandSpawnTime": 0,
+          "LegionId": 0,
+          "MatchId": 0,
+          "Period": 0,
+          "Pioneer": false,
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "26088144372160584"
+      },
+      "SpotlightMatch": "",
+      "TickSkip": 100
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "86860474179232862328",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_219768947",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 3030,
+  "starMark": 0,
+  "time": 1792328623716221,
+  "title": "",
+  "type": "Battle",
+  "unread": true
+}

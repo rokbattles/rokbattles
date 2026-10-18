@@ -11,6 +11,7 @@ const BANNER_BASE: &str = "https://cdn.rokbattles.com/game/sprites/";
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum BattleMapContext {
     Home { kingdom: Option<i64> },
+    RadiantRivalry { kingdom: Option<i64> },
     Ark { kingdom: Option<i64>, kind: Option<&'static str> },
     Strife { kingdom: Option<i64>, schema: Option<i64> },
     Kvk { server_id: i64, time: i64 },
@@ -29,6 +30,7 @@ impl BattleMapContext {
         let kingdom = nested_i64(document, &["sender", "kingdom_id"])
             .filter(|id| *id > 0)
             .and_then(|id| id.checked_add(1000));
+
         if nested_str(document, &["sender", "supreme_strife", "battle_id"])
             .is_some_and(|id| !id.is_empty())
             && nested_i64(document, &["sender", "supreme_strife", "team_id"])
@@ -37,11 +39,17 @@ impl BattleMapContext {
             let schema = nested_i64(document, &["metadata", "schema"]);
             return Self::Strife { kingdom, schema };
         }
+
         if nested_str(document, &["metadata", "mail_role"]) == Some("dungeon") {
             let kingdom = nested_i64(document, &["sender", "kingdom_id"]).filter(|id| *id > 0);
             let kind = nested_str(document, &["sender", "session"]).and_then(ark_kind);
             return Self::Ark { kingdom, kind };
         }
+
+        if let Some(server_id) = radiant_rivalry_server_id(document) {
+            return Self::RadiantRivalry { kingdom: server_id.checked_add(1000) };
+        }
+
         match nested_bool(document, &["metadata", "kvk"]) {
             Some(false) => Self::Home { kingdom },
             Some(true) => {
@@ -55,6 +63,9 @@ impl BattleMapContext {
         match self {
             Self::Home { kingdom } => {
                 (kingdom_label(kingdom, "Home"), banner_url("img_ServerBanner1.png"))
+            }
+            Self::RadiantRivalry { kingdom } => {
+                (kingdom_label(kingdom, "Home (RR)"), banner_url("img_ServerBanner1.png"))
             }
             Self::Ark { kingdom, kind } => {
                 let label = kind.map_or_else(|| "Ark".into(), |kind| format!("Ark ({kind})"));
@@ -95,6 +106,28 @@ impl BattleMapContext {
             }
         }
     }
+}
+
+fn radiant_rivalry_server_id(document: &Document) -> Option<i64> {
+    if nested_str(document, &["metadata", "mail_role"]) != Some("gsmp")
+        || nested_i64(document, &["metadata", "schema"]) != Some(10)
+    {
+        return None;
+    }
+
+    let server_id = nested_i64(document, &["metadata", "server_id"]).filter(|id| *id > 0)?;
+    let is_foreign = |id: i64| id > 0 && id != server_id;
+
+    let foreign_sender = nested_i64(document, &["sender", "kingdom_id"]).is_some_and(is_foreign);
+
+    let foreign_opponent = document.get_array("opponents").is_ok_and(|opponents| {
+        opponents
+            .iter()
+            .filter_map(|opponent| opponent.as_document())
+            .any(|opponent| nested_i64(opponent, &["kingdom_id"]).is_some_and(is_foreign))
+    });
+
+    (foreign_sender || foreign_opponent).then_some(server_id)
 }
 
 fn kingdom_label(kingdom: Option<i64>, label: &str) -> String {
@@ -376,6 +409,91 @@ mod tests {
             BattleMapContext::from_document(&report, 1500).resolve(&[]),
             ("#2804 \u{00B7} Home".into(), banner_url("img_ServerBanner1.png"))
         );
+    }
+
+    #[test]
+    fn radiant_rivalry_overrides_home_and_kvk_independently_of_ll_script_schema() {
+        for (sender, opponent) in [(3028, 3030), (3030, 3028)] {
+            for kvk in [true, false] {
+                for ll_schema in [0, 224] {
+                    let report = doc! {
+                        "metadata": {
+                            "mail_role": "gsmp", "schema": 10, "server_id": 3030,
+                            "kvk": kvk, "ll_script_schema": ll_schema,
+                        },
+                        "sender": { "kingdom_id": sender },
+                        "opponents": [{ "kingdom_id": 0 }, { "kingdom_id": opponent }],
+                    };
+
+                    assert_eq!(
+                        BattleMapContext::from_document(&report, 1500).resolve(&[]),
+                        ("#4030 · Home (RR)".into(), banner_url("img_ServerBanner1.png"))
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn home_combat_with_local_npc_or_unknown_opponents_stays_home() {
+        for opponent in [
+            doc! { "kingdom_id": 3030 },
+            doc! { "kingdom_id": 0 },
+            doc! { "kingdom_id": -1 },
+            doc! {},
+            doc! { "kingdom_id": "unknown" },
+        ] {
+            let report = doc! {
+                "metadata": { "mail_role": "gsmp", "schema": 10, "server_id": 3030, "kvk": false },
+                "sender": { "kingdom_id": 3030 },
+                "opponents": [opponent],
+            };
+
+            assert_eq!(
+                BattleMapContext::from_document(&report, 1500).resolve(&[]),
+                ("#4030 · Home".into(), banner_url("img_ServerBanner1.png"))
+            );
+        }
+    }
+
+    #[test]
+    fn radiant_rivalry_requires_home_schema_role_and_known_battle_server() {
+        for (role, schema, server) in
+            [("gsmp", 320, 16053), ("gs", 10, 16053), ("gsmp", 10, 0), ("gsmp", 10, -1)]
+        {
+            let report = doc! {
+                "metadata": { "mail_role": role, "schema": schema, "server_id": server, "kvk": true },
+                "sender": { "kingdom_id": 3028 },
+                "opponents": [{ "kingdom_id": 3030 }],
+            };
+
+            let expected = if server > 0 { "#C13249" } else { "Unknown" };
+
+            assert_eq!(
+                BattleMapContext::from_document(&report, 1).resolve(&[snapshot()]).0,
+                expected
+            );
+        }
+
+        let report = doc! {
+            "metadata": { "mail_role": "gsmp", "schema": 10, "kvk": true },
+            "sender": { "kingdom_id": 3028 },
+        };
+
+        assert_eq!(BattleMapContext::from_document(&report, 1).resolve(&[]).0, "Unknown");
+    }
+
+    #[test]
+    fn strife_takes_precedence_over_radiant_rivalry_heuristic() {
+        let report = doc! {
+            "metadata": { "mail_role": "gsmp", "schema": 10, "server_id": 3030, "kvk": true },
+            "sender": {
+                "kingdom_id": 3028,
+                "supreme_strife": { "battle_id": "match", "team_id": 1 },
+            },
+        };
+
+        assert_eq!(BattleMapContext::from_document(&report, 1500).resolve(&[]).0, "#4028 · Strife");
     }
 
     #[test]
