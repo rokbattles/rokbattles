@@ -158,24 +158,29 @@ fn time_filter(now: i64) -> Document {
     } }
 }
 
+fn membership_filter(player_id: i64, now: i64) -> Document {
+    doc! { "$and": [
+        exclude_test_reports_filter(),
+        { "sender.player_id": player_id },
+        { "sender.kingdom_id": KINGDOM_ID },
+        time_filter(now),
+        { "metadata.mail_role": { "$ne": "dungeon" } },
+    ] }
+}
+
 async fn ensure_membership(store: &ReportsStore, player_id: i64, now: i64) -> Result<(), ApiError> {
-    let latest = store
+    let report = store
         .battle_collection()
-        .find_one(doc! { "$and": [
-            exclude_test_reports_filter(),
-            { "sender.player_id": player_id },
-            time_filter(now),
-        ] })
-        .sort(doc! { "metadata.mail_time": -1, "_id": -1 })
+        .find_one(membership_filter(player_id, now))
         .projection(doc! { "sender.kingdom_id": 1 })
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    validate_membership(latest.as_ref())
+    validate_membership(report.as_ref())
 }
 
-fn validate_membership(latest: Option<&Document>) -> Result<(), ApiError> {
-    let kingdom = latest
+fn validate_membership(report: Option<&Document>) -> Result<(), ApiError> {
+    let kingdom = report
         .and_then(|report| report.get_document("sender").ok())
         .and_then(|sender| sender.get("kingdom_id"))
         .and_then(integer);
@@ -292,6 +297,21 @@ mod tests {
 
     fn request(player_id: Option<i64>, size: u32, cursor: Option<String>) -> Request {
         Request { player_id, size, cursor }
+    }
+
+    #[test]
+    fn membership_filter_requires_recent_non_ark_sender_report_in_kingdom_821() {
+        let now = WINDOW_MILLIS + 123;
+        assert_eq!(
+            membership_filter(142543772, now),
+            doc! { "$and": [
+                exclude_test_reports_filter(),
+                { "sender.player_id": 142543772_i64 },
+                { "sender.kingdom_id": 821_i64 },
+                { "metadata.mail_time": { "$gte": 123000_i64, "$lte": now * 1000 } },
+                { "metadata.mail_role": { "$ne": "dungeon" } },
+            ] }
+        );
     }
 
     #[test]
