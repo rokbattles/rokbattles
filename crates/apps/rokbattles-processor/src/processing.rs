@@ -297,6 +297,17 @@ mod tests {
     use crate::storage::STATUS_PENDING;
 
     #[test]
+    fn classifies_kau_karuak_rewards_and_rejects_failures() {
+        let reward = json!({"type": "System", "body": {"subType": 149, "subParam": 1}});
+
+        assert_eq!(extract_mail_type(&reward).unwrap(), MailType::SystemKauKaruak);
+
+        let failure = json!({"type": "System", "body": {"subType": 150, "subParam": 0}});
+
+        assert!(matches!(extract_mail_type(&failure), Err(ProcessorError::UnsupportedMailType(_))));
+    }
+
+    #[test]
     fn extract_mail_type_parses_known_types() {
         let value = json!({ "type": "DuelBattle2" });
         let mail_type = extract_mail_type(&value).unwrap();
@@ -634,6 +645,13 @@ mod tests {
                     "/../../../samples/System/Persistent.Mail.22165348178347040031"
                 )),
                 MailType::SystemKaharTreasure,
+            ),
+            (
+                include_bytes!(concat!(
+                    env!("CARGO_MANIFEST_DIR"),
+                    "/../../../samples/System/Persistent.Mail.49147831179110293022"
+                )),
+                MailType::SystemKauKaruak,
             ),
             (
                 include_bytes!(concat!(

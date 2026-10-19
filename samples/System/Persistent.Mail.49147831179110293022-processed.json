@@ -1,0 +1,43 @@
+{
+  "body": {
+    "content": {
+      "difficulty": "nightmare",
+      "level": 15
+    },
+    "sub_param": 1,
+    "sub_type": 149
+  },
+  "metadata": {
+    "mail_id": "49147831179110293022",
+    "mail_receiver": "player_92717506",
+    "mail_time": 1791102930622218,
+    "server_id": 1
+  },
+  "rewards": [
+    {
+      "sub_type": 234,
+      "type": 2,
+      "value": 15000
+    },
+    {
+      "sub_type": 912,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 567,
+      "type": 2,
+      "value": 2
+    },
+    {
+      "sub_type": 148,
+      "type": 2,
+      "value": 9
+    },
+    {
+      "sub_type": 7,
+      "type": 2,
+      "value": 13
+    }
+  ]
+}

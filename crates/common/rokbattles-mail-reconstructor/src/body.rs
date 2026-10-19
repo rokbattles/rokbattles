@@ -117,6 +117,32 @@ impl MailReconstructor {
             );
         }
 
+        if sub_type.as_i64() == Some(149) && sub_param.as_i64() == Some(1) {
+            let kvs = object(&kvs, "MailSys.Kvs")?;
+            let difficulty = match kvs.get("difficulty").and_then(Value::as_u64) {
+                Some(1) => Some("EASY"),
+                Some(2) => Some("NORMAL"),
+                Some(3) => Some("HARD"),
+                Some(4) => Some("NIGHTMARE"),
+                Some(5) => Some("HELL"),
+                _ => None,
+            };
+
+            if let (Some(difficulty), Some(level)) =
+                (difficulty, kvs.get("level").and_then(Value::as_u64).filter(|level| *level > 0))
+            {
+                output.insert("title".to_string(), json!("Trial of Kau Karuak Reward"));
+                output.insert(
+                    "subTitle".to_string(),
+                    json!(format!("Lvl {level} Trial Completed At {difficulty} Difficulty")),
+                );
+                output.insert(
+                    "content".to_string(),
+                    json!(format!("Greetings Governor,\n\nCongratulations! You have completed level {level} of the Trial of Kau Karuak. Each level completed will grant rewards.")),
+                );
+            }
+        }
+
         Ok(Value::Object(output))
     }
 
@@ -478,6 +504,75 @@ mod tests {
             .expect("attack should merge");
 
         assert_eq!(body["Attacks"]["9001"]["Troops"], 42);
+    }
+
+    #[test]
+    fn reconstructs_and_processes_kau_karuak_network_rewards() {
+        let reconstructor = MailReconstructor::synthetic();
+        let schema = &reconstructor.schema;
+
+        for (difficulty, expected) in
+            [(1, "easy"), (2, "normal"), (3, "hard"), (4, "nightmare"), (5, "hell")]
+        {
+            let mut body = Vec::new();
+            push_varint(&mut body, field(&reconstructor, "MailSys", "Type"), 149);
+            push_varint(&mut body, field(&reconstructor, "MailSys", "Param"), 1);
+            push_bytes(
+                &mut body,
+                field(&reconstructor, "MailSys", "Kvs"),
+                serde_json::to_string(&json!({"difficulty": difficulty, "level": 30}))
+                    .unwrap()
+                    .as_bytes(),
+            );
+
+            let mut entry = Vec::new();
+            push_bytes(&mut entry, schema.mail_id, b"kau-karuak-report");
+            push_bytes(&mut entry, schema.mail_type, b"System");
+            push_bytes(&mut entry, schema.receiver, b"player_7");
+            push_varint(&mut entry, schema.timestamp, 1234);
+            push_bytes(&mut entry, schema.body, &body);
+            push_bytes(&mut entry, schema.attachments, &attachment(&reconstructor, &[(2, 234)]));
+
+            let mail = reconstructor
+                .reconstruct(
+                    &entry,
+                    crate::ReconstructionContext { server_id: Some(1804), ..Default::default() },
+                )
+                .unwrap();
+            let decoded = rokbattles_mail_codec::decode(&mail.bytes).unwrap();
+
+            assert_eq!(
+                rokbattles_mail_registry::detect_mail_type(&decoded),
+                Some(rokbattles_mail_registry::MailType::SystemKauKaruak)
+            );
+
+            let processed = rokbattles_mail_processor_system_kaukaruak::process(&decoded).unwrap();
+            let output = serde_json::to_value(processed).unwrap();
+
+            assert_eq!(output["body"]["content"], json!({"level": 30, "difficulty": expected}));
+            assert_eq!(output["rewards"], json!([{"type": 2, "sub_type": 234, "value": 1}]));
+        }
+    }
+
+    #[test]
+    fn rejects_kau_karuak_network_failure_mail() {
+        let reconstructor = MailReconstructor::synthetic();
+        let schema = &reconstructor.schema;
+
+        let mut entry = Vec::new();
+        push_bytes(&mut entry, schema.mail_id, b"kau-karuak-failure");
+        push_bytes(&mut entry, schema.mail_type, b"System");
+        push_bytes(&mut entry, schema.receiver, b"player_7");
+        push_varint(&mut entry, schema.timestamp, 1234);
+        push_bytes(&mut entry, schema.body, &system_body(&reconstructor, 150, 0));
+
+        assert!(matches!(
+            reconstructor.reconstruct(
+                &entry,
+                crate::ReconstructionContext { server_id: Some(1804), ..Default::default() }
+            ),
+            Err(ReconstructionError::UnsupportedMailType(_))
+        ));
     }
 
     #[test]

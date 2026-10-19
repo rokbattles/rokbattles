@@ -116,6 +116,7 @@ mod tests {
         assert_eq!(insert_status_for_mail_type("Rss"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemBarbarianFort"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemKaharTreasure"), STATUS_PENDING);
+        assert_eq!(insert_status_for_mail_type("SystemKauKaruak"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleResults"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_PENDING);

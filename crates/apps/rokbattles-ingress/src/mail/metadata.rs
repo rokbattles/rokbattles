@@ -104,6 +104,18 @@ mod tests {
     use super::*;
 
     #[test]
+    fn classifies_kau_karuak_rewards_but_does_not_support_failure_mail() {
+        let reward = json!({"type": "System", "body": {"subType": 149, "subParam": 1}});
+
+        assert_eq!(extract_mail_type(&reward).unwrap(), "SystemKauKaruak");
+        assert!(is_supported_mail_type("SystemKauKaruak"));
+
+        let failure = json!({"type": "System", "body": {"subType": 150, "subParam": 0}});
+
+        assert!(!is_supported_mail_type(&extract_mail_type(&failure).unwrap()));
+    }
+
+    #[test]
     fn metadata_uses_the_same_id_precedence_as_upload_validation() {
         let decoded = json!({
             "id": 12345,

@@ -1,0 +1,64 @@
+{
+  "addition": "",
+  "attachments": [
+    {
+      "fbDouble": 0,
+      "id": 1,
+      "loot": [
+        {
+          "SubType": 234,
+          "Type": 2,
+          "Value": 400
+        },
+        {
+          "SubType": 147,
+          "Type": 2,
+          "Value": 12
+        },
+        {
+          "SubType": 1,
+          "Type": 2,
+          "Value": 26
+        },
+        {
+          "SubType": 7,
+          "Type": 2,
+          "Value": 26
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Sei gegrüßt, Statthalter,\n\nGlückwunsch! Du hast Level 1 der Prüfung des Kau Karuak abgeschlossen. Du erhältst für jeden abgeschlossenen Level Belohnungen.",
+    "subParam": 1,
+    "subTitle": "Lv.-1-Prüfung auf Schwierigkeitsgrad ALBTRAUM abgeschlossen",
+    "subType": 149,
+    "title": "Belohnung für die Prüfung des Kau Karuak"
+  },
+  "box": "SystemBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "49117718179110236622",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_92717506",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1,
+  "starMark": 0,
+  "time": 1791102366372559,
+  "title": "",
+  "type": "System",
+  "unread": false
+}

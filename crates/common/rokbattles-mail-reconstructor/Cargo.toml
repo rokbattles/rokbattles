@@ -20,6 +20,7 @@ rokbattles-mail-registry = { path = "../rokbattles-mail-registry" }
 [dev-dependencies]
 rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-processor-system-barbarianfort" }
+rokbattles-mail-processor-system-kaukaruak = { path = "../rokbattles-mail-processor-system-kaukaruak" }
 
 [lints]
 workspace = true

@@ -1,0 +1,38 @@
+{
+  "body": {
+    "content": {
+      "difficulty": "hard",
+      "level": 16
+    },
+    "sub_param": 1,
+    "sub_type": 149
+  },
+  "metadata": {
+    "mail_id": "9229521174198158831",
+    "mail_receiver": "player_99636350",
+    "mail_time": 1741981588606989,
+    "server_id": 5
+  },
+  "rewards": [
+    {
+      "sub_type": 562,
+      "type": 2,
+      "value": 2
+    },
+    {
+      "sub_type": 561,
+      "type": 2,
+      "value": 4
+    },
+    {
+      "sub_type": 130,
+      "type": 2,
+      "value": 8
+    },
+    {
+      "sub_type": 7,
+      "type": 2,
+      "value": 5
+    }
+  ]
+}
