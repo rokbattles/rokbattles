@@ -79,7 +79,10 @@
     ],
     "createUpdaterArtifacts": true,
     "windows": {
-      "bundleVCRuntime": true
+      "bundleVCRuntime": true,
+      "nsis": {
+        "installerHooks": "./windows/installer-hooks.nsh"
+      }
     },
     "macOS": {
       "entitlements": "./Entitlements.plist"
