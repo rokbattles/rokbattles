@@ -1,0 +1,72 @@
+{
+  "addition": "",
+  "attachments": [
+    {
+      "id": 1,
+      "loot": [
+        {
+          "SubType": 234,
+          "Type": 2,
+          "Value": 2000
+        },
+        {
+          "SubType": 906,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 562,
+          "Type": 2,
+          "Value": 7
+        },
+        {
+          "SubType": 567,
+          "Type": 2,
+          "Value": 1
+        },
+        {
+          "SubType": 147,
+          "Type": 2,
+          "Value": 4
+        },
+        {
+          "SubType": 7,
+          "Type": 2,
+          "Value": 4
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Sei gegrüßt, Statthalter,\n\nGlückwunsch! Du hast Level 15 der Prüfung des Kau Karuak abgeschlossen. Du erhältst für jeden abgeschlossenen Level Belohnungen.",
+    "subParam": 1,
+    "subTitle": "Lv.-15-Prüfung auf Schwierigkeitsgrad NORMAL abgeschlossen",
+    "subType": 149,
+    "title": "Belohnung für die Prüfung des Kau Karuak"
+  },
+  "box": "SystemBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "54645627176791161930",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_134645764",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 14,
+  "starMark": 0,
+  "time": 1767911619365244,
+  "title": "",
+  "type": "System",
+  "unread": false
+}

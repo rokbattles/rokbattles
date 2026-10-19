@@ -15,6 +15,7 @@
 //! | --- | --- | --- |
 //! | `System` | `subType = 11`, `subParam = 1`, `3`, or `4` | [`MailType::SystemBarbarianFort`] |
 //! | `System` | `subType = 29`, `subParam = 11` or `15` | [`MailType::SystemKaharTreasure`] |
+//! | `System` | `subType = 149`, `subParam = 1` | [`MailType::SystemKauKaruak`] |
 //! | `Alliance` | `type = 14`, `param = 1`, or `type = 60` | [`MailType::AllianceAOOBattleResults`] |
 //! | `Alliance` | `type = 61` | [`MailType::AllianceAOOBattleInfo`] |
 //! | `Alliance` | `type = 15`, `param = 1`, or `type = 62` | [`MailType::AllianceAOOIndividualResults`] |
@@ -63,6 +64,10 @@ use serde_json::{Map, Value};
 pub const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
 /// Canonical registry label for [`MailType::SystemKaharTreasure`].
 pub const MAIL_TYPE_SYSTEM_KAHAR_TREASURE: &str = "SystemKaharTreasure";
+
+/// Canonical registry label for [`MailType::SystemKauKaruak`].
+pub const MAIL_TYPE_SYSTEM_KAU_KARUAK: &str = "SystemKauKaruak";
+
 /// Canonical registry label for [`MailType::AllianceAOOBattleResults`].
 pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
 /// Canonical registry label for [`MailType::AllianceAOOBattleInfo`].
@@ -93,6 +98,8 @@ pub enum MailType {
     SystemBarbarianFort,
     /// System Kahar treasure reward mail.
     SystemKaharTreasure,
+    /// System Trial of Kau Karuak rewards, distinct from Karuak Ceremony boss loot.
+    SystemKauKaruak,
     /// Ark of Osiris alliance battle results.
     AllianceAOOBattleResults,
     /// Ark of Osiris alliance battle info.
@@ -105,7 +112,7 @@ impl MailType {
     /// All categories registered for processing, in registry order.
     ///
     /// Available even when the `processors` feature is disabled.
-    pub const ALL: [Self; 11] = [
+    pub const ALL: [Self; 12] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
@@ -114,6 +121,7 @@ impl MailType {
         Self::Rss,
         Self::SystemBarbarianFort,
         Self::SystemKaharTreasure,
+        Self::SystemKauKaruak,
         Self::AllianceAOOBattleResults,
         Self::AllianceAOOBattleInfo,
         Self::AllianceAOOIndividualResults,
@@ -144,6 +152,7 @@ impl MailType {
             "Rss" => Some(Self::Rss),
             MAIL_TYPE_SYSTEM_BARBARIAN_FORT => Some(Self::SystemBarbarianFort),
             MAIL_TYPE_SYSTEM_KAHAR_TREASURE => Some(Self::SystemKaharTreasure),
+            MAIL_TYPE_SYSTEM_KAU_KARUAK => Some(Self::SystemKauKaruak),
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS => Some(Self::AllianceAOOBattleResults),
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO => Some(Self::AllianceAOOBattleInfo),
             MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS => Some(Self::AllianceAOOIndividualResults),
@@ -175,6 +184,7 @@ impl MailType {
             Self::Rss => "Rss",
             Self::SystemBarbarianFort => MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
             Self::SystemKaharTreasure => MAIL_TYPE_SYSTEM_KAHAR_TREASURE,
+            Self::SystemKauKaruak => MAIL_TYPE_SYSTEM_KAU_KARUAK,
             Self::AllianceAOOBattleResults => MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS,
             Self::AllianceAOOBattleInfo => MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO,
             Self::AllianceAOOIndividualResults => MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS,
@@ -195,6 +205,7 @@ impl MailType {
             Self::Rss => "mails_rss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
             Self::SystemKaharTreasure => "mails_system_kahartreasure",
+            Self::SystemKauKaruak => "mails_system_kaukaruak",
             Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
             Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
             Self::AllianceAOOIndividualResults => "mails_alliance_aooindividualresults",
@@ -259,6 +270,10 @@ pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType>
 
     // Resolve the game's broad labels before trying the registry's canonical labels.
     if mail_type.eq_ignore_ascii_case("System") {
+        if is_system_kau_karuak_mail(root) {
+            return Some(MailType::SystemKauKaruak);
+        }
+
         if is_system_kahar_treasure_mail(root) {
             return Some(MailType::SystemKaharTreasure);
         }
@@ -329,6 +344,17 @@ fn is_gve_event_member_loot_report(root: &Map<String, Value>) -> bool {
         .and_then(|content| content.get("EventName"))
         .and_then(Value::as_str)
         .is_some_and(|event_name| event_name.eq_ignore_ascii_case("GVE"))
+}
+
+fn is_system_kau_karuak_mail(root: &Map<String, Value>) -> bool {
+    let Some(body) = root.get("body").and_then(Value::as_object) else {
+        return false;
+    };
+
+    let sub_type = body.get("subType").and_then(value_as_u64);
+    let sub_param = body.get("subParam").and_then(value_as_u64);
+
+    matches!((sub_type, sub_param), (Some(149), Some(1)))
 }
 
 fn is_system_kahar_treasure_mail(root: &Map<String, Value>) -> bool {
@@ -411,6 +437,7 @@ pub fn process_mail(
         MailType::SystemBarbarianFort => {
             rokbattles_mail_processor_system_barbarianfort::process(input)
         }
+        MailType::SystemKauKaruak => rokbattles_mail_processor_system_kaukaruak::process(input),
         MailType::SystemKaharTreasure => {
             rokbattles_mail_processor_system_kahartreasure::process(input)
         }
@@ -431,6 +458,44 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+
+    #[test]
+    fn detects_kau_karuak_rewards_using_only_system_discriminators() {
+        for body in
+            [json!({"subType": 149, "subParam": 1}), json!({"subType": "149", "subParam": "1"})]
+        {
+            let payload = json!({"type": "sYsTeM", "box": "StoreBox", "body": body});
+
+            assert_eq!(detect_mail_type(&payload), Some(MailType::SystemKauKaruak));
+        }
+
+        assert_eq!(MailType::from_label("SystemKauKaruak"), Some(MailType::SystemKauKaruak));
+        assert_eq!(MailType::SystemKauKaruak.to_string(), "SystemKauKaruak");
+        assert_eq!(MailType::SystemKauKaruak.collection_name(), "mails_system_kaukaruak");
+        assert!(MailType::ALL.contains(&MailType::SystemKauKaruak));
+    }
+
+    #[test]
+    fn rejects_kau_karuak_failure_mail_and_partial_matches() {
+        for body in [
+            json!({"subType": 150, "subParam": 0}),
+            json!({"subType": "150", "subParam": "0"}),
+            json!({"subType": 149, "subParam": 0}),
+            json!({"subType": 150, "subParam": 1}),
+            json!({"subType": 149, "subParam": 2}),
+            json!({"subType": 149}),
+            json!({"subParam": 1}),
+            json!({"subType": 149, "subParam": null}),
+            json!({"subType": 149, "subParam": 1.5}),
+        ] {
+            assert_eq!(detect_mail_type(&json!({"type": "System", "body": body})), None);
+        }
+
+        assert_eq!(
+            detect_mail_type(&json!({"type": "Alliance", "body": {"subType": 149, "subParam": 1}})),
+            None
+        );
+    }
 
     #[test]
     fn normalize_mail_root_accepts_object() {

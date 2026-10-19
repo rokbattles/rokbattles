@@ -476,6 +476,30 @@ mod tests {
         assert!(completed.acknowledged.contains("123"));
     }
 
+    #[test]
+    fn collects_kau_karuak_rewards_but_rejects_failure_mail() {
+        let dir = tempfile::tempdir().expect("test directory");
+        let reward_bytes =
+            include_bytes!("../../../../../samples/System/Persistent.Mail.49147831179110293022");
+        let reward = source(&dir.path().join("Persistent.Mail.49147831179110293022"), reward_bytes);
+
+        let Ok((_, prepared)) = prepare_upload(&reward, 10_000) else {
+            panic!("Kau Karuak reward should be collected");
+        };
+
+        assert_eq!(prepared, reward_bytes);
+
+        let failure_bytes = rokbattles_mail_codec::encode(&json!({
+            "id": "123",
+            "type": "System",
+            "body": {"subType": 150, "subParam": 0}
+        }))
+        .expect("synthetic failure mail");
+        let failure = source(&dir.path().join("Persistent.Mail.123"), &failure_bytes);
+
+        assert!(matches!(prepare_upload(&failure, 10_000), Err(AttemptOutcome::Rejected(_))));
+    }
+
     #[tokio::test]
     async fn invalid_and_unsupported_files_remain_rejected_until_the_source_changes() {
         for bytes in [

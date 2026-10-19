@@ -125,6 +125,35 @@ mod tests {
     }
 
     #[test]
+    fn run_processes_kau_karuak_reward_sample() {
+        let input_dir = tempfile::tempdir().expect("input dir");
+        let output_dir = tempfile::tempdir().expect("output dir");
+        let file_name = "Persistent.Mail.49147831179110293022";
+        let sample_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples/System");
+        fs::copy(sample_dir.join(file_name), input_dir.path().join(file_name))
+            .expect("copy Kau Karuak reward sample");
+
+        run(&Config {
+            input_dir: input_dir.path().to_path_buf(),
+            output_dir: output_dir.path().to_path_buf(),
+            pretty: true,
+        })
+        .expect("decode and process Kau Karuak reward");
+
+        let processed_name = format!("{file_name}-processed.json");
+        let processed: serde_json::Value = serde_json::from_slice(
+            &fs::read(output_dir.path().join(&processed_name)).expect("read processed output"),
+        )
+        .expect("parse processed output");
+        let expected: serde_json::Value = serde_json::from_slice(
+            &fs::read(sample_dir.join(processed_name)).expect("read expected Kau Karuak rewards"),
+        )
+        .expect("parse expected Kau Karuak rewards");
+
+        assert_eq!(processed, expected);
+    }
+
+    #[test]
     fn run_decodes_and_writes_compact_json_when_pretty_is_false() {
         let input_dir = tempfile::tempdir().expect("input dir");
         let output_dir = tempfile::tempdir().expect("output dir");
