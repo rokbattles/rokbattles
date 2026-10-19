@@ -413,6 +413,19 @@ impl ReportsStore {
             self.mails_barcanyonkillboss.create_index(model).await?;
         }
 
+        self.mails_killelitebarreport
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! {
+                        "metadata.mail_receiver": 1,
+                        "participants.player_id": 1,
+                        "npc.type": 1,
+                        "metadata.mail_time": -1,
+                    })
+                    .build(),
+            )
+            .await?;
+
         self.mails_eventmemberlootreport
             .create_index(
                 IndexModel::builder()
@@ -628,6 +641,11 @@ impl ReportsStore {
     /// Access the bar canyon kill boss mail collection.
     pub fn barcanyonkillboss_collection(&self) -> &Collection<Document> {
         &self.mails_barcanyonkillboss
+    }
+
+    /// Access elite barbarian (Lohar) reward reports.
+    pub fn killelitebarreport_collection(&self) -> &Collection<Document> {
+        &self.mails_killelitebarreport
     }
 
     /// Access the RSS mail collection.

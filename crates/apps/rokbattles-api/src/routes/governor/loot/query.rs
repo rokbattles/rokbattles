@@ -43,6 +43,27 @@ pub(crate) struct BaulurLootRequest {
     pub npc: BaulurLootNpc,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum LoharLootNpc {
+    JuniorLohar,
+    DauntlessLohar,
+}
+
+impl LoharLootNpc {
+    pub fn npc_type(self) -> i64 {
+        match self {
+            Self::JuniorLohar => 111,
+            Self::DauntlessLohar => 112,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct LoharLootRequest {
+    pub range: GovernorDateRange,
+    pub npc: LoharLootNpc,
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct KaharTreasureLootRequest {
     pub range: GovernorDateRange,
@@ -107,6 +128,20 @@ pub(crate) fn parse_baulur_loot_request(
     };
 
     Ok(BaulurLootRequest { range, npc })
+}
+
+pub(crate) fn parse_lohar_loot_request(
+    params: &FxHashMap<String, String>,
+) -> Result<LoharLootRequest, ApiError> {
+    let range = parse_default_governor_date_range(params)?;
+
+    let npc = match params.get("type").map(|value| value.trim()).filter(|value| !value.is_empty()) {
+        Some("junior-lohar") | None => LoharLootNpc::JuniorLohar,
+        Some("dauntless-lohar") => LoharLootNpc::DauntlessLohar,
+        Some(_) => return Err(ApiError::bad_request("Invalid type")),
+    };
+
+    Ok(LoharLootRequest { range, npc })
 }
 
 pub(crate) fn parse_kahar_treasure_loot_request(
@@ -220,6 +255,35 @@ mod tests {
         let request = parse_baulur_loot_request(&date_params()).expect("request");
 
         assert_eq!(request.npc, BaulurLootNpc::IronhandBaulur);
+    }
+
+    #[test]
+    fn parse_lohar_loot_request_defaults_to_junior_and_accepts_dates() {
+        let request = parse_lohar_loot_request(&date_params()).expect("request");
+
+        assert_eq!(request.npc, LoharLootNpc::JuniorLohar);
+        assert_eq!(request.range.start, "2025-02-03");
+        assert_eq!(request.range.end, "2025-02-04");
+    }
+
+    #[test]
+    fn parse_lohar_loot_request_selects_both_npc_types() {
+        for (key, npc_type) in [("junior-lohar", 111), ("dauntless-lohar", 112)] {
+            let mut params = date_params();
+            params.insert("type".to_string(), key.to_string());
+
+            let request = parse_lohar_loot_request(&params).expect("request");
+
+            assert_eq!(request.npc.npc_type(), npc_type);
+        }
+    }
+
+    #[test]
+    fn parse_lohar_loot_request_rejects_unknown_npc() {
+        let mut params = date_params();
+        params.insert("type".to_string(), "ironhand-baulur".to_string());
+
+        parse_lohar_loot_request(&params).expect_err("invalid NPC should be rejected");
     }
 
     #[test]
