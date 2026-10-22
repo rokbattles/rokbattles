@@ -10,7 +10,6 @@ import {
   MapIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
-  ShieldCheckIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
@@ -156,10 +155,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             )}
             <SidebarSpacer />
             <SidebarSection>
-              <SidebarItem href="/legal">
-                <ShieldCheckIcon />
-                <SidebarLabel>{t("Legal")}</SidebarLabel>
-              </SidebarItem>
               <SidebarItem
                 href="/discord"
                 target="_blank"

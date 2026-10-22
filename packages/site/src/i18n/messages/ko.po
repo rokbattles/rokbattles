@@ -2631,11 +2631,6 @@ msgid "My Battles"
 msgstr "내 전투"
 
 #: src/components/platform-layout.tsx
-msgctxt "7oFrM6"
-msgid "Legal"
-msgstr ""
-
-#: src/components/platform-layout.tsx
 msgctxt "HqRNN8"
 msgid "Support"
 msgstr "고객 지원"
@@ -3011,6 +3006,11 @@ msgstr ""
 msgctxt "hquG55"
 msgid "Cookie Settings"
 msgstr "쿠키 설정"
+
+#: src/components/sidebar-governor-header.tsx
+msgctxt "7oFrM6"
+msgid "Legal"
+msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
 msgctxt "xXbJso"
