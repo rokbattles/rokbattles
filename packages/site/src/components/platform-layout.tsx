@@ -166,15 +166,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarSpacer />
             <SidebarSection>
               <SidebarItem
-                href="/discord"
-                target="_blank"
-                rel="noopener noreferrer"
-                prefetch={false}
-              >
-                <QuestionMarkCircleIcon />
-                <SidebarLabel>{t("Support")}</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem
                 href="https://github.com/sponsors/rokbattles"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -182,6 +173,15 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               >
                 <HeartIcon />
                 <SidebarLabel>{t("Donate")}</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem
+                href="/discord"
+                target="_blank"
+                rel="noopener noreferrer"
+                prefetch={false}
+              >
+                <QuestionMarkCircleIcon />
+                <SidebarLabel>{t("Support")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/docs" target="_blank" rel="noopener noreferrer" prefetch={false}>
                 <BookOpenIcon />

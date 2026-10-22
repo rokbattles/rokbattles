@@ -2640,13 +2640,13 @@ msgid "My Battles"
 msgstr "Mes batailles"
 
 #: src/components/platform-layout.tsx
-msgctxt "HqRNN8"
-msgid "Support"
+msgctxt "2IFGap"
+msgid "Donate"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgctxt "2IFGap"
-msgid "Donate"
+msgctxt "HqRNN8"
+msgid "Support"
 msgstr ""
 
 #: src/components/platform-layout.tsx
