@@ -6,6 +6,7 @@ use rokbattles_bson::{
 
 use super::{
     commander_skins::map_commander_skins,
+    map_context::BattleMapContext,
     stratagems::resolve_battle_effects,
     structure_override::resolve_avatar_override,
     types::{
@@ -36,10 +37,12 @@ pub(super) fn build_battle_detail_projection() -> Document {
     for field in [
         "metadata.mail_id",
         "metadata.mail_time",
+        "metadata.server_id",
         "metadata.mail_role",
         "metadata.kvk",
         "metadata.schema",
         "sender.player_id",
+        "sender.kingdom_id",
         "sender.player_name",
         "sender.alliance.abbreviation",
         "sender.avatar_url",
@@ -62,6 +65,8 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.auxiliary_skills.level",
         "sender.auxiliary_skills.skill_id",
         "sender.supreme_strife.talents",
+        "sender.supreme_strife.battle_id",
+        "sender.supreme_strife.team_id",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
         "sender.commanders.primary.skins",
@@ -98,6 +103,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "timeline.start_timestamp",
         "timeline.start_tick",
         "opponents.player_id",
+        "opponents.kingdom_id",
         "opponents.start_tick",
         "opponents.end_tick",
         "opponents.attack.x",
@@ -185,8 +191,12 @@ pub(super) fn build_battle_detail_projection() -> Document {
 
 pub(super) fn map_battle_detail_document(document: &Document) -> Option<BattleReportDetail> {
     let report_schema = nested_i64_exact(document, &["metadata", "schema"]);
+    let metadata = map_detail_metadata(document)?;
+
     Some(BattleReportDetail {
-        metadata: map_detail_metadata(document)?,
+        prokingdoms_url: BattleMapContext::from_document(document, metadata.mail_time)
+            .prokingdoms_url(),
+        metadata,
         sender: map_detail_player(nested_document(document, &["sender"]), report_schema),
         summary: map_detail_summary(nested_document(document, &["summary"])),
         opponents: map_detail_opponents(document, report_schema),
@@ -518,6 +528,16 @@ mod tests {
     fn includes_required_fields_in_projection() {
         let projection = build_battle_detail_projection();
 
+        for field in [
+            "metadata.server_id",
+            "sender.kingdom_id",
+            "sender.supreme_strife.battle_id",
+            "sender.supreme_strife.team_id",
+            "opponents.kingdom_id",
+        ] {
+            assert_eq!(projection.get_i32(field), Ok(1), "{field}");
+        }
+
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(projection.get_i32("metadata.schema").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.structure_id").ok(), Some(1));
@@ -539,6 +559,83 @@ mod tests {
             Some(1)
         );
         assert_eq!(projection.get_i32("opponents.battle_effects").ok(), Some(1));
+    }
+
+    #[test]
+    fn prokingdoms_url_uses_mail_time_in_battle_detail() {
+        let document = doc! {
+            "metadata": {
+                "mail_id": "mail-1", "server_id": 15597, "kvk": true,
+                "mail_time": 1_755_441_253_600_000_i64,
+            },
+            "timeline": { "start_timestamp": 1_755_294_123_i64 },
+        };
+
+        let report = map_battle_detail_document(&document).expect("valid report");
+        let value = serde_json::to_value(report).expect("serializable report");
+
+        assert_eq!(value["prokingdoms_url"], "https://prokingdoms.com/kvk/15597/1755441253");
+    }
+
+    #[test]
+    fn prokingdoms_url_never_falls_back_to_battle_time() {
+        for mail_time in [0, -1] {
+            let document = doc! {
+                "metadata": {
+                    "mail_id": "mail-1", "server_id": 15597, "kvk": true,
+                    "mail_time": mail_time,
+                },
+                "timeline": { "start_timestamp": 1_755_294_123_i64 },
+            };
+
+            let report = map_battle_detail_document(&document).expect("valid report");
+            let value = serde_json::to_value(report).expect("serializable report");
+
+            assert!(value.get("prokingdoms_url").is_none());
+        }
+    }
+
+    #[test]
+    fn prokingdoms_url_is_omitted_for_ineligible_or_incomplete_battle_details() {
+        for metadata in [
+            doc! { "kvk": false, "server_id": 15597 },
+            doc! { "server_id": 15597 },
+            doc! { "kvk": true },
+            doc! { "kvk": true, "server_id": 0 },
+            doc! { "kvk": true, "server_id": 15597, "mail_role": "dungeon" },
+        ] {
+            let mut document = doc! { "metadata": metadata };
+            let metadata = document.get_document_mut("metadata").unwrap();
+            metadata.insert("mail_id", "mail-1");
+            metadata.insert("mail_time", 1_755_441_253_600_000_i64);
+
+            let report = map_battle_detail_document(&document).expect("valid report");
+            let value = serde_json::to_value(report).expect("serializable report");
+
+            assert!(value.get("prokingdoms_url").is_none());
+        }
+    }
+
+    #[test]
+    fn prokingdoms_url_excludes_strife_and_radiant_rivalry_even_with_kvk_flag() {
+        for sender in [
+            doc! { "supreme_strife": { "battle_id": "match", "team_id": 1 } },
+            doc! { "kingdom_id": 2000 },
+        ] {
+            let document = doc! {
+                "metadata": {
+                    "mail_id": "mail-1", "server_id": 15597, "kvk": true,
+                    "mail_role": "gsmp", "schema": 10,
+                    "mail_time": 1_755_441_253_600_000_i64,
+                },
+                "sender": sender,
+            };
+
+            let report = map_battle_detail_document(&document).expect("valid report");
+            let value = serde_json::to_value(report).expect("serializable report");
+
+            assert!(value.get("prokingdoms_url").is_none());
+        }
     }
 
     #[test]

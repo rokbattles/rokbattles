@@ -54,6 +54,8 @@ pub(crate) struct DuelBattle2DetailResponse {
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct DuelBattle2DetailItem {
+    #[serde(rename = "prokingdoms_url", skip_serializing_if = "Option::is_none")]
+    pub prokingdoms_url: Option<String>,
     pub metadata: DuelBattle2DetailMetadata,
     pub sender: DuelBattle2DetailPlayer,
     pub opponent: DuelBattle2DetailPlayer,
