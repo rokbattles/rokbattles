@@ -90,6 +90,8 @@ pub(crate) struct ReportRowWithCursor {
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct BattleReportDetail {
+    #[serde(rename = "prokingdoms_url", skip_serializing_if = "Option::is_none")]
+    pub prokingdoms_url: Option<String>,
     pub metadata: BattleReportMetadata,
     pub sender: BattleReportPlayer,
     pub summary: BattleReportSummary,

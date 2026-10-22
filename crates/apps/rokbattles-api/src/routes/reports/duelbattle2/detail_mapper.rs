@@ -8,6 +8,7 @@ use super::types::{
     DuelBattle2DetailBuff, DuelBattle2DetailCommander, DuelBattle2DetailCommanderSkill,
     DuelBattle2DetailItem, DuelBattle2DetailMetadata, DuelBattle2DetailPlayer,
 };
+use crate::routes::reports::common::map_context::BattleMapContext;
 
 pub(super) fn build_duelbattle2_detail_filter(duel_id: i64) -> Document {
     doc! { "sender.duel.team_id": duel_id }
@@ -20,6 +21,7 @@ pub(super) fn build_duelbattle2_detail_projection() -> Document {
     for field in [
         "metadata.mail_id",
         "metadata.mail_time",
+        "metadata.server_id",
         "sender.player_id",
         "sender.player_name",
         "sender.avatar_url",
@@ -85,8 +87,15 @@ pub(super) fn map_duelbattle2_detail_document(
     let opponent_document = nested_document(document, &["opponent"])?;
     let battle_results_document = nested_document(document, &["battle_results"]);
 
+    let metadata = map_detail_metadata(metadata_document)?;
+
     Some(DuelBattle2DetailItem {
-        metadata: map_detail_metadata(metadata_document)?,
+        prokingdoms_url: BattleMapContext::from_server_id(
+            nested_i64(metadata_document, &["server_id"]),
+            metadata.mail_time,
+        )
+        .prokingdoms_url(),
+        metadata,
         sender: map_detail_player(sender_document),
         opponent: map_detail_player(opponent_document),
         battle_results: map_detail_battle_results(battle_results_document),
@@ -230,10 +239,42 @@ mod tests {
     fn includes_required_fields_in_detail_projection() {
         let projection = build_duelbattle2_detail_projection();
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("metadata.server_id"), Ok(1));
         assert_eq!(projection.get_i32("sender.primary_commander.id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.primary_commander.awakened").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.primary_commander.skills.id").ok(), Some(1));
         assert_eq!(projection.get_i32("battle_results.opponent.kill_points").ok(), Some(1));
+    }
+
+    #[test]
+    fn prokingdoms_url_uses_each_duel_reports_mail_time_without_a_kvk_flag() {
+        for (mail_time, expected) in [
+            (1_766_182_379_846_826_i64, "https://prokingdoms.com/kvk/15790/1766182379"),
+            (1_766_182_479_846_826_i64, "https://prokingdoms.com/kvk/15790/1766182479"),
+        ] {
+            let document = doc! {
+                "metadata": { "mail_id": "mail-1", "mail_time": mail_time, "server_id": 15790 },
+                "sender": {}, "opponent": {},
+            };
+
+            let report = map_duelbattle2_detail_document(&document).expect("valid report");
+            let value = serde_json::to_value(report).expect("serializable report");
+
+            assert_eq!(value["prokingdoms_url"], expected);
+        }
+    }
+
+    #[test]
+    fn prokingdoms_url_is_omitted_for_duel_details_without_a_server() {
+        let document = doc! {
+            "metadata": { "mail_id": "mail-1", "mail_time": 1_766_182_379_846_826_i64 },
+            "sender": {}, "opponent": {},
+        };
+
+        let report = map_duelbattle2_detail_document(&document).expect("valid report");
+        let value = serde_json::to_value(report).expect("serializable report");
+
+        assert!(value.get("prokingdoms_url").is_none());
     }
 
     #[test]

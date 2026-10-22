@@ -59,6 +59,14 @@ impl BattleMapContext {
         }
     }
 
+    pub(crate) fn prokingdoms_url(self) -> Option<String> {
+        let Self::Kvk { server_id, time } = self else {
+            return None;
+        };
+
+        Some(format!("https://prokingdoms.com/kvk/{server_id}/{}", time / 1000))
+    }
+
     pub(crate) fn resolve(self, snapshots: &[Document]) -> (String, Option<String>) {
         match self {
             Self::Home { kingdom } => {
@@ -250,6 +258,18 @@ mod tests {
         }
         assert_eq!(report_time_millis(0), None);
         assert_eq!(report_time_millis(-1), None);
+    }
+
+    #[test]
+    fn prokingdoms_url_normalizes_mail_timestamp_units_to_seconds() {
+        for time in
+            [1_766_182_379, 1_766_182_379_846, 1_766_182_379_846_826, 1_766_182_379_846_826_000]
+        {
+            assert_eq!(
+                BattleMapContext::from_server_id(Some(15790), time).prokingdoms_url().as_deref(),
+                Some("https://prokingdoms.com/kvk/15790/1766182379")
+            );
+        }
     }
 
     #[test]
