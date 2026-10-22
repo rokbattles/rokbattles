@@ -2641,9 +2641,9 @@ msgid "Donate"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgctxt "QnWNmB"
-msgid "Desktop App"
-msgstr "Aplicación de escritorio"
+msgctxt "isGKnz"
+msgid "Documentation"
+msgstr ""
 
 #: src/components/platform-layout.tsx
 msgctxt "SQJto2"
