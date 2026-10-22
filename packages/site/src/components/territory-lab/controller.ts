@@ -339,6 +339,8 @@ export class LabController {
     const plan = this.plan;
     if (!plan || !this.engine) return;
     const overlays: Overlay[] = [];
+    const labels: Overlay[] = [];
+
     const sprite = (
       key: string | undefined,
       p: Point,
@@ -425,7 +427,7 @@ export class LabController {
             alliance.color,
             0,
             [site.x, site.y],
-            overlays,
+            labels,
             [0, -27]
           );
       }
@@ -483,14 +485,17 @@ export class LabController {
           worldSize: false,
           minZoom: b.kind === "flag" ? 5 : 0,
         });
-      sprite(
-        this.catalog.buildingIcons[b.kind],
-        [b.x, b.y],
-        b.kind === "flag" ? 24 : 30,
-        [1, 1, 1, 1],
-        false,
-        b.kind === "flag" ? 5 : 0
-      );
+
+      if (!exporting || b.kind !== "flag")
+        sprite(
+          this.catalog.buildingIcons[b.kind],
+          [b.x, b.y],
+          b.kind === "flag" ? 20 : 30,
+          [1, 1, 1, 1],
+          false,
+          b.kind === "flag" ? 5 : 0
+        );
+
       if (b.kind !== "flag" && this.visibility.allianceTags) {
         const alliance = plan.alliances.find((a) => a.id === b.allianceId);
         if (alliance)
@@ -500,7 +505,7 @@ export class LabController {
             alliance.color,
             0,
             [b.x, b.y],
-            overlays,
+            labels,
             [0, -28]
           );
       }
@@ -514,7 +519,7 @@ export class LabController {
       };
       if (a.kind === "text") {
         // Labels use their own texture so commander/player names can contain Unicode.
-        this.label(a.id, a.text ?? "", a.color, a.width, a.points[0], overlays);
+        this.label(a.id, a.text ?? "", a.color, a.width, a.points[0], labels);
       } else if (a.kind === "marker")
         objects.push({ kind: "marker", id: id++, x: a.points[0][0], y: a.points[0][1], style });
       else
@@ -562,6 +567,9 @@ export class LabController {
           style: { color: Math.max(0, PALETTE.indexOf(route.color.toUpperCase())) + 1, size: 2 },
         });
     }
+
+    overlays.push(...labels);
+
     this.engine.set_overlays(JSON.stringify(overlays));
     const usedTextures = new Set(overlays.map((overlay) => overlay.texture));
     for (const key of this.labelCache.keys()) {
