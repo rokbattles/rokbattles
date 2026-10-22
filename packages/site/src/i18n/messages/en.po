@@ -2631,14 +2631,14 @@ msgid "My Battles"
 msgstr "My Battles"
 
 #: src/components/platform-layout.tsx
-msgctxt "HqRNN8"
-msgid "Support"
-msgstr "Support"
-
-#: src/components/platform-layout.tsx
 msgctxt "2IFGap"
 msgid "Donate"
 msgstr "Donate"
+
+#: src/components/platform-layout.tsx
+msgctxt "HqRNN8"
+msgid "Support"
+msgstr "Support"
 
 #: src/components/platform-layout.tsx
 msgctxt "isGKnz"

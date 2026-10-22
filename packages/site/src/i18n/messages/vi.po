@@ -2640,14 +2640,14 @@ msgid "My Battles"
 msgstr "Trận chiến của tôi"
 
 #: src/components/platform-layout.tsx
-msgctxt "HqRNN8"
-msgid "Support"
-msgstr "Hỗ Trợ"
-
-#: src/components/platform-layout.tsx
 msgctxt "2IFGap"
 msgid "Donate"
 msgstr "Quyên góp"
+
+#: src/components/platform-layout.tsx
+msgctxt "HqRNN8"
+msgid "Support"
+msgstr "Hỗ Trợ"
 
 #: src/components/platform-layout.tsx
 msgctxt "isGKnz"
