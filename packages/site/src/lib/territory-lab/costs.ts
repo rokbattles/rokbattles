@@ -2,6 +2,9 @@ import type { Building, BuildingCost, BuildingCostSchedule, BuildingKind } from 
 
 export type CostTotals = Required<BuildingCost> & { unknown: number };
 
+// Alliance technologies 10% + 15%
+const MAX_TECH_COST_REDUCTION = 0.25;
+
 export type BuildingCostEntry = {
   building: Building;
   number: number;
@@ -9,7 +12,16 @@ export type BuildingCostEntry = {
 };
 
 function costAt(schedule: BuildingCostSchedule, kind: BuildingKind, number: number) {
-  return schedule[kind]?.find((tier) => number >= tier.from && number <= tier.to)?.cost ?? null;
+  const cost = schedule[kind]?.find((tier) => number >= tier.from && number <= tier.to)?.cost;
+
+  if (!cost) return null;
+
+  return Object.fromEntries(
+    Object.entries(cost).map(([resource, amount]) => [
+      resource,
+      Math.max(0, Math.ceil(amount * (1 - MAX_TECH_COST_REDUCTION))),
+    ])
+  );
 }
 
 export function buildingCostBreakdown(
@@ -19,16 +31,20 @@ export function buildingCostBreakdown(
 ): BuildingCostEntry[] {
   const counts = new Map<BuildingKind, number>();
   const entries: BuildingCostEntry[] = [];
+
   for (const building of buildings) {
     if (building.allianceId !== allianceId) continue;
+
     const number = (counts.get(building.kind) ?? 0) + 1;
     counts.set(building.kind, number);
+
     entries.push({
       building,
       number,
       cost: costAt(schedule, building.kind, number),
     });
   }
+
   return entries;
 }
 
@@ -46,11 +62,13 @@ export function calculateCostTotals(
     crystal: 0,
     unknown: 0,
   };
+
   for (const { cost } of buildingCostBreakdown(buildings, schedule, allianceId)) {
     if (!cost) {
       totals.unknown += 1;
       continue;
     }
+
     totals.credits += cost.credits ?? 0;
     totals.food += cost.food ?? 0;
     totals.wood += cost.wood ?? 0;
@@ -58,5 +76,6 @@ export function calculateCostTotals(
     totals.gold += cost.gold ?? 0;
     totals.crystal += cost.crystal ?? 0;
   }
+
   return totals;
 }

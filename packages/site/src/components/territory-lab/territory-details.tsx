@@ -50,6 +50,7 @@ export const TerritoryDetails = memo(function TerritoryDetails({
       />
       <section aria-labelledby="territory-total-heading" className="min-w-0 xl:pl-8">
         <Subheading id="territory-total-heading">Territory limits & costs</Subheading>
+        <Text className="mt-1">Costs include the 25% reduction from max alliance technology.</Text>
         <dl className="mt-4 grid grid-cols-2 gap-x-5 gap-y-2.5 text-sm">
           {BUILDINGS.filter(([kind]) => catalog.buildings[kind]).map(([kind, label]) => (
             <BuildingMetric
