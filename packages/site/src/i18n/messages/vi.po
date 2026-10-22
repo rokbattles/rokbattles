@@ -2640,11 +2640,6 @@ msgid "My Battles"
 msgstr "Trận chiến của tôi"
 
 #: src/components/platform-layout.tsx
-msgctxt "7oFrM6"
-msgid "Legal"
-msgstr "Điều khoản pháp lý"
-
-#: src/components/platform-layout.tsx
 msgctxt "HqRNN8"
 msgid "Support"
 msgstr "Hỗ Trợ"
@@ -3020,6 +3015,11 @@ msgstr "Nhận thống đốc"
 msgctxt "hquG55"
 msgid "Cookie Settings"
 msgstr "Cài đặt Cookie"
+
+#: src/components/sidebar-governor-header.tsx
+msgctxt "7oFrM6"
+msgid "Legal"
+msgstr "Điều khoản pháp lý"
 
 #: src/components/sidebar-governor-header.tsx
 msgctxt "xXbJso"

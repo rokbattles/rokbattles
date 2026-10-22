@@ -2640,11 +2640,6 @@ msgid "My Battles"
 msgstr "Mes batailles"
 
 #: src/components/platform-layout.tsx
-msgctxt "7oFrM6"
-msgid "Legal"
-msgstr ""
-
-#: src/components/platform-layout.tsx
 msgctxt "HqRNN8"
 msgid "Support"
 msgstr ""
@@ -3019,6 +3014,11 @@ msgstr ""
 #: src/components/sidebar-governor-header.tsx
 msgctxt "hquG55"
 msgid "Cookie Settings"
+msgstr ""
+
+#: src/components/sidebar-governor-header.tsx
+msgctxt "7oFrM6"
+msgid "Legal"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx

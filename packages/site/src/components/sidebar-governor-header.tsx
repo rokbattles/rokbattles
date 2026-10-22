@@ -6,6 +6,7 @@ import {
   Cog6ToothIcon,
   PlusIcon,
   ScaleIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/16/solid";
 import { useExtracted } from "next-intl";
 import { use, useState } from "react";
@@ -88,6 +89,10 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
             <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
               <ScaleIcon />
               <DropdownLabel>{t("Cookie Settings")}</DropdownLabel>
+            </DropdownItem>
+            <DropdownItem href="/legal">
+              <ShieldCheckIcon />
+              <DropdownLabel>{t("Legal")}</DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={() => handleLogout()}>
