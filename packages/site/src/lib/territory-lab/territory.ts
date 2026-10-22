@@ -10,6 +10,7 @@ import {
   isProvinceRestricted,
   mapStructureCollision,
   plannedBuildingCollision,
+  resourcePointCollision,
   type TerritoryOwnership,
 } from "@/lib/territory-lab/geometry";
 import { nearbyTerrainInstances } from "./terrain";
@@ -57,6 +58,9 @@ export function placementError(
 
   if (plannedBuildingCollision(candidate, plan.buildings))
     return "Another building occupies this position.";
+
+  if (resourcePointCollision(candidate, data.resources))
+    return "The building overlaps an alliance resource point.";
 
   if (
     boundaryCollision(

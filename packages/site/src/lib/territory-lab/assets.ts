@@ -24,10 +24,10 @@ export const BUILDING_SPRITE_CROPS: Record<BuildingKind, SpriteCrop> = {
 };
 
 export const RESOURCE_SPRITES: Record<TerritoryResourceKind | "credits", string> = {
-  food: getGameSpriteUrl("img_Allifood.png"),
-  wood: getGameSpriteUrl("img_Alliwood.png"),
-  stone: getGameSpriteUrl("img_Allistone.png"),
-  coin: getGameSpriteUrl("img_Alligold.png"),
-  crystal: getGameSpriteUrl("img_AlliCrystal.png"),
+  food: getGameSpriteUrl("img_food.png"),
+  wood: getGameSpriteUrl("img_wood.png"),
+  stone: getGameSpriteUrl("img_stone.png"),
+  coin: getGameSpriteUrl("img_gold.png"),
+  crystal: getGameSpriteUrl("img_Crystal.png"),
   credits: getGameSpriteUrl("img_iconAllianceFund.png"),
 };
