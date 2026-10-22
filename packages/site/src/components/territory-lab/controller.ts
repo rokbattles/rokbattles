@@ -4,6 +4,7 @@ import {
   buildingRules,
   buildStructureBoundarySegments,
   buildTerritoryOverviewsFromOwnership,
+  RESOURCE_NODE_CLEARANCE,
   snapTerritoryPoint,
   TERRITORY_UNIT,
   territoryBounds,
@@ -73,6 +74,7 @@ export class LabController {
   private disposed = false;
   private frame = 0;
   private cameraStatus?: CameraStatus;
+  private resourceRadiusScale?: number;
   private imageSizes = new Map<string, Point>();
   private plan?: Plan;
   private legs: RouteLeg[] = [];
@@ -121,6 +123,7 @@ export class LabController {
       this.engine.free();
       return;
     }
+
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(this.host);
     this.engine.set_forbidden(this.data.forbiddenBytes);
@@ -144,6 +147,37 @@ export class LabController {
       })
     );
     this.render();
+  }
+
+  private updateResourceRadius(scale: number) {
+    if (this.resourceRadiusScale === scale) return;
+
+    const size = 128;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) throw new Error("Could not create the resource radius outline.");
+
+    const pixelsPerCss = size / (RESOURCE_NODE_CLEARANCE * 2 * scale);
+    const lineWidth = Math.min(size, 1.6 * pixelsPerCss);
+
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = lineWidth;
+    ctx.setLineDash([6 * pixelsPerCss, 4 * pixelsPerCss]);
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, (size - lineWidth) / 2, 0, Math.PI * 2);
+    ctx.stroke();
+
+    this.engine.upload_image(
+      "resource-radius",
+      size,
+      size,
+      new Uint8Array(ctx.getImageData(0, 0, size, size).data)
+    );
+
+    this.resourceRadiusScale = scale;
   }
 
   private async loadImage(key: string, url: string) {
@@ -396,9 +430,25 @@ export class LabController {
           );
       }
     }
-    if (this.visibility.resources && plan.mode === "territory")
+    if (this.visibility.resources && plan.mode === "territory") {
+      if (!exporting) {
+        const diameter = RESOURCE_NODE_CLEARANCE * 2;
+
+        for (const resource of this.data.resources)
+          overlays.push({
+            position: [resource.x, resource.y],
+            size: [diameter, diameter],
+            texture: "resource-radius",
+            color: [0.153, 0.153, 0.165, 0.78],
+            worldSize: true,
+            minZoom: 15,
+          });
+      }
+
       for (const r of this.data.resources)
         sprite(this.catalog.siteIcons[r.kind], [r.x, r.y], 16, [1, 1, 1, 1], false, 3);
+    }
+
     for (const landmark of plan.mode === "territory" ? this.data.landmarks : []) {
       if (landmark.kind === "cave" ? this.visibility.caves : this.visibility.villages)
         sprite(
@@ -653,9 +703,14 @@ export class LabController {
     this.frame = requestAnimationFrame(() => {
       this.frame = 0;
       try {
+        const status: CameraStatus = JSON.parse(this.engine.status());
+
+        if (this.visibility.resources && this.plan?.mode === "territory" && status.zoom > 15)
+          this.updateResourceRadius(status.scale);
+
         this.rebuildPlacement();
         this.engine.render();
-        const status: CameraStatus = JSON.parse(this.engine.status());
+
         if (
           status.backend !== this.cameraStatus?.backend ||
           status.zoom !== this.cameraStatus?.zoom ||

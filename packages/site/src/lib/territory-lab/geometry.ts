@@ -9,6 +9,12 @@ import type { Building, BuildingKind, ProvinceRestrictionGrid } from "./types";
 
 export const TERRITORY_UNIT = 18;
 
+const RESOURCE_NODE_RADIUS = 3.25;
+
+const PLACEMENT_RADIUS_PADDING = 2.7;
+
+export const RESOURCE_NODE_CLEARANCE = RESOURCE_NODE_RADIUS + PLACEMENT_RADIUS_PADDING;
+
 export type TerritoryFillRect = {
   minX: number;
   minY: number;
@@ -388,6 +394,18 @@ export function plannedBuildingCollision(
     const minimumDistance = candidateRadius + buildingRules[building.kind].baseClearance;
     return Math.hypot(candidate.x - building.x, candidate.y - building.y) < minimumDistance;
   });
+}
+
+export function resourcePointCollision(
+  candidate: Pick<Building, "kind" | "x" | "y">,
+  resources: readonly TerritoryResourcePoint[]
+): boolean {
+  const buildingRadius = buildingRules[candidate.kind].baseClearance + PLACEMENT_RADIUS_PADDING;
+  const minimumDistance = buildingRadius + RESOURCE_NODE_CLEARANCE;
+
+  return resources.some(
+    (resource) => Math.hypot(candidate.x - resource.x, candidate.y - resource.y) <= minimumDistance
+  );
 }
 
 function circleIntersectsRectangle(
