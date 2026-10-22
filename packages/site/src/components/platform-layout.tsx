@@ -17,7 +17,6 @@ import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
 import type React from "react";
 import { use, useCallback } from "react";
-import { LanguageSelector } from "@/components/language-selector";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Navbar } from "@/components/ui/navbar";
 import {
@@ -188,7 +187,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <ArrowDownTrayIcon />
                 <SidebarLabel>{t("Desktop App")}</SidebarLabel>
               </SidebarItem>
-              <LanguageSelector />
             </SidebarSection>
           </SidebarBody>
           {!user ? (
