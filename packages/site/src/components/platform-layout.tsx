@@ -12,6 +12,7 @@ import {
   ScaleIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
 import type React from "react";
@@ -80,7 +81,16 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarGovernorHeader user={user} handleLogout={handleLogout} />
           ) : (
             <SidebarHeader>
-              <SidebarItem disabled={true}>ROK Battles</SidebarItem>
+              <div className="px-2">
+                <Image
+                  src="/assets/logo.svg"
+                  alt="ROK Battles"
+                  loading="eager"
+                  width={2104}
+                  height={556}
+                  className="h-auto w-40"
+                />
+              </div>
             </SidebarHeader>
           )}
           <SidebarBody>
