@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  ArrowDownTrayIcon,
+  BookOpenIcon,
   ChartPieIcon,
   FireIcon,
   FlagIcon,
@@ -173,14 +173,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <HeartIcon />
                 <SidebarLabel>{t("Donate")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem
-                href="/docs/installation"
-                target="_blank"
-                rel="noopener noreferrer"
-                prefetch={false}
-              >
-                <ArrowDownTrayIcon />
-                <SidebarLabel>{t("Desktop App")}</SidebarLabel>
+              <SidebarItem href="/docs" target="_blank" rel="noopener noreferrer" prefetch={false}>
+                <BookOpenIcon />
+                <SidebarLabel>{t("Documentation")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
           </SidebarBody>

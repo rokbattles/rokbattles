@@ -2650,9 +2650,9 @@ msgid "Donate"
 msgstr "Quyên góp"
 
 #: src/components/platform-layout.tsx
-msgctxt "QnWNmB"
-msgid "Desktop App"
-msgstr "Desktop App"
+msgctxt "isGKnz"
+msgid "Documentation"
+msgstr ""
 
 #: src/components/platform-layout.tsx
 msgctxt "SQJto2"
