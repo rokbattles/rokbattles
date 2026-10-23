@@ -33,3 +33,17 @@ dist-ssr
 *.sln
 *.sw?
 .wrangler
+
+# Phoenix build artifacts, dependencies, and generated files.
+/apps/app/_build/
+/apps/app/cover/
+/apps/app/deps/
+/apps/app/doc/
+/apps/app/.fetch
+/apps/app/**/erl_crash.dump
+/apps/app/**/*.ez
+/apps/app/tmp/
+/apps/app/**/rokbattles-*.tar
+/apps/app/priv/static/assets/
+/apps/app/priv/static/cache_manifest.json
+/apps/app/priv/native/

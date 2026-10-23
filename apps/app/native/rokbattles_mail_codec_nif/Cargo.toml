@@ -1,0 +1,20 @@
+[package]
+name = "rokbattles_mail_codec_nif"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99.1"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+# Rustler needs unwinding; the server workspace uses panic = "abort".
+[workspace]
+
+[dependencies]
+rokbattles-mail-codec = { path = "../../../../crates/common/rokbattles-mail-codec", features = ["read", "write"] }
+rustler = { version = "0.38.0", features = ["serde"] }
+serde_json = "1.0.151"
+
+[profile.release]
+panic = "unwind"
