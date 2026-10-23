@@ -10,6 +10,7 @@ defmodule ROKBattles.Application do
     children = [
       ROKBattlesWeb.Telemetry,
       ROKBattles.Repo,
+      ROKBattles.ClickHouseRepo,
       {DNSCluster, query: Application.get_env(:rokbattles, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ROKBattles.PubSub},
       # Start a worker by calling: ROKBattles.Worker.start_link(arg)

@@ -9,7 +9,7 @@ import Config
 
 config :rokbattles,
   namespace: ROKBattles,
-  ecto_repos: [ROKBattles.Repo],
+  ecto_repos: [ROKBattles.Repo, ROKBattles.ClickHouseRepo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configure the endpoint
