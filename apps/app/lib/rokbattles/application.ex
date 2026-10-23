@@ -12,6 +12,7 @@ defmodule ROKBattles.Application do
       ROKBattles.Repo,
       ROKBattles.ClickHouseRepo,
       {Oban, Application.fetch_env!(:rokbattles, Oban)},
+      ROKBattles.RateLimit,
       {DNSCluster, query: Application.get_env(:rokbattles, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ROKBattles.PubSub},
       # Start a worker by calling: ROKBattles.Worker.start_link(arg)

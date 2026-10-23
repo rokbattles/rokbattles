@@ -47,6 +47,7 @@ defmodule ROKBattles.MixProject do
       {:ecto_ch, "~> 0.11.1"},
       {:oban, "~> 2.24"},
       {:sentry, "~> 14.0"},
+      {:hammer, "~> 7.5"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.2.0"},
