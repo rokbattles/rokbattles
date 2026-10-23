@@ -1,6 +1,9 @@
 defmodule ROKBattlesWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :rokbattles
 
+  # The origin must accept this header only from trusted proxies.
+  plug Plug.RewriteOn, [{:remote_ip, "cf-connecting-ip"}]
+
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
