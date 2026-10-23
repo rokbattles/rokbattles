@@ -1,6 +1,10 @@
 # syntax=docker/dockerfile:1.28.0@sha256:bb22d9815c728170f72750f4e5b0d672e06176142e1d602c7e66c050100b7e5b
+FROM node:26.12.1-alpine@sha256:40cd011b55415bc894e45b02fdd5a5dfde056921b7d23a64c74f80497af48797 AS base
+WORKDIR /app
+
 FROM rust:1.99.1-alpine@sha256:dc578ff3ca62ef489ad9ae743f477b94d98739c3092d0023490ecd417c2eebea AS wasm
-RUN apk add --no-cache build-base openssl-dev pkgconfig nodejs
+COPY --from=base /usr/local/bin/node /usr/local/bin/node
+RUN apk add --no-cache build-base openssl-dev pkgconfig libatomic libstdc++
 RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
     --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
@@ -9,9 +13,6 @@ RUN --mount=type=bind,source=.,target=/src \
     CONTAINER_WASM_OUT_DIR=/out/container MAP_ENGINE_WASM_OUT_DIR=/out/map-engine && \
     sh /src/packages/site/scripts/build-container.sh && \
     sh /src/packages/site/scripts/build-map-engine.sh
-
-FROM node:26.12.0-alpine@sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5 AS base
-WORKDIR /app
 
 FROM base AS builder
 ARG API_URL
