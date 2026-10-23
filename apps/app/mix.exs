@@ -48,6 +48,7 @@ defmodule ROKBattles.MixProject do
       {:oban, "~> 2.24"},
       {:sentry, "~> 14.0"},
       {:hammer, "~> 7.5"},
+      {:rustler, "~> 0.38.0", runtime: false},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.2.0"},
