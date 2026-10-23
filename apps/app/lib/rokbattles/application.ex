@@ -11,6 +11,7 @@ defmodule ROKBattles.Application do
       ROKBattlesWeb.Telemetry,
       ROKBattles.Repo,
       ROKBattles.ClickHouseRepo,
+      {Oban, Application.fetch_env!(:rokbattles, Oban)},
       {DNSCluster, query: Application.get_env(:rokbattles, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ROKBattles.PubSub},
       # Start a worker by calling: ROKBattles.Worker.start_link(arg)

@@ -12,6 +12,13 @@ config :rokbattles,
   ecto_repos: [ROKBattles.Repo, ROKBattles.ClickHouseRepo],
   generators: [timestamp_type: :utc_datetime]
 
+# Configure background jobs
+config :rokbattles, Oban,
+  repo: ROKBattles.Repo,
+  queues: [default: 10],
+  lifeline: [rescue_after: {2, :hours}],
+  pruner: [max_age: {1, :day}]
+
 # Configure the endpoint
 config :rokbattles, ROKBattlesWeb.Endpoint,
   url: [host: "localhost"],
