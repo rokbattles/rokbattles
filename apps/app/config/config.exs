@@ -19,6 +19,11 @@ config :rokbattles, Oban,
   lifeline: [rescue_after: {2, :hours}],
   pruner: [max_age: {1, :day}]
 
+# Enable Sentry only through production runtime configuration.
+config :sentry,
+  dsn: nil,
+  in_app_otp_apps: [:rokbattles]
+
 # Configure the endpoint
 config :rokbattles, ROKBattlesWeb.Endpoint,
   url: [host: "localhost"],

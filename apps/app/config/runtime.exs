@@ -41,6 +41,12 @@ if config_env() == :dev do
 end
 
 if config_env() == :prod do
+  config :sentry,
+    dsn: System.get_env("SENTRY_DSN"),
+    # Attach crash reporting without enabling structured logs.
+    logs: [],
+    integrations: [oban: [capture_errors: true]]
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """
