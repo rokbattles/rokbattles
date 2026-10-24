@@ -245,7 +245,7 @@ fn migrate_legacy(dir: &Path) -> anyhow::Result<UploadStore> {
         // Legacy "processed" entries recorded discovery, not an ingress acknowledgement.
         // Retry them so migration cannot mark an unconfirmed upload as complete.
         for (path, sig) in processed.entries {
-            if legacy_source_is_missing(Path::new(&path)) {
+            if source_is_deleted(Path::new(&path)) {
                 continue;
             }
 
@@ -273,7 +273,7 @@ fn migrate_legacy(dir: &Path) -> anyhow::Result<UploadStore> {
     Ok(UploadStore { pending: pending.into_values().collect(), ..UploadStore::default() })
 }
 
-fn legacy_source_is_missing(path: &Path) -> bool {
+pub(super) fn source_is_deleted(path: &Path) -> bool {
     // Relative legacy paths have no recorded base directory.
     if !path.is_absolute() {
         return false;
@@ -285,7 +285,12 @@ fn legacy_source_is_missing(path: &Path) -> bool {
 
     // A missing drive or inaccessible directory does not establish that the file was deleted.
     // Keep uncertain sources pending; the watcher can retry them when access returns.
-    path.parent().is_some_and(|parent| fs::read_dir(parent).is_ok())
+    path.parent().is_some_and(|parent| {
+        fs::read_dir(parent).is_ok_and(|mut entries| {
+            // Some filesystems defer a directory access error until the first entry.
+            entries.next().is_none_or(|entry| entry.is_ok())
+        })
+    })
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> anyhow::Result<()> {

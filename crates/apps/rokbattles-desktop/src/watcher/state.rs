@@ -118,6 +118,13 @@ impl WatcherState {
         self.requeue_upload(item);
     }
 
+    pub(crate) fn remove_pending_source(&mut self, path: &str) {
+        if self.pending_paths.remove(path) {
+            self.uploads.pending.retain(|item| item.path != path);
+            self.dirty = true;
+        }
+    }
+
     pub(crate) fn acknowledge_upload(&mut self, path: &str) {
         let Some(id) = mail_id_for_path(path) else {
             return;
