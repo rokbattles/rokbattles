@@ -117,7 +117,7 @@ function ArkMatchDashboard({ detail, governorId }: ArkMatchDashboardProps): Reac
             aria-pressed={tab === value}
             onClick={() => setTab(value)}
             className={cn(
-              "flex shrink-0 items-center gap-2 border-b-2 pb-3 text-sm font-medium",
+              "flex shrink-0 cursor-pointer items-center gap-2 border-b-2 pb-3 text-sm font-medium",
               "focus-visible:outline-2 focus-visible:outline-blue-500",
               tab === value ? "border-white text-white" : "border-transparent text-zinc-400"
             )}
