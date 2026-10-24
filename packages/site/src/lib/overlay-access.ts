@@ -3,6 +3,7 @@ const OVERLAY_DISCORD_IDS = [
   "188044055698079756",
   "1126322387240095824",
   "695479485797105695",
+  "415929757679747073",
 ];
 
 export function hasOverlayAccess(discordId: string | undefined): boolean {
