@@ -32,7 +32,7 @@ pub(crate) use self::runtime::{WatcherTask, spawn_watcher};
 use self::{
     mail::file_name_for_upload,
     state::WatcherState,
-    store::{FileSig, QueuedUpload, StateFile, file_sig},
+    store::{FileSig, QueuedUpload, StateFile, file_sig, source_is_deleted},
     upload::{UploadApiError, UploadStatus, post_file_to_api, upload_backoff},
 };
 
@@ -149,6 +149,7 @@ fn apply_upload_result(
 
 enum AttemptOutcome {
     Waiting(FileSig),
+    DeletedSource,
     MissingSource(String),
     Retry(String),
     Rejected(String),
@@ -205,14 +206,14 @@ fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>)
 
         file_sig(&meta)
     });
-    let sig = signature.map_err(|error| source_failure("stat", &file_name, error))?;
+    let sig = signature.map_err(|error| source_failure("stat", &path, error))?;
 
     if item.sig.as_ref() != Some(&sig) || now_ms.saturating_sub(sig.modified) < 1500 {
         return Err(AttemptOutcome::Waiting(sig));
     }
 
     let bytes =
-        read_mail_source(&path, &sig).map_err(|error| source_failure("read", &file_name, error))?;
+        read_mail_source(&path, &sig).map_err(|error| source_failure("read", &path, error))?;
     let decoded = rokbattles_mail_codec::decode(&bytes).map_err(|error| {
         AttemptOutcome::Rejected(truncate_reason(format!("Decode failed for {file_name}: {error}")))
     })?;
@@ -228,14 +229,19 @@ fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>)
     Ok((file_name, bytes))
 }
 
-fn source_failure(operation: &str, file_name: &str, error: anyhow::Error) -> AttemptOutcome {
+fn source_failure(operation: &str, path: &Path, error: anyhow::Error) -> AttemptOutcome {
+    let file_name = file_name_for_upload(path).unwrap_or_else(|| path.display().to_string());
     let reason = truncate_reason(format!("Failed to {operation} file {file_name}: {error}"));
 
     if error
         .downcast_ref::<io::Error>()
         .is_some_and(|error| error.kind() == io::ErrorKind::NotFound)
     {
-        AttemptOutcome::MissingSource(reason)
+        if source_is_deleted(path) {
+            AttemptOutcome::DeletedSource
+        } else {
+            AttemptOutcome::MissingSource(reason)
+        }
     } else {
         AttemptOutcome::Retry(reason)
     }
@@ -275,9 +281,14 @@ fn complete_attempt(
 
             Some(format!("Waiting for stable file {file_name}"))
         }
+        AttemptOutcome::DeletedSource => {
+            // Removing this path does not acknowledge the mail ID or block rediscovery.
+            state.remove_pending_source(&item.path);
+
+            None
+        }
         AttemptOutcome::MissingSource(reason) => {
-            // The game routinely deletes cached mail. Keep retries quiet, but retain the
-            // source because an unavailable directory can produce the same NotFound error.
+            // An unavailable directory can also produce NotFound. Retain uncertain sources.
             state.retry_upload(item, reason, now_ms);
 
             None
@@ -420,7 +431,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn missing_source_retries_quietly_and_valid_copy_acknowledges_the_id_after_restart() {
+    async fn unavailable_directory_retry_survives_restart_and_other_copy_can_upload() {
         let dir = tempfile::tempdir().expect("test directory");
         let file = StateFile::open(dir.path()).expect("state file");
         let mut state = WatcherState::new(file.load().expect("load"));
@@ -428,7 +439,8 @@ mod tests {
             .expect("mail bytes");
         let missing = source(&dir.path().join("missing/Persistent.Mail.123"), &bytes);
         let good = source(&dir.path().join("good/Persistent.Mail.123"), &bytes);
-        fs::remove_file(&missing.path).expect("source becomes temporarily unavailable");
+        fs::remove_dir_all(Path::new(&missing.path).parent().expect("source directory"))
+            .expect("directory becomes temporarily unavailable");
         state.enqueue_upload(missing.clone());
         state.enqueue_upload(good.clone());
         state.flush(&file).expect("save pending sources");
@@ -439,7 +451,7 @@ mod tests {
         state.flush(&file).expect("save metadata retry");
         drop(file);
 
-        assert!(message.is_none(), "game cache deletion is not a user-facing error");
+        assert!(message.is_none(), "unavailable cache retries stay quiet");
 
         let file = StateFile::open(dir.path()).expect("restart");
         let mut restored = WatcherState::new(file.load().expect("load"));
@@ -645,7 +657,7 @@ mod tests {
     }
 
     #[test]
-    fn source_removed_after_the_stability_check_retries_quietly() {
+    fn source_removed_after_the_stability_check_is_forgotten_quietly() {
         let dir = tempfile::tempdir().expect("test directory");
         let path = dir.path().join("Persistent.Mail.123");
         let item = source(&path, b"cached mail");
@@ -655,14 +667,91 @@ mod tests {
 
         let error = read_mail_source(&path, item.sig.as_ref().expect("original signature"))
             .expect_err("source disappeared after metadata was read");
-        let outcome = source_failure("read", "Persistent.Mail.123", error);
+        let outcome = source_failure("read", &path, error);
         let message = complete_attempt(&mut state, item, outcome, 10_000);
-        let pending = state.uploads.pending.front().expect("missing source remains pending");
 
         assert!(message.is_none());
-        assert_eq!(pending.attempts, 1);
-        assert!(pending.not_before_ms.expect("retry deadline") > 10_000);
-        assert!(pending.last_error.as_ref().expect("saved diagnostic").contains("Failed to read"));
+        assert!(state.uploads.pending.is_empty());
+        assert!(!state.is_pending(path.to_str().expect("source path")));
+        assert!(state.uploads.acknowledged.is_empty());
+        assert!(state.uploads.rejected.is_empty());
+    }
+
+    #[tokio::test]
+    async fn deleted_source_does_not_cancel_another_copy_of_the_same_mail() {
+        let dir = tempfile::tempdir().expect("test directory");
+        let missing = source(&dir.path().join("first/Persistent.Mail.123"), b"mail");
+        let other = source(&dir.path().join("second/Persistent.Mail.123"), b"mail");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(missing.clone());
+        state.enqueue_upload(other.clone());
+        fs::remove_file(&missing.path).expect("game deletes one copy");
+
+        let message =
+            process_upload(&mut state, &client(), "http://127.0.0.1:0", missing.clone(), 10_000)
+                .await;
+
+        assert!(message.is_none());
+        assert!(!state.is_pending(&missing.path));
+        assert_eq!(state.next_ready_upload(10_000).expect("other copy survives").path, other.path);
+        assert_eq!(state.uploads.pending.len(), 1);
+        assert!(state.uploads.acknowledged.is_empty());
+        assert!(state.uploads.rejected.is_empty());
+    }
+
+    #[test]
+    fn source_that_reappears_before_deletion_is_confirmed_remains_pending() {
+        let dir = tempfile::tempdir().expect("test directory");
+        let path = dir.path().join("Persistent.Mail.123");
+        let item = source(&path, b"cached mail");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item.clone());
+        fs::remove_file(&path).expect("source temporarily disappears");
+        let error = read_mail_source(&path, item.sig.as_ref().expect("signature"))
+            .expect_err("source is missing during the read");
+        source(&path, b"mail returns before the failure is classified");
+
+        let outcome = source_failure("read", &path, error);
+        let message = complete_attempt(&mut state, item.clone(), outcome, 10_000);
+
+        assert!(message.is_none());
+        assert!(state.is_pending(&item.path));
+        assert!(state.uploads.acknowledged.is_empty());
+        assert!(state.uploads.rejected.is_empty());
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn missing_file_is_retained_until_its_directory_can_be_read() {
+        use std::os::unix::fs::PermissionsExt as _;
+
+        // SAFETY: geteuid takes no arguments and has no preconditions.
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        let dir = tempfile::tempdir().expect("test directory");
+        let cache = dir.path().join("mailcache");
+        let item = source(&cache.join("Persistent.Mail.123"), b"cached mail");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item.clone());
+        fs::remove_file(&item.path).expect("source disappears");
+        let permissions = fs::metadata(&cache).expect("directory metadata").permissions();
+        fs::set_permissions(&cache, fs::Permissions::from_mode(0o100))
+            .expect("allow path lookup but deny directory listing");
+
+        let message =
+            process_upload(&mut state, &client(), "http://127.0.0.1:0", item.clone(), 10_000).await;
+        fs::set_permissions(&cache, permissions).expect("restore directory access");
+
+        assert!(message.is_none());
+        assert!(state.is_pending(&item.path));
+        let retry = state.next_ready_upload(30_000).expect("uncertain source remains queued");
+        let message =
+            process_upload(&mut state, &client(), "http://127.0.0.1:0", retry, 30_000).await;
+
+        assert!(message.is_none());
+        assert!(state.uploads.pending.is_empty());
         assert!(state.uploads.acknowledged.is_empty());
         assert!(state.uploads.rejected.is_empty());
     }

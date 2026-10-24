@@ -326,7 +326,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn deleted_mail_stays_quiet_after_restart_and_uploads_if_it_returns() {
+    async fn deleted_mail_is_forgotten_after_restart_and_rediscovered_if_it_returns() {
         let root = tempfile::tempdir().expect("fixture directory");
         let config = root.path().join("config");
         let mail = root.path().join("mail");
@@ -362,25 +362,20 @@ mod tests {
             .await
         });
 
-        wait_for_snapshot(&config, |store| {
-            store.pending.front().is_some_and(|item| item.attempts > 0)
-        })
-        .await;
+        wait_for_snapshot(&config, |store| store.pending.is_empty()).await;
         watcher.request_stop();
-        watcher.join().await.expect("stop after missing-file retry");
+        watcher.join().await.expect("stop after deleted source is removed");
 
         {
             let logs = messages.lock().expect("captured logs");
 
-            assert!(logs.iter().all(|message| !message.contains("Failed to stat")), "{logs:?}");
-            assert!(logs.iter().all(|message| !message.is_empty()));
+            assert!(logs.is_empty(), "cache deletion stays quiet: {logs:?}");
         }
 
         let file = StateFile::open(&config).expect("state after shutdown");
-        let restored = file.load().expect("saved missing-file retry");
-        let pending = restored.pending.front().expect("missing source is still pending");
+        let restored = file.load().expect("saved deletion");
 
-        assert!(pending.last_error.as_ref().expect("saved diagnostic").contains("Failed to stat"));
+        assert!(restored.pending.is_empty());
         assert!(restored.acknowledged.is_empty());
         assert!(restored.rejected.is_empty());
         drop(file);
