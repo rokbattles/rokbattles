@@ -1,12 +1,12 @@
 //! In-memory upload transitions and directory scan progress.
 //!
 //! [`WatcherState`] keeps its pending-path index in sync with [`UploadStore`] and
-//! marks persistent changes as dirty. [`WatcherState::flush`] publishes those
-//! changes; mutations alone do not update the recovery file.
+//! queues record changes for [`WatcherState::flush`]. A failed transaction leaves
+//! the changes queued; no HTTP request starts until discovery is durable.
 
 use std::{
     collections::VecDeque,
-    path::PathBuf,
+    path::{Path, PathBuf},
     time::{Duration, Instant},
 };
 
@@ -14,8 +14,7 @@ use rustc_hash::FxHashSet;
 
 use super::{
     mail::mail_id_for_path,
-    store::{QueuedUpload, RejectedUpload, StateFile, UploadStore},
-    truncate_reason,
+    store::{QueuedUpload, RejectedUpload, StoreChange, UploadDb, UploadStore},
     upload::upload_backoff,
 };
 
@@ -25,7 +24,7 @@ pub(crate) struct WatcherState {
     pub(crate) dirs_last_read: Instant,
     pending_paths: FxHashSet<String>,
     pub(crate) uploads: UploadStore,
-    dirty: bool,
+    changes: Vec<StoreChange>,
 }
 
 impl WatcherState {
@@ -40,16 +39,13 @@ impl WatcherState {
                 .unwrap_or_else(Instant::now),
             pending_paths,
             uploads,
-            dirty: false,
+            changes: Vec::new(),
         }
     }
 
-    pub(crate) fn flush(&mut self, file: &StateFile) -> anyhow::Result<()> {
-        if self.dirty {
-            file.save(&self.uploads)?;
-
-            self.dirty = false;
-        }
+    pub(crate) fn flush(&mut self, db: &UploadDb) -> anyhow::Result<()> {
+        db.commit(&self.changes)?;
+        self.changes.clear();
 
         Ok(())
     }
@@ -77,8 +73,8 @@ impl WatcherState {
 
         self.uploads.rejected.remove(&item.path);
         self.pending_paths.insert(item.path.clone());
+        self.changes.push(StoreChange::Pending(item.clone()));
         self.uploads.pending.push_back(item);
-        self.dirty = true;
     }
 
     /// Returns a copy of the next pending upload whose retry delay has elapsed.
@@ -105,15 +101,14 @@ impl WatcherState {
         if let Some(pending) =
             self.uploads.pending.iter_mut().find(|pending| pending.path == item.path)
         {
+            self.changes.push(StoreChange::Pending(item.clone()));
             *pending = item;
-            self.dirty = true;
         }
     }
 
-    pub(crate) fn retry_upload(&mut self, mut item: QueuedUpload, reason: String, now_ms: u128) {
-        item.attempts = item.attempts.saturating_add(1);
+    pub(crate) fn retry_upload(&mut self, mut item: QueuedUpload, now_ms: u128) {
+        item.attempts = item.attempts.saturating_add(1).min(10);
         item.not_before_ms = Some(now_ms.saturating_add(upload_backoff(item.attempts).as_millis()));
-        item.last_error = Some(truncate_reason(reason));
 
         self.requeue_upload(item);
     }
@@ -121,7 +116,7 @@ impl WatcherState {
     pub(crate) fn remove_pending_source(&mut self, path: &str) {
         if self.pending_paths.remove(path) {
             self.uploads.pending.retain(|item| item.path != path);
-            self.dirty = true;
+            self.changes.push(StoreChange::Remove(path.to_string()));
         }
     }
 
@@ -134,30 +129,44 @@ impl WatcherState {
         self.pending_paths.retain(|path| mail_id_for_path(path) != Some(id));
         self.uploads.pending.retain(|item| mail_id_for_path(&item.path) != Some(id));
         self.uploads.rejected.retain(|path, _| mail_id_for_path(path) != Some(id));
-        self.dirty = true;
+
+        self.changes.push(StoreChange::Acknowledge(id.to_string()));
     }
 
-    pub(crate) fn reject_upload(&mut self, item: QueuedUpload, reason: String) {
+    pub(crate) fn reject_upload(&mut self, item: QueuedUpload) {
         self.pending_paths.remove(&item.path);
         self.uploads.pending.retain(|pending| pending.path != item.path);
-        self.uploads
-            .rejected
-            .insert(item.path, RejectedUpload { sig: item.sig, reason: truncate_reason(reason) });
-        self.dirty = true;
+
+        self.changes.push(StoreChange::Rejected { path: item.path.clone(), sig: item.sig.clone() });
+        self.uploads.rejected.insert(item.path, RejectedUpload { sig: item.sig });
     }
 
     pub(crate) fn prune_removed_dirs_state(&mut self, active_dirs: &[PathBuf]) -> usize {
         let previous = self.uploads.pending.len() + self.uploads.rejected.len();
 
         // Removing a watched directory deliberately cancels its sources, not its acknowledged IDs.
-        self.uploads.pending.retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
-        self.uploads.rejected.retain(|path, _| path_belongs_to_any_active_dir(path, active_dirs));
+        self.uploads.pending.retain(|item| {
+            let retain = path_belongs_to_any_active_dir(&item.path, active_dirs);
+
+            if !retain {
+                self.changes.push(StoreChange::Remove(item.path.clone()));
+            }
+
+            retain
+        });
+
+        self.uploads.rejected.retain(|path, _| {
+            let retain = path_belongs_to_any_active_dir(path, active_dirs);
+
+            if !retain {
+                self.changes.push(StoreChange::Remove(path.clone()));
+            }
+
+            retain
+        });
         self.pending_paths.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
 
-        let removed = previous - self.uploads.pending.len() - self.uploads.rejected.len();
-        self.dirty |= removed > 0;
-
-        removed
+        previous - self.uploads.pending.len() - self.uploads.rejected.len()
     }
 
     pub(crate) fn rate_limit_remaining_ms(&mut self, now_ms: u128) -> Option<u128> {
@@ -165,7 +174,7 @@ impl WatcherState {
 
         if until <= now_ms {
             self.uploads.api_backoff_until_ms = None;
-            self.dirty = true;
+            self.changes.push(StoreChange::Backoff(None));
 
             return None;
         }
@@ -173,14 +182,14 @@ impl WatcherState {
         Some(until.saturating_sub(now_ms))
     }
 
-    pub(crate) fn extend_rate_limit(&mut self, now_ms: u128, backoff: std::time::Duration) -> bool {
+    pub(crate) fn extend_rate_limit(&mut self, now_ms: u128, backoff: Duration) -> bool {
         let until = now_ms.saturating_add(backoff.as_millis());
 
         match self.uploads.api_backoff_until_ms {
             Some(existing) if existing >= until => false,
             _ => {
                 self.uploads.api_backoff_until_ms = Some(until);
-                self.dirty = true;
+                self.changes.push(StoreChange::Backoff(Some(until)));
 
                 true
             }
@@ -189,14 +198,12 @@ impl WatcherState {
 }
 
 fn path_belongs_to_any_active_dir(path: &str, active_dirs: &[PathBuf]) -> bool {
-    let path = PathBuf::from(path);
-
-    path.parent().is_some_and(|parent| active_dirs.iter().any(|dir| dir == parent))
+    Path::new(path).parent().is_some_and(|parent| active_dirs.iter().any(|dir| dir == parent))
 }
 
 #[cfg(test)]
 mod tests {
-    use std::{fs, time::Duration};
+    use std::time::Duration;
 
     use super::{super::store::FileSig, *};
 
@@ -206,26 +213,25 @@ mod tests {
             sig: Some(FileSig { size: 10, modified: 20 }),
             attempts: 0,
             not_before_ms: None,
-            last_error: None,
         }
     }
 
     #[test]
     fn discovery_and_in_flight_work_reload_as_pending() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item("Persistent.Mail.123"));
         state.enqueue_upload(item("Persistent.Mail.123"));
-        state.flush(&file).expect("persist discovery before request");
+        state.flush(&db).expect("persist discovery before request");
 
         let in_flight = state.next_ready_upload(1000).expect("select upload");
-        state.flush(&file).expect("even a flush during the request retains pending work");
+        state.flush(&db).expect("even a flush during the request retains pending work");
         drop(state);
-        drop(file);
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart during request");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart during request");
+        let mut restored = WatcherState::new(db.load().expect("load"));
 
         assert_eq!(restored.uploads.pending.len(), 1);
         assert_eq!(
@@ -238,28 +244,28 @@ mod tests {
     #[test]
     fn unsaved_acknowledgement_retries_but_saved_acknowledgement_covers_all_copies() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item("first/Persistent.Mail.123"));
         state.enqueue_upload(item("second/Persistent.Mail.123"));
-        state.flush(&file).expect("persist pending sources");
+        state.flush(&db).expect("persist pending sources");
 
         state.acknowledge_upload("first/Persistent.Mail.123");
         drop(state);
-        drop(file);
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart before acknowledgement write");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart before acknowledgement write");
+        let mut restored = WatcherState::new(db.load().expect("load"));
 
         assert_eq!(restored.uploads.pending.len(), 2);
         assert!(!restored.is_acknowledged("second/Persistent.Mail.123"));
 
         restored.acknowledge_upload("second/Persistent.Mail.123");
-        restored.flush(&file).expect("persist acknowledgement");
-        drop(file);
+        restored.flush(&db).expect("persist acknowledgement");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart after acknowledgement write");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart after acknowledgement write");
+        let mut restored = WatcherState::new(db.load().expect("load"));
         restored.enqueue_upload(item("third/Persistent.Mail.123"));
 
         assert!(restored.uploads.pending.is_empty());
@@ -268,22 +274,18 @@ mod tests {
     }
 
     #[test]
-    fn retry_reason_deadline_and_rate_limit_survive_graceful_pause() {
+    fn retry_deadline_and_rate_limit_survive_graceful_pause() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item("Persistent.Mail.123"));
-        state.retry_upload(
-            item("Persistent.Mail.123"),
-            "temporarily unavailable".to_string(),
-            1000,
-        );
+        state.retry_upload(item("Persistent.Mail.123"), 1000);
         state.extend_rate_limit(1000, Duration::from_secs(7));
-        state.flush(&file).expect("final flush below all former batching thresholds");
-        drop(file);
+        state.flush(&db).expect("save retries and rate limit before pause");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("resume watcher");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("resume watcher");
+        let mut restored = WatcherState::new(db.load().expect("load"));
 
         assert!(restored.next_ready_upload(2999).is_none());
         assert_eq!(restored.rate_limit_remaining_ms(1000), Some(7000));
@@ -291,36 +293,83 @@ mod tests {
         let ready = restored.next_ready_upload(3000).expect("retry after saved deadline");
 
         assert_eq!(ready.attempts, 1);
-        assert_eq!(ready.last_error.as_deref(), Some("temporarily unavailable"));
     }
 
     #[test]
-    fn failed_flush_reports_error_and_preserves_pending_recovery_and_dirty_acknowledgement() {
+    fn repeated_failures_keep_a_bounded_retry_count_across_restart() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item("Persistent.Mail.123"));
-        state.flush(&file).expect("persist pending upload");
+        let mut now_ms = 1000;
+
+        for _ in 0..100 {
+            let item = state.next_ready_upload(now_ms).expect("retry ready");
+            state.retry_upload(item, now_ms);
+            now_ms += 300_000;
+        }
+
+        state.flush(&db).expect("persist bounded attempts");
+        drop(db);
+
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(db.load().expect("load"));
+        let ready = restored.next_ready_upload(now_ms).expect("retry after maximum delay");
+
+        assert_eq!(ready.attempts, 10);
+        assert_eq!(ready.not_before_ms, Some(now_ms));
+    }
+
+    #[test]
+    fn expired_rate_limit_is_cleared_on_disk() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
+        state.extend_rate_limit(1000, Duration::from_secs(7));
+        state.flush(&db).expect("persist rate limit");
+
+        assert_eq!(state.rate_limit_remaining_ms(7999), Some(1));
+        assert_eq!(state.rate_limit_remaining_ms(8000), None);
+
+        state.flush(&db).expect("persist expiry");
+        drop(db);
+
+        let db = UploadDb::open(dir.path()).expect("restart");
+
+        assert!(db.load().expect("expired backoff").api_backoff_until_ms.is_none());
+    }
+
+    #[test]
+    fn failed_flush_preserves_pending_recovery_and_retries_unsaved_acknowledgement() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
+        state.enqueue_upload(item("Persistent.Mail.123"));
+        state.flush(&db).expect("persist pending upload");
         state.acknowledge_upload("Persistent.Mail.123");
 
-        // A destination that cannot be replaced injects a real filesystem write failure.
-        let snapshot = dir.path().join("upload-state-v1.json");
-        let recovery = dir.path().join("recovery.json");
-        fs::rename(&snapshot, &recovery).expect("retain previous snapshot");
-        fs::create_dir(&snapshot).expect("block replacement");
+        let fault =
+            rusqlite::Connection::open(dir.path().join("local.db")).expect("fault connection");
+        fault
+            .execute_batch(
+                "CREATE TRIGGER fail_ack BEFORE INSERT ON acknowledged
+                 BEGIN
+                    SELECT RAISE(ABORT, 'injected write failure');
+                 END;",
+            )
+            .expect("inject a transaction failure");
 
-        assert!(state.flush(&file).is_err());
+        assert!(state.flush(&db).is_err());
 
-        fs::remove_dir(&snapshot).expect("restore writable destination");
-        fs::rename(&recovery, &snapshot).expect("restore previous snapshot");
+        fault.execute_batch("DROP TRIGGER fail_ack;").expect("restore writes");
 
-        let interrupted = file.load().expect("recover previous snapshot after failure");
+        let interrupted = db.load().expect("recover committed state after failure");
 
         assert_eq!(interrupted.pending.len(), 1);
         assert!(interrupted.acknowledged.is_empty());
 
-        state.flush(&file).expect("dirty acknowledgement is retried");
-        let completed = file.load().expect("saved acknowledgement");
+        state.flush(&db).expect("unsaved acknowledgement is retried");
+        let completed = db.load().expect("saved acknowledgement");
 
         assert!(completed.pending.is_empty());
         assert!(completed.acknowledged.contains("123"));
@@ -329,16 +378,16 @@ mod tests {
     #[test]
     fn rejected_source_does_not_block_other_copies_and_changes_allow_retry() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item("first/Persistent.Mail.123"));
         state.enqueue_upload(item("second/Persistent.Mail.123"));
-        state.reject_upload(item("first/Persistent.Mail.123"), "decode failed".to_string());
-        state.flush(&file).expect("persist rejection");
-        drop(file);
+        state.reject_upload(item("first/Persistent.Mail.123"));
+        state.flush(&db).expect("persist rejection");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(db.load().expect("load"));
         restored.enqueue_upload(item("first/Persistent.Mail.123"));
 
         assert_eq!(restored.uploads.pending.len(), 1);
@@ -352,8 +401,8 @@ mod tests {
                 .rejected
                 .get("first/Persistent.Mail.123")
                 .expect("recorded rejection")
-                .reason,
-            "decode failed"
+                .sig,
+            Some(FileSig { size: 10, modified: 20 })
         );
         assert!(restored.uploads.acknowledged.is_empty());
 
@@ -368,21 +417,21 @@ mod tests {
     #[test]
     fn removing_directory_cancels_its_sources_but_preserves_other_work_and_acknowledgements() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item("active/Persistent.Mail.1"));
         state.enqueue_upload(item("removed/Persistent.Mail.1"));
         state.enqueue_upload(item("removed/Persistent.Mail.2"));
         state.enqueue_upload(item("removed/Persistent.Mail.3"));
-        state.reject_upload(item("removed/Persistent.Mail.2"), "unsupported".to_string());
+        state.reject_upload(item("removed/Persistent.Mail.2"));
         state.acknowledge_upload("removed/Persistent.Mail.3");
 
         state.prune_removed_dirs_state(&[PathBuf::from("active")]);
-        state.flush(&file).expect("persist deliberate cancellation");
-        drop(file);
+        state.flush(&db).expect("persist deliberate cancellation");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(db.load().expect("load"));
 
         assert_eq!(restored.uploads.pending.len(), 1);
         assert_eq!(
@@ -393,8 +442,8 @@ mod tests {
         assert!(restored.is_acknowledged("elsewhere/Persistent.Mail.3"));
 
         restored.prune_removed_dirs_state(&[]);
-        restored.flush(&file).expect("explicit removal of last directory");
+        restored.flush(&db).expect("explicit removal of last directory");
 
-        assert!(file.load().expect("cancelled work saved").pending.is_empty());
+        assert!(db.load().expect("cancelled work saved").pending.is_empty());
     }
 }

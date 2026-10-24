@@ -26,8 +26,8 @@ pub(crate) enum UploadStatus {
 impl UploadStatus {
     pub(crate) fn log_message(self, file_name: &str) -> String {
         match self {
-            UploadStatus::Stored => format!("Stored new mail {}", file_name),
-            UploadStatus::Skipped => format!("Skipped mail {} (ID already stored)", file_name),
+            UploadStatus::Stored => format!("Stored new mail {file_name}"),
+            UploadStatus::Skipped => format!("Skipped mail {file_name} (ID already stored)"),
         }
     }
 }
@@ -58,9 +58,16 @@ impl UploadApiError {
         }
     }
 
-    pub(crate) fn retry_after(&self) -> Option<Duration> {
+    /// Returns a positive server delay whose deadline fits SQLite's signed milliseconds.
+    ///
+    /// Unusable headers are ignored so the caller can use exponential backoff.
+    pub(crate) fn retry_after(&self, now_ms: u128) -> Option<Duration> {
         match self {
-            Self::Rejected { retry_after, .. } => *retry_after,
+            Self::Rejected { retry_after: Some(delay), .. } if !delay.is_zero() => {
+                i64::try_from(now_ms.checked_add(delay.as_millis())?).ok()?;
+
+                Some(*delay)
+            }
             _ => None,
         }
     }
@@ -91,7 +98,6 @@ pub(crate) async fn post_file_to_api(
     let form = Form::new().part("file", part);
 
     let resp = client.post(api_url).multipart(form).send().await?;
-
     let status = resp.status();
 
     if !status.is_success() {
@@ -100,7 +106,7 @@ pub(crate) async fn post_file_to_api(
             .get(reqwest::header::RETRY_AFTER)
             .and_then(|h| h.to_str().ok())
             .and_then(|s| s.parse::<u64>().ok())
-            .map(std::time::Duration::from_secs);
+            .map(Duration::from_secs);
 
         let message = read_response_body(resp)
             .await
@@ -166,7 +172,7 @@ pub(super) mod tests {
     use crate::watcher::{
         apply_upload_result,
         state::WatcherState,
-        store::{FileSig, QueuedUpload, UploadStore},
+        store::{FileSig, QueuedUpload, UploadDb, UploadStore},
     };
 
     pub(in crate::watcher) async fn respond_once(
@@ -247,7 +253,6 @@ pub(super) mod tests {
             path: "Persistent.Mail.123".to_string(),
             sig: Some(FileSig { size: 1, modified: 0 }),
             attempts: 0,
-            last_error: None,
             not_before_ms: None,
         });
 
@@ -394,7 +399,7 @@ pub(super) mod tests {
     }
 
     #[tokio::test]
-    async fn server_failure_remains_queued_and_preserves_rejection_reason() {
+    async fn server_failure_remains_queued_and_logs_rejection_reason() {
         let (url, server) = respond_once(response(
             "502 Bad Gateway",
             r#"{"error":"clamav scan failed: unavailable"}"#,
@@ -433,6 +438,49 @@ pub(super) mod tests {
     }
 
     #[tokio::test]
+    async fn retry_after_preserves_valid_delays_and_falls_back_when_deadline_cannot_be_stored() {
+        for status in ["429 Too Many Requests", "503 Service Unavailable"] {
+            for (header, expected_delay_ms) in [
+                ("3600", 3_600_000),
+                ("9223372036854775", 2000),
+                ("9223372036854776", 2000),
+                ("18446744073709551615", 2000),
+                ("18446744073709551616", 2000),
+            ] {
+                let dir = tempfile::tempdir().expect("database directory");
+                let db = UploadDb::open(dir.path()).expect("upload database");
+                let (mut state, item) = pending_upload();
+                state.flush(&db).expect("persist pending source");
+                let (url, server) = respond_once(format!(
+                    "HTTP/1.1 {status}\r\nRetry-After: {header}\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+                ))
+                .await;
+
+                let result =
+                    post_file_to_api(&client(), &url, "Persistent.Mail.123", vec![1]).await;
+                server.await.expect("API task");
+                apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
+                state.flush(&db).expect("server delay must not prevent saving upload state");
+                drop(db);
+
+                let db = UploadDb::open(dir.path()).expect("restart");
+                let store = db.load().expect("recover retry");
+                let retry = store.pending.front().expect("retryable source retained");
+                let deadline = 1000 + expected_delay_ms;
+
+                assert_eq!(retry.not_before_ms, Some(deadline), "{status}, Retry-After: {header}");
+                assert_eq!(retry.attempts, 1);
+                assert!(store.acknowledged.is_empty());
+                assert!(store.rejected.is_empty());
+                assert_eq!(
+                    store.api_backoff_until_ms,
+                    status.starts_with("429").then_some(deadline)
+                );
+            }
+        }
+    }
+
+    #[tokio::test]
     async fn zero_retry_after_uses_existing_backoff() {
         let (url, server) = respond_once(
             "HTTP/1.1 429 Too Many Requests\r\nRetry-After: 0\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
@@ -451,7 +499,7 @@ pub(super) mod tests {
     }
 
     #[tokio::test]
-    async fn input_rejections_preserve_reason_without_retry_or_success() {
+    async fn input_rejections_log_reason_without_retry_or_success() {
         for (status, reason) in [
             ("400 Bad Request", "mail id mismatch"),
             ("422 Unprocessable Entity", "unsupported mail type"),

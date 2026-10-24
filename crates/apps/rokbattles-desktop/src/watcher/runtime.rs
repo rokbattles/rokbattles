@@ -1,6 +1,6 @@
 //! Runs the watcher and coordinates directory scans with one upload at a time.
 //!
-//! The watcher owns its mutable state and holds the snapshot lock until shutdown
+//! The watcher owns its mutable state and holds the database lock until shutdown
 //! finishes. Upload preparation and HTTP requests run separately; only this owner
 //! applies their results. Pending work is saved before starting a request.
 //!
@@ -33,7 +33,7 @@ use super::{
         request_reconciliation, sync_fs_watches,
     },
     state::WatcherState,
-    store::StateFile,
+    store::UploadDb,
 };
 
 pub(crate) enum TaskEvent {
@@ -142,8 +142,8 @@ async fn run_watcher(
     mut shutdown: watch::Receiver<bool>,
     ready: oneshot::Sender<()>,
 ) -> anyhow::Result<()> {
-    let state_file = StateFile::open(&config_dir)?;
-    let mut state = WatcherState::new(state_file.load()?);
+    let db = UploadDb::open(&config_dir)?;
+    let mut state = WatcherState::new(db.load()?);
     let (fs_tx, mut fs_rx) = mpsc::channel::<PathBuf>(4096);
     let rescan_requested = Arc::new(AtomicBool::new(false));
 
@@ -194,7 +194,7 @@ async fn run_watcher(
         };
 
         // Discovery and previous outcomes must be durable before another request starts.
-        if let Err(error) = state.flush(&state_file) {
+        if let Err(error) = state.flush(&db) {
             break Err(error.context("Watcher stopped; failed to save upload state"));
         }
 
@@ -258,7 +258,7 @@ async fn run_watcher(
         }
     }
 
-    state.flush(&state_file).context("Failed to save upload state during shutdown")?;
+    state.flush(&db).context("Failed to save upload state during shutdown")?;
 
     result
 }
@@ -308,11 +308,10 @@ mod tests {
         })
     }
 
-    async fn wait_for_snapshot(dir: &Path, matches: impl Fn(&UploadStore) -> bool) -> UploadStore {
+    async fn wait_for_uploads(dir: &Path, matches: impl Fn(&UploadStore) -> bool) -> UploadStore {
         tokio::time::timeout(Duration::from_secs(5), async {
             loop {
-                if let Ok(bytes) = fs::read(dir.join("upload-state-v1.json"))
-                    && let Ok(store) = serde_json::from_slice::<UploadStore>(&bytes)
+                if let Ok(store) = UploadDb::read_for_test(dir)
                     && matches(&store)
                 {
                     return store;
@@ -326,23 +325,59 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn first_sqlite_start_reprocesses_mail_despite_legacy_acknowledgements() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let config = root.path().join("config");
+        let mail = root.path().join("mail");
+
+        fs::create_dir_all(&config).expect("config directory");
+        write_mail(&mail, 1);
+
+        let legacy_path = config.join("upload-state-v1.json");
+        let legacy = serde_json::to_vec(&json!({
+            "version": 1,
+            "acknowledged": ["1"],
+            "pending": [],
+            "rejected": {},
+            "api_backoff_until_ms": null,
+        }))
+        .expect("legacy history");
+        fs::write(&legacy_path, &legacy).expect("previously acknowledged mail");
+
+        let (url, server) =
+            respond_once(response("200 OK", r#"{"status":"skipped","mail_id":"1"}"#)).await;
+
+        let mut watcher = start_fixture(config.clone(), mail, url);
+        let completed = wait_for_uploads(&config, |store| store.acknowledged.contains("1")).await;
+        watcher.request_stop();
+        watcher.join().await.expect("stop after fresh processing");
+        server.await.expect("old acknowledgement must not suppress upload");
+
+        assert!(completed.pending.is_empty());
+        assert_eq!(fs::read(&legacy_path).expect("legacy history retained"), legacy);
+
+        let db = UploadDb::open(&config).expect("restart with SQLite history");
+
+        assert!(db.load().expect("durable acknowledgement").acknowledged.contains("1"));
+    }
+
+    #[tokio::test]
     async fn deleted_mail_is_forgotten_after_restart_and_rediscovered_if_it_returns() {
         let root = tempfile::tempdir().expect("fixture directory");
         let config = root.path().join("config");
         let mail = root.path().join("mail");
         write_mail(&mail, 1);
         let path = mail.join("Persistent.Mail.1");
-        let mut store = UploadStore::default();
-        store.pending.push_back(QueuedUpload {
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(QueuedUpload {
             path: path.to_string_lossy().into_owned(),
             sig: Some(file_sig(&fs::metadata(&path).expect("source metadata")).expect("signature")),
             attempts: 0,
             not_before_ms: None,
-            last_error: None,
         });
-        let file = StateFile::open(&config).expect("state file");
-        file.save(&store).expect("save queued source");
-        drop(file);
+        let db = UploadDb::open(&config).expect("upload database");
+        state.flush(&db).expect("save queued source");
+        drop(db);
         fs::remove_file(&path).expect("game deletes cached mail before restart");
 
         let messages = Arc::new(Mutex::new(Vec::new()));
@@ -362,7 +397,7 @@ mod tests {
             .await
         });
 
-        wait_for_snapshot(&config, |store| store.pending.is_empty()).await;
+        wait_for_uploads(&config, |store| store.pending.is_empty()).await;
         watcher.request_stop();
         watcher.join().await.expect("stop after deleted source is removed");
 
@@ -372,19 +407,19 @@ mod tests {
             assert!(logs.is_empty(), "cache deletion stays quiet: {logs:?}");
         }
 
-        let file = StateFile::open(&config).expect("state after shutdown");
-        let restored = file.load().expect("saved deletion");
+        let db = UploadDb::open(&config).expect("state after shutdown");
+        let restored = db.load().expect("saved deletion");
 
         assert!(restored.pending.is_empty());
         assert!(restored.acknowledged.is_empty());
         assert!(restored.rejected.is_empty());
-        drop(file);
+        drop(db);
 
         write_mail(&mail, 1);
         let (url, server) =
             respond_once(response("201 Created", r#"{"status":"stored","mail_id":"1"}"#)).await;
         let mut watcher = start_fixture(config.clone(), mail, url);
-        let completed = wait_for_snapshot(&config, |store| store.acknowledged.contains("1")).await;
+        let completed = wait_for_uploads(&config, |store| store.acknowledged.contains("1")).await;
         watcher.request_stop();
         watcher.join().await.expect("stop after restored source uploads");
         server.await.expect("restored source reaches ingress");
@@ -417,7 +452,7 @@ mod tests {
             .expect("request signal");
 
         write_mail(&mail, 2);
-        wait_for_snapshot(&config, |store| store.pending.len() == 2).await;
+        wait_for_uploads(&config, |store| store.pending.len() == 2).await;
         tokio::time::timeout(Duration::from_millis(30), listener.accept())
             .await
             .expect_err("only one upload can be in flight");
@@ -430,8 +465,8 @@ mod tests {
         server.abort();
         server.await.expect_err("fixture server cancelled");
 
-        let file = StateFile::open(&config).expect("joined watcher released its lock");
-        let restored = file.load().expect("durable pending work");
+        let db = UploadDb::open(&config).expect("joined watcher released its lock");
+        let restored = db.load().expect("durable pending work");
 
         assert_eq!(restored.pending.len(), 2);
         assert!(restored.acknowledged.is_empty());
@@ -471,7 +506,7 @@ mod tests {
             let response_ms = now_epoch_ms();
             release.send(()).expect("release delayed failure");
 
-            let store = wait_for_snapshot(&config, |store| {
+            let store = wait_for_uploads(&config, |store| {
                 store.pending.front().is_some_and(|item| item.attempts == 1)
             })
             .await;
