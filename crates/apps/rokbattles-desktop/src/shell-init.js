@@ -29,15 +29,6 @@ if (window.location.origin === "__ROKBATTLES_APP_ORIGIN__" && window.top === win
         forceDark();
       }
     }).observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style"] });
-
-    const style = document.createElement("style");
-    // WebKit does not use positioned table rows as containing blocks. Anchor
-    // each KvK banner to its cell so it cannot grow to the entire page height.
-    style.textContent = `
-      td[style*="--kvk-banner"] { position: relative !important; isolation: isolate; }
-      td[style*="--kvk-banner"]::before { width: 24rem; }
-    `;
-    document.head.append(style);
   };
 
   if (document.readyState === "loading") {
