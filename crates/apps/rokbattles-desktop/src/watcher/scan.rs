@@ -232,7 +232,7 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         return;
     }
 
-    // Reject known non-regular files. If metadata is unavailable, upload preparation
+    // Skip known non-regular files. If metadata is unavailable, upload preparation
     // checks the source again before reading it.
     let sig = match fs::symlink_metadata(&path) {
         Ok(meta) if !meta.is_file() => return,
@@ -249,7 +249,6 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         path: key.to_string(),
         sig,
         attempts: 0,
-        last_error: None,
         not_before_ms: Some(now_ms.saturating_add(750)),
     });
 }
@@ -267,17 +266,20 @@ pub(crate) fn sync_fs_watches(
     let desired: FxHashSet<PathBuf> = desired_dirs.iter().cloned().collect();
 
     for dir in watched_dirs.difference(&desired).cloned().collect::<Vec<_>>() {
-        if let Err(e) = watcher.unwatch(&dir) {
-            log(format!("Failed to unwatch {:?}: {}", dir, e));
+        if let Err(error) = watcher.unwatch(&dir) {
+            log(format!("Failed to unwatch {dir:?}: {error}"));
         }
+
         watched_dirs.remove(&dir);
     }
 
     for dir in desired.difference(watched_dirs).cloned().collect::<Vec<_>>() {
-        if let Err(e) = watcher.watch(&dir, RecursiveMode::NonRecursive) {
-            log(format!("Failed to watch {:?}: {}", dir, e));
+        if let Err(error) = watcher.watch(&dir, RecursiveMode::NonRecursive) {
+            log(format!("Failed to watch {dir:?}: {error}"));
+
             continue;
         }
+
         watched_dirs.insert(dir);
     }
 }
@@ -291,7 +293,7 @@ mod tests {
     use super::*;
     use crate::watcher::{
         apply_upload_result, process_upload,
-        store::{StateFile, UploadStore},
+        store::{UploadDb, UploadStore},
         upload::{
             UploadStatus,
             tests::{client, respond_once, response},
@@ -398,8 +400,8 @@ mod tests {
         let path = write_mail(&mail_dir, "123", b"partially written");
         let start = Instant::now();
         let mut state = new_state(vec![mail_dir.clone()], start);
-        let state_file = StateFile::open(dir.path()).expect("state file");
-        state_file.load().expect("initial snapshot");
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        db.load().expect("initial upload state");
 
         discover_source(&mut state, path.clone(), 1000);
         let partial = state.next_ready_upload(2000).expect("event discovered upload");
@@ -407,12 +409,12 @@ mod tests {
 
         assert_eq!(state.uploads.rejected.len(), 1, "stable incomplete bytes were rejected");
 
-        state.flush(&state_file).expect("persist rejection");
+        state.flush(&db).expect("persist rejection");
         drop(state);
-        drop(state_file);
+        drop(db);
 
-        let state_file = StateFile::open(dir.path()).expect("restart");
-        let mut state = WatcherState::new(state_file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let mut state = WatcherState::new(db.load().expect("load"));
         set_watched_dirs(&mut state, vec![mail_dir.clone()], start);
         reconcile_next_directory(&mut state, start, 3000).await.expect("unchanged rejected mail");
 
@@ -453,7 +455,7 @@ mod tests {
         let path = write_mail(dir.path(), "99999", b"partial");
         discover_source(&mut state, path.clone(), 1000);
         let incomplete = state.next_ready_upload(2000).expect("event-discovered input");
-        state.reject_upload(incomplete, "decode failed".to_string());
+        state.reject_upload(incomplete);
 
         // A complete pass must reconsider this changed source, regardless of iteration order.
         write_mail(dir.path(), "99999", b"now complete and available");
@@ -633,7 +635,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn deleted_files_leave_no_transient_history_after_the_pass_finishes() {
+    async fn completed_scan_keeps_missing_pending_sources_until_deletion_is_confirmed() {
         let dir = tempfile::tempdir().expect("mail directory");
         let path = write_mail(dir.path(), "123", b"mail");
         let start = Instant::now();
@@ -649,7 +651,7 @@ mod tests {
         assert_eq!(
             state.uploads.pending.len(),
             1,
-            "durable source must survive temporary deletion"
+            "upload preparation must confirm deletion before removing pending work"
         );
         assert!(state.is_pending(path.to_str().expect("path")));
 
@@ -697,11 +699,11 @@ mod tests {
                 let mail_dir = root.path().join("mail");
                 let source = write_mail(&mail_dir, "123", b"pending mail");
                 let now = Instant::now();
-                let state_file = StateFile::open(root.path()).expect("upload state");
-                state_file.load().expect("initial upload state");
+                let db = UploadDb::open(root.path()).expect("upload state");
+                db.load().expect("initial upload state");
                 let mut state = new_state(vec![mail_dir.clone()], now);
                 discover_source(&mut state, source.clone(), 1000);
-                state.flush(&state_file).expect("pending upload persisted before failure");
+                state.flush(&db).expect("pending upload persisted before failure");
 
                 let path = root.path().join("config.json");
                 let store = ConfigStore::new(path.clone());
@@ -720,7 +722,7 @@ mod tests {
                     refresh_watched_dirs(&mut state, now, &read_dirs, &|_| {});
                     fs::remove_file(&path).expect("inject settings failure");
                 } else {
-                    state = WatcherState::new(state_file.load().expect("recover pending upload"));
+                    state = WatcherState::new(db.load().expect("recover pending upload"));
                 }
 
                 match failure {
@@ -733,8 +735,8 @@ mod tests {
                 }
 
                 refresh_watched_dirs(&mut state, now + Duration::from_secs(2), &read_dirs, &|_| {});
-                state.flush(&state_file).expect("persist after failed refresh");
-                let recovered = state_file.load().expect("pending work on disk");
+                state.flush(&db).expect("persist after failed refresh");
+                let recovered = db.load().expect("pending work on disk");
 
                 assert_eq!(state.uploads.pending.len(), 1, "{failure}, running={running}");
                 assert_eq!(recovered.pending.len(), 1);
@@ -752,12 +754,12 @@ mod tests {
         let mail_dir = root.path().join("mail");
         let source = write_mail(&mail_dir, "123", b"pending mail");
         let now = Instant::now();
-        let state_file = StateFile::open(root.path()).expect("upload state");
-        state_file.load().expect("initial upload state");
+        let db = UploadDb::open(root.path()).expect("upload state");
+        db.load().expect("initial upload state");
         let mut state = new_state(vec![mail_dir], now);
         discover_source(&mut state, source, 1000);
-        state.flush(&state_file).expect("pending work");
-        state = WatcherState::new(state_file.load().expect("recover pending work"));
+        state.flush(&db).expect("pending work");
+        state = WatcherState::new(db.load().expect("recover pending work"));
         let path = root.path().join("config.json");
         let store = ConfigStore::new(path.clone());
         let read_dirs = || {
@@ -801,10 +803,10 @@ mod tests {
             &read_after_restart,
             &|line| logs.borrow_mut().push(line),
         );
-        state.flush(&state_file).expect("save deliberate cancellation");
+        state.flush(&db).expect("save deliberate cancellation");
 
         assert!(state.uploads.pending.is_empty());
-        assert!(state_file.load().expect("durable cancellation").pending.is_empty());
+        assert!(db.load().expect("durable cancellation").pending.is_empty());
         assert!(logs.borrow().iter().any(|line| line.contains("Cancelled 1 source")));
     }
 

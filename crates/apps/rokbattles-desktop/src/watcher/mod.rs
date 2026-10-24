@@ -32,13 +32,13 @@ pub(crate) use self::runtime::{WatcherTask, spawn_watcher};
 use self::{
     mail::file_name_for_upload,
     state::WatcherState,
-    store::{FileSig, QueuedUpload, StateFile, file_sig, source_is_deleted},
+    store::{FileSig, QueuedUpload, UploadDb, file_sig, source_is_deleted},
     upload::{UploadApiError, UploadStatus, post_file_to_api, upload_backoff},
 };
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
-// Diagnostics and snapshot validation must enforce the same persisted byte limit.
+// Bound failure messages sent to the webview; error text is not persisted.
 const MAX_REASON_BYTES: usize = 2048;
 
 #[derive(Debug, Clone, Serialize)]
@@ -83,10 +83,14 @@ fn now_epoch_ms() -> u128 {
 
 /// Clears upload history and pending work so watched directories can be reprocessed.
 ///
-/// Call after the watcher has finished. Returns an error if the state-file lock is held.
-/// Invalid recovery data returns an error and is retained for inspection.
+/// Call after the watcher has finished. The database schema and version are retained.
+///
+/// # Errors
+///
+/// Returns an error if the watcher lock is held or the database cannot be opened,
+/// validated, or updated. Invalid contents are retained for inspection.
 pub fn reset_upload_state(app: &AppHandle) -> anyhow::Result<()> {
-    StateFile::for_app(app)?.reset()
+    UploadDb::for_app(app)?.reset()
 }
 
 fn truncate_reason(mut reason: String) -> String {
@@ -122,15 +126,13 @@ fn apply_upload_result(
             let reason = truncate_reason(error.to_string());
 
             if error.is_retryable() {
-                item.attempts = item.attempts.saturating_add(1);
+                item.attempts = item.attempts.saturating_add(1).min(10);
 
-                let backoff = error
-                    .retry_after()
-                    .filter(|delay| !delay.is_zero())
-                    .unwrap_or_else(|| upload_backoff(item.attempts));
+                let backoff =
+                    error.retry_after(now_ms).unwrap_or_else(|| upload_backoff(item.attempts));
 
                 item.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
-                item.last_error = Some(reason.clone());
+
                 state.requeue_upload(item);
 
                 if error.is_rate_limited() && state.extend_rate_limit(now_ms, backoff) {
@@ -139,7 +141,7 @@ fn apply_upload_result(
                     return format!("Rate limited by API (429). Pausing uploads for {wait_secs}s.");
                 }
             } else {
-                state.reject_upload(item, reason.clone());
+                state.reject_upload(item);
             }
 
             truncate_reason(format!("Failed to upload {file_name}: {reason}"))
@@ -150,7 +152,7 @@ fn apply_upload_result(
 enum AttemptOutcome {
     Waiting(FileSig),
     DeletedSource,
-    MissingSource(String),
+    MissingSource,
     Retry(String),
     Rejected(String),
     Response(Result<UploadStatus, UploadApiError>),
@@ -240,7 +242,7 @@ fn source_failure(operation: &str, path: &Path, error: anyhow::Error) -> Attempt
         if source_is_deleted(path) {
             AttemptOutcome::DeletedSource
         } else {
-            AttemptOutcome::MissingSource(reason)
+            AttemptOutcome::MissingSource
         }
     } else {
         AttemptOutcome::Retry(reason)
@@ -262,8 +264,7 @@ fn complete_attempt(
             && error.is_rate_limited()
         {
             let delay = error
-                .retry_after()
-                .filter(|delay| !delay.is_zero())
+                .retry_after(now_ms)
                 .unwrap_or_else(|| upload_backoff(item.attempts.saturating_add(1)));
 
             state.extend_rate_limit(now_ms, delay);
@@ -276,7 +277,7 @@ fn complete_attempt(
         AttemptOutcome::Waiting(sig) => {
             item.sig = Some(sig);
             item.not_before_ms = Some(now_ms.saturating_add(750));
-            item.last_error = Some("Waiting for file to stop changing".to_string());
+
             state.requeue_upload(item);
 
             Some(format!("Waiting for stable file {file_name}"))
@@ -287,20 +288,20 @@ fn complete_attempt(
 
             None
         }
-        AttemptOutcome::MissingSource(reason) => {
+        AttemptOutcome::MissingSource => {
             // An unavailable directory can also produce NotFound. Retain uncertain sources.
-            state.retry_upload(item, reason, now_ms);
+            state.retry_upload(item, now_ms);
 
             None
         }
         AttemptOutcome::Retry(reason) => {
             let reason = truncate_reason(reason);
-            state.retry_upload(item, reason.clone(), now_ms);
+            state.retry_upload(item, now_ms);
 
             Some(reason)
         }
         AttemptOutcome::Rejected(reason) => {
-            state.reject_upload(item, reason.clone());
+            state.reject_upload(item);
 
             Some(reason)
         }
@@ -395,46 +396,56 @@ mod tests {
             sig: Some(file_sig(&fs::metadata(path).expect("source metadata")).expect("signature")),
             attempts: 0,
             not_before_ms: None,
-            last_error: None,
         }
     }
 
     #[test]
     fn removed_source_cannot_reappear_from_a_late_response_but_rate_limits_still_apply() {
-        let dir = tempfile::tempdir().expect("fixture directory");
-        let item = source(&dir.path().join("Persistent.Mail.123"), b"mail");
-        let mut state = WatcherState::new(UploadStore::default());
-        state.enqueue_upload(item.clone());
-        state.prune_removed_dirs_state(&[]);
+        for (delay_seconds, expected_deadline) in [(7, 8000), (u64::MAX, 3000)] {
+            let dir = tempfile::tempdir().expect("fixture directory");
+            let db = UploadDb::open(dir.path()).expect("upload database");
+            let item = source(&dir.path().join("Persistent.Mail.123"), b"mail");
+            let mut state = WatcherState::new(db.load().expect("load"));
+            state.enqueue_upload(item.clone());
+            state.prune_removed_dirs_state(&[]);
 
-        complete_attempt(
-            &mut state,
-            item.clone(),
-            AttemptOutcome::Rejected("bad source".to_string()),
-            1000,
-        );
-        complete_attempt(
-            &mut state,
-            item,
-            AttemptOutcome::Response(Err(UploadApiError::Rejected {
-                status: reqwest::StatusCode::TOO_MANY_REQUESTS,
-                retry_after: Some(Duration::from_secs(7)),
-                message: "rate limited".to_string(),
-            })),
-            1000,
-        );
+            complete_attempt(
+                &mut state,
+                item.clone(),
+                AttemptOutcome::Rejected("bad source".to_string()),
+                1000,
+            );
+            complete_attempt(
+                &mut state,
+                item,
+                AttemptOutcome::Response(Err(UploadApiError::Rejected {
+                    status: reqwest::StatusCode::TOO_MANY_REQUESTS,
+                    retry_after: Some(Duration::from_secs(delay_seconds)),
+                    message: "rate limited".to_string(),
+                })),
+                1000,
+            );
+            state.flush(&db).expect("persist rate limit from a removed source");
+            drop(db);
 
-        assert!(state.uploads.pending.is_empty());
-        assert!(state.uploads.rejected.is_empty());
-        assert!(state.uploads.acknowledged.is_empty());
-        assert_eq!(state.uploads.api_backoff_until_ms, Some(8000));
+            let db = UploadDb::open(dir.path()).expect("restart");
+            let restored = db.load().expect("load rate limit");
+
+            assert!(state.uploads.pending.is_empty());
+            assert!(state.uploads.rejected.is_empty());
+            assert!(state.uploads.acknowledged.is_empty());
+            assert!(restored.pending.is_empty());
+            assert!(restored.rejected.is_empty());
+            assert!(restored.acknowledged.is_empty());
+            assert_eq!(restored.api_backoff_until_ms, Some(expected_deadline));
+        }
     }
 
     #[tokio::test]
     async fn unavailable_directory_retry_survives_restart_and_other_copy_can_upload() {
         let dir = tempfile::tempdir().expect("test directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         let bytes = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
             .expect("mail bytes");
         let missing = source(&dir.path().join("missing/Persistent.Mail.123"), &bytes);
@@ -443,18 +454,18 @@ mod tests {
             .expect("directory becomes temporarily unavailable");
         state.enqueue_upload(missing.clone());
         state.enqueue_upload(good.clone());
-        state.flush(&file).expect("save pending sources");
+        state.flush(&db).expect("save pending sources");
 
         let message =
             process_upload(&mut state, &client(), "http://127.0.0.1:0", missing.clone(), 10_000)
                 .await;
-        state.flush(&file).expect("save metadata retry");
-        drop(file);
+        state.flush(&db).expect("save metadata retry");
+        drop(db);
 
         assert!(message.is_none(), "unavailable cache retries stay quiet");
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(db.load().expect("load"));
         let retry = restored
             .uploads
             .pending
@@ -464,7 +475,6 @@ mod tests {
 
         assert_eq!(retry.attempts, 1);
         assert!(retry.not_before_ms.expect("retry deadline") > 10_000);
-        assert!(retry.last_error.as_ref().expect("saved diagnostic").contains("Failed to stat"));
 
         let ready = restored.next_ready_upload(10_000).expect("alternative source is ready");
 
@@ -477,11 +487,11 @@ mod tests {
             .await
             .expect("upload acknowledgement is logged");
         server.await.expect("server received mail");
-        restored.flush(&file).expect("save server acknowledgement");
-        drop(file);
+        restored.flush(&db).expect("save server acknowledgement");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart after acknowledgement");
-        let completed = file.load().expect("load");
+        let db = UploadDb::open(dir.path()).expect("restart after acknowledgement");
+        let completed = db.load().expect("load");
 
         assert!(message.starts_with("Stored new mail"));
         assert!(completed.pending.is_empty());
@@ -520,41 +530,41 @@ mod tests {
                 .expect("unsupported mail"),
         ] {
             let dir = tempfile::tempdir().expect("test directory");
-            let file = StateFile::open(dir.path()).expect("state file");
-            let mut state = WatcherState::new(file.load().expect("load"));
+            let db = UploadDb::open(dir.path()).expect("upload database");
+            let mut state = WatcherState::new(db.load().expect("load"));
             let path = dir.path().join("mail/Persistent.Mail.123");
             let bad = source(&path, &bytes);
             state.enqueue_upload(bad.clone());
-            state.flush(&file).expect("save pending upload");
+            state.flush(&db).expect("save pending upload");
 
-            let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", bad, 10_000)
+            process_upload(&mut state, &client(), "http://127.0.0.1:0", bad, 10_000)
                 .await
                 .expect("invalid mail is logged");
-            state.flush(&file).expect("save local rejection");
-            drop(file);
+            state.flush(&db).expect("save local rejection");
+            drop(db);
 
-            let file = StateFile::open(dir.path()).expect("restart");
-            let mut restored = WatcherState::new(file.load().expect("load"));
+            let db = UploadDb::open(dir.path()).expect("restart");
+            let mut restored = WatcherState::new(db.load().expect("load"));
             let key = path.to_string_lossy().into_owned();
 
             assert!(restored.uploads.pending.is_empty());
             assert!(restored.uploads.acknowledged.is_empty());
-            assert_eq!(restored.uploads.rejected.get(&key).expect("rejection").reason, message);
+            assert!(restored.uploads.rejected.contains_key(&key));
 
             let good_bytes = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
                 .expect("supported mail");
             source(&path, &good_bytes);
             restored.dirs.push(path.parent().expect("mail directory").to_path_buf());
             discover_source(&mut restored, path.clone(), 10_000);
-            restored.flush(&file).expect("save changed input for reevaluation");
+            restored.flush(&db).expect("save changed input for reevaluation");
 
             assert!(restored.uploads.rejected.is_empty());
-            assert_eq!(file.load().expect("pending after changed input").pending.len(), 1);
+            assert_eq!(db.load().expect("pending after changed input").pending.len(), 1);
         }
     }
 
     #[tokio::test]
-    async fn non_regular_source_preserves_pending_work_and_reason() {
+    async fn non_regular_source_preserves_pending_work() {
         let dir = tempfile::tempdir().expect("test directory");
         let path = dir.path().join("Persistent.Mail.123");
         fs::create_dir(&path).expect("path with metadata that cannot be read as mail");
@@ -563,12 +573,11 @@ mod tests {
             sig: Some(file_sig(&fs::metadata(&path).expect("metadata")).expect("signature")),
             attempts: 0,
             not_before_ms: None,
-            last_error: None,
         };
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         state.enqueue_upload(item.clone());
-        state.flush(&file).expect("persist pending source");
+        state.flush(&db).expect("persist pending source");
 
         let message = process_upload(
             &mut state,
@@ -579,15 +588,14 @@ mod tests {
         )
         .await
         .expect("non-regular source is logged");
-        state.flush(&file).expect("persist failed read");
-        drop(file);
+        state.flush(&db).expect("persist failed read");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let restored = file.load().expect("load");
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let restored = db.load().expect("load");
         let pending = restored.pending.front().expect("unusable source remains pending");
 
         assert!(message.contains("Source is not a regular file"));
-        assert_eq!(pending.last_error.as_deref(), Some(message.as_str()));
         assert_eq!(pending.attempts, 1);
         assert!(restored.acknowledged.is_empty());
     }
@@ -609,7 +617,7 @@ mod tests {
         fs::remove_file(&path).expect("remove queued regular file");
         symlink(&target.path, &path).expect("replace queued source with a symlink");
 
-        // Exercise the open itself as well as process_upload's earlier metadata check.
+        // Check the open itself as well as upload preparation's earlier metadata check.
         read_mail_source(&path, target.sig.as_ref().expect("target signature")).expect_err(
             "the read must not follow a symlink even when the target signature matches",
         );
@@ -780,7 +788,6 @@ mod tests {
         let pending = state.uploads.pending.front().expect("unreadable source remains pending");
 
         assert!(message.contains("Failed to read"));
-        assert_eq!(pending.last_error.as_deref(), Some(message.as_str()));
         assert_eq!(pending.attempts, 1);
         assert!(state.uploads.acknowledged.is_empty());
         assert!(state.uploads.rejected.is_empty());
@@ -789,22 +796,22 @@ mod tests {
     #[tokio::test]
     async fn accepted_request_with_lost_response_recovers_through_skipped_acknowledgement() {
         let dir = tempfile::tempdir().expect("test directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         let bytes =
             rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"})).expect("mail");
         let item = source(&dir.path().join("mail/Persistent.Mail.123"), &bytes);
         state.enqueue_upload(item.clone());
-        state.flush(&file).expect("save before request");
+        state.flush(&db).expect("save before request");
 
         let (url, server) = respond_once(String::new()).await;
         process_upload(&mut state, &client(), &url, item, 10_000).await;
         server.await.expect("request reached server but response was lost");
-        state.flush(&file).expect("save retry");
-        drop(file);
+        state.flush(&db).expect("save retry");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let mut restored = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let mut restored = WatcherState::new(db.load().expect("load"));
         let pending = restored
             .next_ready_upload(now_epoch_ms() + 300_000)
             .expect("uncertain request remains pending");
@@ -813,11 +820,11 @@ mod tests {
 
         process_upload(&mut restored, &client(), &url, pending, now_epoch_ms()).await;
         server.await.expect("idempotent retry");
-        restored.flush(&file).expect("save acknowledgement");
-        drop(file);
+        restored.flush(&db).expect("save acknowledgement");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let completed = file.load().expect("load");
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let completed = db.load().expect("load");
 
         assert!(completed.acknowledged.contains("123"));
         assert!(completed.pending.is_empty());
@@ -826,16 +833,16 @@ mod tests {
     #[test]
     fn discovery_with_unavailable_metadata_survives_restart() {
         let dir = tempfile::tempdir().expect("test directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], Instant::now());
 
         discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
-        state.flush(&file).expect("save discovered source");
-        drop(file);
+        state.flush(&db).expect("save discovered source");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let restored = file.load().expect("load");
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let restored = db.load().expect("load");
 
         assert_eq!(restored.pending.len(), 1);
         assert!(restored.pending.front().expect("pending source").sig.is_none());
@@ -845,18 +852,18 @@ mod tests {
     #[tokio::test]
     async fn unflushed_discovery_has_no_persistent_marker_that_blocks_rediscovery() {
         let dir = tempfile::tempdir().expect("test directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         source(&dir.path().join("Persistent.Mail.123"), b"discovered but not yet uploaded");
         let now = Instant::now();
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], now);
 
         discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
         drop(state);
-        drop(file);
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart before discovery was saved");
-        let mut restarted = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("restart before discovery was saved");
+        let mut restarted = WatcherState::new(db.load().expect("load"));
         set_watched_dirs(&mut restarted, vec![dir.path().to_path_buf()], now);
         reconcile_next_directory(&mut restarted, now, 2000).await.expect("reconcile after restart");
 
@@ -893,7 +900,6 @@ mod tests {
                 sig: None,
                 attempts: 1,
                 not_before_ms: Some(20_000),
-                last_error: Some("file unavailable".to_string()),
             });
         }
 
@@ -907,7 +913,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn oversized_api_failures_cannot_inflate_persisted_reasons_or_logs() {
+    async fn oversized_api_failures_log_bounded_messages_and_preserve_retry_classification() {
         for (status, body) in [
             ("400 Bad Request", "é".repeat(4000)),
             ("503 Service Unavailable", "é".repeat(4000)),
@@ -915,124 +921,62 @@ mod tests {
             ("200 OK", "x".repeat(10_000)),
         ] {
             let dir = tempfile::tempdir().expect("state directory");
-            let file = StateFile::open(dir.path()).expect("state file");
-            let mut state = WatcherState::new(file.load().expect("load"));
+            let db = UploadDb::open(dir.path()).expect("upload database");
+            let mut state = WatcherState::new(db.load().expect("load"));
             let item = source(&dir.path().join("Persistent.Mail.123"), b"mail");
             state.enqueue_upload(item.clone());
-            state.flush(&file).expect("persist before upload");
+            state.flush(&db).expect("persist before upload");
             let (url, server) = respond_once(response(status, &body)).await;
 
             let result = post_file_to_api(&client(), &url, "Persistent.Mail.123", vec![1]).await;
             let message =
                 apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
             server.await.expect("API fixture");
-            state.flush(&file).expect("persist bounded failure");
-            drop(file);
+            state.flush(&db).expect("persist retry or rejection");
+            drop(db);
 
-            let file = StateFile::open(dir.path()).expect("restart");
-            let restored = file.load().expect("read bounded state");
-            let reason = if status == "400 Bad Request" {
-                &restored.rejected.values().next().expect("terminal rejection").reason
-            } else {
-                restored
-                    .pending
-                    .front()
-                    .expect("retryable error")
-                    .last_error
-                    .as_ref()
-                    .expect("retry reason")
-            };
-
+            let db = UploadDb::open(dir.path()).expect("restart");
+            let restored = db.load().expect("read upload state");
             assert!(restored.acknowledged.is_empty());
-            assert!(reason.len() <= MAX_REASON_BYTES);
             assert!(message.len() <= MAX_REASON_BYTES);
-            assert!(
-                fs::metadata(dir.path().join("upload-state-v1.json")).expect("snapshot size").len()
-                    < 4096
-            );
+            if status == "400 Bad Request" {
+                assert_eq!(restored.rejected.len(), 1);
+            } else {
+                assert_eq!(restored.pending.len(), 1);
+            }
 
             if body.len() > 8192 {
-                assert!(reason.contains("response body exceeds 8192 bytes"));
+                assert!(message.contains("response body exceeds 8192 bytes"));
             } else {
-                assert!(reason.ends_with(" [truncated]"));
+                assert!(message.ends_with(" [truncated]"));
             }
         }
     }
 
     #[tokio::test]
-    async fn oversized_local_mail_type_is_recorded_with_a_bounded_reason() {
+    async fn oversized_local_mail_type_logs_bounded_message_and_saves_rejection_signature() {
         let dir = tempfile::tempdir().expect("state directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
+        let db = UploadDb::open(dir.path()).expect("upload database");
+        let mut state = WatcherState::new(db.load().expect("load"));
         let bytes = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"界".repeat(10_000)}))
             .expect("large unsupported type");
         let item = source(&dir.path().join("Persistent.Mail.123"), &bytes);
         state.enqueue_upload(item.clone());
-        state.flush(&file).expect("save pending source");
+        state.flush(&db).expect("save pending source");
 
         let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", item, 10_000)
             .await
             .expect("unsupported mail is logged");
-        state.flush(&file).expect("save bounded rejection");
-        drop(file);
+        state.flush(&db).expect("save rejection signature");
+        drop(db);
 
-        let file = StateFile::open(dir.path()).expect("restart");
-        let restored = file.load().expect("load bounded rejection");
+        let db = UploadDb::open(dir.path()).expect("restart");
+        let restored = db.load().expect("load rejection signature");
         let rejection = restored.rejected.values().next().expect("local rejection");
 
-        assert_eq!(rejection.reason, message);
+        assert!(rejection.sig.is_some());
         assert!(message.len() <= MAX_REASON_BYTES);
         assert!(message.ends_with(" [truncated]"));
-        assert!(
-            fs::metadata(dir.path().join("upload-state-v1.json")).expect("snapshot size").len()
-                < 4096
-        );
-        assert!(restored.acknowledged.is_empty());
-    }
-
-    #[tokio::test]
-    async fn cancelling_an_in_flight_upload_releases_the_lock_and_preserves_pending_work() {
-        use tokio::{io::AsyncReadExt, net::TcpListener, sync::oneshot};
-
-        let dir = tempfile::tempdir().expect("test directory");
-        let file = StateFile::open(dir.path()).expect("state file");
-        let mut state = WatcherState::new(file.load().expect("load"));
-        let bytes =
-            rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"})).expect("mail");
-        let item = source(&dir.path().join("Persistent.Mail.123"), &bytes);
-        state.enqueue_upload(item.clone());
-        state.flush(&file).expect("save before starting request");
-
-        let listener = TcpListener::bind("127.0.0.1:0").await.expect("local API");
-        let url = format!("http://{}/v2/upload", listener.local_addr().expect("API address"));
-        let (received_tx, received_rx) = oneshot::channel();
-        let server = tokio::spawn(async move {
-            let (mut stream, _) = listener.accept().await.expect("accept request");
-            stream.read_u8().await.expect("request started");
-            received_tx.send(()).expect("signal in-flight request");
-
-            std::future::pending::<()>().await;
-        });
-        let watcher = tokio::spawn(async move {
-            process_upload(&mut state, &client(), &url, item, 10_000).await;
-            state.flush(&file).expect("save completed request");
-        });
-
-        tokio::time::timeout(Duration::from_secs(5), received_rx)
-            .await
-            .expect("request reached API")
-            .expect("API signal");
-        watcher.abort();
-
-        assert!(watcher.await.expect_err("in-flight task cancelled").is_cancelled());
-
-        server.abort();
-        assert!(server.await.expect_err("fixture stopped").is_cancelled());
-
-        let file = StateFile::open(dir.path()).expect("cancelled watcher released file lock");
-        let restored = file.load().expect("restart after interruption");
-
-        assert_eq!(restored.pending.len(), 1);
         assert!(restored.acknowledged.is_empty());
     }
 }
