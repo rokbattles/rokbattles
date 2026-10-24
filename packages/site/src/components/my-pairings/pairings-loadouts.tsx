@@ -66,15 +66,13 @@ export function PairingsLoadouts({
                   onClick={() => onSelectLoadout(loadout.key)}
                   aria-pressed={isSelected}
                   className={cn(
-                    "snap-start shrink-0 rounded-md border border-zinc-200/70 bg-white/80 p-4 text-left transition hover:border-zinc-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500/60 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
+                    "snap-start shrink-0 rounded-md border p-4 text-left transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500/60 border-white/10 bg-white/5 hover:border-white/20",
                     "flex flex-col items-stretch justify-start self-stretch",
                     "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
                   )}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-sm font-semibold text-zinc-950 dark:text-white">
-                      {loadout.label}
-                    </span>
+                    <span className="text-sm font-semibold text-white">{loadout.label}</span>
                     <Badge
                       color="blue"
                       className={cn(!isSelected && "invisible")}

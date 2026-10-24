@@ -10,7 +10,7 @@ export default function ReportTimeCell({ time, now }: { time: number; now: Date 
   const elapsed = formatElapsedShort(time, now);
 
   return (
-    <TableCell className="w-1/8 text-right tabular-nums text-zinc-500 dark:text-zinc-400">
+    <TableCell className="w-1/8 text-right tabular-nums text-zinc-400">
       <time
         dateTime={timestamp == null ? undefined : new Date(timestamp).toISOString()}
         title={timestamp == null ? formatUtcDateTime(time) : new Date(timestamp).toUTCString()}

@@ -16,7 +16,6 @@
     "@headlessui/react": "^2.2.10",
     "@next/mdx": "^16.4.2",
     "@sentry/nextjs": "^10.76.2",
-    "@wrksz/themes": "^1.2.0",
     "cn": "^0.2.6",
     "framer-motion": "^13.5.1",
     "lucide-react": "^1.58.0",

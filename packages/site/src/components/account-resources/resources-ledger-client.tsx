@@ -106,7 +106,7 @@ export function ResourcesLedgerClient({
           {t("Export CSV")}
         </Button>
       </div>
-      <label className="flex w-fit items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <label className="flex w-fit items-center gap-2 text-sm text-zinc-400">
         <input
           type="checkbox"
           checked={onlyReported}
@@ -167,14 +167,14 @@ export function ResourcesLedgerClient({
                 </time>
               </TableCell>
               <TableCell
-                className={`text-right tabular-nums ${day.reports === 0 ? "text-zinc-400 dark:text-zinc-600" : ""}`}
+                className={`text-right tabular-nums ${day.reports === 0 ? "text-zinc-600" : ""}`}
               >
                 {intl.number(day.reports, { maximumFractionDigits: 0 })}
               </TableCell>
               {rows.map((row) => (
                 <TableCell
                   key={row.key}
-                  className={`text-right tabular-nums ${day.values[row.key] === 0 ? "text-zinc-400 dark:text-zinc-600" : ""}`}
+                  className={`text-right tabular-nums ${day.values[row.key] === 0 ? "text-zinc-600" : ""}`}
                 >
                   {intl.number(day.values[row.key], { maximumFractionDigits: 0 })}
                 </TableCell>

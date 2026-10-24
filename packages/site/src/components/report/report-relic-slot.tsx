@@ -19,7 +19,7 @@ export function ReportRelicSlot({ relic }: ReportRelicSlotProps) {
 
   return (
     <div
-      className="relative h-14 w-14 select-none overflow-hidden rounded-lg bg-zinc-600/10 dark:bg-white/5 sm:h-16 sm:w-16"
+      className="relative h-14 w-14 select-none overflow-hidden rounded-lg bg-white/5 sm:h-16 sm:w-16"
       title={label}
     >
       {spriteUrls?.length ? (

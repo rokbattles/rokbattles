@@ -71,7 +71,7 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
             <Button onClick={onClose} plain>
               {t("Close")}
             </Button>
-            <Button color="dark/zinc" href={reportHref}>
+            <Button color="zinc" href={reportHref}>
               {t("See full report")}
             </Button>
           </DrawerActions>

@@ -45,7 +45,7 @@ export function GameAvatar({
       className={cn(
         className,
         "inline-grid shrink-0 align-middle [--avatar-radius:20%] *:col-start-1 *:row-start-1",
-        "outline outline-black/10 -outline-offset-1 dark:outline-white/10",
+        "outline -outline-offset-1 outline-white/10",
         "relative",
         radiusClass
       )}

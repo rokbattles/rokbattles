@@ -75,7 +75,7 @@ export function ArkBattleReports({ governorId, detail }: ArkBattleReportsProps):
                 href={`/report/${encodeURIComponent(report.mailId)}?from=ark&matchId=${encodeURIComponent(detail.matchId)}`}
                 title={t("View battle report")}
               >
-                <TableCell className="w-16 tabular-nums text-zinc-500 dark:text-zinc-400">
+                <TableCell className="w-16 tabular-nums text-zinc-400">
                   {number(firstReportNumber + index)}
                 </TableCell>
                 <ReportsTableCells report={report} now={now} />

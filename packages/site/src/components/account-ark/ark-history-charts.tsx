@@ -68,7 +68,7 @@ function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): React
   const hasValues = points.some((point) => series.some((entry) => point[entry.key] != null));
 
   return (
-    <section className="min-w-0 rounded-md border border-zinc-200 p-4 sm:p-5 dark:border-zinc-800">
+    <section className="min-w-0 rounded-md border p-4 sm:p-5 border-zinc-800">
       <Subheading>{title}</Subheading>
       {hasValues ? (
         <div className="mt-4 h-60" role="group" aria-label={title}>
@@ -81,7 +81,7 @@ function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): React
               <CartesianGrid
                 vertical={false}
                 stroke="currentColor"
-                className="text-zinc-200 dark:text-zinc-800"
+                className="text-zinc-800"
                 strokeDasharray="3 3"
               />
               <XAxis

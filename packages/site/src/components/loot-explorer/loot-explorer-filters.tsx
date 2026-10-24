@@ -67,9 +67,7 @@ export function LootExplorerFilters({
     <form className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(12rem,18rem)_minmax(12rem,18rem)]">
         <label className="space-y-1.5">
-          <span className="block font-medium text-sm/6 text-zinc-700 dark:text-zinc-200">
-            {t("NPC")}
-          </span>
+          <span className="block font-medium text-sm/6 text-zinc-200">{t("NPC")}</span>
           <Listbox<string> aria-label={t("NPC")} onChange={handleTypeChange} value={type}>
             {typeOptions.map((option) => (
               <ListboxOption key={option.value} value={option.value}>
@@ -81,9 +79,7 @@ export function LootExplorerFilters({
         </label>
         {showLevelFilter ? (
           <div className="space-y-1.5">
-            <span className="block font-medium text-sm/6 text-zinc-700 dark:text-zinc-200">
-              {t("Level")}
-            </span>
+            <span className="block font-medium text-sm/6 text-zinc-200">{t("Level")}</span>
             {allowMultipleLevels ? (
               <Listbox<string>
                 aria-label={t("Level")}
@@ -131,7 +127,7 @@ export function LootExplorerFilters({
       <div>
         <button
           type="submit"
-          className="inline-flex h-10 items-center justify-center rounded-lg bg-zinc-900 px-3 font-semibold text-sm text-white shadow-sm hover:bg-zinc-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200"
+          className="inline-flex h-10 items-center justify-center rounded-lg px-3 font-semibold text-sm shadow-sm bg-white text-zinc-950 hover:bg-zinc-200"
         >
           {t("Apply")}
         </button>

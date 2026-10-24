@@ -52,7 +52,7 @@ export function Drawer({
   return (
     <HeadlessDialog {...props}>
       <HeadlessDialogBackdrop
-        className="fixed inset-0 bg-zinc-950/25 transition duration-200 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-zinc-950/50"
+        className="fixed inset-0 transition duration-200 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in bg-zinc-950/50"
         transition
       />
 
@@ -67,7 +67,7 @@ export function Drawer({
             className={cn(
               className,
               sizes[size],
-              "pointer-events-auto flex h-full min-h-0 w-screen flex-col bg-white p-(--gutter) shadow-lg ring-1 ring-zinc-950/10 [--gutter:--spacing(8)] dark:bg-zinc-900 dark:ring-white/10 forced-colors:outline",
+              "pointer-events-auto flex h-full min-h-0 w-screen flex-col p-(--gutter) shadow-lg ring-1 [--gutter:--spacing(8)] bg-zinc-900 ring-white/10 forced-colors:outline",
               "transition duration-300 will-change-transform data-enter:ease-out data-leave:ease-in",
               sideStyles.panel
             )}
@@ -88,10 +88,7 @@ export function DrawerTitle({
   return (
     <HeadlessDialogTitle
       {...props}
-      className={cn(
-        className,
-        "text-balance font-semibold text-lg/6 text-zinc-950 sm:text-base/6 dark:text-white"
-      )}
+      className={cn(className, "text-balance font-semibold text-lg/6 sm:text-base/6 text-white")}
     />
   );
 }

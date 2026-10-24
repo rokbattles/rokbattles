@@ -103,9 +103,7 @@ export function PairingsLoadoutBreakdown({
 
           <div className="space-y-3">
             <div>
-              <div className="text-sm font-semibold text-zinc-950 dark:text-white">
-                {t("Opponent pairings")}
-              </div>
+              <div className="text-sm font-semibold text-white">{t("Opponent pairings")}</div>
             </div>
             {enemiesLoading ? (
               <Text>{t("Loading enemy matchups...")}</Text>
@@ -134,12 +132,10 @@ export function PairingsLoadoutBreakdown({
                   <TableBody id={opponentsId}>
                     {opponentRows.map((entry) => (
                       <TableRow key={entry.id}>
-                        <TableCell className="w-12 tabular-nums text-zinc-500 dark:text-zinc-400">
+                        <TableCell className="w-12 tabular-nums text-zinc-400">
                           {entry.index}
                         </TableCell>
-                        <TableCell className="text-zinc-900 dark:text-white">
-                          {entry.pairing}
-                        </TableCell>
+                        <TableCell className="text-white">{entry.pairing}</TableCell>
                         <TableCell className="w-24 text-right">{entry.battles}</TableCell>
                         <TableCell className="w-32 text-right">{entry.killPoints}</TableCell>
                         <TableCell className="w-40 text-right">

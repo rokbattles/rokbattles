@@ -35,7 +35,7 @@ export function Legend({
       {...props}
       className={cn(
         className,
-        "font-semibold text-base/6 text-zinc-950 data-disabled:opacity-50 sm:text-sm/6 dark:text-white"
+        "font-semibold text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-white"
       )}
     />
   );
@@ -75,7 +75,7 @@ export function Label({
       {...props}
       className={cn(
         className,
-        "select-none text-base/6 text-zinc-950 data-disabled:opacity-50 sm:text-sm/6 dark:text-white"
+        "select-none text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-white"
       )}
     />
   );
@@ -89,10 +89,7 @@ export function Description({
     <HeadlessDescription
       data-slot="description"
       {...props}
-      className={cn(
-        className,
-        "text-base/6 text-zinc-500 data-disabled:opacity-50 sm:text-sm/6 dark:text-zinc-400"
-      )}
+      className={cn(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-zinc-400")}
     />
   );
 }
@@ -105,10 +102,7 @@ export function ErrorMessage({
     <HeadlessDescription
       data-slot="error"
       {...props}
-      className={cn(
-        className,
-        "text-base/6 text-red-600 data-disabled:opacity-50 sm:text-sm/6 dark:text-red-500"
-      )}
+      className={cn(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-red-500")}
     />
   );
 }

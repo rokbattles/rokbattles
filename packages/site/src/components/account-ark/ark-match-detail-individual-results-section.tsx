@@ -76,7 +76,7 @@ export function ArkMatchDetailIndividualResultsSection({
         />
       </section>
       <div className="grid gap-4 lg:grid-cols-2">
-        <section className="rounded-md border border-zinc-200 p-5 dark:border-zinc-800">
+        <section className="rounded-md border p-5 border-zinc-800">
           <Subheading>{t("Individual score breakdown")}</Subheading>
           <dl className="mt-6 space-y-4">
             {scores.map((score) => (
@@ -85,10 +85,7 @@ export function ArkMatchDetailIndividualResultsSection({
                   <dt>{score.label}</dt>
                   <dd className="tabular-nums">{number(score.value)}</dd>
                 </div>
-                <div
-                  aria-hidden="true"
-                  className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
-                >
+                <div aria-hidden="true" className="h-2 overflow-hidden rounded-full bg-zinc-800">
                   <div
                     className={`h-full rounded-full ${score.color}`}
                     style={{ width: `${((score.value ?? 0) / maxScore) * 100}%` }}
@@ -98,16 +95,16 @@ export function ArkMatchDetailIndividualResultsSection({
             ))}
           </dl>
         </section>
-        <section className="rounded-md border border-zinc-200 p-5 dark:border-zinc-800">
+        <section className="rounded-md border p-5 border-zinc-800">
           <Subheading>{t("Match activity")}</Subheading>
-          <dl className="mt-6 divide-y divide-zinc-200 text-sm dark:divide-zinc-800">
+          <dl className="mt-6 divide-y text-sm divide-zinc-800">
             {[
               { label: t("Units healed"), value: result.unitsHealed },
               { label: t("Speedups used (mins)"), value: result.speedupsMinutes ?? 0 },
               { label: t("Teleports"), value: result.teleports },
             ].map((metric) => (
               <div key={metric.label} className="flex justify-between gap-4 py-3">
-                <dt className="text-zinc-500 dark:text-zinc-400">{metric.label}</dt>
+                <dt className="text-zinc-400">{metric.label}</dt>
                 <dd className="font-medium tabular-nums">{number(metric.value)}</dd>
               </div>
             ))}
@@ -122,18 +119,15 @@ export function ArkMatchDetailIndividualResultsSection({
           />
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {detail.highlights.map((highlight) => (
-              <div
-                key={highlight.category}
-                className="rounded-md border border-zinc-200 p-4 dark:border-zinc-800"
-              >
+              <div key={highlight.category} className="rounded-md border p-4 border-zinc-800">
                 <Text>{highlightLabels[highlight.category] ?? highlight.category}</Text>
                 <div className="mt-2 text-2xl font-semibold tabular-nums">
                   {number(highlight.allianceValue)}
                 </div>
                 {highlight.playerName ? (
-                  <div className="mt-4 border-t border-zinc-200 pt-3 dark:border-zinc-800">
+                  <div className="mt-4 border-t pt-3 border-zinc-800">
                     <div className="truncate text-sm font-medium">{highlight.playerName}</div>
-                    <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                    <div className="mt-1 text-xs text-zinc-400">
                       {t("MVP · {value}", { value: number(highlight.playerValue) })}
                     </div>
                   </div>

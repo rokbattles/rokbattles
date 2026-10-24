@@ -51,13 +51,13 @@ export function AccountLootLayout({
       <div className="space-y-5">
         <div className="space-y-2">
           <Heading>{t("My Loot")}</Heading>
-          <p className="max-w-xl text-sm/6 text-zinc-600 dark:text-zinc-400">
+          <p className="max-w-xl text-sm/6 text-zinc-400">
             {t(
               "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
             )}
           </p>
         </div>
-        <nav className="flex flex-wrap gap-2 border-zinc-950/10 border-b pb-3 dark:border-white/10">
+        <nav className="flex flex-wrap gap-2 border-b pb-3 border-white/10">
           {sections.map((section) => (
             <Link
               key={section.key}
@@ -65,8 +65,8 @@ export function AccountLootLayout({
               className={cn(
                 "rounded-md px-3 py-2 text-sm/6 font-medium",
                 active === section.key
-                  ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-950"
-                  : "text-zinc-600 hover:bg-zinc-950/5 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                  ? "bg-white text-zinc-950"
+                  : "text-zinc-300 hover:bg-white/10 hover:text-white"
               )}
             >
               {sectionLabels[section.key]}

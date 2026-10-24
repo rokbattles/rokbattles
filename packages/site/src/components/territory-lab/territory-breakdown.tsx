@@ -56,11 +56,11 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
     >
       <Subheading id="territory-breakdown-heading">{t("Territory breakdown")}</Subheading>
       {entries.length === 0 ? (
-        <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-4 text-sm text-zinc-400">
           {t("No territory buildings for this alliance.")}
         </p>
       ) : (
-        <ol className="mt-3 h-[40rem] max-h-[70svh] divide-y divide-zinc-950/10 overflow-y-scroll overscroll-contain pe-3 [contain:strict] [scrollbar-gutter:stable] dark:divide-white/10">
+        <ol className="mt-3 h-[40rem] max-h-[70svh] divide-y overflow-y-scroll overscroll-contain pe-3 [contain:strict] [scrollbar-gutter:stable] divide-white/10">
           {entries.map(({ building, number, cost }) => {
             const position = realToGamePoint(building);
             const covered = countResourcesCoveredByBuilding(
@@ -78,13 +78,13 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
                 <div className="flex min-w-0 items-center gap-3">
                   <BuildingIcon className="size-10" kind={building.kind} />
                   <div className="min-w-0">
-                    <p className="truncate font-medium text-sm text-zinc-950 dark:text-white">
+                    <p className="truncate font-medium text-sm text-white">
                       {t("{building} {number}", {
                         building: label,
                         number: number.toString(),
                       })}
                     </p>
-                    <p className="mt-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                    <p className="mt-0.5 text-xs tabular-nums text-zinc-400">
                       {t("X: {x} Y: {y}", {
                         x: position.x.toString(),
                         y: position.y.toString(),
@@ -105,10 +105,7 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
                       className="flex flex-wrap gap-x-3 gap-y-1"
                     >
                       {captured.map((kind) => (
-                        <li
-                          className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-300"
-                          key={kind}
-                        >
+                        <li className="flex items-center gap-1 text-xs text-zinc-300" key={kind}>
                           <ResourceIcon kind={kind} />
                           <span>{resourceLabel(kind)}</span>
                           <span className="font-medium tabular-nums">x{covered[kind]}</span>
