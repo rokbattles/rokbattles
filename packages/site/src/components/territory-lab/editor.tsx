@@ -676,7 +676,7 @@ export default function Editor({
             <Button
               outline
               type="button"
-              disabled={plan.alliances.length >= 16}
+              disabled={plan.alliances.length >= 64}
               onClick={() => {
                 const id = crypto.randomUUID();
                 edit((p) => ({

@@ -32,7 +32,7 @@ use crate::{
 
 const CDN_BASE: &str = "https://cdn.rokbattles.com/game/territory";
 const MAX_BODY_BYTES: usize = 4 * 1024 * 1024;
-const MAX_ALLIANCES: usize = 32;
+const MAX_ALLIANCES: usize = 64;
 const MAX_ANNOTATIONS: usize = 500;
 const MAX_BUILDINGS: usize = 10_000;
 const MAX_ROUTES: usize = 5;
@@ -638,6 +638,29 @@ mod tests {
     #[test]
     fn validation_should_accept_minimal_plan() {
         validate_plan(&plan(), &catalog()).expect("minimal plan should validate");
+    }
+
+    #[test]
+    fn validation_should_allow_up_to_sixty_four_alliances() {
+        let mut value = plan();
+        value.alliances = (0..64)
+            .map(|index| PlanAlliance {
+                id: format!("a{index}"),
+                name: format!("A{index}"),
+                color: "#aabbcc".into(),
+            })
+            .collect();
+
+        validate_plan(&value, &catalog()).expect("64 alliances should be shareable");
+        validate_stored_plan(&value, &catalog()).expect("64 alliances should remain readable");
+
+        value.alliances.push(PlanAlliance {
+            id: "a64".into(),
+            name: "A64".into(),
+            color: "#aabbcc".into(),
+        });
+        assert!(validate_plan(&value, &catalog()).is_err());
+        assert!(validate_stored_plan(&value, &catalog()).is_err());
     }
 
     #[test]
