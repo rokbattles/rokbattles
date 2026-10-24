@@ -3,6 +3,7 @@ import {
   type SelectProps as HeadlessSelectProps,
 } from "@headlessui/react";
 import { cn } from "cn";
+import { ChevronsUpDown } from "lucide-react";
 import type React from "react";
 import { forwardRef } from "react";
 
@@ -60,25 +61,10 @@ export const Select = forwardRef(function Select(
       />
       {!multiple && (
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-          <svg
+          <ChevronsUpDown
             aria-hidden="true"
-            className="size-5 stroke-zinc-500 group-has-data-disabled:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
-            fill="none"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M5.75 10.75L8 13L10.25 10.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-            />
-            <path
-              d="M10.25 5.25L8 3L5.75 5.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-            />
-          </svg>
+            className="size-5 text-zinc-500 group-has-data-disabled:text-zinc-600 sm:size-4 dark:text-zinc-400 forced-colors:text-[CanvasText]"
+          />
         </span>
       )}
     </span>

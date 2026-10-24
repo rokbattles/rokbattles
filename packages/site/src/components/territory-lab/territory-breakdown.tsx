@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPinIcon } from "@heroicons/react/20/solid";
+import { MapPin } from "lucide-react";
 import { useExtracted } from "next-intl";
 import { memo } from "react";
 import type {
@@ -127,7 +127,7 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
                   onClick={() => onLocate(building)}
                   plain
                 >
-                  <MapPinIcon />
+                  <MapPin data-slot="icon" aria-hidden="true" />
                 </Button>
               </li>
             );

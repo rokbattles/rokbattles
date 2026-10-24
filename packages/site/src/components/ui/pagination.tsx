@@ -1,4 +1,5 @@
 import { cn } from "cn";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type React from "react";
 import { Button } from "./button";
 
@@ -18,20 +19,7 @@ export function PaginationPrevious({
   return (
     <span className={cn(className, "grow basis-0")}>
       <Button {...(href === null ? { disabled: true } : { href })} aria-label="Previous page" plain>
-        <svg
-          aria-hidden="true"
-          className="stroke-current"
-          data-slot="icon"
-          fill="none"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-          />
-        </svg>
+        <ArrowLeft aria-hidden="true" data-slot="icon" />
         {children}
       </Button>
     </span>
@@ -47,20 +35,7 @@ export function PaginationNext({
     <span className={cn(className, "flex grow basis-0 justify-end")}>
       <Button {...(href === null ? { disabled: true } : { href })} aria-label="Next page" plain>
         {children}
-        <svg
-          aria-hidden="true"
-          className="stroke-current"
-          data-slot="icon"
-          fill="none"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-          />
-        </svg>
+        <ArrowRight aria-hidden="true" data-slot="icon" />
       </Button>
     </span>
   );

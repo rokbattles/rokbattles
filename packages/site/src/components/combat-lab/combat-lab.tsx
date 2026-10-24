@@ -1,6 +1,6 @@
 "use client";
 
-import { InformationCircleIcon, PencilSquareIcon } from "@heroicons/react/16/solid";
+import { Info, SquarePen } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useExtracted, useLocale } from "next-intl";
 import { type CSSProperties, useMemo, useState } from "react";
@@ -128,7 +128,12 @@ export function CombatLab({
             </h2>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 text-zinc-400 text-xs/5 sm:text-sm/6">
               <span className="inline-flex items-center gap-1">
-                <PencilSquareIcon className="relative top-px size-3.5" /> {t("Change pairing")}
+                <SquarePen
+                  data-slot="icon"
+                  aria-hidden="true"
+                  className="relative top-px size-3.5"
+                />{" "}
+                {t("Change pairing")}
               </span>
               <span aria-hidden="true" className="text-zinc-600">
                 &bull;
@@ -171,7 +176,11 @@ export function CombatLab({
         {drastc ? (
           <div className="rounded-md border border-amber-300/60 bg-amber-50 px-4 py-3 text-amber-950 dark:border-amber-300/20 dark:bg-amber-400/10 dark:text-amber-100">
             <div className="flex items-center gap-3">
-              <InformationCircleIcon className="size-5 shrink-0 text-amber-600 dark:text-amber-300" />
+              <Info
+                data-slot="icon"
+                aria-hidden="true"
+                className="size-5 shrink-0 text-amber-600 dark:text-amber-300"
+              />
               <Text className="!text-sm/5 !text-amber-950 dark:!text-amber-100">
                 <strong>{t("Changing the filters will not change the DRASTC results.")}</strong>{" "}
                 {t("DRASTC uses the most recent year of open-field battle reports.")}

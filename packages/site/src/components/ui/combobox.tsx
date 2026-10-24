@@ -10,6 +10,7 @@ import {
   type ComboboxProps as HeadlessComboboxProps,
 } from "@headlessui/react";
 import { cn } from "cn";
+import { Check, ChevronsUpDown } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 
@@ -102,25 +103,10 @@ export function Combobox<T>({
           placeholder={placeholder}
         />
         <HeadlessComboboxButton className="group absolute inset-y-0 right-0 flex items-center px-2">
-          <svg
+          <ChevronsUpDown
             aria-hidden="true"
-            className="size-5 stroke-zinc-500 group-data-disabled:stroke-zinc-600 group-data-hover:stroke-zinc-700 sm:size-4 dark:stroke-zinc-400 dark:group-data-hover:stroke-zinc-300 forced-colors:stroke-[CanvasText]"
-            fill="none"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M5.75 10.75L8 13L10.25 10.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-            />
-            <path
-              d="M10.25 5.25L8 3L5.75 5.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-            />
-          </svg>
+            className="size-5 text-zinc-500 group-data-disabled:text-zinc-600 group-data-hover:text-zinc-700 sm:size-4 dark:text-zinc-400 dark:group-data-hover:text-zinc-300 forced-colors:text-[CanvasText]"
+          />
         </HeadlessComboboxButton>
       </span>
       <HeadlessComboboxOptions
@@ -185,14 +171,10 @@ export function ComboboxOption<T>({
       )}
     >
       <span className={cn(className, sharedClasses)}>{children}</span>
-      <svg
+      <Check
         aria-hidden="true"
-        className="relative col-start-2 hidden size-5 self-center stroke-current group-data-selected/option:inline sm:size-4"
-        fill="none"
-        viewBox="0 0 16 16"
-      >
-        <path d="M4 8.5l3 3L12 4" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
-      </svg>
+        className="relative col-start-2 hidden size-5 self-center group-data-selected/option:inline sm:size-4"
+      />
     </HeadlessComboboxOption>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeftIcon } from "@heroicons/react/20/solid";
+import { ChevronLeft } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox, CheckboxField, CheckboxGroup } from "@/components/ui/checkbox";
@@ -537,7 +537,11 @@ export default function Editor({
             back();
           }}
         >
-          <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
+          <ChevronLeft
+            data-slot="icon"
+            aria-hidden="true"
+            className="size-4 text-zinc-400 dark:text-zinc-500"
+          />
           Maps
         </Link>
       </div>
