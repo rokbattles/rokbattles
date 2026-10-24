@@ -106,6 +106,5 @@ pub(crate) struct EquipmentToken {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct LoadoutArmament {
     pub id: i64,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub value: Option<f64>,
+    pub value: f64,
 }

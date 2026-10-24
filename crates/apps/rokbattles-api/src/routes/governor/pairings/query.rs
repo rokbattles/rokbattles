@@ -36,7 +36,6 @@ pub(crate) struct PairingLoadoutsRequest {
     pub exclude_battles: Vec<PairingsBattleType>,
     pub primary_commander_id: i64,
     pub secondary_commander_id: i64,
-    pub granularity: LoadoutGranularity,
 }
 
 #[derive(Debug, Clone)]
@@ -46,21 +45,7 @@ pub(crate) struct PairingOpponentsRequest {
     pub exclude_battles: Vec<PairingsBattleType>,
     pub primary_commander_id: i64,
     pub secondary_commander_id: i64,
-    pub granularity: OpponentGranularity,
     pub loadout_key: Option<String>,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum LoadoutGranularity {
-    Simplified,
-    Exact,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum OpponentGranularity {
-    Overall,
-    Simplified,
-    Exact,
 }
 
 pub(crate) fn parse_pairings_request(
@@ -83,7 +68,6 @@ pub(crate) fn parse_pairing_loadouts_request(
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
-    let granularity = parse_loadout_granularity(params.get("granularity").map(String::as_str))?;
 
     Ok(PairingLoadoutsRequest {
         range,
@@ -91,7 +75,6 @@ pub(crate) fn parse_pairing_loadouts_request(
         exclude_battles,
         primary_commander_id,
         secondary_commander_id,
-        granularity,
     })
 }
 
@@ -105,15 +88,10 @@ pub(crate) fn parse_pairing_opponents_request(
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
-    let granularity = parse_opponent_granularity(params.get("granularity").map(String::as_str))?;
     let loadout_key = params
         .get("loadoutKey")
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty());
-
-    if granularity != OpponentGranularity::Overall && loadout_key.is_none() {
-        return Err(ApiError::bad_request("Missing loadoutKey"));
-    }
 
     Ok(PairingOpponentsRequest {
         range,
@@ -121,7 +99,6 @@ pub(crate) fn parse_pairing_opponents_request(
         exclude_battles,
         primary_commander_id,
         secondary_commander_id,
-        granularity,
         loadout_key,
     })
 }
@@ -274,27 +251,6 @@ fn parse_exclude_battles(raw: Option<&str>) -> Result<Vec<PairingsBattleType>, A
     Ok(exclude_battles)
 }
 
-fn parse_loadout_granularity(raw: Option<&str>) -> Result<LoadoutGranularity, ApiError> {
-    match raw.map(str::trim).filter(|value| !value.is_empty()) {
-        None => Ok(LoadoutGranularity::Exact),
-        Some("simplified") => Ok(LoadoutGranularity::Simplified),
-        Some("exact") => Ok(LoadoutGranularity::Exact),
-        Some("normalized") => Err(ApiError::bad_request("Invalid granularity")),
-        Some(_) => Err(ApiError::bad_request("Invalid granularity")),
-    }
-}
-
-fn parse_opponent_granularity(raw: Option<&str>) -> Result<OpponentGranularity, ApiError> {
-    match raw.map(str::trim).filter(|value| !value.is_empty()) {
-        None => Ok(OpponentGranularity::Overall),
-        Some("overall") => Ok(OpponentGranularity::Overall),
-        Some("simplified") => Ok(OpponentGranularity::Simplified),
-        Some("exact") => Ok(OpponentGranularity::Exact),
-        Some("normalized") => Err(ApiError::bad_request("Invalid granularity")),
-        Some(_) => Err(ApiError::bad_request("Invalid granularity")),
-    }
-}
-
 fn parse_positive_required_i64(
     params: &FxHashMap<String, String>,
     key: &str,
@@ -328,23 +284,45 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_pairing_loadouts_request_rejects_normalized_granularity() {
+    fn parse_pairing_loadouts_request_accepts_pairing() {
         let request = parse_pairing_loadouts_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
-            ("secondary".to_string(), "456".to_string()),
-            ("granularity".to_string(), "normalized".to_string()),
-        ]));
-        request.expect_err("input should be rejected");
+            ("secondary".to_string(), "0".to_string()),
+        ]))
+        .expect("request");
+        assert_eq!((request.primary_commander_id, request.secondary_commander_id), (123, 0));
     }
 
     #[test]
-    fn parse_pairing_opponents_request_requires_loadout_key_for_non_overall() {
+    fn parse_pairing_opponents_request_defaults_to_all_loadouts() {
         let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
             ("secondary".to_string(), "456".to_string()),
-            ("granularity".to_string(), "simplified".to_string()),
-        ]));
-        request.expect_err("input should be rejected");
+        ]))
+        .expect("request");
+        assert_eq!(request.loadout_key, None);
+    }
+
+    #[test]
+    fn parse_pairing_opponents_request_accepts_loadout_key() {
+        let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
+            ("primary".to_string(), "123".to_string()),
+            ("secondary".to_string(), "456".to_string()),
+            ("loadoutKey".to_string(), " eq:1:100_2:25|arm:1000_2|ins:101|fm:1 ".to_string()),
+        ]))
+        .expect("request");
+        assert_eq!(request.loadout_key.as_deref(), Some("eq:1:100_2:25|arm:1000_2|ins:101|fm:1"));
+    }
+
+    #[test]
+    fn parse_pairing_opponents_request_treats_blank_loadout_key_as_all_loadouts() {
+        let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
+            ("primary".to_string(), "123".to_string()),
+            ("secondary".to_string(), "456".to_string()),
+            ("loadoutKey".to_string(), "  ".to_string()),
+        ]))
+        .expect("request");
+        assert_eq!(request.loadout_key, None);
     }
 
     #[test]

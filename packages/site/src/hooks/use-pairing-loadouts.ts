@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type {
   LoadoutAggregate,
-  LoadoutGranularity,
   PairingLoadoutsResponse,
   PairingLoadoutsResult,
   PairingsActivity,
@@ -15,7 +14,6 @@ export function usePairingLoadouts(options: {
   governorId: number | null | undefined;
   primaryCommanderId: number | null;
   secondaryCommanderId: number | null;
-  granularity: LoadoutGranularity;
   startDate?: string;
   endDate?: string;
   excludeActivities?: PairingsActivity[];
@@ -25,7 +23,6 @@ export function usePairingLoadouts(options: {
     governorId,
     primaryCommanderId,
     secondaryCommanderId,
-    granularity,
     startDate,
     endDate,
     excludeActivities,
@@ -60,7 +57,6 @@ export function usePairingLoadouts(options: {
     });
     params.set("primary", String(primaryCommanderId));
     params.set("secondary", String(secondaryCommanderId));
-    params.set("granularity", granularity);
 
     try {
       const res = await fetch(`/proxy/v1/governor/${governorId}/pairings/loadouts?${params}`, {
@@ -85,7 +81,6 @@ export function usePairingLoadouts(options: {
     governorId,
     primaryCommanderId,
     secondaryCommanderId,
-    granularity,
     startDate,
     endDate,
     excludeActivities,

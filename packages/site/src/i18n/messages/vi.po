@@ -2289,21 +2289,6 @@ msgid "Open Field"
 msgstr "Ngoài đồng"
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgctxt "StqoPN"
-msgid "Loadout granularity"
-msgstr "Độ chi tiết của thanh trang bị"
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgctxt "as39fN"
-msgid "Simplified"
-msgstr "Đơn giản hoá"
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgctxt "244wra"
-msgid "Exact"
-msgstr "Chính xác"
-
-#: src/components/my-pairings/pairings-filters.tsx
 msgctxt "CieiKz"
 msgid "Exclude activities"
 msgstr "Loại trừ các hoạt động"

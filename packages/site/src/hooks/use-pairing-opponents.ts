@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type {
   OpponentAggregate,
-  OpponentGranularity,
   PairingOpponentsResponse,
   PairingOpponentsResult,
   PairingsActivity,
@@ -15,7 +14,6 @@ export function usePairingOpponents(options: {
   governorId: number | null | undefined;
   primaryCommanderId: number | null;
   secondaryCommanderId: number | null;
-  granularity: OpponentGranularity;
   loadoutKey?: string | null;
   startDate?: string;
   endDate?: string;
@@ -26,7 +24,6 @@ export function usePairingOpponents(options: {
     governorId,
     primaryCommanderId,
     secondaryCommanderId,
-    granularity,
     loadoutKey,
     startDate,
     endDate,
@@ -51,13 +48,6 @@ export function usePairingOpponents(options: {
       return;
     }
 
-    if (granularity !== "overall" && !loadoutKey) {
-      setData([]);
-      setError(null);
-      setLoading(false);
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
@@ -69,8 +59,7 @@ export function usePairingOpponents(options: {
     });
     params.set("primary", String(primaryCommanderId));
     params.set("secondary", String(secondaryCommanderId));
-    params.set("granularity", granularity);
-    if (granularity !== "overall" && loadoutKey) {
+    if (loadoutKey) {
       params.set("loadoutKey", loadoutKey);
     }
 
@@ -97,7 +86,6 @@ export function usePairingOpponents(options: {
     governorId,
     primaryCommanderId,
     secondaryCommanderId,
-    granularity,
     loadoutKey,
     startDate,
     endDate,
