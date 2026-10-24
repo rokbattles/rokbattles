@@ -75,7 +75,7 @@ export function ResourcesBreakdownTable({ rows }: ResourcesBreakdownTableProps):
                 <div className="flex items-center justify-end gap-3">
                   <div
                     aria-hidden="true"
-                    className="h-1.5 w-20 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
+                    className="h-1.5 w-20 overflow-hidden rounded-full bg-zinc-800"
                   >
                     <div
                       className="h-full rounded-full bg-blue-500"

@@ -21,7 +21,7 @@ export function ReportSkillSlot({
   return (
     <div
       className={cn(
-        "relative h-9 w-9 select-none overflow-hidden rounded-md bg-zinc-600/10 dark:bg-white/5 sm:h-10 sm:w-10",
+        "relative h-9 w-9 select-none overflow-hidden rounded-md bg-white/5 sm:h-10 sm:w-10",
         className
       )}
       title={title}

@@ -122,8 +122,8 @@ export function CombatLabCharts({
 
   return (
     <div className="grid gap-5 xl:grid-cols-2">
-      <article className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900">
-        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+      <article className="min-w-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900">
+        <div className="border-b px-5 py-4 border-white/10">
           <Subheading level={3}>{t("Kill points")}</Subheading>
           <div className="mt-4 flex h-9 items-center gap-3 text-xs font-medium">
             <ChartLegend color="bg-blue-600" label={t("Gained")} />
@@ -198,15 +198,15 @@ export function CombatLabCharts({
         </div>
       </article>
 
-      <article className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900">
-        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+      <article className="min-w-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900">
+        <div className="border-b px-5 py-4 border-white/10">
           <Subheading level={3}>{t("Battle tempo")}</Subheading>
-          <div className="mt-4 flex h-9 gap-1 overflow-x-auto rounded-lg bg-zinc-950/5 p-1 dark:bg-white/5">
+          <div className="mt-4 flex h-9 gap-1 overflow-x-auto rounded-lg p-1 bg-white/5">
             {metricOptions.map((option) => (
               <button
                 key={option.key}
                 aria-pressed={metric === option.key}
-                className="shrink-0 rounded-md px-2.5 py-1.5 font-medium text-xs text-zinc-600 transition data-[active=true]:bg-white data-[active=true]:text-zinc-950 dark:text-zinc-300 dark:data-[active=true]:bg-zinc-700 dark:data-[active=true]:text-white"
+                className="shrink-0 rounded-md px-2.5 py-1.5 font-medium text-xs transition text-zinc-300 data-[active=true]:bg-zinc-700 data-[active=true]:text-white"
                 data-active={metric === option.key}
                 onClick={() => setMetric(option.key)}
                 type="button"
@@ -266,10 +266,10 @@ export function CombatLabCharts({
 
       <article
         aria-labelledby="trade-percentage-chart-title"
-        className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900"
+        className="min-w-0 overflow-hidden rounded-md border xl:col-span-2 border-white/10 bg-zinc-900"
         data-testid="trade-percentage-chart"
       >
-        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+        <div className="border-b px-5 py-4 border-white/10">
           <Subheading id="trade-percentage-chart-title" level={3}>
             {t("Trade percentage")}
           </Subheading>
@@ -336,9 +336,9 @@ export function CombatLabCharts({
 function EmptyChartCard({ className, title }: { className?: string; title: string }) {
   return (
     <article
-      className={`min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900 ${className ?? ""}`}
+      className={`min-w-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900 ${className ?? ""}`}
     >
-      <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+      <div className="border-b px-5 py-4 border-white/10">
         <Subheading level={3}>{title}</Subheading>
       </div>
       <CombatLabEmptyState className="m-5 min-h-64" />
@@ -370,7 +370,7 @@ export function CombatLabFormationChart({
 
   if (chartData.length === 0 || series.length === 0) {
     return (
-      <article className="min-w-0 rounded-md border border-zinc-950/10 bg-white p-5 xl:col-span-2 dark:border-white/10 dark:bg-zinc-900 sm:p-6">
+      <article className="min-w-0 rounded-md border p-5 xl:col-span-2 border-white/10 bg-zinc-900 sm:p-6">
         <Subheading level={3} className="!text-lg/7">
           {t("Formation")}
         </Subheading>
@@ -383,7 +383,7 @@ export function CombatLabFormationChart({
   }
 
   return (
-    <article className="min-w-0 rounded-md border border-zinc-950/10 bg-white p-5 xl:col-span-2 dark:border-white/10 dark:bg-zinc-900 sm:p-6">
+    <article className="min-w-0 rounded-md border p-5 xl:col-span-2 border-white/10 bg-zinc-900 sm:p-6">
       <Subheading level={3} className="!text-lg/7">
         {t("Formation")}
       </Subheading>
@@ -391,10 +391,7 @@ export function CombatLabFormationChart({
         <Subheading level={4}>{t("Formation usage")}</Subheading>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium">
           {series.map((formation) => (
-            <span
-              key={formation.id}
-              className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-300"
-            >
+            <span key={formation.id} className="inline-flex items-center gap-1.5 text-zinc-300">
               <span className="size-2 rounded-full" style={{ backgroundColor: formation.color }} />
               {formation.name}
             </span>
@@ -501,10 +498,7 @@ export function CombatLabArmamentChart({
         <Subheading level={4}>{t("Inscription usage")}</Subheading>
         <div className="mt-3 flex min-h-9 flex-wrap gap-x-3 gap-y-2 text-xs font-medium">
           {inscriptionSeries.map((series) => (
-            <span
-              className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-300"
-              key={series.key}
-            >
+            <span className="inline-flex items-center gap-1.5 text-zinc-300" key={series.key}>
               <span className="size-2 rounded-full" style={{ backgroundColor: series.color }} />
               {series.label}
             </span>
@@ -563,11 +557,11 @@ export function CombatLabArmamentChart({
 
       <div>
         <Subheading level={4}>{t("Buff rolls")}</Subheading>
-        <div className="mt-3 flex gap-1 overflow-x-auto rounded-lg bg-zinc-950/5 p-1 dark:bg-white/5">
+        <div className="mt-3 flex gap-1 overflow-x-auto rounded-lg p-1 bg-white/5">
           {buffOptions.map((buff) => (
             <button
               aria-pressed={selectedBuffId === buff.id}
-              className="shrink-0 rounded-md px-2.5 py-1.5 font-medium text-xs text-zinc-600 transition data-[active=true]:bg-white data-[active=true]:text-zinc-950 dark:text-zinc-300 dark:data-[active=true]:bg-zinc-700 dark:data-[active=true]:text-white"
+              className="shrink-0 rounded-md px-2.5 py-1.5 font-medium text-xs transition text-zinc-300 data-[active=true]:bg-zinc-700 data-[active=true]:text-white"
               data-active={selectedBuffId === buff.id}
               key={buff.id}
               onClick={() => setRequestedBuffId(buff.id)}
@@ -690,7 +684,7 @@ export function CombatLabEquipmentChart({
         <div className="mt-3 flex min-h-9 flex-wrap gap-x-3 gap-y-2 text-xs font-medium">
           {series.map((item) => (
             <span
-              className="inline-flex min-w-0 items-center gap-1.5 text-zinc-600 dark:text-zinc-300"
+              className="inline-flex min-w-0 items-center gap-1.5 text-zinc-300"
               key={item.dataKey}
               title={item.name}
             >
@@ -827,17 +821,17 @@ function ArmamentBuffTooltip({
 
   return (
     <div
-      className="min-w-52 rounded-md border border-zinc-950/10 bg-white px-3 py-2 text-xs text-zinc-950 dark:border-white/10 dark:bg-zinc-900 dark:text-white"
+      className="min-w-52 rounded-md border px-3 py-2 text-xs border-white/10 bg-zinc-900 text-white"
       data-chart-tooltip=""
     >
-      <div className="text-zinc-500 dark:text-zinc-400">{label}</div>
+      <div className="text-zinc-400">{label}</div>
       <div className="mt-1.5 font-medium">{buffName}</div>
       <dl className="mt-2 grid grid-cols-[auto_auto] gap-x-5 gap-y-1">
-        <dt className="text-zinc-500 dark:text-zinc-400">{usageLabel}</dt>
+        <dt className="text-zinc-400">{usageLabel}</dt>
         <dd className="text-right tabular-nums">{decimalFormatter.format(row.buffUsage)}%</dd>
-        <dt className="text-zinc-500 dark:text-zinc-400">{maxRollUsageLabel}</dt>
+        <dt className="text-zinc-400">{maxRollUsageLabel}</dt>
         <dd className="text-right tabular-nums">{decimalFormatter.format(row.buffMaxPercent)}%</dd>
-        <dt className="text-zinc-500 dark:text-zinc-400">{averageRollLabel}</dt>
+        <dt className="text-zinc-400">{averageRollLabel}</dt>
         <dd className="text-right tabular-nums">
           {formatArmamentValue(row.buffAverage, decimalFormatter, percent)}
         </dd>
@@ -848,7 +842,7 @@ function ArmamentBuffTooltip({
 
 function ChartLegend({ color, label }: { color: string; label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 text-zinc-600 dark:text-zinc-300">
+    <span className="inline-flex items-center gap-1.5 text-zinc-300">
       <span className={`size-2 rounded-full ${color}`} />
       {label}
     </span>
@@ -871,10 +865,10 @@ function ChartTooltip({
 
   return (
     <div
-      className="min-w-32 rounded-md border border-zinc-950/10 bg-white px-3 py-2 text-xs text-zinc-950 dark:border-white/10 dark:bg-zinc-900 dark:text-white"
+      className="min-w-32 rounded-md border px-3 py-2 text-xs border-white/10 bg-zinc-900 text-white"
       data-chart-tooltip=""
     >
-      <div className="mb-1.5 text-zinc-500 dark:text-zinc-400">{label}</div>
+      <div className="mb-1.5 text-zinc-400">{label}</div>
       <div className="space-y-1">
         {payload.map((entry) => (
           <div

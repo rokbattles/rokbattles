@@ -89,7 +89,7 @@ export default function ReportsOverviewTimelineChart({
 
   return (
     <section>
-      <div className="h-64 w-full text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
+      <div className="h-64 w-full text-base/6 sm:text-sm/6 text-zinc-400">
         <svg
           aria-label="Battle timeline graph"
           className="h-full w-full"

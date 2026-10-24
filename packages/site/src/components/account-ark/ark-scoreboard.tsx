@@ -31,13 +31,13 @@ export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
   const total = alliances.reduce((sum, alliance) => sum + (alliance.score ?? 0), 0);
 
   return (
-    <section className="overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 px-5 py-4 text-sm dark:border-zinc-800">
+    <section className="overflow-hidden rounded-md border border-zinc-800">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b px-5 py-4 text-sm border-zinc-800">
         <div className="flex flex-wrap items-center gap-3">
           <span>{leagues[detail.league]}</span>
           <Badge color={colors[outcome]}>{labels[outcome]}</Badge>
         </div>
-        <span className="text-zinc-500 dark:text-zinc-400">
+        <span className="text-zinc-400">
           {t("{date} at {time} UTC", {
             date: intl.dateTime(detail.mailTimeMillis, { dateStyle: "medium", timeZone: "UTC" }),
             time: intl.dateTime(detail.mailTimeMillis, {
@@ -57,7 +57,7 @@ export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
           >
             <ArkAllianceEmblem logo={alliance.logo} isBlue={alliance.isBlue} large />
             <div className="min-w-0 flex-1">
-              <div className="mb-1 flex items-center gap-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+              <div className="mb-1 flex items-center gap-2 text-xs font-medium text-zinc-400">
                 {alliance.isBlue ? t("Iset") : t("Seth")}
                 {alliance.id != null && alliance.id === detail.selfAllianceId ? (
                   <Badge color="zinc">{t("You")}</Badge>
@@ -72,14 +72,12 @@ export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
               <div
                 className={cn(
                   "mt-2 text-3xl font-semibold tabular-nums",
-                  alliance.isBlue
-                    ? "text-blue-600 dark:text-blue-400"
-                    : "text-red-600 dark:text-red-400"
+                  alliance.isBlue ? "text-blue-400" : "text-red-400"
                 )}
               >
                 {number(alliance.score)}
               </div>
-              <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="mt-1 text-xs text-zinc-400">
                 {t("Members: {members} / {max}", {
                   members: number(alliance.members),
                   max: number(alliance.membersMax),

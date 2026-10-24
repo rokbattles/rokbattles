@@ -79,12 +79,8 @@ export function CombatLabDonut({
             </PieChart>
           </ResponsiveContainer>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-            <span className="font-semibold text-sm tabular-nums text-zinc-950 dark:text-white">
-              {centerValue}
-            </span>
-            <span className="mt-0.5 text-[10px] text-zinc-500 dark:text-zinc-400">
-              {centerLabel}
-            </span>
+            <span className="font-semibold text-sm tabular-nums text-white">{centerValue}</span>
+            <span className="mt-0.5 text-[10px] text-zinc-400">{centerLabel}</span>
           </div>
         </div>
       ) : (
@@ -93,7 +89,7 @@ export function CombatLabDonut({
         </Text>
       )}
       {total > 0 ? (
-        <div className="mt-1 flex flex-wrap justify-center gap-x-3 gap-y-1.5 text-[11px] text-zinc-600 dark:text-zinc-300">
+        <div className="mt-1 flex flex-wrap justify-center gap-x-3 gap-y-1.5 text-[11px] text-zinc-300">
           {data.map((item) => (
             <span
               className="inline-flex min-w-0 max-w-full items-center gap-1.5"
@@ -132,7 +128,7 @@ export function CombatLabUsageTooltip({
 }) {
   return (
     <div
-      className="rounded-md border border-zinc-950/10 bg-white px-3 py-2 text-xs text-zinc-950 dark:border-white/10 dark:bg-zinc-900 dark:text-white"
+      className="rounded-md border px-3 py-2 text-xs border-white/10 bg-zinc-900 text-white"
       data-chart-tooltip=""
     >
       <div className="flex items-center gap-1.5 font-medium">
@@ -140,9 +136,9 @@ export function CombatLabUsageTooltip({
         {name}
       </div>
       <dl className="mt-2 grid grid-cols-[auto_auto] gap-x-5 gap-y-1 tabular-nums">
-        <dt className="text-zinc-500 dark:text-zinc-400">{labels.usage}</dt>
+        <dt className="text-zinc-400">{labels.usage}</dt>
         <dd className="text-right">{decimalFormatter.format((count / total) * 100)}%</dd>
-        <dt className="text-zinc-500 dark:text-zinc-400">{labels.count}</dt>
+        <dt className="text-zinc-400">{labels.count}</dt>
         <dd className="text-right">{integerFormatter.format(count)}</dd>
       </dl>
     </div>

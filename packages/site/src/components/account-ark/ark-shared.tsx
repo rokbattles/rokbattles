@@ -51,17 +51,10 @@ export function ArkMetricCards({ items }: ArkMetricCardsProps): ReactElement {
   return (
     <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {items.map((item) => (
-        <div
-          key={item.label}
-          className="rounded-md border border-zinc-200 p-4 dark:border-zinc-800"
-        >
-          <dt className="text-sm text-zinc-500 dark:text-zinc-400">{item.label}</dt>
-          <dd className="mt-2 text-2xl font-semibold tabular-nums text-zinc-950 dark:text-white">
-            {item.value}
-          </dd>
-          {item.detail ? (
-            <dd className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{item.detail}</dd>
-          ) : null}
+        <div key={item.label} className="rounded-md border p-4 border-zinc-800">
+          <dt className="text-sm text-zinc-400">{item.label}</dt>
+          <dd className="mt-2 text-2xl font-semibold tabular-nums text-white">{item.value}</dd>
+          {item.detail ? <dd className="mt-1 text-xs text-zinc-400">{item.detail}</dd> : null}
         </div>
       ))}
     </dl>
@@ -107,7 +100,7 @@ export function ArkRequestState({
 
   return (
     <div
-      className="mt-6 space-y-3 rounded-md border border-zinc-200 px-6 py-16 text-center dark:border-zinc-800"
+      className="mt-6 space-y-3 rounded-md border px-6 py-16 text-center border-zinc-800"
       role={error ? "alert" : "status"}
     >
       <Text>{children}</Text>

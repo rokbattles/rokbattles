@@ -34,12 +34,10 @@ export function ConfidenceScore({ score }: ConfidenceScoreProps) {
   return (
     <div className="flex items-baseline justify-between gap-2">
       <div className="flex min-w-0 items-center gap-2">
-        <div className="truncate font-semibold text-sm text-zinc-950 dark:text-white">
-          {t("Confidence")}
-        </div>
+        <div className="truncate font-semibold text-sm text-white">{t("Confidence")}</div>
         <Badge>{t("Beta")}</Badge>
       </div>
-      <div className="shrink-0 font-semibold text-sm tabular-nums text-zinc-950 dark:text-white">
+      <div className="shrink-0 font-semibold text-sm tabular-nums text-white">
         {scoreFormatter.format(percentage)}% · {levelLabel}
       </div>
     </div>

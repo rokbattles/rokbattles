@@ -125,7 +125,7 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
             <TableBody>
               {rows.slice((currentPage - 1) * 10, currentPage * 10).map((player) => (
                 <TableRow key={player.rank}>
-                  <TableCell className="tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <TableCell className="tabular-nums text-zinc-400">
                     {player.score == null ? "—" : player.rank}
                   </TableCell>
                   <TableCell>
@@ -133,19 +133,14 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
                       {player.name ?? t("Unknown governor")}
                     </div>
                     {player.participated === false ? (
-                      <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                        {t("Did not participate")}
-                      </div>
+                      <div className="text-xs text-zinc-400">{t("Did not participate")}</div>
                     ) : null}
                   </TableCell>
                   {columns.map((column) => (
                     <TableCell key={column.key} className="text-right tabular-nums">
                       {number(player[column.key])}
                       {column.key === "score" && player.score != null ? (
-                        <div
-                          aria-hidden="true"
-                          className="mt-1.5 h-1 rounded-full bg-zinc-100 dark:bg-zinc-800"
-                        >
+                        <div aria-hidden="true" className="mt-1.5 h-1 rounded-full bg-zinc-800">
                           <div
                             className="h-1 rounded-full bg-blue-500"
                             style={{ width: `${(player.score / maxScore) * 100}%` }}

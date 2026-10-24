@@ -60,15 +60,8 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   return (
     <>
       <div className={arkMatchId ? "mb-8" : "max-lg:hidden mb-8"}>
-        <Link
-          href={backHref}
-          className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
-        >
-          <ChevronLeft
-            data-slot="icon"
-            aria-hidden="true"
-            className="size-4 text-zinc-400 dark:text-zinc-500"
-          />
+        <Link href={backHref} className="inline-flex items-center gap-2 text-sm/6 text-zinc-400">
+          <ChevronLeft data-slot="icon" aria-hidden="true" className="size-4 text-zinc-500" />
           {arkMatchId ? t("Back to Ark Recap") : backLabel}
         </Link>
       </div>
