@@ -89,11 +89,9 @@ export type PairingsResult = {
   range: PairingsRange | null;
 };
 
-export type LoadoutGranularity = "exact" | "simplified";
-
 export type LoadoutArmament = {
   id: number;
-  value?: number;
+  value: number;
 };
 
 export type LoadoutSnapshot = {
@@ -120,8 +118,6 @@ export type PairingLoadoutsResult = {
   loading: boolean;
   error: string | null;
 };
-
-export type OpponentGranularity = "overall" | LoadoutGranularity;
 
 export type OpponentAggregate = {
   enemyPrimaryCommanderId: number;

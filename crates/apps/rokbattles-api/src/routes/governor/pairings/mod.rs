@@ -84,7 +84,6 @@ pub async fn get_loadouts(
         &request.range,
         request.primary_commander_id,
         request.secondary_commander_id,
-        request.granularity,
     );
     let response = PairingLoadoutsResponse {
         range: PairingsRange { start: request.range.start, end: request.range.end },
@@ -120,7 +119,6 @@ pub async fn get_opponents(
         &request.range,
         request.primary_commander_id,
         request.secondary_commander_id,
-        request.granularity,
         request.loadout_key.as_deref(),
     );
     let response = PairingOpponentsResponse {

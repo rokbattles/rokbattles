@@ -2280,21 +2280,6 @@ msgid "Open Field"
 msgstr "Open Field"
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgctxt "StqoPN"
-msgid "Loadout granularity"
-msgstr "Loadout granularity"
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgctxt "as39fN"
-msgid "Simplified"
-msgstr "Simplified"
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgctxt "244wra"
-msgid "Exact"
-msgstr "Exact"
-
-#: src/components/my-pairings/pairings-filters.tsx
 msgctxt "CieiKz"
 msgid "Exclude activities"
 msgstr "Exclude activities"

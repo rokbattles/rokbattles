@@ -11,13 +11,7 @@ import { usePairingLoadouts } from "@/hooks/use-pairing-loadouts";
 import { usePairingOpponents } from "@/hooks/use-pairing-opponents";
 import { usePairings } from "@/hooks/use-pairings";
 import { formatDurationShort } from "@/lib/datetime";
-import type {
-  LoadoutGranularity,
-  LoadoutSnapshot,
-  OpponentGranularity,
-  PairingsActivity,
-  PairingsBattleType,
-} from "@/lib/pairings";
+import type { LoadoutSnapshot, PairingsActivity, PairingsBattleType } from "@/lib/pairings";
 import { formatPerSecond } from "@/lib/statistics-format";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -112,7 +106,6 @@ export function MyPairingsContent() {
     excludeBattles: excludedBattles,
   });
   const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
-  const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("simplified");
   const [selectedLoadoutKey, setSelectedLoadoutKey] = useState<string | null>(ALL_LOADOUT_KEY);
   const [loadoutsFetchStarted, setLoadoutsFetchStarted] = useState(false);
   const [loadoutsReady, setLoadoutsReady] = useState(false);
@@ -170,7 +163,6 @@ export function MyPairingsContent() {
     governorId: activeGovernor?.governorId,
     primaryCommanderId: canLoadLoadouts ? (selectedPairing?.primaryCommanderId ?? null) : null,
     secondaryCommanderId: canLoadLoadouts ? (selectedPairing?.secondaryCommanderId ?? null) : null,
-    granularity: loadoutGranularity,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
     excludeActivities: excludedActivities,
@@ -181,7 +173,6 @@ export function MyPairingsContent() {
       [
         activeGovernor?.governorId ?? "none",
         selectedPairingKey ?? "none",
-        loadoutGranularity,
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
         excludedActivities.join(",") || "none",
@@ -191,7 +182,6 @@ export function MyPairingsContent() {
     [
       activeGovernor?.governorId,
       selectedPairingKey,
-      loadoutGranularity,
       rangeStartDate,
       rangeEndDate,
       excludedActivities,
@@ -204,7 +194,6 @@ export function MyPairingsContent() {
       [
         selectedPairingKey ?? "none",
         selectedLoadoutKey ?? "none",
-        loadoutGranularity,
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
         excludedActivities.join(",") || "none",
@@ -213,7 +202,6 @@ export function MyPairingsContent() {
     [
       selectedPairingKey,
       selectedLoadoutKey,
-      loadoutGranularity,
       rangeStartDate,
       rangeEndDate,
       excludedActivities,
@@ -373,8 +361,6 @@ export function MyPairingsContent() {
     ];
   }, [selectedLoadoutCard, t]);
 
-  const opponentGranularity: OpponentGranularity =
-    selectedLoadoutKey === ALL_LOADOUT_KEY ? "overall" : loadoutGranularity;
   const opponentLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
   const canLoadOpponents =
     Boolean(selectedPairing) && loadoutsReady && !pairingsLoading && !pairingsError;
@@ -387,7 +373,6 @@ export function MyPairingsContent() {
     governorId: activeGovernor?.governorId,
     primaryCommanderId: canLoadOpponents ? (selectedPairing?.primaryCommanderId ?? null) : null,
     secondaryCommanderId: canLoadOpponents ? (selectedPairing?.secondaryCommanderId ?? null) : null,
-    granularity: opponentGranularity,
     loadoutKey: opponentLoadoutKey,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
@@ -435,8 +420,6 @@ export function MyPairingsContent() {
         pairingValue={selectedPairingKey}
         onPairingChange={setSelectedPairingKey}
         pairingsLoading={pairingsLoading}
-        loadoutGranularity={loadoutGranularity}
-        onGranularityChange={setLoadoutGranularity}
         startDate={startDate}
         endDate={endDate}
         onStartDateChange={setStartDate}

@@ -7,12 +7,9 @@ use rustc_hash::FxHashMap;
 use crate::{
     routes::governor::{
         date_range::GovernorDateRange,
-        pairings::{
-            query::{LoadoutGranularity, OpponentGranularity},
-            types::{
-                EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingAggregateResponse,
-                PairingLoadoutAggregateResponse, PairingOpponentAggregateResponse, PairingTotals,
-            },
+        pairings::types::{
+            EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingAggregateResponse,
+            PairingLoadoutAggregateResponse, PairingOpponentAggregateResponse, PairingTotals,
         },
     },
     time_utils::{normalize_bson_timestamp_millis, normalize_timestamp_millis},
@@ -87,7 +84,6 @@ pub(crate) fn aggregate_loadouts(
     range: &GovernorDateRange,
     primary_commander_id: i64,
     secondary_commander_id: i64,
-    granularity: LoadoutGranularity,
 ) -> Vec<PairingLoadoutAggregateResponse> {
     let mut buckets: FxHashMap<String, PairingLoadoutAggregateResponse> = FxHashMap::default();
 
@@ -96,7 +92,7 @@ pub(crate) fn aggregate_loadouts(
             continue;
         }
 
-        let loadout = build_loadout_snapshot(mail, granularity);
+        let loadout = build_loadout_snapshot(mail);
         let key = build_loadout_key(&loadout);
 
         for_each_pairing_entry(mail, |entry| {
@@ -130,7 +126,6 @@ pub(crate) fn aggregate_opponents(
     range: &GovernorDateRange,
     primary_commander_id: i64,
     secondary_commander_id: i64,
-    granularity: OpponentGranularity,
     loadout_key: Option<&str>,
 ) -> Vec<PairingOpponentAggregateResponse> {
     let mut buckets: FxHashMap<(i64, i64), PairingOpponentAggregateResponse> = FxHashMap::default();
@@ -140,15 +135,9 @@ pub(crate) fn aggregate_opponents(
             continue;
         }
 
-        if granularity != OpponentGranularity::Overall {
-            let lookup_granularity = match granularity {
-                OpponentGranularity::Simplified => LoadoutGranularity::Simplified,
-                OpponentGranularity::Exact => LoadoutGranularity::Exact,
-                OpponentGranularity::Overall => LoadoutGranularity::Exact,
-            };
-            let snapshot = build_loadout_snapshot(mail, lookup_granularity);
-            let key = build_loadout_key(&snapshot);
-            if Some(key.as_str()) != loadout_key {
+        if let Some(loadout_key) = loadout_key {
+            let snapshot = build_loadout_snapshot(mail);
+            if build_loadout_key(&snapshot) != loadout_key {
                 continue;
             }
         }
@@ -332,7 +321,7 @@ fn compute_trade_percent(kill_score: i64, enemy_kill_score: i64) -> f64 {
     }
 }
 
-fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> LoadoutSnapshot {
+fn build_loadout_snapshot(mail: &Document) -> LoadoutSnapshot {
     let equipment =
         parse_equipment(nested_str(mail, &["sender", "commanders", "primary", "equipment"]));
     let formation = nested_i64(mail, &["sender", "commanders", "primary", "formation"])
@@ -367,25 +356,14 @@ fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> L
     let mut armament_pairs = buff_totals.into_iter().collect::<Vec<_>>();
     armament_pairs.sort_by_key(|(id, _)| *id);
 
-    match granularity {
-        LoadoutGranularity::Simplified => LoadoutSnapshot {
-            equipment: normalize_equipment_tokens(&equipment),
-            armaments: armament_pairs
-                .into_iter()
-                .map(|(id, _)| LoadoutArmament { id, value: None })
-                .collect::<Vec<_>>(),
-            inscriptions,
-            formation,
-        },
-        LoadoutGranularity::Exact => LoadoutSnapshot {
-            equipment,
-            armaments: armament_pairs
-                .into_iter()
-                .map(|(id, value)| LoadoutArmament { id, value: Some(value) })
-                .collect::<Vec<_>>(),
-            inscriptions,
-            formation,
-        },
+    LoadoutSnapshot {
+        equipment,
+        armaments: armament_pairs
+            .into_iter()
+            .map(|(id, value)| LoadoutArmament { id, value })
+            .collect(),
+        inscriptions,
+        formation,
     }
 }
 
@@ -424,23 +402,6 @@ fn parse_equipment(raw: Option<&str>) -> Vec<EquipmentToken> {
 
     equipment.sort_by_key(|token| token.slot);
     equipment
-}
-
-fn normalize_equipment_tokens(tokens: &[EquipmentToken]) -> Vec<EquipmentToken> {
-    tokens
-        .iter()
-        .map(|token| EquipmentToken {
-            slot: token.slot,
-            id: token.id,
-            craft: token.craft,
-            attr: token.attr.map(normalize_equipment_attr),
-        })
-        .collect::<Vec<_>>()
-}
-
-fn normalize_equipment_attr(attr: i64) -> i64 {
-    let base = attr / 10;
-    if base > 0 { base * 10 } else { 0 }
 }
 
 fn parse_affix_ids(raw: &str) -> Vec<i64> {
@@ -517,10 +478,7 @@ fn serialize_equipment(tokens: &[EquipmentToken]) -> String {
 fn serialize_armaments(armaments: &[LoadoutArmament]) -> String {
     armaments
         .iter()
-        .map(|buff| match buff.value {
-            Some(value) => format!("{}_{}", buff.id, format_armament_value(value)),
-            None => buff.id.to_string(),
-        })
+        .map(|buff| format!("{}_{}", buff.id, format_armament_value(buff.value)))
         .collect::<Vec<_>>()
         .join("|")
 }
@@ -660,17 +618,47 @@ mod tests {
     }
 
     #[test]
-    fn aggregate_loadouts_treats_simplified_and_exact_differently() {
-        let mail_one = build_test_mail("{1:100_2:21}", "1000_2;1001_3");
-        let mail_two = build_test_mail("{1:100_2:29}", "1000_9;1001_3");
-        let mails = vec![mail_one, mail_two];
+    fn aggregate_loadouts_preserves_equipment_attributes() {
+        let mails = vec![
+            build_test_mail("{1:100_2:21}", "1000_2;1001_3"),
+            build_test_mail("{1:100_2:29}", "1000_2;1001_3"),
+        ];
 
-        let simplified =
-            aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Simplified);
-        let exact = aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Exact);
+        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        assert_eq!(items.len(), 2);
+        let attrs =
+            items.iter().map(|item| item.loadout.equipment[0].attr).collect::<BTreeSet<_>>();
+        assert_eq!(attrs, BTreeSet::from([Some(21), Some(29)]));
+        assert!(items.iter().all(|item| item.count == 1));
+    }
 
-        assert_eq!(simplified.len(), 1);
-        assert_eq!(exact.len(), 2);
+    #[test]
+    fn aggregate_loadouts_preserves_armament_buff_differences() {
+        let mails = vec![
+            build_test_mail("{1:100_2:21}", "1000_2;1001_3"),
+            build_test_mail("{1:100_2:21}", "1000_9;1001_3"),
+        ];
+
+        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        assert_eq!(items.len(), 2);
+        assert_ne!(items[0].key, items[1].key);
+        assert!(items.iter().all(|item| item.count == 1));
+    }
+
+    #[test]
+    fn aggregate_loadouts_groups_matching_details_and_preserves_key_format() {
+        let mails = vec![
+            build_test_mail("{1:100_2:25}", "1000_2;2001_3"),
+            build_test_mail("{1:100_2:25}", "2001_3;1000_2"),
+        ];
+
+        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        assert_eq!(items.len(), 1);
+        assert_eq!(items[0].count, 2);
+        assert_eq!(items[0].totals.kill_score, 200);
+        assert_eq!(items[0].key, "eq:1:100_2:25|arm:1000_2|2001_13|ins:101|202|303|fm:1");
+        assert_eq!(items[0].loadout.inscriptions, vec![101, 202, 303]);
+        assert_eq!(items[0].loadout.formation, Some(1));
     }
 
     #[test]
@@ -678,36 +666,52 @@ mod tests {
         let mails =
             vec![build_test_mail("{1:100_2:21}", "3001_0.026000;4001_0.015000;5001_0.022000")];
 
-        let simplified =
-            aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Simplified);
-        let exact = aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Exact);
-
-        assert_eq!(simplified.len(), 1);
-        assert_eq!(exact.len(), 1);
-
-        assert!(!simplified[0].loadout.armaments.is_empty());
-        assert!(simplified[0].loadout.armaments.iter().all(|armament| armament.value.is_none()));
-        assert!(exact[0].loadout.armaments.iter().any(|armament| armament.value.is_some()));
+        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        assert_eq!(items.len(), 1);
+        assert_eq!(
+            items[0].loadout.armaments,
+            vec![
+                LoadoutArmament { id: 2001, value: 10.0 },
+                LoadoutArmament { id: 3001, value: 0.026 },
+                LoadoutArmament { id: 4001, value: 0.015 },
+                LoadoutArmament { id: 5001, value: 0.022 },
+            ]
+        );
     }
 
     #[test]
     fn aggregate_opponents_filters_by_loadout_key() {
-        let target_mail = build_test_mail("{1:100_2:25}", "1000_2;1001_3");
-        let other_mail = build_test_mail("{1:100_2:30}", "1000_2;1001_3");
-        let loadout_key =
-            build_loadout_key(&build_loadout_snapshot(&target_mail, LoadoutGranularity::Exact));
-
-        let items = aggregate_opponents(
-            &[target_mail, other_mail],
-            &test_range(),
-            100,
-            200,
-            OpponentGranularity::Exact,
-            Some(&loadout_key),
-        );
+        let mails = vec![
+            build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
+            build_test_mail("{1:100_2:29}", "1000_2;1001_3"),
+            build_test_mail("{1:100_2:25}", "1000_9;1001_3"),
+        ];
+        let loadout_key = build_loadout_key(&build_loadout_snapshot(&mails[0]));
+        let items = aggregate_opponents(&mails, &test_range(), 100, 200, Some(&loadout_key));
 
         assert_eq!(items.len(), 1);
         assert_eq!(items[0].count, 1);
+        assert_eq!(items[0].totals.kill_score, 100);
+    }
+
+    #[test]
+    fn aggregate_opponents_includes_all_loadouts_without_key() {
+        let mails = vec![
+            build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
+            build_test_mail("{1:100_2:29}", "1000_9;1001_3"),
+        ];
+        let items = aggregate_opponents(&mails, &test_range(), 100, 200, None);
+
+        assert_eq!(items.len(), 1);
+        assert_eq!(items[0].count, 2);
+        assert_eq!(items[0].totals.kill_score, 200);
+    }
+
+    #[test]
+    fn aggregate_opponents_returns_no_matches_for_unknown_loadout() {
+        let mails = vec![build_test_mail("{1:100_2:25}", "1000_2;1001_3")];
+        let items = aggregate_opponents(&mails, &test_range(), 100, 200, Some("unknown"));
+        assert!(items.is_empty());
     }
 
     #[test]

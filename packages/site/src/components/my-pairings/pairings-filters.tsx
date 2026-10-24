@@ -7,7 +7,6 @@ import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { formatLocalDateInput } from "@/lib/datetime";
 import {
   formatExcludedPairingsFilters,
-  type LoadoutGranularity,
   type PairingsActivity,
   type PairingsBattleType,
 } from "@/lib/pairings";
@@ -22,8 +21,6 @@ type PairingsFiltersProps = {
   pairingValue: string | null;
   onPairingChange: (value: string | null) => void;
   pairingsLoading: boolean;
-  loadoutGranularity: LoadoutGranularity;
-  onGranularityChange: (value: LoadoutGranularity) => void;
   startDate: string;
   endDate: string;
   onStartDateChange: (value: string) => void;
@@ -39,8 +36,6 @@ export function PairingsFilters({
   pairingValue,
   onPairingChange,
   pairingsLoading,
-  loadoutGranularity,
-  onGranularityChange,
   startDate,
   endDate,
   onStartDateChange,
@@ -106,17 +101,6 @@ export function PairingsFilters({
           max={maxDate}
           onChange={(event) => onEndDateChange(event.target.value)}
         />
-      </Field>
-      <Field className="space-y-2">
-        <Label>{t("Loadout granularity")}</Label>
-        <Listbox
-          aria-label={t("Loadout granularity")}
-          value={loadoutGranularity}
-          onChange={onGranularityChange}
-        >
-          <ListboxOption value="simplified">{t("Simplified")}</ListboxOption>
-          <ListboxOption value="exact">{t("Exact")}</ListboxOption>
-        </Listbox>
       </Field>
       <Field className="space-y-2">
         <Label>{t("Exclude activities")}</Label>

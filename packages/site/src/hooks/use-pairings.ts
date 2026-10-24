@@ -13,9 +13,7 @@ import { buildPairingsRangeParams, PAIRINGS_GENERIC_ERROR } from "@/lib/pairings
 
 export type {
   LoadoutAggregate,
-  LoadoutGranularity,
   LoadoutSnapshot,
-  OpponentGranularity,
 } from "@/lib/pairings";
 
 type PairingsOptions = {
