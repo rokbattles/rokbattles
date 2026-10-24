@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  ArrowsRightLeftIcon,
-  CheckIcon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
-} from "@heroicons/react/16/solid";
 import { cn } from "cn";
+import { ArrowRightLeft, Check, Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useExtracted, useLocale } from "next-intl";
 import { useDeferredValue, useMemo, useState } from "react";
@@ -139,7 +134,7 @@ export function CommanderPairingDrawer({
           </DrawerDescription>
         </div>
         <Button aria-label={t("Close pairing picker")} onClick={closeDrawer} plain>
-          <XMarkIcon />
+          <X data-slot="icon" aria-hidden="true" />
         </Button>
       </div>
 
@@ -161,7 +156,7 @@ export function CommanderPairingDrawer({
               }}
               type="button"
             >
-              <ArrowsRightLeftIcon className="size-4" />
+              <ArrowRightLeft data-slot="icon" aria-hidden="true" className="size-4" />
             </button>
             <PairingSlotButton
               active={activeSlot === "secondary"}
@@ -174,7 +169,7 @@ export function CommanderPairingDrawer({
 
         <div className="space-y-3">
           <InputGroup>
-            <MagnifyingGlassIcon data-slot="icon" />
+            <Search aria-hidden="true" data-slot="icon" />
             <Input
               aria-label={t("Search by commander")}
               onChange={(event) => setQuery(event.target.value)}
@@ -273,7 +268,11 @@ export function CommanderPairingDrawer({
                       </span>
                     </span>
                     {selected ? (
-                      <CheckIcon className="size-4 shrink-0 text-blue-600 dark:text-blue-400" />
+                      <Check
+                        data-slot="icon"
+                        aria-hidden="true"
+                        className="size-4 shrink-0 text-blue-600 dark:text-blue-400"
+                      />
                     ) : null}
                   </button>
                 );

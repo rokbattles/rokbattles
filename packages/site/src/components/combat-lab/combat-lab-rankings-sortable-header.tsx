@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowDownIcon, ArrowsUpDownIcon, ArrowUpIcon } from "@heroicons/react/16/solid";
 import { cn } from "cn";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { TableHeader } from "@/components/ui/table";
 import type {
   CombatLabRankingDirection,
@@ -50,10 +50,10 @@ export function CombatLabRankingsSortableHeader({
 
 function getSortIcon(active: boolean, direction: CombatLabRankingDirection) {
   if (!active) {
-    return ArrowsUpDownIcon;
+    return ArrowUpDown;
   }
 
-  return direction === "asc" ? ArrowUpIcon : ArrowDownIcon;
+  return direction === "asc" ? ArrowUp : ArrowDown;
 }
 
 function getAriaSort(

@@ -1,6 +1,6 @@
 "use client";
 
-import { LanguageIcon } from "@heroicons/react/16/solid";
+import { Languages } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useExtracted } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
@@ -76,7 +76,7 @@ export function LanguageSelector() {
   return (
     <>
       <SidebarItem onClick={handleOpen} aria-label={t("Select language")}>
-        <LanguageIcon />
+        <Languages data-slot="icon" aria-hidden="true" />
         <SidebarLabel>{currentLanguage.label}</SidebarLabel>
       </SidebarItem>
       <Dialog open={isOpen} onClose={handleClose} size="xl">

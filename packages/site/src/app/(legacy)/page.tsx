@@ -1,4 +1,4 @@
-import { FunnelIcon } from "@heroicons/react/16/solid";
+import { Funnel } from "lucide-react";
 import { getExtracted } from "next-intl/server";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
@@ -13,7 +13,7 @@ export default async function Page() {
       <div className="mt-8 flex items-end justify-between">
         <Subheading>{t("Live feed (UTC)")}</Subheading>
         <ReportsFilterDialog>
-          <FunnelIcon />
+          <Funnel data-slot="icon" aria-hidden="true" />
           {t("Filter")}
         </ReportsFilterDialog>
       </div>

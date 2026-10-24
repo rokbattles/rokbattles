@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from "@heroicons/react/16/solid";
+import { ChevronLeft } from "lucide-react";
 import { redirect } from "next/navigation";
 import { getExtracted } from "next-intl/server";
 import { ArkMatchDetailContent } from "@/components/account-ark/ark-match-detail-content";
@@ -23,7 +23,11 @@ export default async function Page({ params }: PageProps<"/account/ark/[matchId]
           href="/account/ark"
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
         >
-          <ChevronLeftIcon aria-hidden="true" className="size-4 fill-zinc-400 dark:fill-zinc-500" />
+          <ChevronLeft
+            data-slot="icon"
+            aria-hidden="true"
+            className="size-4 text-zinc-400 dark:text-zinc-500"
+          />
           {t("Back to Ark Recap")}
         </Link>
       </div>

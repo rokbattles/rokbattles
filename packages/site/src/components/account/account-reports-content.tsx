@@ -1,6 +1,6 @@
 "use client";
 
-import { FunnelIcon } from "@heroicons/react/16/solid";
+import { Funnel } from "lucide-react";
 import { useExtracted } from "next-intl";
 import { use } from "react";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
@@ -28,7 +28,7 @@ export function AccountReportsContent() {
       <div className="mt-8 flex items-end justify-between">
         <Subheading>{t("Live feed (UTC)")}</Subheading>
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
-          <FunnelIcon />
+          <Funnel data-slot="icon" aria-hidden="true" />
           {t("Filter")}
         </ReportsFilterDialog>
       </div>

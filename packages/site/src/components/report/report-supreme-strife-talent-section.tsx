@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { ChevronDown } from "lucide-react";
 import { useExtracted, useLocale } from "next-intl";
 import { Subheading } from "@/components/ui/heading";
 import { getSupremeStrifeTalents } from "@/lib/supreme-strife-talents";
@@ -30,7 +30,11 @@ export function ReportSupremeStrifeTalentSection({
               <span className="font-medium text-base/6 text-zinc-950 sm:text-sm/6 dark:text-white">
                 {talent.name}
               </span>
-              <ChevronDownIcon className="mt-1 size-4 shrink-0 fill-zinc-400 transition-transform group-open:rotate-180 dark:fill-zinc-500" />
+              <ChevronDown
+                data-slot="icon"
+                aria-hidden="true"
+                className="mt-1 size-4 shrink-0 text-zinc-400 transition-transform group-open:rotate-180 dark:text-zinc-500"
+              />
             </summary>
             <p className="mt-2 whitespace-pre-line text-base/6 text-zinc-600 sm:text-sm/6 dark:text-zinc-300">
               {talent.description}

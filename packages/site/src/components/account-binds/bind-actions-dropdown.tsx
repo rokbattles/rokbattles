@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { ChevronDown } from "lucide-react";
 import { useExtracted } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +31,7 @@ export function BindActionsDropdown({
     <Dropdown>
       <DropdownButton as={Button} plain disabled={disabled}>
         {t("Actions")}
-        <ChevronDownIcon />
+        <ChevronDown data-slot="icon" aria-hidden="true" />
       </DropdownButton>
       <DropdownMenu className="min-w-52" anchor="bottom end">
         <DropdownItem

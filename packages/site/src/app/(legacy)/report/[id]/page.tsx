@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from "@heroicons/react/16/solid";
+import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { getExtracted } from "next-intl/server";
 import { ReportView } from "@/components/report/report-view";
@@ -64,7 +64,11 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
           href={backHref}
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
         >
-          <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
+          <ChevronLeft
+            data-slot="icon"
+            aria-hidden="true"
+            className="size-4 text-zinc-400 dark:text-zinc-500"
+          />
           {arkMatchId ? t("Back to Ark Recap") : backLabel}
         </Link>
       </div>

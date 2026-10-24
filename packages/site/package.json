@@ -14,7 +14,6 @@
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@headlessui/react": "^2.2.10",
-    "@heroicons/react": "^2.2.0",
     "@next/mdx": "^16.4.2",
     "@sentry/nextjs": "^10.76.2",
     "@wrksz/themes": "^1.2.0",

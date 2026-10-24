@@ -1,17 +1,18 @@
 "use client";
 
 import {
-  BookOpenIcon,
-  ChartPieIcon,
-  FireIcon,
-  FlagIcon,
-  GiftIcon,
-  HeartIcon,
-  MapIcon,
-  QuestionMarkCircleIcon,
-  ScaleIcon,
-  TrophyIcon,
-} from "@heroicons/react/16/solid";
+  BookOpen,
+  ChartPie,
+  CircleHelp,
+  Flag,
+  Flame,
+  Gift,
+  Heart,
+  Map as MapIcon,
+  Scale,
+  Trophy,
+  Warehouse,
+} from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
@@ -97,26 +98,26 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarSection>
               <SidebarHeading>Community</SidebarHeading>
               <SidebarItem href="/" current={pathname === "/"}>
-                <FireIcon />
+                <Flame data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Battle Reports")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
-                <TrophyIcon />
+                <Trophy data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Olympian Arena")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/loot-explorer"
                 current={pathname === "/loot-explorer" || pathname.startsWith("/loot-explorer/")}
               >
-                <GiftIcon />
+                <Gift data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Loot Explorer")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/combat-lab" current={pathname.startsWith("/combat-lab")}>
-                <ChartPieIcon />
+                <ChartPie data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Combat Lab")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/territory-lab" current={pathname.startsWith("/territory-lab")}>
-                <MapIcon />
+                <MapIcon data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Territory Lab</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
@@ -126,14 +127,14 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 {showMyReports ? (
                   <>
                     <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
-                      <FireIcon />
+                      <Flame data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>{t("My Battles")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       href="/account/pairings"
                       current={pathname === "/account/pairings"}
                     >
-                      <ScaleIcon />
+                      <Scale data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>{t("My Pairings")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
@@ -142,21 +143,21 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                         pathname === "/account/loot" || pathname.startsWith("/account/loot/")
                       }
                     >
-                      <GiftIcon />
+                      <Gift data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>{t("My Loot")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       href="/account/resources"
                       current={pathname === "/account/resources"}
                     >
-                      <GiftIcon />
+                      <Warehouse data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>{t("My Resources")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       href="/account/ark"
                       current={pathname === "/account/ark" || pathname.startsWith("/account/ark/")}
                     >
-                      <FlagIcon />
+                      <Flag data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>{t("Ark Recap")}</SidebarLabel>
                     </SidebarItem>
                   </>
@@ -171,7 +172,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 rel="noopener noreferrer"
                 prefetch={false}
               >
-                <HeartIcon />
+                <Heart data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Donate")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
@@ -180,11 +181,11 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 rel="noopener noreferrer"
                 prefetch={false}
               >
-                <QuestionMarkCircleIcon />
+                <CircleHelp data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Support")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/docs" target="_blank" rel="noopener noreferrer" prefetch={false}>
-                <BookOpenIcon />
+                <BookOpen data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>{t("Documentation")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>

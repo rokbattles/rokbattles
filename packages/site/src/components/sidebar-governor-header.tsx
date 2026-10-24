@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  ArrowRightStartOnRectangleIcon,
-  ChevronDownIcon,
-  Cog6ToothIcon,
-  PlusIcon,
-  ScaleIcon,
-  ShieldCheckIcon,
-} from "@heroicons/react/16/solid";
+import { ChevronDown, LogOut, Plus, Scale, Settings, ShieldCheck } from "lucide-react";
 import { useExtracted } from "next-intl";
 import { use, useState } from "react";
 import { CookieConsentDialog } from "@/components/cookie-consent-dialog";
@@ -54,7 +47,7 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
           <DropdownButton as={SidebarItem}>
             {displayAvatar && <Avatar slot="icon" src={displayAvatar} className="size-10" square />}
             <SidebarLabel>{displayName}</SidebarLabel>
-            <ChevronDownIcon />
+            <ChevronDown data-slot="icon" aria-hidden="true" />
           </DropdownButton>
           <DropdownMenu className="min-w-80 lg:min-w-64" anchor="bottom start">
             {governors.length > 0 &&
@@ -77,26 +70,26 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
               ))}
             {canClaimMore ? (
               <DropdownItem href="/account/settings/governors">
-                <PlusIcon />
+                <Plus data-slot="icon" aria-hidden="true" />
                 <DropdownLabel>{t("Claim governor")}</DropdownLabel>
               </DropdownItem>
             ) : null}
             <DropdownDivider />
             <DropdownItem href="/account/settings">
-              <Cog6ToothIcon />
+              <Settings data-slot="icon" aria-hidden="true" />
               <DropdownLabel>{t("Account Settings")}</DropdownLabel>
             </DropdownItem>
             <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
-              <ScaleIcon />
+              <Scale data-slot="icon" aria-hidden="true" />
               <DropdownLabel>{t("Cookie Settings")}</DropdownLabel>
             </DropdownItem>
             <DropdownItem href="/legal">
-              <ShieldCheckIcon />
+              <ShieldCheck data-slot="icon" aria-hidden="true" />
               <DropdownLabel>{t("Legal")}</DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={() => handleLogout()}>
-              <ArrowRightStartOnRectangleIcon />
+              <LogOut data-slot="icon" aria-hidden="true" />
               <DropdownLabel>{t("Sign out")}</DropdownLabel>
             </DropdownItem>
           </DropdownMenu>
