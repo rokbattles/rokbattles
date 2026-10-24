@@ -23476,6 +23476,340 @@ commanders:
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_203.png
 
+  621:
+    name:
+      ar: "يي تو"
+      de: "Yi To"
+      en: "Yi To"
+      es: "Yi To"
+      fr: "Yi To"
+      id: "Yi To"
+      it: "Yi To"
+      ja: "李裪"
+      ko: "이도"
+      ms: "Yi To"
+      pl: "Yi To"
+      pt: "Yi To"
+      ru: "И То"
+      th: "อีโท"
+      tr: "Yi To"
+      vi: "Yi To"
+      zh_CN: "李裪"
+      zh_TW: "李裪"
+    nickname:
+      ar: "سيجونج العظيم"
+      de: "Sejong"
+      en: "Sejong the Great"
+      es: "Sejong el Grande"
+      fr: "Sejong le Grand"
+      id: "Sejong Agung"
+      it: "Sejong il Grande"
+      ja: "世宗大王"
+      ko: "세종대왕"
+      ms: "Sejong yang Agung"
+      pl: "Sejong Wielki"
+      pt: "Sejong, o Grande"
+      ru: "Седжон Великий"
+      th: "พระเจ้าเซจงมหาราช"
+      tr: "Büyük Kral Sejong"
+      vi: "Sejong Đại Đế"
+      zh_CN: "世宗大王"
+      zh_TW: "世宗大王"
+    prime: false
+    rarity: legendary
+    kvk_limit: 3
+    talents:
+      - infantry
+      - versatility
+      - smite
+    skills:
+      - slot: 1
+        id: 449
+        name:
+          ar: "المملكة الحصينة"
+          de: "Befestigtes Königreich"
+          en: "Fortified Kingdom"
+          es: "Reino fortificado"
+          fr: "Royaume fortifié"
+          id: "Kerajaan Dibentengi"
+          it: "Regno fortificato"
+          ja: "四郡の陣固め"
+          ko: "사군 철벽진"
+          ms: "Kerajaan Berkubu"
+          pl: "Umocnione królestwo"
+          pt: "Reino Fortificado"
+          ru: "Укрепленные королевства"
+          th: "เสริมกำลังอาณาจักร"
+          tr: "Tahkimli Krallık"
+          vi: "Vương Quốc Kiên Cố"
+          zh_CN: "四郡固阵"
+          zh_TW: "四郡固陣"
+        sprite:
+          - img_HeroSkill641.png
+      - slot: 2
+        id: 1844
+        name:
+          ar: "مسيرة سريعة"
+          de: "Schneller Marsch"
+          en: "Quick March"
+          es: "Marcha ágil"
+          fr: "Marche rapide"
+          id: "Bergerak Cepat"
+          it: "Marcia rapida"
+          ja: "精鋭の疾進"
+          ko: "정예병 돌진"
+          ms: "Kawad Pantas"
+          pl: "Szybki marsz"
+          pt: "Marcha Rápida"
+          ru: "Быстрый переход"
+          th: "เคลื่อนพลแบบด่วน"
+          tr: "Hızlı İntikal"
+          vi: "Hành Quân Nhanh"
+          zh_CN: "锐卒疾进"
+          zh_TW: "銳卒疾進"
+        sprite:
+          - img_HeroSkill642.png
+      - slot: 3
+        id: 1845
+        name:
+          ar: "حدود لا تُخترق"
+          de: "Undurchdringliche Grenzen"
+          en: "Impenetrable Borders"
+          es: "Fronteras impenetrables"
+          fr: "Frontières impénétrables"
+          id: "Perbatasan Tak Tertembus"
+          it: "Confini impenetrabili"
+          ja: "辺境の強兵"
+          ko: "국경 수비"
+          ms: "Sempadan Kebal"
+          pl: "Nieprzeniknione granice"
+          pt: "Fronteiras Impenetráveis"
+          ru: "Неприступные границы"
+          th: "พรมแดนที่ยากจะฝ่าข้าม"
+          tr: "Aşılmaz Sınırlar"
+          vi: "Biên Giới Bất Khả Xâm Phạm"
+          zh_CN: "强兵备边"
+          zh_TW: "強兵備邊"
+        sprite:
+          - img_HeroSkill643.png
+      - slot: 4
+        id: 1846
+        name:
+          ar: "الاتحاد والتحطيم"
+          de: "Vereinen und zertrümmern"
+          en: "Unite and Shatter"
+          es: "Unidad y demolición"
+          fr: "Unis dans l'adversité"
+          id: "Bersatu dan Hancur"
+          it: "Unisci e infrangi"
+          ja: "破陣の勢い"
+          ko: "파진의 기세"
+          ms: "Bersatu dan Hancurkan"
+          pl: "Zjednocz i rozbij"
+          pt: "Unir e Destruir"
+          ru: "Связывать и разделять"
+          th: "ผนึกกำลังและทุบให้สลาย"
+          tr: "Birlik Ol ve Harap Et"
+          vi: "Đoàn Kết và Tan Vỡ"
+          zh_CN: "聚势破阵"
+          zh_TW: "聚勢破陣"
+        sprite:
+          - img_HeroSkill644.png
+      - slot: 5
+        id: 1847
+        name:
+          ar: "الزخم المستمر"
+          de: "Anhaltender Schwung"
+          en: "Sustained Momentum"
+          es: "Impulso sostenido"
+          fr: "Élan soutenu"
+          id: "Momentum Berkelanjutan"
+          it: "Slancio costante"
+          ja: "勝鬨の勢い"
+          ko: "승세 추격"
+          ms: "Momentum Berterusan"
+          pl: "Nieustający impet"
+          pt: "Impulso Contínuo"
+          ru: "Непрерывный движитель"
+          th: "แรงผลักดันที่ยั่งยืน"
+          tr: "Sürdürülebilir İvme"
+          vi: "Đà Phát Triển Bền Vững"
+          zh_CN: "乘胜追袭"
+          zh_TW: "乘勝追襲"
+        sprite:
+          - img_WakeUpHeroSkill124.png
+    sprite:
+      - img_icon_HeroProfile_BGMask.png
+      - img_icon_HeroProfile_BGOrange.png
+      - img_icon_HeroProfile_205.png
+
+  622:
+    name:
+      ar: "سليم الأول"
+      de: "Selim I"
+      en: "Selim I"
+      es: "Selim I"
+      fr: "Selim I"
+      id: "Selim I"
+      it: "Selim I"
+      ja: "セリム1世"
+      ko: "셀림 1세"
+      ms: "Selim I"
+      pl: "Selim I"
+      pt: "Selim I"
+      ru: "Селим I"
+      th: "เซลิมที่ 1"
+      tr: "I. Selim"
+      vi: "Selim I"
+      zh_CN: "塞利姆一世"
+      zh_TW: "塞利姆一世"
+    nickname:
+      ar: "السلطان الحازم"
+      de: "Der entschlossene Sultan"
+      en: "The Resolute Sultan"
+      es: "El sultán decidido"
+      fr: "L'inflexible sultan"
+      id: "Sultan Teguh"
+      it: "Il sultano risoluto"
+      ja: "ヤヴズ・スルタン"
+      ko: "야부즈 술탄"
+      ms: "Sultan Berjiwa Kental"
+      pl: "Niezłomny sułtan"
+      pt: "Sultão Resoluto"
+      ru: "Грозный султан"
+      th: "สุลต่านผู้มุ่งมั่น"
+      tr: "Azimli Sultan"
+      vi: "Sultan Quả Quyết"
+      zh_CN: "亚武兹苏丹"
+      zh_TW: "亞武茲蘇丹"
+    prime: false
+    rarity: legendary
+    kvk_limit: 3
+    talents:
+      - infantry
+      - garrison
+      - defense
+    skills:
+      - slot: 1
+        id: 444
+        name:
+          ar: "أمير طرابزون"
+          de: "Prinz von Trapezunt"
+          en: "Prince of Trebizond"
+          es: "Príncipe de Trebisonda"
+          fr: "Prince de Trébizonde"
+          id: "Pangeran Trebizond"
+          it: "Principe di Trebisonda"
+          ja: "鉄腕の統治"
+          ko: "철완의 총독"
+          ms: "Putera Trebizond"
+          pl: "Książę Trapezuntu"
+          pt: "Príncipe de Trebizonda"
+          ru: "Принц Трапезунда"
+          th: "องค์ชายแห่งเทรบิซอนด์"
+          tr: "Trabzon Prensi"
+          vi: "Hoàng Tử Trebizond"
+          zh_CN: "铁腕总督"
+          zh_TW: "鐵腕總督"
+        sprite:
+          - img_HeroSkill645.png
+      - slot: 2
+        id: 1840
+        name:
+          ar: "ملك عهد الدم"
+          de: "Blutgeschwur-Herrscher"
+          en: "Bloodsworn Sovereign"
+          es: "Soberano de sangre"
+          fr: "Souverain de sang"
+          id: "Penguasa Terikat Darah"
+          it: "Sovrano del patto di sangue"
+          ja: "血染めの王権"
+          ko: "핏빛 왕권"
+          ms: "Pemerintah Bersumpah Darah"
+          pl: "Suweren Krwawej Przysięgi"
+          pt: "Soberano Jurado de Sangue"
+          ru: "Властитель кровавой присяги"
+          th: "ราชันผู้ให้สัตย์ด้วยเลือด"
+          tr: "Kan Yemini Etmiş Hükümdar"
+          vi: "Quốc Vương Huyết Thệ"
+          zh_CN: "血肃王权"
+          zh_TW: "血肅王權"
+        sprite:
+          - img_HeroSkill646.png
+      - slot: 3
+        id: 1841
+        name:
+          ar: "سقوط المماليك"
+          de: "Untergang der Mamluks"
+          en: "Fall of the Mamluks"
+          es: "Caída de los mamelucos"
+          fr: "Chute des Mamelouks"
+          id: "Kejatuhan Mamluk"
+          it: "Caduta dei mamelucchi"
+          ja: "マムルーク征服"
+          ko: "맘루크 정복"
+          ms: "Kejatuhan Mamluk"
+          pl: "Upadek Mameluków"
+          pt: "Queda dos Mamelucos"
+          ru: "Поражение мамлюков"
+          th: "การล่มสลายของมัมลุค"
+          tr: "Memlüklerin Düşüşü"
+          vi: "Mamluk Bại Trận"
+          zh_CN: "马穆鲁克征服"
+          zh_TW: "馬木路克征服"
+        sprite:
+          - img_HeroSkill647.png
+      - slot: 4
+        id: 1842
+        name:
+          ar: "خادم المدينتين المقدستين"
+          de: "Diener der Heiligen Städte"
+          en: "Servant of Holy Cities"
+          es: "Servidor de las Ciudades Santas"
+          fr: "Serviteur des villes saintes"
+          id: "Pelayan Kota Suci"
+          it: "Servo delle città sacre"
+          ja: "両聖地の守護者"
+          ko: "두 성지의 수호자"
+          ms: "Penjaga Kota Suci"
+          pl: "Sługa świętych miast"
+          pt: "Servo das Cidades Sagradas"
+          ru: "Служитель Двух Святынь"
+          th: "ผู้รับใช้แห่งเมืองศักดิ์สิทธิ์"
+          tr: "Kutsal Şehirlerin Hizmetkârı"
+          vi: "Người Phục Vụ Thành Phố Linh Thiêng"
+          zh_CN: "两圣地守护者"
+          zh_TW: "兩聖地守護者"
+        sprite:
+          - img_HeroSkill648.png
+      - slot: 5
+        id: 1843
+        name:
+          ar: "السلطة مسؤولية عظمى"
+          de: "Die Krone wiegt schwer"
+          en: "Heavy Is the Crown"
+          es: "La corona es pesada"
+          fr: "Le poids de la couronne"
+          id: "Mahkota Memang Berat"
+          it: "Pesante è la corona"
+          ja: "孤高の王座"
+          ko: "고고한 왕좌"
+          ms: "Beban Sang Mahkota"
+          pl: "Ciężka jest korona"
+          pt: "Pesada é a Coroa"
+          ru: "Бремя правления"
+          th: "มงกุฎอันหนักอึ้ง"
+          tr: "Tacın Yükü Ağırdır"
+          vi: "Gánh Nặng Trị Vì"
+          zh_CN: "孤高王座"
+          zh_TW: "孤高王座"
+        sprite:
+          - img_WakeUpHeroSkill125.png
+    sprite:
+      - img_icon_HeroProfile_BGMask.png
+      - img_icon_HeroProfile_BGOrange.png
+      - img_icon_HeroProfile_206.png
+
   627:
     name:
       ar: "يحيى بن خالد"
