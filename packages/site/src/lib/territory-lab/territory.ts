@@ -3,30 +3,33 @@ import { buildingCostBreakdown, calculateCostTotals } from "@/lib/territory-lab/
 import {
   boundaryCollision,
   buildingRules,
-  buildTerritoryOwnership,
+  buildTerritoryState,
   countCoveredResources,
-  hasRequiredTerritoryAvailability,
   isConnectedToAlliance,
   isProvinceRestricted,
+  isTerritoryCenterAvailable,
   mapStructureCollision,
   plannedBuildingCollision,
   resourcePointCollision,
-  type TerritoryOwnership,
+  type TerritoryState,
 } from "@/lib/territory-lab/geometry";
 import { nearbyTerrainInstances } from "./terrain";
 import type { Building, Catalog, MapData, Plan } from "./types";
 
-const ownershipCache = new WeakMap<
+const territoryCache = new WeakMap<
   Building[],
-  { catalog: Catalog; data: MapData; ownership: TerritoryOwnership }
+  { catalog: Catalog; data: MapData; state: TerritoryState }
 >();
 
-function planOwnership(plan: Plan, catalog: Catalog, data: MapData): TerritoryOwnership {
-  const cached = ownershipCache.get(plan.buildings);
-  if (cached?.catalog === catalog && cached.data === data) return cached.ownership;
-  const ownership = buildTerritoryOwnership(plan.buildings, mapStructures(catalog, data));
-  ownershipCache.set(plan.buildings, { catalog, data, ownership });
-  return ownership;
+function planTerritory(plan: Plan, catalog: Catalog, data: MapData): TerritoryState {
+  const cached = territoryCache.get(plan.buildings);
+
+  if (cached?.catalog === catalog && cached.data === data) return cached.state;
+
+  const state = buildTerritoryState(plan.buildings, mapStructures(catalog, data));
+  territoryCache.set(plan.buildings, { catalog, data, state });
+
+  return state;
 }
 
 export function placementError(
@@ -74,28 +77,32 @@ export function placementError(
     return "The building overlaps forbidden terrain.";
 
   const structures = mapStructures(catalog, data);
+
   if (mapStructureCollision(candidate, structures)) return "The building overlaps a map structure.";
 
-  const ownership = planOwnership(plan, catalog, data);
-  if (!isConnectedToAlliance(candidate, ownership))
-    return "Connect flags to this alliance’s territory. Start with a fortress.";
+  const { ownership, activeOwnership } = planTerritory(plan, catalog, data);
 
-  if (!hasRequiredTerritoryAvailability(candidate, ownership))
-    return "Too much of this footprint belongs to another alliance.";
+  if (!isTerritoryCenterAvailable(candidate, ownership))
+    return "The building’s center cell belongs to another alliance.";
+
+  if (!isConnectedToAlliance(candidate, activeOwnership, ownership))
+    return "Connect flags to this alliance’s active territory. Start with a fortress.";
 
   return null;
 }
 
 export function territorySummary(plan: Plan, catalog: Catalog, data: MapData, allianceId: string) {
   const buildings = plan.buildings;
-  const ownership = planOwnership(plan, catalog, data);
+  const { ownership } = planTerritory(plan, catalog, data);
   const covered = countCoveredResources(ownership, data.resources, allianceId);
+
   const production = Object.fromEntries(
     Object.entries(covered).map(([kind, count]) => [
       kind === "coin" ? "gold" : kind,
       count * (catalog.resourceProductionPerHour[kind === "coin" ? "gold" : kind] ?? 0),
     ])
   );
+
   return {
     ownership,
     covered,
@@ -109,6 +116,7 @@ export function territorySummary(plan: Plan, catalog: Catalog, data: MapData, al
 export function mapStructures(catalog: Catalog, data: MapData): TerritoryStructure[] {
   return data.sites.flatMap((site, index) => {
     if (site.id.startsWith("canyons:")) return [];
+
     const rule =
       site.kind === "bastion"
         ? {
@@ -118,7 +126,9 @@ export function mapStructures(catalog: Catalog, data: MapData): TerritoryStructu
             claimable: false,
           }
         : catalog.structureRules?.[String(site.strongholdType)];
+
     if (!rule) return [];
+
     return [
       {
         ...rule,

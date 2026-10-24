@@ -44,8 +44,10 @@ export type TerritoryCellOwner = TerritoryCell & {
 };
 
 export type TerritoryOwnership = ReadonlyMap<string, TerritoryCellOwner>;
+
 export type TerritoryState = {
   ownership: TerritoryOwnership;
+  activeOwnership: TerritoryOwnership;
   structureOwners: ReadonlyMap<number, string>;
 };
 
@@ -126,6 +128,15 @@ function territoryCellKey(column: number, row: number): string {
   return `${column}:${row}`;
 }
 
+function adjacentTerritoryCells({ column, row }: TerritoryCell): TerritoryCell[] {
+  return [
+    { column: column - 1, row },
+    { column: column + 1, row },
+    { column, row: row - 1 },
+    { column, row: row + 1 },
+  ];
+}
+
 export function structureTerritoryCells(
   structure: Pick<TerritoryStructure, "x" | "y" | "territoryRadiusInCells">
 ): TerritoryCell[] {
@@ -167,16 +178,42 @@ function cellsTouchAlliance(
   ownership: TerritoryOwnership
 ): boolean {
   return cells.some((cell) =>
-    [
-      [cell.column, cell.row],
-      [cell.column - 1, cell.row],
-      [cell.column + 1, cell.row],
-      [cell.column, cell.row - 1],
-      [cell.column, cell.row + 1],
-    ].some(
-      ([column, row]) => ownership.get(territoryCellKey(column, row))?.allianceId === allianceId
+    [cell, ...adjacentTerritoryCells(cell)].some(
+      ({ column, row }) => ownership.get(territoryCellKey(column, row))?.allianceId === allianceId
     )
   );
+}
+
+function activeTerritoryOwnership(
+  buildings: Building[],
+  ownership: TerritoryOwnership
+): TerritoryOwnership {
+  const active = new Map<string, TerritoryCellOwner>();
+  const pending: TerritoryCellOwner[] = [];
+
+  const activate = (cell: TerritoryCell, allianceId: string) => {
+    const key = territoryCellKey(cell.column, cell.row);
+    const owner = ownership.get(key);
+
+    if (owner?.allianceId !== allianceId || active.has(key)) return;
+
+    active.set(key, owner);
+    pending.push(owner);
+  };
+
+  for (const building of buildings) {
+    if (!buildingRules[building.kind].root) continue;
+
+    for (const cell of territoryCells(building)) activate(cell, building.allianceId);
+  }
+
+  for (let index = 0; index < pending.length; index += 1) {
+    const cell = pending[index];
+
+    for (const neighbor of adjacentTerritoryCells(cell)) activate(neighbor, cell.allianceId);
+  }
+
+  return active;
 }
 
 export function buildTerritoryState(
@@ -188,46 +225,69 @@ export function buildTerritoryState(
   const structureCellsById = new Map<number, TerritoryCell[]>();
   const reservedStructureCells = new Set<string>();
   const permanentlyExcludedCells = new Set<string>();
+
   for (const structure of structures) {
     if (structure.territoryRadiusInCells <= 0) continue;
+
     const cells = structureTerritoryCells(structure);
     structureCellsById.set(structure.id, cells);
+
     for (const cell of cells) {
       const key = territoryCellKey(cell.column, cell.row);
       reservedStructureCells.add(key);
+
       if (!structure.claimable) permanentlyExcludedCells.add(key);
     }
   }
+
   const claimableStructures = structures
     .filter((structure) => structure.claimable && structure.territoryRadiusInCells > 0)
     .toSorted((left, right) => left.id - right.id);
+
   for (const building of buildings) {
     for (const cell of territoryCells(building)) {
       const key = territoryCellKey(cell.column, cell.row);
+
       if (reservedStructureCells.has(key) || ownership.has(key)) continue;
+
       ownership.set(key, {
         ...cell,
         allianceId: building.allianceId,
       });
     }
+
     let claimedInPass = true;
+
     while (claimedInPass) {
       claimedInPass = false;
+
       for (const structure of claimableStructures) {
         if (structureOwners.has(structure.id)) continue;
+
         const cells = structureCellsById.get(structure.id) ?? [];
+
         if (!cellsTouchAlliance(cells, building.allianceId, ownership)) continue;
+
         structureOwners.set(structure.id, building.allianceId);
+
         for (const cell of cells) {
           const key = territoryCellKey(cell.column, cell.row);
+
           if (permanentlyExcludedCells.has(key)) continue;
+
           if (!ownership.has(key)) ownership.set(key, { ...cell, allianceId: building.allianceId });
         }
+
         claimedInPass = true;
       }
     }
   }
-  return { ownership, structureOwners };
+
+  return {
+    ownership,
+    activeOwnership: activeTerritoryOwnership(buildings, ownership),
+    structureOwners,
+  };
 }
 
 export function buildTerritoryOwnership(
@@ -353,36 +413,50 @@ export function buildTerritoryOverviewsFromOwnership(
 
 export function isConnectedToAlliance(
   candidate: Pick<Building, "kind" | "x" | "y" | "allianceId">,
+  activeOwnership: TerritoryOwnership,
   ownership: TerritoryOwnership
 ): boolean {
   if (buildingRules[candidate.kind].root) return true;
-  return territoryCells(candidate).some((cell) =>
-    [
-      [cell.column, cell.row],
-      [cell.column - 1, cell.row],
-      [cell.column + 1, cell.row],
-      [cell.column, cell.row - 1],
-      [cell.column, cell.row + 1],
-    ].some(
-      ([column, row]) =>
-        ownership.get(territoryCellKey(column, row))?.allianceId === candidate.allianceId
-    )
+
+  const available = new Set(
+    territoryCells(candidate)
+      .filter((cell) => {
+        const owner = ownership.get(territoryCellKey(cell.column, cell.row));
+
+        return !owner || owner.allianceId === candidate.allianceId;
+      })
+      .map((cell) => territoryCellKey(cell.column, cell.row))
   );
+
+  const pending: TerritoryCell[] = [
+    {
+      column: Math.floor(candidate.x / TERRITORY_UNIT),
+      row: Math.floor(candidate.y / TERRITORY_UNIT),
+    },
+  ];
+
+  for (let index = 0; index < pending.length; index += 1) {
+    const cell = pending[index];
+
+    if (!available.delete(territoryCellKey(cell.column, cell.row))) continue;
+
+    if (cellsTouchAlliance([cell], candidate.allianceId, activeOwnership)) return true;
+
+    pending.push(...adjacentTerritoryCells(cell));
+  }
+
+  return false;
 }
 
-export function hasRequiredTerritoryAvailability(
-  candidate: Pick<Building, "kind" | "x" | "y" | "allianceId">,
+export function isTerritoryCenterAvailable(
+  candidate: Pick<Building, "x" | "y" | "allianceId">,
   ownership: TerritoryOwnership
 ): boolean {
-  const cells = territoryCells(candidate);
-  const sideInCells = Math.round(buildingRules[candidate.kind].territorySide / TERRITORY_UNIT);
-  const requiredAvailable = Math.ceil(sideInCells / 2) * sideInCells;
-  let available = 0;
-  for (const cell of cells) {
-    const owner = ownership.get(territoryCellKey(cell.column, cell.row));
-    if (!owner || owner.allianceId === candidate.allianceId) available += 1;
-  }
-  return available >= requiredAvailable;
+  const column = Math.floor(candidate.x / TERRITORY_UNIT);
+  const row = Math.floor(candidate.y / TERRITORY_UNIT);
+  const owner = ownership.get(territoryCellKey(column, row));
+
+  return !owner || owner.allianceId === candidate.allianceId;
 }
 
 export function plannedBuildingCollision(
