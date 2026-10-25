@@ -1,4 +1,6 @@
-import { Input as HeadlessInput, type InputProps as HeadlessInputProps } from "@headlessui/react";
+"use client";
+
+import { Input as BaseInput } from "@base-ui/react/input";
 import { cn } from "cn";
 import type React from "react";
 import { forwardRef } from "react";
@@ -26,11 +28,13 @@ type DateType = (typeof dateTypes)[number];
 export const Input = forwardRef(function Input(
   {
     className,
+    invalid,
     ...props
   }: {
     className?: string;
+    invalid?: boolean;
     type?: "email" | "number" | "password" | "search" | "tel" | "text" | "url" | DateType;
-  } & Omit<HeadlessInputProps, "as" | "className">,
+  } & Omit<BaseInput.Props, "as" | "className">,
   ref: React.ForwardedRef<HTMLInputElement>
 ) {
   return (
@@ -46,9 +50,12 @@ export const Input = forwardRef(function Input(
       ])}
       data-slot="control"
     >
-      <HeadlessInput
+      <BaseInput
+        data-autofocus={props.autoFocus || undefined}
         ref={ref}
         {...props}
+        aria-invalid={invalid || props["aria-invalid"]}
+        data-invalid={invalid || undefined}
         className={cn([
           // Date classes
           props.type &&
@@ -71,15 +78,15 @@ export const Input = forwardRef(function Input(
           // Typography
           "text-base/6 placeholder:text-zinc-500 sm:text-sm/6 text-white",
           // Border
-          "border border-white/10 data-hover:border-white/20",
+          "border border-white/10 hover:border-white/20",
           // Background color
           "bg-white/5",
           // Hide default focus styles
           "focus:outline-hidden",
           // Invalid state
-          "data-invalid:data-hover:border-red-500 data-invalid:border-red-500",
+          "data-invalid:hover:border-red-500 data-invalid:border-red-500",
           // Disabled state
-          "data-hover:data-disabled:border-white/15 data-disabled:border-white/15 data-disabled:bg-white/2.5",
+          "hover:data-disabled:border-white/15 data-disabled:border-white/15 data-disabled:bg-white/2.5",
           // System icons
           "scheme-dark",
         ])}

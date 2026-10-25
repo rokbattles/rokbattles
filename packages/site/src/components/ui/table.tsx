@@ -89,7 +89,7 @@ export function TableRow({
         className={cn(
           className,
           href &&
-            "has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:outline-blue-500 has-[[data-row-link][data-focus]]:-outline-offset-2 focus-within:bg-white/2.5",
+            "has-[[data-row-link]:focus-visible]:outline-2 has-[[data-row-link]:focus-visible]:outline-blue-500 has-[[data-row-link]:focus-visible]:-outline-offset-2 focus-within:bg-white/2.5",
           striped && "even:bg-white/2.5",
           href && striped && "hover:bg-white/5",
           href && !striped && "hover:bg-white/2.5"

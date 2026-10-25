@@ -1,16 +1,13 @@
 "use client";
 
-import {
-  Button as HeadlessButton,
-  type ButtonProps as HeadlessButtonProps,
-  CloseButton as HeadlessCloseButton,
-} from "@headlessui/react";
+import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "cn";
 import { LayoutGroup, motion } from "framer-motion";
 import type React from "react";
-import { forwardRef, useId } from "react";
+import { forwardRef, useContext, useId } from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
+import { MobileSidebarCloseContext } from "./mobile-sidebar-context";
 
 export function Sidebar({ className, ...props }: React.ComponentPropsWithoutRef<"nav">) {
   return <nav {...props} className={cn(className, "flex h-full min-h-0 flex-col")} />;
@@ -83,11 +80,12 @@ export const SidebarItem = forwardRef(function SidebarItem(
     children,
     ...props
   }: { current?: boolean; className?: string; children: React.ReactNode } & (
-    | Omit<HeadlessButtonProps, "as" | "className">
-    | Omit<HeadlessButtonProps<typeof Link>, "as" | "className">
+    | Omit<BaseButton.Props, "as" | "className">
+    | Omit<React.ComponentPropsWithoutRef<typeof Link>, "as" | "className">
   ),
   ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
 ) {
+  const closeSidebar = useContext(MobileSidebarCloseContext);
   const classes = cn(
     // Base
     "flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left font-medium text-base/6 sm:py-2 sm:text-sm/5",
@@ -98,8 +96,8 @@ export const SidebarItem = forwardRef(function SidebarItem(
     // Avatar
     "*:data-[slot=avatar]:-m-0.5 *:data-[slot=avatar]:size-7 sm:*:data-[slot=avatar]:size-6",
     "text-white *:data-[slot=icon]:text-zinc-400",
-    "data-hover:bg-white/5 data-hover:*:data-[slot=icon]:text-white",
-    "data-active:bg-white/5 data-active:*:data-[slot=icon]:text-white",
+    "not-data-disabled:hover:bg-white/5 not-data-disabled:hover:*:data-[slot=icon]:text-white",
+    "not-data-disabled:active:bg-white/5 not-data-disabled:active:*:data-[slot=icon]:text-white",
     "data-current:*:data-[slot=icon]:text-white"
   );
 
@@ -112,24 +110,28 @@ export const SidebarItem = forwardRef(function SidebarItem(
         />
       )}
       {"href" in props ? (
-        <HeadlessCloseButton
-          as={Link}
+        <Link
           {...props}
+          onClick={(event) => {
+            props.onClick?.(event);
+            if (!event.defaultPrevented) closeSidebar?.();
+          }}
           className={classes}
           data-current={current ? "true" : undefined}
-          ref={ref}
+          ref={ref as React.ForwardedRef<HTMLAnchorElement>}
         >
           <TouchTarget>{children}</TouchTarget>
-        </HeadlessCloseButton>
+        </Link>
       ) : (
-        <HeadlessButton
+        <BaseButton
+          data-autofocus={props.autoFocus || undefined}
           {...props}
           className={cn("cursor-default", classes)}
           data-current={current ? "true" : undefined}
           ref={ref}
         >
           <TouchTarget>{children}</TouchTarget>
-        </HeadlessButton>
+        </BaseButton>
       )}
     </span>
   );

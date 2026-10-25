@@ -1,7 +1,6 @@
-import {
-  Button as HeadlessButton,
-  type ButtonProps as HeadlessButtonProps,
-} from "@headlessui/react";
+"use client";
+
+import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "cn";
 import Image from "next/image";
 import type React from "react";
@@ -76,7 +75,7 @@ export const AvatarButton = forwardRef(function AvatarButton(
     ...props
   }: AvatarProps &
     (
-      | Omit<HeadlessButtonProps, "as" | "className">
+      | Omit<BaseButton.Props, "as" | "className">
       | Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
     ),
   ref: React.ForwardedRef<HTMLElement>
@@ -84,7 +83,7 @@ export const AvatarButton = forwardRef(function AvatarButton(
   const classes = cn(
     className,
     square ? "rounded-[20%]" : "rounded-full",
-    "relative inline-grid focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-blue-500 data-focus:outline-offset-2"
+    "relative inline-grid focus:not-focus-visible:outline-hidden focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2"
   );
 
   return "href" in props ? (
@@ -94,10 +93,15 @@ export const AvatarButton = forwardRef(function AvatarButton(
       </TouchTarget>
     </Link>
   ) : (
-    <HeadlessButton {...props} className={classes} ref={ref}>
+    <BaseButton
+      data-autofocus={props.autoFocus || undefined}
+      {...props}
+      className={classes}
+      ref={ref}
+    >
       <TouchTarget>
         <Avatar alt={alt} initials={initials} square={square} src={src} />
       </TouchTarget>
-    </HeadlessButton>
+    </BaseButton>
   );
 });

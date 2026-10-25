@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
-    "@headlessui/react": "^2.2.10",
     "@next/mdx": "^16.4.2",
     "@sentry/nextjs": "^10.76.2",
     "cn": "^0.2.6",

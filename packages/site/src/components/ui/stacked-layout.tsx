@@ -1,43 +1,10 @@
 "use client";
 
-import {
-  CloseButton as HeadlessCloseButton,
-  Dialog as HeadlessDialog,
-  DialogBackdrop as HeadlessDialogBackdrop,
-  DialogPanel as HeadlessDialogPanel,
-} from "@headlessui/react";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
+import { MobileSidebar } from "./mobile-sidebar";
 import { NavbarItem } from "./navbar";
-
-function MobileSidebar({
-  open,
-  close,
-  children,
-}: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
-  return (
-    <HeadlessDialog className="lg:hidden" onClose={close} open={open}>
-      <HeadlessDialogBackdrop
-        className="fixed inset-0 bg-black/30 transition data-closed:opacity-0 data-enter:duration-300 data-leave:duration-200 data-enter:ease-out data-leave:ease-in"
-        transition
-      />
-      <HeadlessDialogPanel
-        className="fixed inset-y-0 w-full max-w-80 p-2 transition duration-300 ease-in-out data-closed:-translate-x-full"
-        transition
-      >
-        <div className="flex h-full flex-col rounded-lg shadow-xs ring-1 bg-zinc-900 ring-white/10">
-          <div className="-mb-3 px-4 pt-3">
-            <HeadlessCloseButton aria-label="Close navigation" as={NavbarItem}>
-              <X data-slot="icon" aria-hidden="true" />
-            </HeadlessCloseButton>
-          </div>
-          {children}
-        </div>
-      </HeadlessDialogPanel>
-    </HeadlessDialog>
-  );
-}
 
 export function StackedLayout({
   navbar,

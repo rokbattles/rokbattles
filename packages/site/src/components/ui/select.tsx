@@ -1,7 +1,6 @@
-import {
-  Select as HeadlessSelect,
-  type SelectProps as HeadlessSelectProps,
-} from "@headlessui/react";
+"use client";
+
+import { Field as BaseField } from "@base-ui/react/field";
 import { cn } from "cn";
 import { ChevronsUpDown } from "lucide-react";
 import type React from "react";
@@ -10,9 +9,13 @@ import { forwardRef } from "react";
 export const Select = forwardRef(function Select(
   {
     className,
+    invalid,
     multiple,
     ...props
-  }: { className?: string } & Omit<HeadlessSelectProps, "as" | "className">,
+  }: { invalid?: boolean; className?: string } & Omit<
+    React.ComponentPropsWithoutRef<"select">,
+    "as" | "className"
+  >,
   ref: React.ForwardedRef<HTMLSelectElement>
 ) {
   return (
@@ -22,16 +25,21 @@ export const Select = forwardRef(function Select(
         // Basic layout
         "group relative block w-full",
         // Focus ring
-        "after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset has-data-focus:after:ring-2 has-data-focus:after:ring-blue-500",
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset has-[:focus-visible]:after:ring-2 has-[:focus-visible]:after:ring-blue-500",
         // Disabled state
         "has-data-disabled:opacity-50",
       ])}
       data-slot="control"
     >
-      <HeadlessSelect
-        multiple={multiple}
+      <BaseField.Control
+        data-autofocus={props.autoFocus || undefined}
         ref={ref}
-        {...props}
+        disabled={props.disabled}
+        value={props.value}
+        defaultValue={props.defaultValue}
+        aria-invalid={invalid || props["aria-invalid"]}
+        data-invalid={invalid || undefined}
+        render={<select {...props} multiple={multiple} />}
         className={cn([
           // Basic layout
           "relative block w-full appearance-none rounded-lg py-[calc(--spacing(2.5)-1px)] sm:py-[calc(--spacing(1.5)-1px)]",
@@ -44,15 +52,15 @@ export const Select = forwardRef(function Select(
           // Typography
           "text-base/6 placeholder:text-zinc-500 sm:text-sm/6 text-white *:text-white",
           // Border
-          "border border-white/10 data-hover:border-white/20",
+          "border border-white/10 hover:border-white/20",
           // Background color
           "bg-white/5 *:bg-zinc-800",
           // Hide default focus styles
           "focus:outline-hidden",
           // Invalid state
-          "data-invalid:data-hover:border-red-600 data-invalid:border-red-600",
+          "data-invalid:hover:border-red-600 data-invalid:border-red-600",
           // Disabled state
-          "data-disabled:opacity-100 data-hover:data-disabled:border-white/15 data-disabled:border-white/15 data-disabled:bg-white/2.5",
+          "data-disabled:opacity-100 hover:data-disabled:border-white/15 data-disabled:border-white/15 data-disabled:bg-white/2.5",
         ])}
       />
       {!multiple && (
