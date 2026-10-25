@@ -2,7 +2,7 @@
 
 import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "cn";
-import { LayoutGroup, motion } from "framer-motion";
+import { LayoutGroup, motion } from "motion/react";
 import type React from "react";
 import { forwardRef, useContext, useId } from "react";
 import { TouchTarget } from "./button";
