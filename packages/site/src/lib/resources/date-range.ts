@@ -6,13 +6,6 @@ export type ResourceDateRange = { start: string; end: string };
 
 type ResourceDatePreset = "last7" | "last30" | "last90" | "ytd";
 
-export function resourceCalendarMonth(date: string, offset: number): string {
-  const year = Number(date.slice(0, 4));
-  const month = Number(date.slice(5, 7)) - 1 + offset;
-
-  return toDateInput(Date.UTC(year, month, 1));
-}
-
 export function resourcePresetRange(preset: ResourceDatePreset, today: string): ResourceDateRange {
   if (preset === "ytd") {
     return { start: `${today.slice(0, 4)}-01-01`, end: today };

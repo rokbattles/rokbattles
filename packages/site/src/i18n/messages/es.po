@@ -1150,6 +1150,26 @@ msgid "Select cards to filter charts and tables. Averages include every day in t
 msgstr ""
 
 #: src/components/account-resources/resources-filters-client.tsx
+#: src/components/account-resources/resources-range-picker.tsx
+msgctxt "Er9Eoe"
+msgid "Choose a date range"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+msgctxt "KBWtkR"
+msgid "Loading calendar…"
+msgstr ""
+
+#: src/components/account-resources/resources-filters-client.tsx
+#: src/components/account-resources/resources-range-picker.tsx
+#: src/components/combat-lab/commander-pairing-drawer.tsx
+#: src/components/language-selector.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "47FYwb"
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/components/account-resources/resources-filters-client.tsx
 msgctxt "DPAMOb"
 msgid "Last 7d"
 msgstr ""
@@ -1172,54 +1192,6 @@ msgstr ""
 #: src/components/account-resources/resources-filters-client.tsx
 msgctxt "cRAFPp"
 msgid "Resource date ranges"
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "Er9Eoe"
-msgid "Choose a date range"
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "U9joOF"
-msgid "Select a start and end day. All dates use UTC; up to {days} days."
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "8mRNBD"
-msgid "Previous month"
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "JthvI-"
-msgid "Select the end day"
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "_y-saR"
-msgid "Select the start day"
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "PqmLVn"
-msgid "Next month"
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "csXCbk"
-msgid "Choose a valid range of up to {days} days, ending today or earlier."
-msgstr ""
-
-#: src/components/account-resources/resources-filters-client.tsx
-#: src/components/combat-lab/commander-pairing-drawer.tsx
-#: src/components/language-selector.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "47FYwb"
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: src/components/account-resources/resources-filters-client.tsx
-msgctxt "9TAHDn"
-msgid "Apply range"
 msgstr ""
 
 #: src/components/account-resources/resources-ledger-client.tsx
@@ -1255,6 +1227,21 @@ msgstr ""
 #: src/components/account-resources/resources-ledger-client.tsx
 msgctxt "_2CGVZ"
 msgid "Page {page}/{pages}"
+msgstr ""
+
+#: src/components/account-resources/resources-range-picker.tsx
+msgctxt "bkdZ3E"
+msgid "Select a start and end date, up to {days} days."
+msgstr ""
+
+#: src/components/account-resources/resources-range-picker.tsx
+msgctxt "csXCbk"
+msgid "Choose a valid range of up to {days} days, ending today or earlier."
+msgstr ""
+
+#: src/components/account-resources/resources-range-picker.tsx
+msgctxt "9TAHDn"
+msgid "Apply range"
 msgstr ""
 
 #: src/components/account-resources/resources-summary-client.tsx
@@ -3090,6 +3077,16 @@ msgstr ""
 #: src/components/territory-lab/use-territory-labels.ts
 msgctxt "wZsBSy"
 msgid "Horse"
+msgstr ""
+
+#: src/components/ui/calendar.tsx
+msgctxt "8mRNBD"
+msgid "Previous month"
+msgstr ""
+
+#: src/components/ui/calendar.tsx
+msgctxt "PqmLVn"
+msgid "Next month"
 msgstr ""
 
 #: src/hooks/use-olympian-arena-duel.ts
