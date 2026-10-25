@@ -1,9 +1,7 @@
-import {
-  Checkbox as HeadlessCheckbox,
-  type CheckboxProps as HeadlessCheckboxProps,
-  Field as HeadlessField,
-  type FieldProps as HeadlessFieldProps,
-} from "@headlessui/react";
+"use client";
+
+import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
+import { Field as BaseField } from "@base-ui/react/field";
 import { cn } from "cn";
 import type React from "react";
 
@@ -26,9 +24,9 @@ export function CheckboxGroup({ className, ...props }: React.ComponentPropsWitho
 export function CheckboxField({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessFieldProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Root.Props, "as" | "className">) {
   return (
-    <HeadlessField
+    <BaseField.Root
       data-slot="field"
       {...props}
       className={cn(
@@ -55,12 +53,12 @@ const base = [
   "bg-white/5 group-data-checked:bg-(--checkbox-checked-bg)",
   // Border
   "border",
-  "border-white/15 group-data-checked:border-white/5 group-data-hover:group-data-checked:border-white/5 group-data-hover:border-white/30",
+  "border-white/15 group-data-checked:border-white/5 group-not-data-disabled:group-hover:group-data-checked:border-white/5 group-not-data-disabled:group-hover:border-white/30",
   // Inner highlight shadow
   "after:absolute after:shadow-[inset_0_1px_--theme(--color-white/15%)]",
   "after:-inset-px after:hidden after:rounded-[0.3125rem] group-data-checked:after:block",
   // Focus ring
-  "group-data-focus:outline-2 group-data-focus:outline-offset-2 group-data-focus:outline-blue-500",
+  "group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-blue-500",
   // Disabled state
   "group-data-disabled:opacity-50",
   "group-data-disabled:border-white/20 group-data-disabled:bg-white/2.5 group-data-disabled:[--checkbox-check:var(--color-white)]/50 group-data-checked:group-data-disabled:after:hidden",
@@ -94,22 +92,26 @@ const colors = {
 type Color = keyof typeof colors;
 
 export function Checkbox({
+  onChange,
   color = "zinc",
   className,
   ...props
 }: {
   color?: Color;
   className?: string;
-} & Omit<HeadlessCheckboxProps, "as" | "className">) {
+} & Omit<BaseCheckbox.Root.Props, "onChange" | "onCheckedChange" | "className"> & {
+    onChange?: (checked: boolean) => void;
+  }) {
   return (
-    <HeadlessCheckbox
+    <BaseCheckbox.Root
+      onCheckedChange={onChange}
       data-slot="control"
       {...props}
       className={cn(className, "group inline-flex focus:outline-hidden")}
     >
       <span className={cn([base, colors[color]])}>
         <svg
-          className="size-4 stroke-(--checkbox-check) opacity-0 group-data-checked:opacity-100 sm:h-3.5 sm:w-3.5"
+          className="size-4 stroke-(--checkbox-check) opacity-0 group-data-checked:opacity-100 group-data-indeterminate:opacity-100 sm:h-3.5 sm:w-3.5"
           fill="none"
           viewBox="0 0 14 14"
         >
@@ -131,6 +133,6 @@ export function Checkbox({
           />
         </svg>
       </span>
-    </HeadlessCheckbox>
+    </BaseCheckbox.Root>
   );
 }

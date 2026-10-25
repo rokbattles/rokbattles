@@ -1,9 +1,7 @@
-import {
-  Field as HeadlessField,
-  type FieldProps as HeadlessFieldProps,
-  Switch as HeadlessSwitch,
-  type SwitchProps as HeadlessSwitchProps,
-} from "@headlessui/react";
+"use client";
+
+import { Field as BaseField } from "@base-ui/react/field";
+import { Switch as BaseSwitch } from "@base-ui/react/switch";
 import { cn } from "cn";
 import type React from "react";
 
@@ -26,9 +24,9 @@ export function SwitchGroup({ className, ...props }: React.ComponentPropsWithout
 export function SwitchField({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessFieldProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Root.Props, "as" | "className">) {
   return (
-    <HeadlessField
+    <BaseField.Root
       data-slot="field"
       {...props}
       className={cn(
@@ -138,15 +136,19 @@ const colors = {
 type Color = keyof typeof colors;
 
 export function Switch({
+  onChange,
   color = "neutral",
   className,
   ...props
 }: {
   color?: Color;
   className?: string;
-} & Omit<HeadlessSwitchProps, "as" | "className" | "children">) {
+} & Omit<BaseSwitch.Root.Props, "onChange" | "onCheckedChange" | "className" | "children"> & {
+    onChange?: (checked: boolean) => void;
+  }) {
   return (
-    <HeadlessSwitch
+    <BaseSwitch.Root
+      onCheckedChange={onChange}
       data-slot="control"
       {...props}
       className={cn(
@@ -154,7 +156,7 @@ export function Switch({
         // Base styles
         "group relative isolate inline-flex h-6 w-10 cursor-default rounded-full p-[3px] sm:h-5 sm:w-8",
         // Transitions
-        "transition duration-0 ease-in-out data-changing:duration-200",
+        "transition duration-200 ease-in-out",
         // Outline and background color in forced-colors mode so switch is still visible
         "forced-colors:outline forced-colors:[--switch-bg:Highlight]",
         // Unchecked
@@ -162,8 +164,8 @@ export function Switch({
         // Checked
         "data-checked:bg-(--switch-bg) data-checked:ring-(--switch-bg-ring)",
         // Focus
-        "focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-blue-500 data-focus:outline-offset-2",
-        "data-hover:data-checked:ring-(--switch-bg-ring) data-hover:ring-white/25",
+        "focus:not-focus-visible:outline-hidden focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2",
+        "not-data-disabled:hover:data-checked:ring-(--switch-bg-ring) not-data-disabled:hover:ring-white/25",
         // Disabled
         "data-disabled:opacity-50",
         "data-disabled:data-checked:bg-white/15 data-disabled:data-checked:ring-white/15 data-disabled:bg-white/15",
@@ -189,6 +191,6 @@ export function Switch({
           "group-data-checked:group-data-disabled:bg-white group-data-checked:group-data-disabled:shadow-sm group-data-checked:group-data-disabled:ring-black/5"
         )}
       />
-    </HeadlessSwitch>
+    </BaseSwitch.Root>
   );
 }

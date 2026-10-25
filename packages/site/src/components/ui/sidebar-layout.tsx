@@ -1,44 +1,11 @@
 "use client";
 
-import {
-  CloseButton as HeadlessCloseButton,
-  Dialog as HeadlessDialog,
-  DialogBackdrop as HeadlessDialogBackdrop,
-  DialogPanel as HeadlessDialogPanel,
-} from "@headlessui/react";
 import { cn } from "cn";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
 import { NavbarItem } from "@/components/ui/navbar";
-
-function MobileSidebar({
-  open,
-  close,
-  children,
-}: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
-  return (
-    <HeadlessDialog open={open} onClose={close} className="lg:hidden">
-      <HeadlessDialogBackdrop
-        transition
-        className="fixed inset-0 bg-black/30 transition data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
-      />
-      <HeadlessDialogPanel
-        transition
-        className="fixed inset-y-0 w-full max-w-80 p-2 transition duration-300 ease-in-out data-closed:-translate-x-full"
-      >
-        <div className="flex h-full flex-col rounded-lg shadow-xs ring-1 bg-zinc-900 ring-white/10">
-          <div className="-mb-3 px-4 pt-3">
-            <HeadlessCloseButton as={NavbarItem} aria-label="Close navigation">
-              <X data-slot="icon" aria-hidden="true" />
-            </HeadlessCloseButton>
-          </div>
-          {children}
-        </div>
-      </HeadlessDialogPanel>
-    </HeadlessDialog>
-  );
-}
+import { MobileSidebar } from "./mobile-sidebar";
 
 export function SidebarLayout({
   navbar,

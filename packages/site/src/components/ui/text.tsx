@@ -16,10 +16,7 @@ export function TextLink({ className, ...props }: React.ComponentPropsWithoutRef
   return (
     <Link
       {...props}
-      className={cn(
-        className,
-        "underline text-white decoration-white/50 data-hover:decoration-white"
-      )}
+      className={cn(className, "underline text-white decoration-white/50 hover:decoration-white")}
     />
   );
 }

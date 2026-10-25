@@ -1,28 +1,35 @@
-import {
-  Field as HeadlessField,
-  type FieldProps as HeadlessFieldProps,
-  Radio as HeadlessRadio,
-  RadioGroup as HeadlessRadioGroup,
-  type RadioGroupProps as HeadlessRadioGroupProps,
-  type RadioProps as HeadlessRadioProps,
-} from "@headlessui/react";
+"use client";
+
+import { Field as BaseField } from "@base-ui/react/field";
+import { Radio as BaseRadio } from "@base-ui/react/radio";
+import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { cn } from "cn";
 
-export function RadioGroup({
+export function RadioGroup<T>({
   className,
+  onChange,
   ...props
-}: { className?: string } & Omit<HeadlessRadioGroupProps, "as" | "className">) {
+}: { className?: string } & Omit<
+  BaseRadioGroup.Props<T>,
+  "className" | "onChange" | "onValueChange"
+> & { onChange?: (value: T) => void }) {
   return (
-    <HeadlessRadioGroup
-      data-slot="control"
-      {...props}
-      className={cn(
-        className,
-        // Basic groups
-        "space-y-3 **:data-[slot=label]:font-normal",
-        // With descriptions
-        "has-data-[slot=description]:space-y-6 has-data-[slot=description]:**:data-[slot=label]:font-medium"
-      )}
+    <BaseField.Root
+      disabled={props.disabled}
+      render={
+        <BaseRadioGroup
+          onValueChange={onChange}
+          data-slot="control"
+          {...props}
+          className={cn(
+            className,
+            // Basic groups
+            "space-y-3 **:data-[slot=label]:font-normal",
+            // With descriptions
+            "has-data-[slot=description]:space-y-6 has-data-[slot=description]:**:data-[slot=label]:font-medium"
+          )}
+        />
+      }
     />
   );
 }
@@ -30,9 +37,9 @@ export function RadioGroup({
 export function RadioField({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessFieldProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Item.Props, "as" | "className">) {
   return (
-    <HeadlessField
+    <BaseField.Item
       data-slot="field"
       {...props}
       className={cn(
@@ -59,16 +66,16 @@ const base = [
   "bg-white/5 group-data-checked:bg-(--radio-checked-bg)",
   // Border
   "border",
-  "border-white/15 group-data-checked:border-white/5 group-data-hover:group-data-checked:border-white/5 group-data-hover:border-white/30",
+  "border-white/15 group-data-checked:border-white/5 group-not-data-disabled:group-hover:group-data-checked:border-white/5 group-not-data-disabled:group-hover:border-white/30",
   // Inner highlight shadow
   "after:absolute after:shadow-[inset_0_1px_--theme(--color-white/15%)]",
   "after:-inset-px after:hidden after:rounded-full group-data-checked:after:block",
   // Indicator color
   "[--radio-indicator:transparent] group-data-checked:[--radio-indicator:var(--radio-checked-indicator)]",
   // Hover indicator color
-  "group-data-hover:group-data-checked:[--radio-indicator:var(--radio-checked-indicator)] group-data-hover:[--radio-indicator:var(--color-zinc-700)]",
+  "group-not-data-disabled:group-hover:group-data-checked:[--radio-indicator:var(--radio-checked-indicator)] group-not-data-disabled:group-hover:[--radio-indicator:var(--color-zinc-700)]",
   // Focus ring
-  "group-data-focus:outline group-data-focus:outline-2 group-data-focus:outline-offset-2 group-data-focus:outline-blue-500",
+  "group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-blue-500",
   // Disabled state
   "group-data-disabled:opacity-50",
   "group-data-disabled:border-white/20 group-data-disabled:bg-white/2.5 group-data-disabled:[--radio-checked-indicator:var(--color-white)]/50 group-data-checked:group-data-disabled:after:hidden",
@@ -114,11 +121,11 @@ export function Radio({
   className,
   ...props
 }: { color?: Color; className?: string } & Omit<
-  HeadlessRadioProps,
+  BaseRadio.Root.Props,
   "as" | "className" | "children"
 >) {
   return (
-    <HeadlessRadio
+    <BaseRadio.Root
       data-slot="control"
       {...props}
       className={cn(className, "group inline-flex focus:outline-hidden")}
@@ -132,6 +139,6 @@ export function Radio({
           )}
         />
       </span>
-    </HeadlessRadio>
+    </BaseRadio.Root>
   );
 }

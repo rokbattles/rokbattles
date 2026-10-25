@@ -1,15 +1,9 @@
-import {
-  Description as HeadlessDescription,
-  type DescriptionProps as HeadlessDescriptionProps,
-  Dialog as HeadlessDialog,
-  DialogBackdrop as HeadlessDialogBackdrop,
-  DialogPanel as HeadlessDialogPanel,
-  type DialogProps as HeadlessDialogProps,
-  DialogTitle as HeadlessDialogTitle,
-  type DialogTitleProps as HeadlessDialogTitleProps,
-} from "@headlessui/react";
+"use client";
+
+import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { cn } from "cn";
 import type React from "react";
+import { ModalPopup, type ModalProps, ModalRoot } from "./modal";
 import { Text } from "./text";
 
 const sizes = {
@@ -27,11 +21,11 @@ const sizes = {
 const sides = {
   left: {
     container: "left-0 pr-10 sm:pr-16",
-    panel: "data-closed:-translate-x-full",
+    panel: "data-starting-style:-translate-x-full data-ending-style:-translate-x-full",
   },
   right: {
     container: "right-0 pl-10 sm:pl-16",
-    panel: "data-closed:translate-x-full",
+    panel: "data-starting-style:translate-x-full data-ending-style:translate-x-full",
   },
 } as const;
 
@@ -46,47 +40,43 @@ export function Drawer({
   side?: keyof typeof sides;
   className?: string;
   children: React.ReactNode;
-} & Omit<HeadlessDialogProps, "as" | "className">) {
+} & Omit<ModalProps, "as" | "className">) {
   const sideStyles = sides[side];
 
   return (
-    <HeadlessDialog {...props}>
-      <HeadlessDialogBackdrop
-        className="fixed inset-0 transition duration-200 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in bg-zinc-950/50"
-        transition
-      />
+    <ModalRoot {...props}>
+      <BaseDialog.Backdrop className="fixed inset-0 transition duration-200 data-starting-style:opacity-0 data-ending-style:opacity-0 ease-out data-ending-style:ease-in bg-zinc-950/50" />
 
-      <div className="fixed inset-0 overflow-hidden">
+      <BaseDialog.Viewport className="fixed inset-0 overflow-hidden">
         <div
           className={cn(
             "pointer-events-none fixed inset-y-0 flex max-w-full",
             sideStyles.container
           )}
         >
-          <HeadlessDialogPanel
+          <ModalPopup
             className={cn(
               className,
               sizes[size],
               "pointer-events-auto flex h-full min-h-0 w-screen flex-col p-(--gutter) shadow-lg ring-1 [--gutter:--spacing(8)] bg-zinc-900 ring-white/10 forced-colors:outline",
-              "transition duration-300 will-change-transform data-enter:ease-out data-leave:ease-in",
+              "transition duration-300 will-change-transform ease-out data-ending-style:ease-in",
               sideStyles.panel
             )}
-            transition
           >
             {children}
-          </HeadlessDialogPanel>
+          </ModalPopup>
         </div>
-      </div>
-    </HeadlessDialog>
+      </BaseDialog.Viewport>
+    </ModalRoot>
   );
 }
 
 export function DrawerTitle({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessDialogTitleProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseDialog.Title.Props, "as" | "className">) {
   return (
-    <HeadlessDialogTitle
+    <BaseDialog.Title
       {...props}
       className={cn(className, "text-balance font-semibold text-lg/6 sm:text-base/6 text-white")}
     />
@@ -96,8 +86,14 @@ export function DrawerTitle({
 export function DrawerDescription({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessDescriptionProps<typeof Text>, "as" | "className">) {
-  return <HeadlessDescription as={Text} {...props} className={cn(className, "mt-2 text-pretty")} />;
+}: { className?: string } & Omit<BaseDialog.Description.Props, "as" | "className">) {
+  return (
+    <BaseDialog.Description
+      render={<Text />}
+      {...props}
+      className={cn(className, "mt-2 text-pretty")}
+    />
+  );
 }
 
 export function DrawerBody({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {

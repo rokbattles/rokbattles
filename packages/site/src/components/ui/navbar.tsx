@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Button as HeadlessButton,
-  type ButtonProps as HeadlessButtonProps,
-} from "@headlessui/react";
+import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "cn";
 import { LayoutGroup, motion } from "framer-motion";
 import type React from "react";
@@ -40,7 +37,7 @@ export const NavbarItem = forwardRef(function NavbarItem(
     children,
     ...props
   }: { current?: boolean; className?: string; children: React.ReactNode } & (
-    | Omit<HeadlessButtonProps, "as" | "className">
+    | Omit<BaseButton.Props, "as" | "className">
     | Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
   ),
   ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
@@ -55,8 +52,8 @@ export const NavbarItem = forwardRef(function NavbarItem(
     // Avatar
     "*:data-[slot=avatar]:-m-0.5 *:data-[slot=avatar]:size-7 sm:*:data-[slot=avatar]:size-6 *:data-[slot=avatar]:[--avatar-radius:var(--radius-md)]",
     "text-white *:data-[slot=icon]:text-zinc-400",
-    "data-hover:bg-white/5 data-hover:*:data-[slot=icon]:text-white",
-    "data-active:bg-white/5 data-active:*:data-[slot=icon]:text-white"
+    "not-data-disabled:hover:bg-white/5 not-data-disabled:hover:*:data-[slot=icon]:text-white",
+    "not-data-disabled:active:bg-white/5 not-data-disabled:active:*:data-[slot=icon]:text-white"
   );
 
   return (
@@ -77,14 +74,15 @@ export const NavbarItem = forwardRef(function NavbarItem(
           <TouchTarget>{children}</TouchTarget>
         </Link>
       ) : (
-        <HeadlessButton
+        <BaseButton
+          data-autofocus={props.autoFocus || undefined}
           {...props}
           className={cn("cursor-default", classes)}
           data-current={current ? "true" : undefined}
           ref={ref}
         >
           <TouchTarget>{children}</TouchTarget>
-        </HeadlessButton>
+        </BaseButton>
       )}
     </span>
   );

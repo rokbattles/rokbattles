@@ -1,15 +1,9 @@
-import {
-  Description as HeadlessDescription,
-  type DescriptionProps as HeadlessDescriptionProps,
-  Dialog as HeadlessDialog,
-  DialogBackdrop as HeadlessDialogBackdrop,
-  DialogPanel as HeadlessDialogPanel,
-  type DialogProps as HeadlessDialogProps,
-  DialogTitle as HeadlessDialogTitle,
-  type DialogTitleProps as HeadlessDialogTitleProps,
-} from "@headlessui/react";
+"use client";
+
+import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { cn } from "cn";
 import type React from "react";
+import { ModalPopup, type ModalProps, ModalRoot } from "./modal";
 import { Text } from "./text";
 
 const sizes = {
@@ -33,39 +27,35 @@ export function Dialog({
   size?: keyof typeof sizes;
   className?: string;
   children: React.ReactNode;
-} & Omit<HeadlessDialogProps, "as" | "className">) {
+} & Omit<ModalProps, "as" | "className">) {
   return (
-    <HeadlessDialog {...props}>
-      <HeadlessDialogBackdrop
-        className="fixed inset-0 flex w-screen justify-center overflow-y-auto px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 bg-zinc-950/50"
-        transition
-      />
+    <ModalRoot {...props}>
+      <BaseDialog.Backdrop className="fixed inset-0 flex w-screen justify-center overflow-y-auto px-2 py-2 transition duration-100 focus:outline-0 data-starting-style:opacity-0 data-ending-style:opacity-0 ease-out data-ending-style:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 bg-zinc-950/50" />
 
-      <div className="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0">
+      <BaseDialog.Viewport className="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0">
         <div className="grid min-h-full grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr] sm:p-4">
-          <HeadlessDialogPanel
+          <ModalPopup
             className={cn(
               className,
               sizes[size],
               "row-start-2 w-full min-w-0 rounded-t-3xl p-(--gutter) shadow-lg ring-1 [--gutter:--spacing(8)] sm:mb-auto sm:rounded-2xl bg-zinc-900 ring-white/10 forced-colors:outline",
-              "transition duration-100 will-change-transform data-closed:translate-y-12 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:data-closed:data-enter:scale-95 sm:data-closed:translate-y-0"
+              "transition duration-100 will-change-transform data-starting-style:translate-y-12 data-ending-style:translate-y-12 data-starting-style:opacity-0 data-ending-style:opacity-0 ease-out data-ending-style:ease-in sm:data-starting-style:scale-95 sm:data-starting-style:translate-y-0 sm:data-ending-style:translate-y-0"
             )}
-            transition
           >
             {children}
-          </HeadlessDialogPanel>
+          </ModalPopup>
         </div>
-      </div>
-    </HeadlessDialog>
+      </BaseDialog.Viewport>
+    </ModalRoot>
   );
 }
 
 export function DialogTitle({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessDialogTitleProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseDialog.Title.Props, "as" | "className">) {
   return (
-    <HeadlessDialogTitle
+    <BaseDialog.Title
       {...props}
       className={cn(className, "text-balance font-semibold text-lg/6 sm:text-base/6 text-white")}
     />
@@ -75,8 +65,14 @@ export function DialogTitle({
 export function DialogDescription({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessDescriptionProps<typeof Text>, "as" | "className">) {
-  return <HeadlessDescription as={Text} {...props} className={cn(className, "mt-2 text-pretty")} />;
+}: { className?: string } & Omit<BaseDialog.Description.Props, "as" | "className">) {
+  return (
+    <BaseDialog.Description
+      render={<Text />}
+      {...props}
+      className={cn(className, "mt-2 text-pretty")}
+    />
+  );
 }
 
 export function DialogBody({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {

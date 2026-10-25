@@ -1,24 +1,16 @@
-import {
-  Description as HeadlessDescription,
-  type DescriptionProps as HeadlessDescriptionProps,
-  Field as HeadlessField,
-  type FieldProps as HeadlessFieldProps,
-  Fieldset as HeadlessFieldset,
-  type FieldsetProps as HeadlessFieldsetProps,
-  Label as HeadlessLabel,
-  type LabelProps as HeadlessLabelProps,
-  Legend as HeadlessLegend,
-  type LegendProps as HeadlessLegendProps,
-} from "@headlessui/react";
+"use client";
+
+import { Field as BaseField } from "@base-ui/react/field";
+import { Fieldset as BaseFieldset } from "@base-ui/react/fieldset";
 import { cn } from "cn";
 import type React from "react";
 
 export function Fieldset({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessFieldsetProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseFieldset.Root.Props, "as" | "className">) {
   return (
-    <HeadlessFieldset
+    <BaseFieldset.Root
       {...props}
       className={cn(className, "*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6")}
     />
@@ -28,9 +20,9 @@ export function Fieldset({
 export function Legend({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessLegendProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseFieldset.Legend.Props, "as" | "className">) {
   return (
-    <HeadlessLegend
+    <BaseFieldset.Legend
       data-slot="legend"
       {...props}
       className={cn(
@@ -48,9 +40,9 @@ export function FieldGroup({ className, ...props }: React.ComponentPropsWithoutR
 export function Field({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessFieldProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Root.Props, "as" | "className">) {
   return (
-    <HeadlessField
+    <BaseField.Root
       {...props}
       className={cn(
         className,
@@ -68,9 +60,9 @@ export function Field({
 export function Label({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessLabelProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Label.Props, "as" | "className">) {
   return (
-    <HeadlessLabel
+    <BaseField.Label
       data-slot="label"
       {...props}
       className={cn(
@@ -84,9 +76,9 @@ export function Label({
 export function Description({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessDescriptionProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Description.Props, "as" | "className">) {
   return (
-    <HeadlessDescription
+    <BaseField.Description
       data-slot="description"
       {...props}
       className={cn(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-zinc-400")}
@@ -97,9 +89,9 @@ export function Description({
 export function ErrorMessage({
   className,
   ...props
-}: { className?: string } & Omit<HeadlessDescriptionProps, "as" | "className">) {
+}: { className?: string } & Omit<BaseField.Description.Props, "as" | "className">) {
   return (
-    <HeadlessDescription
+    <BaseField.Description
       data-slot="error"
       {...props}
       className={cn(className, "text-base/6 data-disabled:opacity-50 sm:text-sm/6 text-red-500")}
