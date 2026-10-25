@@ -2005,6 +2005,31 @@ msgctxt "KS0bwV"
 msgid "Cookie settings"
 msgstr "Cookie settings"
 
+#: src/components/donate-dialog.tsx
+msgctxt "2IFGap"
+msgid "Donate"
+msgstr "Donate"
+
+#: src/components/donate-dialog.tsx
+msgctxt "2OhzOZ"
+msgid "Keep ROK Battles free for everyone."
+msgstr "Keep ROK Battles free for everyone."
+
+#: src/components/donate-dialog.tsx
+msgctxt "oT6PJs"
+msgid "Your support helps cover server costs and build better tools for the Rise of Kingdoms community."
+msgstr "Your support helps cover server costs and build better tools for the Rise of Kingdoms community."
+
+#: src/components/donate-dialog.tsx
+msgctxt "hBnrRk"
+msgid "{provider} (opens in a new tab)"
+msgstr "{provider} (opens in a new tab)"
+
+#: src/components/donate-dialog.tsx
+msgctxt "hTltvZ"
+msgid "Every contribution makes a difference. Thank you!"
+msgstr "Every contribution makes a difference. Thank you!"
+
 #: src/components/language-selector.tsx
 msgctxt "eVlu1R"
 msgid "Select language"
@@ -2601,11 +2626,6 @@ msgstr "My Data"
 msgctxt "NFE4yO"
 msgid "My Battles"
 msgstr "My Battles"
-
-#: src/components/platform-layout.tsx
-msgctxt "2IFGap"
-msgid "Donate"
-msgstr "Donate"
 
 #: src/components/platform-layout.tsx
 msgctxt "HqRNN8"
