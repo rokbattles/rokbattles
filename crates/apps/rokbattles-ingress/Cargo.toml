@@ -30,3 +30,4 @@ workspace = true
 
 [dev-dependencies]
 rustc-hash.workspace = true
+tower = { workspace = true, features = ["util"] }

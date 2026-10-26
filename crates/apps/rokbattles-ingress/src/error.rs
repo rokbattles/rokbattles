@@ -2,7 +2,7 @@
 
 use axum::{
     Json,
-    http::StatusCode,
+    http::{StatusCode, header},
     response::{IntoResponse, Response},
 };
 use serde::Serialize;
@@ -28,6 +28,12 @@ pub enum ApiError {
     Internal(String),
     #[error("relay authentication failed")]
     Unauthorized,
+
+    #[error("upload rate limit exceeded")]
+    RateLimited { retry_after_secs: u64 },
+
+    #[error("upload rate limiter at capacity")]
+    RateLimitCapacity { retry_after_secs: u64 },
 }
 
 impl ApiError {
@@ -62,6 +68,8 @@ impl ApiError {
             ApiError::DecodeFailed(_) => StatusCode::BAD_REQUEST,
             ApiError::Clamav(_) => StatusCode::BAD_GATEWAY,
             ApiError::Unauthorized => StatusCode::UNAUTHORIZED,
+            ApiError::RateLimited { .. } => StatusCode::TOO_MANY_REQUESTS,
+            ApiError::RateLimitCapacity { .. } => StatusCode::SERVICE_UNAVAILABLE,
             ApiError::Database(_) | ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
@@ -76,6 +84,14 @@ impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let status = self.status_code();
         let body = Json(ErrorResponse { error: self.to_string() });
-        (status, body).into_response()
+        let mut response = (status, body).into_response();
+
+        if let Self::RateLimited { retry_after_secs }
+        | Self::RateLimitCapacity { retry_after_secs } = self
+        {
+            response.headers_mut().insert(header::RETRY_AFTER, retry_after_secs.into());
+        }
+
+        response
     }
 }
