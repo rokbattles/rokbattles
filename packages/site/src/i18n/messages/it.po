@@ -70,6 +70,7 @@ msgstr ""
 
 #: src/app/(legacy)/page.tsx
 #: src/components/platform-layout.tsx
+#: src/components/report/report-entry-list.tsx
 msgctxt "xmv5Of"
 msgid "Battle Reports"
 msgstr "Rapporti di battaglia"

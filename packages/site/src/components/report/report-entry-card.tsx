@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import { memo } from "react";
 import { ReportBattleResultsChart } from "@/components/report/report-battle-results-chart";
 import { ReportParticipantCard } from "@/components/report/report-participant-card";
 import { Subheading } from "@/components/ui/heading";
@@ -11,7 +12,7 @@ type ReportEntryCardProps = {
   entry: ReportEntry;
 };
 
-export function ReportEntryCard({ entry }: ReportEntryCardProps) {
+export const ReportEntryCard = memo(function ReportEntryCard({ entry }: ReportEntryCardProps) {
   const t = useExtracted();
   const payload = (entry.report ?? {}) as RawReportPayload;
 
@@ -44,13 +45,14 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
           <ReportBattleResultsChart results={battleResults} />
         </section>
       ) : null}
+
       <section className="grid gap-8 lg:grid-cols-2 lg:gap-y-5">
         <ReportParticipantCard participant={selfParticipant} showArtifacts={!omitArtifacts} />
         <ReportParticipantCard participant={enemyParticipant} showArtifacts={!omitArtifacts} />
       </section>
     </section>
   );
-}
+});
 
 function formatPeriod(
   start: number | null | undefined,
