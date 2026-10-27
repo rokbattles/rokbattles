@@ -70,6 +70,7 @@ msgstr "Live feed (UTC)"
 
 #: src/app/(legacy)/page.tsx
 #: src/components/platform-layout.tsx
+#: src/components/report/report-entry-list.tsx
 msgctxt "xmv5Of"
 msgid "Battle Reports"
 msgstr "Battle Reports"

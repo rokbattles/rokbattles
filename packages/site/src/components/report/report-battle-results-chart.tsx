@@ -131,6 +131,7 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
             />
             <Bar
               dataKey="self"
+              isAnimationActive={false}
               stackId="battle"
               fill="#3b82f6"
               radius={[4, 0, 0, 4]}
@@ -138,6 +139,7 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
             />
             <Bar
               dataKey="enemy"
+              isAnimationActive={false}
               stackId="battle"
               fill="#f87171"
               radius={[0, 4, 4, 0]}

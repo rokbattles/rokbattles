@@ -1,9 +1,9 @@
 "use client";
 
 import { useExtracted } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/report-empty-state";
-import { ReportEntryCard } from "@/components/report/report-entry-card";
+import { ReportEntryList } from "@/components/report/report-entry-list";
 import { ReportErrorState } from "@/components/report/report-error-state";
 import { ReportLoadingState } from "@/components/report/report-loading-state";
 import { ReportOverviewCard } from "@/components/report/report-overview-card";
@@ -14,7 +14,6 @@ import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useReport } from "@/hooks/use-report";
 import { adaptBattleMailToReport } from "@/lib/report/battle-mail-adapter";
 import { hasOverviewData } from "@/lib/report/overview-metrics";
-import type { RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
 
 type ReportViewProps = {
@@ -26,6 +25,7 @@ export function ReportView({ id }: ReportViewProps) {
   const normalizedId = id?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedId.length > 0 ? normalizedId : null);
+
   const [copiedText, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const resetTimerRef = useRef<number>(null);
@@ -38,7 +38,11 @@ export function ReportView({ id }: ReportViewProps) {
     };
   }, []);
 
-  const mappedReport = data?.mail ? adaptBattleMailToReport(data.mail) : null;
+  const mappedReport = useMemo(
+    () => (data?.mail ? adaptBattleMailToReport(data.mail) : null),
+    [data?.mail]
+  );
+
   const entries: ReportEntry[] = mappedReport?.entries ?? [];
   const overview = mappedReport?.overview ?? null;
   const selfParticipant = mappedReport?.selfParticipant;
@@ -49,9 +53,11 @@ export function ReportView({ id }: ReportViewProps) {
       .then(() => console.log("Battle report copied to clipboard", copiedText))
       .then(() => {
         setIsCopied(true);
+
         if (resetTimerRef.current) {
           clearTimeout(resetTimerRef.current);
         }
+
         resetTimerRef.current = window.setTimeout(() => setIsCopied(false), 2000);
       })
       .catch((err) => console.error("Failed to copy battle report to clipboard", err));
@@ -67,7 +73,9 @@ export function ReportView({ id }: ReportViewProps) {
           </Button>
         </div>
       </div>
+
       <Divider />
+
       {loading ? (
         <ReportLoadingState />
       ) : error ? (
@@ -86,20 +94,8 @@ export function ReportView({ id }: ReportViewProps) {
               <Divider />
             </>
           ) : null}
-          <div className="space-y-12">
-            {entries.map((entry, index) => {
-              const payload = (entry.report ?? {}) as RawReportPayload;
-              const emailTime = payload?.metadata?.email_time;
-              const entryKey = `${emailTime ?? entry.startDate ?? index}-${index}`;
 
-              return (
-                <div key={entryKey}>
-                  <ReportEntryCard entry={entry} />
-                  {index < entries.length - 1 ? <Divider className="my-8" /> : null}
-                </div>
-              );
-            })}
-          </div>
+          <ReportEntryList key={normalizedId} entries={entries} />
         </div>
       )}
     </section>
