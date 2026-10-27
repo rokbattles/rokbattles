@@ -36,7 +36,7 @@ mod tests {
         info.insert("OpenTime", 1_787_875_200_000_i64);
         info.insert("CloseTime", 1_792_368_000_000_i64);
         let report = doc! {
-            "metadata": { "mail_id": "test", "mail_time": 1_789_929_245_i64, "kvk": true, "server_id": 16053 },
+            "metadata": { "mail_id": "test", "mail_time": 1_789_929_245_i64, "kvk": true, "gs_id": 16053, "server_id": 1804 },
             "timeline": { "start_timestamp": 1_789_929_193_i64 },
             "opponents": [{ "player_id": 1 }],
         };
@@ -50,7 +50,7 @@ mod tests {
         use super::super::list_mapper::{build_battle_list_projection, map_battle_list_document};
         let projection = build_battle_list_projection();
         for field in [
-            "metadata.server_id",
+            "metadata.gs_id",
             "metadata.kvk",
             "metadata.mail_role",
             "metadata.schema",
@@ -63,7 +63,7 @@ mod tests {
             assert_eq!(projection.get_i32(field), Ok(1));
         }
         let report = doc! {
-            "metadata": { "mail_id": "test", "mail_time": 1, "kvk": true, "server_id": 16053 },
+            "metadata": { "mail_id": "test", "mail_time": 1, "kvk": true, "gs_id": 16053, "server_id": 1804 },
             "opponents": [{ "player_id": 1 }],
         };
         let mut row = map_battle_list_document(&report).expect("valid report");
@@ -72,7 +72,8 @@ mod tests {
         assert_eq!(value["kvkMapcode"], "#C13249");
         assert_eq!(value["kvkBanner"], format!("{BANNER_BASE}img_ServerBanner5.png"));
         assert_eq!(value.as_object().expect("object").len(), 12);
-        for private in ["serverId", "mapContext", "Order", "OpenTime", "CloseTime", "Mode"] {
+        for private in ["serverId", "gsId", "mapContext", "Order", "OpenTime", "CloseTime", "Mode"]
+        {
             assert!(value.get(private).is_none(), "leaked {private}");
         }
     }

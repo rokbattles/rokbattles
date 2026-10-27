@@ -94,10 +94,10 @@ impl ReportsStore {
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let models = vec![
             IndexModel::builder()
-                .keys(doc! { "sender.player_id": 1, "sender.tracking_key": 1, "metadata.server_id": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "sender.player_id": 1, "sender.tracking_key": 1, "metadata.gs_id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
-                .keys(doc! { "metadata.server_id": 1, "metadata.mail_time": 1, "_id": 1 })
+                .keys(doc! { "metadata.gs_id": 1, "metadata.mail_time": 1, "_id": 1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_time": -1 })

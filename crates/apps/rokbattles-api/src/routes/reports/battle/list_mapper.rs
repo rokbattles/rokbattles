@@ -18,7 +18,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
     for field in [
         "metadata.mail_id",
         "metadata.mail_time",
-        "metadata.server_id",
+        "metadata.gs_id",
         "metadata.kvk",
         "metadata.mail_role",
         "metadata.schema",
@@ -94,7 +94,7 @@ pub(crate) fn build_report_dedupe_key(document: &Document) -> Option<String> {
     }
 
     let sender_player_id = nested_i64(document, &["sender", "player_id"]).unwrap_or(0);
-    let server_id = nested_i64(document, &["metadata", "server_id"]).unwrap_or(0);
+    let gs_id = nested_i64(document, &["metadata", "gs_id"]).unwrap_or(0);
     let start_timestamp = nested_i64(document, &["timeline", "start_timestamp"]).unwrap_or(0);
     let end_timestamp = nested_i64(document, &["timeline", "end_timestamp"]).unwrap_or(0);
 
@@ -113,14 +113,14 @@ pub(crate) fn build_report_dedupe_key(document: &Document) -> Option<String> {
     }
 
     Some(format!(
-        "attacks:{}|sender:{sender_player_id}|server:{server_id}|start:{start_timestamp}|end:{end_timestamp}",
+        "attacks:{}|sender:{sender_player_id}|server:{gs_id}|start:{start_timestamp}|end:{end_timestamp}",
         attack_ids.join(",")
     ))
 }
 
 fn build_field_report_dedupe_key(document: &Document) -> Option<String> {
     let sender = field_participant_identity(nested_document(document, &["sender"])?)?;
-    let server = nested_i64(document, &["metadata", "server_id"]).filter(|id| *id > 0)?;
+    let gs_id = nested_i64(document, &["metadata", "gs_id"]).filter(|id| *id > 0)?;
     let start = nested_i64(document, &["timeline", "start_timestamp"])?;
     let end = nested_i64(document, &["timeline", "end_timestamp"])?;
     let opponents = document.get_array("opponents").ok()?;
@@ -138,7 +138,7 @@ fn build_field_report_dedupe_key(document: &Document) -> Option<String> {
     // Different marches can share every attack ID and the same battle window.
     // Keep march identity and repeated entries; only ignore entry order.
     entries.sort_unstable();
-    let identity = serde_json::to_vec(&(server, sender, start, end, entries)).ok()?;
+    let identity = serde_json::to_vec(&(gs_id, sender, start, end, entries)).ok()?;
     Some(format!("field:{:x}", Sha256::digest(identity)))
 }
 
@@ -428,7 +428,7 @@ mod tests {
     #[test]
     fn dedupe_key_sorts_and_deduplicates_attack_ids() {
         let document = doc! {
-            "metadata": { "mail_id": "mail-1", "server_id": 1804_i64 },
+            "metadata": { "mail_id": "mail-1", "gs_id": 1804_i64 },
             "sender": { "player_id": 125861505_i64, "rally": true },
             "timeline": { "start_timestamp": 1772492175_i64, "end_timestamp": 1772492282_i64 },
             "opponents": [
@@ -449,7 +449,7 @@ mod tests {
     #[test]
     fn field_duel_reports_use_distinct_mail_keys() {
         let first = doc! {
-            "metadata": { "mail_id": "46667158178428673715", "server_id": 1007_i64 },
+            "metadata": { "mail_id": "46667158178428673715", "gs_id": 1007_i64 },
             "sender": { "player_id": 147868539_i64 },
             "timeline": { "start_timestamp": 1784286616_i64, "end_timestamp": 1784286737_i64 },
             "opponents": [
@@ -463,7 +463,7 @@ mod tests {
             "metadata",
             doc! {
                 "mail_id": "46667147178428673715",
-                "server_id": 1007_i64,
+                "gs_id": 1007_i64,
             },
         );
 
@@ -484,7 +484,7 @@ mod tests {
         let mut second_opponent = opponent.clone();
         second_opponent.insert("attack", doc! { "id": "attack-2" });
         doc! {
-            "metadata": { "mail_id": mail_id, "server_id": 1 },
+            "metadata": { "mail_id": mail_id, "gs_id": 1, "server_id": 1 },
             "sender": {
                 "player_id": 100,
                 "tracking_key": "100_march_1",
@@ -506,6 +506,25 @@ mod tests {
     }
 
     #[test]
+    fn dedupe_uses_battle_gs_id_instead_of_envelope_server() {
+        for rally in [false, true] {
+            let mut first = field_report("mail-1");
+            first.get_document_mut("metadata").unwrap().insert("gs_id", 16131);
+            first.get_document_mut("sender").unwrap().insert("rally", rally);
+            let mut second = first.clone();
+            let metadata = second.get_document_mut("metadata").unwrap();
+            metadata.insert("mail_id", "mail-2");
+            metadata.insert("server_id", 1833);
+
+            assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
+
+            second.get_document_mut("metadata").unwrap().insert("gs_id", 16132);
+            second.get_document_mut("metadata").unwrap().insert("server_id", 1);
+            assert_ne!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
+        }
+    }
+
+    #[test]
     fn simultaneous_field_marches_with_the_same_attack_ids_remain_distinct() {
         let first = field_report("mail-1");
         let mut second = field_report("mail-2");
@@ -517,7 +536,7 @@ mod tests {
     fn field_reports_with_different_context_remain_distinct() {
         let first = field_report("mail-1");
         for (section, field, value) in [
-            ("metadata", "server_id", 2),
+            ("metadata", "gs_id", 2),
             ("sender", "player_id", 101),
             ("timeline", "start_timestamp", 101),
             ("timeline", "end_timestamp", 111),
@@ -605,13 +624,13 @@ mod tests {
     #[test]
     fn garrison_participant_reports_share_combat_key() {
         let first = doc! {
-            "metadata": { "mail_id": "mail-1", "server_id": 1007_i64 },
+            "metadata": { "mail_id": "mail-1", "gs_id": 1007_i64 },
             "sender": { "player_id": 147868539_i64, "alliance_building_id": 1_i64 },
             "timeline": { "start_timestamp": 100_i64, "end_timestamp": 200_i64 },
             "opponents": [{ "player_id": 153187088_i64, "attack": { "id": "attack-1" } }],
         };
         let mut second = first.clone();
-        second.insert("metadata", doc! { "mail_id": "mail-2", "server_id": 1007_i64 });
+        second.insert("metadata", doc! { "mail_id": "mail-2", "gs_id": 1007_i64 });
 
         assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
     }
@@ -619,7 +638,7 @@ mod tests {
     #[test]
     fn structure_garrison_participant_reports_share_combat_key() {
         let first = doc! {
-            "metadata": { "mail_id": "mail-1", "server_id": 1007_i64 },
+            "metadata": { "mail_id": "mail-1", "gs_id": 1007_i64 },
             "sender": { "player_id": 147868539_i64 },
             "timeline": { "start_timestamp": 100_i64, "end_timestamp": 200_i64 },
             "opponents": [{
@@ -629,7 +648,7 @@ mod tests {
             }],
         };
         let mut second = first.clone();
-        second.insert("metadata", doc! { "mail_id": "mail-2", "server_id": 1007_i64 });
+        second.insert("metadata", doc! { "mail_id": "mail-2", "gs_id": 1007_i64 });
 
         assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
     }
@@ -637,7 +656,7 @@ mod tests {
     #[test]
     fn opponent_rally_participant_reports_share_combat_key() {
         let first = doc! {
-            "metadata": { "mail_id": "mail-1", "server_id": 1007_i64 },
+            "metadata": { "mail_id": "mail-1", "gs_id": 1007_i64 },
             "sender": { "player_id": 147868539_i64 },
             "timeline": { "start_timestamp": 100_i64, "end_timestamp": 200_i64 },
             "opponents": [{
@@ -647,7 +666,7 @@ mod tests {
             }],
         };
         let mut second = first.clone();
-        second.insert("metadata", doc! { "mail_id": "mail-2", "server_id": 1007_i64 });
+        second.insert("metadata", doc! { "mail_id": "mail-2", "gs_id": 1007_i64 });
 
         assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
     }

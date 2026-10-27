@@ -37,7 +37,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
     for field in [
         "metadata.mail_id",
         "metadata.mail_time",
-        "metadata.server_id",
+        "metadata.gs_id",
         "metadata.mail_role",
         "metadata.kvk",
         "metadata.schema",
@@ -529,7 +529,7 @@ mod tests {
         let projection = build_battle_detail_projection();
 
         for field in [
-            "metadata.server_id",
+            "metadata.gs_id",
             "sender.kingdom_id",
             "sender.supreme_strife.battle_id",
             "sender.supreme_strife.team_id",
@@ -562,10 +562,10 @@ mod tests {
     }
 
     #[test]
-    fn prokingdoms_url_uses_mail_time_in_battle_detail() {
+    fn prokingdoms_url_uses_gs_id_and_mail_time_in_battle_detail() {
         let document = doc! {
             "metadata": {
-                "mail_id": "mail-1", "server_id": 15597, "kvk": true,
+                "mail_id": "mail-1", "gs_id": 15597, "server_id": 1804, "kvk": true,
                 "mail_time": 1_755_441_253_600_000_i64,
             },
             "timeline": { "start_timestamp": 1_755_294_123_i64 },
@@ -582,7 +582,7 @@ mod tests {
         for mail_time in [0, -1] {
             let document = doc! {
                 "metadata": {
-                    "mail_id": "mail-1", "server_id": 15597, "kvk": true,
+                    "mail_id": "mail-1", "gs_id": 15597, "kvk": true,
                     "mail_time": mail_time,
                 },
                 "timeline": { "start_timestamp": 1_755_294_123_i64 },
@@ -598,11 +598,14 @@ mod tests {
     #[test]
     fn prokingdoms_url_is_omitted_for_ineligible_or_incomplete_battle_details() {
         for metadata in [
-            doc! { "kvk": false, "server_id": 15597 },
-            doc! { "server_id": 15597 },
+            doc! { "kvk": false, "gs_id": 15597 },
+            doc! { "gs_id": 15597 },
             doc! { "kvk": true },
-            doc! { "kvk": true, "server_id": 0 },
-            doc! { "kvk": true, "server_id": 15597, "mail_role": "dungeon" },
+            doc! { "kvk": true, "server_id": 15597 },
+            doc! { "kvk": true, "gs_id": Bson::Null, "server_id": 15597 },
+            doc! { "kvk": true, "gs_id": 0, "server_id": 15597 },
+            doc! { "kvk": true, "gs_id": -1, "server_id": 15597 },
+            doc! { "kvk": true, "gs_id": 15597, "mail_role": "dungeon" },
         ] {
             let mut document = doc! { "metadata": metadata };
             let metadata = document.get_document_mut("metadata").unwrap();
@@ -624,7 +627,7 @@ mod tests {
         ] {
             let document = doc! {
                 "metadata": {
-                    "mail_id": "mail-1", "server_id": 15597, "kvk": true,
+                    "mail_id": "mail-1", "gs_id": 15597, "kvk": true,
                     "mail_role": "gsmp", "schema": 10,
                     "mail_time": 1_755_441_253_600_000_i64,
                 },

@@ -1,0 +1,1330 @@
+{
+  "metadata": {
+    "gs_id": 16131,
+    "kvk": true,
+    "ll_script_schema": 921,
+    "mail_id": "109009565179298804324",
+    "mail_receiver": "player_9828968",
+    "mail_role": "gsmp",
+    "mail_time": 1792988043733795,
+    "report_id": 5973972,
+    "room_id": 0,
+    "schema": 921,
+    "server_id": 1833
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "#VnS",
+        "id": 4364196,
+        "name": "VIỆT NAM STAR"
+      },
+      "alliance_building_id": null,
+      "app_id": 6626468,
+      "app_uid": 1957968,
+      "as_battle_type": null,
+      "attack": {
+        "def": 1,
+        "id": "1003190601",
+        "x": 960.2392,
+        "y": 6303.4062
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -20230,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 498400,
+          "merits": 0,
+          "power": -22660,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 296768,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 2266,
+          "skill_power": -2430,
+          "slightly_wounded": 2559,
+          "troop_units": 301593,
+          "troop_units_max": 310000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -155180,
+          "dead": 24920,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 45320,
+          "merits": 0,
+          "power": -249200,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": -94020,
+          "slightly_wounded": 39266,
+          "troop_units": 248325,
+          "troop_units_max": 248325,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 1,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 963.9253,
+        "y": 6285.5166
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "117",
+              "buffs": "3003_0.027000;4003_0.031000;10002_0.016000",
+              "id": 1
+            },
+            {
+              "affix": "227",
+              "buffs": "3003_0.023000;4003_0.012000;5001_0.012000",
+              "id": 2
+            },
+            {
+              "affix": "2302",
+              "buffs": "3003_0.032000;4003_0.021000;10002_0.015000",
+              "id": 3
+            },
+            {
+              "affix": "417",
+              "buffs": "3003_0.029000;4003_0.025000;10002_0.020000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{2:20020_188:1,3:20021_219:1,4:20022_202:1,5:20023_189:21,6:20024_211:21,7:20037_138:1,8:20040_173:1}",
+          "formation": 2,
+          "id": 509,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1673,
+              "level": 5
+            },
+            {
+              "id": 1676,
+              "level": 5
+            },
+            {
+              "id": 1675,
+              "level": 5
+            },
+            {
+              "id": 362,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 2,
+          "id": 6,
+          "level": 60,
+          "relics": [
+            {
+              "id": 20008
+            }
+          ],
+          "skills": [
+            {
+              "id": 63,
+              "level": 5
+            },
+            {
+              "id": 1009,
+              "level": 5
+            },
+            {
+              "id": 1010,
+              "level": 5
+            },
+            {
+              "id": 1011,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        }
+      },
+      "end_tick": 2830139,
+      "frame_url": null,
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 1659,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.rok.ios.vn",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "#VnS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 60
+            }
+          },
+          "participant_id": 7661245,
+          "player_id": 128887124,
+          "player_name": "ﷻʚ TiGer ɞﷻ"
+        }
+      ],
+      "player_id": 128887124,
+      "player_name": "ﷻʚ TiGer ɞﷻ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 2830128,
+      "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 101,
+            "skill_id": 1241,
+            "skill_level": 3
+          },
+          {
+            "hero_id": 146,
+            "skill_id": 1428,
+            "skill_level": 1
+          }
+        ]
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "128887124_1792986944_509_6"
+    },
+    {
+      "alliance": {
+        "abbreviation": "#VnS",
+        "id": 4364196,
+        "name": "VIỆT NAM STAR"
+      },
+      "alliance_building_id": null,
+      "app_id": 6626468,
+      "app_uid": 1957968,
+      "as_battle_type": null,
+      "attack": {
+        "def": 1,
+        "id": "1003192101",
+        "x": 960.2392,
+        "y": 6303.4062
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -10410,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 815400,
+          "merits": 0,
+          "power": -10410,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 300549,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1041,
+          "skill_power": 0,
+          "slightly_wounded": 277,
+          "troop_units": 301867,
+          "troop_units_max": 310000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -135500,
+          "dead": 40770,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 20820,
+          "merits": 0,
+          "power": -407700,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": -272200,
+          "slightly_wounded": 13378,
+          "troop_units": 228849,
+          "troop_units_max": 248325,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 1,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 963.9253,
+        "y": 6285.5166
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "17101",
+              "buffs": "3001_0.034000;4001_0.034000;10002_0.016000",
+              "id": 1
+            },
+            {
+              "affix": "-1",
+              "buffs": "3001_0.035000;4001_0.030000;10002_0.015000",
+              "id": 2
+            },
+            {
+              "affix": "17301",
+              "buffs": "3001_0.020000;4001_0.022000;10002_0.020000",
+              "id": 3
+            },
+            {
+              "affix": "404",
+              "buffs": "3001_0.016000;4001_0.031000;5001_0.029000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20002_144:11,2:20005_149:1,3:20015_158:11,4:20016_151:11,5:20017_153:1,6:20018_146:1,7:20040_121:1,8:20167_156:1}",
+          "formation": 17,
+          "id": 595,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1803,
+              "level": 5
+            },
+            {
+              "id": 1804,
+              "level": 5
+            },
+            {
+              "id": 420,
+              "level": 5
+            },
+            {
+              "id": 1802,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 17,
+          "id": 545,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 393,
+              "level": 5
+            },
+            {
+              "id": 1751,
+              "level": 5
+            },
+            {
+              "id": 1752,
+              "level": 5
+            },
+            {
+              "id": 1753,
+              "level": 5
+            },
+            {
+              "id": 1754,
+              "level": 1
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        }
+      },
+      "end_tick": 2830139,
+      "frame_url": null,
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 1659,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.rok.ios.vn",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "#VnS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 595,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          },
+          "participant_id": 7661250,
+          "player_id": 128887124,
+          "player_name": "ﷻʚ TiGer ɞﷻ"
+        }
+      ],
+      "player_id": 128887124,
+      "player_name": "ﷻʚ TiGer ɞﷻ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 2830131,
+      "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 140,
+            "skill_id": 1404,
+            "skill_level": 5
+          }
+        ]
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "128887124_1792986950_595_545"
+    },
+    {
+      "alliance": {
+        "abbreviation": "#VnS",
+        "id": 4364196,
+        "name": "VIỆT NAM STAR"
+      },
+      "alliance_building_id": null,
+      "app_id": 6626468,
+      "app_uid": 1957968,
+      "as_battle_type": null,
+      "attack": {
+        "def": 1,
+        "id": "1003192801",
+        "x": 960.2392,
+        "y": 6303.4062
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -5850,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 808940,
+          "merits": 0,
+          "power": -5850,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 306585,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 585,
+          "skill_power": 0,
+          "slightly_wounded": 747,
+          "troop_units": 307917,
+          "troop_units_max": 317928,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -59000,
+          "dead": 40447,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 11700,
+          "merits": 0,
+          "power": -404470,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": -345470,
+          "slightly_wounded": 44229,
+          "troop_units": 238925,
+          "troop_units_max": 248325,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 1,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 963.9253,
+        "y": 6285.5166
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "13101",
+              "buffs": "3002_0.026000;4002_0.031000;5002_0.034000",
+              "id": 1
+            },
+            {
+              "affix": "13201",
+              "buffs": "3002_0.035000;4002_0.035000;5002_0.027000",
+              "id": 2
+            },
+            {
+              "affix": "13301",
+              "buffs": "3002_0.030000;4002_0.022000;5002_0.032000",
+              "id": 3
+            },
+            {
+              "affix": "13401",
+              "buffs": "3002_0.025000;4002_0.023000;5002_0.021000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20007_49:34,2:20008_53:34,3:20009_58:34,4:20010_50:34,5:20011_80:33,6:20012_67:33,7:20166_170:31,8:20040_176:31}",
+          "formation": 13,
+          "id": 540,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1737,
+              "level": 5
+            },
+            {
+              "id": 1738,
+              "level": 1
+            },
+            {
+              "id": 389,
+              "level": 5
+            },
+            {
+              "id": 1735,
+              "level": 5
+            },
+            {
+              "id": 1736,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 13,
+          "id": 619,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 437,
+              "level": 5
+            },
+            {
+              "id": 1832,
+              "level": 5
+            },
+            {
+              "id": 1833,
+              "level": 5
+            },
+            {
+              "id": 1834,
+              "level": 5
+            },
+            {
+              "id": 1835,
+              "level": 1
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        }
+      },
+      "end_tick": 2830139,
+      "frame_url": null,
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 1659,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.rok.ios.vn",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "#VnS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 619,
+              "level": 60
+            }
+          },
+          "participant_id": 7661253,
+          "player_id": 128887124,
+          "player_name": "ﷻʚ TiGer ɞﷻ"
+        }
+      ],
+      "player_id": 128887124,
+      "player_name": "ﷻʚ TiGer ɞﷻ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 2830130,
+      "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 11,
+            "skill_id": 1021,
+            "skill_level": 4
+          },
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          }
+        ]
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "128887124_1792986953_540_619"
+    },
+    {
+      "alliance": {
+        "abbreviation": "#VnS",
+        "id": 4364196,
+        "name": "VIỆT NAM STAR"
+      },
+      "alliance_building_id": null,
+      "app_id": 6626468,
+      "app_uid": 1957968,
+      "as_battle_type": null,
+      "attack": {
+        "def": 1,
+        "id": "1003193201",
+        "x": 960.2392,
+        "y": 6303.4062
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -6270,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 134960,
+          "merits": 0,
+          "power": -6270,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 301826,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 627,
+          "skill_power": 0,
+          "slightly_wounded": 582,
+          "troop_units": 303035,
+          "troop_units_max": 310000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -67480,
+          "dead": 6748,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 12540,
+          "merits": 0,
+          "power": -67480,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 5801,
+          "troop_units": 240280,
+          "troop_units_max": 248325,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 1,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 963.9253,
+        "y": 6285.5166
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "103",
+              "buffs": "3002_0.026000;4002_0.025000;10002_0.018000",
+              "id": 1
+            },
+            {
+              "affix": "-1",
+              "buffs": "3002_0.034000;4002_0.026000;10002_0.020000",
+              "id": 2
+            },
+            {
+              "affix": "13302",
+              "buffs": "3002_0.031000;4002_0.033000;5002_0.024000",
+              "id": 3
+            },
+            {
+              "affix": "413",
+              "buffs": "3002_0.033000;4002_0.021000;5002_0.017000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20001_124:1,2:20004_128:1,3:20009_125:1,4:20028_130:1,5:20033_34:32,6:20012_131:1,7:20040_181:31,8:20037_187:1}",
+          "formation": 13,
+          "id": 579,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 417,
+              "level": 5
+            },
+            {
+              "id": 1799,
+              "level": 5
+            },
+            {
+              "id": 1800,
+              "level": 5
+            },
+            {
+              "id": 1801,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 13,
+          "id": 575,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1789,
+              "level": 5
+            },
+            {
+              "id": 411,
+              "level": 5
+            },
+            {
+              "id": 1787,
+              "level": 5
+            },
+            {
+              "id": 1790,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        }
+      },
+      "end_tick": 2830139,
+      "frame_url": null,
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 1659,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.rok.ios.vn",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "#VnS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 579,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 60
+            }
+          },
+          "participant_id": 7661254,
+          "player_id": 128887124,
+          "player_name": "ﷻʚ TiGer ɞﷻ"
+        }
+      ],
+      "player_id": 128887124,
+      "player_name": "ﷻʚ TiGer ɞﷻ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 2830130,
+      "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 177,
+            "skill_id": 1520,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 13,
+            "skill_id": 1048,
+            "skill_level": 5
+          }
+        ]
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "128887124_1792986956_579_575"
+    },
+    {
+      "alliance": {
+        "abbreviation": "#VnS",
+        "id": 4364196,
+        "name": "VIỆT NAM STAR"
+      },
+      "alliance_building_id": null,
+      "app_id": 6626468,
+      "app_uid": 1957968,
+      "as_battle_type": null,
+      "attack": {
+        "def": 1,
+        "id": "1003540401",
+        "x": 960.2392,
+        "y": 6303.4062
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": -5460,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 421160,
+          "merits": 0,
+          "power": -5460,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 297354,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 546,
+          "skill_power": 0,
+          "slightly_wounded": 334,
+          "troop_units": 298234,
+          "troop_units_max": 310000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": -57480,
+          "dead": 21058,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 10920,
+          "merits": 0,
+          "power": -210580,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": -153100,
+          "slightly_wounded": 11708,
+          "troop_units": 180667,
+          "troop_units_max": 248325,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 1,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 963.9253,
+        "y": 6285.5166
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "17102",
+              "buffs": "3001_0.026000;4001_0.030000;5001_0.034000",
+              "id": 1
+            },
+            {
+              "affix": "220",
+              "buffs": "3001_0.017000;4001_0.021000;10002_0.018000",
+              "id": 2
+            },
+            {
+              "affix": "17302",
+              "buffs": "3001_0.027000;4001_0.021000;5001_0.026000",
+              "id": 3
+            },
+            {
+              "affix": "404",
+              "buffs": "3001_0.030000;4001_0.016000;5001_0.025000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20002_162:11,2:20005_159:1,3:20015_145:1,4:20016_164:1,5:20017_163:1,6:20018_160:1,7:20037_186:1,8:20118_108:1}",
+          "formation": 17,
+          "id": 185,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 251,
+              "level": 5
+            },
+            {
+              "id": 1544,
+              "level": 5
+            },
+            {
+              "id": 1545,
+              "level": 5
+            },
+            {
+              "id": 1546,
+              "level": 5
+            },
+            {
+              "id": 1547,
+              "level": 1
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 3,
+          "id": 140,
+          "level": 60,
+          "relics": [
+            {
+              "id": 45
+            }
+          ],
+          "skills": [
+            {
+              "id": 1404,
+              "level": 5
+            },
+            {
+              "id": 1405,
+              "level": 5
+            },
+            {
+              "id": 1406,
+              "level": 5
+            },
+            {
+              "id": 1407,
+              "level": 1
+            },
+            {
+              "id": 198,
+              "level": 5
+            }
+          ],
+          "skins": null,
+          "star_level": 6
+        }
+      },
+      "end_tick": 2830139,
+      "frame_url": null,
+      "is_auto": 0,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 1659,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.rok.ios.vn",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "#VnS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          },
+          "participant_id": 7661249,
+          "player_id": 128887124,
+          "player_name": "ﷻʚ TiGer ɞﷻ"
+        }
+      ],
+      "player_id": 128887124,
+      "player_name": "ﷻʚ TiGer ɞﷻ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 2830133,
+      "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 5,
+            "skill_id": 1138,
+            "skill_level": 3
+          },
+          {
+            "hero_id": 181,
+            "skill_id": 1504,
+            "skill_level": 5
+          }
+        ]
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "ironhand_spawn_time": 0,
+        "legion_id": 0,
+        "match_id": 0,
+        "period": 0,
+        "round": 0,
+        "talents": null,
+        "team_id": 0
+      },
+      "tracking_key": "128887124_1792986947_185_140"
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "",
+      "id": 0,
+      "name": ""
+    },
+    "alliance_building_id": null,
+    "app_id": 6626468,
+    "app_uid": 189810,
+    "as_battle_type": null,
+    "auxiliary_skills": [],
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/189810/2026-10-22/477B5A81BD38EE107B6F891260C47414_250x250.jpg",
+    "camp_id": 1,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 976.02344,
+      "y": 6307.7773
+    },
+    "character_type": 6,
+    "commanders": {
+      "primary": {
+        "armaments": null,
+        "awakened": false,
+        "equipment": "{}",
+        "formation": null,
+        "id": 124,
+        "level": 1,
+        "relics": null,
+        "skills": [
+          {
+            "id": 176,
+            "level": 2
+          }
+        ],
+        "skins": null,
+        "star_level": 1
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": false,
+        "equipment": null,
+        "formation": null,
+        "id": 0,
+        "level": 0,
+        "relics": null,
+        "skills": null,
+        "skins": null,
+        "star_level": 0
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_186.png",
+    "is_auto": 0,
+    "is_outpost": null,
+    "is_turret": null,
+    "kingdom_id": 1659,
+    "package_identifier": "com.lilithgames.rok.pc.vn",
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 124,
+            "level": 1
+          },
+          "secondary": {
+            "id": 0,
+            "level": 0
+          }
+        },
+        "participant_id": 7664660,
+        "player_id": 9828968,
+        "player_name": "COCa P"
+      }
+    ],
+    "player_id": 9828968,
+    "player_name": "COCa P",
+    "rally": null,
+    "server_season": "100",
+    "session": null,
+    "structure_id": null,
+    "support_skills": {
+      "enable": true,
+      "skills": []
+    },
+    "supreme_strife": {
+      "battle_id": "",
+      "ironhand_spawn_time": 0,
+      "legion_id": 0,
+      "match_id": 0,
+      "period": 0,
+      "round": 0,
+      "talents": null,
+      "team_id": 0
+    },
+    "tracking_key": ""
+  },
+  "summary": {
+    "opponent": {
+      "dead": 0,
+      "kill_points": 2678860,
+      "remaining": 1503082,
+      "severely_wounded": 5065,
+      "slightly_wounded": 4499,
+      "troop_units": 1512646
+    },
+    "sender": {
+      "dead": 133943,
+      "kill_points": 101300,
+      "remaining": 0,
+      "severely_wounded": 0,
+      "slightly_wounded": 114382,
+      "troop_units": 248325
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1792988043,
+    "events": [],
+    "sampling": [
+      {
+        "count": 248325,
+        "tick": 2830128
+      },
+      {
+        "count": 238925,
+        "tick": 2830130
+      },
+      {
+        "count": 228849,
+        "tick": 2830131
+      },
+      {
+        "count": 180667,
+        "tick": 2830133
+      },
+      {
+        "count": 0,
+        "tick": 2830139
+      }
+    ],
+    "start_tick": 2830128,
+    "start_timestamp": 1792988032
+  }
+}

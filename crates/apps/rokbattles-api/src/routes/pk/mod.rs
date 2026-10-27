@@ -86,7 +86,7 @@ impl BattleReportsRequest {
 
         let mut filter = exclude_test_client_filter();
         filter.extend(doc! {
-            "metadata.server_id": self.server_id,
+            "metadata.gs_id": self.server_id,
             "metadata.mail_time": { "$gte": open_time, "$lte": close_time },
             "sender.player_id": { "$gt": 0 },
             "opponents.player_id": { "$gt": 0 },
@@ -188,6 +188,25 @@ mod tests {
             &doc! {
                 "$gte": 1_700_000_000_123_000_i64,
                 "$lte": 1_700_000_000_133_000_i64,
+            }
+        );
+    }
+
+    #[test]
+    fn server_id_request_filters_by_battle_gs_id() {
+        let request: BattleReportsRequest = serde_json::from_value(valid_body()).expect("request");
+
+        assert_eq!(
+            request.filter().expect("filter"),
+            doc! {
+                "sender.app_id": { "$ne": crate::db::TEST_CLIENT_APP_ID },
+                "metadata.gs_id": 16053_i64,
+                "metadata.mail_time": {
+                    "$gte": 1_700_000_000_123_000_i64,
+                    "$lte": 1_700_000_000_133_000_i64,
+                },
+                "sender.player_id": { "$gt": 0 },
+                "opponents.player_id": { "$gt": 0 },
             }
         );
     }

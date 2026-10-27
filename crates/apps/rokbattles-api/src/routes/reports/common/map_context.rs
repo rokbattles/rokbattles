@@ -52,9 +52,7 @@ impl BattleMapContext {
 
         match nested_bool(document, &["metadata", "kvk"]) {
             Some(false) => Self::Home { kingdom },
-            Some(true) => {
-                Self::from_server_id(nested_i64(document, &["metadata", "server_id"]), time)
-            }
+            Some(true) => Self::from_server_id(nested_i64(document, &["metadata", "gs_id"]), time),
             None => Self::Unknown,
         }
     }
@@ -123,7 +121,7 @@ fn radiant_rivalry_server_id(document: &Document) -> Option<i64> {
         return None;
     }
 
-    let server_id = nested_i64(document, &["metadata", "server_id"]).filter(|id| *id > 0)?;
+    let server_id = nested_i64(document, &["metadata", "gs_id"]).filter(|id| *id > 0)?;
     let is_foreign = |id: i64| id > 0 && id != server_id;
 
     let foreign_sender = nested_i64(document, &["sender", "kingdom_id"]).is_some_and(is_foreign);
@@ -239,6 +237,8 @@ fn map_banner(map: &str) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
+    use mongodb::bson::Bson;
+
     use super::*;
 
     fn snapshot() -> Document {
@@ -397,6 +397,20 @@ mod tests {
     }
 
     #[test]
+    fn battle_kvk_never_falls_back_to_envelope_server() {
+        for gs_id in [None, Some(Bson::Null), Some(Bson::Int32(0)), Some(Bson::Int32(-1))] {
+            let mut metadata = doc! { "kvk": true, "server_id": 16053 };
+            if let Some(gs_id) = gs_id {
+                metadata.insert("gs_id", gs_id);
+            }
+            let context = BattleMapContext::from_document(&doc! { "metadata": metadata }, 1);
+
+            assert_eq!(context.resolve(&[snapshot()]), ("Unknown".into(), None));
+            assert!(context.prokingdoms_url().is_none());
+        }
+    }
+
+    #[test]
     fn strife_uses_sender_kingdom_and_schema_banner() {
         for (schema, filename) in [
             (20001, "img_MailTypeBG_TopKVK.png"),
@@ -405,7 +419,7 @@ mod tests {
         ] {
             let report = doc! {
                 "metadata": {
-                    "kvk": true, "mail_role": "dungeon", "server_id": 99, "schema": schema,
+                    "kvk": true, "mail_role": "dungeon", "gs_id": 99, "schema": schema,
                 },
                 "sender": {
                     "kingdom_id": 1804,
@@ -422,7 +436,7 @@ mod tests {
     #[test]
     fn home_uses_sender_kingdom_instead_of_report_server() {
         let report = doc! {
-            "metadata": { "kvk": false, "server_id": 99 },
+            "metadata": { "kvk": false, "gs_id": 99 },
             "sender": { "kingdom_id": 1804 },
         };
         assert_eq!(
@@ -438,7 +452,7 @@ mod tests {
                 for ll_schema in [0, 224] {
                     let report = doc! {
                         "metadata": {
-                            "mail_role": "gsmp", "schema": 10, "server_id": 3030,
+                            "mail_role": "gsmp", "schema": 10, "gs_id": 3030, "server_id": 3028,
                             "kvk": kvk, "ll_script_schema": ll_schema,
                         },
                         "sender": { "kingdom_id": sender },
@@ -464,7 +478,7 @@ mod tests {
             doc! { "kingdom_id": "unknown" },
         ] {
             let report = doc! {
-                "metadata": { "mail_role": "gsmp", "schema": 10, "server_id": 3030, "kvk": false },
+                "metadata": { "mail_role": "gsmp", "schema": 10, "gs_id": 3030, "server_id": 3028, "kvk": false },
                 "sender": { "kingdom_id": 3030 },
                 "opponents": [opponent],
             };
@@ -482,7 +496,7 @@ mod tests {
             [("gsmp", 320, 16053), ("gs", 10, 16053), ("gsmp", 10, 0), ("gsmp", 10, -1)]
         {
             let report = doc! {
-                "metadata": { "mail_role": role, "schema": schema, "server_id": server, "kvk": true },
+                "metadata": { "mail_role": role, "schema": schema, "gs_id": server, "kvk": true },
                 "sender": { "kingdom_id": 3028 },
                 "opponents": [{ "kingdom_id": 3030 }],
             };
@@ -506,7 +520,7 @@ mod tests {
     #[test]
     fn strife_takes_precedence_over_radiant_rivalry_heuristic() {
         let report = doc! {
-            "metadata": { "mail_role": "gsmp", "schema": 10, "server_id": 3030, "kvk": true },
+            "metadata": { "mail_role": "gsmp", "schema": 10, "gs_id": 3030, "server_id": 3028, "kvk": true },
             "sender": {
                 "kingdom_id": 3028,
                 "supreme_strife": { "battle_id": "match", "team_id": 1 },
@@ -530,7 +544,7 @@ mod tests {
             ("mode=abp&submode=DiyEgypt", "C", None),
         ] {
             let report = doc! {
-                "metadata": { "mail_role": "dungeon", "server_id": 1804 },
+                "metadata": { "mail_role": "dungeon", "gs_id": 1804 },
                 "sender": { "kingdom_id": 117, "session": session },
             };
             assert_eq!(
