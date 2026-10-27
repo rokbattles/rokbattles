@@ -13,7 +13,7 @@ use crate::routes::reports::battle::{
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub(super) struct March {
     pub governor: i64,
-    pub server: i64,
+    pub gs_id: i64,
     pub tracking: String,
     pub mail: String,
 }
@@ -24,7 +24,7 @@ impl March {
 
         Some(Self {
             governor: nested_i64(report, &["sender", "player_id"])?,
-            server: nested_i64(report, &["metadata", "server_id"]).unwrap_or(0),
+            gs_id: nested_i64(report, &["metadata", "gs_id"]).unwrap_or(0),
             tracking: tracking.to_owned(),
             mail: if tracking.is_empty() {
                 nested_str(report, &["metadata", "mail_id"])?.to_owned()
@@ -40,14 +40,14 @@ impl March {
         } else {
             doc! {
                 "sender.player_id": self.governor,
-                "metadata.server_id": self.server,
+                "metadata.gs_id": self.gs_id,
                 "sender.tracking_key": &self.tracking
             }
         }
     }
 
     fn id(&self) -> String {
-        let identity = format!("{}|{}|{}|{}", self.governor, self.server, self.tracking, self.mail);
+        let identity = format!("{}|{}|{}|{}", self.governor, self.gs_id, self.tracking, self.mail);
 
         format!("{:x}", Sha256::digest(identity.as_bytes()))
     }
@@ -199,7 +199,7 @@ mod tests {
 
     fn report(mail: &str, tracking: &str, time: i64, sender_remaining: i64) -> Document {
         doc! {
-            "metadata": {"mail_id": mail, "mail_time": time * 1000, "server_id": 1},
+            "metadata": {"mail_id": mail, "mail_time": time * 1000, "gs_id": 1, "server_id": 1},
             "sender": {
                 "player_id": 10,
                 "tracking_key": tracking,
@@ -227,6 +227,37 @@ mod tests {
             (30, Some(200), 2)
         );
         assert_eq!((rows[0].outcome, rows[0].expires_at), (Outcome::Defeat, 302_000));
+    }
+
+    #[test]
+    fn march_grouping_and_queries_use_gs_id_instead_of_envelope_server() {
+        let mut first = report("a", "march", 1000, 100);
+        first.get_document_mut("metadata").unwrap().insert("gs_id", 16131);
+        let mut second = report("b", "march", 2000, 0);
+        let metadata = second.get_document_mut("metadata").unwrap();
+        metadata.insert("gs_id", 16131);
+        metadata.insert("server_id", 1833);
+
+        let march = March::from_report(&first).expect("march");
+        assert_eq!(march, March::from_report(&second).expect("same march"));
+        assert_eq!(
+            march.filter(),
+            doc! {
+                "sender.player_id": 10_i64,
+                "metadata.gs_id": 16131_i64,
+                "sender.tracking_key": "march",
+            }
+        );
+        let rows = aggregate(vec![first.clone(), second.clone()]);
+        assert_eq!(rows.len(), 1);
+        assert_eq!((rows[0].report_count, rows[0].kill_count), (2, 30));
+
+        second.get_document_mut("metadata").unwrap().insert("gs_id", 16132);
+        second.get_document_mut("metadata").unwrap().insert("server_id", 1);
+        let rows = aggregate(vec![first, second]);
+        assert_eq!(rows.len(), 2);
+        assert_ne!(rows[0].id, rows[1].id);
+        assert!(rows.iter().all(|row| row.report_count == 1));
     }
 
     #[test]

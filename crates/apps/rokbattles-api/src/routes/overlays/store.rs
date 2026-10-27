@@ -33,7 +33,7 @@ pub(super) async fn fetch_reports(
         .sort(doc! {"metadata.mail_time": -1})
         .projection(doc! {
             "metadata.mail_id": 1,
-            "metadata.server_id": 1,
+            "metadata.gs_id": 1,
             "sender.player_id": 1,
             "sender.tracking_key": 1
         })
