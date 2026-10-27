@@ -954,6 +954,7 @@ msgstr "Marauders"
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "yaMHMB"
 msgid "Results"
 msgstr "Results"
@@ -2051,6 +2052,7 @@ msgstr "Languages besides English may be incomplete. Untranslated text falls bac
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "sNAPQj"
 msgid "Loading loot explorer data..."
 msgstr "Loading loot explorer data..."
@@ -2060,6 +2062,7 @@ msgstr "Loading loot explorer data..."
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "yedWVm"
 msgid "Failed to load loot explorer data."
 msgstr "Failed to load loot explorer data."
@@ -2072,6 +2075,7 @@ msgstr "English Soldiers"
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "r8aMgv"
 msgid "AP used"
 msgstr "AP used"
@@ -2099,6 +2103,7 @@ msgid "Over 1% damage"
 msgstr "Over 1% damage"
 
 #: src/components/loot-explorer/baulur-rolls.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "mNR1S8"
 msgid "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots."
 msgstr "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots."
@@ -2111,6 +2116,7 @@ msgstr "No matching reward results have been observed yet."
 #: src/components/loot-explorer/baulur-rolls.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "bMC_V5"
 msgid "Slot {slot}"
 msgstr "Slot {slot}"
@@ -2134,6 +2140,21 @@ msgstr "This reward tier has been seen {count, plural, one {# time} other {# tim
 msgctxt "pFZfPa"
 msgid "n/a"
 msgstr "n/a"
+
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "PpZxHs"
+msgid "Junior Lohar"
+msgstr "Junior Lohar"
+
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "w26f2G"
+msgid "Dauntless Lohar"
+msgstr "Dauntless Lohar"
+
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgctxt "nIhIDh"
+msgid "Lohar's Trial"
+msgstr "Lohar's Trial"
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx

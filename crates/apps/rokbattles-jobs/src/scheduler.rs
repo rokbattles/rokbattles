@@ -18,6 +18,7 @@ use crate::{
     precompute_drastc::{precompute_drastc_data, precompute_drastc_presoc_data},
     precompute_kahar_treasure::precompute_kahar_treasure_data,
     precompute_karuak_ceremony::precompute_karuak_ceremony_data,
+    precompute_lohar_trial::precompute_lohar_trial_data,
     refresh_binds::refresh_claimed_governor_bindings,
 };
 
@@ -33,6 +34,8 @@ pub const PRECOMPUTE_BAULUR_CRON: &str = "0 0 */8 * * *";
 pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_KARUAK_CEREMONY_CRON: &str = "0 0 */8 * * *";
+/// Every 8 hours
+pub const PRECOMPUTE_LOHAR_TRIAL_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_SOC_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
@@ -86,6 +89,29 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                     "precomputed Karuak Ceremony data"
                 ),
                 Err(error) => error!(%error, "failed to precompute Karuak Ceremony data"),
+            }
+        },
+    )
+    .await?;
+
+    add_locked_job(
+        &scheduler,
+        PRECOMPUTE_LOHAR_TRIAL_CRON,
+        Arc::clone(&reports_store),
+        Arc::new(Mutex::new(())),
+        "Lohar's Trial precompute is already running; skipping this tick",
+        |reports_store| async move {
+            match precompute_lohar_trial_data(&reports_store).await {
+                Ok(stats) => info!(
+                    documents_read = stats.documents_read,
+                    duplicate_reports_skipped = stats.duplicate_reports_skipped,
+                    empty_results_skipped = stats.empty_results_skipped,
+                    unmatched_results = stats.unmatched_results,
+                    results_counted = stats.results_counted,
+                    documents_written = stats.documents_written,
+                    "precomputed Lohar's Trial data"
+                ),
+                Err(error) => error!(%error, "failed to precompute Lohar's Trial data"),
             }
         },
     )
@@ -309,6 +335,11 @@ mod tests {
     #[test]
     fn soc_refresh_cycle_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_SOC_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn precompute_lohar_trial_cron_runs_every_eight_hours_utc() {
+        assert_eq!(super::PRECOMPUTE_LOHAR_TRIAL_CRON, "0 0 */8 * * *");
     }
 
     #[test]

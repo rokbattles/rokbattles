@@ -3,6 +3,7 @@ import type {
   BarbarianLootDocument,
   BaulurLootDocument,
   KaruakCeremonyLootDocument,
+  LoharTrialLootDocument,
 } from "@/lib/loot-explorer/api";
 
 export type LootExplorerOption = {
@@ -129,4 +130,17 @@ export function resolveActiveLevels({
 
   const firstLevel = options[0]?.value;
   return firstLevel ? [Number(firstLevel)] : [];
+}
+
+export const loharNpcs = [
+  { key: "junior-lohar", label: "Junior Lohar", kind: 111 },
+  { key: "dauntless-lohar", label: "Dauntless Lohar", kind: 112 },
+] as const;
+
+export function findLoharNpc(key: string | undefined, items: LoharTrialLootDocument[]) {
+  return (
+    loharNpcs.find((npc) => npc.key === key) ??
+    loharNpcs.find((npc) => items.some((item) => item.kind === npc.kind)) ??
+    loharNpcs[0]
+  );
 }

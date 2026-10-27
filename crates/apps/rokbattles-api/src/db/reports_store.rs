@@ -53,6 +53,7 @@ pub struct ReportsStore {
     g_rok_prec_baulur: Collection<Document>,
     g_rok_prec_kahartreasure: Collection<Document>,
     g_rok_prec_karuakceremony: Collection<Document>,
+    g_rok_prec_lohartrial: Collection<Document>,
     g_rok_prec_drastc: Collection<Document>,
     g_rok_prec_drastc_presoc: Collection<Document>,
     g_rok_prec_cmdr_pairings_v2: Collection<Document>,
@@ -81,6 +82,7 @@ impl ReportsStore {
             g_rok_prec_baulur: db.collection("g_rok_prec_baulur"),
             g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
             g_rok_prec_karuakceremony: db.collection("g_rok_prec_karuakceremony"),
+            g_rok_prec_lohartrial: db.collection("g_rok_prec_lohartrial"),
             g_rok_prec_drastc: db.collection("g_rok_prec_drastc"),
             g_rok_prec_drastc_presoc: db.collection("g_rok_prec_drastc_presoc"),
             g_rok_prec_cmdr_pairings_v2: db.collection("g_rok_prec_cmdr_pairings_v2"),
@@ -521,6 +523,15 @@ impl ReportsStore {
             )
             .await?;
 
+        self.g_rok_prec_lohartrial
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! { "kind": 1 })
+                    .options(IndexOptions::builder().unique(true).build())
+                    .build(),
+            )
+            .await?;
+
         self.g_rok_prec_drastc
             .create_index(
                 IndexModel::builder()
@@ -663,6 +674,11 @@ impl ReportsStore {
     /// Access precomputed Karuak Ceremony boss aggregates.
     pub fn precomputed_karuak_ceremony_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_karuakceremony
+    }
+
+    /// Access precomputed Lohar's Trial aggregates.
+    pub fn precomputed_lohar_trial_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_lohartrial
     }
 
     /// Access materialized DRASTC scores for Combat Lab.

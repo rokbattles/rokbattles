@@ -97,6 +97,26 @@ pub async fn get_karuak_ceremony(
     ))
 }
 
+/// Returns precomputed Lohar's Trial loot documents.
+pub async fn get_lohar_trial(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<FxHashMap<String, String>>,
+) -> Result<impl IntoResponse, ApiError> {
+    let request = parse_kind_request(&params)?;
+    let items = fetch_documents::<RawLoharTrialDocument, LoharTrialDocument>(
+        state.reports_store.precomputed_lohar_trial_collection(),
+        request.filter(),
+        doc! { "kind": 1 },
+    )
+    .await?;
+
+    Ok((
+        StatusCode::OK,
+        [("Cache-Control", "public, max-age=3600")],
+        Json(LoharTrialResponse { items }),
+    ))
+}
+
 /// Returns precomputed Kahar treasure loot.
 pub async fn get_kahar_treasure(
     State(state): State<Arc<AppState>>,
@@ -268,6 +288,12 @@ struct KaruakCeremonyResponse {
     items: Vec<KaruakCeremonyDocument>,
 }
 
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct LoharTrialResponse {
+    items: Vec<LoharTrialDocument>,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 struct RawBarbarianDocument {
     kind: i32,
@@ -396,6 +422,34 @@ impl From<RawKaruakCeremonyDocument> for KaruakCeremonyDocument {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+struct RawLoharTrialDocument {
+    kind: i32,
+    slots: Vec<BaulurRollSlot>,
+    totals: LoharTrialTotals,
+    refreshed_at: DateTime,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct LoharTrialDocument {
+    kind: i32,
+    slots: Vec<BaulurRollSlot>,
+    totals: LoharTrialTotals,
+    refreshed_at: String,
+}
+
+impl From<RawLoharTrialDocument> for LoharTrialDocument {
+    fn from(value: RawLoharTrialDocument) -> Self {
+        Self {
+            kind: value.kind,
+            slots: value.slots,
+            totals: value.totals,
+            refreshed_at: date_time_to_string(value.refreshed_at),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
 struct RawKaharTreasureDocument {
     kind: String,
     slots: Vec<KaharTreasureSlot>,
@@ -468,6 +522,18 @@ struct BaulurTotals {
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct KaruakCeremonyTotals {
     results: i64,
+    reports: i64,
+    duplicate_reports: i64,
+    empty_results: i64,
+    unmatched_results: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct LoharTrialTotals {
+    results: i64,
+    matched_results: i64,
+    ap_used: i64,
     reports: i64,
     duplicate_reports: i64,
     empty_results: i64,
@@ -684,6 +750,37 @@ mod tests {
         assert!(slot.get("receiveRate").is_none());
         assert!(json.get("resourcePool").is_some());
         assert!(json.get("lootPools").is_none());
+    }
+
+    #[test]
+    fn lohar_document_serializes_optional_slots_and_ap_totals() {
+        let raw = from_document::<super::RawLoharTrialDocument>(doc! {
+            "kind": 111_i64,
+            "slots": [{
+                "slot": 3, "results": 2_i64,
+                "no_item_results": 1_i64, "no_item_rate": 0.5,
+                "loot": [{
+                    "type": 2, "sub_type": 10370, "results": 1_i64, "drop_rate": 0.5,
+                    "quantity": { "min": 3_i64, "max": 3_i64 },
+                    "total_quantity": 3_i64, "average_quantity": 3.0,
+                }],
+            }],
+            "totals": {
+                "results": 3_i64, "matched_results": 2_i64, "ap_used": 450_i64,
+                "reports": 2_i64, "duplicate_reports": 1_i64,
+                "empty_results": 0_i64, "unmatched_results": 1_i64,
+            },
+            "refreshed_at": mongodb::bson::DateTime::from_millis(0),
+        })
+        .expect("stored Lohar data");
+        let json = serde_json::to_value(super::LoharTrialDocument::from(raw)).expect("API JSON");
+        assert_eq!(json["kind"], 111);
+        assert_eq!(json["totals"]["apUsed"], 450);
+        assert_eq!(json["totals"]["matchedResults"], 2);
+        assert_eq!(json["totals"]["unmatchedResults"], 1);
+        assert_eq!(json["slots"][0]["noItemRate"], 0.5);
+        assert_eq!(json["slots"][0]["loot"][0]["subType"], 10370);
+        assert!(json["refreshedAt"].is_string());
     }
 
     #[test]

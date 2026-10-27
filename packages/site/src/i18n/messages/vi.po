@@ -963,6 +963,7 @@ msgstr "Quân Cướp bóc"
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "yaMHMB"
 msgid "Results"
 msgstr "Kết quả"
@@ -2060,6 +2061,7 @@ msgstr "Các ngôn ngữ khác ngoài tiếng Anh có thể chưa đầy đủ. 
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "sNAPQj"
 msgid "Loading loot explorer data..."
 msgstr "Đang tải dữ liệu Khám phá Chiến lợi phẩm..."
@@ -2069,6 +2071,7 @@ msgstr "Đang tải dữ liệu Khám phá Chiến lợi phẩm..."
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "yedWVm"
 msgid "Failed to load loot explorer data."
 msgstr "Không thể tải dữ liệu Khám phá Chiến lợi phẩm."
@@ -2081,6 +2084,7 @@ msgstr "Binh Sĩ Anh"
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "r8aMgv"
 msgid "AP used"
 msgstr "AP đã dùng"
@@ -2108,6 +2112,7 @@ msgid "Over 1% damage"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-rolls.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "mNR1S8"
 msgid "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots."
 msgstr ""
@@ -2120,6 +2125,7 @@ msgstr ""
 #: src/components/loot-explorer/baulur-rolls.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
 msgctxt "bMC_V5"
 msgid "Slot {slot}"
 msgstr ""
@@ -2143,6 +2149,21 @@ msgstr "Quà cấp này đã được thấy {count, plural, one {# lần} other
 msgctxt "pFZfPa"
 msgid "n/a"
 msgstr "n/a"
+
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "PpZxHs"
+msgid "Junior Lohar"
+msgstr ""
+
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "w26f2G"
+msgid "Dauntless Lohar"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgctxt "nIhIDh"
+msgid "Lohar's Trial"
+msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
