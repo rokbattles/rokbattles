@@ -288,7 +288,7 @@ mod tests {
     fn parse_lohar_trial_rejects_unknown_npc() {
         let mut params = date_params();
         params.insert("type".into(), "barbarians".into());
-        assert!(parse_lohar_trial_loot_request(&params).is_err());
+        parse_lohar_trial_loot_request(&params).expect_err("unknown NPC should be rejected");
     }
 
     fn date_params() -> FxHashMap<String, String> {
