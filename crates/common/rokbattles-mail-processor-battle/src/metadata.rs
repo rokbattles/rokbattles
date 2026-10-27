@@ -36,6 +36,7 @@ impl Extractor for MetadataExtractor {
         let content = require_content(input)?;
         let report_id = require_u64_field(content, "Id")?;
         let mail_role = require_string_field(content, "Role")?;
+        let gs_id = optional_u64_field(content, "GsId")?;
         let schema = optional_u64_field(content, "Schema")?;
         let kvk = resolve_kvk(&mail_role, content, metadata.server_id, schema)?;
         let room_id = optional_u64_field(content, "RoomId")?;
@@ -44,6 +45,7 @@ impl Extractor for MetadataExtractor {
         let mut section = metadata.into_section();
         section.insert("report_id", Value::from(report_id));
         section.insert("mail_role", Value::String(mail_role));
+        section.insert("gs_id", gs_id.map_or(Value::Null, Value::from));
         section.insert("kvk", Value::Bool(kvk));
         section.insert("room_id", room_id.map_or(Value::Null, Value::from));
         section.insert("schema", schema.map_or(Value::Null, Value::from));
@@ -102,6 +104,7 @@ mod tests {
             "body": {
                 "content": {
                     "Id": 18930744,
+                    "GsId": 16131,
                     "Role": "gsmp",
                     "isConquerSeason": true,
                     "SelfChar": {
@@ -118,6 +121,7 @@ mod tests {
         assert_eq!(fields["mail_time"], json!(1234));
         assert_eq!(fields["mail_receiver"], json!("player-1"));
         assert_eq!(fields["server_id"], json!(55));
+        assert_eq!(fields["gs_id"], json!(16131));
         assert_eq!(fields["report_id"], json!(18930744));
         assert_eq!(fields["mail_role"], json!("gsmp"));
         assert_eq!(fields["kvk"], json!(true));
@@ -238,6 +242,7 @@ mod tests {
         let section = extractor.extract(&input).unwrap();
         let fields = section.fields();
         assert_eq!(fields["kvk"], json!(false));
+        assert_eq!(fields["gs_id"], Value::Null);
     }
 
     #[test]
