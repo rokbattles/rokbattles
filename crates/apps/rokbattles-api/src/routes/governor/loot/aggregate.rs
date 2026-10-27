@@ -5,7 +5,10 @@ use rokbattles_bson::bson_to_i64_loose;
 use rustc_hash::FxHashMap;
 
 use super::{
-    query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
+    query::{
+        BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest,
+        LoharTrialLootRequest,
+    },
     store::{
         BarbarianFortMailDocument, BattleMailDocument, BattleOpponentDocument, BaulurMailDocument,
         KaharTreasureMailDocument, KaruakCeremonyMailDocument, LootEntryDocument,
@@ -256,6 +259,60 @@ pub(crate) fn aggregate_personal_karuak_ceremony_loot(
             }
             add_report(&mut aggregate);
             add_loot(&mut aggregate, participant.loot.as_deref().unwrap_or_default());
+            break;
+        }
+    }
+
+    into_personal_groups(FxHashMap::from_iter([(None, aggregate)]))
+}
+
+pub(crate) fn aggregate_personal_lohar_trial_loot(
+    mails: Vec<BaulurMailDocument>,
+    governor_id: i64,
+    request: &LoharTrialLootRequest,
+) -> Vec<PersonalLootGroupResponse> {
+    const AP_COST: i64 = 150;
+
+    let mut aggregate = LootCategoryAggregate::default();
+
+    for mail in mails {
+        let time = extract_event_time_millis(
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
+        );
+        if !time.is_some_and(|time| {
+            time >= request.range.start_millis && time < request.range.end_millis
+        }) {
+            continue;
+        }
+
+        let npc_id =
+            mail.npc.as_ref().and_then(|npc| npc.npc_type.as_ref()).and_then(parse_i64_loose);
+        if npc_id != Some(request.npc_id) {
+            continue;
+        }
+
+        for participant in mail.participants.unwrap_or_default() {
+            if participant.player_id.as_ref().and_then(parse_i64_loose) != Some(governor_id) {
+                continue;
+            }
+
+            let loot = participant.loot.as_deref().unwrap_or_default();
+            if !loot.is_empty() {
+                add_report(&mut aggregate);
+                aggregate.ap_used += AP_COST;
+
+                for reward in loot {
+                    if reward
+                        .value
+                        .as_ref()
+                        .and_then(parse_i64_loose)
+                        .is_some_and(|value| value > 0)
+                    {
+                        add_loot(&mut aggregate, std::slice::from_ref(reward));
+                    }
+                }
+            }
+
             break;
         }
     }
@@ -983,6 +1040,57 @@ mod tests {
         assert_eq!(groups[0].ap_used, 400);
         assert_eq!(groups[0].honor_gained, 0);
         assert_eq!(groups[0].xp_gained, 0);
+    }
+
+    #[test]
+    fn lohar_trial_counts_only_selected_npc_governor_and_date_range() {
+        for npc_id in [111, 112] {
+            let request = LoharTrialLootRequest { range: test_range(), npc_id };
+            let time = request.range.start_millis;
+            let mut mail = build_baulur_mail(time, npc_id, 42, 11);
+            mail.participants.as_mut().unwrap()[0].loot.as_mut().unwrap().push(LootEntryDocument {
+                reward_type: Some(Bson::Int64(2)),
+                sub_type: Some(Bson::Int64(0)),
+                value: Some(Bson::Int64(0)),
+            });
+            mail.participants
+                .as_mut()
+                .unwrap()
+                .push(build_baulur_mail(time, npc_id, 99, 500).participants.unwrap().remove(0));
+            let groups = aggregate_personal_lohar_trial_loot(
+                vec![
+                    mail,
+                    build_baulur_mail(request.range.end_millis - 1, npc_id, 42, 17),
+                    build_baulur_mail(time - 1, npc_id, 42, 100),
+                    build_baulur_mail(request.range.end_millis, npc_id, 42, 100),
+                    build_baulur_mail(time, 223 - npc_id, 42, 100),
+                    build_baulur_mail(time, npc_id, 99, 100),
+                ],
+                42,
+                &request,
+            );
+            assert_eq!(groups.len(), 1);
+            assert_eq!(groups[0].reports, 2);
+            assert_eq!(groups[0].ap_used, 300);
+            assert_eq!(groups[0].loot_total, 28);
+            assert_eq!(groups[0].rewards.len(), 1);
+            assert_eq!(groups[0].rewards[0].total, 28);
+            assert_eq!(groups[0].honor_gained, 0);
+            assert_eq!(groups[0].xp_gained, 0);
+        }
+    }
+
+    #[test]
+    fn lohar_trial_ignores_empty_or_missing_personal_loot() {
+        let request = LoharTrialLootRequest { range: test_range(), npc_id: 111 };
+        let mut empty = build_baulur_mail(request.range.start_millis, 111, 42, 11);
+        empty.participants.as_mut().unwrap()[0].loot = Some(vec![]);
+        let mut missing = empty.clone();
+        missing.participants.as_mut().unwrap()[0].loot = None;
+        let groups = aggregate_personal_lohar_trial_loot(vec![empty, missing], 42, &request);
+        assert_eq!(groups[0].reports, 0);
+        assert_eq!(groups[0].ap_used, 0);
+        assert!(groups[0].rewards.is_empty());
     }
 
     fn build_npc_mail(

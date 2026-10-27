@@ -849,6 +849,12 @@ msgid "Karuak Ceremony"
 msgstr "Karuak Ceremony"
 
 #: src/components/account-loot/account-loot-layout.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgctxt "nIhIDh"
+msgid "Lohar's Trial"
+msgstr "Lohar's Trial"
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgctxt "c5aU-N"
@@ -862,9 +868,9 @@ msgid "My Loot"
 msgstr "My Loot"
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgctxt "zwmya7"
-msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
-msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
+msgctxt "Pf-_nr"
+msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, Lohar's Trial, and Kahar's Treasure."
+msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, Lohar's Trial, and Kahar's Treasure."
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgctxt "HAlOn1"
@@ -911,6 +917,18 @@ msgstr "Ironhand Baulur"
 msgctxt "1j7NiE"
 msgid "Miser Khaolak"
 msgstr "Miser Khaolak"
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "PpZxHs"
+msgid "Junior Lohar"
+msgstr "Junior Lohar"
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "w26f2G"
+msgid "Dauntless Lohar"
+msgstr "Dauntless Lohar"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
@@ -2140,21 +2158,6 @@ msgstr "This reward tier has been seen {count, plural, one {# time} other {# tim
 msgctxt "pFZfPa"
 msgid "n/a"
 msgstr "n/a"
-
-#: src/components/loot-explorer/lohar-trial-explorer.tsx
-msgctxt "PpZxHs"
-msgid "Junior Lohar"
-msgstr "Junior Lohar"
-
-#: src/components/loot-explorer/lohar-trial-explorer.tsx
-msgctxt "w26f2G"
-msgid "Dauntless Lohar"
-msgstr "Dauntless Lohar"
-
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgctxt "nIhIDh"
-msgid "Lohar's Trial"
-msgstr "Lohar's Trial"
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx

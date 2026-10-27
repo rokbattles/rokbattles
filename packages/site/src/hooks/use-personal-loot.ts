@@ -8,6 +8,7 @@ export type PersonalLootEndpoint =
   | "barbarians"
   | "barbarian-forts"
   | "baulurs"
+  | "lohars-trial"
   | "karuak-ceremony"
   | "kahars-treasure";
 

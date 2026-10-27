@@ -858,6 +858,12 @@ msgid "Karuak Ceremony"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgctxt "nIhIDh"
+msgid "Lohar's Trial"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgctxt "c5aU-N"
@@ -871,8 +877,8 @@ msgid "My Loot"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgctxt "zwmya7"
-msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
+msgctxt "Pf-_nr"
+msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, Lohar's Trial, and Kahar's Treasure."
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -919,6 +925,18 @@ msgstr ""
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgctxt "1j7NiE"
 msgid "Miser Khaolak"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "PpZxHs"
+msgid "Junior Lohar"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/lohar-trial-explorer.tsx
+msgctxt "w26f2G"
+msgid "Dauntless Lohar"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
@@ -2148,21 +2166,6 @@ msgstr ""
 #: src/components/loot-explorer/fort-explorer.tsx
 msgctxt "pFZfPa"
 msgid "n/a"
-msgstr ""
-
-#: src/components/loot-explorer/lohar-trial-explorer.tsx
-msgctxt "PpZxHs"
-msgid "Junior Lohar"
-msgstr ""
-
-#: src/components/loot-explorer/lohar-trial-explorer.tsx
-msgctxt "w26f2G"
-msgid "Dauntless Lohar"
-msgstr ""
-
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgctxt "nIhIDh"
-msgid "Lohar's Trial"
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx

@@ -355,6 +355,39 @@ pub(crate) async fn fetch_karuak_ceremony_mails(
     .await
 }
 
+pub(crate) async fn fetch_lohar_trial_mails(
+    state: &Arc<AppState>,
+    mail_receiver: &str,
+    governor_id: i64,
+    npc_id: i64,
+    time_match: &Document,
+) -> Result<Vec<BaulurMailDocument>, ApiError> {
+    let options = FindOptions::builder()
+        .projection(doc! {
+            "_id": 0,
+            "metadata.mail_time": 1,
+            "npc.type": 1,
+            "participants.player_id": 1,
+            "participants.loot": 1,
+        })
+        .build();
+    let filter = doc! {
+        "$and": [
+            { "metadata.mail_receiver": mail_receiver },
+            { "npc.type": npc_id },
+            { "participants.player_id": governor_id },
+            time_match.clone(),
+        ]
+    };
+
+    fetch_collection_documents(
+        state.reports_store.kill_elite_bar_report_collection(),
+        filter,
+        options,
+    )
+    .await
+}
+
 fn system_barbarian_fort_find_options() -> FindOptions {
     FindOptions::builder()
         .projection(doc! {

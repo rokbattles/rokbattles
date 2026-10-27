@@ -54,6 +54,26 @@ pub(crate) struct KaruakCeremonyLootRequest {
     pub boss_id: i64,
 }
 
+#[derive(Debug, Clone)]
+pub(crate) struct LoharTrialLootRequest {
+    pub range: GovernorDateRange,
+    pub npc_id: i64,
+}
+
+pub(crate) fn parse_lohar_trial_loot_request(
+    params: &FxHashMap<String, String>,
+) -> Result<LoharTrialLootRequest, ApiError> {
+    let range = parse_default_governor_date_range(params)?;
+    let npc_id =
+        match params.get("type").map(|value| value.trim()).filter(|value| !value.is_empty()) {
+            Some("junior-lohar") | None => 111,
+            Some("dauntless-lohar") => 112,
+            Some(_) => return Err(ApiError::bad_request("Invalid type")),
+        };
+
+    Ok(LoharTrialLootRequest { range, npc_id })
+}
+
 const KARUAK_BOSSES: [(&str, i64); 5] = [
     ("bladefist-andaal", 30_001),
     ("bearkeeper-lukor", 30_002),
@@ -249,6 +269,26 @@ mod tests {
 
         assert_eq!(request.range.start, "2025-02-03");
         assert_eq!(request.range.end, "2025-02-04");
+    }
+
+    #[test]
+    fn parse_lohar_trial_defaults_to_junior_and_accepts_both_npcs() {
+        let request = parse_lohar_trial_loot_request(&date_params()).expect("request");
+        assert_eq!(request.npc_id, 111);
+        assert_eq!(request.range.start, "2025-02-03");
+        assert_eq!(request.range.end, "2025-02-04");
+        for (key, id) in [("junior-lohar", 111), ("dauntless-lohar", 112)] {
+            let mut params = date_params();
+            params.insert("type".into(), key.into());
+            assert_eq!(parse_lohar_trial_loot_request(&params).expect("request").npc_id, id);
+        }
+    }
+
+    #[test]
+    fn parse_lohar_trial_rejects_unknown_npc() {
+        let mut params = date_params();
+        params.insert("type".into(), "barbarians".into());
+        parse_lohar_trial_loot_request(&params).expect_err("unknown NPC should be rejected");
     }
 
     fn date_params() -> FxHashMap<String, String> {
