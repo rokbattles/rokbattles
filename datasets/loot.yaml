@@ -187,6 +187,30 @@ loot:
         - img_gem.png
 
   2:
+    1:
+      name:
+        ar: "10,000 طعام"
+        de: "10.000 Proviant"
+        en: "10,000 Food"
+        es: "10 000 de Alimento"
+        fr: "10 000 unités de nourriture"
+        id: "10.000 Food"
+        it: "10.000 unità di cibo"
+        ja: "10,000 食料"
+        ko: "식량 10,000개"
+        ms: "10,000 Makanan"
+        pl: "10 000 żywności"
+        pt: "10.000 de alimento"
+        ru: "10 000 пищи"
+        th: "อาหาร 10,000 หน่วย"
+        tr: "10.000 Gıda"
+        vi: "10.000 thực phẩm"
+        zh_CN: "10,000 食物"
+        zh_TW: "10,000 食物"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_23.png
+
     2:
       name:
         ar: "50,000 طعام"
@@ -306,6 +330,30 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_23.png
+
+    7:
+      name:
+        ar: "10,000 خشب"
+        de: "10.000 Holz"
+        en: "10,000 Wood"
+        es: "10 000 de Madera"
+        fr: "10 000 unités de bois"
+        id: "10.000 Kayu"
+        it: "10.000 unità di legname"
+        ja: "10,000 木材"
+        ko: "목재 10,000개"
+        ms: "10,000 Kayu"
+        pl: "10 000 drewna"
+        pt: "10.000 de madeira"
+        ru: "10 000 дерева"
+        th: "ไม้ 10,000 หน่วย"
+        tr: "10.000 Odun"
+        vi: "10.000 khối gỗ"
+        zh_CN: "10,000 木材"
+        zh_TW: "10,000 木材"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_22.png
 
     8:
       name:
@@ -1099,6 +1147,54 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_9.png
 
+    62:
+      name:
+        ar: "تسريع البناء لمدة 5 دقائق"
+        de: "5 Minuten Bau-Beschleunigung"
+        en: "5-Minute Building Speedup"
+        es: "5 minutos de Aceleración de Construcción"
+        fr: "Accélération de construction - 5 minutes"
+        id: "Speedup Membangun 5 Menit"
+        it: "Acceleratore costruzione da 5 minuti"
+        ja: "5分建設加速"
+        ko: "5분 건설 가속"
+        ms: "Percepat Pembinaan 5 Minit"
+        pl: "5-min. przyspieszenie budowy"
+        pt: "Aceleração de construção de 5 minutos"
+        ru: "5-минутное ускорение строительства"
+        th: "ตัวเร่งความเร็วการสร้าง 5 นาที"
+        tr: "5 Dakikalık İnşa Hızlandırması"
+        vi: "Tăng tốc xây dựng 5 phút"
+        zh_CN: "5分钟建造加速"
+        zh_TW: "5分鐘建造加速"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_10.png
+
+    64:
+      name:
+        ar: "تسريع البناء لمدة 15 دقيقة"
+        de: "15 Minuten Bau-Beschleunigung"
+        en: "15-Minute Building Speedup"
+        es: "15 minutos de Aceleración de Construcción"
+        fr: "Accélération de construction - 15 minutes"
+        id: "Speedup Membangun 15 Menit"
+        it: "Acceleratore costruzione da 15 minuti"
+        ja: "15分建設加速"
+        ko: "15분 건설 가속"
+        ms: "Percepat Pembinaan 15 Minit"
+        pl: "15-min. przyspieszenie budowy"
+        pt: "Aceleração de construção de 15 minutos"
+        ru: "15-минутное ускорение строительства"
+        th: "ตัวเร่งความเร็วการสร้าง 15 นาที"
+        tr: "15 Dakikalık İnşa Hızlandırması"
+        vi: "Tăng tốc xây dựng 15 phút"
+        zh_CN: "15分钟建造加速"
+        zh_TW: "15分鐘建造加速"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_10.png
+
     65:
       name:
         ar: "تسريع البناء لمدة 30 دقيقة"
@@ -1193,6 +1289,30 @@ loot:
         zh_TW: "15分鐘訓練加速"
       sprite:
         - img_icon_item_BGGreen.png
+        - img_icon_item_12.png
+
+    75:
+      name:
+        ar: "تسريع التدريب لمدة 30 دقيقة"
+        de: "30 Minuten Ausbildungsbeschleunigung"
+        en: "30-Minute Training Speedup"
+        es: "30 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 30 minutes"
+        id: "Speedup Melatih 30 Menit"
+        it: "Acceleratore addestramento da 30 minuti"
+        ja: "30分訓練加速"
+        ko: "30분 훈련 가속"
+        ms: "Percepat Latihan 30 Minit"
+        pl: "30-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 30 Minutos"
+        ru: "30-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 30 นาที"
+        tr: "30 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 30 phút"
+        zh_CN: "30分钟训练加速"
+        zh_TW: "30分鐘訓練加速"
+      sprite:
+        - img_icon_item_BGBlue.png
         - img_icon_item_12.png
 
     76:
@@ -1290,6 +1410,30 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_12.png
+
+    82:
+      name:
+        ar: "تسريع البحث لمدة 5 دقائق"
+        de: "5 Minuten Forschungsbeschleunigung"
+        en: "5-Minute Research Speedup"
+        es: "5 minutos de Aceleración de Investigación"
+        fr: "Accélération de recherche - 5 minutes"
+        id: "Speedup Riset 5 Menit"
+        it: "Acceleratore ricerca da 5 minuti"
+        ja: "5分研究加速"
+        ko: "5분 연구 가속"
+        ms: "Percepat Penyelidikan 5 Minit"
+        pl: "5-min. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 5 minutos"
+        ru: "5-минутное ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 5 นาที"
+        tr: "5 Dakikalık Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 5 phút"
+        zh_CN: "5分钟研究加速"
+        zh_TW: "5分鐘研究加速"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_13.png
 
     84:
       name:
@@ -1481,6 +1625,30 @@ loot:
         zh_TW: "15分鐘治療加速"
       sprite:
         - img_icon_item_BGGreen.png
+        - img_icon_item_11.png
+
+    95:
+      name:
+        ar: "تسريع العلاج لمدة 30 دقيقة"
+        de: "30 Minuten Heilungsbeschleunigung"
+        en: "30-Minute Healing Speedup"
+        es: "30 minutos de Aceleración de Sanación"
+        fr: "Accélération de soin - 30 minutes"
+        id: "Speedup Penyembuhan 30 Menit"
+        it: "Acceleratore guarigione da 30 minuti"
+        ja: "30分治療加速"
+        ko: "30분 치료 가속"
+        ms: "Percepat Penyembuhan 30 Minit"
+        pl: "30-min. przyspieszenie leczenia"
+        pt: "Aceleração de cura de 30 Minutos"
+        ru: "30-минутное ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 30 นาที"
+        tr: "30 Dakikalık İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 30 phút"
+        zh_CN: "30分钟治疗加速"
+        zh_TW: "30分鐘治療加速"
+      sprite:
+        - img_icon_item_BGBlue.png
         - img_icon_item_11.png
 
     96:
@@ -3396,6 +3564,30 @@ loot:
         - img_icon_item_BGPurple.png
         - img_icon_item_HeroCarving_Universal4.png
 
+    10370:
+      name:
+        ar: "تمثال لوهار"
+        de: "Lohar Skulptur"
+        en: "Lohar Sculpture"
+        es: "Escultura de Lohar"
+        fr: "Sculpture de Lohar"
+        id: "Lohar Sculpture"
+        it: "Scultura di Lohar"
+        ja: "ロッハの彫像"
+        ko: "로하 조각상"
+        ms: "Arca Lohar"
+        pl: "Rzeźba Lohara"
+        pt: "Escultura de Lohar"
+        ru: "Скульптура Лохара"
+        th: "รูปปั้นโลฮาร์"
+        tr: "Lohar Heykeli"
+        vi: "Tượng Lohar"
+        zh_CN: "洛哈雕像"
+        zh_TW: "洛哈雕像"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_HeroCarving_37.png
+
     21068:
       name:
         ar: "رحمة كاروك"
@@ -3443,6 +3635,78 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_equip_3_18.png
+    22098:
+      name:
+        ar: "\"قلادة عظام لوهار\" قطع المخطوطة"
+        de: "Fragment von „Lohars Knochen-Halskette“-Blaupause"
+        en: "\"Lohar's Bone Necklace\" Blueprint Fragment"
+        es: "Fragmento de plano de \"Collar de huesos de Lohar\""
+        fr: "Fragments de plan de « Collier en os de Lohar »"
+        id: "\"Lohar's Bone Necklace\" Fragmen Cetak Biru"
+        it: "Frammento del Progetto \"Collana d'ossa di Lohar\""
+        ja: "「ロッハの獣骨首飾り」レシピの切れ端"
+        ko: "“로하의 뼈 목걸이” 도감 조각"
+        ms: "\"Rantai Leher Tulang Lohar\" Cebisan Cetak Biru"
+        pl: "Fragment szkicu: „Naszyjnik Lohara z kości”"
+        pt: "Fragmento do projeto \"Colar de ossos de Lohar\""
+        ru: "Фрагмент чертежа «Костяное ожерелье Лохара»"
+        th: "ชิ้นส่วนพิมพ์เขียว \"สร้อยคอกระดูกของโลฮาร์\""
+        tr: "\"Lohar'ın Kemik Kolyesi\" Taslak Kısmı"
+        vi: "Mảnh Bản Vẽ \"Vòng cổ xương người của Lohar\""
+        zh_CN: "“洛哈的兽骨项链”的图纸碎片"
+        zh_TW: "「洛哈的獸骨項鏈」的圖紙碎片"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_equip_3_9.png
+
+    22106:
+      name:
+        ar: "\"صدرية ميلانو\" قطع المخطوطة"
+        de: "Fragment von „Mailänder Panzer“-Blaupause"
+        en: "\"Milanese Plate\" Blueprint Fragment"
+        es: "Fragmento de plano de \"Peto milanés\""
+        fr: "Fragments de plan de « Plaque milanaise »"
+        id: "\"Milanese Plate\" Fragmen Cetak Biru"
+        it: "Frammento del Progetto \"Piastra Milanesa\""
+        ja: "「ブレストプレート」レシピの切れ端"
+        ko: "“미들랜드 갑옷” 도감 조각"
+        ms: "\"Plat Milanese\" Cebisan Cetak Biru"
+        pl: "Fragment szkicu: „Zbroja mediolańska”"
+        pt: "Fragmento do projeto \"Chapa milanesa\""
+        ru: "Фрагмент чертежа «Миланский доспех»"
+        th: "ชิ้นส่วนพิมพ์เขียว \"เกราะหน้าอกมิลาน\""
+        tr: "\"Milano Plakası\" Taslak Kısmı"
+        vi: "Mảnh Bản Vẽ \"Đĩa Milanese\""
+        zh_CN: "“米兰盔甲”的图纸碎片"
+        zh_TW: "「米蘭盔甲」的圖紙碎片"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_equip_2_5.png
+
+    22107:
+      name:
+        ar: "\"بنطال الجَوّال\" قطع المخطوطة"
+        de: "Fragment von „Jägerhosen“-Blaupause"
+        en: "\"Ranger Trousers\" Blueprint Fragment"
+        es: "Fragmento de plano de \"Pantalones de explorador\""
+        fr: "Fragments de plan de « Pantalon de ranger »"
+        id: "\"Ranger Trousers\" Fragmen Cetak Biru"
+        it: "Frammento del Progetto \"Pantaloni da Ranger\""
+        ja: "「レンジャーのズボン」レシピの切れ端"
+        ko: "“협객 장화” 도감 조각"
+        ms: "\"Seluar Renjer\" Cebisan Cetak Biru"
+        pl: "Fragment szkicu: „Spodnie strażnika”"
+        pt: "Fragmento do projeto \"Calças do guarda\""
+        ru: "Фрагмент чертежа «Штаны следопыта»"
+        th: "ชิ้นส่วนพิมพ์เขียว \"กางเกงเรนเจอร์\""
+        tr: "\"Korucu Pantolonu\" Taslak Kısmı"
+        vi: "Mảnh Bản Vẽ \"Quần Lính cảnh binh\""
+        zh_CN: "“游侠长裤”的图纸碎片"
+        zh_TW: "「遊俠長褲」的圖紙碎片"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_equip_2_12.png
+
 
   4:
     2:

@@ -54,6 +54,7 @@ fn v1_router() -> Router<Arc<AppState>> {
         .route("/global/loot-explorer/barbarian-forts", get(loot_explorer::get_barbarian_forts))
         .route("/global/loot-explorer/baulurs", get(loot_explorer::get_baulurs))
         .route("/global/loot-explorer/karuak-ceremony", get(loot_explorer::get_karuak_ceremony))
+        .route("/global/loot-explorer/lohars-trial", get(loot_explorer::get_lohar_trial))
         .route("/global/loot-explorer/kahars-treasure", get(loot_explorer::get_kahar_treasure))
         .route("/report/battle/{id}", get(reports::battle::get_by_id))
         .route("/report/duelbattle2/{id}", get(reports::duelbattle2::get_by_id))

@@ -126,7 +126,27 @@ export type KaruakCeremonyLootDocument = {
   refreshedAt: string;
 };
 
-type LootExplorerEndpoint = "barbarians" | "barbarian-forts" | "baulurs" | "karuak-ceremony";
+export type LoharTrialLootDocument = {
+  kind: number;
+  slots: BaulurRollSlot[];
+  totals: {
+    results: number;
+    matchedResults: number;
+    apUsed: number;
+    reports: number;
+    duplicateReports: number;
+    emptyResults: number;
+    unmatchedResults: number;
+  };
+  refreshedAt: string;
+};
+
+type LootExplorerEndpoint =
+  | "barbarians"
+  | "barbarian-forts"
+  | "baulurs"
+  | "karuak-ceremony"
+  | "lohars-trial";
 
 export async function fetchLootExplorerItems<T>(
   endpoint: LootExplorerEndpoint

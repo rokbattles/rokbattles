@@ -8,12 +8,14 @@ export type LootExplorerSection =
   | "barbarian-forts"
   | "baulurs"
   | "karuak-ceremony"
-  | "kahars-treasure";
+  | "kahars-treasure"
+  | "lohars-trial";
 
 const sections: Array<{ key: LootExplorerSection; href: string }> = [
   { key: "barbarians", href: "/loot-explorer/barbarians" },
   { key: "barbarian-forts", href: "/loot-explorer/barbarian-forts" },
   { key: "baulurs", href: "/loot-explorer/baulurs" },
+  { key: "lohars-trial", href: "/loot-explorer/lohars-trial" },
   { key: "karuak-ceremony", href: "/loot-explorer/karuak-ceremony" },
   { key: "kahars-treasure", href: "/loot-explorer/kahars-treasure" },
 ];
@@ -32,6 +34,7 @@ export function LootExplorerLayout({
     baulurs: t("Baulurs"),
     "karuak-ceremony": t("Karuak Ceremony"),
     "kahars-treasure": t("Kahar's Treasure"),
+    "lohars-trial": t("Lohar's Trial"),
   };
 
   return (
