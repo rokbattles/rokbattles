@@ -21,7 +21,7 @@ import {
 import { formatLocalDateInput } from "@/lib/datetime";
 import { buildLootRewardRows } from "@/lib/loot/reward-rows";
 import type { LootExplorerOption } from "@/lib/loot-explorer/catalog";
-import { karuakBosses } from "@/lib/loot-explorer/catalog";
+import { karuakBosses, loharNpcs } from "@/lib/loot-explorer/catalog";
 import type { PersonalLootGroup } from "@/lib/types/loot";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -123,6 +123,22 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       };
     }
 
+    if (active === "lohars-trial") {
+      const labels = new Map([
+        ["junior-lohar", t("Junior Lohar")],
+        ["dauntless-lohar", t("Dauntless Lohar")],
+      ]);
+
+      return {
+        defaultType: loharNpcs[0].key,
+        typeOptions: loharNpcs.map((npc) => ({
+          value: npc.key,
+          label: labels.get(npc.key) ?? npc.label,
+        })),
+        showLevelFilter: false,
+      };
+    }
+
     if (active === "karuak-ceremony") {
       const labels = new Map([
         ["bladefist-andaal", t("Bladefist Andaal")],
@@ -199,7 +215,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       return [{ label: t("Results"), value: data?.totals.results ?? 0 }];
     }
 
-    if (active === "kahars-treasure") {
+    if (active === "kahars-treasure" || active === "lohars-trial") {
       return [
         { label: t("Results"), value: data?.totals.results ?? 0 },
         { label: t("AP used (est.)"), value: data?.totals.apUsed ?? 0 },
