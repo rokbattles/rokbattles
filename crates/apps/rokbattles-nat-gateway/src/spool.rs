@@ -8,7 +8,11 @@ use std::{
     fs::{self, File, OpenOptions},
     io::{self, Read, Write},
     path::{Path, PathBuf},
-    sync::atomic::{AtomicU64, Ordering},
+    sync::{
+        Arc, Mutex,
+        atomic::{AtomicU64, AtomicUsize, Ordering},
+        mpsc::{self, Receiver, SyncSender, TrySendError},
+    },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -18,33 +22,140 @@ use rokbattles_gateway_protocol::uploader::{MailBatch, MailContext, UploadError}
 const MAX_BATCH: usize = 24 * 1024 * 1024;
 const MAX_SPOOL: u64 = 512 * 1024 * 1024;
 const MAX_FILES: usize = 8192;
+const MAX_QUEUED_BATCHES: usize = 8192;
+const MAX_QUEUED_BYTES: usize = 128 * 1024 * 1024;
 static SERIAL: AtomicU64 = AtomicU64::new(0);
+
+/// Buffer bursts without letting large batches exhaust the service's memory.
+pub struct Writer {
+    sender: SyncSender<QueuedBatch>,
+    queued_bytes: Arc<AtomicUsize>,
+    max_bytes: usize,
+    spool: Spool,
+}
+
+pub(crate) struct QueuedBatch {
+    batch: MailBatch,
+    _reservation: Reservation,
+}
+
+struct Reservation {
+    queued_bytes: Arc<AtomicUsize>,
+    bytes: usize,
+}
+
+impl Drop for Reservation {
+    fn drop(&mut self) {
+        self.queued_bytes.fetch_sub(self.bytes, Ordering::Relaxed);
+    }
+}
+
+impl QueuedBatch {
+    pub(crate) fn into_batch(self) -> MailBatch {
+        self.batch
+    }
+}
+
+impl Writer {
+    pub(crate) fn channel(
+        spool: Spool,
+        capacity: usize,
+        max_bytes: usize,
+    ) -> (Self, Receiver<QueuedBatch>) {
+        let (sender, receiver) = mpsc::sync_channel(capacity);
+        let writer = Self { sender, queued_bytes: Arc::new(AtomicUsize::new(0)), max_bytes, spool };
+        (writer, receiver)
+    }
+
+    /// Queue without waiting in normal operation. At either memory limit, commit
+    /// directly to disk rather than discard the batch. This last resort can delay
+    /// passive capture, but never blocks kernel forwarding.
+    pub fn try_send(&self, batch: MailBatch) -> io::Result<()> {
+        let bytes = batch.entries.iter().map(Bytes::len).sum::<usize>()
+            + batch.entries.capacity() * std::mem::size_of::<Bytes>()
+            + std::mem::size_of::<MailBatch>();
+        if self
+            .queued_bytes
+            .try_update(Ordering::Relaxed, Ordering::Relaxed, |used| {
+                used.checked_add(bytes).filter(|total| *total <= self.max_bytes)
+            })
+            .is_ok()
+        {
+            let queued = QueuedBatch {
+                batch,
+                _reservation: Reservation { queued_bytes: self.queued_bytes.clone(), bytes },
+            };
+            match self.sender.try_send(queued) {
+                Ok(()) => return Ok(()),
+                Err(TrySendError::Full(queued) | TrySendError::Disconnected(queued)) => {
+                    let batch = queued.into_batch();
+                    tracing::warn!(
+                        entries = batch.entries.len(),
+                        "upload writer unavailable or queue full; committing batch directly to disk"
+                    );
+                    return self.spool.submit(&batch);
+                }
+            }
+        }
+        tracing::warn!(
+            entries = batch.entries.len(),
+            "upload memory budget reached; committing batch directly to disk"
+        );
+        self.spool.submit(&batch)
+    }
+}
 
 /// A directory owned exclusively by the unprivileged gateway account.
 #[derive(Clone)]
 pub struct Spool {
     path: PathBuf,
+    commit_lock: Arc<Mutex<()>>,
 }
 impl Spool {
-    /// Isolate disk latency from packet processing with at most eight batches
-    /// waiting in memory (each bounded to 24 MiB). Saturation drops a batch,
-    /// never the decoder that produced it.
-    pub fn spawn_writer(&self) -> std::sync::mpsc::SyncSender<MailBatch> {
-        let (sender, receiver) = std::sync::mpsc::sync_channel::<MailBatch>(8);
+    /// Buffer up to 8192 batches and 128 MiB of payload and batch metadata.
+    /// Coalesce queued batches for the same player before syncing to disk.
+    pub fn spawn_writer(&self) -> Writer {
+        let (writer, receiver) =
+            Writer::channel(self.clone(), MAX_QUEUED_BATCHES, MAX_QUEUED_BYTES);
         let spool = self.clone();
-        std::thread::spawn(move || {
-            while let Ok(batch) = receiver.recv() {
-                if let Err(error) = spool.submit(&batch) {
-                    tracing::warn!(%error, entries = batch.entries.len(), "mail batch not committed; observation remains active");
+        std::thread::spawn(move || spool.write_loop(receiver));
+        tracing::info!(
+            max_batches = MAX_QUEUED_BATCHES,
+            max_bytes = MAX_QUEUED_BYTES,
+            "upload burst buffer configured"
+        );
+        writer
+    }
+
+    fn write_loop(&self, receiver: Receiver<QueuedBatch>) {
+        let mut pending = None;
+        loop {
+            let Some(queued) = pending.take().or_else(|| receiver.recv().ok()) else {
+                return;
+            };
+            let mut batch = queued.into_batch();
+            let mut bytes = batch.entries.iter().map(Bytes::len).sum::<usize>();
+            while let Ok(queued) = receiver.try_recv() {
+                let next_bytes = queued.batch.entries.iter().map(Bytes::len).sum::<usize>();
+                if queued.batch.context != batch.context
+                    || batch.entries.len() + queued.batch.entries.len() > 512
+                    || bytes + next_bytes > MAX_BATCH
+                {
+                    pending = Some(queued);
+                    break;
                 }
+                bytes += next_bytes;
+                batch.entries.extend(queued.into_batch().entries);
             }
-        });
-        sender
+            if let Err(error) = self.submit(&batch) {
+                tracing::error!(%error, entries = batch.entries.len(), "mail batch not committed; observation remains active");
+            }
+        }
     }
 
     pub fn open(path: PathBuf) -> io::Result<Self> {
         fs::create_dir_all(&path)?;
-        let spool = Self { path };
+        let spool = Self { path, commit_lock: Arc::new(Mutex::new(())) };
         // A crash before rename never produced a committed batch.
         for entry in fs::read_dir(&spool.path)? {
             let path = entry?.path();
@@ -69,6 +180,11 @@ impl Spool {
 
     pub fn submit(&self, batch: &MailBatch) -> io::Result<()> {
         let bytes = encode(batch)?;
+        // The background writer and the saturation fallback share the disk budget.
+        let _commit = self
+            .commit_lock
+            .lock()
+            .map_err(|_error| io::Error::other("spool writer lock poisoned"))?;
         let pending = self.pending()?;
         let total =
             pending.iter().try_fold(0_u64, |sum, path| match fs::symlink_metadata(path) {
@@ -145,16 +261,24 @@ impl Spool {
                 Ok(paths) => {
                     for path in paths {
                         match Self::read(&path) {
-                            Ok(batch) => match self
-                                .finish_upload(&path, uploader.upload_once(&batch).await)
-                            {
-                                Ok(true) => {}
-                                Ok(false) => break,
-                                Err(error) => {
-                                    tracing::warn!(%error, "could not remove acknowledged batch");
-                                    break;
+                            Ok(batch) => {
+                                let result = uploader.upload_once(&batch).await;
+                                let rejected = result.as_ref().ok().copied();
+                                match self.finish_upload(&path, result) {
+                                    Ok(true) => {
+                                        tracing::info!(
+                                            entries = batch.entries.len(),
+                                            rejected,
+                                            "relay batch acknowledged"
+                                        );
+                                    }
+                                    Ok(false) => break,
+                                    Err(error) => {
+                                        tracing::warn!(%error, "could not remove acknowledged batch");
+                                        break;
+                                    }
                                 }
-                            },
+                            }
                             Err(error) => {
                                 tracing::warn!(%error, "corrupt local spool record discarded");
                                 if let Err(error) = fs::remove_file(&path) {
@@ -237,6 +361,102 @@ fn decode(mut input: &[u8]) -> io::Result<MailBatch> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn mobile_single_mail_burst_is_not_discarded_before_disk() {
+        let directory = tempfile::tempdir().expect("directory");
+        let spool = Spool::open(directory.path().to_path_buf()).expect("spool");
+        // Deliberately stall the disk writer for the entire burst.
+        let (writer, receiver) =
+            Writer::channel(spool.clone(), MAX_QUEUED_BATCHES, MAX_QUEUED_BYTES);
+        for serial in 0_u32..4096 {
+            writer
+                .try_send(MailBatch {
+                    context: MailContext::default(),
+                    entries: vec![Bytes::copy_from_slice(&serial.to_be_bytes())],
+                })
+                .expect("every mail must reach memory or durable storage");
+        }
+        let accounting = writer.queued_bytes.clone();
+        assert!(accounting.load(Ordering::Relaxed) > 0);
+        drop(writer);
+        spool.write_loop(receiver);
+        assert_eq!(accounting.load(Ordering::Relaxed), 0);
+        let paths = spool.pending().expect("pending");
+        assert_eq!(paths.len(), 8, "small batches should share durable files");
+        let entries: Vec<_> =
+            paths.iter().flat_map(|path| Spool::read(path).expect("batch").entries).collect();
+        let expected: Vec<_> =
+            (0_u32..4096).map(|serial| Bytes::copy_from_slice(&serial.to_be_bytes())).collect();
+        assert_eq!(entries, expected);
+    }
+
+    #[test]
+    fn byte_budget_saturation_commits_overflow_and_releases_reservations() {
+        let directory = tempfile::tempdir().expect("directory");
+        let spool = Spool::open(directory.path().to_path_buf()).expect("spool");
+        let (writer, receiver) = Writer::channel(spool.clone(), 8, 512);
+        for value in [1, 2] {
+            writer
+                .try_send(MailBatch {
+                    context: MailContext::default(),
+                    entries: vec![Bytes::from(vec![value; 256])],
+                })
+                .expect("queue or spool");
+        }
+        assert!(writer.queued_bytes.load(Ordering::Relaxed) <= 512);
+        let paths = spool.pending().expect("overflow");
+        assert_eq!(paths.len(), 1);
+        assert_eq!(Spool::read(&paths[0]).expect("batch").entries[0], vec![2; 256]);
+        assert_eq!(receiver.recv().expect("queued").into_batch().entries[0], vec![1; 256]);
+        assert_eq!(writer.queued_bytes.load(Ordering::Relaxed), 0);
+    }
+
+    #[test]
+    fn disconnected_writer_commits_to_disk_without_leaking_memory_budget() {
+        let directory = tempfile::tempdir().expect("directory");
+        let spool = Spool::open(directory.path().to_path_buf()).expect("spool");
+        let (writer, receiver) = Writer::channel(spool.clone(), 1, 512);
+        drop(receiver);
+        writer
+            .try_send(MailBatch {
+                context: MailContext::default(),
+                entries: vec![Bytes::from_static(b"mail")],
+            })
+            .expect("fallback");
+        assert_eq!(spool.pending().expect("pending").len(), 1);
+        assert_eq!(writer.queued_bytes.load(Ordering::Relaxed), 0);
+    }
+
+    #[test]
+    fn coalescing_preserves_player_context_and_payload_limit() {
+        let directory = tempfile::tempdir().expect("directory");
+        let spool = Spool::open(directory.path().to_path_buf()).expect("spool");
+        let (writer, receiver) = Writer::channel(spool.clone(), 8, MAX_QUEUED_BYTES);
+        for (player_id, value, size) in
+            [(1, 1, 1), (2, 2, MAX_BATCH / 2 + 1), (2, 3, MAX_BATCH / 2 + 1)]
+        {
+            writer
+                .try_send(MailBatch {
+                    context: MailContext { player_id: Some(player_id), server_id: Some(42) },
+                    entries: vec![Bytes::from(vec![value; size])],
+                })
+                .expect("queued");
+        }
+        drop(writer);
+        spool.write_loop(receiver);
+        let paths = spool.pending().expect("pending");
+        assert_eq!(paths.len(), 3);
+        for (path, player_id) in paths.iter().zip([1, 2, 2]) {
+            let batch = Spool::read(path).expect("batch");
+            assert_eq!(
+                batch.context,
+                MailContext { player_id: Some(player_id), server_id: Some(42) }
+            );
+            assert_eq!(batch.entries.len(), 1);
+        }
+    }
+
     #[test]
     fn committed_batches_survive_restart_with_exact_context_and_payload() {
         let directory = tempfile::tempdir().expect("directory");

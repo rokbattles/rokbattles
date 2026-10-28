@@ -10,7 +10,7 @@ use rokbattles_gateway_protocol::{
 };
 use rustc_hash::FxHashMap;
 
-use crate::{capture, packet, reassembly::Reassembly};
+use crate::{capture, packet, reassembly::Reassembly, spool::Writer};
 
 const MAX_FLOWS: usize = 4096;
 const MAX_BUFFERED: usize = 128 * 1024 * 1024;
@@ -30,13 +30,10 @@ pub struct Observer<'a> {
     artifact: &'a RuntimeArtifact,
     flows: FxHashMap<FlowKey, Flow<'a>>,
     sequence: Option<u32>,
-    uploads: std::sync::mpsc::SyncSender<MailBatch>,
+    uploads: Writer,
 }
 impl<'a> Observer<'a> {
-    pub fn new(
-        artifact: &'a RuntimeArtifact,
-        uploads: std::sync::mpsc::SyncSender<MailBatch>,
-    ) -> Self {
+    pub fn new(artifact: &'a RuntimeArtifact, uploads: Writer) -> Self {
         Self { artifact, flows: FxHashMap::default(), sequence: None, uploads }
     }
 
@@ -173,11 +170,7 @@ impl<'a> Observer<'a> {
     }
 }
 
-fn submit_entries(
-    uploads: &std::sync::mpsc::SyncSender<MailBatch>,
-    context: &MailContext,
-    entries: Vec<Vec<u8>>,
-) {
+fn submit_entries(uploads: &Writer, context: &MailContext, entries: Vec<Vec<u8>>) {
     let mut batch = MailBatch { context: context.clone(), entries: Vec::new() };
     let mut size = 0;
     for entry in entries {
@@ -197,12 +190,12 @@ fn submit_entries(
         submit(uploads, &mut batch);
     }
 }
-fn submit(uploads: &std::sync::mpsc::SyncSender<MailBatch>, batch: &mut MailBatch) {
+fn submit(uploads: &Writer, batch: &mut MailBatch) {
     let count = batch.entries.len();
     let pending =
         MailBatch { context: batch.context.clone(), entries: std::mem::take(&mut batch.entries) };
     if let Err(error) = uploads.try_send(pending) {
-        tracing::warn!(%error, entries = count, "mail batch not queued; decoder remains active");
+        tracing::error!(%error, entries = count, "mail batch could not be queued or committed; decoder remains active");
     }
 }
 
@@ -211,6 +204,16 @@ mod tests {
     use rokbattles_gateway_protocol::stream::test_server_frames;
 
     use super::*;
+    use crate::spool::{QueuedBatch, Spool};
+
+    fn uploads(
+        capacity: usize,
+    ) -> (tempfile::TempDir, Spool, Writer, std::sync::mpsc::Receiver<QueuedBatch>) {
+        let directory = tempfile::tempdir().expect("directory");
+        let spool = Spool::open(directory.path().to_path_buf()).expect("spool");
+        let (sender, receiver) = Writer::channel(spool.clone(), capacity, 128 * 1024 * 1024);
+        (directory, spool, sender, receiver)
+    }
 
     fn packet(reply: bool, seq: u32, ack: u32, flags: u8, payload: &[u8]) -> Vec<u8> {
         let (source, destination, sport, dport) = if reply {
@@ -245,9 +248,9 @@ mod tests {
         *counter += 1;
     }
     #[test]
-    fn full_upload_queue_drops_only_that_batch_and_later_mail_is_uploaded() {
+    fn full_upload_queue_persists_overflow_and_later_mail_is_still_queued() {
         let artifact = RuntimeArtifact::test_fixture();
-        let (sender, receiver) = std::sync::mpsc::sync_channel(1);
+        let (_directory, spool, sender, receiver) = uploads(1);
         let mut observer = Observer::new(&artifact, sender);
         let mut counter = 0;
         feed(&mut observer, &mut counter, false, 100, 0, 2, b"");
@@ -257,10 +260,16 @@ mod tests {
             feed(&mut observer, &mut counter, true, sequence, 101, 0x10, frame);
             sequence += frame.len() as u32;
             if index == 3 {
-                receiver.try_recv().expect("first batch filled the queue; second was dropped");
+                receiver.try_recv().expect("first batch filled the queue; second was spooled");
             }
         }
-        let batch = receiver.try_recv().expect("third batch still arrives on the same decoder");
+        let batch = receiver
+            .try_recv()
+            .expect("third batch still arrives on the same decoder")
+            .into_batch();
+        let paths = spool.pending().expect("pending");
+        assert_eq!(paths.len(), 1, "overflow must be durable instead of dropped");
+        assert_eq!(Spool::read(&paths[0]).expect("overflow batch").entries.len(), 1);
         assert_eq!(batch.context, MailContext { player_id: Some(42), server_id: Some(1804) });
         assert_eq!(batch.entries.len(), 1);
         assert_eq!(observer.flows.len(), 1);
@@ -268,7 +277,7 @@ mod tests {
     #[test]
     fn capture_gap_never_reuses_cipher_state_and_a_new_handshake_recovers() {
         let artifact = RuntimeArtifact::test_fixture();
-        let (sender, receiver) = std::sync::mpsc::sync_channel(8);
+        let (_directory, _spool, sender, receiver) = uploads(8);
         let mut observer = Observer::new(&artifact, sender);
         let mut counter = 0;
         feed(&mut observer, &mut counter, false, 100, 0, 2, b"");
@@ -285,12 +294,12 @@ mod tests {
             feed(&mut observer, &mut counter, true, sequence, 1001, 0x10, &frame);
             sequence += frame.len() as u32;
         }
-        assert_eq!(receiver.try_recv().expect("new flow mail").entries.len(), 1);
+        assert_eq!(receiver.try_recv().expect("new flow mail").into_batch().entries.len(), 1);
     }
     #[test]
     fn encrypted_reordered_segments_and_retransmissions_emit_exactly_one_raw_mail() {
         let artifact = RuntimeArtifact::test_fixture();
-        let (sender, receiver) = std::sync::mpsc::sync_channel(8);
+        let (_directory, _spool, sender, receiver) = uploads(8);
         let mut observer = Observer::new(&artifact, sender);
         let mut counter = 0;
         feed(&mut observer, &mut counter, false, 100, 0, 2, b"");
@@ -303,7 +312,7 @@ mod tests {
         for (index, bytes) in pieces {
             feed(&mut observer, &mut counter, true, 201 + (index as u32 * 7), 101, 0x10, bytes);
         }
-        let batch = receiver.try_recv().expect("reassembled mail");
+        let batch = receiver.try_recv().expect("reassembled mail").into_batch();
         assert_eq!(batch.entries, vec![Bytes::from_static(b"\x0a\x07mail-id\x4a\x06Battle")]);
         assert!(matches!(receiver.try_recv(), Err(std::sync::mpsc::TryRecvError::Empty)));
     }
@@ -311,7 +320,7 @@ mod tests {
     #[test]
     fn long_lived_stream_has_no_cumulative_mail_quota() {
         let artifact = RuntimeArtifact::test_fixture();
-        let (sender, receiver) = std::sync::mpsc::sync_channel(1);
+        let (_directory, _spool, sender, receiver) = uploads(1);
         let mut observer = Observer::new(&artifact, sender);
         let mut counter = 0;
         feed(&mut observer, &mut counter, false, 100, 0, 2, b"");
