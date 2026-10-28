@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { BindListItem } from "@/components/account-binds/bind-list-item";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
@@ -19,13 +18,11 @@ type BindsListProps = {
 };
 
 export function BindsList({ binds, pendingAction, onSetDefault, onUnlink }: BindsListProps) {
-  const t = useExtracted();
-
   return (
     <section className="space-y-4">
-      <Subheading level={3}>{t("Binds")}</Subheading>
+      <Subheading level={3}>Binds</Subheading>
       {binds.length === 0 ? (
-        <Text>{t("No binds yet.")}</Text>
+        <Text>No binds yet.</Text>
       ) : (
         <ul className="divide-y rounded border text-sm divide-white/10 border-white/10">
           {binds.map((bind) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -21,7 +21,6 @@ type ReportsOverviewDrawerProps = {
 };
 
 export default function ReportsOverviewDrawer({ report, onClose }: ReportsOverviewDrawerProps) {
-  const t = useExtracted();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -43,13 +42,13 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
     <Drawer onClose={onClose} open={report !== null} size="4xl">
       {report ? (
         <>
-          <DrawerTitle>{t("Battle overview")}</DrawerTitle>
+          <DrawerTitle>Battle overview</DrawerTitle>
           <DrawerDescription>
-            {t("A quick glance at the battle report before opening it.")}
+            A quick glance at the battle report before opening it.
           </DrawerDescription>
           <DrawerBody className="space-y-6">
             <section>
-              <Subheading className="mb-3">{t("Battle timeline")}</Subheading>
+              <Subheading className="mb-3">Battle timeline</Subheading>
               <ReportsOverviewTimelineChart
                 startTimestamp={report.timeline.startTimestamp || report.timeStart}
                 endTimestamp={report.timeline.endTimestamp || report.timeEnd}
@@ -57,22 +56,19 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
               />
             </section>
             <section>
-              <Subheading className="mb-3">{t("Data summary")}</Subheading>
+              <Subheading className="mb-3">Data summary</Subheading>
               <div className="grid gap-3 lg:grid-cols-2">
-                <ReportsOverviewSummaryCard summary={report.summary.sender} title={t("Sender")} />
-                <ReportsOverviewSummaryCard
-                  summary={report.summary.opponent}
-                  title={t("All Enemies")}
-                />
+                <ReportsOverviewSummaryCard summary={report.summary.sender} title="Sender" />
+                <ReportsOverviewSummaryCard summary={report.summary.opponent} title="All Enemies" />
               </div>
             </section>
           </DrawerBody>
           <DrawerActions>
             <Button onClick={onClose} plain>
-              {t("Close")}
+              Close
             </Button>
             <Button color="zinc" href={reportHref}>
-              {t("See full report")}
+              See full report
             </Button>
           </DrawerActions>
         </>

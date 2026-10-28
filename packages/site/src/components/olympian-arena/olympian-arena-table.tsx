@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import ReportsTableHead from "@/components/reports/reports-table-head";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
@@ -16,7 +15,6 @@ type OlympianArenaTableProps = {
 };
 
 export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArenaTableProps = {}) {
-  const t = useExtracted();
   const {
     data,
     loadedAt,
@@ -41,7 +39,7 @@ export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArena
   return (
     <>
       <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-        <ReportsTableHead resultLabel={t("Win Count")} />
+        <ReportsTableHead resultLabel="Win Count" />
         <TableBody>
           {data.map((duel) => (
             <OlympianArenaRow key={duel.duelId} duel={duel} now={loadedAt} />
@@ -58,10 +56,10 @@ export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArena
             type="button"
             onClick={() => void handlePreviousPage()}
             disabled={!previousBefore || loading}
-            aria-label={t("Previous page")}
+            aria-label="Previous page"
             autoComplete="off"
           >
-            {t("Previous")}
+            Previous
           </Button>
         </span>
         <span className="flex grow basis-0 justify-end">
@@ -70,10 +68,10 @@ export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArena
             type="button"
             onClick={() => void handleNextPage()}
             disabled={!nextAfter || loading}
-            aria-label={t("Next page")}
+            aria-label="Next page"
             autoComplete="off"
           >
-            {t("Next")}
+            Next
           </Button>
         </span>
       </Pagination>

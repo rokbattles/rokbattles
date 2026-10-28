@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted, useFormatter } from "next-intl";
 import type { ReactElement } from "react";
 import {
   CartesianGrid,
@@ -15,6 +14,19 @@ import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import { getArkTeams } from "@/lib/ark/analytics";
 import type { ArkMatchRecord } from "@/lib/types/ark";
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+const compactNumberFormatter = new Intl.NumberFormat("en-US", { notation: "compact" });
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
+  timeStyle: "short",
+  timeZone: "UTC",
+});
+const numberFormatter = new Intl.NumberFormat("en-US");
 
 type ArkHistoryChartsProps = { rows: ArkMatchRecord[] };
 
@@ -32,7 +44,6 @@ type ArkHistoryChartProps = {
 };
 
 export function ArkHistoryCharts({ rows }: ArkHistoryChartsProps): ReactElement {
-  const t = useExtracted();
   const points = rows.toReversed().map((match) => {
     const { own, opponent } = getArkTeams(match);
     return {
@@ -46,25 +57,23 @@ export function ArkHistoryCharts({ rows }: ArkHistoryChartsProps): ReactElement 
   return (
     <div className="grid gap-4 xl:grid-cols-2">
       <ArkHistoryChart
-        title={t("Alliance score trend")}
+        title="Alliance score trend"
         points={points}
         series={[
-          { key: "own", name: t("Your alliance"), color: "#3b82f6" },
-          { key: "opponent", name: t("Opponent"), color: "#f43f5e" },
+          { key: "own", name: "Your alliance", color: "#3b82f6" },
+          { key: "opponent", name: "Opponent", color: "#f43f5e" },
         ]}
       />
       <ArkHistoryChart
-        title={t("Individual score trend")}
+        title="Individual score trend"
         points={points}
-        series={[{ key: "personal", name: t("Your score"), color: "#a78bfa" }]}
+        series={[{ key: "personal", name: "Your score", color: "#a78bfa" }]}
       />
     </div>
   );
 }
 
 function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): ReactElement {
-  const intl = useFormatter();
-  const t = useExtracted();
   const hasValues = points.some((point) => series.some((entry) => point[entry.key] != null));
 
   return (
@@ -86,9 +95,7 @@ function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): React
               />
               <XAxis
                 dataKey="time"
-                tickFormatter={(value) =>
-                  intl.dateTime(value, { month: "short", day: "numeric", timeZone: "UTC" })
-                }
+                tickFormatter={(value) => dateFormatter.format(value)}
                 minTickGap={36}
                 axisLine={false}
                 tickLine={false}
@@ -97,20 +104,14 @@ function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): React
               />
               <YAxis
                 width={56}
-                tickFormatter={(value) => intl.number(value, { notation: "compact" })}
+                tickFormatter={(value) => compactNumberFormatter.format(value)}
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 11, fill: "#71717a" }}
               />
               <Tooltip
-                labelFormatter={(label) =>
-                  intl.dateTime(Number(label), {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                    timeZone: "UTC",
-                  })
-                }
-                formatter={(value) => intl.number(Number(value))}
+                labelFormatter={(label) => timeFormatter.format(Number(label))}
+                formatter={(value) => numberFormatter.format(Number(value))}
                 contentStyle={{
                   borderRadius: 6,
                   background: "var(--color-zinc-900)",
@@ -137,7 +138,7 @@ function ArkHistoryChart({ title, points, series }: ArkHistoryChartProps): React
         </div>
       ) : (
         <div className="flex h-64 items-center justify-center">
-          <Text>{t("No scores available for this selection.")}</Text>
+          <Text>No scores available for this selection.</Text>
         </div>
       )}
     </section>

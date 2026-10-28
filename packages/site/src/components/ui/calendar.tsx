@@ -8,14 +8,32 @@ import {
 } from "@daypicker/react";
 import { cn } from "cn";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useExtracted, useFormatter } from "next-intl";
-import { type ComponentProps, useEffect, useRef } from "react";
+
+import { type ComponentProps, useEffect, useMemo, useRef } from "react";
 import { Button } from "./button";
 
 export function Calendar({ className, classNames, components, ...props }: DayPickerProps) {
-  const t = useExtracted();
-  const intl = useFormatter();
   const timeZone = props.timeZone ?? "UTC";
+  const monthFormatter = useMemo(
+    () => new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric", timeZone }),
+    [timeZone]
+  );
+  const shortWeekdayFormatter = useMemo(
+    () => new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone }),
+    [timeZone]
+  );
+  const dayFormatter = useMemo(
+    () => new Intl.DateTimeFormat("en-US", { day: "numeric", timeZone }),
+    [timeZone]
+  );
+  const fullDateFormatter = useMemo(
+    () => new Intl.DateTimeFormat("en-US", { dateStyle: "full", timeZone }),
+    [timeZone]
+  );
+  const weekdayFormatter = useMemo(
+    () => new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone }),
+    [timeZone]
+  );
 
   return (
     <DayPicker
@@ -52,16 +70,16 @@ export function Calendar({ className, classNames, components, ...props }: DayPic
         ...components,
       }}
       formatters={{
-        formatCaption: (date) => intl.dateTime(date, { month: "long", year: "numeric", timeZone }),
-        formatWeekdayName: (date) => intl.dateTime(date, { weekday: "short", timeZone }),
-        formatDay: (date) => intl.dateTime(date, { day: "numeric", timeZone }),
+        formatCaption: (date) => monthFormatter.format(date),
+        formatWeekdayName: (date) => shortWeekdayFormatter.format(date),
+        formatDay: (date) => dayFormatter.format(date),
       }}
       labels={{
-        labelPrevious: () => t("Previous month"),
-        labelNext: () => t("Next month"),
-        labelGrid: (date) => intl.dateTime(date, { month: "long", year: "numeric", timeZone }),
-        labelDayButton: (date) => intl.dateTime(date, { dateStyle: "full", timeZone }),
-        labelWeekday: (date) => intl.dateTime(date, { weekday: "long", timeZone }),
+        labelPrevious: () => "Previous month",
+        labelNext: () => "Next month",
+        labelGrid: (date) => monthFormatter.format(date),
+        labelDayButton: (date) => fullDateFormatter.format(date),
+        labelWeekday: (date) => weekdayFormatter.format(date),
       }}
       {...props}
     />

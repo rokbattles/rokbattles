@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
 import { useMemo, useState } from "react";
 import {
   Area,
@@ -31,6 +30,23 @@ import type {
 } from "@/lib/combat-lab/preview-types";
 import { calculateTradePercentage } from "@/lib/combat-lab/trade-percentage";
 import { toRomanNumeral } from "@/lib/equipment";
+
+const numberFormatter = new Intl.NumberFormat("en-US");
+const dateFormatter2 = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+const compactNumberFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+const scoreFormatter = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+const integerFormatter2 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
 const formationColors = [
@@ -92,30 +108,25 @@ export function CombatLabCharts({
   rangeKey: CombatLabPreviewRangeKey;
   trends: CombatLabPreviewTrend[];
 }) {
-  const t = useExtracted();
-  const locale = useLocale();
-  const compactFormatter = createCompactFormatter(locale);
-  const decimalFormatter = createDecimalFormatter(locale);
-  const integerFormatter = createIntegerFormatter(locale);
+  const compactFormatter = createCompactFormatter();
+  const decimalFormatter = createDecimalFormatter();
+  const integerFormatter = createIntegerFormatter();
   const metricOptions = [
-    { key: "dps", label: t("Damage dealt"), color: "#2563eb" },
-    { key: "sps", label: t("Severely wounded inflicted"), color: "#7c3aed" },
-    { key: "tps", label: t("Severely wounded taken"), color: "#e11d48" },
-    { key: "hps", label: t("Healing"), color: "#059669" },
+    { key: "dps", label: "Damage dealt", color: "#2563eb" },
+    { key: "sps", label: "Severely wounded inflicted", color: "#7c3aed" },
+    { key: "tps", label: "Severely wounded taken", color: "#e11d48" },
+    { key: "hps", label: "Healing", color: "#059669" },
   ] as const;
   const [metric, setMetric] = useState<MetricKey>("dps");
-  const chartData = useMemo(
-    () => aggregateTrends(trends, rangeKey, locale),
-    [locale, rangeKey, trends]
-  );
+  const chartData = useMemo(() => aggregateTrends(trends, rangeKey), [rangeKey, trends]);
   const selectedMetric = metricOptions.find((option) => option.key === metric) ?? metricOptions[0];
 
   if (!chartData.some((point) => point.battles > 0)) {
     return (
       <div className="grid gap-5 xl:grid-cols-2">
-        <EmptyChartCard title={t("Kill points")} />
-        <EmptyChartCard title={t("Battle tempo")} />
-        <EmptyChartCard className="xl:col-span-2" title={t("Trade percentage")} />
+        <EmptyChartCard title="Kill points" />
+        <EmptyChartCard title="Battle tempo" />
+        <EmptyChartCard className="xl:col-span-2" title="Trade percentage" />
       </div>
     );
   }
@@ -124,10 +135,10 @@ export function CombatLabCharts({
     <div className="grid gap-5 xl:grid-cols-2">
       <article className="min-w-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900">
         <div className="border-b px-5 py-4 border-white/10">
-          <Subheading level={3}>{t("Kill points")}</Subheading>
+          <Subheading level={3}>Kill points</Subheading>
           <div className="mt-4 flex h-9 items-center gap-3 text-xs font-medium">
-            <ChartLegend color="bg-blue-600" label={t("Gained")} />
-            <ChartLegend color="bg-rose-500" label={t("Lost")} />
+            <ChartLegend color="bg-blue-600" label="Gained" />
+            <ChartLegend color="bg-rose-500" label="Lost" />
           </div>
         </div>
         <div className="h-72 px-2 pt-5 pr-4 pb-3">
@@ -168,9 +179,7 @@ export function CombatLabCharts({
                 content={(props) => (
                   <ChartTooltip
                     {...props}
-                    formatName={(dataKey) =>
-                      dataKey === "killPointsGained" ? t("Gained") : t("Lost")
-                    }
+                    formatName={(dataKey) => (dataKey === "killPointsGained" ? "Gained" : "Lost")}
                     formatValue={(value) => formatCount(value, compactFormatter, integerFormatter)}
                   />
                 )}
@@ -200,7 +209,7 @@ export function CombatLabCharts({
 
       <article className="min-w-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900">
         <div className="border-b px-5 py-4 border-white/10">
-          <Subheading level={3}>{t("Battle tempo")}</Subheading>
+          <Subheading level={3}>Battle tempo</Subheading>
           <div className="mt-4 flex h-9 gap-1 overflow-x-auto rounded-lg p-1 bg-white/5">
             {metricOptions.map((option) => (
               <button
@@ -271,7 +280,7 @@ export function CombatLabCharts({
       >
         <div className="border-b px-5 py-4 border-white/10">
           <Subheading id="trade-percentage-chart-title" level={3}>
-            {t("Trade percentage")}
+            Trade percentage
           </Subheading>
         </div>
         <div className="h-72 px-2 pt-5 pr-4 pb-3">
@@ -311,7 +320,7 @@ export function CombatLabCharts({
                 content={(props) => (
                   <ChartTooltip
                     {...props}
-                    formatName={() => t("Trade percentage")}
+                    formatName={() => "Trade percentage"}
                     formatValue={(value) => `${decimalFormatter.format(value)}%`}
                   />
                 )}
@@ -353,15 +362,10 @@ export function CombatLabFormationChart({
   points: CombatLabPreviewFormationUsagePoint[];
   rangeKey: CombatLabPreviewRangeKey;
 }) {
-  const t = useExtracted();
-  const locale = useLocale();
-  const decimalFormatter = createDecimalFormatter(locale);
+  const decimalFormatter = createDecimalFormatter();
   const { chartData, series } = useMemo(
-    () =>
-      aggregateFormationUsage(points, rangeKey, locale, (id) =>
-        t("Formation {id}", { id: id.toString() })
-      ),
-    [locale, points, rangeKey, t]
+    () => aggregateFormationUsage(points, rangeKey, (id) => `Formation ${id.toString()}`),
+    [points, rangeKey]
   );
   const seriesByKey = useMemo(
     () => new Map(series.map((formation) => [formation.dataKey, formation.name])),
@@ -372,10 +376,10 @@ export function CombatLabFormationChart({
     return (
       <article className="min-w-0 rounded-md border p-5 xl:col-span-2 border-white/10 bg-zinc-900 sm:p-6">
         <Subheading level={3} className="!text-lg/7">
-          {t("Formation")}
+          Formation
         </Subheading>
         <Subheading level={4} className="mt-3">
-          {t("Formation usage")}
+          Formation usage
         </Subheading>
         <CombatLabEmptyState className="mt-3 min-h-72 sm:min-h-80" />
       </article>
@@ -385,10 +389,10 @@ export function CombatLabFormationChart({
   return (
     <article className="min-w-0 rounded-md border p-5 xl:col-span-2 border-white/10 bg-zinc-900 sm:p-6">
       <Subheading level={3} className="!text-lg/7">
-        {t("Formation")}
+        Formation
       </Subheading>
       <div className="mt-3">
-        <Subheading level={4}>{t("Formation usage")}</Subheading>
+        <Subheading level={4}>Formation usage</Subheading>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium">
           {series.map((formation) => (
             <span key={formation.id} className="inline-flex items-center gap-1.5 text-zinc-300">
@@ -425,7 +429,7 @@ export function CombatLabFormationChart({
                   <ChartTooltip
                     {...props}
                     formatName={(dataKey) =>
-                      seriesByKey.get(String(dataKey)) ?? t("Unknown formation")
+                      seriesByKey.get(String(dataKey)) ?? "Unknown formation"
                     }
                     formatValue={(value) => `${decimalFormatter.format(value)}%`}
                   />
@@ -458,32 +462,30 @@ export function CombatLabArmamentChart({
   rangeKey: CombatLabPreviewRangeKey;
   slot: CombatLabPreviewArmamentSlot;
 }) {
-  const t = useExtracted();
-  const locale = useLocale();
-  const decimalFormatter = createDecimalFormatter(locale);
+  const decimalFormatter = createDecimalFormatter();
   const inscriptionOptions = useMemo(
     () =>
       [
-        { key: "special", label: t("Special"), color: "#2563eb" },
-        { key: "rare", label: t("Rare"), color: "#7c3aed" },
-        { key: "common", label: t("Common"), color: "#71717a" },
-        { key: "specialCommon", label: t("Special + Common"), color: "#0891b2" },
-        { key: "rareCommon", label: t("Rare + Common"), color: "#d97706" },
-        { key: "commonCommon", label: t("Common + Common"), color: "#059669" },
+        { key: "special", label: "Special", color: "#2563eb" },
+        { key: "rare", label: "Rare", color: "#7c3aed" },
+        { key: "common", label: "Common", color: "#71717a" },
+        { key: "specialCommon", label: "Special + Common", color: "#0891b2" },
+        { key: "rareCommon", label: "Rare + Common", color: "#d97706" },
+        { key: "commonCommon", label: "Common + Common", color: "#059669" },
       ] as const,
-    [t]
+    []
   );
   const buffOptions = useMemo(
-    () => getArmamentBuffOptions(slot, (id) => t("Buff {id}", { id: id.toString() })),
-    [slot, t]
+    () => getArmamentBuffOptions(slot, (id) => `Buff ${id.toString()}`),
+    [slot]
   );
   const [requestedBuffId, setRequestedBuffId] = useState<number | null>(null);
   const selectedBuffId = buffOptions.some((buff) => buff.id === requestedBuffId)
     ? requestedBuffId
     : (buffOptions[0]?.id ?? null);
   const { chartData, inscriptionSeries } = useMemo(
-    () => aggregateArmamentUsage(slot, rangeKey, selectedBuffId, locale, inscriptionOptions),
-    [inscriptionOptions, locale, rangeKey, selectedBuffId, slot]
+    () => aggregateArmamentUsage(slot, rangeKey, selectedBuffId, inscriptionOptions),
+    [inscriptionOptions, rangeKey, selectedBuffId, slot]
   );
   const selectedBuff = buffOptions.find((buff) => buff.id === selectedBuffId);
   const selectedBuffInfo = selectedBuff ? getArmamentInfo(selectedBuff.id) : undefined;
@@ -495,7 +497,7 @@ export function CombatLabArmamentChart({
   return (
     <div className="space-y-7">
       <div>
-        <Subheading level={4}>{t("Inscription usage")}</Subheading>
+        <Subheading level={4}>Inscription usage</Subheading>
         <div className="mt-3 flex min-h-9 flex-wrap gap-x-3 gap-y-2 text-xs font-medium">
           {inscriptionSeries.map((series) => (
             <span className="inline-flex items-center gap-1.5 text-zinc-300" key={series.key}>
@@ -533,7 +535,7 @@ export function CombatLabArmamentChart({
                     {...props}
                     formatName={(dataKey) =>
                       inscriptionOptions.find((option) => option.key === dataKey)?.label ??
-                      t("Inscription")
+                      "Inscription"
                     }
                     formatValue={(value) => `${decimalFormatter.format(value)}%`}
                   />
@@ -556,7 +558,7 @@ export function CombatLabArmamentChart({
       </div>
 
       <div>
-        <Subheading level={4}>{t("Buff rolls")}</Subheading>
+        <Subheading level={4}>Buff rolls</Subheading>
         <div className="mt-3 flex gap-1 overflow-x-auto rounded-lg p-1 bg-white/5">
           {buffOptions.map((buff) => (
             <button
@@ -574,7 +576,7 @@ export function CombatLabArmamentChart({
         <div className="mt-2 h-52">
           {selectedBuffId === null ? (
             <Text className="flex h-full items-center justify-center !text-sm">
-              {t("No buff rolls observed.")}
+              No buff rolls observed.
             </Text>
           ) : (
             <ResponsiveContainer minWidth={0}>
@@ -606,12 +608,12 @@ export function CombatLabArmamentChart({
                   content={(props) => (
                     <ArmamentBuffTooltip
                       {...props}
-                      averageRollLabel={t("Average roll")}
-                      buffName={selectedBuff?.name ?? t("Buff")}
+                      averageRollLabel="Average roll"
+                      buffName={selectedBuff?.name ?? "Buff"}
                       decimalFormatter={decimalFormatter}
-                      maxRollUsageLabel={t("Max roll usage")}
+                      maxRollUsageLabel="Max roll usage"
                       percent={selectedBuffInfo?.percent}
-                      usageLabel={t("Usage")}
+                      usageLabel="Usage"
                     />
                   )}
                 />
@@ -641,22 +643,20 @@ export function CombatLabEquipmentChart({
   rangeKey: CombatLabPreviewRangeKey;
   slot: CombatLabPreviewEquipmentSlot;
 }) {
-  const t = useExtracted();
-  const locale = useLocale();
-  const compactFormatter = createCompactFormatter(locale);
-  const decimalFormatter = createDecimalFormatter(locale);
-  const integerFormatter = createIntegerFormatter(locale);
+  const compactFormatter = createCompactFormatter();
+  const decimalFormatter = createDecimalFormatter();
+  const integerFormatter = createIntegerFormatter();
   const { chartData, iconicData, nonLegendaryCount, series, specialTalentData, totals } = useMemo(
     () =>
-      aggregateEquipmentUsage(slot, rangeKey, locale, {
-        iconic: (level) => `${t("Iconic")} ${level}`,
-        item: (id) => t("Item {id}", { id: id.toString() }),
-        noIconic: t("No iconic"),
-        noSpecialTalent: t("No special talent"),
-        otherPieces: t("Other pieces"),
-        specialTalent: t("Special talent"),
+      aggregateEquipmentUsage(slot, rangeKey, {
+        iconic: (level) => `${"Iconic"} ${level}`,
+        item: (id) => `Item ${id.toString()}`,
+        noIconic: "No iconic",
+        noSpecialTalent: "No special talent",
+        otherPieces: "Other pieces",
+        specialTalent: "Special talent",
       }),
-    [locale, rangeKey, slot, t]
+    [rangeKey, slot]
   );
   const namesByKey = useMemo(
     () => new Map(series.map((item) => [item.dataKey, item.name])),
@@ -667,10 +667,10 @@ export function CombatLabEquipmentChart({
   const accessoryPairingData = useMemo(
     () =>
       getAccessoryPairingData(accessoryPairings, {
-        item: (id) => t("Item {id}", { id: id.toString() }),
-        otherPairings: t("Other pairings"),
+        item: (id) => `Item ${id.toString()}`,
+        otherPairings: "Other pairings",
       }),
-    [accessoryPairings, t]
+    [accessoryPairings]
   );
 
   if (totals.observations <= 0) {
@@ -680,7 +680,7 @@ export function CombatLabEquipmentChart({
   return (
     <div className="space-y-7">
       <div>
-        <Subheading level={4}>{t("Piece usage")}</Subheading>
+        <Subheading level={4}>Piece usage</Subheading>
         <div className="mt-3 flex min-h-9 flex-wrap gap-x-3 gap-y-2 text-xs font-medium">
           {series.map((item) => (
             <span
@@ -723,7 +723,7 @@ export function CombatLabEquipmentChart({
                 content={(props) => (
                   <ChartTooltip
                     {...props}
-                    formatName={(dataKey) => namesByKey.get(String(dataKey)) ?? t("Equipment")}
+                    formatName={(dataKey) => namesByKey.get(String(dataKey)) ?? "Equipment"}
                     formatValue={(value) => `${decimalFormatter.format(value)}%`}
                   />
                 )}
@@ -747,50 +747,51 @@ export function CombatLabEquipmentChart({
 
       <div className={`grid gap-6 ${slot.slot === 7 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
         <CombatLabDonut
-          ariaLabel={t("Iconic level distribution among legendary equipment")}
-          centerLabel={t("legendary")}
+          ariaLabel="Iconic level distribution among legendary equipment"
+          centerLabel="legendary"
           centerValue={formatCount(totals.legendary, compactFormatter, integerFormatter)}
           data={iconicData}
-          emptyLabel={t("No legendary pieces observed.")}
+          emptyLabel="No legendary pieces observed."
           integerFormatter={integerFormatter}
-          title={t("Iconic levels")}
-          tooltipLabels={{ count: t("Count"), usage: t("Usage") }}
+          title="Iconic levels"
+          tooltipLabels={{ count: "Count", usage: "Usage" }}
           decimalFormatter={decimalFormatter}
         />
         <CombatLabDonut
-          ariaLabel={t("Special talent usage across equipment")}
-          centerLabel={t("special talent")}
+          ariaLabel="Special talent usage across equipment"
+          centerLabel="special talent"
           centerValue={`${decimalFormatter.format(specialTalentPercent)}%`}
           data={specialTalentData}
-          emptyLabel={t("No talent data observed.")}
+          emptyLabel="No talent data observed."
           integerFormatter={integerFormatter}
-          title={t("Special talent")}
-          tooltipLabels={{ count: t("Count"), usage: t("Usage") }}
+          title="Special talent"
+          tooltipLabels={{ count: "Count", usage: "Usage" }}
           decimalFormatter={decimalFormatter}
         />
         {slot.slot === 7 ? (
           <CombatLabDonut
-            ariaLabel={t("Most common order-agnostic accessory pairings")}
-            centerLabel={t("pairings")}
+            ariaLabel="Most common order-agnostic accessory pairings"
+            centerLabel="pairings"
             centerValue={formatCount(
               accessoryPairings?.sampleSize ?? 0,
               compactFormatter,
               integerFormatter
             )}
             data={accessoryPairingData}
-            emptyLabel={t("No complete accessory pairings observed.")}
+            emptyLabel="No complete accessory pairings observed."
             integerFormatter={integerFormatter}
-            title={t("Accessory pairings")}
-            tooltipLabels={{ count: t("Count"), usage: t("Usage") }}
+            title="Accessory pairings"
+            tooltipLabels={{ count: "Count", usage: "Usage" }}
             decimalFormatter={decimalFormatter}
           />
         ) : null}
       </div>
       <Text className="text-center !text-xs/5">
-        {t(
-          "{count, plural, one {# piece of equipment was excluded from iconic levels because it was not legendary.} other {# pieces of equipment were excluded from iconic levels because they were not legendary.}}",
-          { count: nonLegendaryCount }
-        )}
+        {Math.abs(nonLegendaryCount) === 1
+          ? numberFormatter.format(nonLegendaryCount) +
+            " piece of equipment was excluded from iconic levels because it was not legendary."
+          : numberFormatter.format(nonLegendaryCount) +
+            " pieces of equipment were excluded from iconic levels because they were not legendary."}
       </Text>
     </div>
   );
@@ -894,8 +895,7 @@ type AggregatedTrend = CombatLabPreviewTrend & { date: string; tradePercentage: 
 
 function aggregateTrends(
   trends: CombatLabPreviewTrend[],
-  rangeKey: CombatLabPreviewRangeKey,
-  locale: string
+  rangeKey: CombatLabPreviewRangeKey
 ): AggregatedTrend[] {
   const bucketMs = trendBucketDays(rangeKey) * DAY_MS;
   const grouped = new Map<number, CombatLabPreviewTrend>();
@@ -924,7 +924,7 @@ function aggregateTrends(
     });
   }
 
-  const dateFormatter = trendDateFormatter(locale);
+  const dateFormatter = trendDateFormatter();
   return Array.from(grouped.values())
     .sort((a, b) => a.bucketStartMs - b.bucketStartMs)
     .map((point) => ({
@@ -955,7 +955,6 @@ type FormationChartData = Record<string, number | string> & {
 function aggregateFormationUsage(
   points: CombatLabPreviewFormationUsagePoint[],
   rangeKey: CombatLabPreviewRangeKey,
-  locale: string,
   fallbackName: (id: number) => string
 ): { chartData: FormationChartData[]; series: FormationChartSeries[] } {
   const bucketMs = trendBucketDays(rangeKey) * DAY_MS;
@@ -986,7 +985,7 @@ function aggregateFormationUsage(
       name: getFormationName(id) ?? fallbackName(id),
       color: formationColors[(id - 1) % formationColors.length],
     }));
-  const dateFormatter = trendDateFormatter(locale);
+  const dateFormatter = trendDateFormatter();
   const chartData = Array.from(grouped.values())
     .sort((left, right) => left.bucketStartMs - right.bucketStartMs)
     .map((bucket) => {
@@ -1058,7 +1057,6 @@ function aggregateArmamentUsage(
   slot: CombatLabPreviewArmamentSlot,
   rangeKey: CombatLabPreviewRangeKey,
   selectedBuffId: number | null,
-  locale: string,
   inscriptionOptions: readonly { key: InscriptionKey; label: string; color: string }[]
 ) {
   const bucketMs = trendBucketDays(rangeKey) * DAY_MS;
@@ -1106,7 +1104,7 @@ function aggregateArmamentUsage(
   const inscriptionSeries = inscriptionOptions.filter(
     (option) => (inscriptionTotals.get(option.key) ?? 0) > 0
   );
-  const dateFormatter = trendDateFormatter(locale);
+  const dateFormatter = trendDateFormatter();
   const chartData = Array.from(grouped.values())
     .sort((left, right) => left.bucketStartMs - right.bucketStartMs)
     .map((bucket): ArmamentChartData => {
@@ -1198,7 +1196,6 @@ function getAccessoryPairingData(
 function aggregateEquipmentUsage(
   slot: CombatLabPreviewEquipmentSlot,
   rangeKey: CombatLabPreviewRangeKey,
-  locale: string,
   labels: {
     iconic: (level: string) => string;
     item: (id: number) => string;
@@ -1266,7 +1263,7 @@ function aggregateEquipmentUsage(
     });
   }
 
-  const dateFormatter = trendDateFormatter(locale);
+  const dateFormatter = trendDateFormatter();
   const chartData = Array.from(grouped.values())
     .sort((left, right) => left.bucketStartMs - right.bucketStartMs)
     .map((bucket): EquipmentChartData => {
@@ -1332,29 +1329,18 @@ function trendBucketDays(rangeKey: CombatLabPreviewRangeKey) {
   return rangeKey === "1y" ? 14 : rangeKey === "6m" ? 7 : 1;
 }
 
-function trendDateFormatter(locale: string) {
-  return new Intl.DateTimeFormat(locale, {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+function trendDateFormatter() {
+  return dateFormatter2;
 }
 
-function createCompactFormatter(locale: string) {
-  return new Intl.NumberFormat(locale, {
-    notation: "compact",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+function createCompactFormatter() {
+  return compactNumberFormatter;
 }
 
-function createDecimalFormatter(locale: string) {
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+function createDecimalFormatter() {
+  return scoreFormatter;
 }
 
-function createIntegerFormatter(locale: string) {
-  return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
+function createIntegerFormatter() {
+  return integerFormatter2;
 }

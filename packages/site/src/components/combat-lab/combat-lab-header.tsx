@@ -3,7 +3,7 @@
 import { cn } from "cn";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { Listbox, ListboxOption } from "@/components/ui/listbox";
 import { Text } from "@/components/ui/text";
 import { type CombatLabSeason, combatLabPath, combatLabSeason } from "@/lib/combat-lab/season";
@@ -19,10 +19,9 @@ const sections = [
 ] as const;
 
 export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
-  const t = useExtracted();
   const season = combatLabSeason(usePathname());
   const router = useRouter();
-  const labels = { soc: t("Season of Conquest"), presoc: t("Pre-Season of Conquest") };
+  const labels = { soc: "Season of Conquest", presoc: "Pre-Season of Conquest" };
   const changeSeason = (next: CombatLabSeason) => {
     const path = `${combatLabPath(next)}${active === "rankings" ? "/rankings" : ""}`;
     router.push(path);
@@ -33,20 +32,19 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(37,99,235,.28),transparent_42%),radial-gradient(circle_at_20%_100%,rgba(124,58,237,.18),transparent_38%)]" />
       <div className="relative mx-auto max-w-7xl px-4 pt-7 pb-4 sm:px-6 sm:pt-10 sm:pb-6 lg:px-8">
         <div className="max-w-xl">
-          <h1 className="font-semibold text-3xl tracking-tight sm:text-4xl">{t("Combat Lab")}</h1>
+          <h1 className="font-semibold text-3xl tracking-tight sm:text-4xl">Combat Lab</h1>
           <Text className="mt-2 !text-sm/6 !text-zinc-400 sm:!text-base/6">
-            {t(
-              "Explore commander pairing performance with DRASTC scoring when available. Data refreshes every 8 hours."
-            )}
+            Explore commander pairing performance with DRASTC scoring when available. Data refreshes
+            every 8 hours.
           </Text>
         </div>
         <nav
-          aria-label={t("Combat Lab sections")}
+          aria-label="Combat Lab sections"
           className="mt-5 flex flex-wrap items-center gap-2 border-white/10 border-b pb-3"
         >
           <div className="w-full sm:w-64">
             <Listbox<CombatLabSeason>
-              aria-label={t("Combat Lab season")}
+              aria-label="Combat Lab season"
               value={season}
               onChange={changeSeason}
               renderValue={(value) => (value === "presoc" ? labels.presoc : labels.soc)}
@@ -57,7 +55,7 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
           </div>
           {sections.map((section) => {
             const current = active === section.key;
-            const label = section.key === "explore" ? t("Explore") : t("Rankings");
+            const label = section.key === "explore" ? "Explore" : "Rankings";
             return (
               <Link
                 aria-current={current ? "page" : undefined}

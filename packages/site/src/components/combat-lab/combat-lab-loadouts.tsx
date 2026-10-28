@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useExtracted } from "next-intl";
+
 import { Heading, Subheading } from "@/components/ui/heading";
 import { getEquipmentSlotName } from "@/hooks/use-equipment-name";
 import type {
@@ -102,7 +102,6 @@ export function CombatLabLoadouts({
   rangeKey: CombatLabPreviewRangeKey;
   secondaryCommanderName: string;
 }) {
-  const t = useExtracted();
   const equipmentSlotNames: Record<number, string> = {
     1: getEquipmentSlotName(1),
     2: getEquipmentSlotName(2),
@@ -113,10 +112,10 @@ export function CombatLabLoadouts({
     7: getEquipmentSlotName(7),
   };
   const armamentSlotNames: Record<number, string> = {
-    1: t("Scroll"),
-    2: t("Instrument"),
-    3: t("Flag"),
-    4: t("Emblem"),
+    1: "Scroll",
+    2: "Instrument",
+    3: "Flag",
+    4: "Emblem",
   };
   const armamentSlots = Array.isArray(loadouts?.armaments?.slots) ? loadouts.armaments.slots : [];
   const equipmentSlots = Array.isArray(loadouts?.equipment?.slots) ? loadouts.equipment.slots : [];
@@ -124,7 +123,7 @@ export function CombatLabLoadouts({
   return (
     <section aria-labelledby="loadouts-title" className="scroll-mt-28">
       <Heading id="loadouts-title" level={2} className="mb-4">
-        {t("Build breakdown")}
+        Build breakdown
       </Heading>
 
       <div className="grid gap-5 xl:grid-cols-2">
@@ -142,7 +141,7 @@ export function CombatLabLoadouts({
             points: Array.isArray(matchingSlot?.points) ? matchingSlot.points : [],
           };
           return (
-            <Panel key={slotId} title={t("Armament: {slot}", { slot: armamentSlotNames[slotId] })}>
+            <Panel key={slotId} title={`Armament: ${armamentSlotNames[slotId]}`}>
               <CombatLabArmamentChart rangeKey={rangeKey} slot={slot} />
             </Panel>
           );
@@ -157,7 +156,7 @@ export function CombatLabLoadouts({
             <Panel
               className={slotId === 7 ? "xl:col-span-2" : undefined}
               key={slotId}
-              title={t("Equipment: {slot}", { slot: equipmentSlotNames[slotId] })}
+              title={`Equipment: ${equipmentSlotNames[slotId]}`}
             >
               <CombatLabEquipmentChart
                 accessoryPairings={

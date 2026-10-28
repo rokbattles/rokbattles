@@ -1,7 +1,7 @@
 "use client";
 
 import { Funnel } from "lucide-react";
-import { useExtracted } from "next-intl";
+
 import { use } from "react";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
@@ -9,7 +9,6 @@ import { Heading, Subheading } from "@/components/ui/heading";
 import { GovernorContext } from "@/providers/governor-context";
 
 export function AccountReportsContent() {
-  const t = useExtracted();
   const governorContext = use(GovernorContext);
 
   if (!governorContext) {
@@ -24,12 +23,12 @@ export function AccountReportsContent() {
 
   return (
     <>
-      <Heading>{t("My Battle Reports")}</Heading>
+      <Heading>My Battle Reports</Heading>
       <div className="mt-8 flex items-end justify-between">
-        <Subheading>{t("Live feed (UTC)")}</Subheading>
+        <Subheading>Live feed (UTC)</Subheading>
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
           <Funnel data-slot="icon" aria-hidden="true" />
-          {t("Filter")}
+          Filter
         </ReportsFilterDialog>
       </div>
       <ReportsTable scope="mine" />

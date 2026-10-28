@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-import { useExtracted } from "next-intl";
+
 import { type ReactElement, useState } from "react";
 import {
   ArkPagination,
@@ -24,7 +24,6 @@ type ArkTeamScoresProps = { participants: ArkParticipant[] };
 type ScoreKey = "score" | "occupationScore" | "provisionsScore" | "killScore" | "arkScore";
 
 export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElement {
-  const t = useExtracted();
   const number = useArkNumber();
 
   const [search, setSearch] = useState("");
@@ -35,11 +34,11 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
   });
 
   const columns: { key: ScoreKey; label: string }[] = [
-    { key: "score", label: t("Individual score") },
-    { key: "occupationScore", label: t("Occupation") },
-    { key: "provisionsScore", label: t("Provisions") },
-    { key: "killScore", label: t("Kill score") },
-    { key: "arkScore", label: t("Ark score") },
+    { key: "score", label: "Individual score" },
+    { key: "occupationScore", label: "Occupation" },
+    { key: "provisionsScore", label: "Provisions" },
+    { key: "killScore", label: "Kill score" },
+    { key: "arkScore", label: "Ark score" },
   ];
 
   const normalizedSearch = search.trim().toLocaleLowerCase();
@@ -67,13 +66,13 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
   return (
     <section className="space-y-4">
       <ArkSectionHeading
-        title={t("Team scores")}
-        description={t("Individual scores and activity values. Select a column to sort.")}
+        title="Team scores"
+        description="Individual scores and activity values. Select a column to sort."
       >
         <Input
           type="search"
-          aria-label={t("Search teammates")}
-          placeholder={t("Search teammates…")}
+          aria-label="Search teammates"
+          placeholder="Search teammates…"
           className="sm:max-w-64"
           value={search}
           onChange={(event) => {
@@ -83,7 +82,7 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
         />
       </ArkSectionHeading>
       {!participants.length ? (
-        <Text>{t("No teammate scores were included in this result mail.")}</Text>
+        <Text>No teammate scores were included in this result mail.</Text>
       ) : (
         <>
           <Table
@@ -92,8 +91,8 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
           >
             <TableHead>
               <TableRow>
-                <TableHeader className="w-16">{t("Rank")}</TableHeader>
-                <TableHeader>{t("Governor")}</TableHeader>
+                <TableHeader className="w-16">Rank</TableHeader>
+                <TableHeader>Governor</TableHeader>
                 {columns.map((column) => {
                   const active = column.key === sort.key;
                   const direction = sort.descending ? "descending" : "ascending";
@@ -130,10 +129,10 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
                   </TableCell>
                   <TableCell>
                     <div className="truncate font-medium" title={player.name ?? undefined}>
-                      {player.name ?? t("Unknown governor")}
+                      {player.name ?? "Unknown governor"}
                     </div>
                     {player.participated === false ? (
-                      <div className="text-xs text-zinc-400">{t("Did not participate")}</div>
+                      <div className="text-xs text-zinc-400">Did not participate</div>
                     ) : null}
                   </TableCell>
                   {columns.map((column) => (
@@ -153,7 +152,7 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
               ))}
               {!rows.length ? (
                 <TableRow>
-                  <TableCell colSpan={7}>{t("No teammates match your search.")}</TableCell>
+                  <TableCell colSpan={7}>No teammates match your search.</TableCell>
                 </TableRow>
               ) : null}
             </TableBody>

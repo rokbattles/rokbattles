@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useExtracted } from "next-intl";
+
 import { Button } from "@/components/ui/button";
 import {
   Dropdown,
@@ -25,12 +25,10 @@ export function BindActionsDropdown({
   onSetDefault,
   onUnlink,
 }: BindActionsDropdownProps) {
-  const t = useExtracted();
-
   return (
     <Dropdown>
       <DropdownButton as={Button} plain disabled={disabled}>
-        {t("Actions")}
+        Actions
         <ChevronDown data-slot="icon" aria-hidden="true" />
       </DropdownButton>
       <DropdownMenu className="min-w-52" anchor="bottom end">
@@ -40,7 +38,7 @@ export function BindActionsDropdown({
             void onSetDefault(bind.governorId);
           }}
         >
-          <DropdownLabel>{t("Set default bind")}</DropdownLabel>
+          <DropdownLabel>Set default bind</DropdownLabel>
         </DropdownItem>
         <DropdownItem
           disabled={disabled}
@@ -48,7 +46,7 @@ export function BindActionsDropdown({
             void onUnlink(bind.governorId);
           }}
         >
-          <DropdownLabel>{t("Unlink bind")}</DropdownLabel>
+          <DropdownLabel>Unlink bind</DropdownLabel>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

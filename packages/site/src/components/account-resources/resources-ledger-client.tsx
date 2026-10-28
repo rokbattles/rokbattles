@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowDown, ArrowUp, Download } from "lucide-react";
-import { useExtracted, useFormatter } from "next-intl";
+
 import { type CSSProperties, type ReactElement, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Subheading } from "@/components/ui/heading";
@@ -17,6 +17,14 @@ import { Text } from "@/components/ui/text";
 import { type ResourceDay, resourceLedgerCsv } from "@/lib/resources/analytics";
 import type { ResourceKey } from "@/lib/resources/catalog";
 import type { ResourceBreakdownRow } from "@/lib/resources/rows";
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const integerFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 const PAGE_SIZE = 15;
 
@@ -38,15 +46,13 @@ export function ResourcesLedgerClient({
   rows,
   governorId,
 }: ResourcesLedgerClientProps): ReactElement {
-  const t = useExtracted();
-  const intl = useFormatter();
   const [requestedSort, setSort] = useState<LedgerSort>({ key: "date", descending: true });
   const [page, setPage] = useState(0);
   const [onlyReported, setOnlyReported] = useState(false);
 
   const headers: { key: LedgerSortKey; name: string }[] = [
-    { key: "date", name: t("Day (UTC)") },
-    { key: "reports", name: t("Reports") },
+    { key: "date", name: "Day (UTC)" },
+    { key: "reports", name: "Reports" },
     ...rows,
   ];
   const sort: LedgerSort = headers.some((column) => column.key === requestedSort.key)
@@ -96,14 +102,14 @@ export function ResourcesLedgerClient({
     <section className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <Subheading>{t("Gathering ledger")}</Subheading>
+          <Subheading>Gathering ledger</Subheading>
           <Text className="mt-1">
-            {t("Exact totals for selected resources. Report counts include all resources.")}
+            Exact totals for selected resources. Report counts include all resources.
           </Text>
         </div>
         <Button outline onClick={exportCsv} disabled={visibleDays.length === 0}>
           <Download data-slot="icon" />
-          {t("Export CSV")}
+          Export CSV
         </Button>
       </div>
       <label className="flex w-fit items-center gap-2 text-sm text-zinc-400">
@@ -116,14 +122,14 @@ export function ResourcesLedgerClient({
             setPage(0);
           }}
         />
-        {t("Only days with reports")}
+        Only days with reports
       </label>
       <Table
         dense
         style={{ "--ledger-min-width": `${10 + (rows.length + 1) * 8}rem` } as CSSProperties}
         className="[--gutter:--spacing(4)] lg:[&_table]:w-full lg:[&_table]:min-w-(--ledger-min-width) lg:[&_table]:table-fixed"
       >
-        <caption className="sr-only">{t("Gathering ledger")}</caption>
+        <caption className="sr-only">Gathering ledger</caption>
         <TableHead>
           <TableRow>
             {headers.map((column, index) => (
@@ -158,51 +164,44 @@ export function ResourcesLedgerClient({
             <TableRow key={day.date}>
               <TableCell>
                 <time dateTime={day.date}>
-                  {intl.dateTime(new Date(`${day.date}T00:00:00Z`), {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    timeZone: "UTC",
-                  })}
+                  {dateFormatter.format(new Date(`${day.date}T00:00:00Z`))}
                 </time>
               </TableCell>
               <TableCell
                 className={`text-right tabular-nums ${day.reports === 0 ? "text-zinc-600" : ""}`}
               >
-                {intl.number(day.reports, { maximumFractionDigits: 0 })}
+                {integerFormatter.format(day.reports)}
               </TableCell>
               {rows.map((row) => (
                 <TableCell
                   key={row.key}
                   className={`text-right tabular-nums ${day.values[row.key] === 0 ? "text-zinc-600" : ""}`}
                 >
-                  {intl.number(day.values[row.key], { maximumFractionDigits: 0 })}
+                  {integerFormatter.format(day.values[row.key])}
                 </TableCell>
               ))}
             </TableRow>
           ))}
           {visibleDays.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={headers.length}>{t("No reports in this date range.")}</TableCell>
+              <TableCell colSpan={headers.length}>No reports in this date range.</TableCell>
             </TableRow>
           ) : null}
         </TableBody>
       </Table>
       <div className="flex items-center justify-between gap-3">
-        <Text className="tabular-nums">
-          {t("Page {page}/{pages}", { page: String(currentPage + 1), pages: String(pages) })}
-        </Text>
+        <Text className="tabular-nums">{`Page ${String(currentPage + 1)}/${String(pages)}`}</Text>
         {pages > 1 ? (
           <div className="flex items-center gap-2">
             <Button plain disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>
-              {t("Previous")}
+              Previous
             </Button>
             <Button
               plain
               disabled={currentPage === pages - 1}
               onClick={() => setPage(currentPage + 1)}
             >
-              {t("Next")}
+              Next
             </Button>
           </div>
         ) : null}

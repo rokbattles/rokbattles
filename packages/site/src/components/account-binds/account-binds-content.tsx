@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useCallback, useState } from "react";
 import { BindsClaimSection } from "@/components/account-binds/binds-claim-section";
 import { BindsList } from "@/components/account-binds/binds-list";
@@ -20,7 +19,6 @@ type PendingBindAction = {
 } | null;
 
 export function AccountBindsContent({ initialUser }: AccountBindsContentProps) {
-  const t = useExtracted();
   const { user, refresh } = useCurrentUser({ initialUser });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [pendingAction, setPendingAction] = useState<PendingBindAction>(null);
@@ -44,15 +42,13 @@ export function AccountBindsContent({ initialUser }: AccountBindsContentProps) {
         await refresh();
       } catch (error) {
         const message =
-          error instanceof Error
-            ? error.message
-            : t("Unable to set default bind. Please try again.");
+          error instanceof Error ? error.message : "Unable to set default bind. Please try again.";
         setErrorMessage(message);
       } finally {
         setPendingAction(null);
       }
     },
-    [refresh, t]
+    [refresh]
   );
 
   const handleUnlink = useCallback(
@@ -65,13 +61,13 @@ export function AccountBindsContent({ initialUser }: AccountBindsContentProps) {
         await refresh();
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : t("Unable to unlink bind. Please try again.");
+          error instanceof Error ? error.message : "Unable to unlink bind. Please try again.";
         setErrorMessage(message);
       } finally {
         setPendingAction(null);
       }
     },
-    [refresh, t]
+    [refresh]
   );
 
   return (

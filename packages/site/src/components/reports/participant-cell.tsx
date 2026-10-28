@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { CommanderIcon } from "@/components/commander-icon";
 import { getCommanderName } from "@/hooks/use-commander-name";
 
@@ -25,8 +24,7 @@ export default function ParticipantCell({
   secondaryAwakened,
   secondarySkinId,
 }: Props) {
-  const t = useExtracted();
-  const unknownLabel = t("Unknown commander");
+  const unknownLabel = "Unknown commander";
 
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId) ?? String(primaryId))
@@ -41,7 +39,7 @@ export default function ParticipantCell({
     <span className="inline-flex items-center align-middle">
       <span title={primaryName}>
         <CommanderIcon
-          alt={t("{name} icon", { name: primaryName })}
+          alt={`${primaryName} icon`}
           awakened={primaryAwakened}
           className="size-8"
           skinId={primarySkinId}
@@ -51,7 +49,7 @@ export default function ParticipantCell({
       {hasSecondary ? (
         <span title={secondaryName ?? undefined}>
           <CommanderIcon
-            alt={t("{name} icon", { name: secondaryName })}
+            alt={`${secondaryName} icon`}
             awakened={secondaryAwakened}
             className="size-8"
             skinId={secondarySkinId}

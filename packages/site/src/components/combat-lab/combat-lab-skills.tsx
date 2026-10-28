@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
 import { useMemo } from "react";
 import {
   CartesianGrid,
@@ -20,6 +19,17 @@ import type {
   CombatLabPreviewRangeKey,
   CombatLabPreviewSkillUsage,
 } from "@/lib/combat-lab/preview-types";
+
+const scoreFormatter = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+const integerFormatter2 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+const dateFormatter2 = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
 
@@ -71,13 +81,12 @@ export function CombatLabSkills({
   secondaryCommanderName: string;
   skills?: CombatLabPreviewLoadouts["skills"] | null;
 }) {
-  const locale = useLocale();
   const skillPreviews = useMemo(
     () => [
-      createSkillPreview("primary", skills?.primary, rangeKey, locale),
-      createSkillPreview("secondary", skills?.secondary, rangeKey, locale),
+      createSkillPreview("primary", skills?.primary, rangeKey),
+      createSkillPreview("secondary", skills?.secondary, rangeKey),
     ],
-    [locale, rangeKey, skills]
+    [rangeKey, skills]
   );
 
   return (
@@ -94,30 +103,18 @@ export function CombatLabSkills({
 }
 
 function SkillCard({ commanderName, preview }: { commanderName: string; preview: SkillPreview }) {
-  const t = useExtracted();
-  const locale = useLocale();
-  const decimalFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(locale, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
-    [locale]
-  );
-  const integerFormatter = useMemo(
-    () => new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }),
-    [locale]
-  );
+  const decimalFormatter = scoreFormatter;
+  const integerFormatter = integerFormatter2;
   const accent = preview.role === "primary" ? "#2563eb" : "#7c3aed";
-  const tooltipLabels = { count: t("Count"), usage: t("Usage") };
+  const tooltipLabels = { count: "Count", usage: "Usage" };
 
   return (
     <article className="min-w-0 rounded-md border p-5 border-white/10 bg-zinc-900 sm:p-6">
       <Subheading level={3} className="!text-lg/7">
-        {t("Skills")}: {commanderName}
+        Skills: {commanderName}
       </Subheading>
       <Subheading level={4} className="mt-3">
-        {t("Skills usage")}
+        Skills usage
       </Subheading>
 
       {preview.heatmapTotal === 0 ? (
@@ -126,7 +123,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
         <>
           <div className="mt-3 grid grid-cols-[auto_auto_minmax(0,1fr)] gap-x-2">
             <div className="col-start-3 text-center font-medium text-xs text-zinc-400">
-              {t("Skills 1 & 2")}
+              Skills 1 &amp; 2
             </div>
             <div className="col-start-3 mt-1.5 mb-1.5 grid grid-cols-5 font-medium text-[0.625rem]/4 tabular-nums text-zinc-400">
               {axisTickIndexes.map((index) => (
@@ -136,7 +133,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
               ))}
             </div>
             <div className="col-start-1 row-start-3 flex items-center [writing-mode:vertical-rl] rotate-180 justify-center font-medium text-xs text-zinc-400">
-              {t("Skills 3 & 4")}
+              Skills 3 &amp; 4
             </div>
             <div className="col-start-2 row-start-3 flex flex-col justify-between py-0.5 font-medium text-[0.625rem]/4 tabular-nums text-zinc-400">
               {axisTickIndexes.map((index) => (
@@ -144,7 +141,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
               ))}
             </div>
             <div
-              aria-label={t("Heatmap of four-skill level combinations from 1111 to 5555")}
+              aria-label="Heatmap of four-skill level combinations from 1111 to 5555"
               className="col-start-3 row-start-3 grid aspect-square grid-cols-[repeat(25,minmax(0,1fr))] gap-px rounded-sm p-px shadow-inner bg-white/10"
               role="img"
             >
@@ -164,7 +161,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
           </div>
 
           <div className="mt-3 flex items-center justify-end gap-1.5 font-medium text-xs text-zinc-300">
-            <span>{t("Fewer")}</span>
+            <span>Fewer</span>
             {[0.16, 0.32, 0.52, 0.72, 0.94].map((opacity) => (
               <span
                 className="size-2.5 rounded-[2px]"
@@ -172,14 +169,14 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
                 style={{ backgroundColor: toRgba(accent, opacity) }}
               />
             ))}
-            <span>{t("More")}</span>
+            <span>More</span>
           </div>
 
           <div className="mt-7">
-            <Subheading level={4}>{t("Expertise status")}</Subheading>
+            <Subheading level={4}>Expertise status</Subheading>
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium">
-              <ChartLegend color={accent} label={t("Expertised")} />
-              <ChartLegend color="#a1a1aa" label={t("Not expertised")} />
+              <ChartLegend color={accent} label="Expertised" />
+              <ChartLegend color="#a1a1aa" label="Not expertised" />
             </div>
             {preview.expertisePoints.length === 0 ? (
               <CombatLabEmptyState className="mt-4 min-h-64" />
@@ -216,8 +213,8 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
                           {...props}
                           decimalFormatter={decimalFormatter}
                           labels={{
-                            expertised: t("Expertised"),
-                            notExpertised: t("Not expertised"),
+                            expertised: "Expertised",
+                            notExpertised: "Not expertised",
                           }}
                         />
                       )}
@@ -358,8 +355,7 @@ function ExpertiseTooltip({
 function createSkillPreview(
   role: SkillRole,
   usage: CombatLabPreviewSkillUsage | undefined,
-  rangeKey: CombatLabPreviewRangeKey,
-  locale: string
+  rangeKey: CombatLabPreviewRangeKey
 ): SkillPreview {
   const counts = new Map(usage?.builds.map((build) => [build.skills, build.count]) ?? []);
   const heatmap = skillPairs.flatMap((rowPair) =>
@@ -372,7 +368,7 @@ function createSkillPreview(
   const heatmapTotal = heatmap.reduce((sum, point) => sum + point.count, 0);
 
   return {
-    expertisePoints: aggregateExpertisePoints(usage?.expertisePoints ?? [], rangeKey, locale),
+    expertisePoints: aggregateExpertisePoints(usage?.expertisePoints ?? [], rangeKey),
     heatmap,
     heatmapTotal,
     maxValue: Math.max(1, ...heatmap.map((point) => point.count)),
@@ -382,8 +378,7 @@ function createSkillPreview(
 
 function aggregateExpertisePoints(
   points: CombatLabPreviewSkillUsage["expertisePoints"],
-  rangeKey: CombatLabPreviewRangeKey,
-  locale: string
+  rangeKey: CombatLabPreviewRangeKey
 ): SkillExpertiseChartPoint[] {
   const bucketMs = (rangeKey === "1y" ? 14 : rangeKey === "6m" ? 7 : 1) * DAY_MS;
   const grouped = new Map<number, SkillExpertiseBucket>();
@@ -402,11 +397,7 @@ function aggregateExpertisePoints(
     grouped.set(bucketStartMs, bucket);
   }
 
-  const dateFormatter = new Intl.DateTimeFormat(locale, {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  const dateFormatter = dateFormatter2;
   return Array.from(grouped.values())
     .filter((point) => point.sampleSize > 0)
     .sort((left, right) => left.bucketStartMs - right.bucketStartMs)

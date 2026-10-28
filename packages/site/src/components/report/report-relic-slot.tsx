@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useExtracted } from "next-intl";
+
 import { toRomanNumeral } from "@/lib/equipment";
 import { getRelicLevelFromId, getRelicName, getRelicSpriteUrls } from "@/lib/relic";
 import type { RawRelicInfo } from "@/lib/types/raw-report";
@@ -11,7 +11,6 @@ type ReportRelicSlotProps = {
 };
 
 export function ReportRelicSlot({ relic }: ReportRelicSlotProps) {
-  const t = useExtracted();
   const id = relic.id;
   const label = getRelicName(id) ?? id?.toString();
   const levelLabel = toRomanNumeral(getRelicLevelFromId(id)) ?? "I";
@@ -27,7 +26,7 @@ export function ReportRelicSlot({ relic }: ReportRelicSlotProps) {
           <Image
             key={spriteUrl}
             src={spriteUrl}
-            alt={id != null ? t("Relic {id}", { id: id.toString() }) : ""}
+            alt={id != null ? `Relic ${id.toString()}` : ""}
             fill
             sizes="(min-width: 640px) 64px, 56px"
             className="object-contain"

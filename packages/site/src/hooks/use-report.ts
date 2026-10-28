@@ -1,11 +1,9 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import type { ReportByIdResponse } from "@/lib/types/report";
 
 export function useReport(id: string | null | undefined) {
-  const t = useExtracted();
   const [data, setData] = useState<ReportByIdResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +29,7 @@ export function useReport(id: string | null | undefined) {
         });
 
         if (!res.ok) {
-          throw new Error(t("Failed to fetch data"));
+          throw new Error("Failed to fetch data");
         }
 
         const payload = (await res.json()) as ReportByIdResponse;
@@ -40,7 +38,7 @@ export function useReport(id: string | null | undefined) {
           setError(null);
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : t("Failed to fetch data");
+        const message = err instanceof Error ? err.message : "Failed to fetch data";
         if (!cancelled) {
           setError(message);
           setData(null);
@@ -57,7 +55,7 @@ export function useReport(id: string | null | undefined) {
     return () => {
       cancelled = true;
     };
-  }, [id, t]);
+  }, [id]);
 
   return {
     data,

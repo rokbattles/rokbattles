@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useExtracted } from "next-intl";
+
 import type { CSSProperties } from "react";
 import { TableCell } from "@/components/ui/table";
 
@@ -11,7 +11,6 @@ type ReportMapCellProps = {
 };
 
 export default function ReportMapCell({ mapcode: code, banner: image }: ReportMapCellProps) {
-  const t = useExtracted();
   const mapcode = code || "Unknown";
   const banner = mapcode === "Unknown" ? null : image;
 
@@ -24,7 +23,7 @@ export default function ReportMapCell({ mapcode: code, banner: image }: ReportMa
       )}
       style={banner ? ({ "--kvk-banner": `url("${banner}")` } as CSSProperties) : undefined}
     >
-      {mapcode === "Unknown" ? t("Unknown") : mapcode === "Home" ? t("Home") : mapcode}
+      {mapcode === "Unknown" ? "Unknown" : mapcode === "Home" ? "Home" : mapcode}
     </TableCell>
   );
 }

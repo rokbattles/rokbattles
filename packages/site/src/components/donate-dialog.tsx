@@ -2,30 +2,28 @@
 
 import { ArrowUpRight, Heart } from "lucide-react";
 import Image from "next/image";
-import { useExtracted } from "next-intl";
+
 import { useState } from "react";
 import { Dialog, DialogBody, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Link } from "@/components/ui/link";
 import { SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
 
 export function DonateDialog() {
-  const t = useExtracted();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <SidebarItem onClick={() => setIsOpen(true)} aria-haspopup="dialog" aria-expanded={isOpen}>
         <Heart data-slot="icon" aria-hidden="true" />
-        <SidebarLabel>{t("Donate")}</SidebarLabel>
+        <SidebarLabel>Donate</SidebarLabel>
       </SidebarItem>
       <Dialog open={isOpen} onClose={setIsOpen} size="lg" className="rounded-t-md! sm:rounded-md!">
         <DialogTitle className="text-2xl/8! tracking-tight">
-          {t("Keep ROK Battles free for everyone.")}
+          Keep ROK Battles free for everyone.
         </DialogTitle>
         <DialogDescription className="mt-3!">
-          {t(
-            "Your support helps cover server costs and build better tools for the Rise of Kingdoms community."
-          )}
+          Your support helps cover server costs and build better tools for the Rise of Kingdoms
+          community.
         </DialogDescription>
         <DialogBody className="grid gap-3">
           <Link
@@ -33,7 +31,7 @@ export function DonateDialog() {
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
-            aria-label={t("{provider} (opens in a new tab)", { provider: "GitHub Sponsors" })}
+            aria-label={`${"GitHub Sponsors"} (opens in a new tab)`}
             className="group flex items-center gap-3 rounded-md border border-white/10 bg-white/5 p-3 transition-colors hover:border-white/25 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-400 motion-reduce:transition-none"
           >
             <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-white">
@@ -50,7 +48,7 @@ export function DonateDialog() {
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
-            aria-label={t("{provider} (opens in a new tab)", { provider: "Patreon" })}
+            aria-label={`${"Patreon"} (opens in a new tab)`}
             className="group flex items-center gap-3 rounded-md border border-[#ff424d]/20 bg-[#ff424d]/5 p-3 transition-colors hover:border-[#ff424d]/40 hover:bg-[#ff424d]/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-400 motion-reduce:transition-none"
           >
             <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-[#ff424d]">
@@ -64,7 +62,7 @@ export function DonateDialog() {
           </Link>
         </DialogBody>
         <p className="mt-5 text-center text-sm/5 text-zinc-400">
-          {t("Every contribution makes a difference. Thank you!")}
+          Every contribution makes a difference. Thank you!
         </p>
       </Dialog>
     </>

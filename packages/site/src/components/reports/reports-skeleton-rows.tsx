@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useExtracted } from "next-intl";
+
 import { TableCell, TableRow } from "@/components/ui/table";
 
 type Props = {
@@ -19,11 +19,10 @@ const Columns = [
 ] as const;
 
 export default function ReportsSkeletonRows({ count = 10 }: Props) {
-  const t = useExtracted();
   return (
     <>
       <TableRow className="sr-only" role="status" aria-live="polite">
-        <TableCell colSpan={Columns.length}>{t("Loading reports...")}</TableCell>
+        <TableCell colSpan={Columns.length}>Loading reports...</TableCell>
       </TableRow>
       {Array.from({ length: count }, (_, r) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: its okay

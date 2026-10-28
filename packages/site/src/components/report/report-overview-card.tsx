@@ -1,9 +1,12 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { ReportOverviewColumn } from "@/components/report/report-overview-column";
 import { Subheading } from "@/components/ui/heading";
 import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
+
+const integerFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
 
 export function ReportOverviewCard({
   overview,
@@ -14,14 +17,11 @@ export function ReportOverviewCard({
   selfParticipant?: RawParticipantInfo;
   enemyParticipant?: RawParticipantInfo;
 }) {
-  const t = useExtracted();
-  const formatter = new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0,
-  });
+  const formatter = integerFormatter;
 
   return (
     <div className="space-y-4">
-      <Subheading>{t("Data summary")}</Subheading>
+      <Subheading>Data summary</Subheading>
       <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
         <ReportOverviewColumn
           side="self"

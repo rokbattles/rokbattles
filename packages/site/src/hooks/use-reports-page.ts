@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { parseAsString, useQueryState } from "nuqs";
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildReportsQueryParams } from "@/lib/reports-query";
@@ -27,7 +26,6 @@ export type UseReportsPageResult = {
 };
 
 export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResult {
-  const t = useExtracted();
   const context = use(ReportsFilterContext);
   const governorContext = use(GovernorContext);
 
@@ -118,7 +116,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       });
 
       if (!response.ok) {
-        throw new Error(t("Failed to fetch data"));
+        throw new Error("Failed to fetch data");
       }
 
       return (await response.json()) as ReportsListResponse;
@@ -134,7 +132,6 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
-      t,
       scope,
     ]
   );
@@ -185,7 +182,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
           return;
         }
 
-        const message = err instanceof Error ? err.message : t("Failed to fetch data");
+        const message = err instanceof Error ? err.message : "Failed to fetch data";
         setError(message);
         setData([]);
         setNextAfter(null);
@@ -211,7 +208,6 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
     scope,
     setAfterParam,
     setBeforeParam,
-    t,
   ]);
 
   const loadNextPage = useCallback(async () => {
@@ -225,11 +221,11 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
     try {
       await Promise.all([setBeforeParam(null), setAfterParam(nextAfter)]);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("Failed to fetch data");
+      const message = err instanceof Error ? err.message : "Failed to fetch data";
       setError(message);
       setLoading(false);
     }
-  }, [loading, nextAfter, setAfterParam, setBeforeParam, t]);
+  }, [loading, nextAfter, setAfterParam, setBeforeParam]);
 
   const loadPreviousPage = useCallback(async () => {
     if (!previousBefore || loading) {
@@ -242,11 +238,11 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
     try {
       await Promise.all([setAfterParam(null), setBeforeParam(previousBefore)]);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("Failed to fetch data");
+      const message = err instanceof Error ? err.message : "Failed to fetch data";
       setError(message);
       setLoading(false);
     }
-  }, [loading, previousBefore, setAfterParam, setBeforeParam, t]);
+  }, [loading, previousBefore, setAfterParam, setBeforeParam]);
 
   return {
     data,

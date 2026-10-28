@@ -1,23 +1,22 @@
 "use client";
 
-import { useExtracted, useFormatter } from "next-intl";
 import type { ReactElement, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import type { ArkLeague } from "@/lib/types/ark";
 
-export function useArkLeagueLabels(): Record<ArkLeague | "all", string> {
-  const t = useExtracted();
+const decimalFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 });
 
+export function useArkLeagueLabels(): Record<ArkLeague | "all", string> {
   return {
-    all: t("All matches"),
-    golden: t("Golden Battleground"),
-    silver: t("Silver Battleground"),
-    osiris: t("Osiris League"),
-    practice: t("Practice"),
-    custom: t("Custom"),
-    unknown: t("Unclassified"),
+    all: "All matches",
+    golden: "Golden Battleground",
+    silver: "Silver Battleground",
+    osiris: "Osiris League",
+    practice: "Practice",
+    custom: "Custom",
+    unknown: "Unclassified",
   };
 }
 
@@ -68,17 +67,15 @@ type ArkPaginationProps = {
 };
 
 export function ArkPagination({ page, pages, onChange }: ArkPaginationProps): ReactElement {
-  const t = useExtracted();
-
   return (
     <div className="flex items-center justify-between gap-3">
-      <Text>{t("Page {page} / {pages}", { page: String(page), pages: String(pages) })}</Text>
+      <Text>{`Page ${String(page)} / ${String(pages)}`}</Text>
       <div className="flex gap-2">
         <Button plain disabled={page <= 1} onClick={() => onChange(page - 1)}>
-          {t("Previous")}
+          Previous
         </Button>
         <Button plain disabled={page >= pages} onClick={() => onChange(page + 1)}>
-          {t("Next")}
+          Next
         </Button>
       </div>
     </div>
@@ -96,8 +93,6 @@ export function ArkRequestState({
   retry,
   children,
 }: ArkRequestStateProps): ReactElement {
-  const t = useExtracted();
-
   return (
     <div
       className="mt-6 space-y-3 rounded-md border px-6 py-16 text-center border-zinc-800"
@@ -106,7 +101,7 @@ export function ArkRequestState({
       <Text>{children}</Text>
       {retry ? (
         <Button outline onClick={retry}>
-          {t("Try again")}
+          Try again
         </Button>
       ) : null}
     </div>
@@ -114,7 +109,5 @@ export function ArkRequestState({
 }
 
 export function useArkNumber(): (value: number | null | undefined) => string {
-  const intl = useFormatter();
-
-  return (value) => (value == null ? "—" : intl.number(value, { maximumFractionDigits: 1 }));
+  return (value) => (value == null ? "—" : decimalFormatter.format(value));
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { ReportArmamentSection } from "@/components/report/report-armament-section";
 import { ReportArtifactSection } from "@/components/report/report-artifact-section";
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
@@ -27,8 +26,7 @@ export function ReportParticipantCard({
   participant,
   showArtifacts = true,
 }: ReportParticipantCardProps) {
-  const t = useExtracted();
-  const playerName = participant?.player_name?.trim() || t("Unknown commander");
+  const playerName = participant?.player_name?.trim() || "Unknown commander";
   const allianceTag = participant?.alliance_tag?.trim();
   const playerId = participant?.player_id;
 
@@ -67,7 +65,7 @@ export function ReportParticipantCard({
               <Badge>{playerId.toString()}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
-            {participant?.is_rally ? <Badge>{t("Rally")}</Badge> : null}
+            {participant?.is_rally ? <Badge>Rally</Badge> : null}
           </div>
         </div>
       </div>
@@ -75,7 +73,7 @@ export function ReportParticipantCard({
       <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{t("Commanders")}</Subheading>
+            <Subheading>Commanders</Subheading>
             <div className="space-y-2">
               {showPrimary ? (
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />

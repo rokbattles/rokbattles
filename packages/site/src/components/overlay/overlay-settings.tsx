@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { type FormEvent, type JSX, use, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Description, Field, Label } from "@/components/ui/fieldset";
@@ -35,17 +34,15 @@ async function request<T = unknown>(path: string, method = "GET", body?: unknown
 
 export function OverlaySettings(): JSX.Element {
   const governor = use(GovernorContext)?.activeGovernor;
-  const t = useExtracted();
 
   if (!governor) {
-    return <Text>{t("Select a governor to configure your stream overlay.")}</Text>;
+    return <Text>Select a governor to configure your stream overlay.</Text>;
   }
 
   return <GovernorOverlaySettings key={governor.governorId} governorId={governor.governorId} />;
 }
 
 function GovernorOverlaySettings({ governorId }: GovernorOverlaySettingsProps): JSX.Element {
-  const t = useExtracted();
   const endpoint = `/proxy/v1/governor/${governorId}/overlay`;
   const [config, setConfig] = useState<OverlayConfig | null>(null);
   const [error, setError] = useState("");
@@ -61,28 +58,27 @@ function GovernorOverlaySettings({ governorId }: GovernorOverlaySettingsProps): 
       })
       .catch(() => {
         if (!cancelled) {
-          setError(t("Unable to load overlay settings."));
+          setError("Unable to load overlay settings.");
         }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [endpoint, t]);
+  }, [endpoint]);
 
   if (error) {
     return <Text role="alert">{error}</Text>;
   }
 
   if (!config) {
-    return <Text>{t("Loading overlay settings…")}</Text>;
+    return <Text>Loading overlay settings…</Text>;
   }
 
   return <OverlayForm endpoint={endpoint} config={config} />;
 }
 
 function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
-  const t = useExtracted();
   const [settings, setSettings] = useState(config.settings);
   const [enabled, setEnabled] = useState(config.enabled);
   const [url, setUrl] = useState("");
@@ -108,7 +104,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
         await rotate();
       }
     } catch {
-      setError(t("Unable to save overlay settings. Please try again."));
+      setError("Unable to save overlay settings. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -128,7 +124,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
         setUrl("");
       }
     } catch {
-      setError(t("Unable to update the overlay URL. Please try again."));
+      setError("Unable to update the overlay URL. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -138,7 +134,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
     <div className="max-w-2xl space-y-6">
       <form onSubmit={submit} className="space-y-5">
         <Field className="w-1/2">
-          <Label>{t("Max reports")}</Label>
+          <Label>Max reports</Label>
           <Listbox
             name="limit"
             value={settings.limit}
@@ -154,7 +150,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
         </Field>
 
         <Field className="w-1/2">
-          <Label>{t("Branding")}</Label>
+          <Label>Branding</Label>
           <Listbox
             name="branding"
             value={settings.branding ?? "text_watermark"}
@@ -162,39 +158,37 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
             disabled={busy}
           >
             <ListboxOption value="icon_watermark">
-              <ListboxLabel>{t("Icon watermark")}</ListboxLabel>
+              <ListboxLabel>Icon watermark</ListboxLabel>
             </ListboxOption>
             <ListboxOption value="text_watermark">
-              <ListboxLabel>{t("Text watermark")}</ListboxLabel>
+              <ListboxLabel>Text watermark</ListboxLabel>
             </ListboxOption>
           </Listbox>
         </Field>
 
         <Button type="submit" disabled={busy}>
-          {enabled ? t("Save settings") : t("Create overlay URL")}
+          {enabled ? "Save settings" : "Create overlay URL"}
         </Button>
       </form>
 
       {url ? (
         <Field>
-          <Label>{t("OBS browser source URL")}</Label>
+          <Label>OBS browser source URL</Label>
           <Input readOnly value={url} onFocus={(event) => event.currentTarget.select()} />
-          <Description>
-            {t("Copy this URL into a Browser Source. Keep this URL private.")}
-          </Description>
+          <Description>Copy this URL into a Browser Source. Keep this URL private.</Description>
         </Field>
       ) : null}
 
       {enabled ? (
         <div className="space-y-3">
-          <Text>{t("For your privacy, an existing URL is only shown when created.")}</Text>
+          <Text>For your privacy, an existing URL is only shown when created.</Text>
 
           <div className="flex flex-wrap gap-3">
             <Button outline disabled={busy} onClick={() => void changeToken("rotate")}>
-              {t("Replace URL")}
+              Replace URL
             </Button>
             <Button plain disabled={busy} onClick={() => void changeToken("revoke")}>
-              {t("Revoke overlay")}
+              Revoke overlay
             </Button>
           </div>
         </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
 import { use } from "react";
 import { CombatLabHeader } from "@/components/combat-lab/combat-lab-header";
 import { CombatLabMessage } from "@/components/combat-lab/combat-lab-message";
@@ -27,8 +26,6 @@ export function CombatLabRankingsResults({
   direction,
   onSort,
 }: CombatLabRankingsResultsProps) {
-  const t = useExtracted();
-  const locale = useLocale();
   const result = use(loadCombatLabRankingsResult({ season, sort, direction }));
 
   if (result.status === "error") {
@@ -45,11 +42,7 @@ export function CombatLabRankingsResults({
   return (
     <CombatLabRankingsFrame
       lastUpdated={
-        result.refreshedAt
-          ? t("Last updated: {date}", {
-              date: formatRefreshedAt(result.refreshedAt, locale),
-            })
-          : undefined
+        result.refreshedAt ? `Last updated: ${formatRefreshedAt(result.refreshedAt)}` : undefined
       }
     >
       <CombatLabRankingsTable

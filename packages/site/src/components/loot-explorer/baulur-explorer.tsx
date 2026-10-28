@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BaulurLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
@@ -12,8 +11,9 @@ import { LootExplorerStatus } from "./loot-explorer-status";
 import { LootExplorerSummary } from "./loot-explorer-summary";
 import { LootTable } from "./loot-table";
 
+const numberFormatter = new Intl.NumberFormat("en-US");
+
 export function BaulurExplorer({ selectedType }: { selectedType?: string }) {
-  const t = useExtracted();
   const [items, setItems] = useState<BaulurLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -41,13 +41,11 @@ export function BaulurExplorer({ selectedType }: { selectedType?: string }) {
   }, []);
 
   if (status === "loading") {
-    return <LootExplorerStatus active="baulurs" message={t("Loading loot explorer data...")} />;
+    return <LootExplorerStatus active="baulurs" message="Loading loot explorer data..." />;
   }
 
   if (status === "error") {
-    return (
-      <LootExplorerStatus active="baulurs" message={t("Failed to load loot explorer data.")} />
-    );
+    return <LootExplorerStatus active="baulurs" message="Failed to load loot explorer data." />;
   }
 
   return <BaulurExplorerContent items={items} selectedType={selectedType} />;
@@ -60,12 +58,11 @@ export function BaulurExplorerContent({
   items: BaulurLootDocument[];
   selectedType?: string;
 }) {
-  const t = useExtracted();
   const family = findBaulurFamily(selectedType, items);
   const item = items.find((candidate) => candidate.kind === family.kind);
   const familyLabels = new Map([
-    ["ironhand-baulur", t("Ironhand Baulur")],
-    ["miser-khaolak", t("Miser Khaolak")],
+    ["ironhand-baulur", "Ironhand Baulur"],
+    ["miser-khaolak", "Miser Khaolak"],
   ]);
 
   return (
@@ -82,17 +79,19 @@ export function BaulurExplorerContent({
       />
       <LootExplorerSummary
         generatedAt={item?.refreshedAt}
-        items={[{ label: t("Results"), value: item?.totals.results ?? 0 }]}
+        items={[{ label: "Results", value: item?.totals.results ?? 0 }]}
       />
       {item ? (
         <div className="space-y-10">
           <section className="space-y-3">
             <div>
-              <Subheading>{t("1% damage or below")}</Subheading>
+              <Subheading>1% damage or below</Subheading>
               <div className="text-sm/6 text-zinc-400">
-                {t("This has been seen {count, plural, one {# time} other {# times}}.", {
-                  count: item.resourcePool.results,
-                })}
+                {`This has been seen ${
+                  Math.abs(item.resourcePool.results) === 1
+                    ? `${numberFormatter.format(item.resourcePool.results)} time`
+                    : `${numberFormatter.format(item.resourcePool.results)} times`
+                }.`}
               </div>
             </div>
             <LootTable loot={item.resourcePool.loot} />

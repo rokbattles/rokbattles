@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { Fragment, useId, useState } from "react";
 import { DuelCommanderRow } from "@/components/olympian-arena/duel-commander-row";
 import { Badge } from "@/components/ui/badge";
@@ -39,10 +38,9 @@ export function DuelParticipantCard({
   participant: DuelBattle2Player;
   isWinner?: boolean;
 }) {
-  const t = useExtracted();
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
-  const playerName = participant.playerName.trim() || t("Unknown commander");
+  const playerName = participant.playerName.trim() || "Unknown commander";
   const allianceTag = participant.alliance.abbreviation.trim();
   const playerId = participant.playerId;
 
@@ -83,7 +81,7 @@ export function DuelParticipantCard({
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <div className="text-base font-semibold text-white">{playerName}</div>
-            {isWinner ? <Badge color="emerald">{t("Winner")}</Badge> : null}
+            {isWinner ? <Badge color="emerald">Winner</Badge> : null}
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
@@ -97,7 +95,7 @@ export function DuelParticipantCard({
       <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{t("Commanders")}</Subheading>
+            <Subheading>Commanders</Subheading>
             <div className="space-y-2">
               {showPrimary ? <DuelCommanderRow commander={primary} /> : null}
               {showSecondary ? <DuelCommanderRow commander={secondary} /> : null}
@@ -108,7 +106,7 @@ export function DuelParticipantCard({
       <div className="contents lg:block">
         {displayBuffs.length > 0 ? (
           <div className="space-y-2">
-            <Subheading>{t("Troop Buffs")}</Subheading>
+            <Subheading>Troop Buffs</Subheading>
             <DescriptionList id={buffsId}>
               {visibleBuffs.map((buff) => (
                 <Fragment key={buff.id}>
@@ -130,7 +128,7 @@ export function DuelParticipantCard({
                 aria-controls={buffsId}
                 className="text-sm"
               >
-                {expanded ? t("Show less") : t("Show more")}
+                {expanded ? "Show less" : "Show more"}
               </Button>
             ) : null}
           </div>

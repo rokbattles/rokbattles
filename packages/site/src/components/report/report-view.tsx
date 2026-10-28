@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/report-empty-state";
 import { ReportEntryList } from "@/components/report/report-entry-list";
@@ -21,7 +20,6 @@ type ReportViewProps = {
 };
 
 export function ReportView({ id }: ReportViewProps) {
-  const t = useExtracted();
   const normalizedId = id?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedId.length > 0 ? normalizedId : null);
@@ -66,10 +64,10 @@ export function ReportView({ id }: ReportViewProps) {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
-        <Heading>{t("Report")}</Heading>
+        <Heading>Report</Heading>
         <div className="flex items-center gap-2">
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
-            {isCopied ? t("Copied") : t("Share")}
+            {isCopied ? "Copied" : "Share"}
           </Button>
         </div>
       </div>

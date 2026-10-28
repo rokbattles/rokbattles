@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import type { ReactElement } from "react";
 import { Badge } from "@/components/ui/badge";
 import { TableCell } from "@/components/ui/table";
@@ -15,8 +14,6 @@ type ReportsTableCellsProps = {
 };
 
 export default function ReportsTableCells({ report, now }: ReportsTableCellsProps): ReactElement {
-  const t = useExtracted();
-
   return (
     <>
       <TableCell className="text-right">
@@ -42,7 +39,7 @@ export default function ReportsTableCells({ report, now }: ReportsTableCellsProp
           secondarySkinId={report.opponent.secondaryCommanderSkins?.["22"]}
         />
         {report.battles > 1 ? (
-          <Badge className="ml-1 align-middle tabular-nums" title={t("Battles")}>
+          <Badge className="ml-1 align-middle tabular-nums" title="Battles">
             +{(report.battles - 1).toLocaleString()}
           </Badge>
         ) : null}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import type { ReactElement } from "react";
 import { ArkCommanderPairingCell } from "@/components/account-ark/ark-commander-pairing-cell";
 import { ArkSectionHeading, useArkNumber } from "@/components/account-ark/ark-shared";
@@ -20,7 +19,6 @@ type ArkMatchDetailPairingsSectionProps = { pairings: ArkMatchDetailPairing[] };
 export function ArkMatchDetailPairingsSection({
   pairings,
 }: ArkMatchDetailPairingsSectionProps): ReactElement {
-  const t = useExtracted();
   const number = useArkNumber();
 
   const rows = pairings
@@ -34,11 +32,11 @@ export function ArkMatchDetailPairingsSection({
   return (
     <section className="space-y-4">
       <ArkSectionHeading
-        title={t("Pairing performance")}
-        description={t("Compare your commander pairings across battles, kills, and trades.")}
+        title="Pairing performance"
+        description="Compare your commander pairings across battles, kills, and trades."
       />
       {!rows.length ? (
-        <Text>{t("No pairings found for this match.")}</Text>
+        <Text>No pairings found for this match.</Text>
       ) : (
         <Table
           dense
@@ -46,14 +44,14 @@ export function ArkMatchDetailPairingsSection({
         >
           <TableHead>
             <TableRow>
-              <TableHeader className="w-28">{t("Pairing")}</TableHeader>
-              <TableHeader className="text-right">{t("Battles")}</TableHeader>
-              <TableHeader className="text-right">{t("Battles won")}</TableHeader>
-              <TableHeader className="text-right">{t("Win rate")}</TableHeader>
-              <TableHeader className="text-right">{t("Kill count")}</TableHeader>
-              <TableHeader className="w-44 text-right">{t("Kill points gained")}</TableHeader>
-              <TableHeader className="w-44 text-right">{t("Kill points lost")}</TableHeader>
-              <TableHeader className="w-44 text-right">{t("Trade percentage")}</TableHeader>
+              <TableHeader className="w-28">Pairing</TableHeader>
+              <TableHeader className="text-right">Battles</TableHeader>
+              <TableHeader className="text-right">Battles won</TableHeader>
+              <TableHeader className="text-right">Win rate</TableHeader>
+              <TableHeader className="text-right">Kill count</TableHeader>
+              <TableHeader className="w-44 text-right">Kill points gained</TableHeader>
+              <TableHeader className="w-44 text-right">Kill points lost</TableHeader>
+              <TableHeader className="w-44 text-right">Trade percentage</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>

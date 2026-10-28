@@ -1,21 +1,6 @@
 import createMDX from "@next/mdx";
 import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
-
-const withNextIntl = createNextIntlPlugin({
-  experimental: {
-    srcPath: "./src",
-    extract: true,
-    messages: {
-      path: "./src/i18n/messages",
-      format: "po",
-      locales: "infer",
-      sourceLocale: "en",
-      precompile: true,
-    },
-  },
-});
 
 const withMDX = createMDX({ extension: /\.mdx?$/ });
 
@@ -26,7 +11,7 @@ const withSentry = (nextConfig?: NextConfig) =>
     silent: !process.env.CI,
   });
 
-const plugins = [withNextIntl, withMDX, withSentry];
+const plugins = [withMDX, withSentry];
 const isProdEnv = process.env.NODE_ENV === "production";
 
 const imageSources = [

@@ -1,13 +1,10 @@
 "use client";
 
-import { useExtracted } from "next-intl";
-
 export function DuelLoadingState() {
-  const t = useExtracted();
   return (
     <>
       <span className="sr-only" role="status" aria-live="polite">
-        {t("Loading duel report...")}
+        Loading duel report...
       </span>
       <div className="space-y-6" aria-hidden="true">
         {[0, 1].map((index) => (

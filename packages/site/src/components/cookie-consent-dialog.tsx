@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogActions, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { TextLink } from "@/components/ui/text";
@@ -13,11 +12,10 @@ type CookieConsentDialogProps = {
 
 export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps) {
   const { updateCookieConsent } = useCookieConsent();
-  const t = useExtracted();
 
   return (
     <Dialog open={open} onClose={() => onClose()} size="lg">
-      <DialogTitle>{t("Cookie settings")}</DialogTitle>
+      <DialogTitle>Cookie settings</DialogTitle>
       <DialogDescription>
         We use only essential cookies for authentication, security, and site functionality. If we
         add optional cookies in the future, you'll be able to manage them here. Read our{" "}
@@ -30,7 +28,7 @@ export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps)
             onClose();
           }}
         >
-          {t("Reject")}
+          Reject
         </Button>
         <Button
           color="blue"
@@ -39,7 +37,7 @@ export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps)
             onClose();
           }}
         >
-          {t("Accept")}
+          Accept
         </Button>
       </DialogActions>
     </Dialog>

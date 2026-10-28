@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { DuelEmptyState } from "@/components/olympian-arena/duel-empty-state";
 import { DuelErrorState } from "@/components/olympian-arena/duel-error-state";
@@ -17,7 +16,6 @@ export type DuelReportViewProps = {
 };
 
 export default function DuelReportView({ duelId }: DuelReportViewProps) {
-  const t = useExtracted();
   const normalizedId = duelId?.trim() ?? "";
   const parsedId = Number(normalizedId);
   const duelIdValue = Number.isFinite(parsedId) ? parsedId : null;
@@ -58,14 +56,14 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
-        <Heading>{t("Duel Report")}</Heading>
+        <Heading>Duel Report</Heading>
         <Button className="-my-0.5" disabled={isCopied || !hasValidId} onClick={handleShare}>
-          {isCopied ? t("Copied") : t("Share")}
+          {isCopied ? "Copied" : "Share"}
         </Button>
       </div>
       <Divider />
       {!hasValidId || error ? (
-        <DuelErrorState message={error ?? t("We could not load this duel.")} />
+        <DuelErrorState message={error ?? "We could not load this duel."} />
       ) : loading ? (
         <DuelLoadingState />
       ) : entries.length === 0 ? (

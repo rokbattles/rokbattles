@@ -1,7 +1,6 @@
 "use client";
 
-import { useExtracted, useNow } from "next-intl";
-import { type ReactElement, useState } from "react";
+import { type ReactElement, useEffect, useState } from "react";
 import {
   ArkPagination,
   ArkRequestState,
@@ -21,8 +20,10 @@ type ArkBattleReportsProps = {
 };
 
 export function ArkBattleReports({ governorId, detail }: ArkBattleReportsProps): ReactElement {
-  const t = useExtracted();
-  const now = useNow();
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+  }, []);
   const number = useArkNumber();
 
   const [page, setPage] = useState(1);
@@ -38,27 +39,25 @@ export function ArkBattleReports({ governorId, detail }: ArkBattleReportsProps):
   let content: ReactElement;
 
   if (query.loading) {
-    content = <ArkRequestState>{t("Loading battle reports…")}</ArkRequestState>;
+    content = <ArkRequestState>Loading battle reports…</ArkRequestState>;
   } else if (query.error) {
     content = (
       <ArkRequestState error retry={query.retry}>
-        {t("Failed to load battle reports.")}
+        Failed to load battle reports.
       </ArkRequestState>
     );
   } else if (coverage.status === "ambiguous") {
     content = (
       <Text>
-        {t(
-          "More than one possible battle session was found. Reports are not linked until this match can be identified reliably."
-        )}
+        More than one possible battle session was found. Reports are not linked until this match can
+        be identified reliably.
       </Text>
     );
   } else if (!query.data?.items.length) {
     content = (
       <Text>
-        {t(
-          "No uploaded battle reports could be linked to this match. Upload the governor’s Ark battle mails to include them here."
-        )}
+        No uploaded battle reports could be linked to this match. Upload the governor’s Ark battle
+        mails to include them here.
       </Text>
     );
   } else {
@@ -67,13 +66,13 @@ export function ArkBattleReports({ governorId, detail }: ArkBattleReportsProps):
     content = (
       <>
         <Table className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-          <ReportsTableHead resultLabel={t("Duration")} firstColumn="number" />
+          <ReportsTableHead resultLabel="Duration" firstColumn="number" />
           <TableBody>
             {query.data.items.map((report, index) => (
               <TableRow
                 key={report.mailId}
                 href={`/report/${encodeURIComponent(report.mailId)}?from=ark&matchId=${encodeURIComponent(detail.matchId)}`}
-                title={t("View battle report")}
+                title="View battle report"
               >
                 <TableCell className="w-16 tabular-nums text-zinc-400">
                   {number(firstReportNumber + index)}
@@ -95,8 +94,8 @@ export function ArkBattleReports({ governorId, detail }: ArkBattleReportsProps):
   return (
     <section className="space-y-4">
       <ArkSectionHeading
-        title={t("Battle reports")}
-        description={t("All of your uploaded battle reports from this match.")}
+        title="Battle reports"
+        description="All of your uploaded battle reports from this match."
       />
       {content}
     </section>

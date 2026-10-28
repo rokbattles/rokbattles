@@ -1,11 +1,21 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { useExtracted, useFormatter } from "next-intl";
+
 import type { ReactElement } from "react";
 import { LootIcon } from "@/components/account-loot/loot-icon";
 import type { ResourceKey } from "@/lib/resources/catalog";
 import type { ResourceBreakdownRow } from "@/lib/resources/rows";
+
+const integerFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+const compactNumberFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+const compactNumberFormatter2 = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
 
 type ResourcesSummaryClientProps = {
   rows: ResourceBreakdownRow[];
@@ -20,9 +30,6 @@ export function ResourcesSummaryClient({
   days,
   onToggle,
 }: ResourcesSummaryClientProps): ReactElement {
-  const t = useExtracted();
-  const intl = useFormatter();
-
   return (
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
       {rows.map((row) => {
@@ -34,7 +41,7 @@ export function ResourcesSummaryClient({
             key={row.key}
             type="button"
             aria-pressed={active}
-            aria-label={t("Show {resource}", { resource: row.name })}
+            aria-label={`Show ${row.name}`}
             onClick={() => onToggle(row.key)}
             className={`relative rounded-md border p-4 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
               active ? "border-zinc-600 bg-zinc-900" : "text-zinc-500 border-zinc-800 bg-zinc-950"
@@ -57,17 +64,12 @@ export function ResourcesSummaryClient({
             </div>
             <div
               className="mt-1 text-2xl font-semibold tabular-nums tracking-tight text-white"
-              title={intl.number(row.total, { maximumFractionDigits: 0 })}
+              title={integerFormatter.format(row.total)}
             >
-              {intl.number(row.total, { notation: "compact", maximumFractionDigits: 1 })}
+              {compactNumberFormatter.format(row.total)}
             </div>
-            <p
-              className="mt-1 text-xs text-zinc-400"
-              title={intl.number(average, { maximumFractionDigits: 0 })}
-            >
-              {t("{amount} / day", {
-                amount: intl.number(average, { notation: "compact", maximumFractionDigits: 1 }),
-              })}
+            <p className="mt-1 text-xs text-zinc-400" title={integerFormatter.format(average)}>
+              {`${compactNumberFormatter2.format(average)} / day`}
             </p>
           </button>
         );

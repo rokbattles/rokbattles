@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
 import { ConfidenceScore } from "@/components/combat-lab/confidence-score";
 import { DrastcCredits } from "@/components/combat-lab/drastc-credits";
 import { DrastcRadarChart } from "@/components/combat-lab/drastc-radar-chart";
@@ -8,21 +7,22 @@ import { Heading, Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import type { CombatLabPreviewDrastc as DrastcData } from "@/lib/combat-lab/preview-types";
 
+const numberFormatter2 = new Intl.NumberFormat("en-US");
+const scoreFormatter2 = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 2,
+});
+
 export function CombatLabDrastc({ score }: { score: DrastcData }) {
-  const t = useExtracted();
-  const locale = useLocale();
-  const numberFormatter = new Intl.NumberFormat(locale);
-  const scoreFormatter = new Intl.NumberFormat(locale, {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 2,
-  });
+  const numberFormatter = numberFormatter2;
+  const scoreFormatter = scoreFormatter2;
   const categories = [
-    { key: "damage", axis: "D", label: t("Damage") },
-    { key: "rage", axis: "R", label: t("Rage") },
-    { key: "assist", axis: "A", label: t("Assist") },
-    { key: "sustainability", axis: "S", label: t("Sustainability") },
-    { key: "trade", axis: "T", label: t("Trade") },
-    { key: "consistency", axis: "C", label: t("Consistency") },
+    { key: "damage", axis: "D", label: "Damage" },
+    { key: "rage", axis: "R", label: "Rage" },
+    { key: "assist", axis: "A", label: "Assist" },
+    { key: "sustainability", axis: "S", label: "Sustainability" },
+    { key: "trade", axis: "T", label: "Trade" },
+    { key: "consistency", axis: "C", label: "Consistency" },
   ] as const;
   const radar = categories.map((category) => ({
     axis: category.axis,
@@ -33,7 +33,7 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
   return (
     <section aria-labelledby="drastc-title" className="scroll-mt-28">
       <Heading id="drastc-title" level={2} className="mb-4">
-        {t("DRASTC")}
+        DRASTC
       </Heading>
 
       <div className="overflow-hidden rounded-md border shadow-sm border-white/10 bg-zinc-900">
@@ -41,7 +41,7 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
           <div className="p-5 sm:p-7">
             <div className="grid gap-6 sm:grid-cols-[10rem_minmax(0,1fr)] sm:items-center">
               <div>
-                <Text className="!text-sm font-medium">{t("Overall score")}</Text>
+                <Text className="!text-sm font-medium">Overall score</Text>
                 <div className="mt-1 flex items-end gap-1.5">
                   <span className="font-semibold text-5xl tracking-tight tabular-nums text-white">
                     {scoreFormatter.format(score.overall)}
@@ -58,14 +58,11 @@ export function CombatLabDrastc({ score }: { score: DrastcData }) {
           <div className="border-t p-5 sm:p-7 lg:border-t-0 lg:border-l border-white/10 bg-white/[.025]">
             <ConfidenceScore score={score.confidence.score} />
             <Text className="mt-2 !text-sm/6">
-              {t("Based on {battles} battle reports and {governors} governors.", {
-                battles: numberFormatter.format(score.samples),
-                governors: numberFormatter.format(score.confidence.unique_governors),
-              })}
+              {`Based on ${numberFormatter.format(score.samples)} battle reports and ${numberFormatter.format(score.confidence.unique_governors)} governors.`}
             </Text>
 
             <Subheading level={3} className="mt-7">
-              {t("Breakdown")}
+              Breakdown
             </Subheading>
             <div className="mt-3 space-y-3">
               {categories.map((category) => {

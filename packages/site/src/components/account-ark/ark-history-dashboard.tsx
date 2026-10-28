@@ -2,7 +2,7 @@
 
 import { cn } from "cn";
 import dynamic from "next/dynamic";
-import { useExtracted } from "next-intl";
+
 import { type ReactElement, useState } from "react";
 import { ArkMatchHistoryTable } from "@/components/account-ark/ark-match-history-table";
 import {
@@ -30,7 +30,6 @@ type ArkHistoryDashboardProps = { data: ArkMatchHistoryResult };
 const LEAGUES = ["all", "golden", "silver", "osiris"] as const;
 
 export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactElement {
-  const t = useExtracted();
   const labels = useArkLeagueLabels();
   const number = useArkNumber();
 
@@ -50,11 +49,8 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
 
   return (
     <div className="mt-4 space-y-8">
-      <Text>{t("Your matches, your team, and the moments that made the difference.")}</Text>
-      <nav
-        aria-label={t("Ark leagues")}
-        className="flex gap-6 overflow-x-auto border-b border-zinc-800"
-      >
+      <Text>Your matches, your team, and the moments that made the difference.</Text>
+      <nav aria-label="Ark leagues" className="flex gap-6 overflow-x-auto border-b border-zinc-800">
         {LEAGUES.map((key) => (
           <button
             key={key}
@@ -78,30 +74,26 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
       </nav>
       <section className="space-y-4">
         <ArkSectionHeading
-          title={t("Match overview")}
-          description={t("Results and averages for the selected league.")}
+          title="Match overview"
+          description="Results and averages for the selected league."
         />
         <ArkMetricCards
           items={[
             {
-              label: t("Matches"),
+              label: "Matches",
               value: number(rows.length),
-              detail: t("{wins} wins · {losses} losses · {draws} draws", {
-                wins: number(wins),
-                losses: number(losses),
-                draws: number(draws),
-              }),
+              detail: `${number(wins)} wins · ${number(losses)} losses · ${number(draws)} draws`,
             },
             {
-              label: t("Win rate"),
+              label: "Win rate",
               value: decided ? `${number((wins / decided) * 100)}%` : "—",
             },
             {
-              label: t("Average alliance score"),
+              label: "Average alliance score",
               value: number(averageArkValue(rows.map((match) => getArkTeams(match).own?.score))),
             },
             {
-              label: t("Average individual score"),
+              label: "Average individual score",
               value: number(averageArkValue(rows.map((match) => match.personalScore))),
             },
           ]}
@@ -112,8 +104,8 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
           <ArkHistoryCharts rows={rows} />
           <section className="space-y-4">
             <ArkSectionHeading
-              title={t("Match history")}
-              description={t("Open a match to explore scores, pairings, and battle reports.")}
+              title="Match history"
+              description="Open a match to explore scores, pairings, and battle reports."
             />
             <ArkMatchHistoryTable rows={rows.slice((currentPage - 1) * 10, currentPage * 10)} />
             <ArkPagination page={currentPage} pages={pages} onChange={setPage} />
@@ -121,9 +113,9 @@ export function ArkHistoryDashboard({ data }: ArkHistoryDashboardProps): ReactEl
         </>
       ) : (
         <div className="rounded-md border border-dashed px-6 py-10 text-center border-zinc-700">
-          <Subheading>{t("No matches in this league.")}</Subheading>
+          <Subheading>No matches in this league.</Subheading>
           <Text className="mt-2">
-            {t("Try another league or upload Ark reports from the desktop app.")}
+            Try another league or upload Ark reports from the desktop app.
           </Text>
         </div>
       )}

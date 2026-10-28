@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import type { ReactElement } from "react";
 import { CommanderIcon } from "@/components/commander-icon";
 import { getCommanderName } from "@/lib/commander";
@@ -18,9 +17,7 @@ export function ArkCommanderPairingCell({
   primaryId,
   secondaryId,
 }: ArkCommanderPairingCellProps): ReactElement {
-  const t = useExtracted();
-
-  const unknownLabel = t("Unknown commander");
+  const unknownLabel = "Unknown commander";
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId) ?? String(primaryId))
     : unknownLabel;
@@ -33,16 +30,12 @@ export function ArkCommanderPairingCell({
   return (
     <div className="flex items-center gap-2">
       <span title={primaryName}>
-        <CommanderIcon
-          alt={t("{name} icon", { name: primaryName })}
-          className="size-8 rounded-full"
-          id={primaryId}
-        />
+        <CommanderIcon alt={`${primaryName} icon`} className="size-8 rounded-full" id={primaryId} />
       </span>
       {hasSecondary ? (
         <span title={secondaryName ?? undefined}>
           <CommanderIcon
-            alt={t("{name} icon", { name: secondaryName })}
+            alt={`${secondaryName} icon`}
             className="size-8 rounded-full"
             id={secondaryId}
           />

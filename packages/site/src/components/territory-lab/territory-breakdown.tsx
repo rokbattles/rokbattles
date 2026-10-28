@@ -1,7 +1,7 @@
 "use client";
 
 import { MapPin } from "lucide-react";
-import { useExtracted } from "next-intl";
+
 import { memo } from "react";
 import type {
   TerritoryResourceKind,
@@ -37,11 +37,10 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
   territoryOwnership,
   onLocate,
 }: TerritoryBreakdownProps) {
-  const t = useExtracted();
   const numberFormatter = useCompactNumberFormatter();
   const { resourceLabel, buildingLabel } = useTerritoryLabels();
   const costLabels: Record<CostResourceKind, string> = {
-    credits: t("Alliance credits"),
+    credits: "Alliance credits",
     crystal: resourceLabel("crystal"),
     food: resourceLabel("food"),
     wood: resourceLabel("wood"),
@@ -54,11 +53,9 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
       aria-labelledby="territory-breakdown-heading"
       className="min-h-0 min-w-0 overflow-hidden"
     >
-      <Subheading id="territory-breakdown-heading">{t("Territory breakdown")}</Subheading>
+      <Subheading id="territory-breakdown-heading">Territory breakdown</Subheading>
       {entries.length === 0 ? (
-        <p className="mt-4 text-sm text-zinc-400">
-          {t("No territory buildings for this alliance.")}
-        </p>
+        <p className="mt-4 text-sm text-zinc-400">No territory buildings for this alliance.</p>
       ) : (
         <ol className="mt-3 h-[40rem] max-h-[70svh] divide-y overflow-y-scroll overscroll-contain pe-3 [contain:strict] [scrollbar-gutter:stable] divide-white/10">
           {entries.map(({ building, number, cost }) => {
@@ -79,16 +76,10 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
                   <BuildingIcon className="size-10" kind={building.kind} />
                   <div className="min-w-0">
                     <p className="truncate font-medium text-sm text-white">
-                      {t("{building} {number}", {
-                        building: label,
-                        number: number.toString(),
-                      })}
+                      {`${label} ${number.toString()}`}
                     </p>
                     <p className="mt-0.5 text-xs tabular-nums text-zinc-400">
-                      {t("X: {x} Y: {y}", {
-                        x: position.x.toString(),
-                        y: position.y.toString(),
-                      })}
+                      {`X: ${position.x.toString()} Y: ${position.y.toString()}`}
                     </p>
                   </div>
                 </div>
@@ -101,7 +92,7 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
                   />
                   {captured.length > 0 ? (
                     <ul
-                      aria-label={t("Covered alliance resource plots")}
+                      aria-label="Covered alliance resource plots"
                       className="flex flex-wrap gap-x-3 gap-y-1"
                     >
                       {captured.map((kind) => (
@@ -116,10 +107,7 @@ export const TerritoryBreakdown = memo(function TerritoryBreakdown({
                 </div>
 
                 <Button
-                  aria-label={t("Locate {building} {number} on map", {
-                    building: label,
-                    number: number.toString(),
-                  })}
+                  aria-label={`Locate ${label} ${number.toString()} on map`}
                   className="me-1 justify-self-start rounded-md sm:justify-self-end"
                   onClick={() => onLocate(building)}
                   plain

@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -77,16 +76,15 @@ function buildChartData(results: RawBattleResults, labels: Record<string, string
 }
 
 export function ReportBattleResultsChart({ results }: { results: RawBattleResults }) {
-  const t = useExtracted();
   const chartLabels = {
-    units: t("Units"),
-    remaining: t("Remaining"),
-    heal: t("Heal"),
-    dead: t("Dead"),
-    severelyWounded: t("Severely wounded"),
-    slightlyWounded: t("Slightly wounded"),
-    killPoints: t("Kill Points"),
-    acclaim: t("Acclaim"),
+    units: "Units",
+    remaining: "Remaining",
+    heal: "Heal",
+    dead: "Dead",
+    severelyWounded: "Severely wounded",
+    slightlyWounded: "Slightly wounded",
+    killPoints: "Kill Points",
+    acclaim: "Acclaim",
   };
   const chartData = buildChartData(results, chartLabels);
 

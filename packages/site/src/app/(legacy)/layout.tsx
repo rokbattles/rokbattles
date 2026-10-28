@@ -5,8 +5,7 @@ import PlatformProviders from "@/components/platform-providers";
 import { getCurrentUser } from "@/lib/current-user";
 import "./globals.css";
 import { cn } from "cn";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { DiscordEmbed } from "@/components/discord-embed";
 import { CookieConsentProvider } from "@/providers/cookie-consent-context";
@@ -40,16 +39,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Layout({ children }: LayoutProps<"/">) {
-  const locale = await getLocale();
-  const messages = await getMessages();
-
   const user = await getCurrentUser();
   const initialGovernors = user?.claimedGovernors ?? [];
   const initialActiveGovernorId = initialGovernors[0]?.governorId;
 
   return (
     <html
-      lang={locale}
+      lang="en"
       className={cn(inter.variable, "antialiased bg-zinc-900 text-white lg:bg-zinc-950")}
     >
       <head>
@@ -61,17 +57,15 @@ export default async function Layout({ children }: LayoutProps<"/">) {
         <link rel="dns-prefetch" href="https://cdn.rokbattles.com" />
       </head>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <CookieConsentProvider>
-            <PlatformProviders
-              initialGovernors={initialGovernors}
-              initialActiveGovernorId={initialActiveGovernorId}
-            >
-              <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-            </PlatformProviders>
-            <CookieConsentBanner />
-          </CookieConsentProvider>
-        </NextIntlClientProvider>
+        <CookieConsentProvider>
+          <PlatformProviders
+            initialGovernors={initialGovernors}
+            initialActiveGovernorId={initialActiveGovernorId}
+          >
+            <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+          </PlatformProviders>
+          <CookieConsentBanner />
+        </CookieConsentProvider>
       </body>
     </html>
   );

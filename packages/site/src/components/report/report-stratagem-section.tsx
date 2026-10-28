@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useExtracted, useLocale } from "next-intl";
+
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import {
@@ -16,32 +16,29 @@ type ReportStratagemSectionProps = {
 };
 
 export function ReportStratagemSection({ stratagems }: ReportStratagemSectionProps) {
-  const t = useExtracted();
-  const locale = useLocale();
-
   if (!hasStratagems(stratagems)) {
     return null;
   }
 
   const statisticLabels: Record<string, string> = {
-    BadHurt: t("Severely wounded unit power (past 3h)"),
-    Atk: t("Attack bonus"),
-    ExtraBadHurt: t("Extra severe wounds inflicted"),
-    KillTimes: t("Times triggered"),
-    Kill: t("Enemy units killed"),
-    BeDmgReduceTimes: t("Times triggered"),
-    HealTimes: t("Times triggered"),
-    Heal: t("Slightly wounded units healed"),
-    Dead: t("Unit deaths"),
-    SkillDmgRaiseTimes: t("Times triggered"),
-    SeverelyWounded: t("Severe wounds prevented"),
-    KvkLostT5: t("Tier 5 units in the Hall of Heroes"),
-    DamageRaise: t("Damage bonus"),
+    BadHurt: "Severely wounded unit power (past 3h)",
+    Atk: "Attack bonus",
+    ExtraBadHurt: "Extra severe wounds inflicted",
+    KillTimes: "Times triggered",
+    Kill: "Enemy units killed",
+    BeDmgReduceTimes: "Times triggered",
+    HealTimes: "Times triggered",
+    Heal: "Slightly wounded units healed",
+    Dead: "Unit deaths",
+    SkillDmgRaiseTimes: "Times triggered",
+    SeverelyWounded: "Severe wounds prevented",
+    KvkLostT5: "Tier 5 units in the Hall of Heroes",
+    DamageRaise: "Damage bonus",
   };
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Stratagems")}</Subheading>
+      <Subheading>Stratagems</Subheading>
       <div className="space-y-3">
         {stratagems.map((stratagem) => (
           <details className="group" key={stratagem.id}>
@@ -51,12 +48,7 @@ export function ReportStratagemSection({ stratagems }: ReportStratagemSectionPro
                   <span>{stratagem.name}</span>
                   {typeof stratagem.effectivePercentage === "number" ? (
                     <Badge color="emerald">
-                      {t("{percentage}% applied", {
-                        percentage: formatStratagemPercentage(
-                          stratagem.effectivePercentage,
-                          locale
-                        ),
-                      })}
+                      {`${formatStratagemPercentage(stratagem.effectivePercentage)}% applied`}
                     </Badge>
                   ) : null}
                 </div>
@@ -68,7 +60,7 @@ export function ReportStratagemSection({ stratagems }: ReportStratagemSectionPro
                           {statisticLabels[statistic.key] ?? statistic.key}:
                         </dt>
                         <dd className="font-medium tabular-nums text-zinc-200">
-                          {formatStratagemStatistic(statistic, locale)}
+                          {formatStratagemStatistic(statistic)}
                         </dd>
                       </div>
                     ))}

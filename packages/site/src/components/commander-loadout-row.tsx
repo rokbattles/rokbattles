@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { CommanderIcon } from "@/components/commander-icon";
 import { ReportSkillSlot } from "@/components/report/report-skill-slot";
 import { Badge } from "@/components/ui/badge";
@@ -25,10 +24,9 @@ export function CommanderLoadoutRow({
   skills,
   formationLabel,
 }: CommanderLoadoutRowProps) {
-  const t = useExtracted();
   const commanderName = getCommanderName(id ?? null);
-  const commanderLabel = commanderName ?? id ?? t("Unknown");
-  const commanderAlt = t("{name} icon", { name: commanderLabel.toString() });
+  const commanderLabel = commanderName ?? id ?? "Unknown";
+  const commanderAlt = `${commanderLabel.toString()} icon`;
   const skillDisplays = getCommanderSkillDisplays(id, skills, awakened);
   const levelLabel = typeof level === "number" && Number.isFinite(level) ? level : null;
 
@@ -47,9 +45,7 @@ export function CommanderLoadoutRow({
           <Strong className="block truncate text-sm">{commanderLabel}</Strong>
           <div className="mt-1 flex flex-wrap items-center gap-1.5">
             {formationLabel ? <Badge>{formationLabel}</Badge> : null}
-            {levelLabel != null ? (
-              <Badge>{t("Lvl {level}", { level: levelLabel.toString() })}</Badge>
-            ) : null}
+            {levelLabel != null ? <Badge>{`Lvl ${levelLabel.toString()}`}</Badge> : null}
           </div>
         </div>
       </div>
