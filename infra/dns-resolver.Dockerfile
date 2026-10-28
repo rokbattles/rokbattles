@@ -7,8 +7,8 @@ RUN apk add --no-cache \
     lld mold cmake clang clang-dev \
     openssl-dev pkgconfig git curl
 RUN rustup target add x86_64-unknown-linux-musl
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     cargo install cargo-chef --version 0.1.78 --locked
 
 FROM chef AS planner
@@ -19,15 +19,15 @@ RUN cargo chef prepare --recipe-path recipe.json
 
 FROM chef AS builder
 COPY --from=planner /app/recipe.json ./recipe.json
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     cargo chef cook --recipe-path recipe.json --profile server --locked \
         --target x86_64-unknown-linux-musl -p rokbattles-dns-resolver
 COPY Cargo.toml Cargo.lock ./
 COPY .cargo ./.cargo
 COPY crates ./crates
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     cargo build --profile server --locked --target x86_64-unknown-linux-musl -p rokbattles-dns-resolver && \
     cp target/x86_64-unknown-linux-musl/server/rokbattles-dns-resolver /app/rokbattles-dns-resolver
 

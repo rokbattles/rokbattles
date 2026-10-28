@@ -6,8 +6,8 @@ FROM rust:1.99.1-alpine@sha256:dc578ff3ca62ef489ad9ae743f477b94d98739c3092d00234
 WORKDIR /app
 ENV CARGO_INCREMENTAL=0
 RUN apk add --no-cache build-base openssl-dev pkgconfig libatomic libstdc++
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     cargo install cargo-chef --version 0.1.78 --locked
 RUN rustup target add wasm32-unknown-unknown
 
@@ -21,12 +21,12 @@ RUN cargo chef prepare --recipe-path recipe.json && \
 
 FROM wasm-chef AS wasm-deps
 COPY --from=wasm-planner /app/wasm-bindgen-version ./wasm-bindgen-version
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     cargo install wasm-bindgen-cli --version "$(cat wasm-bindgen-version)" --locked
 COPY --from=wasm-planner /app/recipe.json ./recipe.json
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     cargo chef cook --recipe-path recipe.json --profile size --locked \
         --target wasm32-unknown-unknown -p rokbattles-container \
         --no-default-features --features wasm-read && \
@@ -41,8 +41,8 @@ COPY crates/common/rokbattles-container ./crates/common/rokbattles-container
 COPY crates/common/rokbattles-container-simd ./crates/common/rokbattles-container-simd
 COPY crates/common/rokbattles-webgpu-map-engine ./crates/common/rokbattles-webgpu-map-engine
 COPY packages/site/scripts/build-container.sh packages/site/scripts/build-map-engine.sh ./packages/site/scripts/
-RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry \
-    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
+RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     export CONTAINER_WASM_OUT_DIR=/out/container MAP_ENGINE_WASM_OUT_DIR=/out/map-engine && \
     sh packages/site/scripts/build-container.sh && \
     sh packages/site/scripts/build-map-engine.sh
