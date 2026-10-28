@@ -1,28 +1,46 @@
-//! nftables rules for the dedicated IPv4 gateway node.
+//! Render the dedicated node's IPv4 forwarding policy as nftables transactions.
+//!
+//! These functions only build text; [`crate::service::install`] checks table
+//! ownership and validates it with `nft` before applying it. The table's forward
+//! chain drops traffic unless a rule accepts a connection marked by this gateway.
+//! It therefore assumes the node is dedicated to this forwarding service.
+//!
+//! NFLOG sends packet copies to userspace. It does not enqueue forwarding
+//! decisions in NFQUEUE, and collection failures cannot withhold a verdict.
 
 use std::net::SocketAddrV4;
 
-/// Application-owned nftables table.
+/// IPv4 table name managed exclusively by this service.
 pub const TABLE_NAME: &str = "rokbattles_nat_gateway";
-/// Conntrack mark reserved for flows selected by this gateway (`ROKB`).
+
+/// Conntrack mark identifying connections selected by the gateway (`ROKB`).
 pub const CT_MARK: u32 = 0x524f_4b42;
-/// Netfilter log group consumed by the passive capture helper.
+
+/// NFLOG group bound by [`crate::capture::Capture`].
 pub const NFLOG_GROUP: u16 = 3101;
-/// Marker used by startup to reject an unknown or incompatible owned table.
+
+/// Schema marker required before [`crate::service::install`] replaces a table.
 pub const SCHEMA_IDENTITY: &str = "rokbattles-nat-gateway-v1";
 
-/// Render one atomic nftables program that replaces the application-owned table.
+/// Render a transaction that creates the gateway table and its chains.
 ///
-/// Conntrack entries and their marks are kernel state outside this table. The
-/// established-flow rules deliberately avoid the current upstream address, so
-/// an atomic replacement can change the target for new connections while old
-/// translations continue to drain.
+/// An unspecified bind address selects all local IPv4 destinations on the bind
+/// port. An explicit address narrows that selection. New SYNs receive a conntrack
+/// mark, DNAT, and masquerading; established marked connections are accepted
+/// independently of the current upstream address.
+///
+/// This function does not inspect existing rules or enable IP forwarding. Use
+/// [`render_replace`] only after verifying ownership of an existing table.
 #[must_use]
 pub fn render_create(bind_addr: SocketAddrV4, upstream_addr: SocketAddrV4) -> String {
     render("add", bind_addr, upstream_addr)
 }
 
-/// Render an atomic replacement for an already validated application table.
+/// Render a transaction that flushes and rebuilds the gateway table's contents.
+///
+/// The caller must first validate the table's [`SCHEMA_IDENTITY`]. No other table
+/// or conntrack state is flushed. Existing connections retain their translations
+/// and marks, even if `upstream_addr` selects a new target for future SYNs.
 #[must_use]
 pub fn render_replace(bind_addr: SocketAddrV4, upstream_addr: SocketAddrV4) -> String {
     render("flush", bind_addr, upstream_addr)
@@ -33,6 +51,8 @@ fn render(action: &str, bind_addr: SocketAddrV4, upstream_addr: SocketAddrV4) ->
     let upstream_ip = upstream_addr.ip();
     let upstream_port = upstream_addr.port();
     let mark = format!("0x{CT_MARK:08x}");
+    // The FIB check restricts DNAT to traffic addressed to this host, including
+    // the wildcard-bind case; it must not capture arbitrary transit traffic.
     let destination = if bind_addr.ip().is_unspecified() {
         format!("fib daddr type local tcp dport {bind_port}")
     } else {
@@ -138,5 +158,18 @@ mod tests {
 
         assert!(rules.starts_with("flush table ip rokbattles_nat_gateway\n"));
         assert!(!rules.contains("flush ruleset"));
+    }
+
+    #[test]
+    fn wildcard_bind_selects_only_local_destinations_on_its_port() {
+        let rules = render_create(
+            "0.0.0.0:3200".parse().expect("bind"),
+            "8.8.8.8:3101".parse().expect("upstream"),
+        );
+        let prerouting =
+            rules.lines().find(|line| line.contains(" prerouting fib ")).expect("DNAT rule");
+        assert!(prerouting.contains("fib daddr type local tcp dport 3200"));
+        assert!(!prerouting.contains("ip daddr"));
+        assert!(!prerouting.contains("0.0.0.0"));
     }
 }

@@ -1,4 +1,21 @@
-//! Receives passive NFLOG copies. The socket never supplies packet verdicts.
+//! Receive and validate packet copies from Linux NFLOG.
+//!
+//! [`Capture`] owns a netlink socket bound to the gateway's logging group. Its
+//! configuration requests whole IPv4 packets, local sequence numbers, and
+//! conntrack direction metadata. [`records`] parses those datagrams without
+//! casting unaligned wire bytes to C structures.
+//!
+//! Netlink headers and attribute headers use native byte order. NFLOG sequence
+//! numbers, conntrack metadata, and the group identifier use network byte order.
+//! Both messages and attributes advance on four-byte boundaries.
+//! Packet messages contain a 16-byte netlink header, a 4-byte nfgenmsg header,
+//! and length-prefixed attributes. Attribute lengths include their 4-byte header
+//! but exclude alignment padding; see the [NFLOG UAPI].
+//!
+//! The socket receives copies, not forwarding verdict requests. Losing a copy
+//! invalidates userspace cipher state; kernel NAT continues independently.
+//!
+//! [NFLOG UAPI]: https://github.com/torvalds/linux/blob/v6.8/include/uapi/linux/netfilter/nfnetlink_log.h
 
 use std::{
     io, mem,
@@ -7,17 +24,20 @@ use std::{
 
 use crate::rules::NFLOG_GROUP;
 
-/// A bound NFLOG group. Closing it leaves forwarding rules and conntrack intact.
+/// An owned netlink socket bound to the gateway's exclusive NFLOG group.
 ///
-/// Keeping this descriptor after privilege removal does not retain netfilter
-/// write authority. Linux routes every `NETLINK_NETFILTER` command through
-/// [`nfnetlink_rcv()`], which requires `CAP_NET_ADMIN` through
-/// [`netlink_net_capable()`]. That check requires both the opener's file
-/// credential and the current sender's capability, so the service's verified
-/// all-zero capability sets make this descriptor receive-only in practice.
+/// Dropping this value closes the socket but leaves nftables and conntrack state
+/// installed. Open it during privileged startup, then retain it after
+/// [`crate::service::drop_privileges`].
 ///
-/// [`nfnetlink_rcv()`]: https://github.com/torvalds/linux/blob/master/net/netfilter/nfnetlink.c
-/// [`netlink_net_capable()`]: https://github.com/torvalds/linux/blob/master/net/netlink/af_netlink.c
+/// The open descriptor does not by itself preserve netfilter write authority.
+/// Linux checks `CAP_NET_ADMIN` through [`nfnetlink_rcv()`] and
+/// [`netlink_net_capable()`], considering both the socket's credentials and the
+/// current sender's capabilities. The startup path verifies that the worker's
+/// effective, permitted, inheritable, and ambient capability sets are empty.
+///
+/// [`nfnetlink_rcv()`]: https://github.com/torvalds/linux/blob/v6.8/net/netfilter/nfnetlink.c
+/// [`netlink_net_capable()`]: https://github.com/torvalds/linux/blob/v6.8/net/netlink/af_netlink.c
 pub struct Capture {
     socket: OwnedFd,
 }
@@ -27,9 +47,21 @@ fn os_result(result: i32) -> io::Result<()> {
 }
 
 impl Capture {
-    /// Bind the exclusive group before installing rules or dropping privileges.
+    /// Bind and configure the gateway's NFLOG group.
+    ///
+    /// Call before dropping capabilities or starting the observer. Requests a
+    /// 4 MiB receive buffer; Linux may report twice the requested size. If the
+    /// privileged buffer override fails, falls back to the ordinary socket limit.
+    /// Configuration waits for matching kernel acknowledgements and can block.
+    ///
+    /// # Errors
+    ///
+    /// Returns socket, bind, buffer-configuration, or netfilter errors, including
+    /// lack of `CAP_NET_ADMIN` or another listener owning the group. Also rejects
+    /// malformed acknowledgements and failure to find an acknowledgement within
+    /// 32 received datagrams. This datagram limit is not a wall-clock timeout.
     pub fn open() -> io::Result<Self> {
-        // SAFETY: socket takes integer constants and returns a new owned fd.
+        // SAFETY: socket receives only integer arguments; success yields a new descriptor.
         let fd = unsafe {
             libc::socket(
                 libc::AF_NETLINK,
@@ -38,20 +70,24 @@ impl Capture {
             )
         };
         os_result(fd)?;
-        // SAFETY: fd is a newly created socket and has no other owner.
+        // SAFETY: os_result rejected negative descriptors. This successful socket
+        // result is open and has no owner; OwnedFd takes sole responsibility for closing it.
         let socket = unsafe { OwnedFd::from_raw_fd(fd) };
-        // SAFETY: all-zero sockaddr_nl is valid before setting its family.
+
+        // SAFETY: sockaddr_nl contains integer fields and accepts an all-zero bit pattern.
         let mut address: libc::sockaddr_nl = unsafe { mem::zeroed() };
         address.nl_family = libc::AF_NETLINK as u16;
-        // SAFETY: address is a valid initialized sockaddr_nl of the supplied size.
+        // SAFETY: fd is open. address is initialized and correctly aligned, and
+        // bind reads at most the supplied sockaddr_nl size during this call.
         os_result(unsafe {
             libc::bind(fd, (&raw const address).cast(), mem::size_of_val(&address) as u32)
         })?;
+
         let size: i32 = 4 * 1024 * 1024;
-        // A normal SO_RCVBUF request is silently capped by the host's rmem_max.
-        // Startup already needs NET_ADMIN, so request this socket's bounded
-        // allocation directly without changing a global sysctl.
-        // SAFETY: size is a valid integer socket option value.
+        // SO_RCVBUF is capped by rmem_max. Use the startup capability to request
+        // a larger buffer for this socket without changing a global sysctl.
+        // SAFETY: fd is open; size is an initialized, aligned integer, and optlen
+        // matches its allocation. setsockopt does not retain the pointer.
         let forced = unsafe {
             libc::setsockopt(
                 fd,
@@ -62,9 +98,10 @@ impl Capture {
             )
         };
         if forced < 0 {
-            // Some user-namespace kernels reserve FORCE for initial-namespace
-            // root. Capture remains useful with the ordinary socket bound.
-            // SAFETY: size remains a valid integer socket option value.
+            // FORCE may be unavailable in a user namespace. The fallback still
+            // provides capture, with the host's ordinary receive-buffer ceiling.
+            // SAFETY: the same live descriptor, integer pointer, and exact length
+            // used above remain valid for this synchronous socket-option call.
             os_result(unsafe {
                 libc::setsockopt(
                     fd,
@@ -75,9 +112,11 @@ impl Capture {
                 )
             })?;
         }
+
         let mut actual: i32 = 0;
         let mut option_len = mem::size_of_val(&actual) as u32;
-        // SAFETY: actual and option_len are initialized writable outputs.
+        // SAFETY: both outputs are initialized and aligned. option_len starts
+        // at actual's allocation size, bounding the kernel's write to actual.
         os_result(unsafe {
             libc::getsockopt(
                 fd,
@@ -88,22 +127,27 @@ impl Capture {
             )
         })?;
         tracing::info!(receive_buffer_bytes = actual, "NFLOG receive buffer configured");
+
         let capture = Self { socket };
-        capture.configure(1, &[1], 1)?; // NFULA_CFG_CMD / BIND
+        // NFULA_CFG_CMD binds this group; NFULA_CFG_MODE requests complete
+        // layer-3 copies; NFULA_CFG_FLAGS enables local sequence and conntrack info.
+        capture.configure(1, &[1], 1)?;
         let mut mode = 65535_u32.to_be_bytes().to_vec();
-        mode.extend([2, 0]); // NFULNL_COPY_PACKET
+        mode.extend([2, 0]); // NFULNL_COPY_PACKET plus the reserved byte.
         capture.configure(2, &mode, 2)?;
-        capture.configure(6, &5_u16.to_be_bytes(), 3)?; // local sequence + conntrack info
+        capture.configure(6, &5_u16.to_be_bytes(), 3)?;
         Ok(capture)
     }
 
+    /// Send one NFULNL_MSG_CONFIG attribute and await its sequence-matched ACK.
+    /// Packet datagrams encountered during startup are deliberately not decoded.
     fn configure(&self, kind: u16, value: &[u8], sequence: u32) -> io::Result<()> {
         let attr_len = 4 + value.len();
         let length = 20 + attr_len.next_multiple_of(4);
         let mut message = Vec::with_capacity(length);
         message.extend((length as u32).to_ne_bytes());
         message.extend(0x401_u16.to_ne_bytes());
-        message.extend(5_u16.to_ne_bytes()); // REQUEST | ACK
+        message.extend(5_u16.to_ne_bytes()); // NLM_F_REQUEST | NLM_F_ACK.
         message.extend(sequence.to_ne_bytes());
         message.extend(0_u32.to_ne_bytes());
         message.extend([libc::AF_INET as u8, 0]);
@@ -112,10 +156,12 @@ impl Capture {
         message.extend(kind.to_ne_bytes());
         message.extend(value);
         message.resize(length, 0);
-        // SAFETY: zero initializes all fields, including padding.
+        // SAFETY: sockaddr_nl has no invalid all-zero field values; padding is initialized too.
         let mut kernel: libc::sockaddr_nl = unsafe { mem::zeroed() };
         kernel.nl_family = libc::AF_NETLINK as u16;
-        // SAFETY: message and destination remain valid for the duration of sendto.
+        // SAFETY: the descriptor is owned by self. message is readable for its
+        // full length; kernel is an initialized, aligned sockaddr_nl with the
+        // matching length. sendto borrows both allocations only for this call.
         let sent = unsafe {
             libc::sendto(
                 self.socket.as_raw_fd(),
@@ -129,6 +175,7 @@ impl Capture {
         if sent < 0 {
             return Err(io::Error::last_os_error());
         }
+
         let mut buffer = vec![0; 131_072];
         for _ in 0..32 {
             let count = self.receive(&mut buffer)?;
@@ -142,12 +189,25 @@ impl Capture {
         Err(io::Error::other("NFLOG acknowledgement was not received"))
     }
 
-    /// Read a kernel datagram. ENOBUFS or truncation means observation lost data.
+    /// Block until one complete kernel datagram is copied into `buffer`.
+    ///
+    /// Returns the number of initialized bytes to pass to [`records`]. The source
+    /// netlink port ID must be zero, identifying the kernel. `MSG_TRUNC` requests
+    /// the original datagram length so an undersized buffer cannot silently
+    /// produce a valid-looking prefix.
+    ///
+    /// # Errors
+    ///
+    /// Returns receive errors, including `EINTR` and `ENOBUFS`, or rejects a
+    /// userspace source or truncated datagram. `EINTR` may be retried; `ENOBUFS`
+    /// means decoder state must be discarded. The binary exits on other errors.
     pub fn receive(&self, buffer: &mut [u8]) -> io::Result<usize> {
-        // SAFETY: zero initializes all sockaddr fields.
+        // SAFETY: every sockaddr_nl field permits zero; recvfrom receives initialized storage.
         let mut source: libc::sockaddr_nl = unsafe { mem::zeroed() };
         let mut length = mem::size_of_val(&source) as libc::socklen_t;
-        // SAFETY: buffer is writable for its length; source and length are valid outputs.
+        // SAFETY: buffer is exclusively borrowed and writable for buffer.len()
+        // bytes. source and length are aligned, initialized outputs; length
+        // bounds the address write. recvfrom retains none of these pointers.
         let result = unsafe {
             libc::recvfrom(
                 self.socket.as_raw_fd(),
@@ -164,10 +224,14 @@ impl Capture {
         if source.nl_pid != 0 || result.cast_unsigned() > buffer.len() {
             return Err(io::Error::other("untrusted or truncated NFLOG datagram"));
         }
+
         Ok(result.cast_unsigned())
     }
 }
 
+/// Find an NLMSG_ERROR acknowledgement for one configuration request.
+/// Its signed error code is native-endian: zero acknowledges success, and a
+/// negative value encodes errno. Other messages and request sequences are skipped.
 fn acknowledgement(bytes: &[u8], expected_sequence: u32) -> io::Result<Option<i32>> {
     let mut remaining = bytes;
     while !remaining.is_empty() {
@@ -211,15 +275,30 @@ fn acknowledgement(bytes: &[u8], expected_sequence: u32) -> io::Result<Option<i3
     Ok(None)
 }
 
-/// One kernel-selected packet and its connection direction.
+/// A packet copy with the metadata needed to reconstruct its server stream.
 #[derive(Debug)]
 pub struct Record<'a> {
+    /// Per-group capture sequence, wrapping independently of TCP sequence numbers.
     pub sequence: u32,
+    /// Whether conntrack classifies the packet in the connection's reply direction.
     pub reply: bool,
+    /// Borrowed layer-3 packet bytes; these have not yet passed [`crate::packet::parse`].
     pub payload: &'a [u8],
 }
 
-/// Validate netlink lengths and required metadata before exposing packet bytes.
+/// Parse a complete netlink datagram into borrowed NFLOG packet records.
+///
+/// Accepts packet messages for this IPv4 group and ignores NLMSG_DONE markers.
+/// Unknown attributes are skipped after their lengths are checked. Sequence,
+/// conntrack info, and payload attributes are required; later duplicate attributes
+/// replace earlier values. An empty datagram produces an empty vector.
+///
+/// # Errors
+///
+/// Returns a reason for malformed message or attribute framing, missing padding,
+/// a wrong family/group, absent metadata, or unsupported message/direction values.
+/// Validation is all-or-nothing: an invalid later message discards earlier records
+/// in the same datagram. The caller must retire observer state after this error.
 pub fn records(mut bytes: &[u8]) -> Result<Vec<Record<'_>>, &'static str> {
     let mut records = Vec::new();
     while !bytes.is_empty() {
@@ -241,6 +320,7 @@ pub fn records(mut bytes: &[u8]) -> Result<Vec<Record<'_>>, &'static str> {
             }
             let mut attributes = message.get(20..).ok_or("short NFLOG header")?;
             let (mut sequence, mut info, mut payload) = (None, None, None);
+
             while !attributes.is_empty() {
                 let length = u16::from_ne_bytes(
                     attributes
@@ -249,6 +329,7 @@ pub fn records(mut bytes: &[u8]) -> Result<Vec<Record<'_>>, &'static str> {
                         .try_into()
                         .map_err(|_error| "attribute")?,
                 ) as usize;
+                // The two high bits are netlink attribute flags, not the type.
                 let kind = u16::from_ne_bytes(
                     attributes
                         .get(2..4)
@@ -277,12 +358,14 @@ pub fn records(mut bytes: &[u8]) -> Result<Vec<Record<'_>>, &'static str> {
                 attributes =
                     attributes.get(length.next_multiple_of(4)..).ok_or("attribute padding")?;
             }
+
             let info = info.ok_or("missing conntrack info")?;
             if info > 5 {
                 return Err("invalid conntrack direction");
             }
             records.push(Record {
                 sequence: sequence.ok_or("missing capture sequence")?,
+                // IP_CT_IS_REPLY is the offset separating original and reply states.
                 reply: info >= 3,
                 payload: payload.ok_or("missing packet payload")?,
             });
@@ -397,5 +480,81 @@ mod tests {
             records(&wrong_group).expect_err("wrong group must fail"),
             "unexpected NFLOG family/group"
         );
+    }
+
+    #[test]
+    fn acknowledgements_match_sequence_and_preserve_kernel_error_codes() {
+        let mut bytes = message(2, 6, &0_i32.to_ne_bytes());
+        bytes.extend(message(3, 0, &[]));
+        bytes.extend(message(2, 7, &(-libc::EPERM).to_ne_bytes()));
+
+        assert_eq!(acknowledgement(&bytes, 7).expect("matching ACK"), Some(-libc::EPERM));
+        assert_eq!(acknowledgement(&bytes, 8).expect("unrelated requests"), None);
+    }
+
+    #[test]
+    fn acknowledgements_reject_invalid_headers_and_missing_alignment_padding() {
+        acknowledgement(&[0; 15], 1).expect_err("short header");
+        acknowledgement(&message(3, 0, &[])[..15], 1).expect_err("truncated header");
+
+        let mut bytes = message(3, 0, &[1]);
+        bytes.pop();
+        acknowledgement(&bytes, 1).expect_err("missing padding");
+    }
+
+    #[test]
+    fn records_accept_aligned_unknown_attributes_and_both_directions() {
+        for info in 0_u32..=4 {
+            let mut body = vec![libc::AF_INET as u8, 0];
+            body.extend(NFLOG_GROUP.to_be_bytes());
+            body.extend(attribute(12, &u32::MAX.to_be_bytes()));
+            body.extend(attribute(0x8000 | 123, b"x"));
+            body.extend(attribute(19, &info.to_be_bytes()));
+            body.extend(attribute(9, b"old"));
+            body.extend(attribute(9, b"new"));
+            let mut bytes = message(3, 0, &[]);
+            bytes.extend(message(0x400, 0, &body));
+            bytes.extend(message(3, 0, &[]));
+
+            let parsed = records(&bytes).expect("complete aligned datagram");
+            assert_eq!(parsed.len(), 1);
+            assert_eq!(parsed[0].sequence, u32::MAX);
+            assert_eq!(parsed[0].reply, info >= 3);
+            assert_eq!(parsed[0].payload, b"new", "last duplicate attribute wins");
+        }
+    }
+
+    #[test]
+    fn invalid_later_messages_reject_the_whole_datagram() {
+        let mut bytes = packet_record(0, true);
+        bytes.extend(message(2, 0, &0_i32.to_ne_bytes()));
+
+        assert_eq!(
+            records(&bytes).expect_err("no partial records"),
+            "unexpected netlink message type"
+        );
+        assert!(records(&[]).expect("empty datagram").is_empty());
+    }
+
+    #[test]
+    fn every_required_packet_attribute_is_checked_independently() {
+        for (missing, reason) in [
+            (12, "missing capture sequence"),
+            (19, "missing conntrack info"),
+            (9, "missing packet payload"),
+        ] {
+            let mut body = vec![libc::AF_INET as u8, 0];
+            body.extend(NFLOG_GROUP.to_be_bytes());
+            for (kind, value) in [
+                (12, 7_u32.to_be_bytes().to_vec()),
+                (19, 0_u32.to_be_bytes().to_vec()),
+                (9, b"packet".to_vec()),
+            ] {
+                if kind != missing {
+                    body.extend(attribute(kind, &value));
+                }
+            }
+            assert_eq!(records(&message(0x400, 0, &body)).expect_err("required attribute"), reason);
+        }
     }
 }
