@@ -1,4 +1,13 @@
-//! Privileged startup followed by irreversible privilege removal.
+//! Prepare a dedicated gateway before starting payload-processing threads.
+//!
+//! Startup resolves the upstream, looks up the worker account, validates its state
+//! directory, installs nftables rules, and removes privileges. Call these helpers
+//! in the order shown by the binary: process-wide identity changes and account
+//! lookup belong before the Tokio runtime or spool thread exists.
+//!
+//! Rule installation and privilege removal are not rolled back on failure. A
+//! failed startup must terminate rather than continue with partially changed
+//! process state. Installed rules intentionally survive process exit.
 
 use std::{
     fs,
@@ -12,8 +21,17 @@ use anyhow::{Context, bail};
 
 use crate::{config::Config, rules};
 
-/// Resolve the configured host once per startup. Existing conntrack entries
-/// keep their old target when a later restart chooses a different address.
+/// Resolve the upstream and select the first permitted IPv4 address.
+///
+/// Skips IPv6, the configured bind IP, and the private/reserved ranges rejected
+/// by the gateway policy. This is a startup lookup, not a DNS refresh loop;
+/// existing conntrack translations retain their targets across later restarts.
+///
+/// # Errors
+///
+/// Returns resolver errors or an error if no answer satisfies the address policy.
+/// The policy excludes common special-purpose ranges; it is not a complete IANA
+/// global-reachability classification.
 pub fn resolve(config: &Config) -> anyhow::Result<SocketAddrV4> {
     config
         .upstream_addr
@@ -28,6 +46,10 @@ pub fn resolve(config: &Config) -> anyhow::Result<SocketAddrV4> {
         })
         .context("UPSTREAM_ADDR did not resolve to a usable IPv4 target")
 }
+
+/// Run a system-installed nft binary with a clean environment and no shell.
+/// Feed a transaction through stdin when supplied. A nonzero exit status is
+/// returned for the caller to interpret; process and pipe failures return `Err`.
 fn nft(arguments: &[&str], input: Option<&str>) -> anyhow::Result<std::process::Output> {
     let path = ["/usr/sbin/nft", "/sbin/nft", "/usr/bin/nft"]
         .into_iter()
@@ -47,14 +69,29 @@ fn nft(arguments: &[&str], input: Option<&str>) -> anyhow::Result<std::process::
     Ok(child.wait_with_output()?)
 }
 
-/// Validate table ownership, then commit only this application's rules atomically.
-/// Does not flush conntrack or register shutdown cleanup.
+/// Validate ownership and atomically install the gateway's IPv4 nftables rules.
+///
+/// Requires a dedicated node with IPv6 forwarding disabled, a usable `nft`
+/// executable, and permission to manage netfilter and enable IPv4 forwarding.
+/// An existing table must contain the expected schema marker. The transaction
+/// is checked by `nft` before it is applied; conntrack is never flushed.
+///
+/// Rules are installed before IPv4 forwarding is enabled. No shutdown cleanup
+/// is registered, so established forwarding survives collector exit.
+///
+/// # Errors
+///
+/// Returns errors for an incompatible node or table, failed process execution,
+/// malformed `nft` output, rejected rules, or a failed forwarding sysctl write.
+/// The final sysctl write can fail after rules were installed; installation is
+/// atomic within nftables, not across nftables and the sysctl.
 pub fn install(config: &Config, upstream: SocketAddrV4) -> anyhow::Result<()> {
     if fs::read_to_string("/proc/sys/net/ipv6/conf/all/forwarding")
         .is_ok_and(|value| value.trim() != "0")
     {
         bail!("this IPv4 gateway requires IPv6 forwarding disabled on its dedicated node");
     }
+
     let listing = nft(&["-j", "list", "tables"], None)?;
     if !listing.status.success() {
         bail!("cannot inspect nftables: {}", String::from_utf8_lossy(&listing.stderr));
@@ -70,6 +107,7 @@ pub fn install(config: &Config, upstream: SocketAddrV4) -> anyhow::Result<()> {
                 && entry.pointer("/table/name").and_then(serde_json::Value::as_str)
                     == Some(rules::TABLE_NAME)
         });
+
     let program = if exists {
         let listing =
             nft(&["-j", "list", "chain", "ip", rules::TABLE_NAME, "schema_identity"], None)?;
@@ -89,11 +127,13 @@ pub fn install(config: &Config, upstream: SocketAddrV4) -> anyhow::Result<()> {
     } else {
         rules::render_create(config.bind_addr, upstream)
     };
+
     let result = nft(&["--check", "-f", "-"], Some(&program))?;
     if !result.status.success() {
         bail!("nftables validation failed: {}", String::from_utf8_lossy(&result.stderr));
     }
-    // Install the fail-closed forwarding policy before enabling routing.
+
+    // Install the drop-by-default forwarding chain before allowing IPv4 routing.
     let result = nft(&["-f", "-"], Some(&program))?;
     if !result.status.success() {
         bail!("nftables installation failed: {}", String::from_utf8_lossy(&result.stderr));
@@ -102,26 +142,39 @@ pub fn install(config: &Config, upstream: SocketAddrV4) -> anyhow::Result<()> {
     Ok(())
 }
 
-/// Drop root and all Linux capabilities before any network payload is parsed.
-/// The service unit supplies an isolated account through GATEWAY_UID/GID.
+/// Switch to the worker identity and clear its Linux capability sets.
+///
+/// Call during single-threaded startup, before payload decoding or worker-thread
+/// creation. Enables `no_new_privs`, clears supplementary groups, sets real,
+/// effective, and saved GID/UID, clears capabilities, and disables dumpability.
+/// Checks `/proc/self/status` to verify the capability sets are empty.
+///
+/// # Errors
+///
+/// Rejects zero IDs and returns system-call, procfs, or verification errors.
+/// Changes are irreversible and may be partial on failure. The caller must exit
+/// rather than attempt to continue or restore its previous identity.
 pub fn drop_privileges(uid: u32, gid: u32) -> io::Result<()> {
     if uid == 0 || gid == 0 {
         return Err(io::Error::other("gateway worker UID/GID must be nonzero"));
     }
+
     fn check(value: i32) -> io::Result<()> {
         if value == -1 { Err(io::Error::last_os_error()) } else { Ok(()) }
     }
-    // SAFETY: prctl arguments enable a documented one-way privilege restriction.
+
+    // SAFETY: this prctl operation accepts integer arguments only; no pointer is passed.
     check(unsafe { libc::prctl(libc::PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) })?;
-    // SAFETY: a zero length allows a null groups pointer and clears all groups.
+    // SAFETY: setgroups permits a null pointer when the element count is zero.
     check(unsafe { libc::setgroups(0, std::ptr::null()) })?;
-    // SAFETY: setresgid accepts numeric IDs, with no pointer arguments.
+    // SAFETY: setresgid takes numeric IDs, not pointers; failures are checked immediately.
     check(unsafe { libc::setresgid(gid, gid, gid) })?;
-    // SAFETY: setresuid drops all saved root IDs and their effective capabilities.
+    // SAFETY: setresuid takes numeric IDs. All three IDs are set to prevent saved-root reuse.
     check(unsafe { libc::setresuid(uid, uid, uid) })?;
-    // An ambient startup capability also enters the inheritable set. Changing
-    // UID clears effective, permitted and ambient capabilities, but leaves that
-    // inheritable set behind. Clear all sets before reading network payloads.
+
+    // A startup ambient capability also occupies the inheritable set. A UID
+    // change alone does not clear that set, so clear all three sets explicitly.
+    // Capability ABI v3 represents 64 capability bits with two 32-bit records.
     #[repr(C)]
     struct CapabilityHeader {
         version: u32,
@@ -135,14 +188,17 @@ pub fn drop_privileges(uid: u32, gid: u32) -> io::Result<()> {
     }
     let header = CapabilityHeader { version: 0x2008_0522, pid: 0 };
     let data = [const { CapabilityData { effective: 0, permitted: 0, inheritable: 0 } }; 2];
-    // SAFETY: Linux capability ABI v3 takes a header and two capability words.
-    // Both pointers remain valid for the syscall, which only changes this thread.
+    // SAFETY: repr(C) matches the Linux v3 header/data layouts. header is
+    // initialized and data contains both required records; the kernel reads
+    // these aligned allocations synchronously. pid=0 selects the calling thread.
     let result = unsafe { libc::syscall(libc::SYS_capset, &header, data.as_ptr()) };
     if result == -1 {
         return Err(io::Error::last_os_error());
     }
-    // SAFETY: prctl disables process dumps and same-UID ptrace access.
+
+    // SAFETY: PR_SET_DUMPABLE takes an integer value and does not dereference a pointer.
     check(unsafe { libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) })?;
+
     let status = fs::read_to_string("/proc/self/status")?;
     for key in ["CapEff:", "CapPrm:", "CapInh:", "CapAmb:"] {
         if !status
@@ -156,27 +212,40 @@ pub fn drop_privileges(uid: u32, gid: u32) -> io::Result<()> {
     Ok(())
 }
 
-/// Look up the dedicated system account installed by systemd-sysusers.
-/// Explicit IDs support container deployments with their own account database.
+/// Return the numeric identity used after privileged startup.
+///
+/// Uses `GATEWAY_UID` and `GATEWAY_GID` when both are provided; otherwise looks
+/// up `rokb-gateway`, the account created by the installer. Call during
+/// single-threaded startup: the account lookup uses libc's shared lookup storage.
+/// Zero IDs are parsed here but rejected by [`drop_privileges`].
+///
+/// # Errors
+///
+/// Returns an error for a partial override, invalid numeric IDs, or an absent
+/// system account. Environment values that are missing or non-Unicode are
+/// treated as absent.
 pub fn worker_identity() -> anyhow::Result<(u32, u32)> {
     match (std::env::var("GATEWAY_UID"), std::env::var("GATEWAY_GID")) {
         (Ok(uid), Ok(gid)) => return Ok((uid.parse()?, gid.parse()?)),
         (Err(_), Err(_)) => {}
         _ => bail!("set both GATEWAY_UID and GATEWAY_GID, or neither"),
     }
-    // SAFETY: the NUL-terminated constant is valid; startup is single-threaded,
-    // and both numeric fields are copied before another account lookup.
+    // SAFETY: the C string is NUL-terminated and lives through the lookup.
+    // This startup path runs before threads or other account lookups can access
+    // libc's shared passwd storage; copy numeric fields before any later lookup.
     let entry = unsafe { libc::getpwnam(c"rokb-gateway".as_ptr()) };
     if entry.is_null() {
         bail!("install the rokb-gateway system account first");
     }
-    // SAFETY: getpwnam returned a non-null passwd pointer valid until next lookup.
+    // SAFETY: a successful getpwnam returned an initialized passwd; no later lookup has run.
     let uid = unsafe { (*entry).pw_uid };
-    // SAFETY: no account lookup has invalidated the pointer.
+    // SAFETY: the same passwd allocation is still valid; reading the UID did not invalidate it.
     let gid = unsafe { (*entry).pw_gid };
     Ok((uid, gid))
 }
 
+// This explicit denylist is the deployment policy, not a general-purpose
+// equivalent of Ipv4Addr::is_global. Keep range boundaries covered by tests.
 fn public_target(ip: std::net::Ipv4Addr) -> bool {
     let [a, b, c, _d] = ip.octets();
     !matches!(a, 0 | 10 | 127 | 224..=255)
@@ -188,7 +257,17 @@ fn public_target(ip: std::net::Ipv4Addr) -> bool {
         && !(a == 203 && b == 0 && c == 113)
 }
 
-/// Reject a spool path that another local account could replace or modify.
+/// Check that the state directory is owned by `uid` and private to its owner.
+///
+/// Uses symlink metadata to reject a symlink at the final path component. Parent
+/// directories must already be trusted; this check does not walk them. Owner
+/// permission bits are not required to be exactly `0700`, so later file operations
+/// can still fail if the owner lacks write or search permission.
+///
+/// # Errors
+///
+/// Returns an error when metadata cannot be read, the final component is not a
+/// real directory, its owner differs, or any group/other permission bit is set.
 pub fn validate_spool(path: &Path, uid: u32) -> anyhow::Result<()> {
     use std::os::unix::fs::MetadataExt;
     let metadata =
@@ -201,10 +280,17 @@ pub fn validate_spool(path: &Path, uid: u32) -> anyhow::Result<()> {
     Ok(())
 }
 
-/// Prevent core dumps before configuration brings the ingress token into memory.
+/// Set both core-file size limits to zero for this process.
+///
+/// Call before reading configuration so a subsequent core dump cannot contain
+/// the ingress token. Lowering the hard limit is irreversible without privilege.
+///
+/// # Errors
+///
+/// Returns the OS error if `setrlimit(RLIMIT_CORE)` fails.
 pub fn disable_core_dumps() -> io::Result<()> {
     let limit = libc::rlimit { rlim_cur: 0, rlim_max: 0 };
-    // SAFETY: limit is initialized and points to a valid rlimit structure.
+    // SAFETY: limit is an initialized, aligned rlimit read only during this setrlimit call.
     if unsafe { libc::setrlimit(libc::RLIMIT_CORE, &raw const limit) } < 0 {
         return Err(io::Error::last_os_error());
     }
@@ -214,6 +300,7 @@ pub fn disable_core_dumps() -> io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn dns_answers_cannot_redirect_the_gateway_to_internal_or_reserved_networks() {
         for ip in [
@@ -234,5 +321,113 @@ mod tests {
             assert!(!public_target(ip.parse().expect("fixture IP")), "{ip}");
         }
         assert!(public_target("8.8.8.8".parse().expect("public IP")));
+    }
+
+    #[test]
+    fn address_policy_checks_both_edges_of_restricted_ranges() {
+        for (address, allowed) in [
+            ("100.63.255.255", true),
+            ("100.64.0.0", false),
+            ("100.127.255.255", false),
+            ("100.128.0.0", true),
+            ("172.15.255.255", true),
+            ("172.16.0.0", false),
+            ("172.31.255.255", false),
+            ("172.32.0.0", true),
+            ("198.17.255.255", true),
+            ("198.18.0.0", false),
+            ("198.19.255.255", false),
+            ("198.20.0.0", true),
+            ("223.255.255.255", true),
+            ("224.0.0.0", false),
+        ] {
+            assert_eq!(public_target(address.parse().expect("IPv4 fixture")), allowed, "{address}");
+        }
+    }
+
+    #[test]
+    fn spool_validation_checks_final_component_owner_and_private_permissions() {
+        use std::os::unix::fs::{MetadataExt, PermissionsExt, symlink};
+        let directory = tempfile::tempdir().expect("directory");
+        let state = directory.path().join("state");
+        fs::create_dir(&state).expect("state directory");
+        fs::set_permissions(&state, fs::Permissions::from_mode(0o700))
+            .expect("private permissions");
+        let uid = fs::metadata(&state).expect("metadata").uid();
+        validate_spool(&state, uid).expect("private owned directory");
+        assert!(validate_spool(&state, uid.wrapping_add(1)).is_err());
+        let link = directory.path().join("link");
+        symlink(&state, &link).expect("symlink");
+        assert!(validate_spool(&link, uid).is_err());
+        let file = directory.path().join("file");
+        fs::write(&file, b"not a directory").expect("file");
+        assert!(validate_spool(&file, uid).is_err());
+        for mode in [0o750, 0o701] {
+            fs::set_permissions(&state, fs::Permissions::from_mode(mode)).expect("permissions");
+            assert!(validate_spool(&state, uid).is_err());
+        }
+        fs::set_permissions(&state, fs::Permissions::from_mode(0o500)).expect("owner-only mode");
+        validate_spool(&state, uid).expect("owner permission bits are not checked for writability");
+    }
+
+    #[test]
+    fn zero_worker_ids_are_rejected_before_privileges_can_change() {
+        for (uid, gid) in [(0, 1), (1, 0), (0, 0)] {
+            assert_eq!(
+                drop_privileges(uid, gid).expect_err("zero ID").to_string(),
+                "gateway worker UID/GID must be nonzero"
+            );
+        }
+    }
+
+    #[test]
+    fn process_state_checks_run_in_an_isolated_child() {
+        const CHILD: &str = "ROKB_GATEWAY_PROCESS_TEST_CHILD";
+        if std::env::var_os(CHILD).is_some() {
+            disable_core_dumps().expect("disable core files in child only");
+            let limits = fs::read_to_string("/proc/self/limits").expect("process limits");
+            let core = limits
+                .lines()
+                .find(|line| line.starts_with("Max core file size"))
+                .expect("core limit");
+            let columns: Vec<_> = core.split_whitespace().collect();
+            assert_eq!(&columns[4..6], &["0", "0"]);
+            match std::env::var("ROKB_GATEWAY_EXPECT_IDENTITY").expect("expected result").as_str() {
+                "valid" => assert_eq!(worker_identity().expect("explicit identity"), (1234, 5678)),
+                "error" => {
+                    worker_identity().expect_err("invalid identity override");
+                }
+                other => panic!("unexpected child fixture {other}"),
+            }
+            return;
+        }
+
+        for (uid, gid, expected) in [
+            (Some("1234"), Some("5678"), "valid"),
+            (Some("1234"), None, "error"),
+            (None, Some("5678"), "error"),
+            (Some("invalid"), Some("5678"), "error"),
+        ] {
+            let mut command = Command::new(std::env::current_exe().expect("test executable"));
+            command
+                .args(["--exact", "service::tests::process_state_checks_run_in_an_isolated_child"])
+                .env(CHILD, "1")
+                .env("ROKB_GATEWAY_EXPECT_IDENTITY", expected)
+                .env_remove("GATEWAY_UID")
+                .env_remove("GATEWAY_GID");
+            if let Some(uid) = uid {
+                command.env("GATEWAY_UID", uid);
+            }
+            if let Some(gid) = gid {
+                command.env("GATEWAY_GID", gid);
+            }
+            let output = command.output().expect("run child");
+            assert!(
+                output.status.success(),
+                "{}{}",
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
     }
 }

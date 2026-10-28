@@ -1,22 +1,36 @@
-//! Environment-driven NAT gateway configuration.
+//! Read startup settings without resolving hosts or changing process state.
+//!
+//! `BIND_ADDR` defaults to `0.0.0.0:3101`; `UPSTREAM_ADDR` and `RELAY_TOKEN` are
+//! required. Parsing checks the bind socket, a nonempty upstream host and nonzero
+//! port, and a token containing non-whitespace characters. DNS resolution and
+//! upstream address restrictions belong to [`crate::service::resolve`].
+//!
+//! [`Config`]'s debug output deliberately omits the bearer token.
 
 use std::{env, net::SocketAddrV4};
 
 const DEFAULT_BIND_ADDR: &str = "0.0.0.0:3101";
 
-/// Validated values needed to install the gateway rules and upload mail.
+/// Startup settings for NAT rules and authenticated mail uploads.
+///
+/// The constructors validate settings. Public fields permit direct construction,
+/// so consumers must not assume an arbitrary `Config` passed those checks.
 #[derive(Clone, PartialEq, Eq)]
 pub struct Config {
-    /// Public IPv4 address and TCP port clients connect to.
+    /// Local destination IPv4 address and TCP port selected for forwarding.
+    /// An unspecified address selects all local IPv4 destinations on that port.
     pub bind_addr: SocketAddrV4,
-    /// Lilith host and TCP port resolved once during service startup.
+    /// Upstream host and nonzero TCP port, resolved once at startup.
     pub upstream_addr: String,
-    /// Bearer token shared with the existing relay ingress endpoint.
+    /// Ingress bearer token, preserved verbatim and omitted from `Debug` output.
     pub relay_token: String,
 }
 
 impl Config {
-    /// Load and validate the gateway configuration from the process environment.
+    /// Read settings from the process environment.
+    ///
+    /// Non-Unicode values are treated as absent, as are missing variables.
+    /// See [`Self::from_lookup`] for defaults and validation.
     ///
     /// # Errors
     ///
@@ -25,10 +39,32 @@ impl Config {
         Self::from_lookup(|key| env::var(key).ok())
     }
 
-    /// Load configuration through `lookup`.
+    /// Parse settings supplied by `lookup`, without accessing the environment.
     ///
-    /// This is public so service startup and focused tests can use the same
-    /// validation without mutating the process environment.
+    /// `BIND_ADDR` must be an IPv4 socket with a nonzero port. Upstream validation
+    /// only separates the final port from a nonempty host; DNS and address-family
+    /// validation are deferred to [`crate::service::resolve`]. Tokens are checked
+    /// for blankness but are not trimmed before use.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`ConfigError`] for missing required settings, an invalid bind
+    /// socket or upstream port, or a blank token.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use rokbattles_nat_gateway::config::Config;
+    ///
+    /// let config = Config::from_lookup(|key| match key {
+    ///     "UPSTREAM_ADDR" => Some("game.example:3101".into()),
+    ///     "RELAY_TOKEN" => Some("example-token".into()),
+    ///     _ => None,
+    /// })?;
+    /// assert!(config.bind_addr.ip().is_unspecified());
+    /// assert_eq!(config.bind_addr.port(), 3101);
+    /// # Ok::<(), rokbattles_nat_gateway::config::ConfigError>(())
+    /// ```
     pub fn from_lookup<F>(lookup: F) -> Result<Self, ConfigError>
     where
         F: Fn(&str) -> Option<String>,
@@ -49,21 +85,35 @@ impl Config {
     }
 }
 
-/// Invalid or missing gateway configuration.
+/// A setting that cannot be used to construct startup configuration.
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum ConfigError {
     /// A required environment variable was absent.
     #[error("missing required environment variable {key}")]
-    Missing { key: &'static str },
+    Missing {
+        /// Name of the absent setting.
+        key: &'static str,
+    },
     /// A required environment variable was empty.
     #[error("environment variable {key} must not be empty")]
-    Empty { key: &'static str },
+    Empty {
+        /// Name of the blank setting.
+        key: &'static str,
+    },
     /// An endpoint was not an explicit IPv4 socket address.
     #[error("environment variable {key} must be an IPv4 address and nonzero port: {value}")]
-    InvalidAddress { key: &'static str, value: String },
+    InvalidAddress {
+        /// Name of the setting containing the bind socket.
+        key: &'static str,
+        /// Rejected address text.
+        value: String,
+    },
     /// The upstream did not contain a host and nonzero port.
     #[error("UPSTREAM_ADDR must contain a host and nonzero port: {value}")]
-    InvalidUpstream { value: String },
+    InvalidUpstream {
+        /// Rejected upstream text.
+        value: String,
+    },
 }
 
 fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
@@ -83,6 +133,7 @@ fn parse_address(key: &'static str, value: String) -> Result<SocketAddrV4, Confi
     Ok(address)
 }
 
+// Leave host syntax and DNS errors to the resolver; only the port is parsed here.
 fn valid_host_and_port(value: &str) -> bool {
     let Some((host, port)) = value.rsplit_once(':') else {
         return false;
@@ -178,5 +229,40 @@ mod tests {
         .expect_err("token should be nonempty");
 
         assert_eq!(error, ConfigError::Empty { key: "RELAY_TOKEN" });
+    }
+
+    #[test]
+    fn malformed_upstream_ports_and_empty_hosts_are_rejected() {
+        for upstream in [
+            "",
+            "game.example",
+            ":3101",
+            " :3101",
+            "game.example:0",
+            "game.example:65536",
+            "game.example:-1",
+            "game.example:http",
+        ] {
+            let error = Config::from_lookup(lookup(&[
+                ("UPSTREAM_ADDR", upstream),
+                ("RELAY_TOKEN", "secret"),
+            ]))
+            .expect_err("invalid upstream");
+            assert_eq!(error, ConfigError::InvalidUpstream { value: upstream.into() });
+        }
+    }
+
+    #[test]
+    fn token_is_preserved_verbatim_and_omitted_from_debug_output() {
+        let token = "  private-token  ";
+        let config = Config::from_lookup(lookup(&[
+            ("UPSTREAM_ADDR", "game.example:3101"),
+            ("RELAY_TOKEN", token),
+        ]))
+        .expect("valid settings");
+        assert_eq!(config.relay_token, token);
+        let debug = format!("{config:?}");
+        assert!(!debug.contains("private-token"));
+        assert!(!debug.contains("relay_token"));
     }
 }

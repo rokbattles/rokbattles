@@ -1,21 +1,38 @@
-//! Parses complete IPv4 TCP packets copied after conntrack defragmentation.
+//! Borrow the TCP fields needed to observe an IPv4 connection.
+//!
+//! Input is an entire layer-3 packet copied by NFLOG after conntrack's fragment
+//! handling. Ethernet headers are not expected. Parsing bounds every slice by
+//! the IPv4 total length and TCP data offset; trailing capture padding is ignored.
+//! Checksums are not verified because packet copies may contain offload state.
 
 use std::net::{Ipv4Addr, SocketAddrV4};
 
-/// Borrowed TCP fields needed for passive stream reconstruction.
+/// A parsed TCP segment whose payload borrows from the captured packet.
+///
+/// Sequence numbers remain in TCP's wrapping 32-bit number space. The observer
+/// interprets SYN and FIN separately from the payload bytes.
 #[derive(Debug)]
 pub struct Packet<'a> {
+    /// Source IPv4 address and TCP port as seen at the capture hook.
     pub source: SocketAddrV4,
+    /// Destination IPv4 address and TCP port after applicable NAT translation.
     pub destination: SocketAddrV4,
+    /// TCP sequence number, including any sequence space occupied by SYN.
     pub sequence: u32,
+    /// Raw acknowledgement number; meaningful only when ACK is set.
     pub acknowledgement: u32,
+    /// TCP flag octet containing FIN, SYN, RST, PSH, ACK, URG, ECE, and CWR.
     pub flags: u8,
+    /// Bytes after TCP options and before the IPv4 total-length boundary.
     pub payload: &'a [u8],
 }
 
-/// Read an IPv4 TCP packet, rejecting truncation, fragments and bad lengths.
-/// Checksums are validated by the forwarding stack; offload can leave the
-/// copied checksum incomplete, so it is not recalculated here.
+/// Parse a complete IPv4/TCP packet without copying its payload.
+///
+/// Returns `None` for other IP versions or protocols, truncated headers, invalid
+/// header lengths, or packets with a fragment offset or the more-fragments bit.
+/// IPv4 and TCP options are skipped using their declared header lengths. The
+/// don't-fragment bit is accepted; checksums and option contents are not checked.
 pub fn parse(bytes: &[u8]) -> Option<Packet<'_>> {
     let first = *bytes.first()?;
     if first >> 4 != 4 || *bytes.get(9)? != 6 {
@@ -115,5 +132,31 @@ mod tests {
         for length in 0..bytes.len() {
             assert!(parse(bytes.get(..length).expect("test prefix")).is_none(), "length {length}");
         }
+    }
+
+    #[test]
+    fn ipv4_and_tcp_options_do_not_leak_into_payload() {
+        let mut bytes = packet(b"mail");
+        bytes.splice(20..20, [1, 1, 1, 1]);
+        bytes[0] = 0x46;
+        bytes[36] = 0x60;
+        bytes.splice(44..44, [1, 1, 1, 1]);
+        let total = u16::try_from(bytes.len()).expect("packet length");
+        bytes[2..4].copy_from_slice(&total.to_be_bytes());
+        bytes.extend(b"capture padding");
+
+        let parsed = parse(&bytes).expect("options fit declared lengths");
+        assert_eq!(parsed.sequence, 123);
+        assert_eq!(parsed.payload, b"mail");
+    }
+
+    #[test]
+    fn dont_fragment_is_accepted_but_tcp_offsets_must_fit() {
+        let mut bytes = packet(b"mail");
+        bytes[6..8].copy_from_slice(&0x4000_u16.to_be_bytes());
+        assert_eq!(parse(&bytes).expect("unfragmented DF packet").payload, b"mail");
+
+        bytes[32] = 0xf0;
+        assert!(parse(&bytes).is_none(), "TCP options exceed IP packet length");
     }
 }
