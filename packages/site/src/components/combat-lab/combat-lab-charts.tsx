@@ -474,8 +474,8 @@ export function CombatLabArmamentChart({
     [t]
   );
   const buffOptions = useMemo(
-    () => getArmamentBuffOptions(slot, locale, (id) => t("Buff {id}", { id: id.toString() })),
-    [locale, slot, t]
+    () => getArmamentBuffOptions(slot, (id) => t("Buff {id}", { id: id.toString() })),
+    [slot, t]
   );
   const [requestedBuffId, setRequestedBuffId] = useState<number | null>(null);
   const selectedBuffId = buffOptions.some((buff) => buff.id === requestedBuffId)
@@ -486,7 +486,7 @@ export function CombatLabArmamentChart({
     [inscriptionOptions, locale, rangeKey, selectedBuffId, slot]
   );
   const selectedBuff = buffOptions.find((buff) => buff.id === selectedBuffId);
-  const selectedBuffInfo = selectedBuff ? getArmamentInfo(selectedBuff.id, locale) : undefined;
+  const selectedBuffInfo = selectedBuff ? getArmamentInfo(selectedBuff.id) : undefined;
 
   if (!slot.points.some((point) => point.sampleSize > 0)) {
     return <CombatLabEmptyState className="min-h-[34rem]" />;
@@ -666,11 +666,11 @@ export function CombatLabEquipmentChart({
     totals.observations > 0 ? (totals.specialTalent / totals.observations) * 100 : 0;
   const accessoryPairingData = useMemo(
     () =>
-      getAccessoryPairingData(accessoryPairings, locale, {
+      getAccessoryPairingData(accessoryPairings, {
         item: (id) => t("Item {id}", { id: id.toString() }),
         otherPairings: t("Other pairings"),
       }),
-    [accessoryPairings, locale, t]
+    [accessoryPairings, t]
   );
 
   if (totals.observations <= 0) {
@@ -983,7 +983,7 @@ function aggregateFormationUsage(
     .map(([id]) => ({
       id,
       dataKey: `formation-${id}`,
-      name: getFormationName(id, locale) ?? fallbackName(id),
+      name: getFormationName(id) ?? fallbackName(id),
       color: formationColors[(id - 1) % formationColors.length],
     }));
   const dateFormatter = trendDateFormatter(locale);
@@ -1032,7 +1032,6 @@ type ArmamentChartData = Record<InscriptionKey, number> & {
 
 function getArmamentBuffOptions(
   slot: CombatLabPreviewArmamentSlot,
-  locale: string,
   fallbackName: (id: number) => string
 ) {
   const totals = new Map<number, { maximumRoll: number; observations: number }>();
@@ -1051,7 +1050,7 @@ function getArmamentBuffOptions(
     .map(([id, { maximumRoll }]) => ({
       id,
       maximumRoll,
-      name: getArmamentInfo(id, locale)?.name ?? fallbackName(id),
+      name: getArmamentInfo(id)?.name ?? fallbackName(id),
     }));
 }
 
@@ -1156,7 +1155,6 @@ type EquipmentChartData = Record<string, number | string> & {
 
 function getAccessoryPairingData(
   accessoryPairings: CombatLabPreviewAccessoryPairings | undefined,
-  locale: string,
   labels: { item: (id: number) => string; otherPairings: string }
 ): CombatLabDonutDatum[] {
   if (
@@ -1179,7 +1177,7 @@ function getAccessoryPairingData(
   const data = topPairings.map(
     (pairing, index): CombatLabDonutDatum => ({
       key: `pair-${pairing.firstItemId}-${pairing.secondItemId}`,
-      name: `${getEquipmentName(pairing.firstItemId, locale) ?? labels.item(pairing.firstItemId)} + ${getEquipmentName(pairing.secondItemId, locale) ?? labels.item(pairing.secondItemId)}`,
+      name: `${getEquipmentName(pairing.firstItemId) ?? labels.item(pairing.firstItemId)} + ${getEquipmentName(pairing.secondItemId) ?? labels.item(pairing.secondItemId)}`,
       count: pairing.count,
       color: equipmentColors[index],
     })
@@ -1255,7 +1253,7 @@ function aggregateEquipmentUsage(
   const otherTotal = Math.max(0, observations - selectedTotal);
   const series: EquipmentChartSeries[] = selectedItemIds.map((id, index) => ({
     dataKey: `equipment-${id}`,
-    name: getEquipmentName(id, locale) ?? labels.item(id),
+    name: getEquipmentName(id) ?? labels.item(id),
     color: equipmentColors[index],
     isOther: false,
   }));

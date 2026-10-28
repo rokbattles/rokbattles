@@ -1,4 +1,3 @@
-import { getLocale } from "next-intl/server";
 import { CombatLab } from "@/components/combat-lab/combat-lab";
 import { getCombatLabCommanderOptions, isCombatLabCommanderId } from "@/lib/combat-lab/commanders";
 import { fetchCombatLabPreview } from "@/lib/combat-lab/preview-api";
@@ -25,10 +24,9 @@ export async function CombatLabPage({
         ? defaultPrimaryCommanderId
         : defaultSecondaryCommanderId
       : requestedSecondary;
-  const locale = await getLocale();
   const [data, commanderOptions] = await Promise.all([
-    fetchCombatLabPreview({ primary, secondary, locale, season }),
-    getCombatLabCommanderOptions(locale, season),
+    fetchCombatLabPreview({ primary, secondary, season }),
+    getCombatLabCommanderOptions(season),
   ]);
   return <CombatLab commanderOptions={commanderOptions} data={data} />;
 }

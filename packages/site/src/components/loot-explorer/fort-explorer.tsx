@@ -1,6 +1,6 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BarbarianFortLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
@@ -25,7 +25,6 @@ export function FortExplorer({
   selectedLevels: number[];
 }) {
   const t = useExtracted();
-  const locale = useLocale();
   const [items, setItems] = useState<BarbarianFortLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -150,7 +149,7 @@ export function FortExplorer({
                     )}
                   </div>
                 </div>
-                <LootTable loot={tier.loot} locale={locale} />
+                <LootTable loot={tier.loot} />
               </div>
             ))}
           </section>

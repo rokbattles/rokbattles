@@ -28,7 +28,6 @@ import { GovernorContext } from "@/providers/governor-context";
 type PersonalLootContentProps = {
   active: AccountLootSection;
   endpoint: PersonalLootEndpoint;
-  datasetLocale?: string;
 };
 
 type SectionConfig = {
@@ -72,7 +71,7 @@ function emptyGroup(): PersonalLootGroup {
   };
 }
 
-export function PersonalLootContent({ active, endpoint, datasetLocale }: PersonalLootContentProps) {
+export function PersonalLootContent({ active, endpoint }: PersonalLootContentProps) {
   const t = useExtracted();
   const searchParams = useSearchParams();
   const governorContext = use(GovernorContext);
@@ -260,14 +259,11 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       {data ? (
         <div className="space-y-8">
           {(data.groups.length ? data.groups : [emptyGroup()]).map((group) => {
-            const rows = buildLootRewardRows(
-              group,
-              (type, subType) =>
-                t("Unknown reward {type}/{subType}", {
-                  type: type.toString(),
-                  subType: subType.toString(),
-                }),
-              datasetLocale
+            const rows = buildLootRewardRows(group, (type, subType) =>
+              t("Unknown reward {type}/{subType}", {
+                type: type.toString(),
+                subType: subType.toString(),
+              })
             );
             return (
               <section key={group.level ?? "all"} className="space-y-4">

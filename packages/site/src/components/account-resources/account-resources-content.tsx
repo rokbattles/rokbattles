@@ -16,13 +16,7 @@ import { RESOURCE_KEYS } from "@/lib/resources/catalog";
 import { resolveResourceRange } from "@/lib/resources/date-range";
 import { GovernorContext } from "@/providers/governor-context";
 
-type AccountResourcesContentProps = {
-  datasetLocale?: string;
-};
-
-export function AccountResourcesContent({
-  datasetLocale,
-}: AccountResourcesContentProps): ReactElement {
+export function AccountResourcesContent(): ReactElement {
   const t = useExtracted();
   const searchParams = useSearchParams();
   const governorContext = use(GovernorContext);
@@ -70,7 +64,6 @@ export function AccountResourcesContent({
         data={data}
         governorId={governorId}
         today={today}
-        datasetLocale={datasetLocale}
       />
     );
   } else {

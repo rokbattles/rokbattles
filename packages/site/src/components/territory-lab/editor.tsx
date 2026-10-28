@@ -147,7 +147,7 @@ export default function Editor({
     shift: boolean;
   } | null>(null);
   const route = plan.routes.find((r) => r.id === routeId);
-  const commanderOptions = useCommanderOptions("en");
+  const commanderOptions = useCommanderOptions();
   const invalidAllianceTag = plan.alliances.some(
     (a) => !a.name.trim() || Array.from(a.name).length > 4
   );

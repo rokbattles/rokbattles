@@ -4,2117 +4,461 @@ relics:
   # Level 3 -> 200XX
 
   1:
-    name:
-      ar: "الأعمال المُجمّعة لتساو تساو"
-      de: "Die Gesammelten Werke von Cao Cao"
-      en: "The Collected Works of Cao Cao"
-      es: "Las obras completas de Cao Cao"
-      fr: "Les œuvres recueillies de Cao Cao"
-      id: "Kumpulan Karya Cao Cao"
-      it: "Le opere complete di Cao Cao"
-      ja: "魏武帝集"
-      ko: "위무제집"
-      ms: "Karya Terkumpul Cao Cao"
-      pl: "Kompilacja dzieł Cao Cao"
-      pt: "As Obras Reunidas de Cao Cao"
-      ru: "Собрание работ Цао Цао"
-      th: "ผลงานรวมของโจโฉ"
-      tr: "Cao Cao'nun Toplu Eserleri"
-      vi: "Tuyển Tập Tác Phẩm Của Tào Tháo"
-      zh_CN: "魏武帝集"
-      zh_TW: "魏武帝集"
+    name: "The Collected Works of Cao Cao"
     sprite:
       - img_HeroMuseumItem_01.png
 
   2:
-    name:
-      ar: "مزمار الخيزران لشيزوكا غوزين"
-      de: "Bambusflöte von Shizuka Gozen"
-      en: "The Bamboo Flute of Shizuka Gozen"
-      es: "Flauta de bambú de Shizuka Gozen"
-      fr: "La Flûte de bambou de Shizuka Gozen"
-      id: "Seruling Bambu Shizuka Gozen"
-      it: "Il flauto di bambù di Shizuka Gozen"
-      ja: "7孔の篠笛"
-      ko: "시노부에"
-      ms: "Seruling Buluh Shizuka Gozen"
-      pl: "Flet bambusowy Shizuki Gozen"
-      pt: "A Flauta de Bambu de Shizuka Gozen"
-      ru: "Бамбуковая флейта Сидзуки Годзэн"
-      th: "ขลุ่ยไม้ไผ่ของสึซึกะ โกเซน"
-      tr: "Shizuka Gozen'in Bambu Flütü"
-      vi: "Sáo Trúc Của Shizuka Gozen"
-      zh_CN: "七孔篠笛"
-      zh_TW: "七孔篠笛"
+    name: "The Bamboo Flute of Shizuka Gozen"
     sprite:
       - img_HeroMuseumItem_08.png
 
   3:
-    name:
-      ar: "خوذة ساتون هوو"
-      de: "Helm von Sutton Hoo"
-      en: "Sutton Hoo Helmet"
-      es: "Yelmo de Sutton Hoo"
-      fr: "Casque Sutton Hoo"
-      id: "Helm Sutton Hoo"
-      it: "Elmo di Sutton Hoo"
-      ja: "サットン・フーのヘルメット"
-      ko: "서튼 후의 투구"
-      ms: "Ketopong Sutton Hoo"
-      pl: "Hełm z Sutton Hoo"
-      pt: "Elmo de Sutton Hoo"
-      ru: "Шлем из Саттон-Ху"
-      th: "หมวกซัตตันฮู"
-      tr: "Sutton Hoo Miğferi"
-      vi: "Mũ Giáp Sutton Hoo"
-      zh_CN: "萨顿胡头盔"
-      zh_TW: "薩頓胡頭盔"
+    name: "Sutton Hoo Helmet"
     sprite:
       - img_HeroMuseumItem_09.png
 
   4:
-    name:
-      ar: "العملة القرطاجية"
-      de: "Punische Münzen"
-      en: "Carthaginian Coinage"
-      es: "Monedas cartaginesas"
-      fr: "Monnaie carthaginoise"
-      id: "Koin Kartago"
-      it: "Moneta cartaginese"
-      ja: "カルタゴ硬貨"
-      ko: "카르타고 동전"
-      ms: "Syiling Carthaginian"
-      pl: "Kartagińskie monety"
-      pt: "Moedas Cartaginesas"
-      ru: "Монеты Карфагена"
-      th: "เหรียญกษาปณ์คาร์เธจ"
-      tr: "Kartaca Sikkeleri"
-      vi: "Tiền Xu Carthaginian"
-      zh_CN: "迦太基钱币"
-      zh_TW: "迦太基錢幣"
+    name: "Carthaginian Coinage"
     sprite:
       - img_HeroMuseumItem_05.png
 
   5:
-    name:
-      ar: "شعار الثلاثة أسود"
-      de: "3-Löwen-Wappenschild"
-      en: "Three Lions Escutcheon"
-      es: "Blasón de los tres leones"
-      fr: "Écusson à trois lions"
-      id: "Perisai Tiga Singa"
-      it: "Scudo a tre leoni"
-      ja: "三獅子の盾"
-      ko: "삼사자의 방패"
-      ms: "Escutcheon Tiga Singa"
-      pl: "Herb z trzeba lwami"
-      pt: "Escudo dos Três Leões"
-      ru: "Геральдический щит с тремя львами"
-      th: "ป้ายชื่อเรือสามสิงห์"
-      tr: "Üç Aslanlı Kraliyet Arması"
-      vi: "Huy Hiệu Tam Sư"
-      zh_CN: "三狮长盾"
-      zh_TW: "三獅長盾"
+    name: "Three Lions Escutcheon"
     sprite:
       - img_HeroMuseumItem_10.png
 
   6:
-    name:
-      ar: "الخاتم الميروفنجي"
-      de: "Ring der Merowinger"
-      en: "Merovingian Ring"
-      es: "Anillo merovingio"
-      fr: "Bague mérovingienne"
-      id: "Cincin Merovingian"
-      it: "Anello merovingio"
-      ja: "メロヴィング朝のゴールドリング"
-      ko: "메로베우스 왕조의 에나멜 금제 반지"
-      ms: "Cincin Merovingian"
-      pl: "Pierścień Merowingów"
-      pt: "Anel Merovíngio"
-      ru: "Кольцо Меровингов"
-      th: "แหวนเมโรวินเจียน"
-      tr: "Merovenj Yüzüğü"
-      vi: "Chiếc Nhẫn Merovingian"
-      zh_CN: "墨洛温王朝珐琅金质戒指"
-      zh_TW: "墨洛溫王朝琺瑯金質戒指"
+    name: "Merovingian Ring"
     sprite:
       - img_HeroMuseumItem_06.png
 
   7:
-    name:
-      ar: "سيف السیِّد تيزونا"
-      de: "El Cids Tizona"
-      en: "El Cid's Tizona"
-      es: "La Tizona del Cid"
-      fr: "Tizona du Cid"
-      id: "Tizona Milik El Cid"
-      it: "La Tizona di El Cid"
-      ja: "ティソーナ"
-      ko: "엘 시드의 검 티조나"
-      ms: "Tizona El Cid"
-      pl: "Tizona Cyda Walecznego"
-      pt: "Tizona de El Cid"
-      ru: "Тисона Сида Кампеадора"
-      th: "ดาบทิโซนาของเอล ซิด"
-      tr: "El Cid'in Tizonası"
-      vi: "Tizona Của El Cid"
-      zh_CN: "熙德佩剑蒂佐纳"
-      zh_TW: "熙德佩劍蒂佐納"
+    name: "El Cid's Tizona"
     sprite:
       - img_HeroMuseumItem_13.png
 
   8:
-    name:
-      ar: "نقش التنين التوأم"
-      de: "Zwillingsdrachen-Deckenschmuck"
-      en: "Twin Dragons Inscription"
-      es: "Inscripción de los dragones gemelos"
-      fr: "Inscription de Dragons jumeaux"
-      id: "Prasasti Naga Kembar"
-      it: "Iscrizione dei draghi gemelli"
-      ja: "双龍刻宝蓋"
-      ko: "쌍룡각 보개"
-      ms: "Prasasti Naga Berkembar"
-      pl: "Inskrypcja z dwoma smokami"
-      pt: "Inscrição dos Dragões Gêmeos"
-      ru: "Гравировка «Два дракона»"
-      th: "จารึกมังกรคู่"
-      tr: "İkiz Ejderha Görseli"
-      vi: "Hình Khắc Song Long"
-      zh_CN: "双龙刻宝盖"
-      zh_TW: "雙龍刻寶蓋"
+    name: "Twin Dragons Inscription"
     sprite:
       - img_HeroMuseumItem_03.png
 
   9:
-    name:
-      ar: "حلية التنين والعنقاء اليشمية"
-      de: "Jade-Ornament „Drache und Phönix“"
-      en: "Dragon and Phoenix Jade Ornament"
-      es: "Ornamento de jade de dragón y fénix"
-      fr: "Ornement de jade Dragon et Phénix"
-      id: "Ornamen Giok Naga dan Phoenix"
-      it: "Ornamento di giada con drago e fenice"
-      ja: "龍鳳形玉器"
-      ko: "용봉형 옥기"
-      ms: "Hiasan Jed Naga dan Phoenix"
-      pl: "Jadeitowa ozdoba ze smokiem i feniksem"
-      pt: "Ornamento de Jade de Dragão e Fênix"
-      ru: "Нефритовое украшение «Дракон и феникс»"
-      th: "ของตกแต่งหยกมังกรและนกฟีนิกซ์"
-      tr: "Ejderha ve Anka Kuşu Yeşim Süsü"
-      vi: "Vật Trang Trí Ngọc Bích Rồng Phượng"
-      zh_CN: "龙凤形玉器"
-      zh_TW: "龍鳳形玉器"
+    name: "Dragon and Phoenix Jade Ornament"
     sprite:
       - img_HeroMuseumItem_07.png
 
   10:
-    name:
-      ar: "قرن شراب الفايكنج"
-      de: "Wikinger-Trinkhorn"
-      en: "Viking Drinking Horn"
-      es: "Cuerno para beber vikingo"
-      fr: "Corne à boire de Viking"
-      id: "Gelas Tanduk Viking"
-      it: "Corno da bere vichingo"
-      ja: "バイキング角杯"
-      ko: "바이킹 뿔컵"
-      ms: "Tanduk Minum Viking"
-      pl: "Puchar wikingów"
-      pt: "Chifre de Bebida Viking"
-      ru: "Рог викингов"
-      th: "เขาสัตว์ไว้ดื่มของไวกิ้ง"
-      tr: "Viking Boynuz Kupası"
-      vi: "Cốc Sừng Viking"
-      zh_CN: "维京牛角杯"
-      zh_TW: "維京牛角杯"
+    name: "Viking Drinking Horn"
     sprite:
       - img_HeroMuseumItem_12.png
 
   11:
-    name:
-      ar: "ياتاغان"
-      de: "Yatagan"
-      en: "Yatagan"
-      es: "Yatagán"
-      fr: "Yatagan"
-      id: "Yatagan"
-      it: "Yatagan"
-      ja: "ヤタガン"
-      ko: "야타간"
-      ms: "Yatagan"
-      pl: "Jatagan"
-      pt: "Iatagã"
-      ru: "Ятаган"
-      th: "ยาตากัน"
-      tr: "Yatağan"
-      vi: "Yatagan"
-      zh_CN: "亚特坎"
-      zh_TW: "亞特坎"
+    name: "Yatagan"
     sprite:
       - img_HeroMuseumItem_14.png
 
   12:
-    name:
-      ar: "التاج الإمبراطوري للإمبراطورية الرومانية"
-      de: "Reichskrone"
-      en: "Imperial Crown of the Holy Roman Empire"
-      es: "Corona imperial del Sacro Imperio Romano Germánico"
-      fr: "Couronne impériale du Saint Empire romain germanique"
-      id: "Mahkota Kerajaan dari Kekaisaran Romawi Suci"
-      it: "Corona imperiale del Sacro Romano Impero"
-      ja: "神聖ローマ皇帝冠"
-      ko: "신성 로마 제국의 왕관"
-      ms: "Mahkota Imperial Empayar Rom Suci"
-      pl: "Korona Rzeszy"
-      pt: "Coroa Imperial do Sacro Império Romano"
-      ru: "Корона Священной Римской империи"
-      th: "มงกุฎจักรพรรดิแห่งจักรวรรดิโรมันอันศักดิ์สิทธิ์"
-      tr: "Kutsal Roma'nın İmparatorluk Tacı"
-      vi: "Vương Miện Hoàng Gia Của Đế Quốc La Mã Thần Thánh"
-      zh_CN: "神圣罗马帝国皇冠"
-      zh_TW: "神聖羅馬帝國皇冠"
+    name: "Imperial Crown of the Holy Roman Empire"
     sprite:
       - img_HeroMuseumItem_11.png
 
   13:
-    name:
-      ar: "تعليقات على الحرب الغالية"
-      de: "De bello Gallico"
-      en: "Bellum Gallicum"
-      es: "De bello Gallico"
-      fr: "Bellum Gallicum"
-      id: "Bellum Gallicum"
-      it: "De bello Gallico"
-      ja: "ガリア戦記"
-      ko: "갈리아 전기"
-      ms: "Bellum Gallicum"
-      pl: "O wojnie galijskiej"
-      pt: "Bellum Gallicum"
-      ru: "«Записки о Галльской войне»"
-      th: "แกลเลียเบลจิกา"
-      tr: "Bellum Gallicum"
-      vi: "Bellum Gallicum"
-      zh_CN: "高卢战记"
-      zh_TW: "高盧戰記"
+    name: "Bellum Gallicum"
     sprite:
       - img_HeroMuseumItem_04.png
 
   14:
-    name:
-      ar: "تميمة شارلمان"
-      de: "Talisman Karls des Großen"
-      en: "Talisman of Charlemagne"
-      es: "Talismán de Carlomagno"
-      fr: "Talisman de Charlemagne"
-      id: "Jimat Charlemagne"
-      it: "Talismano di Carlo Magno"
-      ja: "シャルルマーニュの護符"
-      ko: "탈리스만"
-      ms: "Azimat Charlemagne"
-      pl: "Talizman Karola Wielkiego"
-      pt: "Talismã de Carlos Magno"
-      ru: "Талисман Карла Великого"
-      th: "เครื่องรางแห่งชาร์เลอมาญ"
-      tr: "Şarlman'ın Tılsımı"
-      vi: "Bùa Charlemagne"
-      zh_CN: "塔利斯曼"
-      zh_TW: "塔利斯曼"
+    name: "Talisman of Charlemagne"
     sprite:
       - img_HeroMuseumItem_02.png
 
   15:
-    name:
-      ar: "جعران من خبر رع"
-      de: "„Men Kheper Re“-Skarabäus"
-      en: "Men Kheper Re Scarab"
-      es: "Escarabeo de Men Kheper Re"
-      fr: "Scarabée de Men-Kheper-Ré"
-      id: "Men Kheper Re Scarab"
-      it: "Scarabeo Men Kheper Re"
-      ja: "メンケペルラースカラベ"
-      ko: "멘크헤페레 왕쇠똥구리"
-      ms: "Scarab Men Kheper Re"
-      pl: "Skarabeusz „Men Kheper Re”"
-      pt: "Men Kheper Re Scarab"
-      ru: "Скарабей Менхеперра"
-      th: "สการับเมนเคเปอร์เร"
-      tr: "Men Kheper Re Böceği"
-      vi: "Bọ Hung Men Kheper Re"
-      zh_CN: "门赫佩尔圣甲虫"
-      zh_TW: "門赫佩爾聖甲蟲"
+    name: "Men Kheper Re Scarab"
     sprite:
       - img_HeroMuseumItem_15.png
 
   16:
-    name:
-      ar: "الرايات التسع البيضاء"
-      de: "Die Neun Weißen Banner"
-      en: "The Nine White Banners"
-      es: "Estandarte de nueve bases blancas"
-      fr: "Les Neuf bannières blanches"
-      id: "Sembilan Bendera Putih"
-      it: "I nove stendardi bianchi"
-      ja: "九遊白旗"
-      ko: "구유백독"
-      ms: "Sembilan Sepanduk Putih"
-      pl: "Dziewięć Białych Sztandarów"
-      pt: "As Nove Bandeiras Brancas"
-      ru: "Девять белых знамен"
-      th: "ธงขาวเก้า"
-      tr: "Dokuz Beyaz Tuğ"
-      vi: "Cửu Bạch Mao Tiết"
-      zh_CN: "九斿白纛"
-      zh_TW: "九斿白纛"
+    name: "The Nine White Banners"
     sprite:
       - img_HeroMuseumItem_20.png
 
   17:
-    name:
-      ar: "الدرع الأيوبي"
-      de: "Ayyubidische Rüstung"
-      en: "Ayyubid Armor"
-      es: "Armadura ayubí"
-      fr: "Armure ayyoubide"
-      id: "Zirah Ayyubid"
-      it: "Armatura ayyubide"
-      ja: "イスラムの鎧"
-      ko: "이슬람 갑옷"
-      ms: "Perisai Ayyubiyah"
-      pl: "Zbroja ajjubidzka"
-      pt: "Armadura Aiúbida"
-      ru: "Доспех Айюбидов"
-      th: "ชุดเกราะอัยยูบิด"
-      tr: "Eyyubi Zırhı"
-      vi: "Áo Giáp Ayyubid"
-      zh_CN: "伊斯兰铠甲"
-      zh_TW: "伊斯蘭鎧甲"
+    name: "Ayyubid Armor"
     sprite:
       - img_HeroMuseumItem_16.png
 
   18:
-    name:
-      ar: "مرسوم ميلان"
-      de: "Mailänder Vereinbarung"
-      en: "Edict of Milan"
-      es: "Edicto de Milán"
-      fr: "Édit de Milan"
-      id: "Edict of Milan"
-      it: "Editto di Milano"
-      ja: "ミラノ勅令"
-      ko: "밀라노 칙령"
-      ms: "Edik Milan"
-      pl: "Edykt mediolański"
-      pt: "Decreto de Milão"
-      ru: "Миланский эдикт"
-      th: "กฤษฎีกาแห่งมิลาน"
-      tr: "Milan Fermanı"
-      vi: "Chiếu Thư Milan"
-      zh_CN: "米兰诏书"
-      zh_TW: "米蘭敕令"
+    name: "Edict of Milan"
     sprite:
       - img_HeroMuseumItem_18.png
 
   19:
-    name:
-      ar: "الساريسا المقدونية"
-      de: "Mazedonische Sarissa"
-      en: "Macedonian Sarissa"
-      es: "Sarisa macedonia"
-      fr: "Sarisse macédonienne"
-      id: "Sarissa Makedonia"
-      it: "Sarissa macedone"
-      ja: "サリッサ"
-      ko: "마케도니아의 창"
-      ms: "Sarissa Macedonia"
-      pl: "Sarisa macedońska"
-      pt: "Sarissa Macedônia"
-      ru: "Македонская сарисса"
-      th: "ซาริสซามาซิโดเนีย"
-      tr: "Makedon Sarissa Silahı"
-      vi: "Trường Mâu Macedonia"
-      zh_CN: "马其顿长矛"
-      zh_TW: "馬其頓長矛"
+    name: "Macedonian Sarissa"
     sprite:
       - img_HeroMuseumItem_19.png
 
   20:
-    name:
-      ar: "شارة الذراع الذهبية"
-      de: "Goldenes Armband"
-      en: "Gold Armband"
-      es: "Brazalete de oro"
-      fr: "Brassard d'or"
-      id: "Gelang Emas"
-      it: "Bracciale d'oro"
-      ja: "黄金の装飾"
-      ko: "황금 장식의 띠"
-      ms: "Pengikat Lengan Emas"
-      pl: "Złota opaska"
-      pt: "Braçadeira de Ouro"
-      ru: "Золотой нарукавник"
-      th: "ปลอกแขนทองคำ"
-      tr: "Altın Kol Bandı"
-      vi: "Vòng Tay Hoàng Kim"
-      zh_CN: "黄金带饰"
-      zh_TW: "黃金帶飾"
+    name: "Gold Armband"
     sprite:
       - img_HeroMuseumItem_22.png
 
   21:
-    name:
-      ar: "نجمة فرسان الرِباط"
-      de: "Bruststern des Hosenbandordens"
-      en: "Garter Star"
-      es: "Estrella de la Jarretera"
-      fr: "Étoile de la Jarretière"
-      id: "Bintang Garter"
-      it: "Stella della Giarrettiera"
-      ja: "ガーター勲章"
-      ko: "가터 훈장"
-      ms: "Bintang Garter"
-      pl: "Gwiazda Orderu Podwiązki"
-      pt: "Estrela da Jarreteira"
-      ru: "Звезда ордена Подвязки"
-      th: "ดาวการ์เทอร์"
-      tr: "Garter Yıldızı"
-      vi: "Huy Chương Garter"
-      zh_CN: "嘉德勋章"
-      zh_TW: "嘉德勳章"
+    name: "Garter Star"
     sprite:
       - img_HeroMuseumItem_21.png
 
   22:
-    name:
-      ar: "جمل مع موسيقيين"
-      de: "Kamel mit Musikern"
-      en: "Camel with Musicians"
-      es: "Camello con músicos"
-      fr: "Chameau avec musiciens"
-      id: "Unta dengan Musisi"
-      it: "Cammello con musicisti"
-      ja: "三彩駱駝載楽俑"
-      ko: "낙타 연주자"
-      ms: "Unta dengan Pemuzik"
-      pl: "Wielbłąd i muzycy"
-      pt: "Camelo com Músicos"
-      ru: "Музыканты на верблюде"
-      th: "อูฐกับนักดนตรี"
-      tr: "Deve Üstünde Çalgıcılar"
-      vi: "Lạc Đà Chở Nhạc Công"
-      zh_CN: "唐三彩骆驼载乐俑"
-      zh_TW: "三彩駱駝俑"
+    name: "Camel with Musicians"
     sprite:
       - img_HeroMuseumItem_17.png
 
   23:
-    name:
-      ar: "الجَرَّة الباناثينية"
-      de: "Panathenäische Amphore"
-      en: "Panathenaic Amphora"
-      es: "Ánfora panatenaica"
-      fr: "Amphore panathénaïque"
-      id: "Amfora Panathena"
-      it: "Anfora panatenaica"
-      ja: "色絵アンフォラ"
-      ko: "파나티나이코식 암포라"
-      ms: "Amphora Panathenaic"
-      pl: "Amfora panatenajska"
-      pt: "Ânfora Panatenaica"
-      ru: "Панафинейская амфора"
-      th: "ไหแอมโฟร่าพานาธีนิก"
-      tr: "Panathenaea Amforası"
-      vi: "Vò Hai Quai Panathenaea"
-      zh_CN: "彩绘双耳陶瓶"
-      zh_TW: "彩繪雙耳陶瓶"
+    name: "Panathenaic Amphora"
     sprite:
       - img_HeroMuseumItem_23.png
 
   24:
-    name:
-      ar: "قوس الهون"
-      de: "Hunnischer Bogen"
-      en: "Hun Bow"
-      es: "Arco huno"
-      fr: "Arc hun"
-      id: "Busur Hun"
-      it: "Arco Unno"
-      ja: "匈奴の弓"
-      ko: "흉노궁"
-      ms: "Busur Hun"
-      pl: "Łuk Hunów"
-      pt: "Arco Huno"
-      ru: "Лук гуннов"
-      th: "ธนูฮัน"
-      tr: "Hun Yayı"
-      vi: "Cung Hung Nô"
-      zh_CN: "匈奴弓"
-      zh_TW: "匈奴弓"
+    name: "Hun Bow"
     sprite:
       - img_HeroMuseumItem_24.png
 
   25:
-    name:
-      ar: "كوشو هاتو نو شيداي"
-      de: "Kōshū Hatto no Shidai"
-      en: "Kōshū Hatto no Shidai"
-      es: "Kōshū Hatto no Shidai"
-      fr: "Kōshū Hatto no Shidai"
-      id: "Kōshū Hatto no Shidai"
-      it: "Kōshū Hatto no Shidai"
-      ja: "甲州法度次第"
-      ko: "고슈법도차제"
-      ms: "Kōshū Hatto no Shidai"
-      pl: "Kōshū Hatto no Shidai"
-      pt: "Kōshū Hatto no Shidai"
-      ru: "Законы провинции Каи"
-      th: "โคชู ฮัตโตะ โนะ ชิได"
-      tr: "Kōshū Hatto no Shidai"
-      vi: "Giáp Châu Pháp Độ Thứ Đệ"
-      zh_CN: "甲州法度次第"
-      zh_TW: "甲州法度次第"
+    name: "Kōshū Hatto no Shidai"
     sprite:
       - img_HeroMuseumItem_25.png
 
   26:
-    name:
-      ar: "ختم تينغهو هانشو"
-      de: "Siegel des Tinghou von Hanshou"
-      en: "Seal of the Hanshou Tinghou"
-      es: "Sello del tinghou de Hanshou"
-      fr: "Sceau du Hanshou Tinghou"
-      id: "Stempel Tinghou Hanshou"
-      it: "Sigillo dello Hanshou Tinghou"
-      ja: "寿亭侯之印"
-      ko: "한수정후 인장"
-      ms: "Meterai Hanshou Tinghou"
-      pl: "Pieczęć tinghou Hanshou"
-      pt: "Selo do Tinghou de Hanshou"
-      ru: "Печать тинхоу Ханьшоу"
-      th: "ตราผนึกแห่งหางโจวเทียนโหว้"
-      tr: "Hanshou Tinghou'su Mührü"
-      vi: "Ấn Hán Thọ Đình Hầu"
-      zh_CN: "汉寿亭侯印"
-      zh_TW: "漢壽亭侯印"
+    name: "Seal of the Hanshou Tinghou"
     sprite:
       - img_HeroMuseumItem_27.png
 
   27:
-    name:
-      ar: "الأسبيس اليوناني"
-      de: "Griechischer Aspis"
-      en: "Greek Aspis"
-      es: "Aspis griego"
-      fr: "Aspis grec"
-      id: "Aspis Yunani"
-      it: "Aspic greco"
-      ja: "ギリシャ円盾"
-      ko: "그리스 원형 방패"
-      ms: "Aspis Yunani"
-      pl: "Grecki hoplon"
-      pt: "Áspide grego"
-      ru: "Греческий аспис"
-      th: "กรีกเอสพิส"
-      tr: "Yunan Aspis Kalkanı"
-      vi: "Khiên Tròn Hy Lạp"
-      zh_CN: "希腊圆盾"
-      zh_TW: "希臘圓盾"
+    name: "Greek Aspis"
     sprite:
       - img_HeroMuseumItem_26.png
 
   28:
-    name:
-      ar: "النمس"
-      de: "Nemes-Kopftuch"
-      en: "Nemes"
-      es: "Nemes"
-      fr: "Némès"
-      id: "Nemes"
-      it: "Nemes"
-      ja: "ネメス"
-      ko: "네메스 두건"
-      ms: "Nemes"
-      pl: "Nemes"
-      pt: "Nemés"
-      ru: "Немес"
-      th: "เนเมส"
-      tr: "Nemes"
-      vi: "Khăn Nemes"
-      zh_CN: "尼美斯头巾"
-      zh_TW: "尼美斯頭巾"
+    name: "Nemes"
     sprite:
       - img_HeroMuseumItem_28.png
 
   29:
-    name:
-      ar: "جرّة زيركسيس الأول"
-      de: "Krug von Xerxes I."
-      en: "Jar of Xerxes I"
-      es: "Alabastrón de Jerjes I"
-      fr: "Jarre de Xerxès Ier"
-      id: "Guci Xerxes I"
-      it: "Vaso di Serse I"
-      ja: "クセルクセスの壺"
-      ko: "크세르크세스의 단지"
-      ms: "Balang Xerxes I"
-      pl: "Słój Kserksesa I"
-      pt: "Jarro de Xerxes I"
-      ru: "Кувшин Ксеркса I"
-      th: "โถแห่งเซิร์กซีสที่ 1"
-      tr: "I. Serhas'ın Küpü"
-      vi: "Bình Xerxes I"
-      zh_CN: "薛西斯之罐"
-      zh_TW: "薛西斯之罐"
+    name: "Jar of Xerxes I"
     sprite:
       - img_HeroMuseumItem_29.png
 
   30:
-    name:
-      ar: "قنينة رومانية شرقية"
-      de: "Oströmische Flasche"
-      en: "Eastern Roman Bottle"
-      es: "Jarrón romano oriental"
-      fr: "Alabastre romain"
-      id: "Botol Romawi Timur"
-      it: "Ampolla romana d'oriente"
-      ja: "東ローマの花瓶"
-      ko: "동로마 꽃병"
-      ms: "Botol Rom Timur"
-      pl: "Butelka wschodniorzymska"
-      pt: "Vaso Romano Oriental"
-      ru: "Византийская бутыль"
-      th: "ขวดโรมันตะวันออก"
-      tr: "Doğu Roma Şişesi"
-      vi: "Bình Hoa Đông La Mã"
-      zh_CN: "东罗马花纹瓶"
-      zh_TW: "東羅馬花紋瓶"
+    name: "Eastern Roman Bottle"
     sprite:
       - img_HeroMuseumItem_30.png
 
   31:
-    name:
-      ar: "نموذج سفينة السلحفاة"
-      de: "Schildkrötenschiff-Modell"
-      en: "Turtle Ship Model"
-      es: "Modelo de barco tortuga"
-      fr: "Maquette de navire-tortue"
-      id: "Model Kapal Penyu"
-      it: "Modello di nave testuggine"
-      ja: "亀甲船模型"
-      ko: "거북선 모형"
-      ms: "Model Kapal Penyu"
-      pl: "Model okrętu żółwia"
-      pt: "Modelo de navio tartaruga"
-      ru: "Модель корабля-черепахи"
-      th: "โมเดลเต่าทะเล"
-      tr: "Kaplumbağa Gemi Modeli"
-      vi: "Mô Hình Tàu Rùa"
-      zh_CN: "龟船模型"
-      zh_TW: "龜船模型"
+    name: "Turtle Ship Model"
     sprite:
       - img_HeroMuseumItem_31.png
 
   32:
-    name:
-      ar: "تمثال كوكولكان"
-      de: "Kukulkan-Skulptur"
-      en: "Kukulkan Sculpture"
-      es: "Escultura de Kukulcán"
-      fr: "Sculpture de Kukulkan"
-      id: "Patung Kukulkan"
-      it: "Scultura di Kukulkan"
-      ja: "ククルカンの神像"
-      ko: "쿠쿨칸 신상"
-      ms: "Arca Kukulkan"
-      pl: "Rzeźba Kukulkana"
-      pt: "Escultura de Kukulkan"
-      ru: "Скульптура Кукулькана"
-      th: "รูปปั้นกุกุลกัน"
-      tr: "Kukulkan Heykeli"
-      vi: "Tượng Quetzalcoatl"
-      zh_CN: "库库尔坎神像"
-      zh_TW: "庫庫爾坎神像"
+    name: "Kukulkan Sculpture"
     sprite:
       - img_HeroMuseumItem_32.png
 
   33:
-    name:
-      ar: "أعمدة أشوكا"
-      de: "Säulen von Aschoka"
-      en: "Pillars of Ashoka"
-      es: "Pilares de Ashoka"
-      fr: "Piliers d'Ashoka"
-      id: "Pilar-Pilar Ashoka"
-      it: "Pilastri di Aśoka"
-      ja: "アショーカの尖塔"
-      ko: "아소카의 사자주두"
-      ms: "Tiang Asoka"
-      pl: "Filary Aśoki"
-      pt: "Pilares de Ashoka"
-      ru: "Колонны Ашоки"
-      th: "เสาแห่งอโศก"
-      tr: "Asoka'nın Sütunları"
-      vi: "Cột Trụ của Ashoka"
-      zh_CN: "阿育王石柱"
-      zh_TW: "阿育王石柱"
+    name: "Pillars of Ashoka"
     sprite:
       - img_HeroMuseumItem_33.png
 
   34:
-    name:
-      ar: "لوحة بايو القماشية"
-      de: "Bayeux-Wandteppich"
-      en: "Bayeux Tapestry"
-      es: "Tapiz de Bayeux"
-      fr: "Tapisserie de Bayeux"
-      id: "Permadani Bayeux"
-      it: "Arazzo di Bayeux"
-      ja: "バイユーのタペストリー"
-      ko: "바이외 태피스트리"
-      ms: "Tapestri Bayeux"
-      pl: "Tkanina z Bayeux"
-      pt: "Tapeçaria de Bayeux"
-      ru: "Гобелен из Байё"
-      th: "พรมผนังบาเยอ"
-      tr: "Bayeux İşlemesi"
-      vi: "Thảm Thêu Bayeux"
-      zh_CN: "贝叶挂毯"
-      zh_TW: "貝葉掛毯"
+    name: "Bayeux Tapestry"
     sprite:
       - img_HeroMuseumItem_34.png
 
   35:
-    name:
-      ar: "حجر الرون"
-      de: "Runenstein"
-      en: "Runestone"
-      es: "Runa"
-      fr: "Pierre runique"
-      id: "Batu Rune"
-      it: "Pietra runica"
-      ja: "ルーン石碑"
-      ko: "룬스톤"
-      ms: "Batu Rune"
-      pl: "Kamień runiczny"
-      pt: "Pedra de Runa"
-      ru: "Рунный камень"
-      th: "ศิลาอักษรรูน"
-      tr: "Run Taşı"
-      vi: "Bia Đá"
-      zh_CN: "卢恩石刻"
-      zh_TW: "盧恩石刻"
+    name: "Runestone"
     sprite:
       - img_HeroMuseumItem_36.png
 
   36:
-    name:
-      ar: "مزهرية تَدمُر"
-      de: "Palmyrenische Vase"
-      en: "Palmyrene Vase"
-      es: "Florero de Palmira"
-      fr: "Vase palmyrénien"
-      id: "Vas Palmyrene"
-      it: "Vaso di Palmira"
-      ja: "パルミラの壺"
-      ko: "팔미라 항아리"
-      ms: "Pasu Palmyra"
-      pl: "Waza z Palmyry"
-      pt: "Vaso de Palmira"
-      ru: "Пальмирская ваза"
-      th: "แจกันพัลไมรา"
-      tr: "Palmira Vazosu"
-      vi: "Bình Cổ Palmyrene"
-      zh_CN: "帕尔米拉陶瓶"
-      zh_TW: "帕爾米拉陶瓶"
+    name: "Palmyrene Vase"
     sprite:
       - img_HeroMuseumItem_35.png
 
   37:
-    name:
-      ar: "عالم الصناديق"
-      de: "Globus von Krates"
-      en: "Globe of Crates"
-      es: "Globo de Crates"
-      fr: "Globe de Cratès"
-      id: "Globe dari Crates"
-      it: "Globo di Cratete"
-      ja: "銅製の地球儀"
-      ko: "구리 지구본"
-      ms: "Glob Peti"
-      pl: "Kula skrzyń"
-      pt: "Globo de Crates"
-      ru: "Глобус Кратета"
-      th: "ลูกโลกทองแดง"
-      tr: "Crates'in Küresi"
-      vi: "Quả Cầu Crates"
-      zh_CN: "铜制地球仪"
-      zh_TW: "銅製地球儀"
+    name: "Globe of Crates"
     sprite:
       - img_HeroMuseumItem_37.png
 
   38:
-    name:
-      ar: "قلادة الورود"
-      de: "Rosenanhänger"
-      en: "Rose Pendant"
-      es: "Colgante de rosa"
-      fr: "Pendentif avec rose"
-      id: "Liontin Mawar"
-      it: "Ciondolo roseo"
-      ja: "ローズネックレス"
-      ko: "장미 목걸이"
-      ms: "Loket Bunga Ros"
-      pl: "Wisiorek z różą"
-      pt: "Pingente de Rosa"
-      ru: "Кулон с розой"
-      th: "จี้ดอกกุหลาบ"
-      tr: "Gül Kolye Ucu"
-      vi: "Mặt Dây Chuyền Hoa Hồng"
-      zh_CN: "玫瑰项链"
-      zh_TW: "玫瑰項鍊"
+    name: "Rose Pendant"
     sprite:
       - img_HeroMuseumItem_38.png
 
   39:
-    name:
-      ar: "طوب بلاد بابل المزجج متعدد الألوان"
-      de: "Babylonische mehrfarbig glasierte Ziegel"
-      en: "Babylonian Polychrome Glazed Bricks"
-      es: "Ladrillos vidriados policromados babilonios"
-      fr: "Briques vernissées polychromes babyloniennes"
-      id: "Batu Bata Glasir Polikrom Babilonia"
-      it: "Mattoni smaltati policromi babilonesi"
-      ja: "バビロン彩釉レンガ"
-      ko: "바빌론 채유 벽돌"
-      ms: "Bata Berlapis Polikrom Babylon"
-      pl: "Babilońskie wielobarwne emaliowane cegły"
-      pt: "Tijolos Esmaltados Policromados Babilônicos"
-      ru: "Вавилонские полихромные глазурованные кирпичи"
-      th: "อิฐเคลือบสีหลากสีของชาวบาบิโลเนีย"
-      tr: "Babil Çok Renkli Sırlı Tuğlaları"
-      vi: "Gạch Tráng Men Nhiều Màu Của Người Babylon"
-      zh_CN: "巴比伦彩釉砖"
-      zh_TW: "巴比倫彩釉磚"
+    name: "Babylonian Polychrome Glazed Bricks"
     sprite:
       - img_HeroMuseumItem_41.png
 
   40:
-    name:
-      ar: "قرن شراب الأسد المجنّح"
-      de: "Geflügeltes Löwen-Rhyton"
-      en: "Winged Lion Rhyton"
-      es: "Ritón de león alado"
-      fr: "Rhyton au lion ailé"
-      id: "Rhyton Singa Bersayap"
-      it: "Rhytòn del Leone alato"
-      ja: "有翼獅子の金製酒器"
-      ko: "날개 사자 뿔잔"
-      ms: "Bekas Minuman Singa Bersayap"
-      pl: "Skrzydlaty lew – ryton"
-      pt: "Ritão de Leão Alado"
-      ru: "Ритон с крылатым львом"
-      th: "ไรตันสิงโตมีปีก"
-      tr: "Kanatlı Aslan Riton"
-      vi: "Bình Sư Tử Có Cánh"
-      zh_CN: "有翼狮金来通"
-      zh_TW: "有翼獅金來通"
+    name: "Winged Lion Rhyton"
     sprite:
       - img_HeroMuseumItem_39.png
 
   41:
-    name:
-      ar: "حجر الشمس"
-      de: "Sonnenstein"
-      en: "Sun Stone"
-      es: "Piedra del Sol"
-      fr: "Pierre du soleil"
-      id: "Batu Matahari"
-      it: "Pietra solare"
-      ja: "太陽の石"
-      ko: "태양의 돌"
-      ms: "Batu Matahari"
-      pl: "Kamień Słońca"
-      pt: "Pedra do Sol"
-      ru: "Камень Солнца"
-      th: "หินสุริยะ"
-      tr: "Güneş Taşı"
-      vi: "Đá Mặt Trời"
-      zh_CN: "太阳石"
-      zh_TW: "太陽石"
+    name: "Sun Stone"
     sprite:
       - img_HeroMuseumItem_40.png
 
   42:
-    name:
-      ar: "النسر الإمبراطوري"
-      de: "Kaiserlicher Adler"
-      en: "Imperial Eagle"
-      es: "Águila imperial"
-      fr: "Aigle impérial"
-      id: "Elang Kekaisaran"
-      it: "Aquila imperiale"
-      ja: "アクィラ"
-      ko: "제국의 독수리"
-      ms: "Helang Imperial"
-      pl: "Cesarski orzeł"
-      pt: "Águia Imperial"
-      ru: "Имперский орел"
-      th: "นกอินทรีจักรพรรดิ"
-      tr: "İmparatorluk Kartalı"
-      vi: "Đại Bàng Hoàng Gia"
-      zh_CN: "帝国之鹰"
-      zh_TW: "帝國之鷹"
+    name: "Imperial Eagle"
     sprite:
       - img_HeroMuseumItem_42.png
 
   43:
-    name:
-      ar: "دبوس نسر قوطي غربي"
-      de: "Adlerbrosche der Westgoten"
-      en: "Visigothic Eagle Brooch"
-      es: "Broche de águila visigótica"
-      fr: "Broche d'aigle wisigoth"
-      id: "Bros Elang Visigothic"
-      it: "Spilla con aquila visigota"
-      ja: "西ゴートの鷲型ブローチ"
-      ko: "서고트 독수리 브로치"
-      ms: "Pin Helang Visigothik"
-      pl: "Wizygocka broszka w kształcie orła"
-      pt: "Broche de Água Visigoda"
-      ru: "Вестготская фибула в виде орла"
-      th: "เข็มกลัดอินทรีวิสิกอธ"
-      tr: "Vizigot Kartal Broşu"
-      vi: "Ghim Cài Đại Bàng Visigoth"
-      zh_CN: "西哥特鹰形别针"
-      zh_TW: "西哥特鷹形別針"
+    name: "Visigothic Eagle Brooch"
     sprite:
       - img_HeroMuseumItem_43.png
 
   44:
-    name:
-      ar: "عقد على جلد خروف"
-      de: "Lammlederpakt"
-      en: "Lambskin Pact"
-      es: "Pacto de cordero"
-      fr: "Pacte en peau d'agneau"
-      id: "Pakta Perkamen"
-      it: "Patto di pelle d'agnello"
-      ja: "羊皮紙の契約書"
-      ko: "양피지 계약서"
-      ms: "Pakatan Kulit Bebiri"
-      pl: "Pakt na jagnięcej skórze"
-      pt: "Pacto da Pele de Cordeiro"
-      ru: "Пакт на овчинном пергаменте"
-      th: "พันธสัญญาหนังแกะ"
-      tr: "Kuzu Derisi Paktı"
-      vi: "Hiệp Ước Trên Tấm Da Cừu"
-      zh_CN: "羊皮卷契约书"
-      zh_TW: "羊皮卷契約書"
+    name: "Lambskin Pact"
     sprite:
       - img_HeroMuseumItem_46.png
 
   45:
-    name:
-      ar: "خوذة رومانية"
-      de: "Römische Galea"
-      en: "Roman Galea"
-      es: "Galea romana"
-      fr: "Galea romaine"
-      id: "Helm Romawi"
-      it: "Galea romana"
-      ja: "ローマの兜"
-      ko: "임페리얼 투구"
-      ms: "Galea Rom"
-      pl: "Rzymska galea"
-      pt: "Gálea Romana"
-      ru: "Галеа"
-      th: "ผ้าพันแผลโรมัน"
-      tr: "Roma Miğferi"
-      vi: "Mũ Sắt La Mã"
-      zh_CN: "罗马盔冠"
-      zh_TW: "羅馬盔冠"
+    name: "Roman Galea"
     sprite:
       - img_HeroMuseumItem_45.png
 
   46:
-    name:
-      ar: "قلادة تيفيناغ"
-      de: "Tifinagh-Halskette"
-      en: "Tifinagh Necklace"
-      es: "Collar de tifinag"
-      fr: "Collier tifinagh"
-      id: "Kalung Tifinagh"
-      it: "Collana di Tifinagh"
-      ja: "ティフィナグ文字の首飾り"
-      ko: "티피나그 문자 목걸이"
-      ms: "Kalung Tifinagh"
-      pl: "Naszyjnik Tifinagh"
-      pt: "Colar Tifinagh"
-      ru: "Ожерелье, отмеченное тифинагом"
-      th: "สร้อยคอทิฟินาค"
-      tr: "Tifinagh Kolyesi"
-      vi: "Vòng Cổ Tifinagh"
-      zh_CN: "提非纳字母项链"
-      zh_TW: "提非納字母項鍊"
+    name: "Tifinagh Necklace"
     sprite:
       - img_HeroMuseumItem_44.png
 
   47:
-    name:
-      ar: "تمثال برونزي لسَرجون"
-      de: "Bronzebüste von Sargon"
-      en: "Sargon Bronze Bust"
-      es: "Busto de bronce de Sargón"
-      fr: "Buste en bronze de Sargon"
-      id: "Patung Dada Perunggu Sargon"
-      it: "Busto bronzeo di Sargon"
-      ja: "サルゴンの青銅頭像"
-      ko: "사르곤 청동 두상"
-      ms: "Arca Gangsa Sargon"
-      pl: "Popiersie Sargona z brązu"
-      pt: "Busto de Bronze de Sargão"
-      ru: "Бронзовая голова Саргона"
-      th: "เศียรสำริดแห่งซาร์กอน"
-      tr: "Sargon'un Bronz Büstü"
-      vi: "Tượng Đồng Sargon"
-      zh_CN: "萨尔贡青铜头像"
-      zh_TW: "薩爾貢青銅頭像"
+    name: "Sargon Bronze Bust"
     sprite:
       - img_HeroMuseumItem_47.png
 
   48:
-    name:
-      ar: "عملة ذهبية نبيلة"
-      de: "Goldene Edelmünze"
-      en: "Gold Noble Coin"
-      es: "Moneda de noble de oro"
-      fr: "Noble d'or"
-      id: "Koin Bangsawan Emas"
-      it: "Moneta nobile d'oro"
-      ja: "貴族の金貨"
-      ko: "귀족 금화"
-      ms: "Syiling Emas Bangsawan"
-      pl: "Złota moneta szlachecka"
-      pt: "Moeda Nobre de Ouro"
-      ru: "Золотая монета Нобль"
-      th: "เหรียญทองโนเบิล"
-      tr: "Altın Soylu Sikkesi"
-      vi: "Xu Vàng Cao Quý"
-      zh_CN: "贵族金币"
-      zh_TW: "貴族金幣"
+    name: "Gold Noble Coin"
     sprite:
       - img_HeroMuseumItem_48.png
 
   49:
-    name:
-      ar: "سوار إيسيني ذهبي"
-      de: "Gold-Torque des Icener-Reichs"
-      en: "Iceni Gold Torq"
-      es: "Torc de los iceni"
-      fr: "Torque en or des Icènes"
-      id: "Torc Emas Iceni"
-      it: "Torque d'oro degli Iceni"
-      ja: "イケニ族の黄金の首飾り"
-      ko: "이세니 금제 토크"
-      ms: "Kalung Emas Iceni"
-      pl: "Złota obręcz na szyję Iceni"
-      pt: "Torque de Ouro de Iceni"
-      ru: "Золотая гривна иценов"
-      th: "ห่วงคอทองคำไอซีนี"
-      tr: "Iceni Altın Gerdanlığı"
-      vi: "Vòng Cổ Vàng Iceni"
-      zh_CN: "艾西尼金颈环"
-      zh_TW: "艾西尼金頸環"
+    name: "Iceni Gold Torq"
     sprite:
       - img_HeroMuseumItem_51.png
 
   50:
-    name:
-      ar: "قلادة من خرز معجون الزجاج"
-      de: "Halskette aus Glaspasteperlen"
-      en: "Glass Paste Bead Necklace"
-      es: "Collar de cuentas de pasta de vidrio"
-      fr: "Collier de perles en pâte de verre"
-      id: "Kalung Manik Pasta Kaca"
-      it: "Collana di perle in pasta di vetro"
-      ja: "ガラス珠のネックレス"
-      ko: "유리구슬 목걸이"
-      ms: "Kalung Manik Kaca"
-      pl: "Naszyjnik z koralików z pasty szklanej"
-      pt: "Colar de Contas de vidro"
-      ru: "Ожерелье из стеклянных бусин"
-      th: "สร้อยคอลูกปัดแก้ว"
-      tr: "Cam Boncuklu Kolye"
-      vi: "Vòng Cổ Hạt Thủy Tinh"
-      zh_CN: "玻璃膏珠项链"
-      zh_TW: "玻璃膏珠項鍊"
+    name: "Glass Paste Bead Necklace"
     sprite:
       - img_HeroMuseumItem_50.png
 
   51:
-    name:
-      ar: "قوس يوانرونغ المتكرر"
-      de: "Yuanrong-Repetierarmbrust"
-      en: "Yuanrong Repeating Crossbow"
-      es: "Ballesta repetitiva Yuanrong"
-      fr: "Arbalète Chu Ko Nu"
-      id: "Busur Silang Beruntun Yuanrong"
-      it: "Balestra a ripetizione Yuanrong"
-      ja: "元戎の弩機"
-      ko: "원융 쇠뇌"
-      ms: "Busur Silang Bertubi Yuanrong"
-      pl: "Powtarzalna kusza Yuanrong"
-      pt: "Besta de Repetição Yuanrong"
-      ru: "Перезаряжаемый арбалет Юаньжун"
-      th: "หน้าไม้กลหยวนหรง"
-      tr: "Yuanrong Seri Atışlı Arbaleti"
-      vi: "Nỏ Liên Châu Chủ Tướng"
-      zh_CN: "元戎弩机"
-      zh_TW: "元戎弩機"
+    name: "Yuanrong Repeating Crossbow"
     sprite:
       - img_HeroMuseumItem_49.png
 
   10001:
-    name:
-      ar: "الأعمال المُجمّعة لتساو تساو"
-      de: "Die Gesammelten Werke von Cao Cao"
-      en: "The Collected Works of Cao Cao"
-      es: "Las obras completas de Cao Cao"
-      fr: "Les œuvres recueillies de Cao Cao"
-      id: "Kumpulan Karya Cao Cao"
-      it: "Le opere complete di Cao Cao"
-      ja: "魏武帝集"
-      ko: "위무제집"
-      ms: "Karya Terkumpul Cao Cao"
-      pl: "Kompilacja dzieł Cao Cao"
-      pt: "As Obras Reunidas de Cao Cao"
-      ru: "Собрание работ Цао Цао"
-      th: "ผลงานรวมของโจโฉ"
-      tr: "Cao Cao'nun Toplu Eserleri"
-      vi: "Tuyển Tập Tác Phẩm Của Tào Tháo"
-      zh_CN: "魏武帝集"
-      zh_TW: "魏武帝集"
+    name: "The Collected Works of Cao Cao"
     sprite:
       - img_HeroMuseumItem_01.png
 
   10002:
-    name:
-      ar: "مزمار الخيزران لشيزوكا غوزين"
-      de: "Bambusflöte von Shizuka Gozen"
-      en: "The Bamboo Flute of Shizuka Gozen"
-      es: "Flauta de bambú de Shizuka Gozen"
-      fr: "La Flûte de bambou de Shizuka Gozen"
-      id: "Seruling Bambu Shizuka Gozen"
-      it: "Il flauto di bambù di Shizuka Gozen"
-      ja: "7孔の篠笛"
-      ko: "시노부에"
-      ms: "Seruling Buluh Shizuka Gozen"
-      pl: "Flet bambusowy Shizuki Gozen"
-      pt: "A Flauta de Bambu de Shizuka Gozen"
-      ru: "Бамбуковая флейта Сидзуки Годзэн"
-      th: "ขลุ่ยไม้ไผ่ของสึซึกะ โกเซน"
-      tr: "Shizuka Gozen'in Bambu Flütü"
-      vi: "Sáo Trúc Của Shizuka Gozen"
-      zh_CN: "七孔篠笛"
-      zh_TW: "七孔篠笛"
+    name: "The Bamboo Flute of Shizuka Gozen"
     sprite:
       - img_HeroMuseumItem_08.png
 
   10003:
-    name:
-      ar: "خوذة ساتون هوو"
-      de: "Helm von Sutton Hoo"
-      en: "Sutton Hoo Helmet"
-      es: "Yelmo de Sutton Hoo"
-      fr: "Casque Sutton Hoo"
-      id: "Helm Sutton Hoo"
-      it: "Elmo di Sutton Hoo"
-      ja: "サットン・フーのヘルメット"
-      ko: "서튼 후의 투구"
-      ms: "Ketopong Sutton Hoo"
-      pl: "Hełm z Sutton Hoo"
-      pt: "Elmo de Sutton Hoo"
-      ru: "Шлем из Саттон-Ху"
-      th: "หมวกซัตตันฮู"
-      tr: "Sutton Hoo Miğferi"
-      vi: "Mũ Giáp Sutton Hoo"
-      zh_CN: "萨顿胡头盔"
-      zh_TW: "薩頓胡頭盔"
+    name: "Sutton Hoo Helmet"
     sprite:
       - img_HeroMuseumItem_09.png
 
   10004:
-    name:
-      ar: "العملة القرطاجية"
-      de: "Punische Münzen"
-      en: "Carthaginian Coinage"
-      es: "Monedas cartaginesas"
-      fr: "Monnaie carthaginoise"
-      id: "Koin Kartago"
-      it: "Moneta cartaginese"
-      ja: "カルタゴ硬貨"
-      ko: "카르타고 동전"
-      ms: "Syiling Carthaginian"
-      pl: "Kartagińskie monety"
-      pt: "Moedas Cartaginesas"
-      ru: "Монеты Карфагена"
-      th: "เหรียญกษาปณ์คาร์เธจ"
-      tr: "Kartaca Sikkeleri"
-      vi: "Tiền Xu Carthaginian"
-      zh_CN: "迦太基钱币"
-      zh_TW: "迦太基錢幣"
+    name: "Carthaginian Coinage"
     sprite:
       - img_HeroMuseumItem_05.png
 
   10005:
-    name:
-      ar: "شعار الثلاثة أسود"
-      de: "3-Löwen-Wappenschild"
-      en: "Three Lions Escutcheon"
-      es: "Blasón de los tres leones"
-      fr: "Écusson à trois lions"
-      id: "Perisai Tiga Singa"
-      it: "Scudo a tre leoni"
-      ja: "三獅子の盾"
-      ko: "삼사자의 방패"
-      ms: "Escutcheon Tiga Singa"
-      pl: "Herb z trzeba lwami"
-      pt: "Escudo dos Três Leões"
-      ru: "Геральдический щит с тремя львами"
-      th: "ป้ายชื่อเรือสามสิงห์"
-      tr: "Üç Aslanlı Kraliyet Arması"
-      vi: "Huy Hiệu Tam Sư"
-      zh_CN: "三狮长盾"
-      zh_TW: "三獅長盾"
+    name: "Three Lions Escutcheon"
     sprite:
       - img_HeroMuseumItem_10.png
 
   10006:
-    name:
-      ar: "الخاتم الميروفنجي"
-      de: "Ring der Merowinger"
-      en: "Merovingian Ring"
-      es: "Anillo merovingio"
-      fr: "Bague mérovingienne"
-      id: "Cincin Merovingian"
-      it: "Anello merovingio"
-      ja: "メロヴィング朝のゴールドリング"
-      ko: "메로베우스 왕조의 에나멜 금제 반지"
-      ms: "Cincin Merovingian"
-      pl: "Pierścień Merowingów"
-      pt: "Anel Merovíngio"
-      ru: "Кольцо Меровингов"
-      th: "แหวนเมโรวินเจียน"
-      tr: "Merovenj Yüzüğü"
-      vi: "Chiếc Nhẫn Merovingian"
-      zh_CN: "墨洛温王朝珐琅金质戒指"
-      zh_TW: "墨洛溫王朝琺瑯金質戒指"
+    name: "Merovingian Ring"
     sprite:
       - img_HeroMuseumItem_06.png
 
   10007:
-    name:
-      ar: "سيف السیِّد تيزونا"
-      de: "El Cids Tizona"
-      en: "El Cid's Tizona"
-      es: "La Tizona del Cid"
-      fr: "Tizona du Cid"
-      id: "Tizona Milik El Cid"
-      it: "La Tizona di El Cid"
-      ja: "ティソーナ"
-      ko: "엘 시드의 검 티조나"
-      ms: "Tizona El Cid"
-      pl: "Tizona Cyda Walecznego"
-      pt: "Tizona de El Cid"
-      ru: "Тисона Сида Кампеадора"
-      th: "ดาบทิโซนาของเอล ซิด"
-      tr: "El Cid'in Tizonası"
-      vi: "Tizona Của El Cid"
-      zh_CN: "熙德佩剑蒂佐纳"
-      zh_TW: "熙德佩劍蒂佐納"
+    name: "El Cid's Tizona"
     sprite:
       - img_HeroMuseumItem_13.png
 
   10008:
-    name:
-      ar: "نقش التنين التوأم"
-      de: "Zwillingsdrachen-Deckenschmuck"
-      en: "Twin Dragons Inscription"
-      es: "Inscripción de los dragones gemelos"
-      fr: "Inscription de Dragons jumeaux"
-      id: "Prasasti Naga Kembar"
-      it: "Iscrizione dei draghi gemelli"
-      ja: "双龍刻宝蓋"
-      ko: "쌍룡각 보개"
-      ms: "Prasasti Naga Berkembar"
-      pl: "Inskrypcja z dwoma smokami"
-      pt: "Inscrição dos Dragões Gêmeos"
-      ru: "Гравировка «Два дракона»"
-      th: "จารึกมังกรคู่"
-      tr: "İkiz Ejderha Görseli"
-      vi: "Hình Khắc Song Long"
-      zh_CN: "双龙刻宝盖"
-      zh_TW: "雙龍刻寶蓋"
+    name: "Twin Dragons Inscription"
     sprite:
       - img_HeroMuseumItem_03.png
 
   10009:
-    name:
-      ar: "حلية التنين والعنقاء اليشمية"
-      de: "Jade-Ornament „Drache und Phönix“"
-      en: "Dragon and Phoenix Jade Ornament"
-      es: "Ornamento de jade de dragón y fénix"
-      fr: "Ornement de jade Dragon et Phénix"
-      id: "Ornamen Giok Naga dan Phoenix"
-      it: "Ornamento di giada con drago e fenice"
-      ja: "龍鳳形玉器"
-      ko: "용봉형 옥기"
-      ms: "Hiasan Jed Naga dan Phoenix"
-      pl: "Jadeitowa ozdoba ze smokiem i feniksem"
-      pt: "Ornamento de Jade de Dragão e Fênix"
-      ru: "Нефритовое украшение «Дракон и феникс»"
-      th: "ของตกแต่งหยกมังกรและนกฟีนิกซ์"
-      tr: "Ejderha ve Anka Kuşu Yeşim Süsü"
-      vi: "Vật Trang Trí Ngọc Bích Rồng Phượng"
-      zh_CN: "龙凤形玉器"
-      zh_TW: "龍鳳形玉器"
+    name: "Dragon and Phoenix Jade Ornament"
     sprite:
       - img_HeroMuseumItem_07.png
 
   10010:
-    name:
-      ar: "قرن شراب الفايكنج"
-      de: "Wikinger-Trinkhorn"
-      en: "Viking Drinking Horn"
-      es: "Cuerno para beber vikingo"
-      fr: "Corne à boire de Viking"
-      id: "Gelas Tanduk Viking"
-      it: "Corno da bere vichingo"
-      ja: "バイキング角杯"
-      ko: "바이킹 뿔컵"
-      ms: "Tanduk Minum Viking"
-      pl: "Puchar wikingów"
-      pt: "Chifre de Bebida Viking"
-      ru: "Рог викингов"
-      th: "เขาสัตว์ไว้ดื่มของไวกิ้ง"
-      tr: "Viking Boynuz Kupası"
-      vi: "Cốc Sừng Viking"
-      zh_CN: "维京牛角杯"
-      zh_TW: "維京牛角杯"
+    name: "Viking Drinking Horn"
     sprite:
       - img_HeroMuseumItem_12.png
 
   10011:
-    name:
-      ar: "ياتاغان"
-      de: "Yatagan"
-      en: "Yatagan"
-      es: "Yatagán"
-      fr: "Yatagan"
-      id: "Yatagan"
-      it: "Yatagan"
-      ja: "ヤタガン"
-      ko: "야타간"
-      ms: "Yatagan"
-      pl: "Jatagan"
-      pt: "Iatagã"
-      ru: "Ятаган"
-      th: "ยาตากัน"
-      tr: "Yatağan"
-      vi: "Yatagan"
-      zh_CN: "亚特坎"
-      zh_TW: "亞特坎"
+    name: "Yatagan"
     sprite:
       - img_HeroMuseumItem_14.png
 
   10012:
-    name:
-      ar: "التاج الإمبراطوري للإمبراطورية الرومانية"
-      de: "Reichskrone"
-      en: "Imperial Crown of the Holy Roman Empire"
-      es: "Corona imperial del Sacro Imperio Romano Germánico"
-      fr: "Couronne impériale du Saint Empire romain germanique"
-      id: "Mahkota Kerajaan dari Kekaisaran Romawi Suci"
-      it: "Corona imperiale del Sacro Romano Impero"
-      ja: "神聖ローマ皇帝冠"
-      ko: "신성 로마 제국의 왕관"
-      ms: "Mahkota Imperial Empayar Rom Suci"
-      pl: "Korona Rzeszy"
-      pt: "Coroa Imperial do Sacro Império Romano"
-      ru: "Корона Священной Римской империи"
-      th: "มงกุฎจักรพรรดิแห่งจักรวรรดิโรมันอันศักดิ์สิทธิ์"
-      tr: "Kutsal Roma'nın İmparatorluk Tacı"
-      vi: "Vương Miện Hoàng Gia Của Đế Quốc La Mã Thần Thánh"
-      zh_CN: "神圣罗马帝国皇冠"
-      zh_TW: "神聖羅馬帝國皇冠"
+    name: "Imperial Crown of the Holy Roman Empire"
     sprite:
       - img_HeroMuseumItem_11.png
 
   10013:
-    name:
-      ar: "تعليقات على الحرب الغالية"
-      de: "De bello Gallico"
-      en: "Bellum Gallicum"
-      es: "De bello Gallico"
-      fr: "Bellum Gallicum"
-      id: "Bellum Gallicum"
-      it: "De bello Gallico"
-      ja: "ガリア戦記"
-      ko: "갈리아 전기"
-      ms: "Bellum Gallicum"
-      pl: "O wojnie galijskiej"
-      pt: "Bellum Gallicum"
-      ru: "«Записки о Галльской войне»"
-      th: "แกลเลียเบลจิกา"
-      tr: "Bellum Gallicum"
-      vi: "Bellum Gallicum"
-      zh_CN: "高卢战记"
-      zh_TW: "高盧戰記"
+    name: "Bellum Gallicum"
     sprite:
       - img_HeroMuseumItem_04.png
 
   10014:
-    name:
-      ar: "تميمة شارلمان"
-      de: "Talisman Karls des Großen"
-      en: "Talisman of Charlemagne"
-      es: "Talismán de Carlomagno"
-      fr: "Talisman de Charlemagne"
-      id: "Jimat Charlemagne"
-      it: "Talismano di Carlo Magno"
-      ja: "シャルルマーニュの護符"
-      ko: "탈리스만"
-      ms: "Azimat Charlemagne"
-      pl: "Talizman Karola Wielkiego"
-      pt: "Talismã de Carlos Magno"
-      ru: "Талисман Карла Великого"
-      th: "เครื่องรางแห่งชาร์เลอมาญ"
-      tr: "Şarlman'ın Tılsımı"
-      vi: "Bùa Charlemagne"
-      zh_CN: "塔利斯曼"
-      zh_TW: "塔利斯曼"
+    name: "Talisman of Charlemagne"
     sprite:
       - img_HeroMuseumItem_02.png
 
   10015:
-    name:
-      ar: "جعران من خبر رع"
-      de: "„Men Kheper Re“-Skarabäus"
-      en: "Men Kheper Re Scarab"
-      es: "Escarabeo de Men Kheper Re"
-      fr: "Scarabée de Men-Kheper-Ré"
-      id: "Men Kheper Re Scarab"
-      it: "Scarabeo Men Kheper Re"
-      ja: "メンケペルラースカラベ"
-      ko: "멘크헤페레 왕쇠똥구리"
-      ms: "Scarab Men Kheper Re"
-      pl: "Skarabeusz „Men Kheper Re”"
-      pt: "Men Kheper Re Scarab"
-      ru: "Скарабей Менхеперра"
-      th: "สการับเมนเคเปอร์เร"
-      tr: "Men Kheper Re Böceği"
-      vi: "Bọ Hung Men Kheper Re"
-      zh_CN: "门赫佩尔圣甲虫"
-      zh_TW: "門赫佩爾聖甲蟲"
+    name: "Men Kheper Re Scarab"
     sprite:
       - img_HeroMuseumItem_15.png
 
   10016:
-    name:
-      ar: "الرايات التسع البيضاء"
-      de: "Die Neun Weißen Banner"
-      en: "The Nine White Banners"
-      es: "Estandarte de nueve bases blancas"
-      fr: "Les Neuf bannières blanches"
-      id: "Sembilan Bendera Putih"
-      it: "I nove stendardi bianchi"
-      ja: "九遊白旗"
-      ko: "구유백독"
-      ms: "Sembilan Sepanduk Putih"
-      pl: "Dziewięć Białych Sztandarów"
-      pt: "As Nove Bandeiras Brancas"
-      ru: "Девять белых знамен"
-      th: "ธงขาวเก้า"
-      tr: "Dokuz Beyaz Tuğ"
-      vi: "Cửu Bạch Mao Tiết"
-      zh_CN: "九斿白纛"
-      zh_TW: "九斿白纛"
+    name: "The Nine White Banners"
     sprite:
       - img_HeroMuseumItem_20.png
 
   10017:
-    name:
-      ar: "الدرع الأيوبي"
-      de: "Ayyubidische Rüstung"
-      en: "Ayyubid Armor"
-      es: "Armadura ayubí"
-      fr: "Armure ayyoubide"
-      id: "Zirah Ayyubid"
-      it: "Armatura ayyubide"
-      ja: "イスラムの鎧"
-      ko: "이슬람 갑옷"
-      ms: "Perisai Ayyubiyah"
-      pl: "Zbroja ajjubidzka"
-      pt: "Armadura Aiúbida"
-      ru: "Доспех Айюбидов"
-      th: "ชุดเกราะอัยยูบิด"
-      tr: "Eyyubi Zırhı"
-      vi: "Áo Giáp Ayyubid"
-      zh_CN: "伊斯兰铠甲"
-      zh_TW: "伊斯蘭鎧甲"
+    name: "Ayyubid Armor"
     sprite:
       - img_HeroMuseumItem_16.png
 
   10018:
-    name:
-      ar: "مرسوم ميلان"
-      de: "Mailänder Vereinbarung"
-      en: "Edict of Milan"
-      es: "Edicto de Milán"
-      fr: "Édit de Milan"
-      id: "Edict of Milan"
-      it: "Editto di Milano"
-      ja: "ミラノ勅令"
-      ko: "밀라노 칙령"
-      ms: "Edik Milan"
-      pl: "Edykt mediolański"
-      pt: "Decreto de Milão"
-      ru: "Миланский эдикт"
-      th: "กฤษฎีกาแห่งมิลาน"
-      tr: "Milan Fermanı"
-      vi: "Chiếu Thư Milan"
-      zh_CN: "米兰诏书"
-      zh_TW: "米蘭敕令"
+    name: "Edict of Milan"
     sprite:
       - img_HeroMuseumItem_18.png
 
   10019:
-    name:
-      ar: "الساريسا المقدونية"
-      de: "Mazedonische Sarissa"
-      en: "Macedonian Sarissa"
-      es: "Sarisa macedonia"
-      fr: "Sarisse macédonienne"
-      id: "Sarissa Makedonia"
-      it: "Sarissa macedone"
-      ja: "サリッサ"
-      ko: "마케도니아의 창"
-      ms: "Sarissa Macedonia"
-      pl: "Sarisa macedońska"
-      pt: "Sarissa Macedônia"
-      ru: "Македонская сарисса"
-      th: "ซาริสซามาซิโดเนีย"
-      tr: "Makedon Sarissa Silahı"
-      vi: "Trường Mâu Macedonia"
-      zh_CN: "马其顿长矛"
-      zh_TW: "馬其頓長矛"
+    name: "Macedonian Sarissa"
     sprite:
       - img_HeroMuseumItem_19.png
 
   10020:
-    name:
-      ar: "شارة الذراع الذهبية"
-      de: "Goldenes Armband"
-      en: "Gold Armband"
-      es: "Brazalete de oro"
-      fr: "Brassard d'or"
-      id: "Gelang Emas"
-      it: "Bracciale d'oro"
-      ja: "黄金の装飾"
-      ko: "황금 장식의 띠"
-      ms: "Pengikat Lengan Emas"
-      pl: "Złota opaska"
-      pt: "Braçadeira de Ouro"
-      ru: "Золотой нарукавник"
-      th: "ปลอกแขนทองคำ"
-      tr: "Altın Kol Bandı"
-      vi: "Vòng Tay Hoàng Kim"
-      zh_CN: "黄金带饰"
-      zh_TW: "黃金帶飾"
+    name: "Gold Armband"
     sprite:
       - img_HeroMuseumItem_22.png
 
   10021:
-    name:
-      ar: "نجمة فرسان الرِباط"
-      de: "Bruststern des Hosenbandordens"
-      en: "Garter Star"
-      es: "Estrella de la Jarretera"
-      fr: "Étoile de la Jarretière"
-      id: "Bintang Garter"
-      it: "Stella della Giarrettiera"
-      ja: "ガーター勲章"
-      ko: "가터 훈장"
-      ms: "Bintang Garter"
-      pl: "Gwiazda Orderu Podwiązki"
-      pt: "Estrela da Jarreteira"
-      ru: "Звезда ордена Подвязки"
-      th: "ดาวการ์เทอร์"
-      tr: "Garter Yıldızı"
-      vi: "Huy Chương Garter"
-      zh_CN: "嘉德勋章"
-      zh_TW: "嘉德勳章"
+    name: "Garter Star"
     sprite:
       - img_HeroMuseumItem_21.png
 
   10022:
-    name:
-      ar: "جمل مع موسيقيين"
-      de: "Kamel mit Musikern"
-      en: "Camel with Musicians"
-      es: "Camello con músicos"
-      fr: "Chameau avec musiciens"
-      id: "Unta dengan Musisi"
-      it: "Cammello con musicisti"
-      ja: "三彩駱駝載楽俑"
-      ko: "낙타 연주자"
-      ms: "Unta dengan Pemuzik"
-      pl: "Wielbłąd i muzycy"
-      pt: "Camelo com Músicos"
-      ru: "Музыканты на верблюде"
-      th: "อูฐกับนักดนตรี"
-      tr: "Deve Üstünde Çalgıcılar"
-      vi: "Lạc Đà Chở Nhạc Công"
-      zh_CN: "唐三彩骆驼载乐俑"
-      zh_TW: "三彩駱駝俑"
+    name: "Camel with Musicians"
     sprite:
       - img_HeroMuseumItem_17.png
 
   10023:
-    name:
-      ar: "الجَرَّة الباناثينية"
-      de: "Panathenäische Amphore"
-      en: "Panathenaic Amphora"
-      es: "Ánfora panatenaica"
-      fr: "Amphore panathénaïque"
-      id: "Amfora Panathena"
-      it: "Anfora panatenaica"
-      ja: "色絵アンフォラ"
-      ko: "파나티나이코식 암포라"
-      ms: "Amphora Panathenaic"
-      pl: "Amfora panatenajska"
-      pt: "Ânfora Panatenaica"
-      ru: "Панафинейская амфора"
-      th: "ไหแอมโฟร่าพานาธีนิก"
-      tr: "Panathenaea Amforası"
-      vi: "Vò Hai Quai Panathenaea"
-      zh_CN: "彩绘双耳陶瓶"
-      zh_TW: "彩繪雙耳陶瓶"
+    name: "Panathenaic Amphora"
     sprite:
       - img_HeroMuseumItem_23.png
 
   10032:
-    name:
-      ar: "تمثال كوكولكان"
-      de: "Kukulkan-Skulptur"
-      en: "Kukulkan Sculpture"
-      es: "Escultura de Kukulcán"
-      fr: "Sculpture de Kukulkan"
-      id: "Patung Kukulkan"
-      it: "Scultura di Kukulkan"
-      ja: "ククルカンの神像"
-      ko: "쿠쿨칸 신상"
-      ms: "Arca Kukulkan"
-      pl: "Rzeźba Kukulkana"
-      pt: "Escultura de Kukulkan"
-      ru: "Скульптура Кукулькана"
-      th: "รูปปั้นกุกุลกัน"
-      tr: "Kukulkan Heykeli"
-      vi: "Tượng Quetzalcoatl"
-      zh_CN: "库库尔坎神像"
-      zh_TW: "庫庫爾坎神像"
+    name: "Kukulkan Sculpture"
     sprite:
       - img_HeroMuseumItem_32.png
 
   10043:
-    name:
-      ar: "دبوس نسر قوطي غربي"
-      de: "Adlerbrosche der Westgoten"
-      en: "Visigothic Eagle Brooch"
-      es: "Broche de águila visigótica"
-      fr: "Broche d'aigle wisigoth"
-      id: "Bros Elang Visigothic"
-      it: "Spilla con aquila visigota"
-      ja: "西ゴートの鷲型ブローチ"
-      ko: "서고트 독수리 브로치"
-      ms: "Pin Helang Visigothik"
-      pl: "Wizygocka broszka w kształcie orła"
-      pt: "Broche de Água Visigoda"
-      ru: "Вестготская фибула в виде орла"
-      th: "เข็มกลัดอินทรีวิสิกอธ"
-      tr: "Vizigot Kartal Broşu"
-      vi: "Ghim Cài Đại Bàng Visigoth"
-      zh_CN: "西哥特鹰形别针"
-      zh_TW: "西哥特鷹形別針"
+    name: "Visigothic Eagle Brooch"
     sprite:
       - img_HeroMuseumItem_43.png
 
   20001:
-    name:
-      ar: "الأعمال المُجمّعة لتساو تساو"
-      de: "Die Gesammelten Werke von Cao Cao"
-      en: "The Collected Works of Cao Cao"
-      es: "Las obras completas de Cao Cao"
-      fr: "Les œuvres recueillies de Cao Cao"
-      id: "Kumpulan Karya Cao Cao"
-      it: "Le opere complete di Cao Cao"
-      ja: "魏武帝集"
-      ko: "위무제집"
-      ms: "Karya Terkumpul Cao Cao"
-      pl: "Kompilacja dzieł Cao Cao"
-      pt: "As Obras Reunidas de Cao Cao"
-      ru: "Собрание работ Цао Цао"
-      th: "ผลงานรวมของโจโฉ"
-      tr: "Cao Cao'nun Toplu Eserleri"
-      vi: "Tuyển Tập Tác Phẩm Của Tào Tháo"
-      zh_CN: "魏武帝集"
-      zh_TW: "魏武帝集"
+    name: "The Collected Works of Cao Cao"
     sprite:
       - img_HeroMuseumItem_01.png
 
   20002:
-    name:
-      ar: "مزمار الخيزران لشيزوكا غوزين"
-      de: "Bambusflöte von Shizuka Gozen"
-      en: "The Bamboo Flute of Shizuka Gozen"
-      es: "Flauta de bambú de Shizuka Gozen"
-      fr: "La Flûte de bambou de Shizuka Gozen"
-      id: "Seruling Bambu Shizuka Gozen"
-      it: "Il flauto di bambù di Shizuka Gozen"
-      ja: "7孔の篠笛"
-      ko: "시노부에"
-      ms: "Seruling Buluh Shizuka Gozen"
-      pl: "Flet bambusowy Shizuki Gozen"
-      pt: "A Flauta de Bambu de Shizuka Gozen"
-      ru: "Бамбуковая флейта Сидзуки Годзэн"
-      th: "ขลุ่ยไม้ไผ่ของสึซึกะ โกเซน"
-      tr: "Shizuka Gozen'in Bambu Flütü"
-      vi: "Sáo Trúc Của Shizuka Gozen"
-      zh_CN: "七孔篠笛"
-      zh_TW: "七孔篠笛"
+    name: "The Bamboo Flute of Shizuka Gozen"
     sprite:
       - img_HeroMuseumItem_08.png
 
   20003:
-    name:
-      ar: "خوذة ساتون هوو"
-      de: "Helm von Sutton Hoo"
-      en: "Sutton Hoo Helmet"
-      es: "Yelmo de Sutton Hoo"
-      fr: "Casque Sutton Hoo"
-      id: "Helm Sutton Hoo"
-      it: "Elmo di Sutton Hoo"
-      ja: "サットン・フーのヘルメット"
-      ko: "서튼 후의 투구"
-      ms: "Ketopong Sutton Hoo"
-      pl: "Hełm z Sutton Hoo"
-      pt: "Elmo de Sutton Hoo"
-      ru: "Шлем из Саттон-Ху"
-      th: "หมวกซัตตันฮู"
-      tr: "Sutton Hoo Miğferi"
-      vi: "Mũ Giáp Sutton Hoo"
-      zh_CN: "萨顿胡头盔"
-      zh_TW: "薩頓胡頭盔"
+    name: "Sutton Hoo Helmet"
     sprite:
       - img_HeroMuseumItem_09.png
 
   20004:
-    name:
-      ar: "العملة القرطاجية"
-      de: "Punische Münzen"
-      en: "Carthaginian Coinage"
-      es: "Monedas cartaginesas"
-      fr: "Monnaie carthaginoise"
-      id: "Koin Kartago"
-      it: "Moneta cartaginese"
-      ja: "カルタゴ硬貨"
-      ko: "카르타고 동전"
-      ms: "Syiling Carthaginian"
-      pl: "Kartagińskie monety"
-      pt: "Moedas Cartaginesas"
-      ru: "Монеты Карфагена"
-      th: "เหรียญกษาปณ์คาร์เธจ"
-      tr: "Kartaca Sikkeleri"
-      vi: "Tiền Xu Carthaginian"
-      zh_CN: "迦太基钱币"
-      zh_TW: "迦太基錢幣"
+    name: "Carthaginian Coinage"
     sprite:
       - img_HeroMuseumItem_05.png
 
   20005:
-    name:
-      ar: "شعار الثلاثة أسود"
-      de: "3-Löwen-Wappenschild"
-      en: "Three Lions Escutcheon"
-      es: "Blasón de los tres leones"
-      fr: "Écusson à trois lions"
-      id: "Perisai Tiga Singa"
-      it: "Scudo a tre leoni"
-      ja: "三獅子の盾"
-      ko: "삼사자의 방패"
-      ms: "Escutcheon Tiga Singa"
-      pl: "Herb z trzeba lwami"
-      pt: "Escudo dos Três Leões"
-      ru: "Геральдический щит с тремя львами"
-      th: "ป้ายชื่อเรือสามสิงห์"
-      tr: "Üç Aslanlı Kraliyet Arması"
-      vi: "Huy Hiệu Tam Sư"
-      zh_CN: "三狮长盾"
-      zh_TW: "三獅長盾"
+    name: "Three Lions Escutcheon"
     sprite:
       - img_HeroMuseumItem_10.png
 
   20006:
-    name:
-      ar: "الخاتم الميروفنجي"
-      de: "Ring der Merowinger"
-      en: "Merovingian Ring"
-      es: "Anillo merovingio"
-      fr: "Bague mérovingienne"
-      id: "Cincin Merovingian"
-      it: "Anello merovingio"
-      ja: "メロヴィング朝のゴールドリング"
-      ko: "메로베우스 왕조의 에나멜 금제 반지"
-      ms: "Cincin Merovingian"
-      pl: "Pierścień Merowingów"
-      pt: "Anel Merovíngio"
-      ru: "Кольцо Меровингов"
-      th: "แหวนเมโรวินเจียน"
-      tr: "Merovenj Yüzüğü"
-      vi: "Chiếc Nhẫn Merovingian"
-      zh_CN: "墨洛温王朝珐琅金质戒指"
-      zh_TW: "墨洛溫王朝琺瑯金質戒指"
+    name: "Merovingian Ring"
     sprite:
       - img_HeroMuseumItem_06.png
 
   20007:
-    name:
-      ar: "سيف السیِّد تيزونا"
-      de: "El Cids Tizona"
-      en: "El Cid's Tizona"
-      es: "La Tizona del Cid"
-      fr: "Tizona du Cid"
-      id: "Tizona Milik El Cid"
-      it: "La Tizona di El Cid"
-      ja: "ティソーナ"
-      ko: "엘 시드의 검 티조나"
-      ms: "Tizona El Cid"
-      pl: "Tizona Cyda Walecznego"
-      pt: "Tizona de El Cid"
-      ru: "Тисона Сида Кампеадора"
-      th: "ดาบทิโซนาของเอล ซิด"
-      tr: "El Cid'in Tizonası"
-      vi: "Tizona Của El Cid"
-      zh_CN: "熙德佩剑蒂佐纳"
-      zh_TW: "熙德佩劍蒂佐納"
+    name: "El Cid's Tizona"
     sprite:
       - img_HeroMuseumItem_13.png
 
   20008:
-    name:
-      ar: "نقش التنين التوأم"
-      de: "Zwillingsdrachen-Deckenschmuck"
-      en: "Twin Dragons Inscription"
-      es: "Inscripción de los dragones gemelos"
-      fr: "Inscription de Dragons jumeaux"
-      id: "Prasasti Naga Kembar"
-      it: "Iscrizione dei draghi gemelli"
-      ja: "双龍刻宝蓋"
-      ko: "쌍룡각 보개"
-      ms: "Prasasti Naga Berkembar"
-      pl: "Inskrypcja z dwoma smokami"
-      pt: "Inscrição dos Dragões Gêmeos"
-      ru: "Гравировка «Два дракона»"
-      th: "จารึกมังกรคู่"
-      tr: "İkiz Ejderha Görseli"
-      vi: "Hình Khắc Song Long"
-      zh_CN: "双龙刻宝盖"
-      zh_TW: "雙龍刻寶蓋"
+    name: "Twin Dragons Inscription"
     sprite:
       - img_HeroMuseumItem_03.png
 
   20009:
-    name:
-      ar: "حلية التنين والعنقاء اليشمية"
-      de: "Jade-Ornament „Drache und Phönix“"
-      en: "Dragon and Phoenix Jade Ornament"
-      es: "Ornamento de jade de dragón y fénix"
-      fr: "Ornement de jade Dragon et Phénix"
-      id: "Ornamen Giok Naga dan Phoenix"
-      it: "Ornamento di giada con drago e fenice"
-      ja: "龍鳳形玉器"
-      ko: "용봉형 옥기"
-      ms: "Hiasan Jed Naga dan Phoenix"
-      pl: "Jadeitowa ozdoba ze smokiem i feniksem"
-      pt: "Ornamento de Jade de Dragão e Fênix"
-      ru: "Нефритовое украшение «Дракон и феникс»"
-      th: "ของตกแต่งหยกมังกรและนกฟีนิกซ์"
-      tr: "Ejderha ve Anka Kuşu Yeşim Süsü"
-      vi: "Vật Trang Trí Ngọc Bích Rồng Phượng"
-      zh_CN: "龙凤形玉器"
-      zh_TW: "龍鳳形玉器"
+    name: "Dragon and Phoenix Jade Ornament"
     sprite:
       - img_HeroMuseumItem_07.png
 
   20010:
-    name:
-      ar: "قرن شراب الفايكنج"
-      de: "Wikinger-Trinkhorn"
-      en: "Viking Drinking Horn"
-      es: "Cuerno para beber vikingo"
-      fr: "Corne à boire de Viking"
-      id: "Gelas Tanduk Viking"
-      it: "Corno da bere vichingo"
-      ja: "バイキング角杯"
-      ko: "바이킹 뿔컵"
-      ms: "Tanduk Minum Viking"
-      pl: "Puchar wikingów"
-      pt: "Chifre de Bebida Viking"
-      ru: "Рог викингов"
-      th: "เขาสัตว์ไว้ดื่มของไวกิ้ง"
-      tr: "Viking Boynuz Kupası"
-      vi: "Cốc Sừng Viking"
-      zh_CN: "维京牛角杯"
-      zh_TW: "維京牛角杯"
+    name: "Viking Drinking Horn"
     sprite:
       - img_HeroMuseumItem_12.png
 
   20011:
-    name:
-      ar: "ياتاغان"
-      de: "Yatagan"
-      en: "Yatagan"
-      es: "Yatagán"
-      fr: "Yatagan"
-      id: "Yatagan"
-      it: "Yatagan"
-      ja: "ヤタガン"
-      ko: "야타간"
-      ms: "Yatagan"
-      pl: "Jatagan"
-      pt: "Iatagã"
-      ru: "Ятаган"
-      th: "ยาตากัน"
-      tr: "Yatağan"
-      vi: "Yatagan"
-      zh_CN: "亚特坎"
-      zh_TW: "亞特坎"
+    name: "Yatagan"
     sprite:
       - img_HeroMuseumItem_14.png
 
   20012:
-    name:
-      ar: "التاج الإمبراطوري للإمبراطورية الرومانية"
-      de: "Reichskrone"
-      en: "Imperial Crown of the Holy Roman Empire"
-      es: "Corona imperial del Sacro Imperio Romano Germánico"
-      fr: "Couronne impériale du Saint Empire romain germanique"
-      id: "Mahkota Kerajaan dari Kekaisaran Romawi Suci"
-      it: "Corona imperiale del Sacro Romano Impero"
-      ja: "神聖ローマ皇帝冠"
-      ko: "신성 로마 제국의 왕관"
-      ms: "Mahkota Imperial Empayar Rom Suci"
-      pl: "Korona Rzeszy"
-      pt: "Coroa Imperial do Sacro Império Romano"
-      ru: "Корона Священной Римской империи"
-      th: "มงกุฎจักรพรรดิแห่งจักรวรรดิโรมันอันศักดิ์สิทธิ์"
-      tr: "Kutsal Roma'nın İmparatorluk Tacı"
-      vi: "Vương Miện Hoàng Gia Của Đế Quốc La Mã Thần Thánh"
-      zh_CN: "神圣罗马帝国皇冠"
-      zh_TW: "神聖羅馬帝國皇冠"
+    name: "Imperial Crown of the Holy Roman Empire"
     sprite:
       - img_HeroMuseumItem_11.png
 
   20013:
-    name:
-      ar: "تعليقات على الحرب الغالية"
-      de: "De bello Gallico"
-      en: "Bellum Gallicum"
-      es: "De bello Gallico"
-      fr: "Bellum Gallicum"
-      id: "Bellum Gallicum"
-      it: "De bello Gallico"
-      ja: "ガリア戦記"
-      ko: "갈리아 전기"
-      ms: "Bellum Gallicum"
-      pl: "O wojnie galijskiej"
-      pt: "Bellum Gallicum"
-      ru: "«Записки о Галльской войне»"
-      th: "แกลเลียเบลจิกา"
-      tr: "Bellum Gallicum"
-      vi: "Bellum Gallicum"
-      zh_CN: "高卢战记"
-      zh_TW: "高盧戰記"
+    name: "Bellum Gallicum"
     sprite:
       - img_HeroMuseumItem_04.png
 
   20014:
-    name:
-      ar: "تميمة شارلمان"
-      de: "Talisman Karls des Großen"
-      en: "Talisman of Charlemagne"
-      es: "Talismán de Carlomagno"
-      fr: "Talisman de Charlemagne"
-      id: "Jimat Charlemagne"
-      it: "Talismano di Carlo Magno"
-      ja: "シャルルマーニュの護符"
-      ko: "탈리스만"
-      ms: "Azimat Charlemagne"
-      pl: "Talizman Karola Wielkiego"
-      pt: "Talismã de Carlos Magno"
-      ru: "Талисман Карла Великого"
-      th: "เครื่องรางแห่งชาร์เลอมาญ"
-      tr: "Şarlman'ın Tılsımı"
-      vi: "Bùa Charlemagne"
-      zh_CN: "塔利斯曼"
-      zh_TW: "塔利斯曼"
+    name: "Talisman of Charlemagne"
     sprite:
       - img_HeroMuseumItem_02.png
 
   20015:
-    name:
-      ar: "جعران من خبر رع"
-      de: "„Men Kheper Re“-Skarabäus"
-      en: "Men Kheper Re Scarab"
-      es: "Escarabeo de Men Kheper Re"
-      fr: "Scarabée de Men-Kheper-Ré"
-      id: "Men Kheper Re Scarab"
-      it: "Scarabeo Men Kheper Re"
-      ja: "メンケペルラースカラベ"
-      ko: "멘크헤페레 왕쇠똥구리"
-      ms: "Scarab Men Kheper Re"
-      pl: "Skarabeusz „Men Kheper Re”"
-      pt: "Men Kheper Re Scarab"
-      ru: "Скарабей Менхеперра"
-      th: "สการับเมนเคเปอร์เร"
-      tr: "Men Kheper Re Böceği"
-      vi: "Bọ Hung Men Kheper Re"
-      zh_CN: "门赫佩尔圣甲虫"
-      zh_TW: "門赫佩爾聖甲蟲"
+    name: "Men Kheper Re Scarab"
     sprite:
       - img_HeroMuseumItem_15.png
 
   20023:
-    name:
-      ar: "الجَرَّة الباناثينية"
-      de: "Panathenäische Amphore"
-      en: "Panathenaic Amphora"
-      es: "Ánfora panatenaica"
-      fr: "Amphore panathénaïque"
-      id: "Amfora Panathena"
-      it: "Anfora panatenaica"
-      ja: "色絵アンフォラ"
-      ko: "파나티나이코식 암포라"
-      ms: "Amphora Panathenaic"
-      pl: "Amfora panatenajska"
-      pt: "Ânfora Panatenaica"
-      ru: "Панафинейская амфора"
-      th: "ไหแอมโฟร่าพานาธีนิก"
-      tr: "Panathenaea Amforası"
-      vi: "Vò Hai Quai Panathenaea"
-      zh_CN: "彩绘双耳陶瓶"
-      zh_TW: "彩繪雙耳陶瓶"
+    name: "Panathenaic Amphora"
     sprite:
       - img_HeroMuseumItem_23.png

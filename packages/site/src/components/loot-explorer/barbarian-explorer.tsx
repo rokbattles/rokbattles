@@ -1,6 +1,6 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BarbarianLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
@@ -24,7 +24,6 @@ export function BarbarianExplorer({
   selectedLevels: number[];
 }) {
   const t = useExtracted();
-  const locale = useLocale();
   const [items, setItems] = useState<BarbarianLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -124,7 +123,7 @@ export function BarbarianExplorer({
             <Subheading>
               {t("{name} level {level}", { level: item.level.toString(), name: familyLabel })}
             </Subheading>
-            <LootTable loot={item.loot} locale={locale} />
+            <LootTable loot={item.loot} />
           </section>
         ))}
       </div>

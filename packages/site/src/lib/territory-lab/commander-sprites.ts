@@ -3,7 +3,7 @@ import { commanderMap, getCommanderName, getCommanderSprites } from "@/lib/comma
 // Shares store the same English display names used by the commander selector.
 const commanderIds = new Map(
   Object.entries(commanderMap).map(([id, commander]) => {
-    const name = getCommanderName(Number(id), "en") ?? id;
+    const name = getCommanderName(Number(id)) ?? id;
     return [commander.prime ? `${name} (Prime)` : name, Number(id)];
   })
 );

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Subheading } from "@/components/ui/heading";
 import { getSupremeStrifeTalents } from "@/lib/supreme-strife-talents";
 
@@ -13,8 +13,7 @@ export function ReportSupremeStrifeTalentSection({
   talentIds,
 }: ReportSupremeStrifeTalentSectionProps) {
   const t = useExtracted();
-  const locale = useLocale();
-  const talents = getSupremeStrifeTalents(talentIds, locale);
+  const talents = getSupremeStrifeTalents(talentIds);
 
   if (talents.length === 0) {
     return null;

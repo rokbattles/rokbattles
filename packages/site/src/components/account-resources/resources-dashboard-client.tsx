@@ -23,7 +23,6 @@ type ResourcesDashboardClientProps = {
   data: ResourcesQueryResult;
   governorId: number;
   today: string;
-  datasetLocale?: string;
   view: ResourceView;
   onViewChange: (patch: Partial<ResourceView>) => void;
 };
@@ -32,15 +31,14 @@ export function ResourcesDashboardClient({
   data,
   governorId,
   today,
-  datasetLocale,
   view,
   onViewChange,
 }: ResourcesDashboardClientProps): ReactElement {
   const t = useExtracted();
   const { selected, cumulative } = view;
   const rows = useMemo(
-    () => buildResourceBreakdownRows(data.crystalsGain, data.resources, datasetLocale),
-    [data.crystalsGain, data.resources, datasetLocale]
+    () => buildResourceBreakdownRows(data.crystalsGain, data.resources),
+    [data.crystalsGain, data.resources]
   );
   const days = useMemo(
     () => buildResourceDays(data.daily, data.range.start, data.range.end, today),

@@ -45,7 +45,6 @@ const rangeDays: Record<CombatLabPreviewRangeKey, number> = {
 export async function fetchCombatLabPreview(options: {
   primary: number;
   secondary: number;
-  locale?: string;
   season: CombatLabSeason;
 }): Promise<CombatLabPreviewData> {
   const params = new URLSearchParams({
@@ -64,10 +63,10 @@ export async function fetchCombatLabPreview(options: {
     throw new Error(`Could not load Combat Lab data (${response.status})`);
   }
   const wire = (await response.json()) as CombatLabV2Wire;
-  return expandWireData(wire, options.locale);
+  return expandWireData(wire);
 }
 
-function expandWireData(wire: CombatLabV2Wire, locale?: string): CombatLabPreviewData {
+function expandWireData(wire: CombatLabV2Wire): CombatLabPreviewData {
   const ranges = Object.fromEntries(
     combatLabPreviewRangeKeys.map((range) => [
       range,
@@ -192,11 +191,11 @@ function expandWireData(wire: CombatLabV2Wire, locale?: string): CombatLabPrevie
     pairing: {
       primaryCommanderId: wire.pairing.primaryCommanderId,
       primaryCommanderName:
-        getCommanderName(wire.pairing.primaryCommanderId, locale) ??
+        getCommanderName(wire.pairing.primaryCommanderId) ??
         wire.pairing.primaryCommanderId.toString(),
       secondaryCommanderId: wire.pairing.secondaryCommanderId,
       secondaryCommanderName:
-        getCommanderName(wire.pairing.secondaryCommanderId, locale) ??
+        getCommanderName(wire.pairing.secondaryCommanderId) ??
         wire.pairing.secondaryCommanderId.toString(),
     },
     drastc: wire.drastc

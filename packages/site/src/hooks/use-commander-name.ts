@@ -1,21 +1,18 @@
 "use client";
 
-import { resolveLocale } from "@/i18n/locale";
-import { commanderMap, getCommanderName as getCommanderNameByLocale } from "@/lib/commander";
+import { commanderMap, getCommanderName as getCommanderNameById } from "@/lib/commander";
 
-export function getCommanderName(id: number | null | undefined, locale?: string) {
-  const requestedLocale = resolveLocale(locale);
-  return getCommanderNameByLocale(id, requestedLocale);
+export function getCommanderName(id: number | null | undefined) {
+  return getCommanderNameById(id);
 }
 
-export function useCommanderOptions(locale?: string) {
-  const requestedLocale = resolveLocale(locale);
+export function useCommanderOptions() {
   const entries = Object.entries(commanderMap).map(([id, commander]) => {
-    const localizedName = getCommanderNameByLocale(Number(id), requestedLocale) ?? String(id);
+    const name = getCommanderNameById(Number(id)) ?? String(id);
 
     return {
       id: Number(id),
-      name: commander.prime ? `${localizedName} (Prime)` : localizedName,
+      name: commander.prime ? `${name} (Prime)` : name,
     };
   });
 

@@ -12,12 +12,11 @@ export type LootRewardRow = {
 
 export function buildLootRewardRows(
   category: { rewards: LootRewardAggregate[] },
-  fallbackName: (type: number, subType: number) => string,
-  locale?: string
+  fallbackName: (type: number, subType: number) => string
 ): LootRewardRow[] {
   const rows: LootRewardRow[] = category.rewards.map((reward) => {
     const name =
-      getLootName(reward.type, reward.subType, locale) ?? fallbackName(reward.type, reward.subType);
+      getLootName(reward.type, reward.subType) ?? fallbackName(reward.type, reward.subType);
 
     return {
       key: `${reward.type}:${reward.subType}`,

@@ -14,11 +14,9 @@ import { formatNumber, formatPercent, formatQuantity } from "@/lib/loot-explorer
 
 export function LootTable({
   loot,
-  locale,
   noItem,
 }: {
   loot: LootDrop[];
-  locale?: string;
   noItem?: { dropRate: number; results: number };
 }) {
   const t = useExtracted();
@@ -45,7 +43,7 @@ export function LootTable({
       <TableBody>
         {sortedLoot.map((item) => {
           const name =
-            getLootName(item.type, item.subType, locale) ??
+            getLootName(item.type, item.subType) ??
             t("Item {type}:{subType}", {
               subType: item.subType.toString(),
               type: item.type.toString(),

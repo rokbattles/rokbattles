@@ -1,6 +1,6 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { fetchLootExplorerItems, type LoharTrialLootDocument } from "@/lib/loot-explorer/api";
@@ -58,7 +58,6 @@ export function LoharTrialExplorerContent({
   selectedType?: string;
 }) {
   const t = useExtracted();
-  const locale = useLocale();
 
   const boss = findLoharNpc(selectedType, items);
   const item = items.find((candidate) => candidate.kind === boss.kind);
@@ -99,7 +98,6 @@ export function LoharTrialExplorerContent({
             <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
             <LootTable
               loot={slot.loot}
-              locale={locale}
               noItem={
                 slot.noItemResults > 0
                   ? { dropRate: slot.noItemRate, results: slot.noItemResults }

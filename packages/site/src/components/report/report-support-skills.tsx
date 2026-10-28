@@ -1,7 +1,6 @@
 "use client";
 
 import { ReportSkillSlot } from "@/components/report/report-skill-slot";
-import { resolveLocale } from "@/i18n/locale";
 import { getCommanderSkillName, getCommanderSkillSpriteUrls } from "@/lib/commander";
 import type { RawAuxiliarySkillInfo, RawSupportSkillsInfo } from "@/lib/types/raw-report";
 
@@ -11,7 +10,6 @@ type ReportSupportSkillsProps = {
 };
 
 export function ReportSupportSkills({ supportSkills, auxiliarySkills }: ReportSupportSkillsProps) {
-  const locale = resolveLocale();
   const skills = supportSkills?.enable
     ? (supportSkills.skills ?? []).map((skill) => ({
         heroId: skill.hero_id,
@@ -33,7 +31,7 @@ export function ReportSupportSkills({ supportSkills, auxiliarySkills }: ReportSu
       <div className="flex flex-wrap justify-end gap-1.5">
         {skills.map((skill) => {
           const spriteUrls = getCommanderSkillSpriteUrls(skill.heroId, skill.skillId);
-          const skillName = getCommanderSkillName(skill.heroId, skill.skillId, locale);
+          const skillName = getCommanderSkillName(skill.heroId, skill.skillId);
 
           return (
             <ReportSkillSlot
