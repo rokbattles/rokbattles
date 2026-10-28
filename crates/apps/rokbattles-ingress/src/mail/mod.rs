@@ -1,6 +1,6 @@
 //! Shared insert-or-skip workflow for immutable mail uploads.
 //!
-//! HTTP validation and ClamAV scanning belong to the routes. Existing IDs are skipped
+//! HTTP validation belongs to the routes. Existing IDs are skipped
 //! before document construction; the storage layer's unique index handles races.
 
 pub(crate) mod metadata;

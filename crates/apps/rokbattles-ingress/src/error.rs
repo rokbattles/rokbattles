@@ -22,8 +22,6 @@ pub enum ApiError {
     DecodeFailed(String),
     #[error("database error: {0}")]
     Database(String),
-    #[error("clamav scan failed: {0}")]
-    Clamav(String),
     #[error("internal error: {0}")]
     Internal(String),
     #[error("relay authentication failed")]
@@ -47,10 +45,6 @@ impl ApiError {
         Self::Database(message.into())
     }
 
-    pub fn clamav(message: impl Into<String>) -> Self {
-        Self::Clamav(message.into())
-    }
-
     pub fn internal(message: impl Into<String>) -> Self {
         Self::Internal(message.into())
     }
@@ -60,7 +54,6 @@ impl ApiError {
             ApiError::BadRequest(_) => StatusCode::BAD_REQUEST,
             ApiError::UnsupportedType(_) => StatusCode::UNPROCESSABLE_ENTITY,
             ApiError::DecodeFailed(_) => StatusCode::BAD_REQUEST,
-            ApiError::Clamav(_) => StatusCode::BAD_GATEWAY,
             ApiError::Unauthorized => StatusCode::UNAUTHORIZED,
             ApiError::Database(_) | ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }

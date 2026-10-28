@@ -25,7 +25,7 @@ pub(crate) fn router(state: Arc<AppState>) -> Router {
         .layer(DefaultBodyLimit::max(25 * 1024 * 1024))
 }
 
-/// Liveness only; does not probe MongoDB or ClamAV.
+/// Liveness only; does not probe MongoDB.
 async fn health() -> StatusCode {
     StatusCode::OK
 }
