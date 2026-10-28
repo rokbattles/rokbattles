@@ -2,8 +2,8 @@
 
 import { Info, SquarePen } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useExtracted, useLocale } from "next-intl";
-import { type CSSProperties, useMemo, useState } from "react";
+
+import { type CSSProperties, useState } from "react";
 import { CombatLabDrastc } from "@/components/combat-lab/combat-lab-drastc";
 import { CombatLabEmptyState } from "@/components/combat-lab/combat-lab-empty-state";
 import { CombatLabHeader } from "@/components/combat-lab/combat-lab-header";
@@ -23,6 +23,17 @@ import {
   combatLabPreviewScenarioKeys,
   type CombatLabPreviewDrastc as DrastcData,
 } from "@/lib/combat-lab/preview-types";
+
+const compactNumberFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+const numberFormatter2 = new Intl.NumberFormat("en-US");
+const scoreFormatter = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
 const CombatLabCharts = dynamic(
   () =>
@@ -47,39 +58,22 @@ export function CombatLab({
   commanderOptions: CombatLabCommanderOption[];
   data: CombatLabPreviewData;
 }) {
-  const t = useExtracted();
-  const locale = useLocale();
   const rangeLabels: Record<CombatLabPreviewRangeKey, string> = {
-    "1y": t("1 year"),
-    "6m": t("6 months"),
-    "1m": t("1 month"),
-    "7d": t("7 days"),
+    "1y": "1 year",
+    "6m": "6 months",
+    "1m": "1 month",
+    "7d": "7 days",
   };
   const scenarioLabels: Record<CombatLabPreviewScenarioKey, string> = {
-    all: t("All"),
-    openField: t("Open field"),
-    swarming: t("Swarming"),
-    rally: t("Rally"),
-    garrison: t("Garrison"),
+    all: "All",
+    openField: "Open field",
+    swarming: "Swarming",
+    rally: "Rally",
+    garrison: "Garrison",
   };
-  const compactFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(locale, {
-        notation: "compact",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
-    [locale]
-  );
-  const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
-  const decimalFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(locale, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
-    [locale]
-  );
+  const compactFormatter = compactNumberFormatter;
+  const numberFormatter = numberFormatter2;
+  const decimalFormatter = scoreFormatter;
   const [rangeKey, setRangeKey] = useState<CombatLabPreviewRangeKey>("1y");
   const [scenarioKey, setScenarioKey] = useState<CombatLabPreviewScenarioKey>("openField");
   const [pairingPickerOpen, setPairingPickerOpen] = useState(false);
@@ -92,7 +86,7 @@ export function CombatLab({
   const trends = Array.isArray(selected?.trends) ? selected.trends : [];
   const formationUsage = Array.isArray(selected?.formationUsage) ? selected.formationUsage : [];
   const drastc = isCompleteDrastc(data.drastc) ? data.drastc : null;
-  const updated = formatRefreshedAt(new Date(data.generatedAtMs).toISOString(), locale);
+  const updated = formatRefreshedAt(new Date(data.generatedAtMs).toISOString());
 
   return (
     <div className="min-h-dvh text-white">
@@ -133,12 +127,12 @@ export function CombatLab({
                   aria-hidden="true"
                   className="relative top-px size-3.5"
                 />{" "}
-                {t("Change pairing")}
+                Change pairing
               </span>
               <span aria-hidden="true" className="text-zinc-600">
                 &bull;
               </span>
-              <span>{t("Updated at {date}", { date: updated })}</span>
+              <span>{`Updated at ${updated}`}</span>
             </div>
           </div>
         </button>
@@ -156,14 +150,14 @@ export function CombatLab({
       <div className="z-20 -mx-6 border-b backdrop-blur lg:sticky lg:top-0 lg:-mx-10 border-white/10 bg-zinc-950/90">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
           <FilterGroup
-            label={t("Time range")}
+            label="Time range"
             options={combatLabPreviewRangeKeys}
             labels={rangeLabels}
             selected={rangeKey}
             onSelect={setRangeKey}
           />
           <FilterGroup
-            label={t("Scenario")}
+            label="Scenario"
             options={combatLabPreviewScenarioKeys}
             labels={scenarioLabels}
             selected={scenarioKey}
@@ -182,8 +176,8 @@ export function CombatLab({
                 className="size-5 shrink-0 text-amber-300"
               />
               <Text className="!text-sm/5 !text-amber-100">
-                <strong>{t("Changing the filters will not change the DRASTC results.")}</strong>{" "}
-                {t("DRASTC uses the most recent year of open-field battle reports.")}
+                <strong>Changing the filters will not change the DRASTC results.</strong> DRASTC
+                uses the most recent year of open-field battle reports.
               </Text>
             </div>
           </div>
@@ -191,50 +185,50 @@ export function CombatLab({
 
         <section aria-labelledby="combat-breakdown-title">
           <Heading id="combat-breakdown-title" level={2} className="mb-4">
-            {t("Combat breakdown")}
+            Combat breakdown
           </Heading>
           {hasCombatSummary ? (
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
               <MetricCard
                 available={hasSummaryMetric("battles")}
-                label={t("Battle reports")}
+                label="Battle reports"
                 value={formatCount(summary.battles, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(summary.battles)}
               />
               <MetricCard
                 available={hasSummaryMetric("killPointsGained")}
-                label={t("Kill points gained")}
+                label="Kill points gained"
                 value={formatCount(summary.killPointsGained, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(Math.round(summary.killPointsGained))}
                 accent="text-blue-400"
               />
               <MetricCard
                 available={hasSummaryMetric("killPointsLost")}
-                label={t("Kill points lost")}
+                label="Kill points lost"
                 value={formatCount(summary.killPointsLost, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(Math.round(summary.killPointsLost))}
                 accent="text-rose-400"
               />
               <MetricCard
                 available={hasSummaryMetric("weightedTradePercent")}
-                label={t("Trade percentage")}
+                label="Trade percentage"
                 value={`${decimalFormatter.format(summary.weightedTradePercent)}%`}
                 accent="text-emerald-400"
               />
               <MetricCard
                 available={hasSummaryMetric("averageBattleDurationSeconds")}
-                label={t("Avg. battle duration")}
+                label="Avg. battle duration"
                 value={formatDuration(summary.averageBattleDurationSeconds, decimalFormatter)}
               />
               <MetricCard
                 available={hasSummaryMetric("uniqueGovernors")}
-                label={t("Governors")}
+                label="Governors"
                 value={formatCount(summary.uniqueGovernors, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(summary.uniqueGovernors)}
               />
               <MetricCard
                 available={hasSummaryMetric("severelyWoundedInflicted")}
-                label={t("Severely wounded inflicted")}
+                label="Severely wounded inflicted"
                 value={formatCount(
                   summary.severelyWoundedInflicted,
                   compactFormatter,
@@ -244,28 +238,28 @@ export function CombatLab({
               />
               <MetricCard
                 available={hasSummaryMetric("severelyWoundedTaken")}
-                label={t("Severely wounded taken")}
+                label="Severely wounded taken"
                 value={formatCount(summary.severelyWoundedTaken, compactFormatter, numberFormatter)}
                 exactValue={numberFormatter.format(Math.round(summary.severelyWoundedTaken))}
               />
               <MetricCard
                 available={hasSummaryMetric("dps")}
-                label={t("Damage per second (DPS)")}
+                label="Damage per second (DPS)"
                 value={decimalFormatter.format(summary.dps)}
               />
               <MetricCard
                 available={hasSummaryMetric("sps")}
-                label={t("Sevs per second (SPS)")}
+                label="Sevs per second (SPS)"
                 value={decimalFormatter.format(summary.sps)}
               />
               <MetricCard
                 available={hasSummaryMetric("tps")}
-                label={t("Sevs taken per second (TPS)")}
+                label="Sevs taken per second (TPS)"
                 value={decimalFormatter.format(summary.tps)}
               />
               <MetricCard
                 available={hasSummaryMetric("hps")}
-                label={t("Healing per second (HPS)")}
+                label="Healing per second (HPS)"
                 value={decimalFormatter.format(summary.hps)}
               />
             </div>
@@ -276,7 +270,7 @@ export function CombatLab({
 
         <section aria-labelledby="trends-title">
           <Heading id="trends-title" level={2} className="mb-4">
-            {t("Combat performance")}
+            Combat performance
           </Heading>
           <CombatLabCharts rangeKey={rangeKey} trends={trends} />
         </section>
@@ -343,8 +337,6 @@ function MetricCard({
   label: string;
   value: string;
 }) {
-  const t = useExtracted();
-
   return (
     <article className="rounded-md border px-4 py-3.5 border-white/10 bg-white/[.035]">
       <Text className="!text-sm/5">{label}</Text>
@@ -352,7 +344,7 @@ function MetricCard({
         className={`mt-1.5 font-semibold text-2xl tracking-tight tabular-nums ${available ? accent : "text-zinc-500"}`}
         title={available ? exactValue : undefined}
       >
-        {available ? value : t("No data")}
+        {available ? value : "No data"}
       </div>
     </article>
   );

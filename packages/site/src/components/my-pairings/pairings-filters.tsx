@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
@@ -45,20 +44,19 @@ export function PairingsFilters({
   excludedBattles,
   onExcludedBattlesChange,
 }: PairingsFiltersProps) {
-  const t = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
   const activityLabels: Record<PairingsActivity, string> = {
-    ark: t("Ark of Osiris"),
-    home: t("Home"),
-    kvk: t("KVK"),
-    strife: t("Supreme Strife"),
+    ark: "Ark of Osiris",
+    home: "Home",
+    kvk: "KVK",
+    strife: "Supreme Strife",
   };
   const battleLabels: Record<PairingsBattleType, string> = {
-    "open-field": t("Open Field"),
-    swarming: t("Swarming"),
-    rally: t("Rally"),
-    garrison: t("Garrison"),
+    "open-field": "Open Field",
+    swarming: "Swarming",
+    rally: "Rally",
+    garrison: "Garrison",
   };
   const excludedActivitySummary = formatExcludedPairingsFilters(excludedActivities, activityLabels);
   const excludedBattleSummary = formatExcludedPairingsFilters(excludedBattles, battleLabels);
@@ -66,9 +64,9 @@ export function PairingsFilters({
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       <Field className="space-y-2 xl:col-span-2">
-        <Label>{t("Pairing")}</Label>
+        <Label>Pairing</Label>
         <Listbox
-          aria-label={t("Pairing")}
+          aria-label="Pairing"
           value={pairingValue}
           onChange={onPairingChange}
           disabled={pairingsLoading || pairingOptions.length === 0}
@@ -81,7 +79,7 @@ export function PairingsFilters({
         </Listbox>
       </Field>
       <Field className="space-y-2">
-        <Label htmlFor="pairings-start-date">{t("Start date")}</Label>
+        <Label htmlFor="pairings-start-date">Start date</Label>
         <Input
           id="pairings-start-date"
           type="date"
@@ -92,7 +90,7 @@ export function PairingsFilters({
         />
       </Field>
       <Field className="space-y-2">
-        <Label htmlFor="pairings-end-date">{t("End date")}</Label>
+        <Label htmlFor="pairings-end-date">End date</Label>
         <Input
           id="pairings-end-date"
           type="date"
@@ -103,62 +101,62 @@ export function PairingsFilters({
         />
       </Field>
       <Field className="space-y-2">
-        <Label>{t("Exclude activities")}</Label>
+        <Label>Exclude activities</Label>
         <Listbox<PairingsActivity>
-          aria-label={t("Exclude activities")}
+          aria-label="Exclude activities"
           value={excludedActivities}
           onChange={onExcludedActivitiesChange}
           multiple
-          placeholder={t("None")}
+          placeholder="None"
           renderValue={() =>
             excludedActivitySummary ? (
               <span className="block truncate">{excludedActivitySummary}</span>
             ) : (
-              <span className="block truncate text-zinc-500">{t("None")}</span>
+              <span className="block truncate text-zinc-500">None</span>
             )
           }
         >
           <ListboxOption value="ark">
-            <ListboxLabel>{t("Ark of Osiris")}</ListboxLabel>
+            <ListboxLabel>Ark of Osiris</ListboxLabel>
           </ListboxOption>
           <ListboxOption value="kvk">
-            <ListboxLabel>{t("KVK")}</ListboxLabel>
+            <ListboxLabel>KVK</ListboxLabel>
           </ListboxOption>
           <ListboxOption value="strife">
-            <ListboxLabel>{t("Supreme Strife")}</ListboxLabel>
+            <ListboxLabel>Supreme Strife</ListboxLabel>
           </ListboxOption>
           <ListboxOption value="home">
-            <ListboxLabel>{t("Home")}</ListboxLabel>
+            <ListboxLabel>Home</ListboxLabel>
           </ListboxOption>
         </Listbox>
       </Field>
       <Field className="space-y-2">
-        <Label>{t("Exclude battles")}</Label>
+        <Label>Exclude battles</Label>
         <Listbox<PairingsBattleType>
-          aria-label={t("Exclude battles")}
+          aria-label="Exclude battles"
           value={excludedBattles}
           onChange={onExcludedBattlesChange}
           multiple
-          placeholder={t("None")}
+          placeholder="None"
           renderValue={() =>
             excludedBattleSummary ? (
               <span className="block truncate">{excludedBattleSummary}</span>
             ) : (
-              <span className="block truncate text-zinc-500">{t("None")}</span>
+              <span className="block truncate text-zinc-500">None</span>
             )
           }
         >
           <ListboxOption value="open-field">
-            <ListboxLabel>{t("Open Field")}</ListboxLabel>
+            <ListboxLabel>Open Field</ListboxLabel>
           </ListboxOption>
           <ListboxOption value="swarming">
-            <ListboxLabel>{t("Swarming")}</ListboxLabel>
+            <ListboxLabel>Swarming</ListboxLabel>
           </ListboxOption>
           <ListboxOption value="rally">
-            <ListboxLabel>{t("Rally")}</ListboxLabel>
+            <ListboxLabel>Rally</ListboxLabel>
           </ListboxOption>
           <ListboxOption value="garrison">
-            <ListboxLabel>{t("Garrison")}</ListboxLabel>
+            <ListboxLabel>Garrison</ListboxLabel>
           </ListboxOption>
         </Listbox>
       </Field>

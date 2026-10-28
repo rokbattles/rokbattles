@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { fetchLootExplorerItems, type LoharTrialLootDocument } from "@/lib/loot-explorer/api";
@@ -11,8 +10,9 @@ import { LootExplorerStatus } from "./loot-explorer-status";
 import { LootExplorerSummary } from "./loot-explorer-summary";
 import { LootTable } from "./loot-table";
 
+const numberFormatter = new Intl.NumberFormat("en-US");
+
 export function LoharTrialExplorer({ selectedType }: { selectedType?: string }) {
-  const t = useExtracted();
   const [items, setItems] = useState<LoharTrialLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -36,14 +36,12 @@ export function LoharTrialExplorer({ selectedType }: { selectedType?: string }) 
   }, []);
 
   if (status === "loading") {
-    return (
-      <LootExplorerStatus active="lohars-trial" message={t("Loading loot explorer data...")} />
-    );
+    return <LootExplorerStatus active="lohars-trial" message="Loading loot explorer data..." />;
   }
 
   if (status === "error") {
     return (
-      <LootExplorerStatus active="lohars-trial" message={t("Failed to load loot explorer data.")} />
+      <LootExplorerStatus active="lohars-trial" message="Failed to load loot explorer data." />
     );
   }
 
@@ -57,14 +55,12 @@ export function LoharTrialExplorerContent({
   items: LoharTrialLootDocument[];
   selectedType?: string;
 }) {
-  const t = useExtracted();
-
   const boss = findLoharNpc(selectedType, items);
   const item = items.find((candidate) => candidate.kind === boss.kind);
 
   const labels = new Map([
-    ["junior-lohar", t("Junior Lohar")],
-    ["dauntless-lohar", t("Dauntless Lohar")],
+    ["junior-lohar", "Junior Lohar"],
+    ["dauntless-lohar", "Dauntless Lohar"],
   ]);
 
   return (
@@ -80,22 +76,23 @@ export function LoharTrialExplorerContent({
       <LootExplorerSummary
         generatedAt={item?.refreshedAt}
         items={[
-          { label: t("Results"), value: item?.totals.results ?? 0 },
-          { label: t("AP used"), value: item?.totals.apUsed ?? 0 },
+          { label: "Results", value: item?.totals.results ?? 0 },
+          { label: "AP used", value: item?.totals.apUsed ?? 0 },
         ]}
       />
       {item && item.totals.unmatchedResults > 0 ? (
         <p className="rounded-lg px-4 py-3 text-sm/6 bg-amber-500/10 text-amber-200">
-          {t(
-            "Rates exclude {count, plural, one {# reward result} other {# reward results}} that could not be assigned to the five slots.",
-            { count: item.totals.unmatchedResults }
-          )}
+          {`Rates exclude ${
+            Math.abs(item.totals.unmatchedResults) === 1
+              ? `${numberFormatter.format(item.totals.unmatchedResults)} reward result`
+              : `${numberFormatter.format(item.totals.unmatchedResults)} reward results`
+          } that could not be assigned to the five slots.`}
         </p>
       ) : null}
       <div className="space-y-8">
         {item?.slots.map((slot) => (
           <section key={slot.slot} className="space-y-3">
-            <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
+            <Subheading level={3}>{`Slot ${slot.slot.toString()}`}</Subheading>
             <LootTable
               loot={slot.loot}
               noItem={

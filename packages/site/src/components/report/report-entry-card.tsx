@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { memo } from "react";
 import { ReportBattleResultsChart } from "@/components/report/report-battle-results-chart";
 import { ReportParticipantCard } from "@/components/report/report-participant-card";
@@ -13,7 +12,6 @@ type ReportEntryCardProps = {
 };
 
 export const ReportEntryCard = memo(function ReportEntryCard({ entry }: ReportEntryCardProps) {
-  const t = useExtracted();
   const payload = (entry.report ?? {}) as RawReportPayload;
 
   const metadata = payload?.metadata;
@@ -25,8 +23,8 @@ export const ReportEntryCard = memo(function ReportEntryCard({ entry }: ReportEn
   const start = metadata?.start_date ?? entry.startDate;
   const end = metadata?.end_date;
   const periodLabel = formatPeriod(start, end, {
-    unknownPeriodLabel: t("Unknown period"),
-    utcPrefix: t("UTC "),
+    unknownPeriodLabel: "Unknown period",
+    utcPrefix: "UTC ",
   });
 
   return (
@@ -40,7 +38,7 @@ export const ReportEntryCard = memo(function ReportEntryCard({ entry }: ReportEn
       {battleResults ? (
         <section className="space-y-4">
           <Subheading level={3} className="text-base">
-            {t("Battle summary")}
+            Battle summary
           </Subheading>
           <ReportBattleResultsChart results={battleResults} />
         </section>

@@ -1,6 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import { redirect } from "next/navigation";
-import { getExtracted } from "next-intl/server";
+
 import { ArkMatchDetailContent } from "@/components/account-ark/ark-match-detail-content";
 import { Heading } from "@/components/ui/heading";
 import { Link } from "@/components/ui/link";
@@ -8,7 +8,7 @@ import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 
 export default async function Page({ params }: PageProps<"/account/ark/[matchId]">) {
   const user = await requireCurrentUserWithGovernor();
-  const t = await getExtracted();
+
   const { matchId } = await params;
   const governorId = user.claimedGovernors[0]?.governorId;
 
@@ -24,10 +24,10 @@ export default async function Page({ params }: PageProps<"/account/ark/[matchId]
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-400"
         >
           <ChevronLeft data-slot="icon" aria-hidden="true" className="size-4 text-zinc-500" />
-          {t("Back to Ark Recap")}
+          Back to Ark Recap
         </Link>
       </div>
-      <Heading>{t("Ark Match")}</Heading>
+      <Heading>Ark Match</Heading>
       <ArkMatchDetailContent matchId={matchId} />
     </>
   );

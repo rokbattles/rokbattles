@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useExtracted, useFormatter } from "next-intl";
+
 import type { ReactElement } from "react";
 import { ArkAllianceEmblem } from "@/components/account-ark/ark-alliance-emblem";
 import { useArkLeagueLabels, useArkNumber } from "@/components/account-ark/ark-shared";
@@ -10,20 +10,26 @@ import { getArkOutcome } from "@/lib/ark/analytics";
 import { formatArkAllianceLabel } from "@/lib/ark/format";
 import type { ArkMatchDetail } from "@/lib/types/ark";
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "UTC" });
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+  timeZone: "UTC",
+});
+
 type ArkScoreboardProps = { detail: ArkMatchDetail };
 
 export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
-  const t = useExtracted();
-  const intl = useFormatter();
   const number = useArkNumber();
   const leagues = useArkLeagueLabels();
 
   const outcome = getArkOutcome(detail);
   const labels = {
-    win: t("Victory"),
-    loss: t("Defeat"),
-    draw: t("Draw"),
-    unknown: t("Result unavailable"),
+    win: "Victory",
+    loss: "Defeat",
+    draw: "Draw",
+    unknown: "Result unavailable",
   };
   const colors = { win: "green", loss: "red", draw: "amber", unknown: "zinc" } as const;
 
@@ -38,15 +44,7 @@ export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
           <Badge color={colors[outcome]}>{labels[outcome]}</Badge>
         </div>
         <span className="text-zinc-400">
-          {t("{date} at {time} UTC", {
-            date: intl.dateTime(detail.mailTimeMillis, { dateStyle: "medium", timeZone: "UTC" }),
-            time: intl.dateTime(detail.mailTimeMillis, {
-              hour: "2-digit",
-              minute: "2-digit",
-              hourCycle: "h23",
-              timeZone: "UTC",
-            }),
-          })}
+          {`${dateFormatter.format(detail.mailTimeMillis)} at ${timeFormatter.format(detail.mailTimeMillis)} UTC`}
         </span>
       </div>
       <div className="grid gap-6 p-5 sm:grid-cols-2 sm:p-6">
@@ -58,16 +56,16 @@ export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
             <ArkAllianceEmblem logo={alliance.logo} isBlue={alliance.isBlue} large />
             <div className="min-w-0 flex-1">
               <div className="mb-1 flex items-center gap-2 text-xs font-medium text-zinc-400">
-                {alliance.isBlue ? t("Iset") : t("Seth")}
+                {alliance.isBlue ? "Iset" : "Seth"}
                 {alliance.id != null && alliance.id === detail.selfAllianceId ? (
-                  <Badge color="zinc">{t("You")}</Badge>
+                  <Badge color="zinc">You</Badge>
                 ) : null}
               </div>
               <div
                 className="truncate font-semibold"
-                title={formatArkAllianceLabel(alliance, t("Unknown alliance"))}
+                title={formatArkAllianceLabel(alliance, "Unknown alliance")}
               >
-                {formatArkAllianceLabel(alliance, t("Unknown alliance"))}
+                {formatArkAllianceLabel(alliance, "Unknown alliance")}
               </div>
               <div
                 className={cn(
@@ -78,10 +76,7 @@ export function ArkScoreboard({ detail }: ArkScoreboardProps): ReactElement {
                 {number(alliance.score)}
               </div>
               <div className="mt-1 text-xs text-zinc-400">
-                {t("Members: {members} / {max}", {
-                  members: number(alliance.members),
-                  max: number(alliance.membersMax),
-                })}
+                {`Members: ${number(alliance.members)} / ${number(alliance.membersMax)}`}
               </div>
             </div>
           </div>

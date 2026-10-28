@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BarbarianLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
@@ -23,7 +22,6 @@ export function BarbarianExplorer({
   selectedType?: string;
   selectedLevels: number[];
 }) {
-  const t = useExtracted();
   const [items, setItems] = useState<BarbarianLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -51,21 +49,19 @@ export function BarbarianExplorer({
   }, []);
 
   if (status === "loading") {
-    return <LootExplorerStatus active="barbarians" message={t("Loading loot explorer data...")} />;
+    return <LootExplorerStatus active="barbarians" message="Loading loot explorer data..." />;
   }
 
   if (status === "error") {
-    return (
-      <LootExplorerStatus active="barbarians" message={t("Failed to load loot explorer data.")} />
-    );
+    return <LootExplorerStatus active="barbarians" message="Failed to load loot explorer data." />;
   }
 
   const familyLabels = new Map([
-    ["barbarians", t("Barbarians")],
-    ["english-soldiers", t("English Soldiers")],
-    ["marauders", t("Marauders")],
+    ["barbarians", "Barbarians"],
+    ["english-soldiers", "English Soldiers"],
+    ["marauders", "Marauders"],
   ]);
-  const formatLevel = (level: number) => t("Level {level}", { level: level.toString() });
+  const formatLevel = (level: number) => `Level ${level.toString()}`;
   const availableFamilies = barbarianFamilies.filter((option) => items.some(option.matches));
   const levelOptionsByType = Object.fromEntries(
     availableFamilies.map((option) => [
@@ -111,18 +107,16 @@ export function BarbarianExplorer({
       <LootExplorerSummary
         generatedAt={generatedAt}
         items={[
-          { label: t("Results"), value: totals.results },
-          { label: t("AP used"), value: totals.apUsed },
-          { label: t("Honor gained"), value: totals.honor },
-          { label: t("XP gained"), value: totals.xp },
+          { label: "Results", value: totals.results },
+          { label: "AP used", value: totals.apUsed },
+          { label: "Honor gained", value: totals.honor },
+          { label: "XP gained", value: totals.xp },
         ]}
       />
       <div className="space-y-8">
         {visibleItems.map((item) => (
           <section key={`${item.kind}:${item.level}`} className="space-y-3">
-            <Subheading>
-              {t("{name} level {level}", { level: item.level.toString(), name: familyLabel })}
-            </Subheading>
+            <Subheading>{`${familyLabel} level ${item.level.toString()}`}</Subheading>
             <LootTable loot={item.loot} />
           </section>
         ))}

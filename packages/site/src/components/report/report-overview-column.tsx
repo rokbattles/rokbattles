@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { Fragment } from "react";
 import {
   DescriptionDetails,
@@ -24,9 +23,8 @@ export function ReportOverviewColumn({
   participant,
   formatter,
 }: ReportOverviewColumnProps) {
-  const t = useExtracted();
   const participantName = participant?.player_name?.trim();
-  const sideTitle = side === "self" ? participantName || t("Unknown") : t("All Enemies");
+  const sideTitle = side === "self" ? participantName || "Unknown" : "All Enemies";
   return (
     <div className="space-y-3 rounded p-4 bg-white/5">
       <Subheading>{sideTitle}</Subheading>
@@ -37,22 +35,22 @@ export function ReportOverviewColumn({
           let label: string;
           switch (metric.labelKey) {
             case "troopUnits":
-              label = t("Troop Units");
+              label = "Troop Units";
               break;
             case "dead":
-              label = t("Dead");
+              label = "Dead";
               break;
             case "severelyWounded":
-              label = t("Severely Wounded");
+              label = "Severely Wounded";
               break;
             case "slightlyWounded":
-              label = t("Slightly Wounded");
+              label = "Slightly Wounded";
               break;
             case "remaining":
-              label = t("Remaining");
+              label = "Remaining";
               break;
             case "killPoints":
-              label = t("Kill Points");
+              label = "Kill Points";
               break;
             default:
               return null;
@@ -61,7 +59,7 @@ export function ReportOverviewColumn({
             <Fragment key={`${side}-${metric.labelKey}`}>
               <DescriptionTerm className="pt-1! pb-1! border-none!">{label}</DescriptionTerm>
               <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
-                {value == null ? t("N/A") : formatter.format(value)}
+                {value == null ? "N/A" : formatter.format(value)}
               </DescriptionDetails>
             </Fragment>
           );

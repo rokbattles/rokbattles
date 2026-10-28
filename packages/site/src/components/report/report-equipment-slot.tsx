@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useExtracted } from "next-intl";
+
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import {
   getEquipmentSpriteUrl,
@@ -16,12 +16,10 @@ type ReportEquipmentSlotProps = {
 };
 
 export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
-  const t = useExtracted();
   const { tier, isSpecialTalent, troopType } = getEquipmentTierInfo(token?.attr);
   const tierLabel = tier != null ? toRomanNumeral(tier) : null;
   const label = token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : undefined;
-  const equipmentAlt =
-    token?.id != null ? t("Equipment {id}", { id: token.id.toString() }) : undefined;
+  const equipmentAlt = token?.id != null ? `Equipment ${token.id.toString()}` : undefined;
   const troopTypeIconSrc = getEquipmentTroopTypeIconSrc(troopType);
   const equipmentSpriteUrl = getEquipmentSpriteUrl(token?.id);
 
@@ -54,7 +52,7 @@ export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
           {troopTypeIconSrc ? (
             <Image
               src={troopTypeIconSrc}
-              alt={t("Special talent {troopType}", { troopType })}
+              alt={`Special talent ${troopType}`}
               width={20}
               height={20}
               className="h-5 w-5 object-contain"

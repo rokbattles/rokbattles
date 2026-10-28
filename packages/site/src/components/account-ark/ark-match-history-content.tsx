@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { type ReactElement, use } from "react";
 import { ArkHistoryDashboard } from "@/components/account-ark/ark-history-dashboard";
 import { ArkRequestState } from "@/components/account-ark/ark-shared";
@@ -9,7 +8,6 @@ import type { ArkMatchHistoryResult } from "@/lib/types/ark";
 import { GovernorContext } from "@/providers/governor-context";
 
 export function ArkMatchHistoryContent(): ReactElement {
-  const t = useExtracted();
   const context = use(GovernorContext);
 
   if (!context) {
@@ -22,13 +20,13 @@ export function ArkMatchHistoryContent(): ReactElement {
   );
 
   if (query.loading) {
-    return <ArkRequestState>{t("Loading Ark matches…")}</ArkRequestState>;
+    return <ArkRequestState>Loading Ark matches…</ArkRequestState>;
   }
 
   if (query.error) {
     return (
       <ArkRequestState error retry={query.retry}>
-        {t("Failed to load Ark matches.")}
+        Failed to load Ark matches.
       </ArkRequestState>
     );
   }
@@ -36,7 +34,7 @@ export function ArkMatchHistoryContent(): ReactElement {
   if (!query.data) {
     return (
       <ArkRequestState>
-        {t("No Ark matches yet. Upload your match result mails to start your recap.")}
+        No Ark matches yet. Upload your match result mails to start your recap.
       </ArkRequestState>
     );
   }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { SummaryMetric } from "@/components/summary-metric";
 import { Button } from "@/components/ui/button";
 import { Subheading } from "@/components/ui/heading";
@@ -69,23 +68,21 @@ export function PairingsLoadoutBreakdown({
   onToggleShowAllOpponents,
   opponentsId,
 }: PairingsLoadoutBreakdownProps) {
-  const t = useExtracted();
-
   return (
     <section className="space-y-6">
-      <Subheading>{t("Loadout breakdown")}</Subheading>
+      <Subheading>Loadout breakdown</Subheading>
       {pairingsLoading ? (
-        <Text>{t("Loading pairings...")}</Text>
+        <Text>Loading pairings...</Text>
       ) : pairingsError ? (
         <Text>{pairingsError}</Text>
       ) : !hasSelectedPairing ? (
-        <Text>{t("Select a pairing to get started.")}</Text>
+        <Text>Select a pairing to get started.</Text>
       ) : loadoutsLoading || !loadoutsReady ? (
-        <Text>{t("Loading loadout breakdown...")}</Text>
+        <Text>Loading loadout breakdown...</Text>
       ) : loadoutsError ? (
         <Text>{loadoutsError}</Text>
       ) : !hasSelectedLoadout ? (
-        <Text>{t("Select a loadout to view the breakdown.")}</Text>
+        <Text>Select a loadout to view the breakdown.</Text>
       ) : (
         <>
           <div className="space-y-3">
@@ -103,30 +100,28 @@ export function PairingsLoadoutBreakdown({
 
           <div className="space-y-3">
             <div>
-              <div className="text-sm font-semibold text-white">{t("Opponent pairings")}</div>
+              <div className="text-sm font-semibold text-white">Opponent pairings</div>
             </div>
             {enemiesLoading ? (
-              <Text>{t("Loading enemy matchups...")}</Text>
+              <Text>Loading enemy matchups...</Text>
             ) : enemiesError ? (
               <Text>{enemiesError}</Text>
             ) : opponentRows.length === 0 ? (
-              <Text>{t("No enemy pairings found for this selection.")}</Text>
+              <Text>No enemy pairings found for this selection.</Text>
             ) : (
               <>
                 <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
                   <TableHead>
                     <TableRow>
-                      <TableHeader className="w-12">{t("#")}</TableHeader>
-                      <TableHeader>{t("Pairing")}</TableHeader>
-                      <TableHeader className="w-24 text-right">{t("Battles")}</TableHeader>
-                      <TableHeader className="w-32 text-right">
-                        {t("Kill points gained")}
-                      </TableHeader>
-                      <TableHeader className="w-40 text-right">{t("Kill points lost")}</TableHeader>
-                      <TableHeader className="w-20 text-right">{t("DPS")}</TableHeader>
-                      <TableHeader className="w-20 text-right">{t("SPS")}</TableHeader>
-                      <TableHeader className="w-20 text-right">{t("TPS")}</TableHeader>
-                      <TableHeader className="w-20 text-right">{t("HPS")}</TableHeader>
+                      <TableHeader className="w-12">#</TableHeader>
+                      <TableHeader>Pairing</TableHeader>
+                      <TableHeader className="w-24 text-right">Battles</TableHeader>
+                      <TableHeader className="w-32 text-right">Kill points gained</TableHeader>
+                      <TableHeader className="w-40 text-right">Kill points lost</TableHeader>
+                      <TableHeader className="w-20 text-right">DPS</TableHeader>
+                      <TableHeader className="w-20 text-right">SPS</TableHeader>
+                      <TableHeader className="w-20 text-right">TPS</TableHeader>
+                      <TableHeader className="w-20 text-right">HPS</TableHeader>
                     </TableRow>
                   </TableHead>
                   <TableBody id={opponentsId}>
@@ -158,7 +153,7 @@ export function PairingsLoadoutBreakdown({
                     aria-controls={opponentsId}
                     className="text-sm"
                   >
-                    {showAllOpponents ? t("Show less") : t("Show more")}
+                    {showAllOpponents ? "Show less" : "Show more"}
                   </Button>
                 ) : null}
               </>

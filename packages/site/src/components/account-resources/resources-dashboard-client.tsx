@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { type ReactElement, useMemo } from "react";
 import { ResourcesBreakdownTable } from "@/components/account-resources/resources-breakdown-table";
 import { ResourcesLedgerClient } from "@/components/account-resources/resources-ledger-client";
@@ -34,7 +33,6 @@ export function ResourcesDashboardClient({
   view,
   onViewChange,
 }: ResourcesDashboardClientProps): ReactElement {
-  const t = useExtracted();
   const { selected, cumulative } = view;
   const rows = useMemo(
     () => buildResourceBreakdownRows(data.crystalsGain, data.resources),
@@ -59,47 +57,45 @@ export function ResourcesDashboardClient({
   if (data.totalReports === 0) {
     report = (
       <div className="rounded-md border border-dashed px-6 py-10 text-center border-zinc-700">
-        <Subheading>{t("No reports in this date range.")}</Subheading>
+        <Subheading>No reports in this date range.</Subheading>
         <Text className="mt-2">
-          {t("Try another range or upload gathering reports from the desktop app.")}
+          Try another range or upload gathering reports from the desktop app.
         </Text>
       </div>
     );
   } else if (selected.length === 0) {
-    report = <Text>{t("Select a resource above to view its trends and ledger.")}</Text>;
+    report = <Text>Select a resource above to view its trends and ledger.</Text>;
   } else {
     report = (
       <>
         <section className="space-y-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
-              <Subheading>{t("Gathering trends")}</Subheading>
+              <Subheading>Gathering trends</Subheading>
               <Text className="mt-1">
                 {cumulative
-                  ? t(
-                      "Running totals start at the beginning of your selected range. Each chart has its own scale."
-                    )
-                  : t("Recorded daily gains, including bonuses. Each chart has its own scale.")}
+                  ? "Running totals start at the beginning of your selected range. Each chart has its own scale."
+                  : "Recorded daily gains, including bonuses. Each chart has its own scale."}
               </Text>
             </div>
             <div
               className="flex shrink-0 self-start gap-1 rounded-lg p-1 bg-zinc-900"
               role="group"
-              aria-label={t("Chart values")}
+              aria-label="Chart values"
             >
               <Button
                 {...(!cumulative ? { color: "dark" } : { plain: true })}
                 aria-pressed={!cumulative}
                 onClick={() => onViewChange({ cumulative: false })}
               >
-                {t("Periodic")}
+                Periodic
               </Button>
               <Button
                 {...(cumulative ? { color: "dark" } : { plain: true })}
                 aria-pressed={cumulative}
                 onClick={() => onViewChange({ cumulative: true })}
               >
-                {t("Cumulative")}
+                Cumulative
               </Button>
             </div>
           </div>
@@ -115,11 +111,9 @@ export function ResourcesDashboardClient({
     <div className="space-y-8">
       <section className="space-y-4">
         <div>
-          <Subheading>{t("Gathering overview")}</Subheading>
+          <Subheading>Gathering overview</Subheading>
           <Text className="mt-1">
-            {t(
-              "Select cards to filter charts and tables. Averages include every day in the range."
-            )}
+            Select cards to filter charts and tables. Averages include every day in the range.
           </Text>
         </div>
         <ResourcesSummaryClient

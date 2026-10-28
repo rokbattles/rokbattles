@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { parseAsString, useQueryState } from "nuqs";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -62,7 +61,6 @@ function buildQueryParams({ after, before }: CursorRequest = {}) {
 }
 
 export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
-  const t = useExtracted();
   const [data, setData] = useState<OlympianArenaDuelSummary[]>([]);
   const [loadedAt, setLoadedAt] = useState<Date | null>(null);
   const [loading, setLoading] = useState(false);
@@ -73,21 +71,18 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
   const [beforeParam, setBeforeParam] = useQueryState("before", parseAsString);
   const requestIdRef = useRef(0);
 
-  const fetchPage = useCallback(
-    async ({ after, before }: CursorRequest = {}) => {
-      const query = buildQueryParams({ after, before });
-      const res = await fetch(`/proxy/v1/reports/duelbattle2${query}`, {
-        cache: "no-store",
-      });
+  const fetchPage = useCallback(async ({ after, before }: CursorRequest = {}) => {
+    const query = buildQueryParams({ after, before });
+    const res = await fetch(`/proxy/v1/reports/duelbattle2${query}`, {
+      cache: "no-store",
+    });
 
-      if (!res.ok) {
-        throw new Error(t("Failed to fetch data"));
-      }
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
 
-      return (await res.json()) as OlympianArenaApiResponse;
-    },
-    [t]
-  );
+    return (await res.json()) as OlympianArenaApiResponse;
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -113,7 +108,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
           return;
         }
 
-        const message = err instanceof Error ? err.message : t("Failed to fetch data");
+        const message = err instanceof Error ? err.message : "Failed to fetch data";
         setError(message);
         setData([]);
         setNextAfter(null);
@@ -130,7 +125,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
     return () => {
       cancelled = true;
     };
-  }, [afterParam, beforeParam, fetchPage, t]);
+  }, [afterParam, beforeParam, fetchPage]);
 
   const loadNextPage = useCallback(async () => {
     if (!nextAfter || loading) {
@@ -142,11 +137,11 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
     try {
       await Promise.all([setBeforeParam(null), setAfterParam(nextAfter)]);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("Failed to fetch data");
+      const message = err instanceof Error ? err.message : "Failed to fetch data";
       setError(message);
       setLoading(false);
     }
-  }, [loading, nextAfter, setAfterParam, setBeforeParam, t]);
+  }, [loading, nextAfter, setAfterParam, setBeforeParam]);
 
   const loadPreviousPage = useCallback(async () => {
     if (!previousBefore || loading) {
@@ -158,11 +153,11 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
     try {
       await Promise.all([setAfterParam(null), setBeforeParam(previousBefore)]);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("Failed to fetch data");
+      const message = err instanceof Error ? err.message : "Failed to fetch data";
       setError(message);
       setLoading(false);
     }
-  }, [loading, previousBefore, setAfterParam, setBeforeParam, t]);
+  }, [loading, previousBefore, setAfterParam, setBeforeParam]);
 
   return {
     data,

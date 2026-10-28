@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { Fragment } from "react";
 import { ReportInscriptionBadge } from "@/components/report/report-inscription-badge";
 import {
@@ -18,14 +17,13 @@ type ReportArmamentSectionProps = {
 };
 
 export function ReportArmamentSection({ buffs, inscriptions }: ReportArmamentSectionProps) {
-  const t = useExtracted();
   if (buffs.length === 0 && inscriptions.length === 0) {
     return null;
   }
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Armament Info")}</Subheading>
+      <Subheading>Armament Info</Subheading>
       {inscriptions.length > 0 ? (
         <div className="flex flex-wrap gap-1.5">
           {inscriptions.map((id) => (
@@ -41,7 +39,7 @@ export function ReportArmamentSection({ buffs, inscriptions }: ReportArmamentSec
             <Fragment key={buff.id}>
               <DescriptionTerm className="pt-1! pb-1! border-none!">
                 {getArmamentInfo(buff.id ?? null)?.name ??
-                  t("Armament {id}", { id: (buff.id ?? "?").toString() })}
+                  `Armament ${(buff.id ?? "?").toString()}`}
               </DescriptionTerm>
               <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
                 {(Number(buff.value ?? 0) * 100).toFixed(2)}%

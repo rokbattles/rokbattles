@@ -3,7 +3,7 @@
 import { cn } from "cn";
 import { ArrowRightLeft, Check, Search, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useExtracted, useLocale } from "next-intl";
+
 import { useDeferredValue, useMemo, useState } from "react";
 import { CommanderIcon } from "@/components/commander-icon";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ import {
 import { Input, InputGroup } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import type { CombatLabCommanderOption } from "@/lib/combat-lab/commanders";
+
+const numberFormatter2 = new Intl.NumberFormat("en-US");
 
 type PairingSlot = "primary" | "secondary";
 
@@ -35,8 +37,6 @@ export function CommanderPairingDrawer({
   primaryCommanderId,
   secondaryCommanderId,
 }: CommanderPairingDrawerProps) {
-  const t = useExtracted();
-  const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,7 +46,7 @@ export function CommanderPairingDrawer({
   const [query, setQuery] = useState("");
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const deferredQuery = useDeferredValue(query);
-  const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
+  const numberFormatter = numberFormatter2;
 
   const commanderById = useMemo(
     () => new Map(commanderOptions.map((commander) => [commander.id, commander])),
@@ -55,21 +55,21 @@ export function CommanderPairingDrawer({
   const talentOptions = useMemo(
     () =>
       Array.from(new Set(commanderOptions.flatMap((commander) => commander.talents))).sort(
-        (left, right) => talentLabel(left).localeCompare(talentLabel(right), locale)
+        (left, right) => talentLabel(left).localeCompare(talentLabel(right), "en-US")
       ),
-    [commanderOptions, locale]
+    [commanderOptions]
   );
   const filteredCommanders = useMemo(() => {
-    const normalizedQuery = deferredQuery.trim().toLocaleLowerCase(locale);
+    const normalizedQuery = deferredQuery.trim().toLocaleLowerCase("en-US");
 
     return commanderOptions.filter((commander) => {
       const matchesName =
         normalizedQuery.length === 0 ||
-        commander.name.toLocaleLowerCase(locale).includes(normalizedQuery);
+        commander.name.toLocaleLowerCase("en-US").includes(normalizedQuery);
       const matchesTalents = selectedTalents.every((talent) => commander.talents.includes(talent));
       return matchesName && matchesTalents;
     });
-  }, [commanderOptions, deferredQuery, locale, selectedTalents]);
+  }, [commanderOptions, deferredQuery, selectedTalents]);
 
   const primaryCommander = commanderById.get(draftPrimaryId);
   const secondaryCommander = commanderById.get(draftSecondaryId);
@@ -128,27 +128,27 @@ export function CommanderPairingDrawer({
     <Drawer onClose={handleOpenChange} open={open} size="2xl">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <DrawerTitle>{t("Change pairing")}</DrawerTitle>
+          <DrawerTitle>Change pairing</DrawerTitle>
           <DrawerDescription>
-            {t("Choose two different commanders and click Save to load their data.")}
+            Choose two different commanders and click Save to load their data.
           </DrawerDescription>
         </div>
-        <Button aria-label={t("Close pairing picker")} onClick={closeDrawer} plain>
+        <Button aria-label="Close pairing picker" onClick={closeDrawer} plain>
           <X data-slot="icon" aria-hidden="true" />
         </Button>
       </div>
 
       <DrawerBody className="space-y-7">
-        <section aria-label={t("Pairing order")}>
+        <section aria-label="Pairing order">
           <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
             <PairingSlotButton
               active={activeSlot === "primary"}
               commander={primaryCommander}
-              label={t("Primary")}
+              label="Primary"
               onClick={() => setActiveSlot("primary")}
             />
             <button
-              aria-label={t("Swap primary and secondary commanders")}
+              aria-label="Swap primary and secondary commanders"
               className="rounded-full border p-2 shadow-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-white"
               onClick={() => {
                 setDraftPrimaryId(draftSecondaryId);
@@ -161,7 +161,7 @@ export function CommanderPairingDrawer({
             <PairingSlotButton
               active={activeSlot === "secondary"}
               commander={secondaryCommander}
-              label={t("Secondary")}
+              label="Secondary"
               onClick={() => setActiveSlot("secondary")}
             />
           </div>
@@ -171,25 +171,23 @@ export function CommanderPairingDrawer({
           <InputGroup>
             <Search aria-hidden="true" data-slot="icon" />
             <Input
-              aria-label={t("Search by commander")}
+              aria-label="Search by commander"
               onChange={(event) => setQuery(event.target.value)}
-              placeholder={t("Search by commander")}
+              placeholder="Search by commander"
               type="search"
               value={query}
             />
           </InputGroup>
           <Listbox<string>
-            aria-label={t("Filter commander categories")}
+            aria-label="Filter commander categories"
             multiple
             onChange={setSelectedTalents}
-            placeholder={t("Filter commander categories")}
+            placeholder="Filter commander categories"
             renderValue={(talents) =>
               Array.isArray(talents) && talents.length > 0 ? (
                 talents.map(talentLabel).join(", ")
               ) : (
-                <span className="block truncate text-zinc-500">
-                  {t("Filter commander categories")}
-                </span>
+                <span className="block truncate text-zinc-500">Filter commander categories</span>
               )
             }
             value={selectedTalents}
@@ -206,8 +204,8 @@ export function CommanderPairingDrawer({
           <div className="mb-3 flex items-end justify-between gap-3">
             <h3 className="font-semibold text-sm/6 text-white" id="commander-results-heading">
               {activeSlot === "primary"
-                ? t("Choose the primary commander")
-                : t("Choose the secondary commander")}
+                ? "Choose the primary commander"
+                : "Choose the secondary commander"}
             </h3>
             <div className="flex shrink-0 items-center gap-3">
               {hasFilters ? (
@@ -219,12 +217,12 @@ export function CommanderPairingDrawer({
                   }}
                   type="button"
                 >
-                  {t("Clear filters")}
+                  Clear filters
                 </button>
               ) : null}
               <p aria-live="polite" className="text-xs text-zinc-400">
                 {numberFormatter.format(filteredCommanders.length)}{" "}
-                {filteredCommanders.length === 1 ? t("commander") : t("commanders")}
+                {filteredCommanders.length === 1 ? "commander" : "commanders"}
               </p>
             </div>
           </div>
@@ -280,9 +278,9 @@ export function CommanderPairingDrawer({
               className="rounded-md border border-dashed px-5 py-10 text-center border-white/15"
               data-testid="commander-results-empty"
             >
-              <p className="font-semibold text-sm text-white">{t("No commanders match")}</p>
+              <p className="font-semibold text-sm text-white">No commanders match</p>
               <p className="mt-1 text-sm/6 text-zinc-400">
-                {t("Try removing a talent or changing your search.")}
+                Try removing a talent or changing your search.
               </p>
             </div>
           )}
@@ -291,10 +289,10 @@ export function CommanderPairingDrawer({
 
       <DrawerActions>
         <Button onClick={closeDrawer} plain>
-          {t("Cancel")}
+          Cancel
         </Button>
         <Button color="blue" disabled={!pairingIsValid} onClick={applyPairing}>
-          {t("Save")}
+          Save
         </Button>
       </DrawerActions>
     </Drawer>

@@ -4,11 +4,18 @@ import { Popover } from "@base-ui/react/popover";
 import { CalendarDays } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useExtracted, useFormatter } from "next-intl";
+
 import { type ReactElement, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { type ResourceDateRange, resourcePresetRange } from "@/lib/resources/date-range";
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
 
 const ResourcesRangePicker = dynamic(
   () => import("./resources-range-picker").then((module) => module.ResourcesRangePicker),
@@ -16,14 +23,13 @@ const ResourcesRangePicker = dynamic(
 );
 
 function ResourcesRangePickerLoading() {
-  const t = useExtracted();
   return (
     <div className="space-y-3 p-4">
-      <Popover.Title className="text-sm font-semibold">{t("Choose a date range")}</Popover.Title>
+      <Popover.Title className="text-sm font-semibold">Choose a date range</Popover.Title>
       <p className="text-sm text-zinc-400" role="status">
-        {t("Loading calendar…")}
+        Loading calendar…
       </p>
-      <Popover.Close render={<Button plain>{t("Cancel")}</Button>} />
+      <Popover.Close render={<Button plain>Cancel</Button>} />
     </div>
   );
 }
@@ -39,25 +45,17 @@ export function ResourcesFiltersClient({
   endDate,
   maxDate,
 }: ResourcesFiltersClientProps): ReactElement {
-  const t = useExtracted();
-  const intl = useFormatter();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
-  const formatDate = (date: string): string =>
-    intl.dateTime(new Date(`${date}T00:00:00Z`), {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      timeZone: "UTC",
-    });
+  const formatDate = (date: string): string => dateFormatter.format(new Date(`${date}T00:00:00Z`));
   const presets = [
-    { id: "last7", label: t("Last 7d") },
-    { id: "last30", label: t("Last 30d") },
-    { id: "last90", label: t("Last 90d") },
-    { id: "ytd", label: t("YTD") },
+    { id: "last7", label: "Last 7d" },
+    { id: "last30", label: "Last 30d" },
+    { id: "last90", label: "Last 90d" },
+    { id: "ytd", label: "YTD" },
   ] as const;
 
   const apply = (range: ResourceDateRange): void => {
@@ -77,7 +75,7 @@ export function ResourcesFiltersClient({
       className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10"
       aria-busy={isPending}
     >
-      <nav className="flex gap-5" aria-label={t("Resource date ranges")}>
+      <nav className="flex gap-5" aria-label="Resource date ranges">
         {presets.map(({ id, label }) => {
           const range = resourcePresetRange(id, maxDate);
           const active = range.start === startDate && range.end === endDate;
@@ -114,7 +112,7 @@ export function ResourcesFiltersClient({
               </span>
             </Button>
           }
-          aria-label={`${t("Choose a date range")}: ${formatDate(startDate)} – ${formatDate(endDate)}`}
+          aria-label={`${"Choose a date range"}: ${formatDate(startDate)} – ${formatDate(endDate)}`}
         />
         <Popover.Portal>
           <Popover.Positioner

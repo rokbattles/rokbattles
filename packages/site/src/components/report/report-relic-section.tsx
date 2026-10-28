@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { ReportRelicSlot } from "@/components/report/report-relic-slot";
 import { Subheading } from "@/components/ui/heading";
 import type { RawRelicInfo } from "@/lib/types/raw-report";
@@ -10,7 +9,6 @@ type ReportRelicSectionProps = {
 };
 
 export function ReportRelicSection({ relics }: ReportRelicSectionProps) {
-  const t = useExtracted();
   const visibleRelics = relics.filter((relic) => isFiniteRelicId(relic.id));
 
   if (visibleRelics.length === 0) {
@@ -19,7 +17,7 @@ export function ReportRelicSection({ relics }: ReportRelicSectionProps) {
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Relics")}</Subheading>
+      <Subheading>Relics</Subheading>
       <div className="flex flex-wrap gap-2">
         {visibleRelics.map((relic, index) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: ignore

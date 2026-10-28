@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { fetchKaharTreasureLoot, type KaharTreasureLootDocument } from "@/lib/loot-explorer/api";
@@ -10,8 +9,6 @@ import { LootExplorerSummary } from "./loot-explorer-summary";
 import { LootTable } from "./loot-table";
 
 export function KaharTreasureExplorer() {
-  const t = useExtracted();
-
   const [item, setItem] = useState<KaharTreasureLootDocument | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -41,17 +38,12 @@ export function KaharTreasureExplorer() {
   }, []);
 
   if (status === "loading") {
-    return (
-      <LootExplorerStatus active="kahars-treasure" message={t("Loading loot explorer data...")} />
-    );
+    return <LootExplorerStatus active="kahars-treasure" message="Loading loot explorer data..." />;
   }
 
   if (status === "error") {
     return (
-      <LootExplorerStatus
-        active="kahars-treasure"
-        message={t("Failed to load loot explorer data.")}
-      />
+      <LootExplorerStatus active="kahars-treasure" message="Failed to load loot explorer data." />
     );
   }
 
@@ -59,22 +51,20 @@ export function KaharTreasureExplorer() {
 }
 
 export function KaharTreasureExplorerContent({ item }: { item: KaharTreasureLootDocument | null }) {
-  const t = useExtracted();
-
   return (
     <LootExplorerLayout active="kahars-treasure">
       <LootExplorerSummary
         generatedAt={item?.refreshedAt}
         items={[
-          { label: t("Results"), value: item?.totals.results ?? 0 },
-          { label: t("AP used"), value: item?.totals.apUsed ?? 0 },
+          { label: "Results", value: item?.totals.results ?? 0 },
+          { label: "AP used", value: item?.totals.apUsed ?? 0 },
         ]}
       />
 
       <div className="space-y-8">
         {item?.slots.map((slot) => (
           <section key={slot.slot} className="space-y-3">
-            <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
+            <Subheading level={3}>{`Slot ${slot.slot.toString()}`}</Subheading>
             <LootTable loot={slot.loot} />
           </section>
         ))}

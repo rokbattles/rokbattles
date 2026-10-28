@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import type { ReactElement } from "react";
 import {
   ArkMetricCards,
@@ -16,68 +15,60 @@ type ArkMatchDetailIndividualResultsSectionProps = { detail: ArkMatchDetail };
 export function ArkMatchDetailIndividualResultsSection({
   detail,
 }: ArkMatchDetailIndividualResultsSectionProps): ReactElement {
-  const t = useExtracted();
   const number = useArkNumber();
 
   const { overview, individualResults: result } = detail;
   const scores = [
-    { label: t("Kills"), value: result.killScore, color: "bg-red-500" },
-    { label: t("Occupation"), value: result.occupationScore, color: "bg-blue-500" },
-    { label: t("Ark of Osiris"), value: result.arkOfOsirisScore, color: "bg-amber-500" },
-    { label: t("Provisions"), value: result.provisionsScore, color: "bg-emerald-500" },
-    { label: t("Healing"), value: result.healingScore, color: "bg-violet-500" },
+    { label: "Kills", value: result.killScore, color: "bg-red-500" },
+    { label: "Occupation", value: result.occupationScore, color: "bg-blue-500" },
+    { label: "Ark of Osiris", value: result.arkOfOsirisScore, color: "bg-amber-500" },
+    { label: "Provisions", value: result.provisionsScore, color: "bg-emerald-500" },
+    { label: "Healing", value: result.healingScore, color: "bg-violet-500" },
   ];
   const maxScore = Math.max(1, ...scores.map((score) => score.value ?? 0));
 
   const highlightLabels: Record<string, string> = {
-    flag_score: t("Ark score"),
-    building_score: t("Occupation score"),
-    gather_score: t("Provisions score"),
-    killed_score: t("Kills"),
-    be_killed_score: t("Severely wounded"),
-    healing_score: t("Units healed"),
+    flag_score: "Ark score",
+    building_score: "Occupation score",
+    gather_score: "Provisions score",
+    killed_score: "Kills",
+    be_killed_score: "Severely wounded",
+    healing_score: "Units healed",
   };
 
   return (
     <div className="space-y-8">
       <section className="space-y-4">
         <ArkSectionHeading
-          title={t("Your contribution")}
-          description={t("Your individual result, from combat to objectives.")}
+          title="Your contribution"
+          description="Your individual result, from combat to objectives."
         />
         {!detail.hasIndividualResults ? (
           <Text>
-            {t(
-              "Upload the individual result mail to see your score breakdown and pairing performance."
-            )}
+            Upload the individual result mail to see your score breakdown and pairing performance.
           </Text>
         ) : null}
         <ArkMetricCards
           items={[
             {
-              label: t("Individual score"),
+              label: "Individual score",
               value: number(overview.score),
               detail:
-                overview.rank && overview.rank > 0
-                  ? t("Rank #{rank}", { rank: number(overview.rank) })
-                  : undefined,
+                overview.rank && overview.rank > 0 ? `Rank #${number(overview.rank)}` : undefined,
             },
             {
-              label: t("Battle win rate"),
+              label: "Battle win rate",
               value: result.winRate == null ? "—" : `${number(result.winRate)}%`,
-              detail: t("{wins} won · {losses} lost", {
-                wins: number(result.battlesWin),
-                losses: number(result.battlesLose),
-              }),
+              detail: `${number(result.battlesWin)} won · ${number(result.battlesLose)} lost`,
             },
-            { label: t("Kills"), value: number(result.kills) },
-            { label: t("Severely wounded"), value: number(result.severelyWounded) },
+            { label: "Kills", value: number(result.kills) },
+            { label: "Severely wounded", value: number(result.severelyWounded) },
           ]}
         />
       </section>
       <div className="grid gap-4 lg:grid-cols-2">
         <section className="rounded-md border p-5 border-zinc-800">
-          <Subheading>{t("Individual score breakdown")}</Subheading>
+          <Subheading>Individual score breakdown</Subheading>
           <dl className="mt-6 space-y-4">
             {scores.map((score) => (
               <div key={score.label}>
@@ -96,12 +87,12 @@ export function ArkMatchDetailIndividualResultsSection({
           </dl>
         </section>
         <section className="rounded-md border p-5 border-zinc-800">
-          <Subheading>{t("Match activity")}</Subheading>
+          <Subheading>Match activity</Subheading>
           <dl className="mt-6 divide-y text-sm divide-zinc-800">
             {[
-              { label: t("Units healed"), value: result.unitsHealed },
-              { label: t("Speedups used (mins)"), value: result.speedupsMinutes ?? 0 },
-              { label: t("Teleports"), value: result.teleports },
+              { label: "Units healed", value: result.unitsHealed },
+              { label: "Speedups used (mins)", value: result.speedupsMinutes ?? 0 },
+              { label: "Teleports", value: result.teleports },
             ].map((metric) => (
               <div key={metric.label} className="flex justify-between gap-4 py-3">
                 <dt className="text-zinc-400">{metric.label}</dt>
@@ -114,8 +105,8 @@ export function ArkMatchDetailIndividualResultsSection({
       {detail.highlights.length ? (
         <section className="space-y-4">
           <ArkSectionHeading
-            title={t("Alliance highlights")}
-            description={t("Your alliance totals and the MVP in each category.")}
+            title="Alliance highlights"
+            description="Your alliance totals and the MVP in each category."
           />
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {detail.highlights.map((highlight) => (
@@ -128,11 +119,11 @@ export function ArkMatchDetailIndividualResultsSection({
                   <div className="mt-4 border-t pt-3 border-zinc-800">
                     <div className="truncate text-sm font-medium">{highlight.playerName}</div>
                     <div className="mt-1 text-xs text-zinc-400">
-                      {t("MVP · {value}", { value: number(highlight.playerValue) })}
+                      {`MVP · ${number(highlight.playerValue)}`}
                     </div>
                   </div>
                 ) : (
-                  <Text className="mt-4">{t("No MVP recorded")}</Text>
+                  <Text className="mt-4">No MVP recorded</Text>
                 )}
               </div>
             ))}

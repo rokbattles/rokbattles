@@ -1,5 +1,5 @@
 import { cn } from "cn";
-import { useExtracted } from "next-intl";
+
 import { formatGeneratedAt, formatNumber } from "@/lib/loot-explorer/format";
 
 export type LootExplorerSummaryItem = {
@@ -17,12 +17,11 @@ export function LootExplorerSummary({
   items: LootExplorerSummaryItem[];
   maxColumns?: 4 | 5;
 }) {
-  const t = useExtracted();
   const summaryItems = generatedAt
     ? [
         ...items,
         {
-          label: t("Last updated"),
+          label: "Last updated",
           value: formatGeneratedAt(generatedAt),
         },
       ]

@@ -2,7 +2,7 @@
 
 import { cn } from "cn";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { TableRow } from "@/components/ui/table";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportMapCell from "./report-map-cell";
@@ -26,7 +26,6 @@ function isPreviewableViewport() {
 }
 
 export default function ReportsTableRow({ report, now, onOpenOverview }: ReportsTableRowProps) {
-  const t = useExtracted();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const query = new URLSearchParams(searchParams.toString());
@@ -40,7 +39,7 @@ export default function ReportsTableRow({ report, now, onOpenOverview }: Reports
   return (
     <TableRow
       href={href}
-      title={t("View battle report")}
+      title="View battle report"
       className={cn("relative isolate", report.battles > 1 && "cursor-pointer")}
       onClickCapture={(event) => {
         if (report.battles <= 1 || !isPreviewableViewport()) {

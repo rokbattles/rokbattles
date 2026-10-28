@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Text, TextLink } from "@/components/ui/text";
@@ -8,7 +7,6 @@ import { useCookieConsent } from "@/providers/cookie-consent-context";
 
 export function CookieConsentBanner() {
   const [closeBanner, setCloseBanner] = useState(false);
-  const t = useExtracted();
 
   const { showConsent, updateCookieConsent } = useCookieConsent();
 
@@ -35,7 +33,7 @@ export function CookieConsentBanner() {
             handleCloseBanner();
           }}
         >
-          {t("Accept")}
+          Accept
         </Button>
         <Button
           onClick={() => {
@@ -43,7 +41,7 @@ export function CookieConsentBanner() {
             handleCloseBanner();
           }}
         >
-          {t("Reject")}
+          Reject
         </Button>
       </div>
     </div>

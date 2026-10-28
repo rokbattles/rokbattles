@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { use, useEffect, useId, useMemo, useState } from "react";
 import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
 import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
@@ -84,7 +83,6 @@ export function MyPairingsContent() {
     throw new Error("My Pairings must be used within a GovernorProvider");
   }
 
-  const t = useExtracted();
   const { activeGovernor } = governorContext;
 
   const [startDate, setStartDate] = useState<string>("");
@@ -141,10 +139,10 @@ export function MyPairingsContent() {
         label: formatCommanderPair(
           pairing.primaryCommanderId,
           pairing.secondaryCommanderId,
-          t("Unknown commander")
+          "Unknown commander"
         ),
       })),
-    [data, t]
+    [data]
   );
 
   const selectedPairing = data.find(
@@ -239,7 +237,7 @@ export function MyPairingsContent() {
 
     const allLoadouts: LoadoutCard = {
       key: ALL_LOADOUT_KEY,
-      label: t("All loadouts"),
+      label: "All loadouts",
       count: selectedPairing.count,
       totals: selectedPairing.totals,
       loadout: EMPTY_LOADOUT,
@@ -247,11 +245,11 @@ export function MyPairingsContent() {
 
     const cards = loadouts.map<LoadoutCard>((loadout, index) => ({
       ...loadout,
-      label: t("Loadout {index}", { index: (index + 1).toString() }),
+      label: `Loadout ${(index + 1).toString()}`,
     }));
 
     return [allLoadouts, ...cards];
-  }, [loadouts, selectedPairing, t]);
+  }, [loadouts, selectedPairing]);
 
   useEffect(() => {
     if (!selectedPairing) {
@@ -284,82 +282,79 @@ export function MyPairingsContent() {
     return [
       {
         id: "battles",
-        name: t("Battle reports"),
+        name: "Battle reports",
         value: formatNumber(selectedLoadoutCard.count),
-        description: t("Total battle reports recorded for this loadout."),
+        description: "Total battle reports recorded for this loadout.",
       },
       {
         id: "killPoints",
-        name: t("Kill points gained"),
+        name: "Kill points gained",
         value: formatNumber(selectedLoadoutCard.totals.killScore),
-        description: t("Total kill points earned while using this pairing."),
+        description: "Total kill points earned while using this pairing.",
       },
       {
         id: "enemyKillPoints",
-        name: t("Kill points lost"),
+        name: "Kill points lost",
         value: formatNumber(selectedLoadoutCard.totals.enemyKillScore),
-        description: t("Total kill points earned by opponents against this pairing."),
+        description: "Total kill points earned by opponents against this pairing.",
       },
       {
         id: "severelyWounded",
-        name: t("Severely wounded taken"),
+        name: "Severely wounded taken",
         value: formatNumber(selectedLoadoutCard.totals.severelyWounded),
-        description: t("Number of troops that became severely wounded while using this pairing."),
+        description: "Number of troops that became severely wounded while using this pairing.",
       },
       {
         id: "enemySeverelyWounded",
-        name: t("Severely wounded inflicted"),
+        name: "Severely wounded inflicted",
         value: formatNumber(selectedLoadoutCard.totals.enemySeverelyWounded),
-        description: t("Number of opponent troops this pairing caused to become severely wounded."),
+        description: "Number of opponent troops this pairing caused to become severely wounded.",
       },
       {
         id: "avgDuration",
-        name: t("Avg. battle duration"),
+        name: "Avg. battle duration",
         value: formatDurationSeconds(avgDurationSeconds),
-        description: t("Average battle duration for this pairing."),
+        description: "Average battle duration for this pairing.",
       },
       {
         id: "weightedTradePercent",
-        name: t("Trade percentage"),
+        name: "Trade percentage",
         value: formatPercent(selectedLoadoutCard.totals.weightedTradePercent),
-        description: t("Total kill points gained divided by total kill points lost."),
+        description: "Total kill points gained divided by total kill points lost.",
       },
       {
         id: "dps",
-        name: t("Damage per second (DPS)"),
+        name: "Damage per second (DPS)",
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: t("Average damage inflicted per second while using this pairing."),
+        description: "Average damage inflicted per second while using this pairing.",
       },
       {
         id: "sps",
-        name: t("Sevs per second (SPS)"),
+        name: "Sevs per second (SPS)",
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: t(
-          "Average severely wounded troops inflicted per second while using this pairing."
-        ),
+        description:
+          "Average severely wounded troops inflicted per second while using this pairing.",
       },
       {
         id: "tps",
-        name: t("Sevs taken per second (TPS)"),
+        name: "Sevs taken per second (TPS)",
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: t(
-          "Average severely wounded troops taken per second while using this pairing."
-        ),
+        description: "Average severely wounded troops taken per second while using this pairing.",
       },
       {
         id: "hps",
-        name: t("Healing per second (HPS)"),
+        name: "Healing per second (HPS)",
         value: formatPerSecond(selectedLoadoutCard.totals.hps),
-        description: t("Average healing performed per second while using this pairing."),
+        description: "Average healing performed per second while using this pairing.",
       },
     ];
-  }, [selectedLoadoutCard, t]);
+  }, [selectedLoadoutCard]);
 
   const opponentLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
   const canLoadOpponents =
@@ -395,7 +390,7 @@ export function MyPairingsContent() {
         pairing: formatCommanderPair(
           entry.enemyPrimaryCommanderId,
           entry.enemySecondaryCommanderId,
-          t("Unknown commander")
+          "Unknown commander"
         ),
         battles: formatNumber(entry.count),
         killPoints: formatNumber(entry.totals.killScore),
@@ -405,7 +400,7 @@ export function MyPairingsContent() {
         tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
         hps: formatPerSecond(entry.totals.hps),
       })),
-    [t, visibleOpponents]
+    [visibleOpponents]
   );
 
   if (!activeGovernor) {
@@ -414,7 +409,7 @@ export function MyPairingsContent() {
 
   return (
     <div className="space-y-10">
-      <Text>{t("Analyze performance across commander pairings, loadouts, and matchups")}</Text>
+      <Text>Analyze performance across commander pairings, loadouts, and matchups</Text>
       <PairingsFilters
         pairingOptions={pairingOptions}
         pairingValue={selectedPairingKey}

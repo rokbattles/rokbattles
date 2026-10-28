@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import type React from "react";
 import { use, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -50,7 +49,6 @@ type ReportsFilterDialogProps = React.ComponentPropsWithoutRef<typeof Button> & 
 };
 
 export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterDialogProps) {
-  const t = useExtracted();
   const context = use(ReportsFilterContext);
   if (!context) throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
 
@@ -105,10 +103,10 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
   >(() => garrisonBuildingType ?? "");
 
   const sideOptions: SideOption[] = [
-    { value: "none", label: t("None") },
-    { value: "sender", label: t("Sender") },
-    { value: "opponent", label: t("Opponent") },
-    { value: "both", label: t("Either side") },
+    { value: "none", label: "None" },
+    { value: "sender", label: "Sender" },
+    { value: "opponent", label: "Opponent" },
+    { value: "both", label: "Either side" },
   ];
 
   const commanderOptions = useCommanderOptions();
@@ -184,17 +182,17 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
     <>
       <Button type="button" onClick={() => setIsOpen(true)} {...props} />
       <Dialog open={isOpen} onClose={setIsOpen} size="4xl">
-        <DialogTitle>{t("Filters")}</DialogTitle>
+        <DialogTitle>Filters</DialogTitle>
         <DialogDescription>
-          {t("Filter battle reports by governor, commanders, and battle roles.")}
+          Filter battle reports by governor, commanders, and battle roles.
         </DialogDescription>
         <DialogBody>
           <div className="grid gap-6 lg:grid-cols-3">
             <Fieldset>
-              <Legend>{t("Governor")}</Legend>
+              <Legend>Governor</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
-                  <Label>{t("Governor ID")}</Label>
+                  <Label>Governor ID</Label>
                   <Input
                     inputMode="numeric"
                     pattern="[0-9]*"
@@ -210,10 +208,10 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               </div>
             </Fieldset>
             <Fieldset>
-              <Legend>{t("Sender")}</Legend>
+              <Legend>Sender</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
-                  <Label>{t("Primary Commander")}</Label>
+                  <Label>Primary Commander</Label>
                   <Listbox
                     value={localSenderPrimaryCommanderId}
                     onChange={(value) => {
@@ -221,7 +219,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("Any")}</ListboxLabel>
+                      <ListboxLabel>Any</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -231,7 +229,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   </Listbox>
                 </Field>
                 <Field>
-                  <Label>{t("Secondary Commander")}</Label>
+                  <Label>Secondary Commander</Label>
                   <Listbox
                     value={localSenderSecondaryCommanderId}
                     onChange={(value) => {
@@ -239,7 +237,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("Any")}</ListboxLabel>
+                      <ListboxLabel>Any</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -251,10 +249,10 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               </div>
             </Fieldset>
             <Fieldset>
-              <Legend>{t("Opponent")}</Legend>
+              <Legend>Opponent</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
-                  <Label>{t("Primary Commander")}</Label>
+                  <Label>Primary Commander</Label>
                   <Listbox
                     value={localOpponentPrimaryCommanderId}
                     onChange={(value) => {
@@ -262,7 +260,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("Any")}</ListboxLabel>
+                      <ListboxLabel>Any</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -272,7 +270,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   </Listbox>
                 </Field>
                 <Field>
-                  <Label>{t("Secondary Commander")}</Label>
+                  <Label>Secondary Commander</Label>
                   <Listbox
                     value={localOpponentSecondaryCommanderId}
                     onChange={(value) => {
@@ -280,7 +278,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("Any")}</ListboxLabel>
+                      <ListboxLabel>Any</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -292,11 +290,11 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               </div>
             </Fieldset>
             <Fieldset className="lg:col-span-3">
-              <Legend>{t("Battle")}</Legend>
+              <Legend>Battle</Legend>
               <div data-slot="control" className="grid gap-6 lg:grid-cols-3">
                 <div className="grid gap-6 lg:col-span-3 lg:grid-cols-3">
                   <Field>
-                    <Label>{t("Type")}</Label>
+                    <Label>Type</Label>
                     <Listbox<ReportsFilterType | "">
                       value={localType}
                       onChange={(value) => {
@@ -305,63 +303,63 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                       }}
                     >
                       <ListboxOption value="">
-                        <ListboxLabel>{t("Any")}</ListboxLabel>
+                        <ListboxLabel>Any</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="home">
-                        <ListboxLabel>{t("Home")}</ListboxLabel>
+                        <ListboxLabel>Home</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="ark">
-                        <ListboxLabel>{t("Ark of Osiris/Osiris League")}</ListboxLabel>
+                        <ListboxLabel>Ark of Osiris/Osiris League</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="kvk">
-                        <ListboxLabel>{t("KVK")}</ListboxLabel>
+                        <ListboxLabel>KVK</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="strife">
-                        <ListboxLabel>{t("Supreme Strife")}</ListboxLabel>
+                        <ListboxLabel>Supreme Strife</ListboxLabel>
                       </ListboxOption>
                     </Listbox>
                   </Field>
                   {localType === "kvk" || localType === "ark" ? (
                     <Field>
-                      <Label>{t("Subtype")}</Label>
+                      <Label>Subtype</Label>
                       <Listbox<ReportsFilterSubtype | "">
                         value={localSubtype}
                         onChange={setLocalSubtype}
                       >
                         <ListboxOption value="">
-                          <ListboxLabel>{t("Any")}</ListboxLabel>
+                          <ListboxLabel>Any</ListboxLabel>
                         </ListboxOption>
                         {localType === "kvk" ? (
                           <>
                             <ListboxOption value="1">
-                              <ListboxLabel>{t("Season 1")}</ListboxLabel>
+                              <ListboxLabel>Season 1</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="2">
-                              <ListboxLabel>{t("Season 2")}</ListboxLabel>
+                              <ListboxLabel>Season 2</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="3">
-                              <ListboxLabel>{t("Season 3")}</ListboxLabel>
+                              <ListboxLabel>Season 3</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="100">
-                              <ListboxLabel>{t("Season of Conquest")}</ListboxLabel>
+                              <ListboxLabel>Season of Conquest</ListboxLabel>
                             </ListboxOption>
                           </>
                         ) : (
                           <>
                             <ListboxOption value="1">
-                              <ListboxLabel>{t("Golden Battleground")}</ListboxLabel>
+                              <ListboxLabel>Golden Battleground</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="6">
-                              <ListboxLabel>{t("Silver Battleground")}</ListboxLabel>
+                              <ListboxLabel>Silver Battleground</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="3">
-                              <ListboxLabel>{t("Osiris League")}</ListboxLabel>
+                              <ListboxLabel>Osiris League</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="2">
-                              <ListboxLabel>{t("Practice Match")}</ListboxLabel>
+                              <ListboxLabel>Practice Match</ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="5">
-                              <ListboxLabel>{t("Custom Match")}</ListboxLabel>
+                              <ListboxLabel>Custom Match</ListboxLabel>
                             </ListboxOption>
                           </>
                         )}
@@ -370,7 +368,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   ) : null}
                 </div>
                 <Field>
-                  <Label>{t("Rally")}</Label>
+                  <Label>Rally</Label>
                   <Listbox<ReportsFilterSide>
                     value={localRallySide}
                     onChange={(value) => {
@@ -393,7 +391,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   </Listbox>
                 </Field>
                 <Field>
-                  <Label>{t("Garrison")}</Label>
+                  <Label>Garrison</Label>
                   <Listbox<ReportsFilterSide>
                     value={localGarrisonSide}
                     onChange={(value) => {
@@ -419,7 +417,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                 </Field>
                 {localGarrisonSide !== "none" ? (
                   <Field>
-                    <Label>{t("Garrison Building")}</Label>
+                    <Label>Garrison Building</Label>
                     <Listbox<ReportsGarrisonBuildingType | "">
                       value={localGarrisonBuildingType}
                       onChange={(value) => {
@@ -427,16 +425,16 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                       }}
                     >
                       <ListboxOption value="">
-                        <ListboxLabel>{t("Any")}</ListboxLabel>
+                        <ListboxLabel>Any</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="flag">
-                        <ListboxLabel>{t("Alliance Flag")}</ListboxLabel>
+                        <ListboxLabel>Alliance Flag</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="fortress">
-                        <ListboxLabel>{t("Alliance Fortress")}</ListboxLabel>
+                        <ListboxLabel>Alliance Fortress</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="other">
-                        <ListboxLabel>{t("Other")}</ListboxLabel>
+                        <ListboxLabel>Other</ListboxLabel>
                       </ListboxOption>
                     </Listbox>
                   </Field>
@@ -447,7 +445,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
         </DialogBody>
         <DialogActions>
           <Button plain onClick={() => setIsOpen(false)}>
-            {t("Cancel")}
+            Cancel
           </Button>
           <Button
             plain
@@ -459,9 +457,9 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               setIsOpen(false);
             }}
           >
-            {t("Reset")}
+            Reset
           </Button>
-          <Button onClick={handleApply}>{t("Apply")}</Button>
+          <Button onClick={handleApply}>Apply</Button>
         </DialogActions>
       </Dialog>
     </>

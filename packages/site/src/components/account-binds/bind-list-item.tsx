@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { BindActionsDropdown } from "@/components/account-binds/bind-actions-dropdown";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -14,8 +13,6 @@ type BindListItemProps = {
 };
 
 export function BindListItem({ bind, isPending, onSetDefault, onUnlink }: BindListItemProps) {
-  const t = useExtracted();
-
   return (
     <li className="flex items-center gap-3 px-4 py-3">
       {bind.governorAvatar ? (
@@ -29,7 +26,7 @@ export function BindListItem({ bind, isPending, onSetDefault, onUnlink }: BindLi
           <p className="truncate font-medium text-white">
             {bind.governorName ?? bind.governorId.toString()}
           </p>
-          {bind.default ? <Badge color="emerald">{t("Default")}</Badge> : null}
+          {bind.default ? <Badge color="emerald">Default</Badge> : null}
         </div>
         <p className="text-xs text-zinc-400">{bind.governorId.toString()}</p>
       </div>

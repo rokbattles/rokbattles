@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { use, useCallback, useMemo } from "react";
 import {
   AccountLootLayout,
@@ -72,24 +72,20 @@ function emptyGroup(): PersonalLootGroup {
 }
 
 export function PersonalLootContent({ active, endpoint }: PersonalLootContentProps) {
-  const t = useExtracted();
   const searchParams = useSearchParams();
   const governorContext = use(GovernorContext);
   if (!governorContext) {
     throw new Error("My Loot page must be used within a GovernorProvider");
   }
 
-  const formatLevel = useCallback(
-    (level: number) => t("Level {level}", { level: level.toString() }),
-    [t]
-  );
+  const formatLevel = useCallback((level: number) => `Level ${level.toString()}`, []);
   const config: SectionConfig = useMemo(() => {
     if (active === "barbarian-forts") {
       return {
         defaultType: "barbarian-forts",
         typeOptions: [
-          { value: "barbarian-forts", label: t("Barbarian Forts") },
-          { value: "marauder-encampments", label: t("Marauder Encampments") },
+          { value: "barbarian-forts", label: "Barbarian Forts" },
+          { value: "marauder-encampments", label: "Marauder Encampments" },
         ],
         levelOptionsByType: {
           "barbarian-forts": levelOptions(
@@ -106,8 +102,8 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
       return {
         defaultType: "ironhand-baulur",
         typeOptions: [
-          { value: "ironhand-baulur", label: t("Ironhand Baulur") },
-          { value: "miser-khaolak", label: t("Miser Khaolak") },
+          { value: "ironhand-baulur", label: "Ironhand Baulur" },
+          { value: "miser-khaolak", label: "Miser Khaolak" },
         ],
         showLevelFilter: false,
       };
@@ -116,7 +112,7 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
     if (active === "kahars-treasure") {
       return {
         defaultType: "kahars-treasure",
-        typeOptions: [{ value: "kahars-treasure", label: t("Kahar's Treasure") }],
+        typeOptions: [{ value: "kahars-treasure", label: "Kahar's Treasure" }],
         showTypeFilter: false,
         showLevelFilter: false,
       };
@@ -124,8 +120,8 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
 
     if (active === "lohars-trial") {
       const labels = new Map([
-        ["junior-lohar", t("Junior Lohar")],
-        ["dauntless-lohar", t("Dauntless Lohar")],
+        ["junior-lohar", "Junior Lohar"],
+        ["dauntless-lohar", "Dauntless Lohar"],
       ]);
 
       return {
@@ -140,11 +136,11 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
 
     if (active === "karuak-ceremony") {
       const labels = new Map([
-        ["bladefist-andaal", t("Bladefist Andaal")],
-        ["bearkeeper-lukor", t("Bearkeeper Lukor")],
-        ["bruteshield-murdos", t("Bruteshield Murdos")],
-        ["warmender-pache", t("Warmender Pache")],
-        ["solon-por", t("Solon Por")],
+        ["bladefist-andaal", "Bladefist Andaal"],
+        ["bearkeeper-lukor", "Bearkeeper Lukor"],
+        ["bruteshield-murdos", "Bruteshield Murdos"],
+        ["warmender-pache", "Warmender Pache"],
+        ["solon-por", "Solon Por"],
       ]);
       return {
         defaultType: karuakBosses[0].key,
@@ -159,8 +155,8 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
     return {
       defaultType: "barbarians",
       typeOptions: [
-        { value: "barbarians", label: t("Barbarians") },
-        { value: "marauders", label: t("Marauders") },
+        { value: "barbarians", label: "Barbarians" },
+        { value: "marauders", label: "Marauders" },
       ],
       levelOptionsByType: {
         barbarians: levelOptions(
@@ -171,7 +167,7 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
       },
       allowMultipleLevels: true,
     };
-  }, [active, formatLevel, t]);
+  }, [active, formatLevel]);
 
   const selectedType = config.typeOptions.some(
     (option) => option.value === searchParams.get("type")
@@ -211,28 +207,28 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
 
   const summaryItems = (() => {
     if (active === "baulurs" || active === "karuak-ceremony") {
-      return [{ label: t("Results"), value: data?.totals.results ?? 0 }];
+      return [{ label: "Results", value: data?.totals.results ?? 0 }];
     }
 
     if (active === "kahars-treasure" || active === "lohars-trial") {
       return [
-        { label: t("Results"), value: data?.totals.results ?? 0 },
-        { label: t("AP used (est.)"), value: data?.totals.apUsed ?? 0 },
+        { label: "Results", value: data?.totals.results ?? 0 },
+        { label: "AP used (est.)", value: data?.totals.apUsed ?? 0 },
       ];
     }
 
     const items = [
-      { label: t("Results"), value: data?.totals.results ?? 0 },
-      { label: t("AP used (est.)"), value: data?.totals.apUsed ?? 0 },
+      { label: "Results", value: data?.totals.results ?? 0 },
+      { label: "AP used (est.)", value: data?.totals.apUsed ?? 0 },
     ];
 
     if (active === "barbarians") {
-      items.push({ label: t("AP saved (est.)"), value: data?.totals.apSaved ?? 0 });
+      items.push({ label: "AP saved (est.)", value: data?.totals.apSaved ?? 0 });
     }
-    items.push({ label: t("Honor gained"), value: data?.totals.honorGained ?? 0 });
+    items.push({ label: "Honor gained", value: data?.totals.honorGained ?? 0 });
 
     return active === "barbarians"
-      ? [...items, { label: t("XP gained"), value: data?.totals.xpGained ?? 0 }]
+      ? [...items, { label: "XP gained", value: data?.totals.xpGained ?? 0 }]
       : items;
   })();
 
@@ -254,26 +250,22 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
       {data ? (
         <LootExplorerSummary items={summaryItems} maxColumns={summaryItems.length > 4 ? 5 : 4} />
       ) : (
-        <Text>{t("Loading loot...")}</Text>
+        <Text>Loading loot...</Text>
       )}
       {data ? (
         <div className="space-y-8">
           {(data.groups.length ? data.groups : [emptyGroup()]).map((group) => {
-            const rows = buildLootRewardRows(group, (type, subType) =>
-              t("Unknown reward {type}/{subType}", {
-                type: type.toString(),
-                subType: subType.toString(),
-              })
+            const rows = buildLootRewardRows(
+              group,
+              (type, subType) => `Unknown reward ${type.toString()}/${subType.toString()}`
             );
             return (
               <section key={group.level ?? "all"} className="space-y-4">
                 <Subheading>
-                  {group.level == null
-                    ? t("Loot breakdown")
-                    : t("Level {level}", { level: group.level.toString() })}
+                  {group.level == null ? "Loot breakdown" : `Level ${group.level.toString()}`}
                 </Subheading>
                 {rows.length === 0 ? (
-                  <Text>{t("No loot in this date range.")}</Text>
+                  <Text>No loot in this date range.</Text>
                 ) : (
                   <LootBreakdownTable rows={rows} />
                 )}

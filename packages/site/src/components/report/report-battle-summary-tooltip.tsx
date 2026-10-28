@@ -1,7 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
-
 type ReportBattleSummaryTooltipProps = {
   active?: boolean;
   payload?: unknown;
@@ -17,7 +15,6 @@ export function ReportBattleSummaryTooltip({
   payload,
   label,
 }: ReportBattleSummaryTooltipProps) {
-  const t = useExtracted();
   if (!active || !Array.isArray(payload) || payload.length === 0 || label == null) {
     return null;
   }
@@ -40,9 +37,9 @@ export function ReportBattleSummaryTooltip({
         {entries.map((entry) => {
           const descriptor =
             entry.key === "self"
-              ? { label: t("Sender"), color: "#3b82f6" }
+              ? { label: "Sender", color: "#3b82f6" }
               : entry.key === "enemy"
-                ? { label: t("Opponent"), color: "#f87171" }
+                ? { label: "Opponent", color: "#f87171" }
                 : null;
           if (!descriptor) {
             return null;

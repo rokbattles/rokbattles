@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { ReportEquipmentSlot } from "@/components/report/report-equipment-slot";
 import { Subheading } from "@/components/ui/heading";
 import type { EquipmentToken } from "@/lib/report/parsers";
@@ -10,7 +9,6 @@ type ReportEquipmentSectionProps = {
 };
 
 export function ReportEquipmentSection({ tokens }: ReportEquipmentSectionProps) {
-  const t = useExtracted();
   const slots = tokens.reduce<Record<number, EquipmentToken | undefined>>((acc, token) => {
     acc[token.slot] = token;
     return acc;
@@ -18,7 +16,7 @@ export function ReportEquipmentSection({ tokens }: ReportEquipmentSectionProps) 
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Equipment")}</Subheading>
+      <Subheading>Equipment</Subheading>
       <div className="flex justify-center">
         <div className="grid grid-cols-[auto_auto_auto] gap-2 justify-items-center">
           <div />

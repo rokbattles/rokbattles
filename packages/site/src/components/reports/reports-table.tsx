@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useState } from "react";
 import ReportsTableHead from "@/components/reports/reports-table-head";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,6 @@ export default function ReportsTable({
   scope = "all",
   skeletonCount = 10,
 }: ReportsTableProps = {}) {
-  const t = useExtracted();
   const {
     data,
     loadedAt,
@@ -49,7 +47,7 @@ export default function ReportsTable({
   return (
     <>
       <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-        <ReportsTableHead resultLabel={t("Duration")} />
+        <ReportsTableHead resultLabel="Duration" />
         <TableBody>
           {data.map((report) => (
             <ReportsTableRow
@@ -71,10 +69,10 @@ export default function ReportsTable({
             type="button"
             onClick={() => void handlePreviousPage()}
             disabled={!previousBefore || loading}
-            aria-label={t("Previous page")}
+            aria-label="Previous page"
             autoComplete="off"
           >
-            {t("Previous")}
+            Previous
           </Button>
         </span>
         <span className="flex grow basis-0 justify-end">
@@ -83,10 +81,10 @@ export default function ReportsTable({
             type="button"
             onClick={() => void handleNextPage()}
             disabled={!nextAfter || loading}
-            aria-label={t("Next page")}
+            aria-label="Next page"
             autoComplete="off"
           >
-            {t("Next")}
+            Next
           </Button>
         </span>
       </Pagination>

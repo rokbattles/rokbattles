@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown, LogOut, Plus, Scale, Settings, ShieldCheck } from "lucide-react";
-import { useExtracted } from "next-intl";
+
 import { use, useState } from "react";
 import { CookieConsentDialog } from "@/components/cookie-consent-dialog";
 import { Avatar } from "@/components/ui/avatar";
@@ -25,7 +25,6 @@ type SidebarGovernorHeaderProps = {
 };
 
 export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHeaderProps) {
-  const t = useExtracted();
   const [isCookieDialogOpen, setIsCookieDialogOpen] = useState(false);
   const context = use(GovernorContext);
   if (!context) {
@@ -36,7 +35,7 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
 
   const displayName = activeGovernor
     ? (activeGovernor.governorName ?? activeGovernor.governorId.toString())
-    : t("Select Governor");
+    : "Select Governor";
   const displayAvatar = activeGovernor?.governorAvatar ?? null;
   const canClaimMore = user.claimedGovernors.length < MAX_GOVERNOR_BINDS;
 
@@ -71,26 +70,26 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
             {canClaimMore ? (
               <DropdownItem href="/account/settings/governors">
                 <Plus data-slot="icon" aria-hidden="true" />
-                <DropdownLabel>{t("Claim governor")}</DropdownLabel>
+                <DropdownLabel>Claim governor</DropdownLabel>
               </DropdownItem>
             ) : null}
             <DropdownDivider />
             <DropdownItem href="/account/settings">
               <Settings data-slot="icon" aria-hidden="true" />
-              <DropdownLabel>{t("Account Settings")}</DropdownLabel>
+              <DropdownLabel>Account Settings</DropdownLabel>
             </DropdownItem>
             <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
               <Scale data-slot="icon" aria-hidden="true" />
-              <DropdownLabel>{t("Cookie Settings")}</DropdownLabel>
+              <DropdownLabel>Cookie Settings</DropdownLabel>
             </DropdownItem>
             <DropdownItem href="/legal">
               <ShieldCheck data-slot="icon" aria-hidden="true" />
-              <DropdownLabel>{t("Legal")}</DropdownLabel>
+              <DropdownLabel>Legal</DropdownLabel>
             </DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={() => handleLogout()}>
               <LogOut data-slot="icon" aria-hidden="true" />
-              <DropdownLabel>{t("Sign out")}</DropdownLabel>
+              <DropdownLabel>Sign out</DropdownLabel>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

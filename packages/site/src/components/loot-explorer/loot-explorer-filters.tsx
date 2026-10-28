@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useExtracted } from "next-intl";
+
 import { useEffect, useState } from "react";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import type { LootExplorerOption } from "@/lib/loot-explorer/catalog";
@@ -23,7 +23,6 @@ export function LootExplorerFilters({
   allowMultipleLevels?: boolean;
   showLevelFilter?: boolean;
 }) {
-  const t = useExtracted();
   const [type, setType] = useState(selectedType);
   const [levels, setLevels] = useState<string[]>(selectedLevels?.map(String) ?? []);
 
@@ -42,7 +41,7 @@ export function LootExplorerFilters({
           (level) => effectiveLevelOptions.find((option) => option.value === level)?.label ?? level
         )
         .join(", ")
-    : t("All");
+    : "All";
 
   const handleTypeChange = (nextType: string) => {
     setType(nextType);
@@ -67,8 +66,8 @@ export function LootExplorerFilters({
     <form className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(12rem,18rem)_minmax(12rem,18rem)]">
         <label className="space-y-1.5">
-          <span className="block font-medium text-sm/6 text-zinc-200">{t("NPC")}</span>
-          <Listbox<string> aria-label={t("NPC")} onChange={handleTypeChange} value={type}>
+          <span className="block font-medium text-sm/6 text-zinc-200">NPC</span>
+          <Listbox<string> aria-label="NPC" onChange={handleTypeChange} value={type}>
             {typeOptions.map((option) => (
               <ListboxOption key={option.value} value={option.value}>
                 <ListboxLabel>{option.label}</ListboxLabel>
@@ -79,13 +78,13 @@ export function LootExplorerFilters({
         </label>
         {showLevelFilter ? (
           <div className="space-y-1.5">
-            <span className="block font-medium text-sm/6 text-zinc-200">{t("Level")}</span>
+            <span className="block font-medium text-sm/6 text-zinc-200">Level</span>
             {allowMultipleLevels ? (
               <Listbox<string>
-                aria-label={t("Level")}
+                aria-label="Level"
                 multiple
                 onChange={setLevels}
-                placeholder={t("All")}
+                placeholder="All"
                 renderValue={() => (
                   <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
@@ -101,9 +100,9 @@ export function LootExplorerFilters({
               </Listbox>
             ) : (
               <Listbox<string>
-                aria-label={t("Level")}
+                aria-label="Level"
                 onChange={(level) => setLevels(level ? [level] : [])}
-                placeholder={t("All")}
+                placeholder="All"
                 renderValue={() => (
                   <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
@@ -129,7 +128,7 @@ export function LootExplorerFilters({
           type="submit"
           className="inline-flex h-10 items-center justify-center rounded-lg px-3 font-semibold text-sm shadow-sm bg-white text-zinc-950 hover:bg-zinc-200"
         >
-          {t("Apply")}
+          Apply
         </button>
       </div>
     </form>

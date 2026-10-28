@@ -1,8 +1,15 @@
 "use client";
 
-import { useFormatter } from "next-intl";
 import type { ReactElement } from "react";
 import type { ResourceBreakdownRow } from "@/lib/resources/rows";
+
+const monthFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const integerFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 type TooltipPayloadEntry = {
   dataKey?: string;
@@ -23,8 +30,6 @@ export function ResourcesTimelineTooltipClient({
   payload,
   rows,
 }: ResourcesTimelineTooltipClientProps): ReactElement | null {
-  const intl = useFormatter();
-
   if (!active || !payload?.length) {
     return null;
   }
@@ -55,12 +60,7 @@ export function ResourcesTimelineTooltipClient({
   return (
     <div className="rounded-lg border px-3 py-2 shadow-sm border-zinc-700 bg-zinc-900">
       <div className="text-xs text-zinc-400">
-        {intl.dateTime(new Date(`${label}T00:00:00Z`), {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-          timeZone: "UTC",
-        })}
+        {monthFormatter.format(new Date(`${label}T00:00:00Z`))}
       </div>
       <div className="mt-2 space-y-1">
         {entries.map((entry) => (
@@ -72,7 +72,7 @@ export function ResourcesTimelineTooltipClient({
             />
             <span className="min-w-20">{entry.name}</span>
             <span className="ml-auto tabular-nums text-zinc-100">
-              {intl.number(entry.value, { maximumFractionDigits: 0 })}
+              {integerFormatter.format(entry.value)}
             </span>
           </div>
         ))}

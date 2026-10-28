@@ -1,19 +1,14 @@
-import { useExtracted } from "next-intl";
 import { Strong, Text } from "@/components/ui/text";
 
 export function DrastcCredits() {
-  const t = useExtracted();
-
   return (
     <div className="space-y-2">
-      <div className="font-semibold text-sm text-white">{t("Credits")}</div>
+      <div className="font-semibold text-sm text-white">Credits</div>
       <Text>
-        {t.rich(
-          "A scoring model created by ROK Battles, The King's Codex, and AQ/HQ. Designed by Davor and implemented by ROK Battles, the model is available through the <bold>ROK Battles: Combat Lab</bold> and the Discord communities for <bold>The King's Codex</bold> and <bold>AQ/HQ</bold>.",
-          {
-            bold: (chunks) => <Strong>{chunks}</Strong>,
-          }
-        )}
+        A scoring model created by ROK Battles, The King's Codex, and AQ/HQ. Designed by Davor and
+        implemented by ROK Battles, the model is available through the{" "}
+        <Strong>ROK Battles: Combat Lab</Strong> and the Discord communities for{" "}
+        <Strong>The King's Codex</Strong> and <Strong>AQ/HQ</Strong>.
       </Text>
       <div className="flex flex-wrap gap-x-4 gap-y-1">
         <a
@@ -22,7 +17,7 @@ export function DrastcCredits() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t("The King's Codex")}
+          The King's Codex
         </a>
         <a
           className="inline-flex font-medium text-sm/6 text-blue-400 hover:text-blue-300"
@@ -30,16 +25,16 @@ export function DrastcCredits() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t("AQ/HQ")}
+          AQ/HQ
         </a>
         <a
-          aria-label={t("Learn more about DRASTC")}
+          aria-label="Learn more about DRASTC"
           className="inline-flex font-medium text-sm/6 text-blue-400 hover:text-blue-300"
           href="https://buymeacoffee.com/davorrok/introducing-drastc"
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t("Learn more")}
+          Learn more
         </a>
       </div>
     </div>

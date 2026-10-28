@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useExtracted, useFormatter } from "next-intl";
+
 import { type ReactElement, useMemo } from "react";
 import {
   Bar,
@@ -22,6 +22,16 @@ import {
 } from "@/lib/resources/analytics";
 import type { ResourceBreakdownRow } from "@/lib/resources/rows";
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+const compactNumberFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
 type ResourcesTimelineChartClientProps = {
   days: ResourceDay[];
   rows: ResourceBreakdownRow[];
@@ -40,7 +50,6 @@ export function ResourcesTimelineChartClient({
   rows,
   cumulative,
 }: ResourcesTimelineChartClientProps): ReactElement {
-  const t = useExtracted();
   const standard = rows.filter((row) => row.key !== "type:5" && row.key !== "crystalsGain");
   const gems = rows.filter((row) => row.key === "type:5");
   const crystals = rows.filter((row) => row.key === "crystalsGain");
@@ -51,7 +60,7 @@ export function ResourcesTimelineChartClient({
     <div className={cn("grid gap-4", gems.length > 0 && crystals.length > 0 && "lg:grid-cols-2")}>
       {standard.length > 0 ? (
         <div className="col-span-full">
-          <ResourceChart {...common} rows={standard} title={t("Gathered resources")} />
+          <ResourceChart {...common} rows={standard} title="Gathered resources" />
         </div>
       ) : null}
       {gems.length > 0 ? <ResourceChart {...common} rows={gems} title={gems[0].name} /> : null}
@@ -63,8 +72,6 @@ export function ResourcesTimelineChartClient({
 }
 
 function ResourceChart({ points, rows, title, cumulative }: ResourceChartProps): ReactElement {
-  const intl = useFormatter();
-
   return (
     <section className="min-w-0 rounded-md border p-4 sm:p-5 border-zinc-800">
       <Subheading>{title}</Subheading>
@@ -83,13 +90,7 @@ function ResourceChart({ points, rows, title, cumulative }: ResourceChartProps):
             />
             <XAxis
               dataKey="date"
-              tickFormatter={(value) =>
-                intl.dateTime(new Date(`${value}T00:00:00Z`), {
-                  month: "short",
-                  day: "numeric",
-                  timeZone: "UTC",
-                })
-              }
+              tickFormatter={(value) => dateFormatter.format(new Date(`${value}T00:00:00Z`))}
               tick={{ fontSize: 11, fill: "#71717a" }}
               axisLine={false}
               tickLine={false}
@@ -97,9 +98,7 @@ function ResourceChart({ points, rows, title, cumulative }: ResourceChartProps):
               tickMargin={12}
             />
             <YAxis
-              tickFormatter={(value) =>
-                intl.number(Number(value), { notation: "compact", maximumFractionDigits: 1 })
-              }
+              tickFormatter={(value) => compactNumberFormatter.format(Number(value))}
               tick={{ fontSize: 11, fill: "#71717a" }}
               axisLine={false}
               tickLine={false}

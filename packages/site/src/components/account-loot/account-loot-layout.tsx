@@ -3,7 +3,7 @@
 import { cn } from "cn";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { Heading } from "@/components/ui/heading";
 
 export type AccountLootSection =
@@ -30,7 +30,6 @@ export function AccountLootLayout({
   active: AccountLootSection;
   children: React.ReactNode;
 }) {
-  const t = useExtracted();
   const searchParams = useSearchParams();
   const dateParams = new URLSearchParams();
   for (const key of ["start", "end"]) {
@@ -41,23 +40,22 @@ export function AccountLootLayout({
   }
   const dateQuery = dateParams.toString();
   const sectionLabels: Record<AccountLootSection, string> = {
-    barbarians: t("Barbarians"),
-    "barbarian-forts": t("Barbarian Forts"),
-    baulurs: t("Baulurs"),
-    "karuak-ceremony": t("Karuak Ceremony"),
-    "lohars-trial": t("Lohar's Trial"),
-    "kahars-treasure": t("Kahar's Treasure"),
+    barbarians: "Barbarians",
+    "barbarian-forts": "Barbarian Forts",
+    baulurs: "Baulurs",
+    "karuak-ceremony": "Karuak Ceremony",
+    "lohars-trial": "Lohar's Trial",
+    "kahars-treasure": "Kahar's Treasure",
   };
 
   return (
     <div className="space-y-8">
       <div className="space-y-5">
         <div className="space-y-2">
-          <Heading>{t("My Loot")}</Heading>
+          <Heading>My Loot</Heading>
           <p className="max-w-xl text-sm/6 text-zinc-400">
-            {t(
-              "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, Lohar's Trial, and Kahar's Treasure."
-            )}
+            Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak
+            Ceremony, Lohar's Trial, and Kahar's Treasure.
           </p>
         </div>
         <nav className="flex flex-wrap gap-2 border-b pb-3 border-white/10">

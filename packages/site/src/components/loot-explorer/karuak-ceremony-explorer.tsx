@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { fetchLootExplorerItems, type KaruakCeremonyLootDocument } from "@/lib/loot-explorer/api";
@@ -12,7 +11,6 @@ import { LootExplorerSummary } from "./loot-explorer-summary";
 import { LootTable } from "./loot-table";
 
 export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string }) {
-  const t = useExtracted();
   const [items, setItems] = useState<KaruakCeremonyLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -36,17 +34,12 @@ export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string
   }, []);
 
   if (status === "loading") {
-    return (
-      <LootExplorerStatus active="karuak-ceremony" message={t("Loading loot explorer data...")} />
-    );
+    return <LootExplorerStatus active="karuak-ceremony" message="Loading loot explorer data..." />;
   }
 
   if (status === "error") {
     return (
-      <LootExplorerStatus
-        active="karuak-ceremony"
-        message={t("Failed to load loot explorer data.")}
-      />
+      <LootExplorerStatus active="karuak-ceremony" message="Failed to load loot explorer data." />
     );
   }
 
@@ -60,17 +53,15 @@ export function KaruakCeremonyExplorerContent({
   items: KaruakCeremonyLootDocument[];
   selectedType?: string;
 }) {
-  const t = useExtracted();
-
   const boss = findKaruakBoss(selectedType, items);
   const item = items.find((candidate) => candidate.kind === boss.kind);
 
   const labels = new Map([
-    ["bladefist-andaal", t("Bladefist Andaal")],
-    ["bearkeeper-lukor", t("Bearkeeper Lukor")],
-    ["bruteshield-murdos", t("Bruteshield Murdos")],
-    ["warmender-pache", t("Warmender Pache")],
-    ["solon-por", t("Solon Por")],
+    ["bladefist-andaal", "Bladefist Andaal"],
+    ["bearkeeper-lukor", "Bearkeeper Lukor"],
+    ["bruteshield-murdos", "Bruteshield Murdos"],
+    ["warmender-pache", "Warmender Pache"],
+    ["solon-por", "Solon Por"],
   ]);
 
   return (
@@ -85,12 +76,12 @@ export function KaruakCeremonyExplorerContent({
       />
       <LootExplorerSummary
         generatedAt={item?.refreshedAt}
-        items={[{ label: t("Results"), value: item?.totals.results ?? 0 }]}
+        items={[{ label: "Results", value: item?.totals.results ?? 0 }]}
       />
       <div className="space-y-8">
         {item?.slots.map((slot) => (
           <section key={slot.slot} className="space-y-3">
-            <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
+            <Subheading level={3}>{`Slot ${slot.slot.toString()}`}</Subheading>
             <LootTable loot={slot.loot} />
           </section>
         ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { type ReactElement, use, useState } from "react";
 import {
   ResourcesDashboardClient,
@@ -17,7 +17,6 @@ import { resolveResourceRange } from "@/lib/resources/date-range";
 import { GovernorContext } from "@/providers/governor-context";
 
 export function AccountResourcesContent(): ReactElement {
-  const t = useExtracted();
   const searchParams = useSearchParams();
   const governorContext = use(GovernorContext);
   const [view, setView] = useState<ResourceView>({
@@ -43,15 +42,15 @@ export function AccountResourcesContent(): ReactElement {
   if (loading) {
     content = (
       <div className="rounded-md border px-6 py-16 text-center border-zinc-800" role="status">
-        <Text>{t("Loading gathering reports…")}</Text>
+        <Text>Loading gathering reports…</Text>
       </div>
     );
   } else if (error) {
     content = (
       <div role="alert" className="space-y-3">
-        <Text>{t("Failed to load resources.")}</Text>
+        <Text>Failed to load resources.</Text>
         <Button outline onClick={retry}>
-          {t("Try again")}
+          Try again
         </Button>
       </div>
     );
@@ -67,14 +66,12 @@ export function AccountResourcesContent(): ReactElement {
       />
     );
   } else {
-    content = <Text>{t("Select a governor to view gathering reports.")}</Text>;
+    content = <Text>Select a governor to view gathering reports.</Text>;
   }
 
   return (
     <div className="mt-4 space-y-6">
-      <Text>
-        {t("Track your gathering, understand your bonuses, and see how each resource adds up.")}
-      </Text>
+      <Text>Track your gathering, understand your bonuses, and see how each resource adds up.</Text>
       <ResourcesFiltersClient startDate={range.start} endDate={range.end} maxDate={today} />
       {content}
     </div>

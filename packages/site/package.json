@@ -8,7 +8,6 @@
     "typecheck": "next typegen && tsc --noEmit",
     "sync:legal": "sh ./scripts/sync-legal-docs.sh",
     "generate:datasets": "node ./scripts/generate-datasets.mjs",
-    "generate:messages": "node ./scripts/generate-messages.mjs",
     "generate:wasm": "sh ./scripts/build-container.sh && sh ./scripts/build-map-engine.sh"
   },
   "dependencies": {
@@ -21,7 +20,6 @@
     "lucide-react": "^1.58.0",
     "motion": "^14.3.0",
     "next": "^16.4.2",
-    "next-intl": "^4.14.9",
     "nuqs": "^2.10.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

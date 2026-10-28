@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "cn";
-import { useExtracted } from "next-intl";
+
 import { useEffect, useState } from "react";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
@@ -39,7 +39,6 @@ export function PersonalLootFilters({
   minDate,
   maxDate,
 }: PersonalLootFiltersProps) {
-  const t = useExtracted();
   const [type, setType] = useState(selectedType);
   const [levels, setLevels] = useState<string[]>(selectedLevels?.map(String) ?? []);
 
@@ -59,7 +58,7 @@ export function PersonalLootFilters({
           (level) => effectiveLevelOptions.find((option) => option.value === level)?.label ?? level
         )
         .join(", ")
-    : t("All");
+    : "All";
 
   const handleTypeChange = (nextType: string) => {
     setType(nextType);
@@ -99,8 +98,8 @@ export function PersonalLootFilters({
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {showTypeFilter ? (
           <Field className="space-y-1.5">
-            <Label>{t("NPC")}</Label>
-            <Listbox<string> aria-label={t("NPC")} onChange={handleTypeChange} value={type}>
+            <Label>NPC</Label>
+            <Listbox<string> aria-label="NPC" onChange={handleTypeChange} value={type}>
               {typeOptions.map((option) => (
                 <ListboxOption key={option.value} value={option.value}>
                   <ListboxLabel>{option.label}</ListboxLabel>
@@ -112,13 +111,13 @@ export function PersonalLootFilters({
         ) : null}
         {showLevelFilter ? (
           <Field className="space-y-1.5">
-            <Label>{t("Level")}</Label>
+            <Label>Level</Label>
             {allowMultipleLevels ? (
               <Listbox<string>
-                aria-label={t("Level")}
+                aria-label="Level"
                 multiple
                 onChange={handleMultipleLevelChange}
-                placeholder={t("All")}
+                placeholder="All"
                 renderValue={() => (
                   <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
@@ -127,7 +126,7 @@ export function PersonalLootFilters({
                 value={levelValue}
               >
                 <ListboxOption value={allLevelValue}>
-                  <ListboxLabel>{t("All")}</ListboxLabel>
+                  <ListboxLabel>All</ListboxLabel>
                 </ListboxOption>
                 {effectiveLevelOptions.map((option) => (
                   <ListboxOption key={option.value} value={option.value}>
@@ -137,9 +136,9 @@ export function PersonalLootFilters({
               </Listbox>
             ) : (
               <Listbox<string>
-                aria-label={t("Level")}
+                aria-label="Level"
                 onChange={handleSingleLevelChange}
-                placeholder={t("All")}
+                placeholder="All"
                 renderValue={() => (
                   <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
@@ -148,7 +147,7 @@ export function PersonalLootFilters({
                 value={levels[0] ?? allLevelValue}
               >
                 <ListboxOption value={allLevelValue}>
-                  <ListboxLabel>{t("All")}</ListboxLabel>
+                  <ListboxLabel>All</ListboxLabel>
                 </ListboxOption>
                 {effectiveLevelOptions.map((option) => (
                   <ListboxOption key={option.value} value={option.value}>
@@ -161,7 +160,7 @@ export function PersonalLootFilters({
           </Field>
         ) : null}
         <Field className="space-y-1.5">
-          <Label htmlFor="loot-start-date">{t("Start date")}</Label>
+          <Label htmlFor="loot-start-date">Start date</Label>
           <Input
             id="loot-start-date"
             name="start"
@@ -172,7 +171,7 @@ export function PersonalLootFilters({
           />
         </Field>
         <Field className="space-y-1.5">
-          <Label htmlFor="loot-end-date">{t("End date")}</Label>
+          <Label htmlFor="loot-end-date">End date</Label>
           <Input
             id="loot-end-date"
             name="end"
@@ -188,7 +187,7 @@ export function PersonalLootFilters({
           type="submit"
           className="inline-flex h-10 items-center justify-center rounded-lg px-3 font-semibold text-sm shadow-sm bg-white text-zinc-950 hover:bg-zinc-200"
         >
-          {t("Apply")}
+          Apply
         </button>
       </div>
     </form>

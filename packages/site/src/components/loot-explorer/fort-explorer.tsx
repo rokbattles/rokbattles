@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BarbarianFortLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
@@ -17,6 +16,8 @@ import { LootExplorerStatus } from "./loot-explorer-status";
 import { LootExplorerSummary } from "./loot-explorer-summary";
 import { LootTable } from "./loot-table";
 
+const numberFormatter = new Intl.NumberFormat("en-US");
+
 export function FortExplorer({
   selectedType,
   selectedLevels,
@@ -24,7 +25,6 @@ export function FortExplorer({
   selectedType?: string;
   selectedLevels: number[];
 }) {
-  const t = useExtracted();
   const [items, setItems] = useState<BarbarianFortLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
@@ -52,26 +52,21 @@ export function FortExplorer({
   }, []);
 
   if (status === "loading") {
-    return (
-      <LootExplorerStatus active="barbarian-forts" message={t("Loading loot explorer data...")} />
-    );
+    return <LootExplorerStatus active="barbarian-forts" message="Loading loot explorer data..." />;
   }
 
   if (status === "error") {
     return (
-      <LootExplorerStatus
-        active="barbarian-forts"
-        message={t("Failed to load loot explorer data.")}
-      />
+      <LootExplorerStatus active="barbarian-forts" message="Failed to load loot explorer data." />
     );
   }
 
   const familyLabels = new Map([
-    ["barbarian-forts", t("Barbarian Forts")],
-    ["marauder-encampments", t("Marauder Encampments")],
-    ["mottes", t("Mottes")],
+    ["barbarian-forts", "Barbarian Forts"],
+    ["marauder-encampments", "Marauder Encampments"],
+    ["mottes", "Mottes"],
   ]);
-  const formatLevel = (level: number) => t("Level {level}", { level: level.toString() });
+  const formatLevel = (level: number) => `Level ${level.toString()}`;
   const availableFamilies = fortFamilies.filter((option) =>
     items.some((item) => item.kind === option.kind)
   );
@@ -122,31 +117,27 @@ export function FortExplorer({
       <LootExplorerSummary
         generatedAt={generatedAt}
         items={[
-          { label: t("Results"), value: totals.results },
-          { label: t("AP used"), value: totals.apUsed },
-          { label: t("Honor gained"), value: totals.honor },
+          { label: "Results", value: totals.results },
+          { label: "AP used", value: totals.apUsed },
+          { label: "Honor gained", value: totals.honor },
         ]}
       />
       <div className="space-y-10">
         {visibleItems.map((item) => (
           <section key={`${item.kind}:${item.level}`} className="space-y-5">
-            <Subheading>
-              {t("{name} level {level}", { level: item.level.toString(), name: familyLabel })}
-            </Subheading>
+            <Subheading>{`${familyLabel} level ${item.level.toString()}`}</Subheading>
             {item.rewardTiers.map((tier) => (
               <div key={tier.tier} className="space-y-3">
                 <div>
                   <div className="font-medium text-sm/6 text-white">
-                    {t("Reward Tier {tier}", { tier: tier.tier.toString() })}
+                    {`Reward Tier ${tier.tier.toString()}`}
                   </div>
                   <div className="text-sm/6 text-zinc-400">
-                    {t(
-                      "This reward tier has been seen {count, plural, one {# time} other {# times}}, requiring damage {damage}.",
-                      {
-                        count: tier.results,
-                        damage: formatRange(tier.damagePercentage, "%", t("n/a")),
-                      }
-                    )}
+                    {`This reward tier has been seen ${
+                      Math.abs(tier.results) === 1
+                        ? `${numberFormatter.format(tier.results)} time`
+                        : `${numberFormatter.format(tier.results)} times`
+                    }, requiring damage ${formatRange(tier.damagePercentage, "%", "n/a")}.`}
                   </div>
                 </div>
                 <LootTable loot={tier.loot} />

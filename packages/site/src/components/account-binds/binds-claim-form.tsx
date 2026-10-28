@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { type FormEvent, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/fieldset";
@@ -14,7 +13,6 @@ type ClaimBindFormProps = {
 };
 
 export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) {
-  const t = useExtracted();
   const [governorIdInput, setGovernorIdInput] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,23 +22,19 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
     event.preventDefault();
 
     if (!canClaimMore) {
-      setErrorMessage(
-        t("You can only bind up to {value} governors.", {
-          value: MAX_GOVERNOR_BINDS.toString(),
-        })
-      );
+      setErrorMessage(`You can only bind up to ${MAX_GOVERNOR_BINDS.toString()} governors.`);
       return;
     }
 
     const trimmed = governorIdInput.trim();
     if (trimmed === "") {
-      setErrorMessage(t("Enter a governor ID."));
+      setErrorMessage("Enter a governor ID.");
       return;
     }
 
     const numericGovernorId = Number(trimmed);
     if (!Number.isFinite(numericGovernorId)) {
-      setErrorMessage(t("Enter a valid governor ID."));
+      setErrorMessage("Enter a valid governor ID.");
       return;
     }
 
@@ -56,7 +50,7 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
       const message =
         error instanceof Error
           ? error.message
-          : t("Something went wrong while binding. Please try again.");
+          : "Something went wrong while binding. Please try again.";
       setErrorMessage(message);
     } finally {
       setIsSubmitting(false);
@@ -67,7 +61,7 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
     <form onSubmit={handleSubmit} noValidate>
       <FieldGroup>
         <Field>
-          <Label htmlFor={id}>{t("Governor ID")}</Label>
+          <Label htmlFor={id}>Governor ID</Label>
           <Input
             id={id}
             name="governorId"
@@ -88,9 +82,7 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
             <ErrorMessage>{errorMessage}</ErrorMessage>
           ) : !canClaimMore ? (
             <Description>
-              {t("You have reached the maximum of {value} binds.", {
-                value: MAX_GOVERNOR_BINDS.toString(),
-              })}
+              {`You have reached the maximum of ${MAX_GOVERNOR_BINDS.toString()} binds.`}
             </Description>
           ) : undefined}
         </Field>
@@ -100,7 +92,7 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
           type="submit"
           disabled={!canClaimMore || isSubmitting || governorIdInput.trim() === ""}
         >
-          {isSubmitting ? t("Binding...") : t("Bind governor")}
+          {isSubmitting ? "Binding..." : "Bind governor"}
         </Button>
       </div>
     </form>

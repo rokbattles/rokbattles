@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useExtracted } from "next-intl";
+
 import { Subheading } from "@/components/ui/heading";
 import { getSupremeStrifeTalents } from "@/lib/supreme-strife-talents";
 
@@ -12,7 +12,6 @@ type ReportSupremeStrifeTalentSectionProps = {
 export function ReportSupremeStrifeTalentSection({
   talentIds,
 }: ReportSupremeStrifeTalentSectionProps) {
-  const t = useExtracted();
   const talents = getSupremeStrifeTalents(talentIds);
 
   if (talents.length === 0) {
@@ -21,7 +20,7 @@ export function ReportSupremeStrifeTalentSection({
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Supreme Strife Talents")}</Subheading>
+      <Subheading>Supreme Strife Talents</Subheading>
       <div className="space-y-3">
         {talents.map((talent) => (
           <details className="group" key={talent.id}>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { LootIcon } from "@/components/account-loot/loot-icon";
 import {
   Table,
@@ -18,15 +17,13 @@ type LootBreakdownTableProps = {
 };
 
 export function LootBreakdownTable({ rows }: LootBreakdownTableProps) {
-  const t = useExtracted();
-
   return (
     <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
       <TableHead>
         <TableRow>
-          <TableHeader>{t("Name")}</TableHeader>
-          <TableHeader className="w-28">{t("Amount")}</TableHeader>
-          <TableHeader className="w-24">{t("Seen")}</TableHeader>
+          <TableHeader>Name</TableHeader>
+          <TableHeader className="w-28">Amount</TableHeader>
+          <TableHeader className="w-24">Seen</TableHeader>
         </TableRow>
       </TableHead>
       <TableBody>

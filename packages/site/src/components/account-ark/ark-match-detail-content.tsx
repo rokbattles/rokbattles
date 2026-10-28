@@ -2,7 +2,7 @@
 
 import { cn } from "cn";
 import { useSearchParams } from "next/navigation";
-import { useExtracted } from "next-intl";
+
 import { type ReactElement, use, useState } from "react";
 import { ArkBattleReports } from "@/components/account-ark/ark-battle-reports";
 import { ArkMatchDetailIndividualResultsSection } from "@/components/account-ark/ark-match-detail-individual-results-section";
@@ -25,7 +25,6 @@ const TABS = ["overview", "team", "pairings", "reports"] as const;
 type ArkTab = (typeof TABS)[number];
 
 export function ArkMatchDetailContent({ matchId }: ArkMatchDetailContentProps): ReactElement {
-  const t = useExtracted();
   const context = use(GovernorContext);
 
   if (!context) {
@@ -40,18 +39,16 @@ export function ArkMatchDetailContent({ matchId }: ArkMatchDetailContentProps): 
   let content: ReactElement;
 
   if (query.loading) {
-    content = <ArkRequestState>{t("Loading Ark recap…")}</ArkRequestState>;
+    content = <ArkRequestState>Loading Ark recap…</ArkRequestState>;
   } else if (query.error) {
     content = (
       <ArkRequestState error retry={query.retry}>
-        {t("Failed to load this Ark recap.")}
+        Failed to load this Ark recap.
       </ArkRequestState>
     );
   } else if (!query.data?.match || !governorId) {
     content = (
-      <ArkRequestState>
-        {t("This match is not available for the selected governor.")}
-      </ArkRequestState>
+      <ArkRequestState>This match is not available for the selected governor.</ArkRequestState>
     );
   } else {
     content = (
@@ -67,7 +64,6 @@ export function ArkMatchDetailContent({ matchId }: ArkMatchDetailContentProps): 
 }
 
 function ArkMatchDashboard({ detail, governorId }: ArkMatchDashboardProps): ReactElement {
-  const t = useExtracted();
   const params = useSearchParams();
 
   const [tab, setTab] = useState<ArkTab>(
@@ -75,10 +71,10 @@ function ArkMatchDashboard({ detail, governorId }: ArkMatchDashboardProps): Reac
   );
 
   const labels = {
-    overview: t("Overview"),
-    team: t("Team scores"),
-    pairings: t("Pairings"),
-    reports: t("Battle reports"),
+    overview: "Overview",
+    team: "Team scores",
+    pairings: "Pairings",
+    reports: "Battle reports",
   };
   const counts = {
     overview: null,
@@ -107,7 +103,7 @@ function ArkMatchDashboard({ detail, governorId }: ArkMatchDashboardProps): Reac
     <div className="space-y-6">
       <ArkScoreboard detail={detail} />
       <nav
-        aria-label={t("Match sections")}
+        aria-label="Match sections"
         className="flex gap-6 overflow-x-auto border-b border-zinc-800"
       >
         {TABS.map((value) => (

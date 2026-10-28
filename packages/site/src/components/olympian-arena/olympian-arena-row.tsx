@@ -1,6 +1,5 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import ParticipantCell from "@/components/reports/participant-cell";
 import ReportMapCell from "@/components/reports/report-map-cell";
 import ReportTimeCell from "@/components/reports/report-time-cell";
@@ -37,12 +36,10 @@ export default function OlympianArenaRow({
   duel: OlympianArenaDuelSummary;
   now: Date | null;
 }) {
-  const t = useExtracted();
-
   return (
     <TableRow
       href={`/olympian-arena/${duel.duelId}`}
-      title={t("View battle report")}
+      title="View battle report"
       className="relative isolate"
     >
       <ReportMapCell mapcode={duel.kvkMapcode} banner={duel.kvkBanner} />
@@ -65,7 +62,7 @@ export default function OlympianArenaRow({
           secondaryId={duel.entry.opponent.secondaryCommanderId}
         />
         {duel.battles > 1 ? (
-          <Badge className="ml-1 align-middle tabular-nums" title={t("Battles")}>
+          <Badge className="ml-1 align-middle tabular-nums" title="Battles">
             +{(duel.battles - 1).toLocaleString()}
           </Badge>
         ) : null}

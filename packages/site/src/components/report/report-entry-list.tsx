@@ -1,7 +1,7 @@
 "use client";
 
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { useExtracted } from "next-intl";
+
 import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { ReportEntryCard } from "@/components/report/report-entry-card";
@@ -13,8 +13,6 @@ export const ReportEntryList = memo(function ReportEntryList({
 }: {
   entries: ReportEntry[];
 }) {
-  const t = useExtracted();
-
   const listRef = useRef<HTMLOListElement>(null);
   const [scrollMargin, setScrollMargin] = useState(0);
   const [printing, setPrinting] = useState(false);
@@ -83,7 +81,7 @@ export const ReportEntryList = memo(function ReportEntryList({
   return (
     <ol
       ref={listRef}
-      aria-label={t("Battle Reports")}
+      aria-label="Battle Reports"
       className="relative list-none"
       style={
         virtualized ? { height: virtualizer.getTotalSize(), overflowAnchor: "none" } : undefined
