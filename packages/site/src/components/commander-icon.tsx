@@ -1,6 +1,7 @@
 import { cn } from "cn";
 import Image from "next/image";
-import { getCommanderSprites } from "@/lib/commander";
+import { getCommanderSprites, isPrimeCommander } from "@/lib/commander";
+import { getGameSpriteUrl } from "@/lib/game-sprite";
 
 type CommanderIconProps = {
   id: number | null | undefined;
@@ -48,6 +49,26 @@ export function CommanderIcon({
           unoptimized
         />
       ))}
+      {isPrimeCommander(id) ? (
+        <span
+          className="pointer-events-none absolute"
+          style={{
+            left: `${((130 - 75 - 20) / 260) * 100}%`,
+            top: `${((130 + 48.7 - 20) / 260) * 100}%`,
+            width: `${(40 / 260) * 100}%`,
+            height: `${(40 / 260) * 100}%`,
+          }}
+        >
+          <Image
+            alt=""
+            fill
+            loading={loading}
+            sizes={sizes}
+            src={getGameSpriteUrl("img_HeroSystemSpIcon.png")}
+            unoptimized
+          />
+        </span>
+      ) : null}
     </span>
   );
 }

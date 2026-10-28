@@ -15,6 +15,7 @@ type CommanderSkillEntry = {
 
 type CommanderCatalogEntry = {
   name: string;
+  prime?: boolean;
   rarity?: string;
   override?: Record<string, string | undefined>;
   sprite?: string | string[];
@@ -37,6 +38,12 @@ export type CommanderSkillDisplay = {
 const commanderCatalog = commanderMap as Record<string, CommanderCatalogEntry | undefined>;
 
 type CommanderIdKey = keyof typeof commanderMap;
+export function isPrimeCommander(id: number | null | undefined): boolean {
+  return (
+    typeof id === "number" && Number.isFinite(id) && commanderCatalog[String(id)]?.prime === true
+  );
+}
+
 export function getCommanderName(id: number | null | undefined) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
