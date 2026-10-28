@@ -8,7 +8,6 @@ export type CombatLabCommanderOption = {
 };
 
 export function getCombatLabCommanderOptions(
-  locale?: string,
   season: CombatLabSeason = "soc"
 ): CombatLabCommanderOption[] {
   const options: CombatLabCommanderOption[] = [];
@@ -19,10 +18,10 @@ export function getCombatLabCommanderOptions(
     }
 
     const commanderId = Number(id);
-    const localizedName = getCommanderName(commanderId, locale) ?? id;
+    const name = getCommanderName(commanderId) ?? id;
     options.push({
       id: commanderId,
-      name: commander.prime ? `${localizedName} (Prime)` : localizedName,
+      name: commander.prime ? `${name} (Prime)` : name,
       talents: commander.talents ?? [],
     });
   }

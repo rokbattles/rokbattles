@@ -3,13 +3,7 @@ import { Subheading } from "@/components/ui/heading";
 import type { BaulurLootDocument } from "@/lib/loot-explorer/api";
 import { LootTable } from "./loot-table";
 
-export function BaulurRolls({
-  pool,
-  locale,
-}: {
-  pool: BaulurLootDocument["rollPool"];
-  locale?: string;
-}) {
+export function BaulurRolls({ pool }: { pool: BaulurLootDocument["rollPool"] }) {
   const t = useExtracted();
 
   return (
@@ -41,7 +35,6 @@ export function BaulurRolls({
             <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
             <LootTable
               loot={slot.loot}
-              locale={locale}
               noItem={
                 slot.slot > 2 || slot.noItemResults > 0
                   ? { dropRate: slot.noItemRate, results: slot.noItemResults }

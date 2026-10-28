@@ -1,6 +1,6 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import type { ReactElement } from "react";
 import { CommanderIcon } from "@/components/commander-icon";
 import { getCommanderName } from "@/lib/commander";
@@ -19,16 +19,15 @@ export function ArkCommanderPairingCell({
   secondaryId,
 }: ArkCommanderPairingCellProps): ReactElement {
   const t = useExtracted();
-  const locale = useLocale();
 
   const unknownLabel = t("Unknown commander");
   const primaryName = isValidCommanderId(primaryId)
-    ? (getCommanderName(primaryId, locale) ?? String(primaryId))
+    ? (getCommanderName(primaryId) ?? String(primaryId))
     : unknownLabel;
 
   const hasSecondary = isValidCommanderId(secondaryId);
   const secondaryName = hasSecondary
-    ? (getCommanderName(secondaryId, locale) ?? String(secondaryId))
+    ? (getCommanderName(secondaryId) ?? String(secondaryId))
     : null;
 
   return (

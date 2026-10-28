@@ -25,16 +25,16 @@ struct StratagemDataset {
 
 #[derive(Deserialize)]
 struct StratagemDefinition {
-    name: FxHashMap<String, String>,
-    description: FxHashMap<String, String>,
+    name: String,
+    description: String,
     #[serde(default, rename = "override")]
-    overrides: FxHashMap<i64, LocalizedStratagem>,
+    overrides: FxHashMap<i64, StratagemText>,
 }
 
 #[derive(Deserialize)]
-struct LocalizedStratagem {
-    name: FxHashMap<String, String>,
-    description: FxHashMap<String, String>,
+struct StratagemText {
+    name: String,
+    description: String,
 }
 
 struct ResolvedStratagem<'a> {
@@ -84,10 +84,9 @@ impl StratagemDataset {
         let schema_override = definition.overrides.get(&schema);
 
         Some(ResolvedStratagem {
-            name: schema_override.map_or(&definition.name, |entry| &entry.name).get("en")?,
+            name: schema_override.map_or(&definition.name, |entry| &entry.name),
             description: schema_override
-                .map_or(&definition.description, |entry| &entry.description)
-                .get("en")?,
+                .map_or(&definition.description, |entry| &entry.description),
         })
     }
 }
@@ -251,36 +250,17 @@ mod tests {
     }
 
     #[test]
-    fn stratagem_dataset_contains_every_supported_locale() {
-        const LOCALES: [&str; 18] = [
-            "ar", "de", "en", "es", "fr", "id", "it", "ja", "ko", "ms", "pl", "pt", "ru", "th",
-            "tr", "vi", "zh_CN", "zh_TW",
-        ];
-
-        fn contains_every_locale(localized: &FxHashMap<String, String>) -> bool {
-            localized.len() == LOCALES.len()
-                && LOCALES.iter().all(|locale| localized.contains_key(*locale))
-        }
-
+    fn stratagem_dataset_contains_english_text() {
         let dataset: StratagemDataset = yaml_serde::from_str(DATASET).expect("valid dataset");
-        let all_localized = dataset.stratagems.values().all(|stratagem| {
-            contains_every_locale(&stratagem.name)
-                && contains_every_locale(&stratagem.description)
-                && stratagem.overrides.values().all(|schema_override| {
-                    contains_every_locale(&schema_override.name)
-                        && contains_every_locale(&schema_override.description)
-                })
-        });
+        let stratagem = dataset.resolve(819, 3).expect("stratagem");
 
-        assert!(all_localized);
+        assert_eq!(stratagem.name, "Counter Offensive");
     }
 
     #[test]
-    fn stratagem_dataset_localizations_only_use_newline_control_characters() {
-        fn is_clean(localized: &FxHashMap<String, String>) -> bool {
-            localized.values().all(|value| {
-                !value.chars().any(|character| character != '\n' && character.is_control())
-            })
+    fn stratagem_dataset_text_only_uses_newline_control_characters() {
+        fn is_clean(value: &str) -> bool {
+            !value.chars().any(|character| character != '\n' && character.is_control())
         }
 
         let dataset: StratagemDataset = yaml_serde::from_str(DATASET).expect("valid dataset");

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Heading, Subheading } from "@/components/ui/heading";
 import { getEquipmentSlotName } from "@/hooks/use-equipment-name";
 import type {
@@ -103,15 +103,14 @@ export function CombatLabLoadouts({
   secondaryCommanderName: string;
 }) {
   const t = useExtracted();
-  const locale = useLocale();
   const equipmentSlotNames: Record<number, string> = {
-    1: getEquipmentSlotName(1, locale),
-    2: getEquipmentSlotName(2, locale),
-    3: getEquipmentSlotName(3, locale),
-    4: getEquipmentSlotName(4, locale),
-    5: getEquipmentSlotName(5, locale),
-    6: getEquipmentSlotName(6, locale),
-    7: getEquipmentSlotName(7, locale),
+    1: getEquipmentSlotName(1),
+    2: getEquipmentSlotName(2),
+    3: getEquipmentSlotName(3),
+    4: getEquipmentSlotName(4),
+    5: getEquipmentSlotName(5),
+    6: getEquipmentSlotName(6),
+    7: getEquipmentSlotName(7),
   };
   const armamentSlotNames: Record<number, string> = {
     1: t("Scroll"),

@@ -1,6 +1,6 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BaulurLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
@@ -61,7 +61,6 @@ export function BaulurExplorerContent({
   selectedType?: string;
 }) {
   const t = useExtracted();
-  const locale = useLocale();
   const family = findBaulurFamily(selectedType, items);
   const item = items.find((candidate) => candidate.kind === family.kind);
   const familyLabels = new Map([
@@ -96,9 +95,9 @@ export function BaulurExplorerContent({
                 })}
               </div>
             </div>
-            <LootTable loot={item.resourcePool.loot} locale={locale} />
+            <LootTable loot={item.resourcePool.loot} />
           </section>
-          <BaulurRolls pool={item.rollPool} locale={locale} />
+          <BaulurRolls pool={item.rollPool} />
         </div>
       ) : null}
     </LootExplorerLayout>

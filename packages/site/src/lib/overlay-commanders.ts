@@ -11,7 +11,7 @@ export function getOverlayCommanders(): Record<string, OverlayCommander> {
     Object.entries(commandersData.commanders).map(([id, commander]) => [
       id,
       {
-        name: `${commander.name.en}${commander.prime ? " (Prime)" : ""}`,
+        name: `${commander.name}${commander.prime ? " (Prime)" : ""}`,
         sprites: commander.sprite,
         rarity: commander.rarity,
       },

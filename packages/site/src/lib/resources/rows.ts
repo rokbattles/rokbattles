@@ -11,13 +11,12 @@ export type ResourceBreakdownRow = ResourceTotals & {
 
 export function buildResourceBreakdownRows(
   crystalsGain: ResourceTotals,
-  resources: ResourceTotalsByType[],
-  locale?: string
+  resources: ResourceTotalsByType[]
 ): ResourceBreakdownRow[] {
   const resourcesByType = new Map(resources.map((resource) => [resource.type, resource]));
 
   return RESOURCE_CATALOG.map(({ key, type, color }) => {
-    const name = getLootName(1, type, locale);
+    const name = getLootName(1, type);
 
     if (!name) {
       throw new Error(`Missing resource subtype ${type} in loot dataset type 1`);

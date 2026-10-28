@@ -6,7 +6,6 @@ import { ReportSkillSlot } from "@/components/report/report-skill-slot";
 import { Badge } from "@/components/ui/badge";
 import { Strong } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
-import { resolveLocale } from "@/i18n/locale";
 import { type CommanderSkillLevel, getCommanderSkillDisplays } from "@/lib/commander";
 
 type CommanderLoadoutRowProps = {
@@ -27,11 +26,10 @@ export function CommanderLoadoutRow({
   formationLabel,
 }: CommanderLoadoutRowProps) {
   const t = useExtracted();
-  const locale = resolveLocale();
   const commanderName = getCommanderName(id ?? null);
   const commanderLabel = commanderName ?? id ?? t("Unknown");
   const commanderAlt = t("{name} icon", { name: commanderLabel.toString() });
-  const skillDisplays = getCommanderSkillDisplays(id, skills, awakened, locale);
+  const skillDisplays = getCommanderSkillDisplays(id, skills, awakened);
   const levelLabel = typeof level === "number" && Number.isFinite(level) ? level : null;
 
   return (

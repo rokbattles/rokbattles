@@ -1,6 +1,6 @@
 "use client";
 
-import { useExtracted, useLocale } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { fetchLootExplorerItems, type KaruakCeremonyLootDocument } from "@/lib/loot-explorer/api";
@@ -61,7 +61,6 @@ export function KaruakCeremonyExplorerContent({
   selectedType?: string;
 }) {
   const t = useExtracted();
-  const locale = useLocale();
 
   const boss = findKaruakBoss(selectedType, items);
   const item = items.find((candidate) => candidate.kind === boss.kind);
@@ -92,7 +91,7 @@ export function KaruakCeremonyExplorerContent({
         {item?.slots.map((slot) => (
           <section key={slot.slot} className="space-y-3">
             <Subheading level={3}>{t("Slot {slot}", { slot: slot.slot.toString() })}</Subheading>
-            <LootTable loot={slot.loot} locale={locale} />
+            <LootTable loot={slot.loot} />
           </section>
         ))}
       </div>

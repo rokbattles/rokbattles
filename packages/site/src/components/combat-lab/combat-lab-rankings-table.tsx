@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocale } from "next-intl";
 import { useLayoutEffect, useRef } from "react";
 import { CombatLabRankingsScoreCell } from "@/components/combat-lab/combat-lab-rankings-score-cell";
 import { CombatLabRankingsSortableHeader } from "@/components/combat-lab/combat-lab-rankings-sortable-header";
@@ -52,7 +51,6 @@ export function CombatLabRankingsTable({
   direction,
   onSort,
 }: CombatLabRankingsTableProps) {
-  const locale = useLocale();
   const headRef = useRef<HTMLTableSectionElement>(null);
 
   useLayoutEffect(() => {
@@ -121,8 +119,8 @@ export function CombatLabRankingsTable({
       </TableHead>
       <TableBody>
         {items.map((item, index) => {
-          const primaryName = getCommanderName(item.primaryCommanderId, locale) ?? "Unknown";
-          const secondaryName = getCommanderName(item.secondaryCommanderId, locale) ?? "Unknown";
+          const primaryName = getCommanderName(item.primaryCommanderId) ?? "Unknown";
+          const secondaryName = getCommanderName(item.secondaryCommanderId) ?? "Unknown";
           const href = `${combatLabPath(season)}?primary=${item.primaryCommanderId}&secondary=${item.secondaryCommanderId}`;
 
           return (
