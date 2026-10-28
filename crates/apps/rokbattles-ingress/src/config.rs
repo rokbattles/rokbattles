@@ -8,8 +8,6 @@ pub struct Config {
     /// Connection URI including the database used by ingress.
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
-    /// A nonempty address enables scanning for direct uploads only.
-    pub clamav_addr: Option<String>,
     /// Required bearer token for relay uploads.
     pub relay_token: String,
 }
@@ -33,12 +31,11 @@ impl Config {
     {
         let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::Missing { key: "MONGODB_URI" })?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
-        let clamav_addr = lookup("CLAMAV_ADDR").filter(|value| !value.is_empty());
         let relay_token = lookup("RELAY_TOKEN")
             .filter(|value| !value.is_empty())
             .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
 
-        Ok(Self { mongo_uri, sentry_dsn, clamav_addr, relay_token })
+        Ok(Self { mongo_uri, sentry_dsn, relay_token })
     }
 }
 
@@ -65,34 +62,9 @@ mod tests {
             Config {
                 mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
                 sentry_dsn: None,
-                clamav_addr: None,
                 relay_token: "secret".to_string(),
             }
         );
-    }
-
-    #[test]
-    fn loads_optional_clamav_address() {
-        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("RELAY_TOKEN", "secret"),
-            ("CLAMAV_ADDR", "clamav:3310"),
-        ])))
-        .expect("config");
-
-        assert_eq!(cfg.clamav_addr.as_deref(), Some("clamav:3310"));
-    }
-
-    #[test]
-    fn disables_clamav_when_address_is_empty() {
-        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("RELAY_TOKEN", "secret"),
-            ("CLAMAV_ADDR", ""),
-        ])))
-        .expect("config");
-
-        assert_eq!(cfg.clamav_addr, None);
     }
 
     #[test]

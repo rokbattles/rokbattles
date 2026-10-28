@@ -1,6 +1,6 @@
-//! Direct binary uploads: validate the request, scan if configured, then store once.
+//! Direct binary uploads: validate the request, then store once.
 
-use std::{sync::Arc, time::Duration};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -14,7 +14,6 @@ use serde::Serialize;
 
 use super::headers::{extract_user_agent, is_allowed_content_type};
 use crate::{
-    clamav::{ScanStatus, scan_instream},
     error::ApiError,
     mail::{
         self, StoreOutcome,
@@ -40,7 +39,7 @@ struct UploadInput {
 
 /// Stores a new mail report, skipping any previously uploaded mail ID.
 ///
-/// Scanning, decoding, and type and ID validation run before duplicate lookup.
+/// Decoding and type and ID validation run before duplicate lookup.
 /// Returns `201` for a new mail or `200` for a skip; both include the submitted
 /// mail's ID and type, not metadata read back from storage.
 pub(super) async fn upload(
@@ -51,18 +50,6 @@ pub(super) async fn upload(
     let user_agent = extract_user_agent(&headers)?;
     let upload = read_upload(&mut multipart).await?;
     let buffer = upload.bytes;
-
-    if let Some(addr) = state.config.clamav_addr.as_deref() {
-        match scan_instream(&buffer, addr, Duration::from_secs(15)).await {
-            Ok(ScanStatus::Clean) => {}
-            Ok(ScanStatus::Infected(reason)) => {
-                return Err(ApiError::bad_request(format!("clamav detected malware: {reason}")));
-            }
-            Err(error) => {
-                return Err(ApiError::clamav(error.to_string()));
-            }
-        }
-    }
 
     let decoded = rokbattles_mail_codec::decode(&buffer)
         .map_err(|error| ApiError::decode_failed(error.to_string()))?;

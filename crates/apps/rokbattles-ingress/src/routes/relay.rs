@@ -1,6 +1,4 @@
 //! Authenticated relay batches, reconstructed and stored independently per entry.
-//!
-//! Relay uploads are reconstructed without a ClamAV scan.
 
 use std::sync::Arc;
 
