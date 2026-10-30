@@ -11,6 +11,8 @@
 
 mod app_config;
 mod desktop_auth;
+#[cfg(target_os = "macos")]
+mod directory_access;
 mod directory_operations;
 mod mailcache_discovery;
 mod shell;
@@ -179,6 +181,8 @@ async fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, Stri
             let app = app.clone();
 
             move || {
+                #[cfg(target_os = "macos")]
+                directory_access::remember(&app, &paths)?;
                 app_config::update_dirs(&app, |dirs| {
                     merge_directories(dirs, &paths);
                     dirs_for_ui(dirs)
@@ -261,9 +265,33 @@ async fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResu
 }
 
 fn discover_and_save(app: &AppHandle) -> anyhow::Result<DiscoverMailcacheResult> {
+    #[cfg(target_os = "macos")]
+    directory_access::restore(app, &app_config::read_config(app)?);
+
     let discovered = mailcache_discovery::discover_mailcache_dirs();
+    #[cfg(target_os = "macos")]
+    let discovered = {
+        use tauri_plugin_dialog::DialogExt as _;
+
+        let mut discovered = discovered;
+
+        mailcache_discovery::authorize_macos_candidates(&mut discovered, |candidate| {
+            app.dialog()
+                .file()
+                .set_title("Allow ROK Battles to read this mailcache folder")
+                .set_directory(candidate)
+                .blocking_pick_folder()
+                .and_then(|selected| selected.into_path().ok())
+        });
+
+        discovered
+    };
+
     let paths =
         discovered.dirs.iter().map(|path| path.to_string_lossy().into_owned()).collect::<Vec<_>>();
+
+    #[cfg(target_os = "macos")]
+    directory_access::remember(app, &paths)?;
 
     // Read settings after the scan, then retry the merge if directory choices change.
     let (added_dirs, already_watched_dirs) = if paths.is_empty() {
@@ -284,7 +312,11 @@ fn discover_and_save(app: &AppHandle) -> anyhow::Result<DiscoverMailcacheResult>
         "No valid mailcache directories were found.".to_string()
     };
 
-    if discovered.incomplete {
+    if !discovered.access_denied_dirs.is_empty() {
+        message.push_str(
+            " macOS denied access to an existing mailcache folder. Click Auto again and select the suggested folder to allow access.",
+        );
+    } else if discovered.incomplete {
         message.push_str(
             " Some locations could not be fully searched. You can add missing folders manually.",
         );
@@ -479,6 +511,8 @@ pub fn run() {
             let config_path = app.path().app_config_dir()?.join("config.json");
             app.manage(app_config::ConfigStore::new(config_path));
             app.manage(directory_operations::DirectoryOperations::default());
+            #[cfg(target_os = "macos")]
+            app.manage(directory_access::DirectoryAccess::default());
             app.manage(shell::ShellState::new()?);
             app.manage(desktop_auth::AuthState::default());
             shell::setup(app.handle())?;

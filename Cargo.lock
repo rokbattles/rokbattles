@@ -4810,6 +4810,8 @@ dependencies = [
  "gtk",
  "libc",
  "notify",
+ "objc2",
+ "objc2-foundation",
  "rand 0.10.2",
  "reqwest 0.12.28",
  "rokbattles-mail-codec",

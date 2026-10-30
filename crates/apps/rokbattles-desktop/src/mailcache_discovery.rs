@@ -31,6 +31,8 @@ use std::{
 #[derive(Debug, Default)]
 pub(crate) struct Discovery {
     pub(crate) dirs: Vec<PathBuf>,
+    /// Existing cache directories whose contents macOS would not let us inspect.
+    pub(crate) access_denied_dirs: Vec<PathBuf>,
     /// A search limit, unreadable location, or invalid metadata prevented a full search.
     ///
     /// `false` does not guarantee that every installation on the machine was found.
@@ -117,6 +119,7 @@ struct Search {
     remaining_operations: usize,
     checked: BTreeSet<PathBuf>,
     found: BTreeSet<PathBuf>,
+    access_denied_dirs: BTreeSet<PathBuf>,
     incomplete: bool,
 }
 
@@ -128,6 +131,7 @@ impl Search {
             remaining_operations: 3500,
             checked: BTreeSet::new(),
             found: BTreeSet::new(),
+            access_denied_dirs: BTreeSet::new(),
             incomplete: false,
         }
     }
@@ -218,7 +222,7 @@ impl Search {
         dirs
     }
 
-    #[cfg(any(test, target_os = "windows", target_os = "linux"))]
+    #[cfg(any(test, target_os = "windows", target_os = "macos", target_os = "linux"))]
     fn check_mailcache(&mut self, path: PathBuf) {
         if !self.checked.insert(path.clone()) {
             return;
@@ -269,6 +273,7 @@ impl Search {
 
     fn append_to(self, result: &mut Discovery) {
         result.dirs.extend(self.found);
+        result.access_denied_dirs.extend(self.access_denied_dirs);
         result.incomplete |= self.incomplete;
     }
 }
@@ -479,13 +484,59 @@ fn collect_macos_from_base(
         // A first-run privacy prompt can block this open past the search deadline.
         // Preserve the remaining scan time once the user grants or denies access.
         let started = Instant::now();
-        let entries = search.read_dir_with(&candidate, &mut open_cache);
+        let mut permission_denied = false;
+        let entries = search.read_dir_with(&candidate, |path| {
+            let result = open_cache(path);
+
+            permission_denied =
+                result.as_ref().is_err_and(|error| error.kind() == io::ErrorKind::PermissionDenied);
+
+            result
+        });
+
+        if permission_denied {
+            search.access_denied_dirs.insert(candidate.clone());
+        }
         search.deadline += started.elapsed();
 
         if let Some(entries) = entries {
             search.check_mailcache_entries(candidate, entries);
         }
     }
+}
+
+/// Requests access to denied caches and validates the selected directories.
+///
+/// Calls `select` with each candidate path. A `None` selection stops further
+/// requests and retains the remaining candidates. Only directories containing
+/// a regular `Persistent.Mail.<digits>` file are added to the results.
+#[cfg(any(test, target_os = "macos"))]
+pub(crate) fn authorize_macos_candidates(
+    result: &mut Discovery,
+    mut select: impl FnMut(&Path) -> Option<PathBuf>,
+) {
+    let mut denied = std::mem::take(&mut result.access_denied_dirs).into_iter();
+
+    while let Some(candidate) = denied.next() {
+        let Some(selected) = select(&candidate) else {
+            result.access_denied_dirs.push(candidate);
+            result.access_denied_dirs.extend(denied);
+
+            break;
+        };
+
+        // Time spent choosing a folder must not consume its validation budget.
+        let mut validation = Search::new();
+        validation.check_mailcache(selected);
+
+        if validation.found.is_empty() {
+            result.access_denied_dirs.push(candidate);
+        }
+
+        validation.append_to(result);
+    }
+
+    dedupe_results(result);
 }
 
 #[cfg(any(test, target_os = "macos"))]
@@ -715,6 +766,73 @@ mod tests {
             vec![readable.expect("continued to the next container")]
         );
         assert!(search.incomplete);
+    }
+
+    #[test]
+    fn macos_denied_cache_is_retained_and_validated_after_folder_selection() {
+        let temp = tempdir().expect("tempdir");
+        let containers = temp.path().join("Library/Containers");
+        let cache =
+            containers.join("54D4E71C-8B4E-415C-BD9D-96B6D6A44C94/Data/Documents/mailcache");
+        fs::create_dir_all(&cache).expect("cache directory");
+        fs::write(cache.join("Persistent.Mail.42"), b"fixture").expect("mail source");
+        let mut search = super::Search::new();
+
+        super::collect_macos_from_base(&containers, &mut search, |_| {
+            Err(std::io::ErrorKind::PermissionDenied.into())
+        });
+        let mut result = super::Discovery::default();
+        search.append_to(&mut result);
+
+        assert!(result.dirs.is_empty());
+        assert_eq!(result.access_denied_dirs, vec![cache.clone()]);
+
+        super::authorize_macos_candidates(&mut result, |suggested| {
+            assert_eq!(suggested, cache);
+            Some(suggested.to_path_buf())
+        });
+
+        assert_eq!(result.dirs, vec![cache]);
+        assert!(result.access_denied_dirs.is_empty());
+    }
+
+    #[test]
+    fn macos_cancelled_access_request_preserves_the_candidate_without_adding_it() {
+        let cache = PathBuf::from("/Users/test/Library/Containers/game/Data/Documents/mailcache");
+        let readable_cache =
+            PathBuf::from("/Users/test/Library/Containers/other/Data/Documents/mailcache");
+        let mut result = super::Discovery {
+            dirs: vec![readable_cache.clone()],
+            access_denied_dirs: vec![cache.clone(), cache.join("second")],
+            incomplete: true,
+        };
+        let mut prompts = 0;
+
+        super::authorize_macos_candidates(&mut result, |_| {
+            prompts += 1;
+            None
+        });
+
+        assert_eq!(prompts, 1, "cancel must stop further access prompts");
+        assert_eq!(result.dirs, vec![readable_cache], "cancel must preserve readable caches");
+        assert_eq!(result.access_denied_dirs, vec![cache.clone(), cache.join("second")]);
+    }
+
+    #[test]
+    fn macos_folder_selection_does_not_add_a_folder_without_numeric_mail() {
+        let temp = tempdir().expect("directory");
+        fs::write(temp.path().join("Persistent.Mail.invalid"), b"fixture").expect("non-mail");
+        let cache = PathBuf::from("/Users/test/Library/Containers/game/Data/Documents/mailcache");
+        let mut result = super::Discovery {
+            access_denied_dirs: vec![cache.clone()],
+            incomplete: true,
+            ..super::Discovery::default()
+        };
+
+        super::authorize_macos_candidates(&mut result, |_| Some(temp.path().to_path_buf()));
+
+        assert!(result.dirs.is_empty());
+        assert_eq!(result.access_denied_dirs, vec![cache]);
     }
 
     #[test]

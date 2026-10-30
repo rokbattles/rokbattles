@@ -233,7 +233,15 @@ fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>)
 
 fn source_failure(operation: &str, path: &Path, error: anyhow::Error) -> AttemptOutcome {
     let file_name = file_name_for_upload(path).unwrap_or_else(|| path.display().to_string());
-    let reason = truncate_reason(format!("Failed to {operation} file {file_name}: {error}"));
+    let mut reason = format!("Failed to {operation} file {file_name}: {error}");
+    if error
+        .downcast_ref::<io::Error>()
+        .is_some_and(|error| error.kind() == io::ErrorKind::PermissionDenied)
+    {
+        reason.push_str(". Select its directory again using the Add button; you do not need to remove it first.");
+    }
+
+    let reason = truncate_reason(reason);
 
     if error
         .downcast_ref::<io::Error>()
@@ -777,9 +785,13 @@ mod tests {
 
         let dir = tempfile::tempdir().expect("test directory");
         let path = dir.path().join("Persistent.Mail.123");
-        let item = source(&path, b"cached mail");
+        let bytes =
+            rokbattles_mail_codec::encode(&serde_json::json!({"id":"123", "type":"Battle"}))
+                .expect("mail bytes");
+        let item = source(&path, &bytes);
         let mut state = WatcherState::new(UploadStore::default());
         state.enqueue_upload(item.clone());
+        let permissions = fs::metadata(&path).expect("source metadata").permissions();
         fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("deny read access");
 
         let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", item, 10_000)
@@ -787,10 +799,22 @@ mod tests {
             .expect("permission failures are logged");
         let pending = state.uploads.pending.front().expect("unreadable source remains pending");
 
+        fs::set_permissions(&path, permissions).expect("restore read access");
+
         assert!(message.contains("Failed to read"));
+        assert!(message.contains("the Add button"));
         assert_eq!(pending.attempts, 1);
         assert!(state.uploads.acknowledged.is_empty());
         assert!(state.uploads.rejected.is_empty());
+
+        let retry = state.next_ready_upload(30_000).expect("permission failure remains retryable");
+        let (url, server) =
+            respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
+        process_upload(&mut state, &client(), &url, retry, 30_000).await;
+        server.await.expect("report uploaded after restoring access");
+
+        assert!(state.uploads.acknowledged.contains("123"));
+        assert!(state.uploads.pending.is_empty());
     }
 
     #[tokio::test]
