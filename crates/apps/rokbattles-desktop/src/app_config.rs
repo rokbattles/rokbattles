@@ -6,6 +6,7 @@
 //! read as configurations with default preferences.
 
 use std::{
+    collections::BTreeMap,
     fs,
     io::{self, Write},
     path::{Path, PathBuf},
@@ -49,6 +50,8 @@ pub(crate) struct AppConfig {
         deserialize_with = "deserialize_dirs"
     )]
     pub(crate) dirs: Option<Vec<String>>,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub(crate) directory_bookmarks: BTreeMap<String, Vec<u8>>,
     #[serde(default)]
     pub(crate) close_behavior: CloseBehavior,
     #[serde(default = "default_auto_update")]
@@ -61,6 +64,7 @@ impl Default for AppConfig {
     fn default() -> Self {
         Self {
             dirs: None,
+            directory_bookmarks: Default::default(),
             close_behavior: CloseBehavior::MinimizeToTray,
             auto_update: default_auto_update(),
             auto_start: default_auto_start(),
@@ -378,6 +382,33 @@ mod tests {
         assert!(config.auto_start);
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
         assert!(config.dirs.is_none());
+    }
+
+    #[test]
+    fn directory_grants_survive_restart_and_unrelated_settings_edits() {
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+
+        store
+            .update(|config| {
+                config.dirs = Some(vec!["/tmp/mail".to_string()]);
+                config.directory_bookmarks.insert("/tmp/mail".to_string(), vec![1, 2, 3]);
+            })
+            .expect("save grant");
+        drop(store);
+
+        let restarted = ConfigStore::new(path);
+        restarted.update(|config| config.auto_update = false).expect("edit preference");
+        restarted
+            .update_dirs(|dirs| dirs.push("/tmp/other".to_string()))
+            .expect("edit directories");
+
+        let config = restarted.read(|_| {}).expect("read persisted config");
+
+        assert_eq!(config.directory_bookmarks.get("/tmp/mail"), Some(&vec![1, 2, 3]));
+        assert!(!config.auto_update);
+        assert_eq!(config.dirs, Some(vec!["/tmp/mail".to_string(), "/tmp/other".to_string()]));
     }
 
     #[test]

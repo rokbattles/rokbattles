@@ -30,19 +30,42 @@ pub(crate) struct DirScan {
     entries: Option<fs::ReadDir>,
     next_scan: Instant,
     rescan_requested: bool,
+    permission_denied_reported: bool,
 }
 
 impl DirScan {
     pub(crate) fn new(dir: PathBuf, now: Instant) -> Self {
-        Self { dir, entries: None, next_scan: now, rescan_requested: false }
+        Self {
+            dir,
+            entries: None,
+            next_scan: now,
+            rescan_requested: false,
+            permission_denied_reported: false,
+        }
     }
 
     fn read_batch(&mut self, now: Instant) -> (Vec<PathBuf>, Option<anyhow::Error>) {
         if self.entries.is_none() {
             match fs::read_dir(&self.dir) {
-                Ok(entries) => self.entries = Some(entries),
+                Ok(entries) => {
+                    self.entries = Some(entries);
+                    self.permission_denied_reported = false;
+                }
                 Err(error) => {
                     self.next_scan = now + Duration::from_secs(5);
+
+                    if error.kind() == std::io::ErrorKind::PermissionDenied {
+                        if self.permission_denied_reported {
+                            return (Vec::new(), None);
+                        }
+
+                        self.permission_denied_reported = true;
+                        let error = anyhow::Error::new(error).context(
+                            "Directory access denied. Select this folder again using the Add button; you do not need to remove it first",
+                        );
+
+                        return (Vec::new(), Some(error));
+                    }
 
                     return (Vec::new(), Some(error.into()));
                 }
@@ -299,6 +322,44 @@ mod tests {
             tests::{client, respond_once, response},
         },
     };
+
+    #[cfg(unix)]
+    #[test]
+    fn directory_permission_failure_is_reported_once_and_scan_recovers() {
+        use std::os::unix::fs::PermissionsExt as _;
+
+        // SAFETY: geteuid takes no arguments and has no preconditions.
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        let root = tempfile::tempdir().expect("root directory");
+        let path = root.path().join("cache");
+        fs::create_dir(&path).expect("cache directory");
+        fs::write(path.join("Persistent.Mail.123"), b"mail").expect("mail");
+        let now = Instant::now();
+        let mut scan = DirScan::new(path.clone(), now);
+        let permissions = fs::metadata(&path).expect("metadata").permissions();
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("deny access");
+
+        let first = scan.read_batch(now);
+        let repeated = scan.read_batch(now + Duration::from_secs(5));
+        fs::set_permissions(&path, permissions.clone()).expect("restore access");
+
+        assert!(first.1.expect("permission error").to_string().contains("the Add button"));
+        assert!(repeated.1.is_none(), "repeated denial must not flood logs");
+
+        let recovered = scan.read_batch(now + Duration::from_secs(10));
+
+        assert!(recovered.1.is_none());
+        assert_eq!(recovered.0, vec![path.join("Persistent.Mail.123")]);
+
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("deny again");
+        let denied_again = scan.read_batch(now + Duration::from_secs(15));
+        fs::set_permissions(&path, permissions).expect("restore access");
+
+        assert!(denied_again.1.is_some(), "a new denial after recovery must be reported");
+    }
 
     fn write_mail(dir: &Path, id: &str, bytes: &[u8]) -> PathBuf {
         fs::create_dir_all(dir).expect("mail directory");

@@ -115,6 +115,8 @@ pub(crate) fn spawn_watcher(app: &AppHandle) -> WatcherTask {
             dir,
             || {
                 crate::app_config::read_config(&app).map(|config| {
+                    #[cfg(target_os = "macos")]
+                    crate::directory_access::restore(&app, &config);
                     config.dirs.map(|dirs| {
                         crate::dedupe_dirs_preserving_representation(dirs)
                             .into_iter()
