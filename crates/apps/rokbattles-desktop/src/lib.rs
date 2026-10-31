@@ -513,7 +513,11 @@ pub fn run() {
             app.manage(directory_operations::DirectoryOperations::default());
             #[cfg(target_os = "macos")]
             app.manage(directory_access::DirectoryAccess::default());
-            app.manage(shell::ShellState::new()?);
+            let channel = match app_config::read_config(app.handle()) {
+                Ok(config) => config.channel,
+                Err(_) => app_config::Channel::default(),
+            };
+            app.manage(shell::ShellState::new(channel)?);
             app.manage(desktop_auth::AuthState::default());
             shell::setup(app.handle())?;
 
