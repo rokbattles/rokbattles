@@ -17,6 +17,27 @@ use anyhow::{Context, anyhow};
 use serde::{Deserialize, Deserializer, Serialize, de};
 use tauri::{AppHandle, Manager};
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[serde(rename_all = "snake_case")]
+pub(crate) enum Channel {
+    #[default]
+    Stable,
+    Canary,
+}
+
+impl Channel {
+    fn is_stable(&self) -> bool {
+        *self == Self::Stable
+    }
+
+    pub(crate) fn app_url(self) -> &'static str {
+        match self {
+            Self::Stable => "https://rokbattles.com/",
+            Self::Canary => "https://app.rokbattles.com/",
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, Serialize, PartialEq, Eq, Default)]
 #[serde(rename_all = "snake_case")]
 pub(crate) enum CloseBehavior {
@@ -40,6 +61,8 @@ impl<'de> Deserialize<'de> for CloseBehavior {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub(crate) struct AppConfig {
+    #[serde(default, skip_serializing_if = "Channel::is_stable")]
+    pub(crate) channel: Channel,
     /// Directories selected for scanning, or `None` if the selection is unknown.
     ///
     /// The watcher preserves recovered uploads when this is `None`. `Some(vec![])`
@@ -63,6 +86,7 @@ pub(crate) struct AppConfig {
 impl Default for AppConfig {
     fn default() -> Self {
         Self {
+            channel: Channel::default(),
             dirs: None,
             directory_bookmarks: Default::default(),
             close_behavior: CloseBehavior::MinimizeToTray,
@@ -375,11 +399,57 @@ mod tests {
     use super::*;
 
     #[test]
+    fn missing_channel_defaults_to_stable_in_current_and_legacy_configs() {
+        for raw in [b"{}".as_slice(), br#"{"dirs":["mail"]}"#, br#"["mail"]"#] {
+            let config = parse_config_bytes(raw).expect("existing config");
+            assert_eq!(config.channel, Channel::Stable);
+        }
+    }
+
+    #[test]
+    fn stable_channel_is_omitted_from_saved_settings() {
+        for raw in [b"{}".as_slice(), br#"{"channel":"stable"}"#] {
+            let config = parse_config_bytes(raw).expect("stable config");
+            let saved = serde_json::to_value(config).expect("saved settings");
+            assert!(saved.get("channel").is_none());
+        }
+    }
+
+    #[test]
+    fn manually_configured_canary_survives_settings_edits_and_restart() {
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        fs::write(&path, br#"{"channel":"canary"}"#).expect("manual channel selection");
+        let store = ConfigStore::new(path.clone());
+
+        store.update(|config| config.auto_update = false).expect("edit preference");
+        store.update_dirs(|dirs| dirs.push("mail".to_string())).expect("edit directories");
+
+        let saved: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).expect("saved file")).expect("saved JSON");
+        assert_eq!(saved["channel"], "canary");
+        let restarted = ConfigStore::new(path).read(|_| {}).expect("restart");
+        assert_eq!(restarted.channel, Channel::Canary);
+        assert_eq!(restarted.channel.app_url(), "https://app.rokbattles.com/");
+    }
+
+    #[test]
+    fn invalid_channels_are_rejected() {
+        for raw in
+            [br#"{"channel":"beta"}"#.as_slice(), br#"{"channel":null}"#, br#"{"channel":42}"#]
+        {
+            parse_config_bytes(raw).expect_err("invalid channel must fail validation");
+        }
+    }
+
+    #[test]
     fn defaults_to_requested_settings() {
         let config = AppConfig::default();
 
         assert!(config.auto_update);
         assert!(config.auto_start);
+        assert_eq!(config.channel, Channel::Stable);
+        assert_eq!(config.channel.app_url(), "https://rokbattles.com/");
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
         assert!(config.dirs.is_none());
     }

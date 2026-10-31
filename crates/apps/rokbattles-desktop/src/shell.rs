@@ -36,7 +36,6 @@ const TITLE_HEIGHT: f64 = 48.0;
 const FOOTER_HEIGHT: f64 = 34.0;
 const EDGE: f64 = 8.0;
 const BORDER: f64 = 1.0;
-const APP_URL: &str = "https://rokbattles.com/";
 const APP_INIT: &str = include_str!("shell-init.js");
 
 #[derive(Debug, Clone, Copy, Default, Deserialize, Serialize, PartialEq, Eq)]
@@ -62,8 +61,9 @@ pub(crate) struct ShellState {
 }
 
 impl ShellState {
-    pub(crate) fn new() -> Result<Self, String> {
-        let app_url = APP_URL.parse().map_err(|error| format!("Invalid App URL: {error}"))?;
+    pub(crate) fn new(channel: app_config::Channel) -> Result<Self, String> {
+        let app_url =
+            channel.app_url().parse().map_err(|error| format!("Invalid App URL: {error}"))?;
 
         #[cfg(debug_assertions)]
         let app_url = match std::env::var("ROKBATTLES_DESKTOP_APP_URL") {
@@ -344,22 +344,29 @@ mod tests {
     }
 
     #[test]
-    fn only_the_production_origin_can_navigate_inside_app() {
-        let app_url = APP_URL.parse().expect("app URL");
+    fn only_the_selected_channel_origin_can_navigate_inside_app() {
+        for channel in [app_config::Channel::Stable, app_config::Channel::Canary] {
+            let app_url: tauri::Url = channel.app_url().parse().expect("app URL");
+            let report = app_url.join("reports?test=1").expect("report URL");
+            assert!(is_app_url(&report, &app_url));
 
-        assert!(is_app_url(
-            &"https://rokbattles.com/reports?test=1".parse().expect("url"),
-            &app_url
-        ));
-
-        for url in [
-            "http://rokbattles.com/",
-            "https://rokbattles.com.evil.test/",
-            "https://rokbattles.com:444/",
-            "https://discord.gg/rokbattles",
-            "file:///tmp/test",
-        ] {
-            assert!(!is_app_url(&url.parse().expect("url"), &app_url));
+            for url in [
+                "http://rokbattles.com/",
+                "http://app.rokbattles.com/",
+                "https://rokbattles.com.evil.test/",
+                "https://app.rokbattles.com.evil.test/",
+                "https://rokbattles.com:444/",
+                "https://app.rokbattles.com:444/",
+                "https://discord.gg/rokbattles",
+                "file:///tmp/test",
+            ] {
+                assert!(!is_app_url(&url.parse().expect("url"), &app_url));
+            }
+            let other_channel = match channel {
+                app_config::Channel::Stable => app_config::Channel::Canary,
+                app_config::Channel::Canary => app_config::Channel::Stable,
+            };
+            assert!(!is_app_url(&other_channel.app_url().parse().expect("other URL"), &app_url));
         }
     }
 
@@ -370,7 +377,10 @@ mod tests {
 
         assert!(is_app_url(&"http://localhost:3000/account".parse().expect("url"), &app_url));
         assert!(!is_app_url(&"http://localhost:1420/".parse().expect("url"), &app_url));
-        assert!(!is_app_url(&APP_URL.parse().expect("url"), &app_url));
+        assert!(!is_app_url(
+            &app_config::Channel::Stable.app_url().parse().expect("url"),
+            &app_url
+        ));
 
         for url in [
             "https://example.com/",
