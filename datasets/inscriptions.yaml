@@ -978,3 +978,35 @@ inscriptions:
   20402:
     name: "Vigor"
     rarity: rare
+
+  21101:
+    name: "Rapid Advance"
+    rarity: special
+
+  21102:
+    name: "Driven"
+    rarity: rare
+
+  21201:
+    name: "Bold Ambitions"
+    rarity: special
+
+  21202:
+    name: "Burst"
+    rarity: rare
+
+  21301:
+    name: "Impervious"
+    rarity: special
+
+  21302:
+    name: "Steady"
+    rarity: rare
+
+  21401:
+    name: "Raging Tide"
+    rarity: special
+
+  21402:
+    name: "Surge"
+    rarity: rare
