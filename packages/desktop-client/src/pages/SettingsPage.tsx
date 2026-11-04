@@ -22,6 +22,7 @@ export function SettingsPage(): ReactNode {
     pendingSetting,
     updateAutoUpdate,
     updateAutoStart,
+    updateStartInTray,
     updateCloseBehavior,
   } = useAppSettings();
 
@@ -31,6 +32,7 @@ export function SettingsPage(): ReactNode {
     traySupported || closeBehavior !== "minimize_to_tray" ? closeBehavior : "quit";
   const isAutoUpdatePending = pendingSetting === "auto_update";
   const isAutoStartPending = pendingSetting === "auto_start";
+  const isStartInTrayPending = pendingSetting === "start_in_tray";
   const isCloseBehaviorPending = pendingSetting === "close_behavior";
   const closeBehaviorOptions = [
     { disabled: !traySupported, label: "Minimize to tray", value: "minimize_to_tray" },
@@ -70,6 +72,19 @@ export function SettingsPage(): ReactNode {
               onChange={(value) => updateAutoStart(value === "enabled")}
             />
           </div>
+
+          {settings?.tray_supported ? (
+            <div className="flex items-center justify-between gap-4 py-2">
+              <span className="text-sm/6 font-medium text-white">Start in tray</span>
+              <Switch
+                label="Start in tray"
+                value={toggleValue(settings.start_in_tray)}
+                options={toggleOptions}
+                disabled={isStartInTrayPending}
+                onChange={(value) => updateStartInTray(value === "enabled")}
+              />
+            </div>
+          ) : null}
 
           <div className="flex items-center justify-between gap-4 py-2">
             <span className="text-sm/6 font-medium text-white">Close behavior</span>

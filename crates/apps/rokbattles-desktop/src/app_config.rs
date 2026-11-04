@@ -81,6 +81,8 @@ pub(crate) struct AppConfig {
     pub(crate) auto_update: bool,
     #[serde(default = "default_auto_start")]
     pub(crate) auto_start: bool,
+    #[serde(default)]
+    pub(crate) start_in_tray: bool,
 }
 
 impl Default for AppConfig {
@@ -92,6 +94,7 @@ impl Default for AppConfig {
             close_behavior: CloseBehavior::MinimizeToTray,
             auto_update: default_auto_update(),
             auto_start: default_auto_start(),
+            start_in_tray: false,
         }
     }
 }
@@ -448,10 +451,26 @@ mod tests {
 
         assert!(config.auto_update);
         assert!(config.auto_start);
+        assert!(!config.start_in_tray);
         assert_eq!(config.channel, Channel::Stable);
         assert_eq!(config.channel.app_url(), "https://rokbattles.com/");
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
         assert!(config.dirs.is_none());
+    }
+
+    #[test]
+    fn start_in_tray_survives_restart_and_can_be_disabled() {
+        let dir = tempfile::tempdir().expect("settings directory");
+        let path = dir.path().join("config.json");
+        let store = ConfigStore::new(path.clone());
+        store.update(|config| config.start_in_tray = true).expect("enable start in tray");
+        drop(store);
+
+        let restarted = ConfigStore::new(path.clone());
+        restarted.update(|config| config.auto_update = false).expect("edit another setting");
+        assert!(restarted.read(|_| {}).expect("persisted setting").start_in_tray);
+        restarted.update(|config| config.start_in_tray = false).expect("disable start in tray");
+        assert!(!ConfigStore::new(path).read(|_| {}).expect("disabled setting").start_in_tray);
     }
 
     #[test]
@@ -490,6 +509,7 @@ mod tests {
         assert_eq!(config.close_behavior, CloseBehavior::Quit);
         assert!(!config.auto_update);
         assert!(config.auto_start);
+        assert!(!config.start_in_tray);
     }
 
     #[test]
@@ -499,6 +519,7 @@ mod tests {
 
         assert!(config.auto_update);
         assert!(config.auto_start);
+        assert!(!config.start_in_tray);
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
     }
 
@@ -511,6 +532,7 @@ mod tests {
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
         assert!(config.auto_update);
         assert!(config.auto_start);
+        assert!(!config.start_in_tray);
     }
 
     #[test]
@@ -637,6 +659,7 @@ mod tests {
         assert_eq!(config.dirs, Some(vec!["/tmp/one".to_string(), "/tmp/two".to_string()]));
         assert!(!config.auto_update);
         assert!(config.auto_start);
+        assert!(!config.start_in_tray);
         assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
     }
 

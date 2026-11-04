@@ -7,9 +7,10 @@ import {
   setAutoStart,
   setAutoUpdate,
   setCloseBehavior,
+  setStartInTray,
 } from "../lib/tauri-client.ts";
 
-type PendingSetting = "auto_update" | "auto_start" | "close_behavior";
+type PendingSetting = "auto_update" | "auto_start" | "start_in_tray" | "close_behavior";
 
 type UseAppSettingsResult = {
   settings: AppSettings | null;
@@ -17,6 +18,7 @@ type UseAppSettingsResult = {
   pendingSetting: PendingSetting | null;
   updateAutoUpdate: (enabled: boolean) => void;
   updateAutoStart: (enabled: boolean) => void;
+  updateStartInTray: (enabled: boolean) => void;
   updateCloseBehavior: (behavior: CloseBehavior) => void;
 };
 
@@ -75,6 +77,14 @@ export function useAppSettings(): UseAppSettingsResult {
     [saveSetting]
   );
 
+  const updateStartInTray = useCallback(
+    (enabled: boolean) => {
+      setSettings((current) => (current ? { ...current, start_in_tray: enabled } : current));
+      void saveSetting("start_in_tray", () => setStartInTray(enabled));
+    },
+    [saveSetting]
+  );
+
   const updateCloseBehavior = useCallback(
     (behavior: CloseBehavior) => {
       setSettings((current) => (current ? { ...current, close_behavior: behavior } : current));
@@ -89,6 +99,7 @@ export function useAppSettings(): UseAppSettingsResult {
     pendingSetting,
     updateAutoUpdate,
     updateAutoStart,
+    updateStartInTray,
     updateCloseBehavior,
   };
 }
