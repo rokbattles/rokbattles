@@ -11,4 +11,4 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within ROK Battles, please email Sylke Technologies, LLC at [opensource@sylketech.com](mailto:opensource@sylketech.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within ROK Battles, please email ROK Battles LLC at [support@rokbattles.com](mailto:support@rokbattles.com). All security vulnerabilities will be promptly addressed.
