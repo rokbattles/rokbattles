@@ -249,6 +249,7 @@ struct DiscoverMailcacheResult {
 struct AppSettings {
     auto_update: bool,
     auto_start: bool,
+    start_in_tray: bool,
     close_behavior: CloseBehavior,
     tray_supported: bool,
     flatpak: bool,
@@ -390,12 +391,24 @@ fn set_auto_start(app: AppHandle, enabled: bool) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn set_start_in_tray(app: AppHandle, enabled: bool) -> Result<(), String> {
+    if !tray_supported() {
+        return Err("Start in tray is not supported on this platform.".to_string());
+    }
+
+    app.state::<app_config::ConfigStore>()
+        .update(|config| config.start_in_tray = enabled)
+        .map_err(|error| format!("{error:#}"))
+}
+
+#[tauri::command]
 fn get_app_settings(app: AppHandle) -> Result<AppSettings, String> {
     let config = app_config::read_config(&app).map_err(|error| format!("{error:#}"))?;
 
     Ok(AppSettings {
         auto_update: !is_flatpak() && config.auto_update,
         auto_start: !is_flatpak() && config.auto_start,
+        start_in_tray: tray_supported() && config.start_in_tray,
         close_behavior: config.close_behavior,
         tray_supported: tray_supported(),
         flatpak: is_flatpak(),
@@ -457,6 +470,9 @@ pub fn run() {
     let mut context = tauri::generate_context!();
     for window in &mut context.config_mut().app.windows {
         window.devtools = Some(cfg!(debug_assertions));
+        if tray_supported() && window.label == tray::MAIN_WINDOW_LABEL {
+            window.visible = false;
+        }
     }
 
     let app = builder
@@ -528,6 +544,16 @@ pub fn run() {
             let status = app.state::<WatcherManager>().status();
             if tray_supported() {
                 tray::setup_tray(app, status)?;
+                let start_in_tray = match app_config::read_config(app.handle()) {
+                    Ok(config) => config.start_in_tray,
+                    Err(error) => {
+                        eprintln!("Starting with a visible window because settings could not be read: {error:#}");
+                        false
+                    }
+                };
+                if !start_in_tray {
+                    tray::show_main_window(app.handle());
+                }
             }
 
             let handle = app.handle().clone();
@@ -558,6 +584,7 @@ pub fn run() {
             get_auto_update,
             set_auto_update,
             set_auto_start,
+            set_start_in_tray,
             get_app_settings,
             request_app_quit,
             minimize_to_tray,
@@ -573,6 +600,11 @@ pub fn run() {
         .expect("error while building tauri application");
 
     app.run(|app, event| {
+        #[cfg(target_os = "macos")]
+        if let RunEvent::Reopen { .. } = event {
+            tray::show_main_window(app);
+        }
+
         if let RunEvent::ExitRequested { api, .. } = event {
             let manager = app.state::<WatcherManager>();
             if manager.exit_ready() {

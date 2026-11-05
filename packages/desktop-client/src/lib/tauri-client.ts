@@ -33,6 +33,7 @@ export function openFeedback(): Promise<void> {
 export type AppSettings = {
   auto_update: boolean;
   auto_start: boolean;
+  start_in_tray: boolean;
   close_behavior: CloseBehavior;
   tray_supported: boolean;
   flatpak: boolean;
@@ -91,6 +92,10 @@ export function setAutoUpdate(enabled: boolean): Promise<unknown> {
 
 export function setAutoStart(enabled: boolean): Promise<unknown> {
   return invoke("set_auto_start", { enabled });
+}
+
+export function setStartInTray(enabled: boolean): Promise<unknown> {
+  return invoke("set_start_in_tray", { enabled });
 }
 
 export function minimizeToTray(): Promise<unknown> {
