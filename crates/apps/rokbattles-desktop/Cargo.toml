@@ -1,7 +1,7 @@
 [package]
 name = "rokbattles-desktop"
 description = "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms."
-authors = ["Sylke Technologies, LLC"]
+authors = ["ROK Battles LLC"]
 edition.workspace = true
 rust-version.workspace = true
 version.workspace = true

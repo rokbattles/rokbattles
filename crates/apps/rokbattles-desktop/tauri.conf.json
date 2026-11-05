@@ -65,8 +65,8 @@
   },
   "bundle": {
     "active": true,
-    "publisher": "Sylke Technologies, LLC",
-    "copyright": "(c) 2025 Sylke Technologies, LLC and contributors",
+    "publisher": "ROK Battles LLC",
+    "copyright": "(c) 2025 ROK Battles LLC and contributors",
     "homepage": "https://rokbattles.com",
     "license": "Apache-2.0, MIT",
     "targets": ["nsis", "dmg", "app", "deb", "appimage"],
