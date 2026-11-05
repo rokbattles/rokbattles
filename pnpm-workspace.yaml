@@ -2,10 +2,10 @@ packages:
   - packages/*
 
 allowBuilds:
-  '@parcel/watcher': true
-  '@sentry/cli': true
-  '@swc/core': true
-  '@tailwindcss/oxide': true
+  "@parcel/watcher": true
+  "@sentry/cli": true
+  "@swc/core": true
+  "@tailwindcss/oxide": true
   esbuild: true
   sharp: false
   workerd: true

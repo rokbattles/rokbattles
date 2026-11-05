@@ -11,9 +11,9 @@ ROK Battles is a community-driven platform for sharing, exploring, and analyzing
 
 This project is currently in early development. We're excited to share our work with the community and welcome your feedback! While we're actively improving things, please note that:
 
-* Some APIs may change as we refine our approach
-* Documentation might be incomplete in places
-* There may be rough edges we haven't smoothed out yet
+- Some APIs may change as we refine our approach
+- Documentation might be incomplete in places
+- There may be rough edges we haven't smoothed out yet
 
 We welcome contributions through GitHub issues and pull requests.
 
@@ -28,8 +28,8 @@ We welcome contributions through GitHub issues and pull requests.
 
 Except where noted, all code in this repository is licensed under either:
 
-* MIT License ([LICENSE-MIT](./LICENSE-MIT))
-* Apache License, Version 2.0 ([LICENSE-APACHE](./LICENSE-APACHE))
+- MIT License ([LICENSE-MIT](./LICENSE-MIT))
+- Apache License, Version 2.0 ([LICENSE-APACHE](./LICENSE-APACHE))
 
 You may use this code under the terms of either license, at your option.
 
