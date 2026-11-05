@@ -765,19 +765,19 @@ loot:
         - img_icon_item_199.png
 
     8002:
-      name: "Level 2 \"Pick One\" Resource Chest"
+      name: 'Level 2 "Pick One" Resource Chest'
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_68.png
 
     8003:
-      name: "Level 3 \"Pick One\" Resource Chest"
+      name: 'Level 3 "Pick One" Resource Chest'
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_68.png
 
     8004:
-      name: "Level 4 \"Pick One\" Resource Chest"
+      name: 'Level 4 "Pick One" Resource Chest'
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_68.png
@@ -900,23 +900,22 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_equip_3_18.png
     22098:
-      name: "\"Lohar's Bone Necklace\" Blueprint Fragment"
+      name: '"Lohar''s Bone Necklace" Blueprint Fragment'
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_equip_3_9.png
 
     22106:
-      name: "\"Milanese Plate\" Blueprint Fragment"
+      name: '"Milanese Plate" Blueprint Fragment'
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_equip_2_5.png
 
     22107:
-      name: "\"Ranger Trousers\" Blueprint Fragment"
+      name: '"Ranger Trousers" Blueprint Fragment'
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_equip_2_12.png
-
 
   4:
     2:
