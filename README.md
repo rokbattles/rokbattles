@@ -26,16 +26,13 @@ We welcome contributions through GitHub issues and pull requests.
 
 ## License
 
-Except where noted, all code in this repository is licensed under either:
+Except where noted, ROK Battles LLC licenses the code in this revision under the GNU Affero General Public License, version 3 only (`AGPL-3.0-only`). See [LICENSE](./LICENSE) for the full license text.
 
-- MIT License ([LICENSE-MIT](./LICENSE-MIT))
-- Apache License, Version 2.0 ([LICENSE-APACHE](./LICENSE-APACHE))
-
-You may use this code under the terms of either license, at your option.
+Versions previously released under the MIT License or Apache License, Version 2.0 remain available under those licenses. Third-party components retain their own licenses and required notices.
 
 ### Your contributions
 
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+Unless explicitly agreed otherwise in writing, any contribution intentionally submitted for inclusion in this repository is licensed under the GNU Affero General Public License, version 3 only, without any additional terms or conditions.
 
 ---
 

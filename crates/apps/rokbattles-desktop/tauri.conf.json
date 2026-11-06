@@ -68,7 +68,7 @@
     "publisher": "Sylke Technologies, LLC",
     "copyright": "(c) 2025 Sylke Technologies, LLC and contributors",
     "homepage": "https://rokbattles.com",
-    "license": "Apache-2.0, MIT",
+    "license": "AGPL-3.0-only",
     "targets": ["nsis", "dmg", "app", "deb", "appimage"],
     "icon": [
       "icons/32x32.png",

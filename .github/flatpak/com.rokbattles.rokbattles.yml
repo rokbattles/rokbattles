@@ -18,9 +18,7 @@ modules:
       - type: file
         path: com.rokbattles.rokbattles.metainfo.xml
       - type: file
-        path: ../../LICENSE-MIT
-      - type: file
-        path: ../../LICENSE-APACHE
+        path: ../../LICENSE
     build-commands:
       - mkdir deb-extract
       - ar -x app.deb --output deb-extract
@@ -34,8 +32,7 @@ modules:
           install -Dm644 "$icon" "/app/share/icons/hicolor/$size/apps/com.rokbattles.rokbattles.png"
         done
       - install -Dm644 com.rokbattles.rokbattles.metainfo.xml /app/share/metainfo/com.rokbattles.rokbattles.metainfo.xml
-      - install -Dm644 LICENSE-MIT /app/share/licenses/com.rokbattles.rokbattles/LICENSE-MIT
-      - install -Dm644 LICENSE-APACHE /app/share/licenses/com.rokbattles.rokbattles/LICENSE-APACHE
+      - install -Dm644 LICENSE /app/share/licenses/com.rokbattles.rokbattles/LICENSE
       - desktop-file-validate /app/share/applications/com.rokbattles.rokbattles.desktop
       - appstreamcli validate --no-net /app/share/metainfo/com.rokbattles.rokbattles.metainfo.xml
       - |
