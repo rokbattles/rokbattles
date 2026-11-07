@@ -1,9 +1,10 @@
-//! Incremental directory scans that recover from missing filesystem notifications.
+//! Discovers mail through filesystem notifications and periodic directory scans.
 //!
-//! Each directory retains its iterator between batches and gets another pass after
-//! completion. Directories take turns so a large backlog cannot starve other caches.
-//! Notification errors or queue overflow request another pass without discarding
-//! progress through the current one. Discovery does not assume mail IDs arrive in order.
+//! Scans retain their directory iterators between batches and take turns across
+//! watched directories. Periodic passes recover missed notifications, including
+//! mail with IDs lower than those already processed.
+//! Resolved notification paths use the configured directory spelling so events
+//! and scans share pending records even when a parent directory is a symlink.
 
 use std::{
     fs,
@@ -13,7 +14,10 @@ use std::{
 };
 
 use anyhow::Context;
-use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
+use notify::{
+    EventKind, RecommendedWatcher, RecursiveMode, Watcher as _,
+    event::{AccessKind, AccessMode},
+};
 use rustc_hash::FxHashSet;
 use tokio::sync::mpsc;
 
@@ -23,7 +27,7 @@ use super::{
     store::{QueuedUpload, file_sig},
 };
 
-/// Progress through one watched directory, including any requested follow-up pass.
+/// A directory scan's cursor and scheduling state.
 #[derive(Debug)]
 pub(crate) struct DirScan {
     pub(crate) dir: PathBuf,
@@ -31,6 +35,11 @@ pub(crate) struct DirScan {
     next_scan: Instant,
     rescan_requested: bool,
     permission_denied_reported: bool,
+}
+
+struct ScannedEntry {
+    path: PathBuf,
+    metadata: Option<fs::Metadata>,
 }
 
 impl DirScan {
@@ -44,7 +53,7 @@ impl DirScan {
         }
     }
 
-    fn read_batch(&mut self, now: Instant) -> (Vec<PathBuf>, Option<anyhow::Error>) {
+    fn read_batch(&mut self, now: Instant) -> (Vec<ScannedEntry>, Option<anyhow::Error>) {
         if self.entries.is_none() {
             match fs::read_dir(&self.dir) {
                 Ok(entries) => {
@@ -75,10 +84,18 @@ impl DirScan {
         let mut paths = Vec::new();
         let mut failure = None;
 
-        // Count every directory entry, including non-mail files, against the turn's budget.
+        // Count non-mail files too, so they cannot monopolize a scan batch.
         for _ in 0..256 {
             match self.entries.as_mut().and_then(Iterator::next) {
-                Some(Ok(entry)) => paths.push(entry.path()),
+                Some(Ok(entry)) => {
+                    #[cfg(windows)]
+                    // Windows includes metadata in directory entries; avoid another path lookup.
+                    let metadata = entry.metadata().ok();
+                    #[cfg(not(windows))]
+                    let metadata = None;
+
+                    paths.push(ScannedEntry { path: entry.path(), metadata });
+                }
                 Some(Err(error)) => {
                     failure.get_or_insert_with(|| error.into());
                 }
@@ -107,7 +124,7 @@ pub(crate) fn refresh_watched_dirs(
         return;
     }
 
-    // Throttle failed refreshes too, so a broken config cannot flood the log during a backlog.
+    // Throttle failed reads too, so a broken config cannot flood the log.
     state.dirs_last_read = now;
 
     let dirs = match read_dirs() {
@@ -134,7 +151,25 @@ pub(crate) fn set_watched_dirs(
     let mut seen = FxHashSet::default();
     dirs.retain(|dir| seen.insert(dir.clone()));
 
-    // Preserve cursors for retained directories so settings refreshes cannot restart a backlog.
+    // Refresh aliases even for unchanged settings: a previously unavailable
+    // directory may now resolve. Cache parents to avoid resolving every mail path.
+    state.event_dir_aliases.clear();
+
+    for dir in &dirs {
+        if let Ok(resolved) = dir.canonicalize()
+            && !seen.contains(&resolved)
+        {
+            state.event_dir_aliases.entry(resolved).or_insert_with(|| dir.clone());
+        }
+    }
+
+    // Skip repeated pruning for unchanged directories. An empty selection must
+    // still cancel sources loaded at startup, before any scans exist.
+    if dirs == state.dirs && !state.scans.is_empty() {
+        return 0;
+    }
+
+    // Keep each retained directory's iterator across configuration refreshes.
     state.scans.retain(|scan| seen.contains(&scan.dir));
 
     for dir in &dirs {
@@ -152,7 +187,7 @@ pub(crate) fn set_watched_dirs(
 pub(crate) fn request_reconciliation(state: &mut WatcherState, now: Instant) {
     for scan in &mut state.scans {
         if scan.entries.is_some() {
-            // Finish the current pass first. Repeated overflow must not restart at the first file.
+            // Finish this pass before rescanning; restarting could starve later entries.
             scan.rescan_requested = true;
         } else {
             scan.next_scan = now;
@@ -160,10 +195,14 @@ pub(crate) fn request_reconciliation(state: &mut WatcherState, now: Instant) {
     }
 }
 
-/// Processes one batch from the next directory whose scan is due or in progress.
+/// Discovers one batch of sources from the next directory due for scanning.
 ///
-/// Returns `false` when no directory is ready. Entry errors are reported after
-/// discovering the readable entries in the batch, preserving progress for the next call.
+/// Returns `Ok(false)` if no scan is due.
+///
+/// # Errors
+///
+/// Returns an error if a directory or entry cannot be read, or the scan task fails.
+/// Readable entries in a failed batch are still discovered.
 pub(crate) async fn reconcile_next_directory(
     state: &mut WatcherState,
     now: Instant,
@@ -206,8 +245,8 @@ pub(crate) async fn reconcile_next_directory(
     };
     state.scans.push_back(scan);
 
-    for path in paths {
-        discover_source(state, path, now_ms);
+    for entry in paths {
+        discover_with_metadata(state, entry.path, now_ms, entry.metadata);
     }
 
     if let Some(error) = failure {
@@ -234,6 +273,13 @@ pub(crate) fn queue_fs_event(
         rescan.store(true, Ordering::Relaxed);
     }
 
+    // Ignore access events from our own reads. Keep close events that may follow a write.
+    if matches!(event.kind, EventKind::Access(kind)
+        if !matches!(kind, AccessKind::Close(AccessMode::Write | AccessMode::Any)))
+    {
+        return;
+    }
+
     for path in event.paths {
         if sender.try_send(path).is_err() {
             rescan.store(true, Ordering::Relaxed);
@@ -243,6 +289,21 @@ pub(crate) fn queue_fs_event(
 }
 
 pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u128) {
+    let path = path
+        .parent()
+        .and_then(|parent| state.event_dir_aliases.get(parent))
+        .and_then(|dir| path.file_name().map(|name| dir.join(name)))
+        .unwrap_or(path);
+
+    discover_with_metadata(state, path, now_ms, None);
+}
+
+fn discover_with_metadata(
+    state: &mut WatcherState,
+    path: PathBuf,
+    now_ms: u128,
+    metadata: Option<fs::Metadata>,
+) {
     if !path.parent().is_some_and(|parent| state.dirs.iter().any(|dir| dir == parent)) {
         return;
     }
@@ -255,15 +316,14 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         return;
     }
 
-    // Skip known non-regular files. If metadata is unavailable, upload preparation
-    // checks the source again before reading it.
-    let sig = match fs::symlink_metadata(&path) {
+    // Capture retries metadata failures and checks the opened handle before reading.
+    let sig = match metadata.map(Ok).unwrap_or_else(|| fs::symlink_metadata(&path)) {
         Ok(meta) if !meta.is_file() => return,
         Ok(meta) => file_sig(&meta).ok(),
         Err(_) => None,
     };
 
-    // A temporary metadata failure is not evidence that rejected bytes changed.
+    // A failed metadata read cannot establish that a rejected source changed.
     if sig.is_none() && state.uploads.rejected.contains_key(key) {
         return;
     }
@@ -272,7 +332,7 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         path: key.to_string(),
         sig,
         attempts: 0,
-        not_before_ms: Some(now_ms.saturating_add(750)),
+        not_before_ms: Some(now_ms),
     });
 }
 
@@ -323,6 +383,91 @@ mod tests {
         },
     };
 
+    #[test]
+    fn read_notifications_do_not_feed_the_discovery_queue_but_writes_and_rescans_do() {
+        let (sender, mut receiver) = mpsc::channel(8);
+        let rescan = AtomicBool::new(false);
+        let path = PathBuf::from("mail/Persistent.Mail.1");
+
+        for kind in [
+            AccessKind::Open(AccessMode::Any),
+            AccessKind::Read,
+            AccessKind::Close(AccessMode::Read),
+        ] {
+            let mut event = notify::Event::new(EventKind::Access(kind)).add_path(path.clone());
+            event.attrs.set_flag(notify::event::Flag::Rescan);
+            queue_fs_event(&sender, &rescan, Ok(event));
+        }
+
+        assert!(receiver.try_recv().is_err(), "watcher reads must not trigger more discovery");
+        assert!(rescan.swap(false, Ordering::Relaxed), "rescan flags survive event filtering");
+
+        queue_fs_event(
+            &sender,
+            &rescan,
+            Ok(notify::Event::new(EventKind::Access(AccessKind::Close(AccessMode::Write)))
+                .add_path(path.clone())),
+        );
+
+        assert_eq!(receiver.try_recv().expect("closed writer is a discovery hint"), path);
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn resolved_notifications_use_the_configured_path_and_share_scan_state() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let actual = root.path().join("actual");
+        let source = write_mail(&actual, "123", b"mail");
+        let selected = root.path().join("selected");
+        std::os::unix::fs::symlink(&actual, &selected).expect("directory alias");
+        let now = Instant::now();
+        let mut state = new_state(vec![selected.clone()], now);
+        let configured_source = selected.join("Persistent.Mail.123");
+
+        // FSEvents resolves directory aliases, including macOS's /var -> /private/var.
+        discover_source(&mut state, source.canonicalize().expect("resolved event path"), 1000);
+
+        assert!(state.is_pending(configured_source.to_str().expect("configured source")));
+        reconcile_next_directory(&mut state, now, 1000).await.expect("scan selected directory");
+        assert_eq!(state.uploads.pending.len(), 1, "events and scans must use the same key");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn resolved_notifications_do_not_admit_nested_or_removed_directories() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let actual = root.path().join("actual");
+        let source = write_mail(&actual, "123", b"mail");
+        let nested = write_mail(&actual.join("nested"), "456", b"nested mail");
+        let selected = root.path().join("selected");
+        std::os::unix::fs::symlink(&actual, &selected).expect("directory alias");
+        let now = Instant::now();
+        let mut state = new_state(vec![selected], now);
+
+        discover_source(&mut state, nested.canonicalize().expect("resolved nested path"), 1000);
+        assert!(state.uploads.pending.is_empty(), "directory aliases remain nonrecursive");
+        set_watched_dirs(&mut state, Vec::new(), now);
+        discover_source(&mut state, source.canonicalize().expect("resolved source path"), 1000);
+        assert!(state.uploads.pending.is_empty(), "removed aliases cannot enqueue work");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn unchanged_settings_refresh_aliases_when_a_directory_becomes_available() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let selected = root.path().join("selected");
+        let now = Instant::now();
+        let mut state = new_state(vec![selected.clone()], now);
+        let actual = root.path().join("actual");
+        let source = write_mail(&actual, "123", b"mail");
+        std::os::unix::fs::symlink(&actual, &selected).expect("directory becomes available");
+
+        set_watched_dirs(&mut state, vec![selected.clone()], now + Duration::from_secs(2));
+        discover_source(&mut state, source.canonicalize().expect("resolved event path"), 1000);
+
+        assert!(state.is_pending(selected.join("Persistent.Mail.123").to_str().expect("source")));
+    }
+
     #[cfg(unix)]
     #[test]
     fn directory_permission_failure_is_reported_once_and_scan_recovers() {
@@ -352,7 +497,10 @@ mod tests {
         let recovered = scan.read_batch(now + Duration::from_secs(10));
 
         assert!(recovered.1.is_none());
-        assert_eq!(recovered.0, vec![path.join("Persistent.Mail.123")]);
+        assert_eq!(
+            recovered.0.into_iter().map(|entry| entry.path).collect::<Vec<_>>(),
+            vec![path.join("Persistent.Mail.123")]
+        );
 
         fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("deny again");
         let denied_again = scan.read_batch(now + Duration::from_secs(15));
@@ -382,11 +530,11 @@ mod tests {
         state
     }
 
-    // Fake ingress acknowledges each attempted ID through the production outcome handler.
+    /// Acknowledges each ready source through the upload result handler.
     fn acknowledge_ready(state: &mut WatcherState, now_ms: u128) -> FxHashSet<String> {
         let mut attempted = FxHashSet::default();
 
-        while let Some(item) = state.next_ready_upload(now_ms) {
+        while let Some(item) = state.next_preparation(now_ms) {
             let id = mail_id_for_path(&item.path).expect("mail ID").to_string();
             let name = format!("Persistent.Mail.{id}");
             attempted.insert(id);
@@ -414,7 +562,7 @@ mod tests {
         assert!(state.scans.front().expect("directory scan").entries.is_some());
         assert_eq!(state.uploads.pending.len(), 256);
 
-        let item = state.next_ready_upload(11_000).expect("ready before scan finishes");
+        let item = state.next_preparation(11_000).expect("ready before scan finishes");
         let id = mail_id_for_path(&item.path).expect("mail ID").to_string();
         let body = json!({"status": "stored", "mail_id": id}).to_string();
         let (url, server) = respond_once(response("201 Created", &body)).await;
@@ -465,7 +613,7 @@ mod tests {
         db.load().expect("initial upload state");
 
         discover_source(&mut state, path.clone(), 1000);
-        let partial = state.next_ready_upload(2000).expect("event discovered upload");
+        let partial = state.next_preparation(2000).expect("event discovered upload");
         process_upload(&mut state, &client(), "http://127.0.0.1:0", partial, 3000).await;
 
         assert_eq!(state.uploads.rejected.len(), 1, "stable incomplete bytes were rejected");
@@ -479,7 +627,7 @@ mod tests {
         set_watched_dirs(&mut state, vec![mail_dir.clone()], start);
         reconcile_next_directory(&mut state, start, 3000).await.expect("unchanged rejected mail");
 
-        assert!(state.next_ready_upload(4000).is_none(), "unchanged invalid bytes must not loop");
+        assert!(state.next_preparation(4000).is_none(), "unchanged invalid bytes must not loop");
         assert_eq!(state.uploads.rejected.len(), 1);
 
         let valid = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
@@ -488,7 +636,7 @@ mod tests {
         reconcile_next_directory(&mut state, start + Duration::from_secs(5), 8000)
             .await
             .expect("missed completion event");
-        let complete = state.next_ready_upload(9000).expect("changed rejected source recovered");
+        let complete = state.next_preparation(9000).expect("changed rejected source recovered");
         let (url, server) =
             respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
 
@@ -515,10 +663,10 @@ mod tests {
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], start);
         let path = write_mail(dir.path(), "99999", b"partial");
         discover_source(&mut state, path.clone(), 1000);
-        let incomplete = state.next_ready_upload(2000).expect("event-discovered input");
+        let incomplete = state.next_preparation(2000).expect("event-discovered input");
         state.reject_upload(incomplete);
 
-        // A complete pass must reconsider this changed source, regardless of iteration order.
+        // Reconciliation must find changed files even after many acknowledged entries.
         write_mail(dir.path(), "99999", b"now complete and available");
         let mut turns = 0;
 
@@ -545,7 +693,7 @@ mod tests {
         reconcile_next_directory(&mut state, start, 1000).await.expect_err("directory unavailable");
         discover_source(&mut state, mail_dir.join("Persistent.Mail.123"), 1000);
         let missing =
-            state.next_ready_upload(2000).expect("source remains pending despite metadata failure");
+            state.next_preparation(2000).expect("source remains pending despite metadata failure");
         process_upload(&mut state, &client(), "http://127.0.0.1:0", missing, 2000).await;
 
         let valid = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
@@ -555,14 +703,15 @@ mod tests {
         reconcile_next_directory(&mut state, start + Duration::from_secs(5), 6000)
             .await
             .expect("directory restored");
-        let restored = state.next_ready_upload(6000).expect("missing source retried");
-        process_upload(&mut state, &client(), "http://127.0.0.1:0", restored, 6000).await;
+        let restored = state.next_preparation(6000).expect("missing source retried");
+        let (url, server) =
+            respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
+        process_upload(&mut state, &client(), &url, restored, 6000).await;
+        server.await.expect("restored source uploads");
 
         assert!(state.uploads.rejected.is_empty());
-        assert_eq!(
-            acknowledge_ready(&mut state, 7000),
-            FxHashSet::from_iter(["123".to_string(), "5".to_string()])
-        );
+        assert!(state.uploads.acknowledged.contains("123"));
+        assert_eq!(acknowledge_ready(&mut state, 7000), FxHashSet::from_iter(["5".to_string()]));
     }
 
     #[tokio::test]
@@ -801,7 +950,10 @@ mod tests {
 
                 assert_eq!(state.uploads.pending.len(), 1, "{failure}, running={running}");
                 assert_eq!(recovered.pending.len(), 1);
-                assert_eq!(recovered.pending[0].path, source.to_string_lossy());
+                assert_eq!(
+                    recovered.pending.values().next().expect("pending source").path,
+                    source.to_string_lossy()
+                );
                 assert_eq!(state.dirs, if running { vec![mail_dir] } else { Vec::new() });
             }
         }

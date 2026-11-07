@@ -14,10 +14,16 @@ struct Migration {
     sql: &'static str,
 }
 
-const MIGRATIONS: &[Migration] = &[Migration {
-    name: "0001_initial.sql",
-    sql: include_str!("../../../migrations/0001_initial.sql"),
-}];
+const MIGRATIONS: &[Migration] = &[
+    Migration {
+        name: "0001_initial.sql",
+        sql: include_str!("../../../migrations/0001_initial.sql"),
+    },
+    Migration {
+        name: "0002_prepared_mail.sql",
+        sql: include_str!("../../../migrations/0002_prepared_mail.sql"),
+    },
+];
 
 /// Applies pending migrations before upload state is loaded.
 ///
