@@ -1,12 +1,11 @@
-//! Runs the watcher and coordinates directory scans with one upload at a time.
+//! Coordinates directory scans, uploads, and watcher shutdown.
 //!
-//! The watcher owns its mutable state and holds the database lock until shutdown
-//! finishes. Upload preparation and HTTP requests run separately; only this owner
-//! applies their results. Pending work is saved before starting a request.
+//! The watcher saves pending sources before starting requests and applies results
+//! as upload tasks finish. It holds the database lock until shutdown completes.
 //!
-//! Shutdown cancels HTTP waits, joins blocking reads, and saves remaining state.
-//! Blocking filesystem calls cannot be interrupted, so callers must wait for the
-//! worker to finish before starting another watcher or resetting upload history.
+//! Shutdown cancels HTTP requests and waits for file reads before saving state.
+//! Join the worker before starting another watcher or resetting upload history;
+//! blocking filesystem operations may continue after a stop request.
 
 use std::{
     future::Future,
@@ -36,16 +35,19 @@ use super::{
     store::UploadDb,
 };
 
+// Overlap request latency while limiting concurrent file reads and HTTP requests.
+const MAX_CONCURRENT_UPLOADS: usize = 4;
+
 pub(crate) enum TaskEvent {
-    /// Upload state has been locked and loaded; the initial scan may still be pending.
+    /// The worker holds the database lock and has loaded state. Scanning may not have started.
     Ready,
     Finished(anyhow::Result<()>),
 }
 
-/// A watcher worker, its readiness notification, and its stop signal.
+/// A handle for observing and stopping a watcher worker.
 ///
-/// Dropping this handle requests a stop but does not wait for completion. Lifecycle
-/// operations must join the worker before releasing ownership or replacing it.
+/// Dropping the handle requests a stop. Call [`Self::join`] to wait for file reads
+/// and the final state write before starting another watcher or resetting history.
 pub(crate) struct WatcherTask {
     shutdown: watch::Sender<bool>,
     handle: tauri::async_runtime::JoinHandle<anyhow::Result<()>>,
@@ -62,8 +64,8 @@ impl WatcherTask {
         let (shutdown, receiver) = watch::channel(false);
         let (ready_sender, ready) = oneshot::channel();
 
-        // The state owner performs filesystem I/O on its own blocking thread. Never abort it:
-        // shutdown must observe this handle complete before a replacement or reset can run.
+        // Filesystem and database operations block this thread. Join it on shutdown
+        // so a replacement watcher cannot start while those operations are still running.
         let handle = tauri::async_runtime::spawn_blocking(move || {
             tauri::async_runtime::block_on(run(receiver, ready_sender))
         });
@@ -165,7 +167,7 @@ async fn run_watcher(
     let (upload_shutdown, upload_receiver) = watch::channel(false);
     let _ready_result = ready.send(());
 
-    let result = loop {
+    let result = 'watching: loop {
         if *shutdown.borrow() {
             break Ok(());
         }
@@ -195,15 +197,30 @@ async fn run_watcher(
             }
         };
 
-        // Discovery and previous outcomes must be durable before another request starts.
+        // Process completed responses before starting more requests so a pending
+        // HTTP 429 takes effect even when another request succeeds.
+        while let Some(result) = uploads.try_join_next() {
+            match result {
+                Ok((item, outcome)) => {
+                    if let Some(message) =
+                        complete_attempt(&mut state, item, outcome, now_epoch_ms())
+                    {
+                        log(message);
+                    }
+                }
+                Err(error) => break 'watching Err(error.into()),
+            }
+        }
+
+        // Persist newly discovered sources and completed attempts before starting more work.
         if let Err(error) = state.flush(&db) {
             break Err(error.context("Watcher stopped; failed to save upload state"));
         }
 
         let now_ms = now_epoch_ms();
 
-        if !*shutdown.borrow()
-            && uploads.is_empty()
+        while !*shutdown.borrow()
+            && uploads.len() < MAX_CONCURRENT_UPLOADS
             && state.rate_limit_remaining_ms(now_ms).is_none()
             && let Some(item) = state.next_ready_upload(now_ms)
         {
@@ -216,8 +233,6 @@ async fn run_watcher(
             ));
         }
 
-        // One upload runs independently of directory passes and event delivery. Completed
-        // attempts are applied only here, by the single owner of durable state.
         tokio::select! {
             biased;
 
@@ -245,8 +260,8 @@ async fn run_watcher(
         }
     };
 
-    // Cancel HTTP waits, but join preparation reads before releasing the state lock.
-    // An interrupted request stays pending and is safe to retry after restart.
+    // Wait for file reads before releasing the database lock. Interrupted requests
+    // remain pending for the next run.
     upload_shutdown.send_replace(true);
 
     while let Some(outcome) = uploads.join_next().await {
@@ -270,10 +285,7 @@ mod tests {
     use std::{fs, path::Path, sync::Mutex, time::UNIX_EPOCH};
 
     use serde_json::json;
-    use tokio::{
-        io::{AsyncReadExt, AsyncWriteExt},
-        net::TcpListener,
-    };
+    use tokio::{io::AsyncWriteExt, net::TcpListener};
 
     use super::*;
     use crate::watcher::{
@@ -434,18 +446,26 @@ mod tests {
         let root = tempfile::tempdir().expect("fixture directory");
         let config = root.path().join("config");
         let mail = root.path().join("mail");
-        write_mail(&mail, 1);
+        for id in 1..=MAX_CONCURRENT_UPLOADS {
+            write_mail(&mail, u32::try_from(id).expect("small fixture ID"));
+        }
         let listener = Arc::new(TcpListener::bind("127.0.0.1:0").await.expect("API listener"));
         let url = format!("http://{}/v2/upload", listener.local_addr().expect("API address"));
         let (received, request) = oneshot::channel();
         let server_listener = Arc::clone(&listener);
         let server = tokio::spawn(async move {
-            let (mut stream, _) = server_listener.accept().await.expect("first upload");
-            stream.read_u8().await.expect("request bytes");
+            let mut streams = Vec::new();
+
+            for _ in 0..MAX_CONCURRENT_UPLOADS {
+                let (mut stream, _) = server_listener.accept().await.expect("concurrent upload");
+                crate::watcher::upload::tests::read_request(&mut stream).await;
+                streams.push(stream);
+            }
+
             received.send(()).expect("request signal");
 
             std::future::pending::<()>().await;
-            drop(stream);
+            drop(streams);
         });
         let mut watcher = start_fixture(config.clone(), mail.clone(), url);
         tokio::time::timeout(Duration::from_secs(5), request)
@@ -453,11 +473,11 @@ mod tests {
             .expect("request starts")
             .expect("request signal");
 
-        write_mail(&mail, 2);
-        wait_for_uploads(&config, |store| store.pending.len() == 2).await;
-        tokio::time::timeout(Duration::from_millis(30), listener.accept())
+        write_mail(&mail, 99);
+        wait_for_uploads(&config, |store| store.pending.len() == MAX_CONCURRENT_UPLOADS + 1).await;
+        tokio::time::timeout(Duration::from_millis(1000), listener.accept())
             .await
-            .expect_err("only one upload can be in flight");
+            .expect_err("upload concurrency stays bounded even when another source becomes ready");
 
         watcher.request_stop();
         tokio::time::timeout(Duration::from_secs(3), watcher.join())
@@ -470,8 +490,92 @@ mod tests {
         let db = UploadDb::open(&config).expect("joined watcher released its lock");
         let restored = db.load().expect("durable pending work");
 
-        assert_eq!(restored.pending.len(), 2);
+        assert_eq!(restored.pending.len(), MAX_CONCURRENT_UPLOADS + 1);
         assert!(restored.acknowledged.is_empty());
+    }
+
+    #[tokio::test]
+    async fn concurrent_rate_limit_pauses_new_attempts_while_other_responses_are_saved() {
+        use crate::watcher::upload::tests::read_request;
+
+        let root = tempfile::tempdir().expect("fixture directory");
+        let config = root.path().join("config");
+        let mail = root.path().join("mail");
+
+        for id in 1..=MAX_CONCURRENT_UPLOADS + 1 {
+            write_mail(&mail, u32::try_from(id).expect("small fixture ID"));
+        }
+
+        let listener = TcpListener::bind("127.0.0.1:0").await.expect("API listener");
+        let url = format!("http://{}/v2/upload", listener.local_addr().expect("API address"));
+        let mut watcher = start_fixture(config.clone(), mail, url);
+        let mut connections = Vec::new();
+
+        for _ in 0..MAX_CONCURRENT_UPLOADS {
+            let (mut stream, _) = tokio::time::timeout(Duration::from_secs(5), listener.accept())
+                .await
+                .expect("requests overlap before any response")
+                .expect("upload");
+            let request = read_request(&mut stream).await;
+            let request = String::from_utf8_lossy(&request);
+            let id = request
+                .split("filename=\"Persistent.Mail.")
+                .nth(1)
+                .and_then(|suffix| suffix.split('"').next())
+                .expect("mail ID")
+                .to_string();
+            let durable = UploadDb::read_for_test(&config).expect("state before API response");
+
+            assert_eq!(
+                durable.pending.len(),
+                MAX_CONCURRENT_UPLOADS + 1,
+                "all requests must be durable before they reach the API"
+            );
+            assert!(
+                durable
+                    .pending
+                    .values()
+                    .any(|item| item.path.ends_with(&format!("Persistent.Mail.{id}")))
+            );
+            connections.push((stream, id));
+        }
+
+        let (mut limited, _) = connections.pop().expect("rate limited request");
+        limited.write_all(
+            b"HTTP/1.1 429 Too Many Requests\r\nRetry-After: 60\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+        ).await.expect("rate limit response");
+        limited.shutdown().await.expect("close rate limited response");
+        wait_for_uploads(&config, |store| store.api_backoff_until_ms.is_some()).await;
+
+        for (mut stream, id) in connections {
+            let body = serde_json::json!({"status":"stored", "mail_id":id}).to_string();
+            stream
+                .write_all(response("201 Created", &body).as_bytes())
+                .await
+                .expect("success response");
+            stream.shutdown().await.expect("close success response");
+        }
+
+        let saved = wait_for_uploads(&config, |store| {
+            store.acknowledged.len() == MAX_CONCURRENT_UPLOADS - 1
+        })
+        .await;
+        assert_eq!(saved.pending.len(), 2, "limited and unstarted sources remain pending");
+        assert!(saved.api_backoff_until_ms.is_some());
+        tokio::time::timeout(Duration::from_millis(200), listener.accept())
+            .await
+            .expect_err("successes freeing slots must not bypass the global rate limit");
+
+        watcher.request_stop();
+        watcher.join().await.expect("shutdown saves retries");
+        let restored = UploadDb::open(&config)
+            .expect("joined watcher released lock")
+            .load()
+            .expect("recover pending sources");
+
+        assert_eq!(restored.pending.len(), 2);
+        assert_eq!(restored.pending.values().filter(|item| item.attempts == 1).count(), 1);
+        assert!(restored.api_backoff_until_ms.is_some());
     }
 
     #[tokio::test]
@@ -509,11 +613,16 @@ mod tests {
             release.send(()).expect("release delayed failure");
 
             let store = wait_for_uploads(&config, |store| {
-                store.pending.front().is_some_and(|item| item.attempts == 1)
+                store.pending.values().next().is_some_and(|item| item.attempts == 1)
             })
             .await;
-            let deadline =
-                store.pending.front().expect("retry source").not_before_ms.expect("retry deadline");
+            let deadline = store
+                .pending
+                .values()
+                .next()
+                .expect("retry source")
+                .not_before_ms
+                .expect("retry deadline");
 
             assert!(deadline >= response_ms + delay_ms, "request latency must not consume backoff");
 

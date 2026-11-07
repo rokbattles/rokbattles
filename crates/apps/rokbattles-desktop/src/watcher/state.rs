@@ -1,16 +1,15 @@
-//! In-memory upload transitions and directory scan progress.
+//! Tracks pending uploads, retry deadlines, and directory scan progress.
 //!
-//! [`WatcherState`] keeps its pending-path index in sync with [`UploadStore`] and
-//! queues record changes for [`WatcherState::flush`]. A failed transaction leaves
-//! the changes queued; no HTTP request starts until discovery is durable.
+//! State changes queue database updates for [`WatcherState::flush`]. Failed commits
+//! retain those updates for retry. The runtime flushes discovery before uploading.
 
 use std::{
-    collections::VecDeque,
+    collections::{BTreeSet, VecDeque},
     path::{Path, PathBuf},
     time::{Duration, Instant},
 };
 
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 
 use super::{
     mail::mail_id_for_path,
@@ -22,14 +21,24 @@ pub(crate) struct WatcherState {
     pub(crate) scans: VecDeque<super::scan::DirScan>,
     pub(crate) dirs: Vec<PathBuf>,
     pub(crate) dirs_last_read: Instant,
-    pending_paths: FxHashSet<String>,
+    // Selected sources leave this schedule but remain in uploads.pending for crash recovery.
+    ready: BTreeSet<(u128, String)>,
+    sources_by_id: FxHashMap<String, FxHashSet<String>>,
+    in_flight_ids: FxHashSet<String>,
     pub(crate) uploads: UploadStore,
     changes: Vec<StoreChange>,
 }
 
 impl WatcherState {
     pub(crate) fn new(uploads: UploadStore) -> Self {
-        let pending_paths = uploads.pending.iter().map(|item| item.path.clone()).collect();
+        let ready = uploads.pending.values().map(schedule_key).collect();
+        let mut sources_by_id: FxHashMap<String, FxHashSet<String>> = FxHashMap::default();
+
+        for path in uploads.pending.keys().chain(uploads.rejected.keys()) {
+            if let Some(id) = mail_id_for_path(path) {
+                sources_by_id.entry(id.to_string()).or_default().insert(path.clone());
+            }
+        }
 
         Self {
             scans: VecDeque::new(),
@@ -37,12 +46,15 @@ impl WatcherState {
             dirs_last_read: Instant::now()
                 .checked_sub(Duration::from_secs(2))
                 .unwrap_or_else(Instant::now),
-            pending_paths,
+            ready,
+            sources_by_id,
+            in_flight_ids: FxHashSet::default(),
             uploads,
             changes: Vec::new(),
         }
     }
 
+    /// Commits queued changes, retaining them if the transaction fails.
     pub(crate) fn flush(&mut self, db: &UploadDb) -> anyhow::Result<()> {
         db.commit(&self.changes)?;
         self.changes.clear();
@@ -55,7 +67,7 @@ impl WatcherState {
     }
 
     pub(crate) fn is_pending(&self, path: &str) -> bool {
-        self.pending_paths.contains(path)
+        self.uploads.pending.contains_key(path)
     }
 
     pub(crate) fn enqueue_upload(&mut self, item: QueuedUpload) {
@@ -72,35 +84,47 @@ impl WatcherState {
         }
 
         self.uploads.rejected.remove(&item.path);
-        self.pending_paths.insert(item.path.clone());
-        self.changes.push(StoreChange::Pending(item.clone()));
-        self.uploads.pending.push_back(item);
-    }
 
-    /// Returns a copy of the next pending upload whose retry delay has elapsed.
-    ///
-    /// Selection rotates the queue without removing the source. An interrupted
-    /// request therefore remains pending when the saved state is loaded again.
-    /// The caller checks the separate API-wide rate limit before selecting work.
-    pub(crate) fn next_ready_upload(&mut self, now_ms: u128) -> Option<QueuedUpload> {
-        for _ in 0..self.uploads.pending.len() {
-            let item = self.uploads.pending.pop_front()?;
-            let ready = item.not_before_ms.is_none_or(|deadline| deadline <= now_ms);
-
-            self.uploads.pending.push_back(item.clone());
-
-            if ready {
-                return Some(item);
-            }
+        if let Some(id) = mail_id_for_path(&item.path) {
+            self.sources_by_id.entry(id.to_string()).or_default().insert(item.path.clone());
         }
 
-        None
+        self.ready.insert(schedule_key(&item));
+        self.changes.push(StoreChange::Pending(item.clone()));
+        self.uploads.pending.insert(item.path.clone(), item);
+    }
+
+    /// Reserves the next eligible source for an upload attempt.
+    ///
+    /// Returns `None` if no scheduled source is ready. Copies of the same mail ID
+    /// cannot be reserved concurrently. Selection leaves the source pending for
+    /// recovery after interruption.
+    /// Check the API-wide rate limit before calling this method.
+    pub(crate) fn next_ready_upload(&mut self, now_ms: u128) -> Option<QueuedUpload> {
+        let key = self
+            .ready
+            .iter()
+            .take_while(|(deadline, _)| *deadline <= now_ms)
+            .find(|(_, path)| !self.in_flight_ids.contains(upload_key(path)))?
+            .clone();
+        let item = self.uploads.pending.get(&key.1)?.clone();
+        self.ready.remove(&key);
+        self.in_flight_ids.insert(upload_key(&item.path).to_string());
+
+        Some(item)
+    }
+
+    /// Releases an attempt's mail ID reservation without rescheduling its source.
+    pub(crate) fn finish_attempt(&mut self, path: &str) {
+        self.in_flight_ids.remove(upload_key(path));
     }
 
     pub(crate) fn requeue_upload(&mut self, item: QueuedUpload) {
-        if let Some(pending) =
-            self.uploads.pending.iter_mut().find(|pending| pending.path == item.path)
-        {
+        self.finish_attempt(&item.path);
+
+        if let Some(pending) = self.uploads.pending.get_mut(&item.path) {
+            self.ready.remove(&schedule_key(pending));
+            self.ready.insert(schedule_key(&item));
             self.changes.push(StoreChange::Pending(item.clone()));
             *pending = item;
         }
@@ -114,8 +138,9 @@ impl WatcherState {
     }
 
     pub(crate) fn remove_pending_source(&mut self, path: &str) {
-        if self.pending_paths.remove(path) {
-            self.uploads.pending.retain(|item| item.path != path);
+        if let Some(item) = self.uploads.pending.remove(path) {
+            self.ready.remove(&schedule_key(&item));
+            self.forget_source(path);
             self.changes.push(StoreChange::Remove(path.to_string()));
         }
     }
@@ -126,47 +151,69 @@ impl WatcherState {
         };
 
         self.uploads.acknowledged.insert(id.to_string());
-        self.pending_paths.retain(|path| mail_id_for_path(path) != Some(id));
-        self.uploads.pending.retain(|item| mail_id_for_path(&item.path) != Some(id));
-        self.uploads.rejected.retain(|path, _| mail_id_for_path(path) != Some(id));
+        self.finish_attempt(path);
+
+        if let Some(paths) = self.sources_by_id.remove(id) {
+            for path in paths {
+                if let Some(item) = self.uploads.pending.remove(&path) {
+                    self.ready.remove(&schedule_key(&item));
+                }
+
+                self.uploads.rejected.remove(&path);
+            }
+        }
 
         self.changes.push(StoreChange::Acknowledge(id.to_string()));
     }
 
     pub(crate) fn reject_upload(&mut self, item: QueuedUpload) {
-        self.pending_paths.remove(&item.path);
-        self.uploads.pending.retain(|pending| pending.path != item.path);
+        self.finish_attempt(&item.path);
+
+        if let Some(pending) = self.uploads.pending.remove(&item.path) {
+            self.ready.remove(&schedule_key(&pending));
+        }
 
         self.changes.push(StoreChange::Rejected { path: item.path.clone(), sig: item.sig.clone() });
         self.uploads.rejected.insert(item.path, RejectedUpload { sig: item.sig });
     }
 
+    /// Removes pending and rejected sources outside `active_dirs`, returning their count.
+    ///
+    /// Acknowledged IDs and reservations for attempts still in flight are retained.
     pub(crate) fn prune_removed_dirs_state(&mut self, active_dirs: &[PathBuf]) -> usize {
-        let previous = self.uploads.pending.len() + self.uploads.rejected.len();
+        let removed: Vec<_> = self
+            .uploads
+            .pending
+            .keys()
+            .chain(self.uploads.rejected.keys())
+            .filter(|path| !path_belongs_to_any_active_dir(path, active_dirs))
+            .cloned()
+            .collect();
+        let count = removed.len();
 
-        // Removing a watched directory deliberately cancels its sources, not its acknowledged IDs.
-        self.uploads.pending.retain(|item| {
-            let retain = path_belongs_to_any_active_dir(&item.path, active_dirs);
-
-            if !retain {
-                self.changes.push(StoreChange::Remove(item.path.clone()));
+        for path in removed {
+            if let Some(item) = self.uploads.pending.remove(&path) {
+                self.ready.remove(&schedule_key(&item));
             }
 
-            retain
-        });
+            self.uploads.rejected.remove(&path);
+            self.forget_source(&path);
+            self.changes.push(StoreChange::Remove(path));
+        }
 
-        self.uploads.rejected.retain(|path, _| {
-            let retain = path_belongs_to_any_active_dir(path, active_dirs);
+        count
+    }
 
-            if !retain {
-                self.changes.push(StoreChange::Remove(path.clone()));
+    fn forget_source(&mut self, path: &str) {
+        if let Some(id) = mail_id_for_path(path)
+            && let Some(paths) = self.sources_by_id.get_mut(id)
+        {
+            paths.remove(path);
+
+            if paths.is_empty() {
+                self.sources_by_id.remove(id);
             }
-
-            retain
-        });
-        self.pending_paths.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
-
-        previous - self.uploads.pending.len() - self.uploads.rejected.len()
+        }
     }
 
     pub(crate) fn rate_limit_remaining_ms(&mut self, now_ms: u128) -> Option<u128> {
@@ -197,6 +244,14 @@ impl WatcherState {
     }
 }
 
+fn schedule_key(item: &QueuedUpload) -> (u128, String) {
+    (item.not_before_ms.unwrap_or(0), item.path.clone())
+}
+
+fn upload_key(path: &str) -> &str {
+    mail_id_for_path(path).unwrap_or(path)
+}
+
 fn path_belongs_to_any_active_dir(path: &str, active_dirs: &[PathBuf]) -> bool {
     Path::new(path).parent().is_some_and(|parent| active_dirs.iter().any(|dir| dir == parent))
 }
@@ -214,6 +269,100 @@ mod tests {
             attempts: 0,
             not_before_ms: None,
         }
+    }
+
+    #[test]
+    fn concurrent_selection_reserves_exact_ids_and_retry_releases_other_copies() {
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item("a/Persistent.Mail.1"));
+        state.enqueue_upload(item("b/Persistent.Mail.1"));
+        state.enqueue_upload(item("a/Persistent.Mail.01"));
+
+        let first = state.next_ready_upload(1000).expect("first exact ID");
+        let second = state.next_ready_upload(1000).expect("leading zero ID is distinct");
+        let ids: FxHashSet<_> = [&first, &second]
+            .into_iter()
+            .map(|item| mail_id_for_path(&item.path).expect("ID"))
+            .collect();
+
+        assert_eq!(ids, FxHashSet::from_iter(["1", "01"]));
+        assert!(state.next_ready_upload(1000).is_none(), "a copy of an active ID must wait");
+        assert_eq!(state.uploads.pending.len(), 3, "reservations stay durable");
+
+        let active = if mail_id_for_path(&first.path) == Some("1") { first } else { second };
+        state.retry_upload(active.clone(), 1000);
+        let alternative =
+            state.next_ready_upload(1000).expect("other copy can bypass delayed retry");
+
+        assert_ne!(active.path, alternative.path);
+        assert_eq!(mail_id_for_path(&alternative.path), Some("1"));
+
+        state.acknowledge_upload(&alternative.path);
+        assert_eq!(state.uploads.pending.len(), 1, "acknowledgement covers both copies of 1");
+        assert!(state.next_ready_upload(10_000).is_none(), "active 01 stays reserved");
+    }
+
+    #[test]
+    fn rescheduling_replaces_deadlines_and_cancelled_sources_leave_no_ready_entries() {
+        let mut state = WatcherState::new(UploadStore::default());
+        let mut delayed = item("mail/Persistent.Mail.1");
+        delayed.not_before_ms = Some(5000);
+        state.enqueue_upload(delayed.clone());
+        delayed.not_before_ms = Some(2000);
+        state.requeue_upload(delayed.clone());
+
+        assert!(state.next_ready_upload(1999).is_none());
+        assert_eq!(state.next_ready_upload(2000).expect("earlier deadline").path, delayed.path);
+
+        delayed.not_before_ms = Some(10_000);
+        state.requeue_upload(delayed.clone());
+        assert!(state.next_ready_upload(5000).is_none(), "old deadline was removed");
+
+        state.remove_pending_source(&delayed.path);
+        assert!(state.next_ready_upload(20_000).is_none(), "removed path cannot remain scheduled");
+        state.enqueue_upload(item(&delayed.path));
+        assert!(
+            state.next_ready_upload(20_000).is_some(),
+            "rediscovery schedules the source again"
+        );
+    }
+
+    #[test]
+    fn restored_rejected_and_pending_copies_are_all_removed_by_acknowledgement() {
+        let dir = tempfile::tempdir().expect("state directory");
+        let db = UploadDb::open(dir.path()).expect("database");
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item("a/Persistent.Mail.1"));
+        state.enqueue_upload(item("b/Persistent.Mail.1"));
+        state.reject_upload(item("a/Persistent.Mail.1"));
+        state.flush(&db).expect("persist both copies");
+        let mut state = WatcherState::new(db.load().expect("restore source index"));
+        let selected = state.next_ready_upload(1000).expect("remaining copy");
+        state.acknowledge_upload(&selected.path);
+        state.flush(&db).expect("persist acknowledgement");
+
+        assert!(state.uploads.pending.is_empty());
+        assert!(state.uploads.rejected.is_empty());
+        assert!(state.next_ready_upload(1000).is_none());
+        let restored = db.load().expect("persisted cleanup");
+        assert!(restored.pending.is_empty());
+        assert!(restored.rejected.is_empty());
+    }
+
+    #[test]
+    fn removed_active_source_holds_its_id_until_its_attempt_finishes() {
+        let mut state = WatcherState::new(UploadStore::default());
+        state.enqueue_upload(item("a/Persistent.Mail.1"));
+        state.enqueue_upload(item("b/Persistent.Mail.1"));
+        let active = state.next_ready_upload(1000).expect("active copy");
+        state.prune_removed_dirs_state(&[PathBuf::from("b")]);
+
+        assert!(state.next_ready_upload(1000).is_none(), "removed request is still in flight");
+        state.finish_attempt(&active.path);
+        assert_eq!(
+            state.next_ready_upload(1000).expect("retained copy").path,
+            "b/Persistent.Mail.1"
+        );
     }
 
     #[test]

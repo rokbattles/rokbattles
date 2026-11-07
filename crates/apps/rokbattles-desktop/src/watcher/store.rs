@@ -1,12 +1,11 @@
-//! SQLite upload history, retry recovery, and exclusive watcher ownership.
+//! Persists upload history and pending sources in SQLite.
 //!
-//! The first SQLite startup creates an empty `local.db`; legacy JSON history is
-//! ignored. The watcher loads recovery state once, then commits changed records
-//! before each upload and on shutdown. WAL mode with FULL synchronization makes
-//! these commits durable without rewriting the complete history for each attempt.
+//! [`UploadDb`] holds an exclusive watcher lock for its lifetime. Commits use
+//! write-ahead logging with full synchronization and update only changed records.
+//! Recovery reads `local.db`; legacy JSON history is not imported.
 
 use std::{
-    collections::VecDeque,
+    collections::BTreeMap,
     fs, io,
     path::Path,
     time::{Duration, SystemTime},
@@ -21,39 +20,46 @@ use super::mail::mail_id_for_path;
 
 mod migrations;
 
-/// Recovery state loaded at startup and updated in memory by the watcher.
+/// Upload history and pending work loaded from the database.
 #[derive(Debug, Default)]
 pub(crate) struct UploadStore {
-    /// Exact IDs, preserving leading zeroes and covering every local copy.
+    /// Mail IDs acknowledged by ingress, with leading zeroes preserved.
     pub(crate) acknowledged: FxHashSet<String>,
-    pub(crate) pending: VecDeque<QueuedUpload>,
+    pub(crate) pending: BTreeMap<String, QueuedUpload>,
     pub(crate) rejected: FxHashMap<String, RejectedUpload>,
+    /// API-wide retry deadline in milliseconds since the Unix epoch.
     pub(crate) api_backoff_until_ms: Option<u128>,
 }
 
+/// A source awaiting acknowledgement, including requests in progress.
 #[derive(Debug, Clone)]
 pub(crate) struct QueuedUpload {
     pub(crate) path: String,
     pub(crate) sig: Option<FileSig>,
-    /// Retry count capped at 10, used to calculate exponential backoff.
+    /// Retry count used for exponential backoff, capped at 10.
     pub(crate) attempts: u32,
+    /// Earliest attempt time in milliseconds since the Unix epoch.
     pub(crate) not_before_ms: Option<u128>,
 }
 
 #[derive(Debug)]
 pub(crate) struct RejectedUpload {
-    /// A different signature allows discovery to reconsider this source.
+    /// The rejected signature. A change allows discovery to enqueue the source again.
     pub(crate) sig: Option<FileSig>,
 }
 
+/// File metadata used to detect source changes.
+///
+/// Equal signatures do not guarantee identical contents.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct FileSig {
+    /// File length in bytes.
     pub(crate) size: u64,
-    /// Milliseconds since the Unix epoch, used to detect changes and wait for stable files.
+    /// Modification time in milliseconds since the Unix epoch.
     pub(crate) modified: u128,
 }
 
-/// A pending database change. The watcher retains these in order until a commit succeeds.
+/// A database update to apply in order with the other changes in a commit.
 pub(crate) enum StoreChange {
     Pending(QueuedUpload),
     Rejected { path: String, sig: Option<FileSig> },
@@ -62,9 +68,9 @@ pub(crate) enum StoreChange {
     Backoff(Option<u128>),
 }
 
-/// A synchronous database connection held with the exclusive watcher lock.
+/// A database connection that holds the exclusive watcher lock until dropped.
 pub(crate) struct UploadDb {
-    // Drop the connection before releasing ownership of the watcher.
+    // Field order ensures the connection closes before the watcher lock is released.
     connection: Connection,
     _lock: fs::File,
 }
@@ -99,16 +105,20 @@ impl UploadDb {
         load_store(&self.connection)
     }
 
-    /// Applies changes atomically in their original order. An empty batch performs no I/O.
+    /// Commits changes atomically in the supplied order.
     ///
-    /// On failure, the caller must retain the batch for retry or stop the watcher.
+    /// An empty batch performs no I/O.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if a record is invalid or the transaction fails. Retain the
+    /// batch for retry or stop the watcher before starting another upload.
     pub(crate) fn commit(&self, changes: &[StoreChange]) -> anyhow::Result<()> {
         if changes.is_empty() {
             return Ok(());
         }
 
-        // Each synchronous operation finishes its transaction before returning, so
-        // transactions cannot overlap even though these methods borrow `&self`.
+        // No transaction outlives this call, so the connection can be borrowed immutably.
         let transaction = self.connection.unchecked_transaction()?;
 
         for change in changes {
@@ -118,9 +128,13 @@ impl UploadDb {
         transaction.commit().context("Failed to commit upload state")
     }
 
-    /// Clears valid recovery state while retaining the database schema and version.
+    /// Clears upload history and pending work, retaining the database schema and version.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if recovery state cannot be read or validated, or the reset
+    /// transaction fails. Unreadable recovery state is left in place.
     pub(crate) fn reset(&self) -> anyhow::Result<()> {
-        // Preserve unreadable recovery data instead of silently discarding it.
         self.load()?;
 
         let transaction = self.connection.unchecked_transaction()?;
@@ -145,11 +159,11 @@ impl UploadDb {
 }
 
 fn initialize(connection: &mut Connection) -> anyhow::Result<()> {
-    // Schema upgrades need the same durability as upload acknowledgements.
+    // Apply the durability setting before migrations write to the database.
     connection.pragma_update(None, "synchronous", "FULL")?;
     migrations::apply(connection)?;
 
-    // Check compatibility before changing the journal mode of an existing database.
+    // Validate the schema before changing an existing database's journal mode.
     let mode: String =
         connection.pragma_update_and_check(None, "journal_mode", "WAL", |row| row.get(0))?;
     ensure!(mode.eq_ignore_ascii_case("wal"), "Upload database requires WAL mode");
@@ -243,7 +257,7 @@ fn read_unsigned(row: &rusqlite::Row<'_>, index: usize) -> rusqlite::Result<Opti
 }
 
 fn load_store(connection: &Connection) -> anyhow::Result<UploadStore> {
-    // Read all tables from one snapshot so acknowledgements and their sources agree.
+    // Use one snapshot so sources and acknowledgements cannot come from different commits.
     let transaction = connection.unchecked_transaction()?;
     let mut store = UploadStore::default();
 
@@ -287,12 +301,15 @@ fn load_store(connection: &Connection) -> anyhow::Result<UploadStore> {
             };
 
             if row.get::<_, bool>(2)? {
-                store.pending.push_back(QueuedUpload {
-                    path,
-                    sig,
-                    attempts: row.get(5)?,
-                    not_before_ms: read_unsigned(row, 6)?.map(u128::from),
-                });
+                store.pending.insert(
+                    path.clone(),
+                    QueuedUpload {
+                        path,
+                        sig,
+                        attempts: row.get(5)?,
+                        not_before_ms: read_unsigned(row, 6)?.map(u128::from),
+                    },
+                );
             } else {
                 store.rejected.insert(path, RejectedUpload { sig });
             }
@@ -320,7 +337,7 @@ pub(crate) fn file_sig(meta: &fs::Metadata) -> anyhow::Result<FileSig> {
     Ok(FileSig { size: meta.len(), modified })
 }
 
-/// Confirms a missing source only when its parent directory can still be read.
+/// Returns whether an absolute path is missing and its parent directory is readable.
 pub(super) fn source_is_deleted(path: &Path) -> bool {
     if !path.is_absolute() {
         return false;
@@ -330,7 +347,6 @@ pub(super) fn source_is_deleted(path: &Path) -> bool {
         return false;
     }
 
-    // A missing drive or inaccessible directory does not establish deletion.
     path.parent().is_some_and(|parent| {
         fs::read_dir(parent)
             .is_ok_and(|mut entries| entries.next().is_none_or(|entry| entry.is_ok()))
@@ -398,7 +414,7 @@ mod tests {
 
         let db = UploadDb::open(dir.path()).expect("restart");
         let store = db.load().expect("recover records");
-        let item = store.pending.front().expect("pending source");
+        let item = store.pending.values().next().expect("pending source");
 
         assert_eq!(item.path, "mail/Persistent.Mail.001");
         assert_eq!(item.sig, Some(FileSig { size: 100, modified: 200 }));
@@ -430,7 +446,10 @@ mod tests {
         let store = db.load().expect("acknowledged state");
 
         assert_eq!(store.pending.len(), 1);
-        assert_eq!(store.pending.front().expect("distinct ID").path, "first/Persistent.Mail.01");
+        assert_eq!(
+            store.pending.values().next().expect("distinct ID").path,
+            "first/Persistent.Mail.01"
+        );
         assert!(store.rejected.is_empty());
     }
 
@@ -452,7 +471,10 @@ mod tests {
         let store = db.load().expect("previous committed state");
 
         assert!(store.acknowledged.is_empty());
-        assert_eq!(store.pending.front().expect("original source").path, "Persistent.Mail.1");
+        assert_eq!(
+            store.pending.values().next().expect("original source").path,
+            "Persistent.Mail.1"
+        );
     }
 
     #[test]
@@ -550,7 +572,7 @@ mod tests {
 
         let db = UploadDb::open(dir.path()).expect("restart after failed reset");
         let store = db.load().expect("recovery state retained");
-        let pending = store.pending.front().expect("pending source retained");
+        let pending = store.pending.values().next().expect("pending source retained");
 
         assert_eq!(pending.path, "Persistent.Mail.1");
         assert_eq!(pending.attempts, 2);
@@ -628,7 +650,10 @@ mod tests {
         let store = db.load().expect("committed WAL recovered");
 
         assert!(store.acknowledged.contains("1"));
-        assert_eq!(store.pending.front().expect("pending source").path, "Persistent.Mail.2");
+        assert_eq!(
+            store.pending.values().next().expect("pending source").path,
+            "Persistent.Mail.2"
+        );
         assert_eq!(store.api_backoff_until_ms, Some(9000));
     }
 

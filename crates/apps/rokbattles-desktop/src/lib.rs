@@ -1,13 +1,11 @@
-//! Desktop application setup and commands exposed to the Tauri frontend.
+//! Initializes the desktop application and exposes commands to its Tauri frontend.
 //!
-//! `app_config` stores preferences and watched directories. `mailcache_discovery`
-//! locates candidate directories, and `directory_operations` limits the blocking
-//! filesystem work requested by frontend commands.
+//! `watcher_manager` controls scanning, pausing, and shutdown. `watcher` discovers
+//! cached mail and saves upload progress. Directory commands use
+//! `directory_operations` to run blocking filesystem work.
 //!
-//! `watcher_manager` coordinates scanning, pausing, reprocessing, and shutdown.
-//! The `watcher` module discovers mail and persists upload progress. `updater`
-//! downloads updates while scanning continues, then asks the manager to stop the
-//! watcher before installation. `tray` reflects the manager's lifecycle status.
+//! Updates can download while scanning continues. Before installation, `updater`
+//! waits for the watcher to stop and save pending work.
 
 mod app_config;
 mod desktop_auth;
@@ -44,8 +42,7 @@ fn tray_supported() -> bool {
 fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
     use tauri_plugin_autostart::MacosLauncher;
 
-    // The plugin's /app executable path is only valid inside the Flatpak sandbox,
-    // so a host autostart entry cannot launch it directly.
+    // Flatpak's /app executable path is unavailable to host autostart entries.
     if is_flatpak() {
         return Ok(());
     }
@@ -102,7 +99,7 @@ fn normalize_dir_for_display(path: &str) -> String {
 
     #[cfg(target_os = "windows")]
     {
-        return mailcache_discovery::normalize_windows_path_for_display(trimmed);
+        mailcache_discovery::normalize_windows_path_for_display(trimmed)
     }
 
     #[cfg(not(target_os = "windows"))]
@@ -294,7 +291,7 @@ fn discover_and_save(app: &AppHandle) -> anyhow::Result<DiscoverMailcacheResult>
     #[cfg(target_os = "macos")]
     directory_access::remember(app, &paths)?;
 
-    // Read settings after the scan, then retry the merge if directory choices change.
+    // Retain directory edits made while discovery was running by merging into the latest settings.
     let (added_dirs, already_watched_dirs) = if paths.is_empty() {
         (Vec::new(), Vec::new())
     } else {
@@ -444,11 +441,11 @@ mod watcher_commands {
     }
 }
 
-/// Starts the Tauri application and its background services.
+/// Initializes the desktop application and runs its event loop.
 ///
 /// # Panics
 ///
-/// Panics if Tauri cannot build or initialize the application.
+/// Panics if application setup or Tauri initialization fails.
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder = tauri::Builder::default();
@@ -478,8 +475,8 @@ pub fn run() {
     let app = builder
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
-        // Remote App content has no opener IPC permission. Let new-tab clicks
-        // reach shell's native on_new_window handler instead of cancelling them.
+        // Remote pages lack opener IPC permission. Handle new-window requests
+        // through the shell's native handler.
         .plugin(tauri_plugin_opener::Builder::new().open_js_links_on_click(false).build())
         .on_window_event(shell::on_window_event)
         .on_menu_event(|app, event| {

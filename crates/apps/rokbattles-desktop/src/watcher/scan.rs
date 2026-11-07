@@ -1,9 +1,8 @@
-//! Incremental directory scans that recover from missing filesystem notifications.
+//! Discovers mail through filesystem notifications and periodic directory scans.
 //!
-//! Each directory retains its iterator between batches and gets another pass after
-//! completion. Directories take turns so a large backlog cannot starve other caches.
-//! Notification errors or queue overflow request another pass without discarding
-//! progress through the current one. Discovery does not assume mail IDs arrive in order.
+//! Scans retain their directory iterators between batches and take turns across
+//! watched directories. Periodic passes recover missed notifications, including
+//! mail with IDs lower than those already processed.
 
 use std::{
     fs,
@@ -13,7 +12,10 @@ use std::{
 };
 
 use anyhow::Context;
-use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
+use notify::{
+    EventKind, RecommendedWatcher, RecursiveMode, Watcher as _,
+    event::{AccessKind, AccessMode},
+};
 use rustc_hash::FxHashSet;
 use tokio::sync::mpsc;
 
@@ -23,7 +25,7 @@ use super::{
     store::{QueuedUpload, file_sig},
 };
 
-/// Progress through one watched directory, including any requested follow-up pass.
+/// A directory scan's cursor and scheduling state.
 #[derive(Debug)]
 pub(crate) struct DirScan {
     pub(crate) dir: PathBuf,
@@ -75,7 +77,7 @@ impl DirScan {
         let mut paths = Vec::new();
         let mut failure = None;
 
-        // Count every directory entry, including non-mail files, against the turn's budget.
+        // Count non-mail files too, so they cannot monopolize a scan batch.
         for _ in 0..256 {
             match self.entries.as_mut().and_then(Iterator::next) {
                 Some(Ok(entry)) => paths.push(entry.path()),
@@ -107,7 +109,7 @@ pub(crate) fn refresh_watched_dirs(
         return;
     }
 
-    // Throttle failed refreshes too, so a broken config cannot flood the log during a backlog.
+    // Throttle failed reads too, so a broken config cannot flood the log.
     state.dirs_last_read = now;
 
     let dirs = match read_dirs() {
@@ -134,7 +136,13 @@ pub(crate) fn set_watched_dirs(
     let mut seen = FxHashSet::default();
     dirs.retain(|dir| seen.insert(dir.clone()));
 
-    // Preserve cursors for retained directories so settings refreshes cannot restart a backlog.
+    // Skip repeated pruning for unchanged directories. An empty selection must
+    // still cancel sources loaded at startup, before any scans exist.
+    if dirs == state.dirs && !state.scans.is_empty() {
+        return 0;
+    }
+
+    // Keep each retained directory's iterator across configuration refreshes.
     state.scans.retain(|scan| seen.contains(&scan.dir));
 
     for dir in &dirs {
@@ -152,7 +160,7 @@ pub(crate) fn set_watched_dirs(
 pub(crate) fn request_reconciliation(state: &mut WatcherState, now: Instant) {
     for scan in &mut state.scans {
         if scan.entries.is_some() {
-            // Finish the current pass first. Repeated overflow must not restart at the first file.
+            // Finish this pass before rescanning; restarting could starve later entries.
             scan.rescan_requested = true;
         } else {
             scan.next_scan = now;
@@ -160,10 +168,14 @@ pub(crate) fn request_reconciliation(state: &mut WatcherState, now: Instant) {
     }
 }
 
-/// Processes one batch from the next directory whose scan is due or in progress.
+/// Discovers one batch of sources from the next directory due for scanning.
 ///
-/// Returns `false` when no directory is ready. Entry errors are reported after
-/// discovering the readable entries in the batch, preserving progress for the next call.
+/// Returns `Ok(false)` if no scan is due.
+///
+/// # Errors
+///
+/// Returns an error if a directory or entry cannot be read, or the scan task fails.
+/// Readable entries in a failed batch are still discovered.
 pub(crate) async fn reconcile_next_directory(
     state: &mut WatcherState,
     now: Instant,
@@ -234,6 +246,13 @@ pub(crate) fn queue_fs_event(
         rescan.store(true, Ordering::Relaxed);
     }
 
+    // Ignore access events from our own reads. Keep close events that may follow a write.
+    if matches!(event.kind, EventKind::Access(kind)
+        if !matches!(kind, AccessKind::Close(AccessMode::Write | AccessMode::Any)))
+    {
+        return;
+    }
+
     for path in event.paths {
         if sender.try_send(path).is_err() {
             rescan.store(true, Ordering::Relaxed);
@@ -255,15 +274,14 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         return;
     }
 
-    // Skip known non-regular files. If metadata is unavailable, upload preparation
-    // checks the source again before reading it.
+    // Upload preparation retries metadata failures and checks the file type before reading.
     let sig = match fs::symlink_metadata(&path) {
         Ok(meta) if !meta.is_file() => return,
         Ok(meta) => file_sig(&meta).ok(),
         Err(_) => None,
     };
 
-    // A temporary metadata failure is not evidence that rejected bytes changed.
+    // A failed metadata read cannot establish that a rejected source changed.
     if sig.is_none() && state.uploads.rejected.contains_key(key) {
         return;
     }
@@ -322,6 +340,35 @@ mod tests {
             tests::{client, respond_once, response},
         },
     };
+
+    #[test]
+    fn read_notifications_do_not_feed_the_discovery_queue_but_writes_and_rescans_do() {
+        let (sender, mut receiver) = mpsc::channel(8);
+        let rescan = AtomicBool::new(false);
+        let path = PathBuf::from("mail/Persistent.Mail.1");
+
+        for kind in [
+            AccessKind::Open(AccessMode::Any),
+            AccessKind::Read,
+            AccessKind::Close(AccessMode::Read),
+        ] {
+            let mut event = notify::Event::new(EventKind::Access(kind)).add_path(path.clone());
+            event.attrs.set_flag(notify::event::Flag::Rescan);
+            queue_fs_event(&sender, &rescan, Ok(event));
+        }
+
+        assert!(receiver.try_recv().is_err(), "watcher reads must not trigger more discovery");
+        assert!(rescan.swap(false, Ordering::Relaxed), "rescan flags survive event filtering");
+
+        queue_fs_event(
+            &sender,
+            &rescan,
+            Ok(notify::Event::new(EventKind::Access(AccessKind::Close(AccessMode::Write)))
+                .add_path(path.clone())),
+        );
+
+        assert_eq!(receiver.try_recv().expect("closed writer is a discovery hint"), path);
+    }
 
     #[cfg(unix)]
     #[test]
@@ -382,7 +429,7 @@ mod tests {
         state
     }
 
-    // Fake ingress acknowledges each attempted ID through the production outcome handler.
+    /// Acknowledges each ready source through the upload result handler.
     fn acknowledge_ready(state: &mut WatcherState, now_ms: u128) -> FxHashSet<String> {
         let mut attempted = FxHashSet::default();
 
@@ -518,7 +565,7 @@ mod tests {
         let incomplete = state.next_ready_upload(2000).expect("event-discovered input");
         state.reject_upload(incomplete);
 
-        // A complete pass must reconsider this changed source, regardless of iteration order.
+        // Reconciliation must find changed files even after many acknowledged entries.
         write_mail(dir.path(), "99999", b"now complete and available");
         let mut turns = 0;
 
@@ -801,7 +848,10 @@ mod tests {
 
                 assert_eq!(state.uploads.pending.len(), 1, "{failure}, running={running}");
                 assert_eq!(recovered.pending.len(), 1);
-                assert_eq!(recovered.pending[0].path, source.to_string_lossy());
+                assert_eq!(
+                    recovered.pending.values().next().expect("pending source").path,
+                    source.to_string_lossy()
+                );
                 assert_eq!(state.dirs, if running { vec![mail_dir] } else { Vec::new() });
             }
         }

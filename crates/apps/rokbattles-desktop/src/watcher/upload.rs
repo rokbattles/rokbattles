@@ -1,9 +1,8 @@
-//! Ingress requests, acknowledgement validation, and retry classification.
+//! Uploads mail to ingress and validates its acknowledgements.
 //!
-//! Success requires either HTTP 201 with `stored` or HTTP 200 with `skipped`, plus
-//! the exact mail ID from the uploaded filename. A successful HTTP status alone
-//! is insufficient. Invalid acknowledgements are retryable because ingress may
-//! have stored the upload even when the client cannot confirm it.
+//! An acknowledgement must match the uploaded filename's mail ID and pair HTTP 201
+//! with `stored` or HTTP 200 with `skipped`. Invalid acknowledgements allow retries
+//! because ingress may have stored the mail before the client lost the response.
 
 use std::time::Duration;
 
@@ -13,13 +12,13 @@ use reqwest::{
 };
 use serde::Deserialize;
 
-/// Confirmed ingress outcomes that both complete an upload.
+/// An acknowledged upload outcome.
 #[derive(Debug, Clone, Copy, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub(crate) enum UploadStatus {
-    /// Ingress stored a new mail ID.
+    /// Ingress stored the mail under a new ID.
     Stored,
-    /// Ingress already has this mail ID; uploading again does not replace its contents.
+    /// Ingress already has this ID and retains the previously stored mail.
     Skipped,
 }
 
@@ -45,10 +44,10 @@ pub(crate) enum UploadApiError {
 }
 
 impl UploadApiError {
-    /// Returns whether the failure leaves the source eligible for another attempt.
+    /// Returns whether the upload can be retried without a source change.
     ///
-    /// Transport and protocol failures, rate limits, and server errors are retried.
-    /// Other HTTP rejections exclude this source until its file signature changes.
+    /// Transport and protocol errors, HTTP 429, and server errors allow retries.
+    /// Other HTTP rejections require a changed file signature before another attempt.
     pub(crate) fn is_retryable(&self) -> bool {
         match self {
             Self::Request(_) | Self::Protocol { .. } => true,
@@ -58,9 +57,10 @@ impl UploadApiError {
         }
     }
 
-    /// Returns a positive server delay whose deadline fits SQLite's signed milliseconds.
+    /// Returns the server's retry delay if its deadline can be stored in SQLite.
     ///
-    /// Unusable headers are ignored so the caller can use exponential backoff.
+    /// Returns `None` for a missing or zero delay, or if adding it to `now_ms`
+    /// exceeds SQLite's signed 64-bit timestamp range. Use exponential backoff instead.
     pub(crate) fn retry_after(&self, now_ms: u128) -> Option<Duration> {
         match self {
             Self::Rejected { retry_after: Some(delay), .. } if !delay.is_zero() => {
@@ -83,10 +83,17 @@ struct UploadResponse {
     mail_id: String,
 }
 
-/// Uploads prepared mail bytes and validates the acknowledgement against `file_name`.
+/// Uploads mail bytes and validates the acknowledgement against `file_name`.
 ///
-/// Cancelling this future does not establish whether ingress accepted the request.
-/// The caller must leave interrupted uploads pending for a later attempt.
+/// # Errors
+///
+/// Returns an error if the request fails, ingress rejects it, or the response is
+/// too large or does not contain a matching acknowledgement.
+///
+/// # Cancellation
+///
+/// Ingress may store the mail even if this future is cancelled. Leave the source
+/// pending until an attempt receives a valid acknowledgement.
 pub(crate) async fn post_file_to_api(
     client: &reqwest::Client,
     api_url: &str,
@@ -465,7 +472,7 @@ pub(super) mod tests {
 
                 let db = UploadDb::open(dir.path()).expect("restart");
                 let store = db.load().expect("recover retry");
-                let retry = store.pending.front().expect("retryable source retained");
+                let retry = store.pending.values().next().expect("retryable source retained");
                 let deadline = 1000 + expected_delay_ms;
 
                 assert_eq!(retry.not_before_ms, Some(deadline), "{status}, Retry-After: {header}");

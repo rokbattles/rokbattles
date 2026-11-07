@@ -1,13 +1,11 @@
-//! Mail discovery, upload preparation, and recovery after interrupted uploads.
+//! Discovers cached mail and uploads supported reports to ingress.
 //!
-//! [`scan`] combines filesystem notifications with periodic directory passes.
-//! Discovered sources enter the pending queue in [`store::UploadStore`] before
-//! an upload starts. [`upload`] validates ingress acknowledgements; a successful
-//! acknowledgement covers all local copies of the same exact mail ID.
+//! Sources stay pending during upload so interrupted attempts can be retried.
+//! An acknowledgement completes every local copy of that mail ID. Rejected
+//! sources become eligible again when their size or modification time changes.
 //!
-//! [`runtime`] owns the mutable [`state::WatcherState`] and applies upload results.
-//! Starting a request leaves its source pending, so interruption causes a retry
-//! on restart. Rejected sources are reconsidered when their file signature changes.
+//! [`scan`] discovers sources through notifications and periodic directory scans.
+//! [`runtime`] coordinates scans and uploads, including retries after interruption.
 
 mod mail;
 pub(crate) mod runtime;
@@ -38,7 +36,7 @@ use self::{
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
-// Bound failure messages sent to the webview; error text is not persisted.
+// Limit the size of failure messages sent to the webview.
 const MAX_REASON_BYTES: usize = 2048;
 
 #[derive(Debug, Clone, Serialize)]
@@ -81,14 +79,15 @@ fn now_epoch_ms() -> u128 {
     SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO).as_millis()
 }
 
-/// Clears upload history and pending work so watched directories can be reprocessed.
+/// Clears upload history so watched directories can be processed again.
 ///
-/// Call after the watcher has finished. The database schema and version are retained.
+/// Wait for the watcher to stop before calling this function. The reset removes
+/// pending sources, rejections, acknowledgements, and API backoff, retaining the schema.
 ///
 /// # Errors
 ///
-/// Returns an error if the watcher lock is held or the database cannot be opened,
-/// validated, or updated. Invalid contents are retained for inspection.
+/// Returns an error if another watcher holds the lock or the database cannot be
+/// opened, validated, or updated. Invalid recovery data is left in place.
 pub fn reset_upload_state(app: &AppHandle) -> anyhow::Result<()> {
     UploadDb::for_app(app)?.reset()
 }
@@ -168,7 +167,7 @@ async fn attempt_upload(
 ) -> (QueuedUpload, AttemptOutcome) {
     let source = item.clone();
 
-    // Finish the read worker even after shutdown. It owns no mutable watcher state.
+    // File reads cannot be cancelled. Await the worker so shutdown can wait for it.
     let prepared =
         tauri::async_runtime::spawn_blocking(move || prepare_upload(&source, now_ms)).await;
 
@@ -263,10 +262,12 @@ fn complete_attempt(
     outcome: AttemptOutcome,
     now_ms: u128,
 ) -> Option<String> {
+    state.finish_attempt(&item.path);
+
     let file_name =
         file_name_for_upload(Path::new(&item.path)).unwrap_or_else(|| item.path.clone());
 
-    // A configuration refresh may have cancelled this source while its request was pending.
+    // Removing a watched directory can cancel a source while its request is in flight.
     if !state.is_pending(&item.path) {
         if let AttemptOutcome::Response(Err(error)) = &outcome
             && error.is_rate_limited()
@@ -291,13 +292,13 @@ fn complete_attempt(
             Some(format!("Waiting for stable file {file_name}"))
         }
         AttemptOutcome::DeletedSource => {
-            // Removing this path does not acknowledge the mail ID or block rediscovery.
+            // Forget the path without acknowledging its ID, so rediscovery can enqueue it again.
             state.remove_pending_source(&item.path);
 
             None
         }
         AttemptOutcome::MissingSource => {
-            // An unavailable directory can also produce NotFound. Retain uncertain sources.
+            // An unavailable directory can also return NotFound; keep the source for retry.
             state.retry_upload(item, now_ms);
 
             None
@@ -341,7 +342,7 @@ fn read_mail_source(path: &Path, expected: &FileSig) -> anyhow::Result<Vec<u8>> 
     let mut options = fs::File::options();
     options.read(true);
 
-    // A queued path may have been replaced since discovery or the stability check.
+    // The path may have become a symlink or special file since the metadata check.
     #[cfg(unix)]
     {
         use std::os::unix::fs::OpenOptionsExt as _;
@@ -362,7 +363,7 @@ fn read_mail_source(path: &Path, expected: &FileSig) -> anyhow::Result<Vec<u8>> 
     anyhow::ensure!(metadata.is_file(), "Source is not a regular file");
     anyhow::ensure!(file_sig(&metadata)? == *expected, "Source changed before reading");
 
-    // Check and read the same handle so replacing the path cannot redirect this upload.
+    // Read through the checked handle; reopening the path could read a replacement file.
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes)?;
 
@@ -477,7 +478,7 @@ mod tests {
         let retry = restored
             .uploads
             .pending
-            .iter()
+            .values()
             .find(|item| item.path == missing.path)
             .expect("missing source remains pending");
 
@@ -601,7 +602,7 @@ mod tests {
 
         let db = UploadDb::open(dir.path()).expect("restart");
         let restored = db.load().expect("load");
-        let pending = restored.pending.front().expect("unusable source remains pending");
+        let pending = restored.pending.values().next().expect("unusable source remains pending");
 
         assert!(message.contains("Source is not a regular file"));
         assert_eq!(pending.attempts, 1);
@@ -625,7 +626,7 @@ mod tests {
         fs::remove_file(&path).expect("remove queued regular file");
         symlink(&target.path, &path).expect("replace queued source with a symlink");
 
-        // Check the open itself as well as upload preparation's earlier metadata check.
+        // Exercise the open flags directly, after bypassing the earlier metadata check.
         read_mail_source(&path, target.sig.as_ref().expect("target signature")).expect_err(
             "the read must not follow a symlink even when the target signature matches",
         );
@@ -797,7 +798,8 @@ mod tests {
         let message = process_upload(&mut state, &client(), "http://127.0.0.1:0", item, 10_000)
             .await
             .expect("permission failures are logged");
-        let pending = state.uploads.pending.front().expect("unreadable source remains pending");
+        let pending =
+            state.uploads.pending.values().next().expect("unreadable source remains pending");
 
         fs::set_permissions(&path, permissions).expect("restore read access");
 
@@ -869,7 +871,7 @@ mod tests {
         let restored = db.load().expect("load");
 
         assert_eq!(restored.pending.len(), 1);
-        assert!(restored.pending.front().expect("pending source").sig.is_none());
+        assert!(restored.pending.values().next().expect("pending source").sig.is_none());
         assert!(restored.acknowledged.is_empty());
     }
 
@@ -904,7 +906,7 @@ mod tests {
         discover_source(&mut state, dir.path().join("Persistent.Mail.123"), 1000);
 
         assert_eq!(state.uploads.pending.len(), 1);
-        assert!(state.uploads.pending.front().expect("pending source").sig.is_none());
+        assert!(state.uploads.pending.values().next().expect("pending source").sig.is_none());
     }
 
     #[tokio::test]
