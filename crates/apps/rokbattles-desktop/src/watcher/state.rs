@@ -23,6 +23,8 @@ use super::{
 pub(crate) struct WatcherState {
     pub(crate) scans: VecDeque<super::scan::DirScan>,
     pub(crate) dirs: Vec<PathBuf>,
+    /// Resolved notification directories mapped to their configured spellings.
+    pub(crate) event_dir_aliases: FxHashMap<PathBuf, PathBuf>,
     pub(crate) dirs_last_read: Instant,
     // Both phases retain their pending records while a worker holds the reservation.
     ready: BTreeSet<(u128, String)>,
@@ -60,6 +62,7 @@ impl WatcherState {
         Self {
             scans: VecDeque::new(),
             dirs: Vec::new(),
+            event_dir_aliases: FxHashMap::default(),
             dirs_last_read: Instant::now()
                 .checked_sub(Duration::from_secs(2))
                 .unwrap_or_else(Instant::now),

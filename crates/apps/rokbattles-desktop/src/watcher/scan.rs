@@ -3,6 +3,8 @@
 //! Scans retain their directory iterators between batches and take turns across
 //! watched directories. Periodic passes recover missed notifications, including
 //! mail with IDs lower than those already processed.
+//! Resolved notification paths use the configured directory spelling so events
+//! and scans share pending records even when a parent directory is a symlink.
 
 use std::{
     fs,
@@ -149,6 +151,18 @@ pub(crate) fn set_watched_dirs(
     let mut seen = FxHashSet::default();
     dirs.retain(|dir| seen.insert(dir.clone()));
 
+    // Refresh aliases even for unchanged settings: a previously unavailable
+    // directory may now resolve. Cache parents to avoid resolving every mail path.
+    state.event_dir_aliases.clear();
+
+    for dir in &dirs {
+        if let Ok(resolved) = dir.canonicalize()
+            && !seen.contains(&resolved)
+        {
+            state.event_dir_aliases.entry(resolved).or_insert_with(|| dir.clone());
+        }
+    }
+
     // Skip repeated pruning for unchanged directories. An empty selection must
     // still cancel sources loaded at startup, before any scans exist.
     if dirs == state.dirs && !state.scans.is_empty() {
@@ -275,6 +289,12 @@ pub(crate) fn queue_fs_event(
 }
 
 pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u128) {
+    let path = path
+        .parent()
+        .and_then(|parent| state.event_dir_aliases.get(parent))
+        .and_then(|dir| path.file_name().map(|name| dir.join(name)))
+        .unwrap_or(path);
+
     discover_with_metadata(state, path, now_ms, None);
 }
 
@@ -390,6 +410,62 @@ mod tests {
         );
 
         assert_eq!(receiver.try_recv().expect("closed writer is a discovery hint"), path);
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn resolved_notifications_use_the_configured_path_and_share_scan_state() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let actual = root.path().join("actual");
+        let source = write_mail(&actual, "123", b"mail");
+        let selected = root.path().join("selected");
+        std::os::unix::fs::symlink(&actual, &selected).expect("directory alias");
+        let now = Instant::now();
+        let mut state = new_state(vec![selected.clone()], now);
+        let configured_source = selected.join("Persistent.Mail.123");
+
+        // FSEvents resolves directory aliases, including macOS's /var -> /private/var.
+        discover_source(&mut state, source.canonicalize().expect("resolved event path"), 1000);
+
+        assert!(state.is_pending(configured_source.to_str().expect("configured source")));
+        reconcile_next_directory(&mut state, now, 1000).await.expect("scan selected directory");
+        assert_eq!(state.uploads.pending.len(), 1, "events and scans must use the same key");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn resolved_notifications_do_not_admit_nested_or_removed_directories() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let actual = root.path().join("actual");
+        let source = write_mail(&actual, "123", b"mail");
+        let nested = write_mail(&actual.join("nested"), "456", b"nested mail");
+        let selected = root.path().join("selected");
+        std::os::unix::fs::symlink(&actual, &selected).expect("directory alias");
+        let now = Instant::now();
+        let mut state = new_state(vec![selected], now);
+
+        discover_source(&mut state, nested.canonicalize().expect("resolved nested path"), 1000);
+        assert!(state.uploads.pending.is_empty(), "directory aliases remain nonrecursive");
+        set_watched_dirs(&mut state, Vec::new(), now);
+        discover_source(&mut state, source.canonicalize().expect("resolved source path"), 1000);
+        assert!(state.uploads.pending.is_empty(), "removed aliases cannot enqueue work");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn unchanged_settings_refresh_aliases_when_a_directory_becomes_available() {
+        let root = tempfile::tempdir().expect("fixture directory");
+        let selected = root.path().join("selected");
+        let now = Instant::now();
+        let mut state = new_state(vec![selected.clone()], now);
+        let actual = root.path().join("actual");
+        let source = write_mail(&actual, "123", b"mail");
+        std::os::unix::fs::symlink(&actual, &selected).expect("directory becomes available");
+
+        set_watched_dirs(&mut state, vec![selected.clone()], now + Duration::from_secs(2));
+        discover_source(&mut state, source.canonicalize().expect("resolved event path"), 1000);
+
+        assert!(state.is_pending(selected.join("Persistent.Mail.123").to_str().expect("source")));
     }
 
     #[cfg(unix)]
