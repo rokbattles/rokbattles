@@ -35,6 +35,11 @@ pub(crate) struct DirScan {
     permission_denied_reported: bool,
 }
 
+struct ScannedEntry {
+    path: PathBuf,
+    metadata: Option<fs::Metadata>,
+}
+
 impl DirScan {
     pub(crate) fn new(dir: PathBuf, now: Instant) -> Self {
         Self {
@@ -46,7 +51,7 @@ impl DirScan {
         }
     }
 
-    fn read_batch(&mut self, now: Instant) -> (Vec<PathBuf>, Option<anyhow::Error>) {
+    fn read_batch(&mut self, now: Instant) -> (Vec<ScannedEntry>, Option<anyhow::Error>) {
         if self.entries.is_none() {
             match fs::read_dir(&self.dir) {
                 Ok(entries) => {
@@ -80,7 +85,15 @@ impl DirScan {
         // Count non-mail files too, so they cannot monopolize a scan batch.
         for _ in 0..256 {
             match self.entries.as_mut().and_then(Iterator::next) {
-                Some(Ok(entry)) => paths.push(entry.path()),
+                Some(Ok(entry)) => {
+                    #[cfg(windows)]
+                    // Windows includes metadata in directory entries; avoid another path lookup.
+                    let metadata = entry.metadata().ok();
+                    #[cfg(not(windows))]
+                    let metadata = None;
+
+                    paths.push(ScannedEntry { path: entry.path(), metadata });
+                }
                 Some(Err(error)) => {
                     failure.get_or_insert_with(|| error.into());
                 }
@@ -218,8 +231,8 @@ pub(crate) async fn reconcile_next_directory(
     };
     state.scans.push_back(scan);
 
-    for path in paths {
-        discover_source(state, path, now_ms);
+    for entry in paths {
+        discover_with_metadata(state, entry.path, now_ms, entry.metadata);
     }
 
     if let Some(error) = failure {
@@ -262,6 +275,15 @@ pub(crate) fn queue_fs_event(
 }
 
 pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u128) {
+    discover_with_metadata(state, path, now_ms, None);
+}
+
+fn discover_with_metadata(
+    state: &mut WatcherState,
+    path: PathBuf,
+    now_ms: u128,
+    metadata: Option<fs::Metadata>,
+) {
     if !path.parent().is_some_and(|parent| state.dirs.iter().any(|dir| dir == parent)) {
         return;
     }
@@ -274,8 +296,8 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         return;
     }
 
-    // Upload preparation retries metadata failures and checks the file type before reading.
-    let sig = match fs::symlink_metadata(&path) {
+    // Capture retries metadata failures and checks the opened handle before reading.
+    let sig = match metadata.map(Ok).unwrap_or_else(|| fs::symlink_metadata(&path)) {
         Ok(meta) if !meta.is_file() => return,
         Ok(meta) => file_sig(&meta).ok(),
         Err(_) => None,
@@ -290,7 +312,7 @@ pub(crate) fn discover_source(state: &mut WatcherState, path: PathBuf, now_ms: u
         path: key.to_string(),
         sig,
         attempts: 0,
-        not_before_ms: Some(now_ms.saturating_add(750)),
+        not_before_ms: Some(now_ms),
     });
 }
 
@@ -399,7 +421,10 @@ mod tests {
         let recovered = scan.read_batch(now + Duration::from_secs(10));
 
         assert!(recovered.1.is_none());
-        assert_eq!(recovered.0, vec![path.join("Persistent.Mail.123")]);
+        assert_eq!(
+            recovered.0.into_iter().map(|entry| entry.path).collect::<Vec<_>>(),
+            vec![path.join("Persistent.Mail.123")]
+        );
 
         fs::set_permissions(&path, fs::Permissions::from_mode(0o000)).expect("deny again");
         let denied_again = scan.read_batch(now + Duration::from_secs(15));
@@ -433,7 +458,7 @@ mod tests {
     fn acknowledge_ready(state: &mut WatcherState, now_ms: u128) -> FxHashSet<String> {
         let mut attempted = FxHashSet::default();
 
-        while let Some(item) = state.next_ready_upload(now_ms) {
+        while let Some(item) = state.next_preparation(now_ms) {
             let id = mail_id_for_path(&item.path).expect("mail ID").to_string();
             let name = format!("Persistent.Mail.{id}");
             attempted.insert(id);
@@ -461,7 +486,7 @@ mod tests {
         assert!(state.scans.front().expect("directory scan").entries.is_some());
         assert_eq!(state.uploads.pending.len(), 256);
 
-        let item = state.next_ready_upload(11_000).expect("ready before scan finishes");
+        let item = state.next_preparation(11_000).expect("ready before scan finishes");
         let id = mail_id_for_path(&item.path).expect("mail ID").to_string();
         let body = json!({"status": "stored", "mail_id": id}).to_string();
         let (url, server) = respond_once(response("201 Created", &body)).await;
@@ -512,7 +537,7 @@ mod tests {
         db.load().expect("initial upload state");
 
         discover_source(&mut state, path.clone(), 1000);
-        let partial = state.next_ready_upload(2000).expect("event discovered upload");
+        let partial = state.next_preparation(2000).expect("event discovered upload");
         process_upload(&mut state, &client(), "http://127.0.0.1:0", partial, 3000).await;
 
         assert_eq!(state.uploads.rejected.len(), 1, "stable incomplete bytes were rejected");
@@ -526,7 +551,7 @@ mod tests {
         set_watched_dirs(&mut state, vec![mail_dir.clone()], start);
         reconcile_next_directory(&mut state, start, 3000).await.expect("unchanged rejected mail");
 
-        assert!(state.next_ready_upload(4000).is_none(), "unchanged invalid bytes must not loop");
+        assert!(state.next_preparation(4000).is_none(), "unchanged invalid bytes must not loop");
         assert_eq!(state.uploads.rejected.len(), 1);
 
         let valid = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
@@ -535,7 +560,7 @@ mod tests {
         reconcile_next_directory(&mut state, start + Duration::from_secs(5), 8000)
             .await
             .expect("missed completion event");
-        let complete = state.next_ready_upload(9000).expect("changed rejected source recovered");
+        let complete = state.next_preparation(9000).expect("changed rejected source recovered");
         let (url, server) =
             respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
 
@@ -562,7 +587,7 @@ mod tests {
         set_watched_dirs(&mut state, vec![dir.path().to_path_buf()], start);
         let path = write_mail(dir.path(), "99999", b"partial");
         discover_source(&mut state, path.clone(), 1000);
-        let incomplete = state.next_ready_upload(2000).expect("event-discovered input");
+        let incomplete = state.next_preparation(2000).expect("event-discovered input");
         state.reject_upload(incomplete);
 
         // Reconciliation must find changed files even after many acknowledged entries.
@@ -592,7 +617,7 @@ mod tests {
         reconcile_next_directory(&mut state, start, 1000).await.expect_err("directory unavailable");
         discover_source(&mut state, mail_dir.join("Persistent.Mail.123"), 1000);
         let missing =
-            state.next_ready_upload(2000).expect("source remains pending despite metadata failure");
+            state.next_preparation(2000).expect("source remains pending despite metadata failure");
         process_upload(&mut state, &client(), "http://127.0.0.1:0", missing, 2000).await;
 
         let valid = rokbattles_mail_codec::encode(&json!({"id":"123", "type":"Battle"}))
@@ -602,14 +627,15 @@ mod tests {
         reconcile_next_directory(&mut state, start + Duration::from_secs(5), 6000)
             .await
             .expect("directory restored");
-        let restored = state.next_ready_upload(6000).expect("missing source retried");
-        process_upload(&mut state, &client(), "http://127.0.0.1:0", restored, 6000).await;
+        let restored = state.next_preparation(6000).expect("missing source retried");
+        let (url, server) =
+            respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
+        process_upload(&mut state, &client(), &url, restored, 6000).await;
+        server.await.expect("restored source uploads");
 
         assert!(state.uploads.rejected.is_empty());
-        assert_eq!(
-            acknowledge_ready(&mut state, 7000),
-            FxHashSet::from_iter(["123".to_string(), "5".to_string()])
-        );
+        assert!(state.uploads.acknowledged.contains("123"));
+        assert_eq!(acknowledge_ready(&mut state, 7000), FxHashSet::from_iter(["5".to_string()]));
     }
 
     #[tokio::test]

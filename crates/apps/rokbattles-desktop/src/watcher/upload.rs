@@ -263,7 +263,7 @@ pub(super) mod tests {
             not_before_ms: None,
         });
 
-        let item = state.next_ready_upload(1000).expect("pending upload ready");
+        let item = state.next_preparation(1000).expect("pending upload ready");
 
         (state, item)
     }
@@ -342,10 +342,10 @@ pub(super) mod tests {
 
             let message =
                 apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
-            assert!(state.next_ready_upload(2999).is_none());
+            assert!(state.next_preparation(2999).is_none());
 
             let retry =
-                state.next_ready_upload(3000).expect("invalid acknowledgement remains pending");
+                state.next_preparation(3000).expect("invalid acknowledgement remains pending");
             assert_eq!(retry.path, "Persistent.Mail.123");
             assert_eq!(retry.attempts, 1);
             assert!(message.starts_with("Failed to upload"));
@@ -367,7 +367,7 @@ pub(super) mod tests {
         assert!(matches!(&result, Err(UploadApiError::Protocol { .. })));
 
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
-        assert!(state.next_ready_upload(3000).is_some());
+        assert!(state.next_preparation(3000).is_some());
         assert!(message.contains("invalid upload acknowledgement"));
     }
 
@@ -400,8 +400,8 @@ pub(super) mod tests {
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
         server.await.expect("API task");
-        assert!(state.next_ready_upload(2999).is_none());
-        assert!(state.next_ready_upload(3000).is_some());
+        assert!(state.next_preparation(2999).is_none());
+        assert!(state.next_preparation(3000).is_some());
         assert!(message.contains("upload request failed"));
     }
 
@@ -419,7 +419,7 @@ pub(super) mod tests {
         let message = apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
         server.await.expect("API task");
-        assert!(state.next_ready_upload(3000).is_some());
+        assert!(state.next_preparation(3000).is_some());
         assert!(message.contains("clamav scan failed: unavailable"));
         assert!(state.uploads.api_backoff_until_ms.is_none());
     }
@@ -439,8 +439,8 @@ pub(super) mod tests {
 
         server.await.expect("API task");
         assert_eq!(state.rate_limit_remaining_ms(1000), Some(7000));
-        assert!(state.next_ready_upload(7999).is_none());
-        assert!(state.next_ready_upload(8000).is_some());
+        assert!(state.next_preparation(7999).is_none());
+        assert!(state.next_preparation(8000).is_some());
         assert_eq!(message, "Rate limited by API (429). Pausing uploads for 7s.");
     }
 
@@ -502,7 +502,7 @@ pub(super) mod tests {
 
         server.await.expect("API task");
         assert_eq!(state.rate_limit_remaining_ms(1000), Some(2000));
-        assert!(state.next_ready_upload(3000).is_some());
+        assert!(state.next_preparation(3000).is_some());
     }
 
     #[tokio::test]
@@ -543,7 +543,7 @@ pub(super) mod tests {
                 apply_upload_result(&mut state, item, "Persistent.Mail.123", result, 1000);
 
             server.await.expect("API task");
-            assert_eq!(state.next_ready_upload(3000).is_some(), retryable);
+            assert_eq!(state.next_preparation(3000).is_some(), retryable);
             assert!(message.contains("could not read error response"));
         }
     }

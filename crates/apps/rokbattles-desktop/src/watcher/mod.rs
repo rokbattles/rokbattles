@@ -5,8 +5,11 @@
 //! sources become eligible again when their size or modification time changes.
 //!
 //! [`scan`] discovers sources through notifications and periodic directory scans.
-//! [`runtime`] coordinates scans and uploads, including retries after interruption.
+//! [`capture`] reads supported mail independently of API backoff. Its original
+//! binary bytes are saved in SQLite before [`runtime`] starts an upload, so game
+//! deletion after capture does not prevent retries or recovery after restart.
 
+mod capture;
 mod mail;
 pub(crate) mod runtime;
 mod scan;
@@ -30,7 +33,7 @@ pub(crate) use self::runtime::{WatcherTask, spawn_watcher};
 use self::{
     mail::file_name_for_upload,
     state::WatcherState,
-    store::{FileSig, QueuedUpload, UploadDb, file_sig, source_is_deleted},
+    store::{FileSig, MAX_MAIL_BYTES, QueuedUpload, UploadDb, file_sig, source_is_deleted},
     upload::{UploadApiError, UploadStatus, post_file_to_api, upload_backoff},
 };
 
@@ -79,10 +82,11 @@ fn now_epoch_ms() -> u128 {
     SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO).as_millis()
 }
 
-/// Clears upload history so watched directories can be processed again.
+/// Clears upload history and retries retained mail.
 ///
-/// Wait for the watcher to stop before calling this function. The reset removes
-/// pending sources, rejections, acknowledgements, and API backoff, retaining the schema.
+/// Wait for the watcher to stop before calling this function. Captured sources
+/// are retained even if the game has deleted them. Other pending records,
+/// rejections, acknowledgements, and API backoff are cleared for rediscovery.
 ///
 /// # Errors
 ///
@@ -103,6 +107,8 @@ fn truncate_reason(mut reason: String) -> String {
 
         reason.truncate(end);
         reason.push_str(suffix);
+        // A shortened message must not retain the original, potentially large allocation.
+        reason.shrink_to_fit();
     }
 
     reason
@@ -154,29 +160,20 @@ enum AttemptOutcome {
     MissingSource,
     Retry(String),
     Rejected(String),
+    Unsupported { reason: String, mail_type: String },
     Response(Result<UploadStatus, UploadApiError>),
     Cancelled,
 }
 
 async fn attempt_upload(
     item: QueuedUpload,
+    bytes: Vec<u8>,
     client: reqwest::Client,
     api_url: String,
     mut shutdown: watch::Receiver<bool>,
-    now_ms: u128,
 ) -> (QueuedUpload, AttemptOutcome) {
-    let source = item.clone();
-
-    // File reads cannot be cancelled. Await the worker so shutdown can wait for it.
-    let prepared =
-        tauri::async_runtime::spawn_blocking(move || prepare_upload(&source, now_ms)).await;
-
-    let (file_name, bytes) = match prepared {
-        Ok(Ok(prepared)) => prepared,
-        Ok(Err(outcome)) => return (item, outcome),
-        Err(error) => {
-            return (item, AttemptOutcome::Retry(format!("Mail preparation task failed: {error}")));
-        }
+    let Some(file_name) = file_name_for_upload(Path::new(&item.path)) else {
+        return (item, AttemptOutcome::Rejected("Invalid retained mail filename".to_string()));
     };
 
     let outcome = tokio::select! {
@@ -191,7 +188,14 @@ async fn attempt_upload(
     (item, outcome)
 }
 
-fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>), AttemptOutcome> {
+/// Original bytes and metadata from a validated, supported source file.
+struct SupportedMail {
+    bytes: Vec<u8>,
+    sig: FileSig,
+}
+
+/// Reads a complete supported mail, allowing recent incomplete writes to be retried.
+fn read_supported_mail(item: &QueuedUpload, now_ms: u128) -> Result<SupportedMail, AttemptOutcome> {
     let path = PathBuf::from(&item.path);
     let Some(file_name) =
         file_name_for_upload(&path).filter(|_| mail::mail_id_for_path(&item.path).is_some())
@@ -209,25 +213,40 @@ fn prepare_upload(item: &QueuedUpload, now_ms: u128) -> Result<(String, Vec<u8>)
     });
     let sig = signature.map_err(|error| source_failure("stat", &path, error))?;
 
-    if item.sig.as_ref() != Some(&sig) || now_ms.saturating_sub(sig.modified) < 1500 {
-        return Err(AttemptOutcome::Waiting(sig));
+    if sig.size > MAX_MAIL_BYTES {
+        return Err(AttemptOutcome::Rejected(format!(
+            "Rejected oversized mail {file_name}: maximum {MAX_MAIL_BYTES} bytes"
+        )));
     }
 
     let bytes =
         read_mail_source(&path, &sig).map_err(|error| source_failure("read", &path, error))?;
-    let decoded = rokbattles_mail_codec::decode(&bytes).map_err(|error| {
-        AttemptOutcome::Rejected(truncate_reason(format!("Decode failed for {file_name}: {error}")))
-    })?;
+    let decoded = match rokbattles_mail_codec::decode(&bytes) {
+        Ok(decoded) => decoded,
+        // A valid checksum permits immediate capture. Recent failures may still be partial writes.
+        Err(_) if now_ms.saturating_sub(sig.modified) < 1500 => {
+            return Err(AttemptOutcome::Waiting(sig));
+        }
+        Err(error) => {
+            return Err(AttemptOutcome::Rejected(truncate_reason(format!(
+                "Decode failed for {file_name}: {error}"
+            ))));
+        }
+    };
 
     if rokbattles_mail_registry::detect_mail_type(&decoded).is_none() {
         let raw_type = rokbattles_mail_registry::raw_mail_type(&decoded).unwrap_or("Unknown");
+        let mail_type = truncate_reason(raw_type.to_string());
 
-        return Err(AttemptOutcome::Rejected(truncate_reason(format!(
-            "Rejected unsupported mail {file_name} (detected: {raw_type})"
-        ))));
+        return Err(AttemptOutcome::Unsupported {
+            reason: truncate_reason(format!(
+                "Rejected unsupported mail {file_name} (detected: {mail_type})"
+            )),
+            mail_type,
+        });
     }
 
-    Ok((file_name, bytes))
+    Ok(SupportedMail { bytes, sig })
 }
 
 fn source_failure(operation: &str, path: &Path, error: anyhow::Error) -> AttemptOutcome {
@@ -309,7 +328,7 @@ fn complete_attempt(
 
             Some(reason)
         }
-        AttemptOutcome::Rejected(reason) => {
+        AttemptOutcome::Rejected(reason) | AttemptOutcome::Unsupported { reason, .. } => {
             state.reject_upload(item);
 
             Some(reason)
@@ -328,12 +347,18 @@ async fn process_upload(
     state: &mut WatcherState,
     client: &reqwest::Client,
     api_url: &str,
-    item: QueuedUpload,
+    mut item: QueuedUpload,
     now_ms: u128,
 ) -> Option<String> {
     let (_shutdown, receiver) = watch::channel(false);
-    let (item, outcome) =
-        attempt_upload(item, client.clone(), api_url.to_string(), receiver, now_ms).await;
+    let (item, outcome) = match read_supported_mail(&item, now_ms) {
+        Ok(prepared) => {
+            item.sig = Some(prepared.sig);
+            attempt_upload(item, prepared.bytes, client.clone(), api_url.to_string(), receiver)
+                .await
+        }
+        Err(outcome) => (item, outcome),
+    };
 
     complete_attempt(state, item, outcome, now_ms)
 }
@@ -364,8 +389,10 @@ fn read_mail_source(path: &Path, expected: &FileSig) -> anyhow::Result<Vec<u8>> 
     anyhow::ensure!(file_sig(&metadata)? == *expected, "Source changed before reading");
 
     // Read through the checked handle; reopening the path could read a replacement file.
-    let mut bytes = Vec::new();
-    file.read_to_end(&mut bytes)?;
+    anyhow::ensure!(expected.size <= MAX_MAIL_BYTES, "Source exceeds maximum mail size");
+    let mut bytes = Vec::with_capacity(usize::try_from(expected.size)?);
+    file.by_ref().take(MAX_MAIL_BYTES + 1).read_to_end(&mut bytes)?;
+    anyhow::ensure!(bytes.len() as u64 <= MAX_MAIL_BYTES, "Source grew beyond maximum mail size");
 
     anyhow::ensure!(file_sig(&file.metadata()?)? == *expected, "Source changed while reading");
 
@@ -406,6 +433,18 @@ mod tests {
             attempts: 0,
             not_before_ms: None,
         }
+    }
+
+    #[test]
+    fn truncated_reasons_release_their_large_original_allocation() {
+        let reason = truncate_reason("long error".repeat(100_000));
+
+        assert!(reason.len() <= MAX_REASON_BYTES);
+        assert!(
+            reason.capacity() < MAX_REASON_BYTES * 2,
+            "bounded messages must not retain megabyte buffers"
+        );
+        assert!(reason.ends_with(" [truncated]"));
     }
 
     #[test]
@@ -485,7 +524,7 @@ mod tests {
         assert_eq!(retry.attempts, 1);
         assert!(retry.not_before_ms.expect("retry deadline") > 10_000);
 
-        let ready = restored.next_ready_upload(10_000).expect("alternative source is ready");
+        let ready = restored.next_preparation(10_000).expect("alternative source is ready");
 
         assert_eq!(ready.path, good.path);
         assert_eq!(restored.uploads.pending.len(), 2);
@@ -514,11 +553,11 @@ mod tests {
             include_bytes!("../../../../../samples/System/Persistent.Mail.49147831179110293022");
         let reward = source(&dir.path().join("Persistent.Mail.49147831179110293022"), reward_bytes);
 
-        let Ok((_, prepared)) = prepare_upload(&reward, 10_000) else {
+        let Ok(prepared) = read_supported_mail(&reward, 10_000) else {
             panic!("Kau Karuak reward should be collected");
         };
 
-        assert_eq!(prepared, reward_bytes);
+        assert_eq!(prepared.bytes, reward_bytes);
 
         let failure_bytes = rokbattles_mail_codec::encode(&json!({
             "id": "123",
@@ -528,7 +567,10 @@ mod tests {
         .expect("synthetic failure mail");
         let failure = source(&dir.path().join("Persistent.Mail.123"), &failure_bytes);
 
-        assert!(matches!(prepare_upload(&failure, 10_000), Err(AttemptOutcome::Rejected(_))));
+        assert!(matches!(
+            read_supported_mail(&failure, 10_000),
+            Err(AttemptOutcome::Unsupported { .. })
+        ));
     }
 
     #[tokio::test]
@@ -648,7 +690,7 @@ mod tests {
 
         fs::remove_file(&path).expect("remove symlink");
         source(&path, &bytes);
-        let item = state.next_ready_upload(300_000).expect("restored regular source retries");
+        let item = state.next_preparation(300_000).expect("restored regular source retries");
         let (url, server) =
             respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
 
@@ -660,7 +702,7 @@ mod tests {
     }
 
     #[test]
-    fn source_changed_after_the_stability_check_is_retried_before_decoding() {
+    fn source_changed_after_the_metadata_check_is_retried_before_decoding() {
         let dir = tempfile::tempdir().expect("test directory");
         let path = dir.path().join("Persistent.Mail.123");
         let item = source(&path, b"first partial write");
@@ -674,7 +716,7 @@ mod tests {
     }
 
     #[test]
-    fn source_removed_after_the_stability_check_is_forgotten_quietly() {
+    fn source_removed_after_the_metadata_check_is_forgotten_quietly() {
         let dir = tempfile::tempdir().expect("test directory");
         let path = dir.path().join("Persistent.Mail.123");
         let item = source(&path, b"cached mail");
@@ -710,7 +752,7 @@ mod tests {
 
         assert!(message.is_none());
         assert!(!state.is_pending(&missing.path));
-        assert_eq!(state.next_ready_upload(10_000).expect("other copy survives").path, other.path);
+        assert_eq!(state.next_preparation(10_000).expect("other copy survives").path, other.path);
         assert_eq!(state.uploads.pending.len(), 1);
         assert!(state.uploads.acknowledged.is_empty());
         assert!(state.uploads.rejected.is_empty());
@@ -763,7 +805,7 @@ mod tests {
 
         assert!(message.is_none());
         assert!(state.is_pending(&item.path));
-        let retry = state.next_ready_upload(30_000).expect("uncertain source remains queued");
+        let retry = state.next_preparation(30_000).expect("uncertain source remains queued");
         let message =
             process_upload(&mut state, &client(), "http://127.0.0.1:0", retry, 30_000).await;
 
@@ -809,7 +851,7 @@ mod tests {
         assert!(state.uploads.acknowledged.is_empty());
         assert!(state.uploads.rejected.is_empty());
 
-        let retry = state.next_ready_upload(30_000).expect("permission failure remains retryable");
+        let retry = state.next_preparation(30_000).expect("permission failure remains retryable");
         let (url, server) =
             respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
         process_upload(&mut state, &client(), &url, retry, 30_000).await;
@@ -839,7 +881,7 @@ mod tests {
         let db = UploadDb::open(dir.path()).expect("restart");
         let mut restored = WatcherState::new(db.load().expect("load"));
         let pending = restored
-            .next_ready_upload(now_epoch_ms() + 300_000)
+            .next_preparation(now_epoch_ms() + 300_000)
             .expect("uncertain request remains pending");
         let (url, server) =
             respond_once(response("200 OK", r#"{"status":"skipped","mail_id":"123"}"#)).await;
@@ -933,7 +975,7 @@ mod tests {
         source(&alternative, b"available source");
         reconcile_next_directory(&mut state, now, 10_000).await.expect("scan despite retries");
 
-        let ready = state.next_ready_upload(11_000).expect("available mail discovered");
+        let ready = state.next_preparation(11_000).expect("available mail discovered");
 
         assert_eq!(ready.path, alternative.to_string_lossy());
     }
