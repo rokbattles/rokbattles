@@ -13,7 +13,12 @@ export function DonateDialog() {
 
   return (
     <>
-      <SidebarItem onClick={() => setIsOpen(true)} aria-haspopup="dialog" aria-expanded={isOpen}>
+      <SidebarItem
+        title="Donate"
+        onClick={() => setIsOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+      >
         <Heart data-slot="icon" aria-hidden="true" />
         <SidebarLabel>Donate</SidebarLabel>
       </SidebarItem>

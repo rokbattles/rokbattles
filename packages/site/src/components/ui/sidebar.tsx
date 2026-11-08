@@ -2,26 +2,55 @@
 
 import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "cn";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { LayoutGroup, motion } from "motion/react";
 import type React from "react";
 import { forwardRef, useContext, useId } from "react";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
 import { MobileSidebarCloseContext } from "./mobile-sidebar-context";
+import { SidebarContext } from "./sidebar-context";
 
 export function Sidebar({ className, ...props }: React.ComponentPropsWithoutRef<"nav">) {
   return <nav {...props} className={cn(className, "flex h-full min-h-0 flex-col")} />;
 }
 
-export function SidebarHeader({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function SidebarHeader({
+  className,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
+  const sidebar = useContext(SidebarContext);
+  const label = sidebar?.collapsed ? "Expand sidebar" : "Collapse sidebar";
+
   return (
     <div
       {...props}
-      className={cn(
-        className,
-        "flex flex-col border-b p-4 border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
+      className={cn(className, "flex items-center gap-2 border-b p-4 border-white/5")}
+    >
+      <div className="min-w-0 flex-1" hidden={sidebar?.collapsed}>
+        {children}
+      </div>
+      {sidebar && (
+        <button
+          type="button"
+          onClick={sidebar.toggle}
+          aria-label={label}
+          aria-expanded={!sidebar.collapsed}
+          title={label}
+          className={cn(
+            "flex size-8 shrink-0 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500",
+            sidebar.collapsed && "mx-auto"
+          )}
+        >
+          {sidebar.collapsed ? (
+            <PanelLeftOpen className="size-4" aria-hidden="true" />
+          ) : (
+            <PanelLeftClose className="size-4" aria-hidden="true" />
+          )}
+        </button>
       )}
-    />
+    </div>
   );
 }
 
@@ -68,8 +97,15 @@ export function SidebarSpacer({ className, ...props }: React.ComponentPropsWitho
 }
 
 export function SidebarHeading({ className, ...props }: React.ComponentPropsWithoutRef<"h3">) {
+  const sidebar = useContext(SidebarContext);
   return (
-    <h3 {...props} className={cn(className, "mb-1 px-2 font-medium text-xs/6 text-zinc-400")} />
+    <h3
+      {...props}
+      className={cn(
+        className,
+        sidebar?.collapsed ? "sr-only" : "mb-1 px-2 font-medium text-xs/6 text-zinc-400"
+      )}
+    />
   );
 }
 
@@ -86,6 +122,7 @@ export const SidebarItem = forwardRef(function SidebarItem(
   ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
 ) {
   const closeSidebar = useContext(MobileSidebarCloseContext);
+  const sidebar = useContext(SidebarContext);
   const classes = cn(
     // Base
     "flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left font-medium text-base/6 sm:py-2 sm:text-sm/5",
@@ -98,7 +135,8 @@ export const SidebarItem = forwardRef(function SidebarItem(
     "text-white *:data-[slot=icon]:text-zinc-400",
     "not-data-disabled:hover:bg-white/5 not-data-disabled:hover:*:data-[slot=icon]:text-white",
     "not-data-disabled:active:bg-white/5 not-data-disabled:active:*:data-[slot=icon]:text-white",
-    "data-current:*:data-[slot=icon]:text-white"
+    "data-current:*:data-[slot=icon]:text-white",
+    sidebar?.collapsed && "justify-center *:last:data-[slot=icon]:ml-0"
   );
 
   return (
@@ -138,5 +176,6 @@ export const SidebarItem = forwardRef(function SidebarItem(
 });
 
 export function SidebarLabel({ className, ...props }: React.ComponentPropsWithoutRef<"span">) {
-  return <span {...props} className={cn(className, "truncate")} />;
+  const sidebar = useContext(SidebarContext);
+  return <span {...props} className={cn(className, sidebar?.collapsed ? "sr-only" : "truncate")} />;
 }
