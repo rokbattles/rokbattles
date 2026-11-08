@@ -4978,6 +4978,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-mail-processor-ghostcavkillbar"
+version = "1.9.4"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
 name = "rokbattles-mail-processor-killelitebarreport"
 version = "1.9.4"
 dependencies = [
@@ -5024,6 +5032,7 @@ dependencies = [
  "base64 0.22.1",
  "flate2",
  "rokbattles-mail-codec",
+ "rokbattles-mail-processor-ghostcavkillbar",
  "rokbattles-mail-processor-system-barbarianfort",
  "rokbattles-mail-processor-system-kaukaruak",
  "rokbattles-mail-registry",
@@ -5044,6 +5053,7 @@ dependencies = [
  "rokbattles-mail-processor-battle",
  "rokbattles-mail-processor-duelbattle2",
  "rokbattles-mail-processor-eventmemberlootreport",
+ "rokbattles-mail-processor-ghostcavkillbar",
  "rokbattles-mail-processor-killelitebarreport",
  "rokbattles-mail-processor-rss",
  "rokbattles-mail-processor-system-barbarianfort",

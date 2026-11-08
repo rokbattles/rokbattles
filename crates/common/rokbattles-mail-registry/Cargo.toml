@@ -18,6 +18,7 @@ processors = [
     "dep:rokbattles-mail-processor-duelbattle2",
     "dep:rokbattles-mail-processor-eventmemberlootreport",
     "dep:rokbattles-mail-processor-killelitebarreport",
+    "dep:rokbattles-mail-processor-ghostcavkillbar",
     "dep:rokbattles-mail-processor-rss",
     "dep:rokbattles-mail-sdk",
     "dep:rokbattles-mail-processor-system-barbarianfort",
@@ -41,6 +42,8 @@ rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-pr
 rokbattles-mail-processor-system-kahartreasure = { path = "../rokbattles-mail-processor-system-kahartreasure", optional = true }
 
 rokbattles-mail-processor-system-kaukaruak = { path = "../rokbattles-mail-processor-system-kaukaruak", optional = true }
+
+rokbattles-mail-processor-ghostcavkillbar = { path = "../rokbattles-mail-processor-ghostcavkillbar", optional = true }
 
 [lints]
 workspace = true

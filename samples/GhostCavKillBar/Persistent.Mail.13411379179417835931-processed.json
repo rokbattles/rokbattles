@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "mail_id": "13411379179417835931",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1794178359106490,
+    "server_id": 16153
+  },
+  "npc": {
+    "level": 1,
+    "location": {
+      "x": 4476.6796875,
+      "y": 4569.76708984375
+    },
+    "type": 70005
+  },
+  "participants": [
+    {
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png",
+      "damage_rate": 100,
+      "frame_url": null,
+      "loot": [
+        {
+          "sub_type": 9,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 75,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7001,
+          "type": 2,
+          "value": 15
+        },
+        {
+          "sub_type": 8450,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 71738515,
+      "player_name": "Grigvar"
+    }
+  ]
+}

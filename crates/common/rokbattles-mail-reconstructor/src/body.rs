@@ -40,7 +40,9 @@ impl MailReconstructor {
                 let content = decode_message(body, "MailRss", &self.schema.descriptors)?;
                 Ok(json!({ "content": content }))
             }
-            "BarCanyonKillBoss" | "KillEliteBarReport" => self.reconstruct_elite_bar_report(body),
+            "BarCanyonKillBoss" | "KillEliteBarReport" | "GhostCavKillBar" => {
+                self.reconstruct_elite_bar_report(body)
+            }
             "EventMemberLootReport" => self.reconstruct_event_member_loot(body),
             "System" => self.reconstruct_system(body),
             "Alliance" => self.reconstruct_alliance(body),
@@ -52,12 +54,29 @@ impl MailReconstructor {
         let decoded = decode_message(body, "EliteBarReportInfo", &self.schema.descriptors)?;
         let root = object(&decoded, "EliteBarReportInfo")?;
         let infos = format_report_infos(root.get("Infos"), true)?;
+        // Dynamic decoding initializes absent integers to zero; the client uses
+        // level 1 only when Level is absent, while preserving an explicit zero.
+        let level_field = self
+            .schema
+            .descriptors
+            .message("EliteBarReportInfo")?
+            .fields
+            .iter()
+            .find(|field| field.name == "Level")
+            .ok_or(ReconstructionError::InvalidArtifact("EliteBarReportInfo.Level is missing"))?;
+        let mut level = Value::from(1);
+        for encoded in fields(body) {
+            if encoded?.number == level_field.number {
+                level = root.get("Level").cloned().unwrap_or(Value::from(1));
+                break;
+            }
+        }
 
         Ok(json!({
             "content": {
                 "pos": rename_position(root.get("Pos")),
                 "npcType": root.get("NpcType").cloned().unwrap_or(Value::from(0)),
-                "npcLevel": root.get("Level").cloned().unwrap_or(Value::from(1)),
+                "npcLevel": level,
                 "eliteBarName": "",
                 "infos": infos,
             }
@@ -179,7 +198,12 @@ impl MailReconstructor {
 
 /// Keeps reward order while removing item placeholders with subtype zero.
 fn reconstruct_loot(attachment: &Map<String, Value>) -> Value {
-    let mut loot = attachment.get("Data").cloned().unwrap_or_else(|| Value::Array(Vec::new()));
+    filter_placeholder_rewards(attachment.get("Data"))
+}
+
+// The client applies the same placeholder filtering to attachments and boss loot.
+fn filter_placeholder_rewards(value: Option<&Value>) -> Value {
+    let mut loot = value.cloned().unwrap_or_else(|| Value::Array(Vec::new()));
     if let Value::Array(rewards) = &mut loot {
         rewards.retain(|reward| !is_placeholder_item_reward(reward));
     }
@@ -323,10 +347,7 @@ fn format_report_infos(
                 "avatar".to_string(),
                 info.get("Avatar").cloned().unwrap_or(Value::String(String::new())),
             );
-            output.insert(
-                "loots".to_string(),
-                info.get("Loots").cloned().unwrap_or(Value::Array(Vec::new())),
-            );
+            output.insert("loots".to_string(), filter_placeholder_rewards(info.get("Loots")));
             if include_damage {
                 output.insert(
                     "damageRate".to_string(),
@@ -582,6 +603,7 @@ mod tests {
             ("DuelBattle2", duel_body(&reconstructor)),
             ("BarCanyonKillBoss", bar_canyon_body(&reconstructor)),
             ("KillEliteBarReport", bar_canyon_body(&reconstructor)),
+            ("GhostCavKillBar", bar_canyon_body(&reconstructor)),
             ("EventMemberLootReport", event_member_loot_body(&reconstructor)),
             ("Rss", rss_body(&reconstructor)),
             ("System", system_body(&reconstructor, 11, 1)),
@@ -597,6 +619,95 @@ mod tests {
                 .reconstruct_body(mail_type, &body, &[])
                 .unwrap_or_else(|error| panic!("{mail_type} should reconstruct: {error}"));
         }
+    }
+
+    #[test]
+    fn ghost_cav_network_adapter_uses_client_level_default() {
+        let reconstructor = MailReconstructor::synthetic();
+        let mut body = Vec::new();
+        push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "NpcType"), 70005);
+        let absent =
+            reconstructor.reconstruct_body("GhostCavKillBar", &body, &[]).expect("absent level");
+        assert_eq!(absent["content"]["npcLevel"], 1);
+        push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "Level"), 0);
+        let explicit =
+            reconstructor.reconstruct_body("GhostCavKillBar", &body, &[]).expect("explicit level");
+        assert_eq!(explicit["content"]["npcLevel"], 0);
+    }
+
+    #[test]
+    fn report_participant_loot_filters_only_client_item_placeholders() {
+        let infos = json!([{"PlayerId": 7, "Loots": [
+            {"Type": 2, "SubType": 0, "Value": 0},
+            {"Type": 1, "SubType": 0, "Value": 10},
+            {"Type": 2, "SubType": 9, "Value": 1},
+            {"Type": 2, "SubType": 9, "Value": 2}
+        ]}]);
+        let output = format_report_infos(Some(&infos), true).expect("format participant");
+        assert_eq!(
+            output[0]["loots"],
+            json!([
+                {"Type": 1, "SubType": 0, "Value": 10},
+                {"Type": 2, "SubType": 9, "Value": 1},
+                {"Type": 2, "SubType": 9, "Value": 2}
+            ])
+        );
+    }
+
+    #[test]
+    fn reconstructs_and_processes_ghost_cav_kill_bar_network_mail() {
+        let reconstructor = MailReconstructor::synthetic();
+        let mut body = bar_canyon_body(&reconstructor);
+        push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "NpcType"), 70005);
+        push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "Level"), 1);
+        let mut loot = Vec::new();
+        push_varint(&mut loot, field(&reconstructor, "Loot", "Type"), 2);
+        push_varint(&mut loot, field(&reconstructor, "Loot", "SubType"), 8450);
+        push_varint(&mut loot, field(&reconstructor, "Loot", "Value"), 2);
+        let mut info = Vec::new();
+        push_varint(&mut info, field(&reconstructor, "ReportInfo", "PlayerId"), 7);
+        push_bytes(&mut info, field(&reconstructor, "ReportInfo", "Name"), b"Governor");
+        push_fixed32(&mut info, field(&reconstructor, "ReportInfo", "DamageRate"), 100.0);
+        push_bytes(
+            &mut info,
+            field(&reconstructor, "ReportInfo", "Avatar"),
+            b"{\"avatar\":\"avatar.png\",\"avatarFrame\":\"null\"}",
+        );
+        push_bytes(&mut info, field(&reconstructor, "ReportInfo", "Loots"), &loot);
+        push_bytes(&mut body, field(&reconstructor, "EliteBarReportInfo", "Infos"), &info);
+        let schema = &reconstructor.schema;
+        let mut entry = Vec::new();
+        push_bytes(&mut entry, schema.mail_id, b"ghost-report");
+        push_bytes(&mut entry, schema.mail_type, b"GhostCavKillBar");
+        push_bytes(&mut entry, schema.receiver, b"player_7");
+        push_varint(&mut entry, schema.timestamp, 1234);
+        push_bytes(&mut entry, schema.body, &body);
+        let mail = reconstructor
+            .reconstruct(
+                &entry,
+                crate::ReconstructionContext { server_id: Some(1804), ..Default::default() },
+            )
+            .expect("reconstruct ghost cavalry report");
+        assert_eq!(mail.mail_type, "GhostCavKillBar");
+        let decoded =
+            rokbattles_mail_codec::decode(&mail.bytes).expect("decode reconstructed mail");
+        let output = rokbattles_mail_processor_ghostcavkillbar::process(&decoded)
+            .expect("process reconstructed mail");
+        assert_eq!(
+            serde_json::to_value(output).expect("serialize output"),
+            json!({
+                "metadata": {"mail_id": "ghost-report", "mail_time": 1234, "mail_receiver": "player_7", "server_id": 1804},
+                "npc": {"type": 70005, "level": 1, "location": {"x": 12.5, "y": 24.5}},
+                "participants": [{
+                    "player_id": 7,
+                    "player_name": "Governor",
+                    "damage_rate": 100,
+                    "avatar_url": "avatar.png",
+                    "frame_url": null,
+                    "loot": [{"type": 2, "sub_type": 8450, "value": 2}]
+                }]
+            })
+        );
     }
 
     #[test]

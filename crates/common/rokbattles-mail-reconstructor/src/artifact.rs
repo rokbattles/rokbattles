@@ -339,7 +339,17 @@ mod tests {
                         field("Data", 3, 3, 11, "Loot"),
                     ],
                 ),
-                message("ReportInfo", Vec::new()),
+                message(
+                    "ReportInfo",
+                    vec![
+                        field("PlayerId", 1, 1, 3, ""),
+                        field("Name", 2, 1, 9, ""),
+                        field("DamageRate", 3, 1, 2, ""),
+                        field("Order", 4, 1, 5, ""),
+                        field("Loots", 5, 3, 11, "Loot"),
+                        field("Avatar", 6, 1, 9, ""),
+                    ],
+                ),
                 message(
                     "Loot",
                     vec![
