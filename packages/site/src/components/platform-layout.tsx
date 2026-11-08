@@ -7,6 +7,7 @@ import {
   Flag,
   Flame,
   Gift,
+  LogIn,
   Map as MapIcon,
   Scale,
   Trophy,
@@ -96,26 +97,39 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
           <SidebarBody>
             <SidebarSection>
               <SidebarHeading>Community</SidebarHeading>
-              <SidebarItem href="/" current={pathname === "/"}>
+              <SidebarItem title="Battle Reports" href="/" current={pathname === "/"}>
                 <Flame data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Battle Reports</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
+              <SidebarItem
+                title="Olympian Arena"
+                href="/olympian-arena"
+                current={pathname === "/olympian-arena"}
+              >
                 <Trophy data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Olympian Arena</SidebarLabel>
               </SidebarItem>
               <SidebarItem
+                title="Loot Explorer"
                 href="/loot-explorer"
                 current={pathname === "/loot-explorer" || pathname.startsWith("/loot-explorer/")}
               >
                 <Gift data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Loot Explorer</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/combat-lab" current={pathname.startsWith("/combat-lab")}>
+              <SidebarItem
+                title="Combat Lab"
+                href="/combat-lab"
+                current={pathname.startsWith("/combat-lab")}
+              >
                 <ChartPie data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Combat Lab</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/territory-lab" current={pathname.startsWith("/territory-lab")}>
+              <SidebarItem
+                title="Territory Lab"
+                href="/territory-lab"
+                current={pathname.startsWith("/territory-lab")}
+              >
                 <MapIcon data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Territory Lab</SidebarLabel>
               </SidebarItem>
@@ -125,11 +139,16 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <SidebarHeading>My Data</SidebarHeading>
                 {showMyReports ? (
                   <>
-                    <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
+                    <SidebarItem
+                      title="My Battles"
+                      href="/account/reports"
+                      current={pathname === "/account/reports"}
+                    >
                       <Flame data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>My Battles</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
+                      title="My Pairings"
                       href="/account/pairings"
                       current={pathname === "/account/pairings"}
                     >
@@ -137,6 +156,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       <SidebarLabel>My Pairings</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
+                      title="My Loot"
                       href="/account/loot"
                       current={
                         pathname === "/account/loot" || pathname.startsWith("/account/loot/")
@@ -146,6 +166,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       <SidebarLabel>My Loot</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
+                      title="My Resources"
                       href="/account/resources"
                       current={pathname === "/account/resources"}
                     >
@@ -153,6 +174,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       <SidebarLabel>My Resources</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
+                      title="Ark Recap"
                       href="/account/ark"
                       current={pathname === "/account/ark" || pathname.startsWith("/account/ark/")}
                     >
@@ -167,6 +189,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarSection>
               <DonateDialog />
               <SidebarItem
+                title="Support"
                 href="/discord"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -175,7 +198,13 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <CircleHelp data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Support</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/docs" target="_blank" rel="noopener noreferrer" prefetch={false}>
+              <SidebarItem
+                title="Documentation"
+                href="/docs"
+                target="_blank"
+                rel="noopener noreferrer"
+                prefetch={false}
+              >
                 <BookOpen data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Documentation</SidebarLabel>
               </SidebarItem>
@@ -183,7 +212,8 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
           </SidebarBody>
           {!user ? (
             <SidebarFooter>
-              <SidebarItem href="/proxy/v1/auth/discord/login" prefetch={false}>
+              <SidebarItem title="Sign in" href="/proxy/v1/auth/discord/login" prefetch={false}>
+                <LogIn data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Sign in</SidebarLabel>
               </SidebarItem>
             </SidebarFooter>
