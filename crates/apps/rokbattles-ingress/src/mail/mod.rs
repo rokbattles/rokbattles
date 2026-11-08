@@ -114,6 +114,7 @@ mod tests {
     fn status_mapping_marks_supported_processor_types_processable() {
         assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("Rss"), STATUS_PENDING);
+        assert_eq!(insert_status_for_mail_type("GhostCavKillBar"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemBarbarianFort"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemKaharTreasure"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemKauKaruak"), STATUS_PENDING);

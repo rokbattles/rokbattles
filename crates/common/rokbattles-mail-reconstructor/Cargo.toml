@@ -22,5 +22,7 @@ rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"]
 rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-processor-system-barbarianfort" }
 rokbattles-mail-processor-system-kaukaruak = { path = "../rokbattles-mail-processor-system-kaukaruak" }
 
+rokbattles-mail-processor-ghostcavkillbar = { path = "../rokbattles-mail-processor-ghostcavkillbar" }
+
 [lints]
 workspace = true

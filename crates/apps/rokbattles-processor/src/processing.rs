@@ -584,6 +584,12 @@ mod tests {
     fn compressed_samples_run_through_every_registered_processor() {
         let samples: &[(&[u8], MailType)] = &[
             (
+                include_bytes!(
+                    "../../../../samples/GhostCavKillBar/Persistent.Mail.13411379179417835931"
+                ),
+                MailType::GhostCavKillBar,
+            ),
+            (
                 include_bytes!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
                     "/../../../samples/Battle/Persistent.Mail.7948875176322794831"

@@ -104,6 +104,24 @@ mod tests {
     use super::*;
 
     #[test]
+    fn classifies_ghost_cav_kill_bar_sample_for_collection() {
+        let mail = rokbattles_mail_codec::decode(include_bytes!(
+            "../../../../../samples/GhostCavKillBar/Persistent.Mail.13411379179417835931"
+        ))
+        .expect("decode sample");
+        assert_eq!(extract_mail_type(&mail).expect("mail type"), "GhostCavKillBar");
+        assert_eq!(
+            extract_metadata(&mail).expect("metadata"),
+            MailMetadata {
+                id: "13411379179417835931".to_string(),
+                time: 1794178359106490,
+                receiver: "player_71738515".to_string()
+            }
+        );
+        assert!(is_supported_mail_type("GhostCavKillBar"));
+    }
+
+    #[test]
     fn classifies_kau_karuak_rewards_but_does_not_support_failure_mail() {
         let reward = json!({"type": "System", "body": {"subType": 149, "subParam": 1}});
 

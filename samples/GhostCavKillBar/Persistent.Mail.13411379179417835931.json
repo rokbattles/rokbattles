@@ -1,0 +1,78 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Bandits",
+      "infos": [
+        {
+          "avatar": "{\"avatarFrame\":\"null\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png\"}",
+          "damageRate": 100,
+          "idx": 1,
+          "loots": [
+            {
+              "SubType": 9,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 75,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 47,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 7001,
+              "Type": 2,
+              "Value": 15
+            },
+            {
+              "SubType": 8450,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Grigvar",
+          "order": 1,
+          "playerId": 71738515
+        }
+      ],
+      "npcLevel": 1,
+      "npcType": 70005,
+      "pos": {
+        "x": 4476.6796875,
+        "y": 4569.76708984375
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "13411379179417835931",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 16153,
+  "starMark": 0,
+  "time": 1794178359106490,
+  "title": "",
+  "type": "GhostCavKillBar",
+  "unread": false
+}

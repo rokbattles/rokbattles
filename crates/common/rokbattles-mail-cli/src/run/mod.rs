@@ -125,6 +125,35 @@ mod tests {
     }
 
     #[test]
+    fn run_decodes_and_processes_ghost_cav_kill_bar_sample() {
+        let input_dir = tempfile::tempdir().expect("input dir");
+        let output_dir = tempfile::tempdir().expect("output dir");
+        let file_name = "Persistent.Mail.13411379179417835931";
+        let sample_dir =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples/GhostCavKillBar");
+        fs::copy(sample_dir.join(file_name), input_dir.path().join(file_name))
+            .expect("copy sample");
+        let summary = run(&Config {
+            input_dir: input_dir.path().to_path_buf(),
+            output_dir: output_dir.path().to_path_buf(),
+            pretty: true,
+        })
+        .expect("decode and process sample");
+        assert_eq!(summary.decoded_files, 1);
+        for suffix in [".json", "-processed.json"] {
+            let name = format!("{file_name}{suffix}");
+            let actual: serde_json::Value = serde_json::from_slice(
+                &fs::read(output_dir.path().join(&name)).expect("read output"),
+            )
+            .expect("parse output");
+            let expected: serde_json::Value =
+                serde_json::from_slice(&fs::read(sample_dir.join(name)).expect("read fixture"))
+                    .expect("parse fixture");
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
     fn run_processes_kau_karuak_reward_sample() {
         let input_dir = tempfile::tempdir().expect("input dir");
         let output_dir = tempfile::tempdir().expect("output dir");

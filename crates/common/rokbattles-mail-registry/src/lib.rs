@@ -90,6 +90,8 @@ pub enum MailType {
     BarCanyonKillBoss,
     /// Elite barbarian reward reports.
     KillEliteBarReport,
+    /// Ghost event bandit reward reports.
+    GhostCavKillBar,
     /// GVE alliance boss member loot reports.
     EventMemberLootReport,
     /// Resource gathering reports.
@@ -112,11 +114,12 @@ impl MailType {
     /// All categories registered for processing, in registry order.
     ///
     /// Available even when the `processors` feature is disabled.
-    pub const ALL: [Self; 12] = [
+    pub const ALL: [Self; 13] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
         Self::KillEliteBarReport,
+        Self::GhostCavKillBar,
         Self::EventMemberLootReport,
         Self::Rss,
         Self::SystemBarbarianFort,
@@ -148,6 +151,7 @@ impl MailType {
             "DuelBattle2" => Some(Self::DuelBattle2),
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
             "KillEliteBarReport" => Some(Self::KillEliteBarReport),
+            "GhostCavKillBar" => Some(Self::GhostCavKillBar),
             "EventMemberLootReport" => Some(Self::EventMemberLootReport),
             "Rss" => Some(Self::Rss),
             MAIL_TYPE_SYSTEM_BARBARIAN_FORT => Some(Self::SystemBarbarianFort),
@@ -180,6 +184,7 @@ impl MailType {
             Self::DuelBattle2 => "DuelBattle2",
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
             Self::KillEliteBarReport => "KillEliteBarReport",
+            Self::GhostCavKillBar => "GhostCavKillBar",
             Self::EventMemberLootReport => "EventMemberLootReport",
             Self::Rss => "Rss",
             Self::SystemBarbarianFort => MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
@@ -201,6 +206,7 @@ impl MailType {
             Self::DuelBattle2 => "mails_duelbattle2",
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
             Self::KillEliteBarReport => "mails_killelitebarreport",
+            Self::GhostCavKillBar => "mails_ghostcavkillbar",
             Self::EventMemberLootReport => "mails_eventmemberlootreport",
             Self::Rss => "mails_rss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
@@ -430,6 +436,7 @@ pub fn process_mail(
         MailType::KillEliteBarReport => {
             rokbattles_mail_processor_killelitebarreport::process(input)
         }
+        MailType::GhostCavKillBar => rokbattles_mail_processor_ghostcavkillbar::process(input),
         MailType::EventMemberLootReport => {
             rokbattles_mail_processor_eventmemberlootreport::process(input)
         }
@@ -458,6 +465,39 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+
+    #[test]
+    fn recognizes_ghost_cav_kill_bar_without_accepting_trigger_tasks() {
+        assert_eq!(
+            detect_mail_type(&json!({"type": "ghostcavkillbar"})),
+            Some(MailType::GhostCavKillBar)
+        );
+        assert_eq!(detect_mail_type(&json!({"type": "GhostCavTriggerTask"})), None);
+        assert_eq!(MailType::from_label("GhostCavKillBar"), Some(MailType::GhostCavKillBar));
+        assert_eq!(MailType::GhostCavKillBar.as_str(), "GhostCavKillBar");
+        assert_eq!(MailType::GhostCavKillBar.collection_name(), "mails_ghostcavkillbar");
+        assert!(MailType::ALL.contains(&MailType::GhostCavKillBar));
+        assert!(is_processable_mail_type("GhostCavKillBar"));
+    }
+
+    #[cfg(feature = "processors")]
+    #[test]
+    fn dispatches_ghost_cav_kill_bar_sample() {
+        let input: Value = serde_json::from_str(include_str!(
+            "../../../../samples/GhostCavKillBar/Persistent.Mail.13411379179417835931.json"
+        ))
+        .expect("parse sample");
+        let mail_type = detect_mail_type(&input).expect("registered category");
+        let processed = process_mail(mail_type, &input).expect("process sample");
+        assert_eq!(processed.sections()["npc"].fields()["type"], json!(70005));
+        assert_eq!(
+            processed.sections()["participants"].array().expect("participants")[0]["loot"]
+                .as_array()
+                .expect("loot")
+                .len(),
+            5
+        );
+    }
 
     #[test]
     fn detects_kau_karuak_rewards_using_only_system_discriminators() {
