@@ -553,11 +553,10 @@ mod tests {
             "../../../../../samples/GhostCavKillBar/Persistent.Mail.13411379179417835931"
         );
         let report = source(&dir.path().join("Persistent.Mail.13411379179417835931"), bytes);
-        let Ok((file_name, prepared)) = prepare_upload(&report, 10_000) else {
+        let Ok(prepared) = read_supported_mail(&report, 10_000) else {
             panic!("GhostCavKillBar report should be collected");
         };
-        assert_eq!(file_name, "Persistent.Mail.13411379179417835931");
-        assert_eq!(prepared, bytes);
+        assert_eq!(prepared.bytes, bytes);
     }
 
     #[test]
