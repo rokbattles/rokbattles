@@ -16,5 +16,6 @@ pub mod precompute_drastc;
 pub mod precompute_kahar_treasure;
 pub mod precompute_karuak_ceremony;
 pub mod precompute_lohar_trial;
+pub mod precompute_strange_incidents;
 pub mod refresh_binds;
 pub mod scheduler;

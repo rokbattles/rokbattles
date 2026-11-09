@@ -301,6 +301,12 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_10.png
 
+    67:
+      name: "3-Hour Building Speedup"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_10.png
+
     71:
       name: "1-Minute Training Speedup"
       sprite:
@@ -694,6 +700,12 @@ loot:
       sprite:
         - img_KVK_Coin2big.png
 
+    4257:
+      name: "Anniversary Coin"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_2373.png
+
     4304:
       name: "Flux Scrip III"
 
@@ -711,6 +723,12 @@ loot:
 
     4350:
       name: "Flux Coin"
+
+    7001:
+      name: "Supply Box"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_48.png
 
     7003:
       name: "Lvl 1 Resource Pack A"
@@ -781,6 +799,18 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_68.png
+
+    8008:
+      name: "Commander Sculpture Chest"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_273.png
+
+    8450:
+      name: "Commander Sculpture Chest"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_273.png
 
     9989:
       name: "Bundle of Dazzling Starlight Sculptures"

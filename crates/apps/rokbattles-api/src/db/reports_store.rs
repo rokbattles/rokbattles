@@ -46,6 +46,7 @@ pub struct ReportsStore {
     mails_eventmemberlootreport: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
     mails_killelitebarreport: Collection<Document>,
+    mails_ghostcavkillbar: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
@@ -54,6 +55,7 @@ pub struct ReportsStore {
     g_rok_prec_kahartreasure: Collection<Document>,
     g_rok_prec_karuakceremony: Collection<Document>,
     g_rok_prec_lohartrial: Collection<Document>,
+    g_rok_prec_strangeincidents: Collection<Document>,
     g_rok_prec_drastc: Collection<Document>,
     g_rok_prec_drastc_presoc: Collection<Document>,
     g_rok_prec_cmdr_pairings_v2: Collection<Document>,
@@ -75,6 +77,7 @@ impl ReportsStore {
             mails_eventmemberlootreport: db.collection("mails_eventmemberlootreport"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             mails_killelitebarreport: db.collection("mails_killelitebarreport"),
+            mails_ghostcavkillbar: db.collection("mails_ghostcavkillbar"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
@@ -83,6 +86,7 @@ impl ReportsStore {
             g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
             g_rok_prec_karuakceremony: db.collection("g_rok_prec_karuakceremony"),
             g_rok_prec_lohartrial: db.collection("g_rok_prec_lohartrial"),
+            g_rok_prec_strangeincidents: db.collection("g_rok_prec_strangeincidents"),
             g_rok_prec_drastc: db.collection("g_rok_prec_drastc"),
             g_rok_prec_drastc_presoc: db.collection("g_rok_prec_drastc_presoc"),
             g_rok_prec_cmdr_pairings_v2: db.collection("g_rok_prec_cmdr_pairings_v2"),
@@ -545,6 +549,15 @@ impl ReportsStore {
             )
             .await?;
 
+        self.g_rok_prec_strangeincidents
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! { "kind": 1 })
+                    .options(IndexOptions::builder().unique(true).build())
+                    .build(),
+            )
+            .await?;
+
         self.g_rok_prec_drastc
             .create_index(
                 IndexModel::builder()
@@ -687,6 +700,16 @@ impl ReportsStore {
     /// Access precomputed Karuak Ceremony boss aggregates.
     pub fn precomputed_karuak_ceremony_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_karuakceremony
+    }
+
+    /// Returns the collection of Strange Incidents reports.
+    pub fn ghost_cav_kill_bar_collection(&self) -> &Collection<Document> {
+        &self.mails_ghostcavkillbar
+    }
+
+    /// Returns the collection of precomputed Strange Incidents loot statistics.
+    pub fn precomputed_strange_incidents_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_strangeincidents
     }
 
     /// Access precomputed Lohar's Trial aggregates.
