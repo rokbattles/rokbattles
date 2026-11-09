@@ -141,12 +141,27 @@ export type LoharTrialLootDocument = {
   refreshedAt: string;
 };
 
+export type StrangeIncidentsLootDocument = {
+  kind: number;
+  slots: BaulurRollSlot[];
+  totals: {
+    results: number;
+    matchedResults: number;
+    reports: number;
+    duplicateReports: number;
+    emptyResults: number;
+    unmatchedResults: number;
+  };
+  refreshedAt: string;
+};
+
 type LootExplorerEndpoint =
   | "barbarians"
   | "barbarian-forts"
   | "baulurs"
   | "karuak-ceremony"
-  | "lohars-trial";
+  | "lohars-trial"
+  | "strange-incidents";
 
 export async function fetchLootExplorerItems<T>(
   endpoint: LootExplorerEndpoint

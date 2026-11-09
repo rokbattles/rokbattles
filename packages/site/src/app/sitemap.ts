@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/loot-explorer/barbarian-forts",
     "/loot-explorer/baulurs",
     "/loot-explorer/karuak-ceremony",
+    "/loot-explorer/strange-incidents",
     "/loot-explorer/kahars-treasure",
     "/loot-explorer/lohars-trial",
     "/legal",

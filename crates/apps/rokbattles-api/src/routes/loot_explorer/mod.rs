@@ -117,6 +117,26 @@ pub async fn get_lohar_trial(
     ))
 }
 
+/// Returns precomputed Strange Incidents loot statistics for NPC 70005.
+pub async fn get_strange_incidents(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<FxHashMap<String, String>>,
+) -> Result<impl IntoResponse, ApiError> {
+    let request = parse_kind_request(&params)?;
+    let items = fetch_documents::<RawStrangeIncidentsDocument, StrangeIncidentsDocument>(
+        state.reports_store.precomputed_strange_incidents_collection(),
+        doc! { "$and": [{ "kind": 70_005 }, request.filter()] },
+        doc! { "kind": 1 },
+    )
+    .await?;
+
+    Ok((
+        StatusCode::OK,
+        [("Cache-Control", "public, max-age=3600")],
+        Json(StrangeIncidentsResponse { items }),
+    ))
+}
+
 /// Returns precomputed Kahar treasure loot.
 pub async fn get_kahar_treasure(
     State(state): State<Arc<AppState>>,
@@ -294,6 +314,12 @@ struct LoharTrialResponse {
     items: Vec<LoharTrialDocument>,
 }
 
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct StrangeIncidentsResponse {
+    items: Vec<StrangeIncidentsDocument>,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 struct RawBarbarianDocument {
     kind: i32,
@@ -450,6 +476,34 @@ impl From<RawLoharTrialDocument> for LoharTrialDocument {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+struct RawStrangeIncidentsDocument {
+    kind: i32,
+    slots: Vec<BaulurRollSlot>,
+    totals: StrangeIncidentsTotals,
+    refreshed_at: DateTime,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct StrangeIncidentsDocument {
+    kind: i32,
+    slots: Vec<BaulurRollSlot>,
+    totals: StrangeIncidentsTotals,
+    refreshed_at: String,
+}
+
+impl From<RawStrangeIncidentsDocument> for StrangeIncidentsDocument {
+    fn from(value: RawStrangeIncidentsDocument) -> Self {
+        Self {
+            kind: value.kind,
+            slots: value.slots,
+            totals: value.totals,
+            refreshed_at: date_time_to_string(value.refreshed_at),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
 struct RawKaharTreasureDocument {
     kind: String,
     slots: Vec<KaharTreasureSlot>,
@@ -534,6 +588,17 @@ struct LoharTrialTotals {
     results: i64,
     matched_results: i64,
     ap_used: i64,
+    reports: i64,
+    duplicate_reports: i64,
+    empty_results: i64,
+    unmatched_results: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct StrangeIncidentsTotals {
+    results: i64,
+    matched_results: i64,
     reports: i64,
     duplicate_reports: i64,
     empty_results: i64,
@@ -637,9 +702,36 @@ mod tests {
 
     use super::{
         BaulurDocument, KaharTreasureDocument, KaruakCeremonyDocument, RawBaulurDocument,
-        RawKaharTreasureDocument, RawKaruakCeremonyDocument, parse_kind_request,
-        parse_level_request,
+        RawKaharTreasureDocument, RawKaruakCeremonyDocument, RawStrangeIncidentsDocument,
+        StrangeIncidentsDocument, parse_kind_request, parse_level_request,
     };
+
+    #[test]
+    fn strange_incidents_document_serializes_six_optional_slots() {
+        let raw = from_document::<RawStrangeIncidentsDocument>(doc! {
+            "kind": 70_005,
+            "slots": (1..=6).map(|slot| doc! {
+                "slot": slot, "results": 2_i64,
+                "no_item_results": 1_i64, "no_item_rate": 0.5,
+                "loot": [{ "type": 2, "sub_type": 8450, "results": 1_i64,
+                    "drop_rate": 0.5, "quantity": { "min": 2_i64, "max": 2_i64 },
+                    "total_quantity": 2_i64, "average_quantity": 2.0 }],
+            }).collect::<Vec<_>>(),
+            "totals": { "results": 3_i64, "matched_results": 2_i64,
+                "reports": 2_i64, "duplicate_reports": 0_i64,
+                "empty_results": 0_i64, "unmatched_results": 1_i64 },
+            "refreshed_at": DateTime::from_millis(1_783_480_000_000),
+        })
+        .expect("raw Strange Incidents document");
+        let json = serde_json::to_value(StrangeIncidentsDocument::from(raw)).expect("API JSON");
+        assert_eq!(json["kind"], 70_005);
+        assert_eq!(json["slots"].as_array().expect("slots").len(), 6);
+        assert_eq!(json["slots"][0]["noItemRate"], 0.5);
+        assert_eq!(json["slots"][0]["loot"][0]["subType"], 8450);
+        assert_eq!(json["totals"]["matchedResults"], 2);
+        assert_eq!(json["totals"]["unmatchedResults"], 1);
+        assert!(json["refreshedAt"].as_str().is_some_and(|date| date.starts_with("2026-07-08T")));
+    }
 
     #[test]
     fn parse_level_request_accepts_kind_and_comma_separated_levels() {
