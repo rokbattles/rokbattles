@@ -1,13 +1,11 @@
-//! Finds mail caches in common installation layouts and platform-specific hints.
+//! Locates game mail caches on Windows, macOS, and Linux.
 //!
-//! Windows searches standard locations, registry install paths, and a limited
-//! directory fallback. macOS searches application containers. Linux searches Wine
-//! prefixes and locations described by Steam, Lutris, and Bottles.
+//! Searches check platform-specific installation paths and use bounded directory
+//! walks. A candidate must contain a regular `Persistent.Mail.<digits>` file;
+//! discovery checks filenames without decoding mail.
 //!
-//! A candidate must contain a regular file named `Persistent.Mail.<digits>`;
-//! discovery does not decode mail or confirm that an empty cache belongs to the game.
-//! Search limits can produce partial results. Deadlines are checked between blocking
-//! operations and cannot interrupt a stalled filesystem or registry call.
+//! Results may be incomplete. Deadlines apply between blocking operations, so an
+//! individual filesystem or registry call can exceed the search deadline.
 
 #[cfg(target_os = "linux")]
 mod linux;
@@ -27,25 +25,27 @@ use std::{
     path::{Path, PathBuf},
 };
 
-/// Validated cache paths found within the supported layouts and search limits.
+/// Cache directories found within the search limits.
 #[derive(Debug, Default)]
 pub(crate) struct Discovery {
+    /// Directories that passed the filename and file-type checks.
     pub(crate) dirs: Vec<PathBuf>,
-    /// Existing cache directories whose contents macOS would not let us inspect.
+    /// Existing macOS cache directories that require permission to inspect.
     pub(crate) access_denied_dirs: Vec<PathBuf>,
-    /// A search limit, unreadable location, or invalid metadata prevented a full search.
+    /// Whether a limit or error interrupted part of the search.
     ///
-    /// `false` does not guarantee that every installation on the machine was found.
+    /// A `false` value does not guarantee that every installation was found.
     pub(crate) incomplete: bool,
 }
 
-/// Searches for mail caches synchronously, returning any matches even if a search is incomplete.
+/// Searches for game mail caches, returning any matches found before a limit or error.
 ///
-/// Call from a blocking worker through [`crate::directory_operations::DirectoryOperations`].
+/// Call through [`crate::directory_operations::DirectoryOperations`] to keep
+/// blocking filesystem work off async runtime threads.
 pub(crate) fn discover_mailcache_dirs() -> Discovery {
     #[cfg(target_os = "windows")]
     {
-        // Probe drives within the search so failures and limits contribute to its result.
+        // Check drive roots within the search budget so failures mark the result incomplete.
         let roots = (b'A'..=b'Z')
             .map(|letter| PathBuf::from(format!("{}:\\", char::from(letter))))
             .collect::<Vec<_>>();
@@ -56,7 +56,7 @@ pub(crate) fn discover_mailcache_dirs() -> Discovery {
         search.append_to(&mut result);
         dedupe_results(&mut result);
 
-        return result;
+        result
     }
 
     #[cfg(target_os = "macos")]
@@ -81,6 +81,7 @@ pub(crate) fn discover_mailcache_dirs() -> Discovery {
     Discovery::default()
 }
 
+/// Removes extended-length prefixes and normalizes Windows path separators for display.
 #[cfg(any(test, target_os = "windows"))]
 pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
     let normalized = path.trim().replace('/', "\\");
@@ -96,17 +97,18 @@ pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
     normalized
 }
 
-/// Returns a key for deduplicating directory aliases, falling back to the supplied path.
+/// Returns a path key for detecting directory aliases.
 ///
-/// Canonicalization performs blocking filesystem I/O. The key is separate from the
-/// path displayed or saved for the user; Windows keys also normalize case and prefixes.
+/// Uses the canonical path when available, otherwise the supplied path. Windows
+/// keys also remove extended-length prefixes and fold ASCII case. This function
+/// performs blocking filesystem I/O; keep the original path for display and storage.
 pub(crate) fn path_identity_key(path: &Path) -> String {
     let normalized = fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
     let text = normalized.to_string_lossy().to_string();
 
     #[cfg(target_os = "windows")]
     {
-        return normalize_windows_path_for_display(&text).to_ascii_lowercase();
+        normalize_windows_path_for_display(&text).to_ascii_lowercase()
     }
 
     #[cfg(not(target_os = "windows"))]
@@ -164,7 +166,7 @@ impl Search {
         match open_dir(path) {
             Ok(entries) => Some(entries),
             Err(error) => {
-                // Missing optional layouts and paths that disappeared are not unreadable installs.
+                // Absent optional directories do not make the search incomplete.
                 if !matches!(error.kind(), io::ErrorKind::NotFound | io::ErrorKind::NotADirectory) {
                     self.incomplete = true;
                 }
@@ -180,7 +182,7 @@ impl Search {
         };
         let mut collected = Vec::new();
 
-        // Errors consume the budget too; flatten().take(limit) can hide an unbounded error stream.
+        // Count errors toward the entry limit; flatten() would skip them.
         for index in 0..=limit {
             if !self.within_deadline() {
                 break;
@@ -236,7 +238,7 @@ impl Search {
     }
 
     fn check_mailcache_entries(&mut self, path: PathBuf, mut entries: fs::ReadDir) {
-        // Stop as soon as validity is established, even in a cache with many reports.
+        // One matching file is enough to identify a candidate cache.
         for index in 0..=4096 {
             if !self.within_deadline() {
                 return;
@@ -309,8 +311,8 @@ fn collect_windows_from_roots(
     search: &mut Search,
     collect_installation_hints: impl FnOnce(&mut Search),
 ) {
-    // Check direct standard paths on every drive before expanding directory trees,
-    // so one large tree cannot exhaust the budget before another drive is checked.
+    // Probe standard paths on all drives before walking directory trees. A large
+    // tree could otherwise exhaust the shared search budget.
     for root in roots {
         if !search.within_deadline() || search.remaining_operations == 0 {
             search.incomplete = true;
@@ -333,7 +335,7 @@ fn collect_windows_from_roots(
         }
     }
 
-    // Unrelated installer metadata must not exhaust the budget before standard probes.
+    // Check registry hints after standard paths so unrelated entries cannot exhaust the budget first.
     collect_installation_hints(search);
 
     for root in roots {
@@ -359,7 +361,7 @@ fn collect_windows_candidates_from_base(base: &Path, search: &mut Search) {
     for child in search.child_dirs(base, 1024) {
         check_install_location(&child, search);
 
-        // Preserve the extra parent directory used by regional and nested installations.
+        // Some regional installations place the game one directory deeper.
         for nested in search.child_dirs(&child, 128) {
             check_install_location(&nested, search);
         }
@@ -396,7 +398,7 @@ fn collect_windows_candidates_fallback(root: &Path, search: &mut Search) {
                 continue;
             }
 
-            // Limit scheduled directories too, so the queue cannot grow without bound.
+            // Bound queued directories as well as directory reads.
             if scheduled >= 3500 {
                 search.incomplete = true;
                 continue;
@@ -467,8 +469,8 @@ fn collect_macos_from_base(
             continue;
         }
 
-        // Stat before opening: probing absent caches with read_dir can request
-        // access to unrelated apps' protected containers on macOS.
+        // Check for a directory before opening it; read_dir can trigger privacy
+        // prompts for unrelated app containers.
         search.remaining_operations -= 1;
         match fs::metadata(&candidate) {
             Ok(metadata) if metadata.is_dir() => {}
@@ -481,8 +483,8 @@ fn collect_macos_from_base(
             }
         }
 
-        // A first-run privacy prompt can block this open past the search deadline.
-        // Preserve the remaining scan time once the user grants or denies access.
+        // Opening a cache may wait for a macOS permission prompt. Exclude that
+        // wait from the remaining search budget.
         let started = Instant::now();
         let mut permission_denied = false;
         let entries = search.read_dir_with(&candidate, |path| {
@@ -505,11 +507,11 @@ fn collect_macos_from_base(
     }
 }
 
-/// Requests access to denied caches and validates the selected directories.
+/// Prompts for access to macOS caches and validates the selected directories.
 ///
-/// Calls `select` with each candidate path. A `None` selection stops further
-/// requests and retains the remaining candidates. Only directories containing
-/// a regular `Persistent.Mail.<digits>` file are added to the results.
+/// Calls `select` for each denied candidate. Returning `None` cancels further
+/// prompts and leaves the unprocessed candidates in `result`. Selected directories
+/// are added only if they contain a regular `Persistent.Mail.<digits>` file.
 #[cfg(any(test, target_os = "macos"))]
 pub(crate) fn authorize_macos_candidates(
     result: &mut Discovery,
@@ -525,7 +527,7 @@ pub(crate) fn authorize_macos_candidates(
             break;
         };
 
-        // Time spent choosing a folder must not consume its validation budget.
+        // Start validation's budget after the folder picker returns.
         let mut validation = Search::new();
         validation.check_mailcache(selected);
 
@@ -706,7 +708,7 @@ mod tests {
         let mut search = super::Search::new();
 
         super::collect_macos_from_base(&containers, &mut search, |path| {
-            // Opening another app's container can wait for a macOS permission prompt.
+            // Simulate waiting for a macOS permission prompt before the directory opens.
             std::thread::sleep(std::time::Duration::from_millis(2100));
             fs::read_dir(path)
         });
@@ -843,7 +845,7 @@ mod tests {
         fs::create_dir_all(&mailcache).expect("cache");
         fs::write(mailcache.join("Persistent.Mail.42"), b"fixture").expect("report");
         let mut exhausted = super::Search::new();
-        // Enumerating the containers and checking cache metadata use the budget.
+        // Container enumeration and the candidate metadata check both count as operations.
         exhausted.remaining_operations = 2;
         let mut expired = super::Search::new();
         expired.deadline = std::time::Instant::now();
