@@ -8,8 +8,6 @@ import { LootExplorerStatus } from "./loot-explorer-status";
 import { LootExplorerSummary } from "./loot-explorer-summary";
 import { LootTable } from "./loot-table";
 
-const numberFormatter = new Intl.NumberFormat("en-US");
-
 export function StrangeIncidentsExplorer() {
   const [items, setItems] = useState<StrangeIncidentsLootDocument[]>([]);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
@@ -61,15 +59,6 @@ export function StrangeIncidentsExplorerContent({
         generatedAt={item?.refreshedAt}
         items={[{ label: "Results", value: item?.totals.results ?? 0 }]}
       />
-      {item && item.totals.unmatchedResults > 0 ? (
-        <p className="rounded-lg px-4 py-3 text-sm/6 bg-amber-500/10 text-amber-200">
-          {`Rates exclude ${
-            Math.abs(item.totals.unmatchedResults) === 1
-              ? `${numberFormatter.format(item.totals.unmatchedResults)} reward result`
-              : `${numberFormatter.format(item.totals.unmatchedResults)} reward results`
-          } that could not be assigned to the six observed reward slots.`}
-        </p>
-      ) : null}
       <div className="space-y-8">
         {item?.slots.map((slot) => (
           <section key={slot.slot} className="space-y-3">
