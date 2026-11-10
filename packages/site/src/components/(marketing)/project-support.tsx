@@ -23,7 +23,7 @@ export function ProjectSupport() {
       </div>
       <div className={cn(card, "flex flex-col items-start")}>
         <Subheading>Open source</Subheading>
-        <Text className="mt-2">ROK Battles is dual-licensed under MIT or Apache 2.0.</Text>
+        <Text className="mt-2">ROK Battles is licensed under GNU AGPL version 3 only.</Text>
         <Link
           href="https://github.com/rokbattles/rokbattles"
           target="_blank"
