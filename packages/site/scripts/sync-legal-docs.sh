@@ -2,7 +2,7 @@
 set -eu
 
 repo_url="https://github.com/rokbattles/legal.git"
-legal_commit="ea81a5757427343a7c76359b2d17759d407848f3"
+legal_commit="8372f05c80ccd458db3c8efa05e8e6a060be2048"
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 site_dir="$(cd "${script_dir}/.." && pwd)"
 destination="${site_dir}/src/content/legal"
