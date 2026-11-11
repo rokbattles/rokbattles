@@ -5,7 +5,7 @@ use axum::{
     routing::{get, post},
 };
 
-use crate::state::AppState;
+use crate::{rate_limit::RateLimitMode, state::AppState};
 
 mod auth;
 mod combat_lab;
@@ -19,11 +19,11 @@ mod pk;
 mod reports;
 pub(crate) mod territory_planner_v2;
 
-/// Build the top-level API router.
-pub fn router() -> Router<Arc<AppState>> {
+/// Builds the API routes with authentication rate limiting.
+pub fn router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .route("/health", get(health::get))
-        .nest("/v1", v1_router())
+        .nest("/v1", v1_router(rate_limit_mode))
         .nest("/v2", v2_router())
 }
 
@@ -36,11 +36,11 @@ fn v2_router() -> Router<Arc<AppState>> {
         .route("/global/combat-lab/rankings/presoc", get(combat_lab::get_rankings_presoc))
 }
 
-fn v1_router() -> Router<Arc<AppState>> {
+fn v1_router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .nest("/game", game::router())
         .nest("/governor", governor::router())
-        .nest("/auth", auth::router())
+        .nest("/auth", auth::router(rate_limit_mode))
         .nest("/kdmt", kdmt::router())
         .route("/overlay/{overlay}", get(overlays::battles))
         .route("/overlay/{overlay}/settings", get(overlays::token_settings))

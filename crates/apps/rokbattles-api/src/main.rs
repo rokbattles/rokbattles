@@ -88,7 +88,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .with_kdmt_token(config.kdmt_token),
     );
-    let app = build_router(state);
+    let app = build_router(state, config.rate_limit_mode);
 
     info!(bind_addr = %config.bind_addr, "starting rokbattles-api");
     let listener = tokio::net::TcpListener::bind(&config.bind_addr).await?;

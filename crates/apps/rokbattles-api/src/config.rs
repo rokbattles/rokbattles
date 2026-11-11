@@ -2,10 +2,13 @@
 
 use std::env;
 
+use crate::rate_limit::RateLimitMode;
+
 /// Runtime settings for the API process.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
     pub bind_addr: String,
+    pub rate_limit_mode: RateLimitMode,
     pub mongo_uri: String,
     pub discord_client_id: String,
     pub discord_client_secret: String,
@@ -20,6 +23,8 @@ pub struct Config {
 pub enum ConfigError {
     #[error("missing required env var: {key}")]
     Missing { key: &'static str },
+    #[error("invalid env var {key}: expected {expected}")]
+    Invalid { key: &'static str, expected: &'static str },
 }
 
 impl Config {
@@ -37,12 +42,16 @@ impl Config {
         let discord_client_id = required(&lookup, "DISCORD_CLIENT_ID")?;
         let discord_client_secret = required(&lookup, "DISCORD_CLIENT_SECRET")?;
         let discord_redirect_uri = required(&lookup, "DISCORD_REDIRECT_URI")?;
+        let rate_limit_mode = required(&lookup, "RATE_LIMIT_MODE")?.parse().map_err(|_error| {
+            ConfigError::Invalid { key: "RATE_LIMIT_MODE", expected: "local or cloudflare" }
+        })?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let pk_token = lookup("PK_TOKEN").filter(|value| !value.trim().is_empty());
         let kdmt_token = lookup("KDMT_TOKEN").filter(|value| !value.trim().is_empty());
 
         Ok(Self {
             bind_addr,
+            rate_limit_mode,
             mongo_uri,
             discord_client_id,
             discord_client_secret,
@@ -74,6 +83,7 @@ mod tests {
     #[test]
     fn uses_defaults_for_optional_values() {
         let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("RATE_LIMIT_MODE", "local"),
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
@@ -94,6 +104,7 @@ mod tests {
     #[test]
     fn loads_optional_sentry_dsn() {
         let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("RATE_LIMIT_MODE", "local"),
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
@@ -111,6 +122,7 @@ mod tests {
             [("partner-secret", Some("partner-secret")), ("", None), ("  ", None)]
         {
             let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+                ("RATE_LIMIT_MODE", "local"),
                 ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
                 ("DISCORD_CLIENT_ID", "client"),
                 ("DISCORD_CLIENT_SECRET", "secret"),
@@ -127,6 +139,7 @@ mod tests {
     fn loads_kdmt_independently_and_disables_blank_values() {
         for (token, expected) in [("kdmt-secret", Some("kdmt-secret")), ("", None), ("  ", None)] {
             let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
+                ("RATE_LIMIT_MODE", "local"),
                 ("MONGODB_URI", "mongodb://localhost/rokbattles"),
                 ("DISCORD_CLIENT_ID", "client"),
                 ("DISCORD_CLIENT_SECRET", "secret"),
@@ -140,6 +153,43 @@ mod tests {
         }
     }
 
+    fn with_mode(mode: Option<&str>) -> Result<Config, ConfigError> {
+        Config::from_lookup(|key| match key {
+            "MONGODB_URI" => Some("mongodb://localhost/rokbattles".to_string()),
+            "DISCORD_CLIENT_ID" => Some("client".to_string()),
+            "DISCORD_CLIENT_SECRET" => Some("secret".to_string()),
+            "DISCORD_REDIRECT_URI" => Some("https://example.com/callback".to_string()),
+            "RATE_LIMIT_MODE" => mode.map(str::to_string),
+            _ => None,
+        })
+    }
+
+    #[test]
+    fn loads_local_and_cloudflare_rate_limit_modes() {
+        for (value, expected) in
+            [("local", RateLimitMode::Local), ("cloudflare", RateLimitMode::Cloudflare)]
+        {
+            assert_eq!(with_mode(Some(value)).expect("config").rate_limit_mode, expected);
+        }
+    }
+
+    #[test]
+    fn missing_rate_limit_mode_cannot_silently_disable_protection() {
+        let error = with_mode(None).expect_err("explicit mode required");
+        assert_eq!(error, ConfigError::Missing { key: "RATE_LIMIT_MODE" });
+    }
+
+    #[test]
+    fn rejects_blank_or_unknown_rate_limit_modes() {
+        for value in ["", "Cloudflare", "cloudflrae", "disabled", " local "] {
+            let error = with_mode(Some(value)).expect_err("invalid mode");
+            assert_eq!(
+                error,
+                ConfigError::Invalid { key: "RATE_LIMIT_MODE", expected: "local or cloudflare" }
+            );
+        }
+    }
+
     #[test]
     fn requires_mongo_uri() {
         let err = Config::from_lookup(lookup(FxHashMap::default())).expect_err("missing uri");
@@ -149,6 +199,7 @@ mod tests {
     #[test]
     fn requires_discord_client_id() {
         let err = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("RATE_LIMIT_MODE", "local"),
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
@@ -160,6 +211,7 @@ mod tests {
     #[test]
     fn requires_discord_client_secret() {
         let err = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("RATE_LIMIT_MODE", "local"),
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
@@ -171,6 +223,7 @@ mod tests {
     #[test]
     fn requires_discord_redirect_uri() {
         let err = Config::from_lookup(lookup(FxHashMap::from_iter([
+            ("RATE_LIMIT_MODE", "local"),
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),

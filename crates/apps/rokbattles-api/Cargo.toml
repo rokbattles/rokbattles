@@ -29,6 +29,7 @@ sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images"
 yaml_serde.workspace = true
 
 [dev-dependencies]
+tower = { workspace = true, features = ["util"] }
 tokio = { workspace = true, features = ["sync", "time"] }
 
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]

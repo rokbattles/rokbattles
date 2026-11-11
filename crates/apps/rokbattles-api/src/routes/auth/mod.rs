@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{sync::Arc, time::Duration};
 
 use axum::{
     Json, Router,
@@ -7,8 +7,9 @@ use axum::{
         HeaderMap,
         header::{COOKIE, SET_COOKIE},
     },
+    middleware,
     response::{IntoResponse, Redirect, Response},
-    routing::{get, post},
+    routing::{MethodRouter, get, post},
 };
 use futures::StreamExt;
 use mongodb::{
@@ -23,6 +24,7 @@ use crate::{
     auth::{AuthenticatedSession, extract_cookie_value},
     db::{DesktopLogin, DiscordUserUpsert, NewSessionRecord, OAuthStateRecord},
     error::ApiError,
+    rate_limit::{self, RateLimitMode, RateLimiter},
     state::{AppState, DiscordOAuthConfig},
 };
 
@@ -37,14 +39,41 @@ const OAUTH_STATE_TTL_MILLIS: i64 = 10 * 60 * 1000;
 const SESSION_TTL_MILLIS: i64 = 7 * 24 * 60 * 60 * 1000;
 const SESSION_MAX_AGE_SECONDS: u64 = 7 * 24 * 60 * 60;
 
-pub fn router() -> Router<Arc<AppState>> {
+const LOGIN_BURST: u32 = 10;
+const LOGIN_REFILL: Duration = Duration::from_secs(30);
+const EXCHANGE_BURST: u32 = 15;
+const EXCHANGE_REFILL: Duration = Duration::from_secs(10);
+
+pub fn router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .route("/me", get(get_me))
         .route("/logout", post(post_logout))
-        .route("/discord/login", get(get_discord_login))
         .route("/discord/callback", get(get_discord_callback))
-        .route("/desktop/login", get(desktop::login))
-        .route("/desktop/exchange", post(desktop::exchange))
+        .merge(limited_routes(
+            rate_limit_mode,
+            get(get_discord_login),
+            get(desktop::login),
+            post(desktop::exchange),
+        ))
+}
+
+fn limited_routes<S: Clone + Send + Sync + 'static>(
+    mode: RateLimitMode,
+    website_login: MethodRouter<S>,
+    desktop_login: MethodRouter<S>,
+    desktop_exchange: MethodRouter<S>,
+) -> Router<S> {
+    let login = Arc::new(RateLimiter::new(mode, LOGIN_BURST, LOGIN_REFILL));
+    let exchange = Arc::new(RateLimiter::new(mode, EXCHANGE_BURST, EXCHANGE_REFILL));
+    Router::new()
+        .route("/discord/login", website_login)
+        .route("/desktop/login", desktop_login)
+        .route_layer(middleware::from_fn_with_state(login, rate_limit::enforce))
+        .merge(
+            Router::new()
+                .route("/desktop/exchange", desktop_exchange)
+                .route_layer(middleware::from_fn_with_state(exchange, rate_limit::enforce)),
+        )
 }
 
 async fn get_me(
@@ -353,6 +382,203 @@ mod tests {
     use mongodb::bson::doc;
 
     use super::*;
+
+    fn limiter_router(mode: RateLimitMode) -> Router {
+        limited_routes(
+            mode,
+            get(|| async { axum::http::StatusCode::NO_CONTENT }),
+            get(|| async { axum::http::StatusCode::NO_CONTENT }),
+            post(|| async { axum::http::StatusCode::NO_CONTENT }),
+        )
+    }
+
+    fn limiter_request(
+        method: axum::http::Method,
+        path: &str,
+    ) -> axum::http::Request<axum::body::Body> {
+        axum::http::Request::builder()
+            .method(method)
+            .uri(path)
+            .header("cf-connecting-ip", "192.0.2.1")
+            .body(axum::body::Body::empty())
+            .expect("request")
+    }
+
+    #[tokio::test]
+    async fn website_and_desktop_login_share_a_budget_but_exchange_is_independent() {
+        use axum::http::{Method, StatusCode, header::RETRY_AFTER};
+        use tower::ServiceExt;
+
+        let app = limiter_router(RateLimitMode::Cloudflare);
+
+        for attempt in 0..LOGIN_BURST {
+            let path = if attempt % 2 == 0 { "/discord/login" } else { "/desktop/login" };
+            let response =
+                app.clone().oneshot(limiter_request(Method::GET, path)).await.expect("response");
+            assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        }
+
+        for path in ["/discord/login", "/desktop/login"] {
+            let response =
+                app.clone().oneshot(limiter_request(Method::GET, path)).await.expect("response");
+            assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+            let seconds: u64 = response.headers()[RETRY_AFTER]
+                .to_str()
+                .expect("retry header")
+                .parse()
+                .expect("retry seconds");
+            assert!((1..=LOGIN_REFILL.as_secs()).contains(&seconds));
+        }
+
+        for _ in 0..EXCHANGE_BURST {
+            let response = app
+                .clone()
+                .oneshot(limiter_request(Method::POST, "/desktop/exchange"))
+                .await
+                .expect("response");
+            assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        }
+
+        let response = app
+            .oneshot(limiter_request(Method::POST, "/desktop/exchange"))
+            .await
+            .expect("response");
+        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+        assert!(response.headers().contains_key(RETRY_AFTER));
+    }
+
+    #[tokio::test]
+    async fn exchange_exhaustion_does_not_block_login() {
+        use axum::http::{Method, StatusCode};
+        use tower::ServiceExt;
+
+        let app = limiter_router(RateLimitMode::Cloudflare);
+
+        for _ in 0..EXCHANGE_BURST {
+            let response = app
+                .clone()
+                .oneshot(limiter_request(Method::POST, "/desktop/exchange"))
+                .await
+                .expect("response");
+            assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        }
+
+        let response = app
+            .clone()
+            .oneshot(limiter_request(Method::POST, "/desktop/exchange"))
+            .await
+            .expect("response");
+        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+
+        let response =
+            app.oneshot(limiter_request(Method::GET, "/discord/login")).await.expect("response");
+        assert_eq!(response.status(), StatusCode::NO_CONTENT);
+    }
+
+    #[tokio::test]
+    async fn malformed_login_queries_and_exchange_bodies_still_spend_capacity() {
+        use axum::{
+            body::Body,
+            http::{Method, Request, StatusCode, header::CONTENT_TYPE},
+        };
+        use tower::ServiceExt;
+
+        let app = limited_routes(
+            RateLimitMode::Cloudflare,
+            get(|| async { StatusCode::NO_CONTENT }),
+            get(|Query(_login): Query<DesktopLogin>| async { StatusCode::NO_CONTENT }),
+            post(|Json(_request): Json<serde_json::Value>| async { StatusCode::NO_CONTENT }),
+        );
+
+        for _ in 0..LOGIN_BURST {
+            let response = app
+                .clone()
+                .oneshot(limiter_request(Method::GET, "/desktop/login?port=invalid"))
+                .await
+                .expect("response");
+            assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+        }
+
+        let response = app
+            .clone()
+            .oneshot(limiter_request(Method::GET, "/discord/login"))
+            .await
+            .expect("response");
+        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+
+        for _ in 0..EXCHANGE_BURST {
+            let request = Request::builder()
+                .method(Method::POST)
+                .uri("/desktop/exchange")
+                .header("cf-connecting-ip", "192.0.2.1")
+                .header(CONTENT_TYPE, "application/json")
+                .body(Body::from("{invalid-json"))
+                .expect("request");
+            let response = app.clone().oneshot(request).await.expect("response");
+            assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+        }
+
+        let response = app
+            .oneshot(limiter_request(Method::POST, "/desktop/exchange"))
+            .await
+            .expect("response");
+        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+    }
+
+    #[tokio::test]
+    async fn local_mode_needs_no_cloudflare_header_and_never_throttles_auth_routes() {
+        use axum::{
+            body::Body,
+            http::{Method, Request, StatusCode},
+        };
+        use tower::ServiceExt;
+
+        let app = limiter_router(RateLimitMode::Local);
+
+        for (method, path) in [
+            (Method::GET, "/discord/login"),
+            (Method::GET, "/desktop/login"),
+            (Method::POST, "/desktop/exchange"),
+        ] {
+            for _ in 0..100 {
+                let request = Request::builder()
+                    .method(method.clone())
+                    .uri(path)
+                    .body(Body::empty())
+                    .expect("request");
+                let response = app.clone().oneshot(request).await.expect("response");
+                assert_eq!(response.status(), StatusCode::NO_CONTENT);
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn callback_me_and_logout_remain_outside_the_limiter() {
+        use axum::{
+            body::Body,
+            http::{Method, Request, StatusCode},
+        };
+        use tower::ServiceExt;
+
+        let app = limiter_router(RateLimitMode::Cloudflare)
+            .route("/discord/callback", get(|| async { StatusCode::NO_CONTENT }))
+            .route("/me", get(|| async { StatusCode::NO_CONTENT }))
+            .route("/logout", post(|| async { StatusCode::NO_CONTENT }));
+
+        for (method, path) in
+            [(Method::GET, "/discord/callback"), (Method::GET, "/me"), (Method::POST, "/logout")]
+        {
+            for _ in 0..100 {
+                let request = Request::builder()
+                    .method(method.clone())
+                    .uri(path)
+                    .body(Body::empty())
+                    .expect("request");
+                let response = app.clone().oneshot(request).await.expect("response");
+                assert_eq!(response.status(), StatusCode::NO_CONTENT);
+            }
+        }
+    }
 
     fn discord_response(status: axum::http::StatusCode, body: &str) -> reqwest::Response {
         axum::http::Response::builder()
