@@ -7,6 +7,7 @@ import {
   Flag,
   Flame,
   Gift,
+  Heart,
   LogIn,
   Map as MapIcon,
   Scale,
@@ -18,7 +19,6 @@ import { usePathname } from "next/navigation";
 
 import type React from "react";
 import { use, useCallback } from "react";
-import { DonateDialog } from "@/components/donate-dialog";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Navbar } from "@/components/ui/navbar";
 import {
@@ -187,7 +187,16 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             )}
             <SidebarSpacer />
             <SidebarSection>
-              <DonateDialog />
+              <SidebarItem
+                title="Donate"
+                href="https://github.com/sponsors/rokbattles"
+                target="_blank"
+                rel="noopener noreferrer"
+                prefetch={false}
+              >
+                <Heart data-slot="icon" aria-hidden="true" />
+                <SidebarLabel>Donate</SidebarLabel>
+              </SidebarItem>
               <SidebarItem
                 title="Support"
                 href="/discord"
