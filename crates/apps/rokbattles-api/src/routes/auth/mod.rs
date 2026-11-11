@@ -17,7 +17,7 @@ use mongodb::{
 };
 use reqwest::Url;
 use rokbattles_bson::bson_to_i64_exact;
-use serde::Deserialize;
+use serde::{Deserialize, de::DeserializeOwned};
 
 use crate::{
     auth::{AuthenticatedSession, extract_cookie_value},
@@ -150,10 +150,10 @@ async fn get_discord_callback(
         return Err(ApiError::bad_request("invalid or expired state"));
     }
 
-    if let Some(error) = query.error {
+    if query.error.is_some() {
         return match oauth_state.desktop {
             Some(login) => desktop::callback(&login, "error", "access_denied"),
-            None => Err(ApiError::bad_request(error)),
+            None => Err(ApiError::bad_request("discord authorization denied")),
         };
     }
 
@@ -285,17 +285,9 @@ async fn exchange_discord_token(
         ])
         .send()
         .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
+        .map_err(|error| discord_request_error("token_exchange", error))?;
 
-    if !response.status().is_success() {
-        let reason = response.text().await.unwrap_or_else(|_| "token exchange failed".to_string());
-        return Err(ApiError::bad_request(reason));
-    }
-
-    response
-        .json::<DiscordTokenResponse>()
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))
+    decode_discord_response(response, "token_exchange").await
 }
 
 async fn fetch_discord_profile(access_token: &str) -> Result<DiscordProfileResponse, ApiError> {
@@ -305,18 +297,36 @@ async fn fetch_discord_profile(access_token: &str) -> Result<DiscordProfileRespo
         .bearer_auth(access_token)
         .send()
         .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
+        .map_err(|error| discord_request_error("profile", error))?;
 
+    decode_discord_response(response, "profile").await
+}
+
+async fn decode_discord_response<T: DeserializeOwned>(
+    response: reqwest::Response,
+    operation: &'static str,
+) -> Result<T, ApiError> {
     if !response.status().is_success() {
-        let reason =
-            response.text().await.unwrap_or_else(|_| "failed to fetch profile".to_string());
-        return Err(ApiError::bad_request(reason));
+        tracing::warn!(
+            operation,
+            status = response.status().as_u16(),
+            "Discord OAuth request rejected"
+        );
+        return Err(ApiError::bad_request("discord sign-in failed"));
     }
 
-    response
-        .json::<DiscordProfileResponse>()
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))
+    response.json().await.map_err(|error| discord_request_error(operation, error))
+}
+
+fn discord_request_error(operation: &'static str, error: reqwest::Error) -> ApiError {
+    tracing::warn!(
+        operation,
+        timeout = error.is_timeout(),
+        connection = error.is_connect(),
+        decode = error.is_decode(),
+        "Discord OAuth request failed"
+    );
+    ApiError::internal("discord sign-in failed")
 }
 
 #[derive(Debug, Deserialize)]
@@ -343,6 +353,118 @@ mod tests {
     use mongodb::bson::doc;
 
     use super::*;
+
+    fn discord_response(status: axum::http::StatusCode, body: &str) -> reqwest::Response {
+        axum::http::Response::builder()
+            .status(status)
+            .body(body.to_string())
+            .expect("mock Discord response")
+            .into()
+    }
+
+    #[tokio::test]
+    async fn discord_token_rejections_never_reflect_upstream_bodies() {
+        use axum::{body::to_bytes, http::StatusCode};
+
+        for status in [
+            StatusCode::BAD_REQUEST,
+            StatusCode::UNAUTHORIZED,
+            StatusCode::TOO_MANY_REQUESTS,
+            StatusCode::INTERNAL_SERVER_ERROR,
+        ] {
+            let upstream = discord_response(
+                status,
+                r#"{"error":"invalid_grant","error_description":"private-upstream-detail"}"#,
+            );
+            let error = decode_discord_response::<DiscordTokenResponse>(upstream, "token_exchange")
+                .await
+                .expect_err("Discord rejected token exchange");
+            assert_eq!(error.to_string(), "discord sign-in failed");
+            let response = error.into_response();
+            assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+            let body = to_bytes(response.into_body(), 1024).await.expect("error body");
+            let json: serde_json::Value = serde_json::from_slice(&body).expect("JSON error");
+            assert_eq!(json, serde_json::json!({"error": "discord sign-in failed"}));
+        }
+    }
+
+    #[tokio::test]
+    async fn discord_profile_rejections_never_reflect_upstream_bodies() {
+        use axum::{body::to_bytes, http::StatusCode};
+
+        let upstream = discord_response(StatusCode::FORBIDDEN, "private-profile-details");
+        let error = decode_discord_response::<DiscordProfileResponse>(upstream, "profile")
+            .await
+            .expect_err("Discord rejected profile request");
+        assert_eq!(error.to_string(), "discord sign-in failed");
+        let response = error.into_response();
+        assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+        let body = to_bytes(response.into_body(), 1024).await.expect("error body");
+        let json: serde_json::Value = serde_json::from_slice(&body).expect("JSON error");
+        assert_eq!(json, serde_json::json!({"error": "discord sign-in failed"}));
+    }
+
+    #[tokio::test]
+    async fn malformed_discord_token_response_is_sanitized() {
+        use axum::{body::to_bytes, http::StatusCode};
+
+        let upstream = discord_response(
+            StatusCode::OK,
+            r#"{"access_token":{"private-upstream-detail":true}}"#,
+        );
+        let error = decode_discord_response::<DiscordTokenResponse>(upstream, "token_exchange")
+            .await
+            .expect_err("invalid token payload");
+        assert_eq!(error.to_string(), "internal error: discord sign-in failed");
+        let response = error.into_response();
+        assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
+        let body = to_bytes(response.into_body(), 1024).await.expect("error body");
+        let json: serde_json::Value = serde_json::from_slice(&body).expect("JSON error");
+        assert_eq!(json, serde_json::json!({"error": "internal-server-error"}));
+    }
+
+    #[tokio::test]
+    async fn malformed_discord_profile_response_is_sanitized() {
+        let upstream = discord_response(axum::http::StatusCode::OK, "private-profile-details");
+        let error = decode_discord_response::<DiscordProfileResponse>(upstream, "profile")
+            .await
+            .expect_err("invalid profile payload");
+        assert_eq!(error.to_string(), "internal error: discord sign-in failed");
+    }
+
+    #[test]
+    fn discord_transport_errors_do_not_expose_request_details() {
+        let request_error = reqwest::Client::new()
+            .get("http://[private-request-detail")
+            .build()
+            .expect_err("invalid request URL");
+        let error = discord_request_error("token_exchange", request_error);
+        assert_eq!(error.to_string(), "internal error: discord sign-in failed");
+    }
+
+    #[tokio::test]
+    async fn successful_discord_responses_are_preserved() {
+        let token = decode_discord_response::<DiscordTokenResponse>(
+            discord_response(axum::http::StatusCode::OK, r#"{"access_token":"test-access-token"}"#),
+            "token_exchange",
+        )
+        .await
+        .expect("token response");
+        assert_eq!(token.access_token, "test-access-token");
+
+        let profile = decode_discord_response::<DiscordProfileResponse>(
+            discord_response(
+                axum::http::StatusCode::OK,
+                r#"{"id":"123","email":"test@example.com","verified":true}"#,
+            ),
+            "profile",
+        )
+        .await
+        .expect("profile response");
+        assert_eq!(profile.id, "123");
+        assert_eq!(profile.email.as_deref(), Some("test@example.com"));
+        assert_eq!(profile.verified, Some(true));
+    }
 
     #[test]
     fn extracts_optional_string_fields() {
