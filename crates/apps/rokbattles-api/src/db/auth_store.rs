@@ -2,7 +2,7 @@ use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use futures::{FutureExt, future::BoxFuture};
 use mongodb::{
     Collection, IndexModel,
-    bson::{DateTime, doc},
+    bson::{DateTime, Document, doc},
     options::{IndexOptions, UpdateOptions},
 };
 use serde::{Deserialize, Serialize};
@@ -233,11 +233,7 @@ impl AuthRepository for MongoAuthStore {
         async move {
             Ok(self
                 .desktop_oauth_states
-                .find_one_and_delete(doc! {
-                    "codeHash": code_hash,
-                    "codeChallenge": code_challenge,
-                    "expiresAt": { "$gt": now },
-                })
+                .find_one_and_delete(desktop_oauth_consume_filter(code_hash, code_challenge, now))
                 .await?)
         }
         .boxed()
@@ -342,6 +338,14 @@ impl AuthRepository for MongoAuthStore {
     }
 }
 
+fn desktop_oauth_consume_filter(code_hash: &str, code_challenge: &str, now: DateTime) -> Document {
+    doc! {
+        "codeHash": code_hash,
+        "codeChallenge": code_challenge,
+        "expiresAt": { "$gt": now },
+    }
+}
+
 fn hash_session_id(sid: &str) -> String {
     URL_SAFE_NO_PAD.encode(Sha256::digest(sid.as_bytes()))
 }
@@ -427,6 +431,19 @@ impl From<OAuthStateRecord> for OAuthStateDocument {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn desktop_consume_query_requires_code_pkce_and_strict_expiry_together() {
+        let now = DateTime::from_millis(1_700_000_000_000);
+        let filter = desktop_oauth_consume_filter("code-hash", "pkce-challenge", now);
+
+        assert_eq!(filter.get_str("codeHash").expect("code binding"), "code-hash");
+        assert_eq!(filter.get_str("codeChallenge").expect("PKCE binding"), "pkce-challenge");
+        assert_eq!(
+            filter.get_document("expiresAt").expect("expiry predicate"),
+            &doc! { "$gt": now }
+        );
+    }
 
     #[test]
     fn session_hash_matches_sha256_base64url_vector() {

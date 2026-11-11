@@ -28,6 +28,9 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 yaml_serde.workspace = true
 
+[dev-dependencies]
+tokio = { workspace = true, features = ["sync", "time"] }
+
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
 mimalloc = { workspace = true, features = ["secure"] }
 
