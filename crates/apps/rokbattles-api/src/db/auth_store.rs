@@ -1,3 +1,4 @@
+use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use futures::{FutureExt, future::BoxFuture};
 use mongodb::{
     Collection, IndexModel,
@@ -5,11 +6,11 @@ use mongodb::{
     options::{IndexOptions, UpdateOptions},
 };
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 /// Session data used by authenticated routes.
 #[derive(Debug, Clone)]
 pub struct SessionRecord {
-    pub session_id: String,
     pub user_id: String,
     pub created_at: DateTime,
     pub expires_at: DateTime,
@@ -147,7 +148,7 @@ impl MongoAuthStore {
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let session_indexes = vec![
             IndexModel::builder()
-                .keys(doc! { "sessionId": 1 })
+                .keys(doc! { "sessionHash": 1 })
                 .options(IndexOptions::builder().unique(true).build())
                 .build(),
             IndexModel::builder()
@@ -247,8 +248,9 @@ impl AuthRepository for MongoAuthStore {
         sid: &'a str,
     ) -> BoxFuture<'a, Result<Option<SessionRecord>, AuthStoreError>> {
         async move {
-            let doc = self.sessions.find_one(mongodb::bson::doc! { "sessionId": sid }).await?;
-            Ok(doc.map(SessionRecord::from))
+            let document =
+                self.sessions.find_one(doc! { "sessionHash": hash_session_id(sid) }).await?;
+            Ok(document.map(SessionRecord::from))
         }
         .boxed()
     }
@@ -258,7 +260,7 @@ impl AuthRepository for MongoAuthStore {
         sid: &'a str,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
-            self.sessions.delete_one(mongodb::bson::doc! { "sessionId": sid }).await?;
+            self.sessions.delete_one(doc! { "sessionHash": hash_session_id(sid) }).await?;
             Ok(())
         }
         .boxed()
@@ -340,10 +342,14 @@ impl AuthRepository for MongoAuthStore {
     }
 }
 
+fn hash_session_id(sid: &str) -> String {
+    URL_SAFE_NO_PAD.encode(Sha256::digest(sid.as_bytes()))
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 struct SessionDocument {
-    #[serde(rename = "sessionId")]
-    session_id: String,
+    #[serde(rename = "sessionHash")]
+    session_hash: String,
     #[serde(rename = "userId")]
     user_id: String,
     #[serde(rename = "createdAt")]
@@ -354,19 +360,14 @@ struct SessionDocument {
 
 impl From<SessionDocument> for SessionRecord {
     fn from(value: SessionDocument) -> Self {
-        Self {
-            session_id: value.session_id,
-            user_id: value.user_id,
-            created_at: value.created_at,
-            expires_at: value.expires_at,
-        }
+        Self { user_id: value.user_id, created_at: value.created_at, expires_at: value.expires_at }
     }
 }
 
 impl From<NewSessionRecord> for SessionDocument {
     fn from(value: NewSessionRecord) -> Self {
         Self {
-            session_id: value.session_id,
+            session_hash: hash_session_id(&value.session_id),
             user_id: value.user_id,
             created_at: value.created_at,
             expires_at: value.expires_at,
@@ -426,6 +427,25 @@ impl From<OAuthStateRecord> for OAuthStateDocument {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn session_hash_matches_sha256_base64url_vector() {
+        assert_eq!(hash_session_id("abc"), "ungWv48Bz-pBQUDeXa4iI7ADYaOWF3qctBD_YfIAFa0");
+    }
+
+    #[test]
+    fn serialized_session_contains_hash_instead_of_bearer_token() {
+        let document = mongodb::bson::to_document(&SessionDocument::from(NewSessionRecord {
+            session_id: "secret-token".to_string(),
+            user_id: "discord-user".to_string(),
+            created_at: DateTime::from_millis(1000),
+            expires_at: DateTime::from_millis(2000),
+        }))
+        .expect("serialize session");
+
+        assert!(!document.contains_key("sessionId"));
+        assert_eq!(document.get_str("sessionHash").expect("hash"), hash_session_id("secret-token"));
+    }
 
     #[test]
     fn preexisting_website_oauth_states_do_not_require_desktop_metadata() {
