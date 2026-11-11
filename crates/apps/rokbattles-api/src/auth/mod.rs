@@ -118,12 +118,8 @@ mod tests {
     #[test]
     fn detects_expired_session() {
         let old = DateTime::from_millis(1);
-        let session = SessionRecord {
-            session_id: "sid".to_string(),
-            user_id: "user".to_string(),
-            created_at: old,
-            expires_at: old,
-        };
+        let session =
+            SessionRecord { user_id: "user".to_string(), created_at: old, expires_at: old };
 
         assert!(is_expired(&session));
     }
