@@ -7,7 +7,6 @@
 //! Buckets are local to each limiter and reset when the process restarts.
 
 use std::{
-    collections::HashMap,
     net::{IpAddr, Ipv6Addr},
     str::FromStr,
     sync::{Arc, Mutex},
@@ -55,7 +54,7 @@ struct Buckets {
         clippy::disallowed_types,
         reason = "Randomized hashing protects against HashDoS from untrusted IP addresses"
     )]
-    clients: HashMap<IpAddr, Instant>,
+    clients: std::collections::HashMap<IpAddr, Instant>,
     next_cleanup: Instant,
 }
 
