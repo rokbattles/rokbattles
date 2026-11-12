@@ -12,7 +12,11 @@ use rokbattles_bson::nested_i64;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-use crate::{auth::AuthenticatedSession, error::ApiError, state::AppState};
+use crate::{
+    auth::{AuthenticatedSession, RequireRole, Role, roles},
+    error::ApiError,
+    state::AppState,
+};
 
 mod aggregate;
 mod store;
@@ -21,14 +25,6 @@ const NO_STORE: [(&str, &str); 2] =
     [("Cache-Control", "no-store"), ("Referrer-Policy", "no-referrer")];
 const QUERY_TIMEOUT: Duration = Duration::from_secs(5);
 const BATTLE_LIFETIME_MS: i64 = 5 * 60 * 1000;
-
-const ALLOWED_DISCORD_IDS: [&str; 5] = [
-    "187342661060001792",
-    "188044055698079756",
-    "1126322387240095824",
-    "695479485797105695",
-    "415929757679747073",
-];
 
 #[derive(Debug, Clone, Copy, Default, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -75,10 +71,6 @@ async fn owned_claim(
     session: &AuthenticatedSession,
     governor: i64,
 ) -> Result<Document, ApiError> {
-    if !ALLOWED_DISCORD_IDS.contains(&session.user.discord_id.as_str()) {
-        return Err(ApiError::not_found("Overlay not found"));
-    }
-
     state
         .reports_store
         .claimed_governors_collection()
@@ -91,7 +83,7 @@ async fn owned_claim(
 pub async fn settings(
     State(state): State<Arc<AppState>>,
     Path(governor): Path<i64>,
-    session: AuthenticatedSession,
+    session: RequireRole<roles::ContentCreator>,
 ) -> Result<impl IntoResponse, ApiError> {
     let claim = owned_claim(&state, &session, governor).await?;
 
@@ -107,7 +99,7 @@ pub async fn settings(
 pub async fn save(
     State(state): State<Arc<AppState>>,
     Path(governor): Path<i64>,
-    session: AuthenticatedSession,
+    session: RequireRole<roles::ContentCreator>,
     Json(settings): Json<Settings>,
 ) -> Result<impl IntoResponse, ApiError> {
     settings.validate()?;
@@ -115,15 +107,23 @@ pub async fn save(
     let settings_doc = mongodb::bson::to_document(&settings)
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    state
+    let result = state
         .reports_store
         .claimed_governors_collection()
         .update_one(
-            doc! {"_id": claim.get("_id").cloned()},
+            doc! {
+                "_id": claim.get("_id").cloned(),
+                "discordId": &session.user.discord_id,
+                "governorId": governor,
+            },
             doc! {"$set": {"overlaySettings": settings_doc}},
         )
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    if result.matched_count != 1 {
+        return Err(ApiError::not_found("Claim not found"));
+    }
 
     Ok((NO_STORE, Json(settings)))
 }
@@ -149,20 +149,28 @@ fn valid_token(token: &str) -> bool {
 pub async fn rotate(
     State(state): State<Arc<AppState>>,
     Path(governor): Path<i64>,
-    session: AuthenticatedSession,
+    session: RequireRole<roles::ContentCreator>,
 ) -> Result<impl IntoResponse, ApiError> {
     let claim = owned_claim(&state, &session, governor).await?;
     let token = generate_token();
 
-    state
+    let result = state
         .reports_store
         .claimed_governors_collection()
         .update_one(
-            doc! {"_id": claim.get("_id").cloned()},
+            doc! {
+                "_id": claim.get("_id").cloned(),
+                "discordId": &session.user.discord_id,
+                "governorId": governor,
+            },
             doc! {"$set": {"overlayTokenHash": token_hash(&token)}},
         )
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    if result.matched_count != 1 {
+        return Err(ApiError::not_found("Claim not found"));
+    }
 
     Ok((NO_STORE, Json(serde_json::json!({"path": format!("/overlay/{token}")}))))
 }
@@ -170,19 +178,27 @@ pub async fn rotate(
 pub async fn revoke(
     State(state): State<Arc<AppState>>,
     Path(governor): Path<i64>,
-    session: AuthenticatedSession,
+    session: RequireRole<roles::ContentCreator>,
 ) -> Result<impl IntoResponse, ApiError> {
     let claim = owned_claim(&state, &session, governor).await?;
 
-    state
+    let result = state
         .reports_store
         .claimed_governors_collection()
         .update_one(
-            doc! {"_id": claim.get("_id").cloned()},
+            doc! {
+                "_id": claim.get("_id").cloned(),
+                "discordId": &session.user.discord_id,
+                "governorId": governor,
+            },
             doc! {"$unset": {"overlayTokenHash": ""}},
         )
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    if result.matched_count != 1 {
+        return Err(ApiError::not_found("Claim not found"));
+    }
 
     Ok((NO_STORE, Json(serde_json::json!({"enabled": false}))))
 }
@@ -192,17 +208,30 @@ async fn token_claim(state: &AppState, token: &str) -> Result<Document, ApiError
         return Err(ApiError::not_found("Overlay not found"));
     }
 
-    state
+    let claim = state
         .reports_store
         .claimed_governors_collection()
-        .find_one(doc! {
-            "overlayTokenHash": token_hash(token),
-            "discordId": {"$in": ALLOWED_DISCORD_IDS.as_slice()}
-        })
+        .find_one(doc! {"overlayTokenHash": token_hash(token)})
         .max_time(QUERY_TIMEOUT)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?
-        .ok_or_else(|| ApiError::not_found("Overlay not found"))
+        .ok_or_else(|| ApiError::not_found("Overlay not found"))?;
+
+    let owner_id =
+        claim.get_str("discordId").map_err(|_error| ApiError::not_found("Overlay not found"))?;
+    // OBS uses a bearer URL without a session. Recheck the owner's current role
+    // on every request so removing membership also disables existing URLs.
+    let owner = state
+        .auth_store
+        .find_user_by_discord_id(owner_id)
+        .await
+        .map_err(|error| ApiError::internal(error.to_string()))?
+        .ok_or_else(|| ApiError::not_found("Overlay not found"))?;
+    if !owner.roles.contains(Role::ContentCreator) {
+        return Err(ApiError::not_found("Overlay not found"));
+    }
+
+    Ok(claim)
 }
 
 pub async fn token_settings(

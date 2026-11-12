@@ -1,11 +1,5 @@
-const OVERLAY_DISCORD_IDS = [
-  "187342661060001792",
-  "188044055698079756",
-  "1126322387240095824",
-  "695479485797105695",
-  "415929757679747073",
-];
+import type { CurrentUser } from "@/lib/types/current-user";
 
-export function hasOverlayAccess(discordId: string | undefined): boolean {
-  return discordId !== undefined && OVERLAY_DISCORD_IDS.includes(discordId);
+export function hasOverlayAccess(user: CurrentUser | null | undefined): boolean {
+  return user?.roles.includes("content_creator") ?? false;
 }
