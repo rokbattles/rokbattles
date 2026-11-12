@@ -4739,6 +4739,7 @@ dependencies = [
  "subtle",
  "thiserror 2.0.20",
  "tokio",
+ "tower",
  "tracing",
  "tracing-subscriber",
  "yaml_serde",
