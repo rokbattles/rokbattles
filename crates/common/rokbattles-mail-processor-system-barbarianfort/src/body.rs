@@ -184,13 +184,7 @@ fn tokenize_template(template: &str) -> Vec<TemplateToken<'_>> {
 
 // Locales can put % before or after the value. Strip the marker, not the scale.
 fn parse_damage_percentage(value: &str) -> Option<Number> {
-    let mut trimmed = value.trim();
-    if let Some(value) = trimmed.strip_prefix('%') {
-        trimmed = value.trim_start();
-    }
-    if let Some(value) = trimmed.strip_suffix('%') {
-        trimmed = value.trim_end();
-    }
+    let trimmed = value.trim().trim_prefix('%').trim_start().trim_suffix('%').trim_end();
     if trimmed.contains('%') {
         return None;
     }
