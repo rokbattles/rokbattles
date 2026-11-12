@@ -11,7 +11,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <div>
         <Heading>Account Settings</Heading>
       </div>
-      <AccountSettingsNav showOverlay={hasOverlayAccess(user?.discordId)} />
+      <AccountSettingsNav showOverlay={hasOverlayAccess(user)} />
       {children}
     </div>
   );
