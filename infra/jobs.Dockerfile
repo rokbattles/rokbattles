@@ -1,5 +1,5 @@
-# syntax=docker/dockerfile:1.28.0@sha256:bb22d9815c728170f72750f4e5b0d672e06176142e1d602c7e66c050100b7e5b
-FROM rust:1.99.1-alpine@sha256:dc578ff3ca62ef489ad9ae743f477b94d98739c3092d0023490ecd417c2eebea AS chef
+# syntax=docker/dockerfile:1.29.0@sha256:572cebbc2b15e6f84c077742952674889cb63cd5e9b80abdffcbe587b6f19183
+FROM rust:1.99.1-alpine@sha256:44819b27be4c97b0e4d7203bd2e02c4820f97700211b6a37fb4c246a2de59383 AS chef
 ENV CARGO_INCREMENTAL=0
 WORKDIR /app
 RUN apk add --no-cache \
@@ -32,7 +32,7 @@ RUN --mount=type=cache,id=rokbattles-cargo-registry,target=/usr/local/cargo/regi
     cargo build --profile server --locked --target x86_64-unknown-linux-musl -p rokbattles-jobs && \
     cp target/x86_64-unknown-linux-musl/server/rokbattles-jobs /app/rokbattles-jobs
 
-FROM alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6 AS files
+FROM alpine:3.24.4@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf AS files
 RUN apk add --no-cache ca-certificates tzdata
 RUN addgroup --system --gid 10001 rokb && \
     adduser  --system --uid 10001 --ingroup rokb --home /nonexistent --shell /sbin/nologin rokb
