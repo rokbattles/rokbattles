@@ -79,16 +79,20 @@ fn limited_routes<S: Clone + Send + Sync + 'static>(
 async fn get_me(
     State(state): State<Arc<AppState>>,
     session: AuthenticatedSession,
-) -> Result<Json<AuthMeResponse>, ApiError> {
+) -> Result<impl IntoResponse, ApiError> {
     let claimed_governors = load_claimed_governors(&state, &session.user.discord_id).await?;
 
-    Ok(Json(AuthMeResponse {
-        user: CurrentUser {
-            discord_id: session.user.discord_id,
-            email: session.user.email,
-            claimed_governors,
-        },
-    }))
+    Ok((
+        [("Cache-Control", "no-store")],
+        Json(AuthMeResponse {
+            user: CurrentUser {
+                discord_id: session.user.discord_id,
+                email: session.user.email,
+                roles: session.user.roles,
+                claimed_governors,
+            },
+        }),
+    ))
 }
 
 async fn post_logout(
