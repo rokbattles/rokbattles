@@ -2,7 +2,7 @@
 FROM node:26.13.1-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS base
 WORKDIR /app
 
-FROM rust:1.99.1-alpine@sha256:44819b27be4c97b0e4d7203bd2e02c4820f97700211b6a37fb4c246a2de59383 AS wasm-chef
+FROM rust:1.100.0-alpine@sha256:de1e0058543a81ed7b046629167db587c67a94bdf37cce14eb27f0ec83baaffb AS wasm-chef
 WORKDIR /app
 ENV CARGO_INCREMENTAL=0
 RUN apk add --no-cache build-base openssl-dev pkgconfig libatomic libstdc++
