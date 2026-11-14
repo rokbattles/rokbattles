@@ -31,6 +31,7 @@
 use std::{
     fs::{self, File, OpenOptions},
     io::{self, Read, Write},
+    mem::DropGuard,
     path::{Path, PathBuf},
     sync::{
         Arc, Mutex,
@@ -300,17 +301,16 @@ impl Spool {
         let path = self
             .path
             .join(format!("{stamp:032}-{:016}.tmp", SERIAL.fetch_add(1, Ordering::Relaxed)));
-        let result = (|| {
-            let mut file = OpenOptions::new().write(true).create_new(true).open(&path)?;
-            file.write_all(&bytes)?;
-            file.sync_all()?;
-            fs::rename(&path, path.with_extension("batch"))?;
-            File::open(&self.path)?.sync_all()
-        })();
-        if result.is_err() {
+        let file = OpenOptions::new().write(true).create_new(true).open(&path)?;
+        let mut file = DropGuard::new(file, |file| {
+            drop(file);
             let _cleanup = fs::remove_file(&path);
-        }
-        result
+        });
+        file.write_all(&bytes)?;
+        file.sync_all()?;
+        fs::rename(&path, path.with_extension("batch"))?;
+        drop(DropGuard::dismiss(file));
+        File::open(&self.path)?.sync_all()
     }
 
     /// Read and decode a bounded, regular spool file without following symlinks.
