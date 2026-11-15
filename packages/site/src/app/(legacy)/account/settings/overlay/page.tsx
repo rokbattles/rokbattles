@@ -5,6 +5,6 @@ import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 
 export default async function Page() {
   const user = await requireCurrentUserWithGovernor();
-  if (!hasOverlayAccess(user.discordId)) notFound();
+  if (!hasOverlayAccess(user)) notFound();
   return <OverlaySettings />;
 }
