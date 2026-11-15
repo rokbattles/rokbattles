@@ -39,14 +39,6 @@ export function ProjectSupport() {
         <Text className="mt-2">Help support ongoing development and infrastructure costs.</Text>
         <div className="mt-auto flex flex-wrap gap-x-6">
           <Link
-            href="https://www.patreon.com/cw/ROKBattles"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Support ROK Battles through Patreon (opens in a new tab)"
-          >
-            Patreon <ArrowUpRight aria-hidden="true" />
-          </Link>
-          <Link
             href="https://github.com/sponsors/rokbattles"
             target="_blank"
             rel="noopener noreferrer"
