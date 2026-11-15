@@ -8,6 +8,8 @@ use mongodb::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+use crate::auth::Roles;
+
 /// Session data used by authenticated routes.
 #[derive(Debug, Clone)]
 pub struct SessionRecord {
@@ -21,6 +23,7 @@ pub struct SessionRecord {
 pub struct UserRecord {
     pub discord_id: String,
     pub email: String,
+    pub roles: Roles,
 }
 
 /// OAuth state persisted between login and callback.
@@ -303,22 +306,9 @@ impl AuthRepository for MongoAuthStore {
         user: DiscordUserUpsert,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
-            let DiscordUserUpsert { discord_id, email } = user;
             let now = DateTime::now();
             self.users
-                .update_one(
-                    doc! { "discordId": &discord_id },
-                    doc! {
-                        "$set": {
-                            "discordId": discord_id,
-                            "email": email,
-                            "updatedAt": now,
-                        },
-                        "$setOnInsert": {
-                            "createdAt": now,
-                        }
-                    },
-                )
+                .update_one(doc! { "discordId": &user.discord_id }, discord_user_update(&user, now))
                 .with_options(UpdateOptions::builder().upsert(true).build())
                 .await?;
             Ok(())
@@ -335,6 +325,19 @@ impl AuthRepository for MongoAuthStore {
             Ok(())
         }
         .boxed()
+    }
+}
+
+fn discord_user_update(user: &DiscordUserUpsert, now: DateTime) -> Document {
+    doc! {
+        "$set": {
+            "discordId": &user.discord_id,
+            "email": &user.email,
+            "updatedAt": now,
+        },
+        "$setOnInsert": {
+            "createdAt": now,
+        }
     }
 }
 
@@ -384,11 +387,13 @@ struct UserDocument {
     #[serde(rename = "discordId")]
     discord_id: String,
     email: String,
+    #[serde(default)]
+    roles: Roles,
 }
 
 impl From<UserDocument> for UserRecord {
     fn from(value: UserDocument) -> Self {
-        Self { discord_id: value.discord_id, email: value.email }
+        Self { discord_id: value.discord_id, email: value.email, roles: value.roles }
     }
 }
 
@@ -431,6 +436,86 @@ impl From<OAuthStateRecord> for OAuthStateDocument {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::auth::Role;
+
+    #[test]
+    fn oauth_updates_only_identity_fields_and_preserves_role_assignments() {
+        let update = discord_user_update(
+            &DiscordUserUpsert {
+                discord_id: "user".to_string(),
+                email: "new@example.com".to_string(),
+            },
+            DateTime::now(),
+        );
+
+        // Restrict both fields and operators: a replacement or unset could remove
+        // role assignments without assigning a new roles value.
+        for (operator, fields) in &update {
+            assert!(matches!(operator.as_str(), "$set" | "$setOnInsert"));
+
+            for field in fields.as_document().expect("update fields").keys() {
+                assert!(matches!(
+                    field.as_str(),
+                    "discordId" | "email" | "updatedAt" | "createdAt"
+                ));
+            }
+        }
+    }
+
+    #[test]
+    fn legacy_users_have_only_the_implicit_user_role() {
+        for roles in
+            [None, Some(mongodb::bson::Bson::Null), Some(mongodb::bson::Bson::Array(vec![]))]
+        {
+            let mut document = doc! { "discordId": "user", "email": "user@example.com" };
+
+            if let Some(roles) = roles {
+                document.insert("roles", roles);
+            }
+
+            let user = UserRecord::from(
+                mongodb::bson::from_document::<UserDocument>(document).expect("legacy user"),
+            );
+
+            assert_eq!(user.roles, Roles::default());
+            assert!(user.roles.contains(Role::User));
+        }
+    }
+
+    #[test]
+    fn stored_roles_are_independent_and_deduplicated() {
+        let document: UserDocument = mongodb::bson::from_document(doc! {
+            "discordId": "user", "email": "user@example.com",
+            "roles": ["content_creator", "developer_program", "content_creator", "user"],
+        })
+        .expect("user roles");
+
+        let user = UserRecord::from(document);
+
+        assert_eq!(
+            serde_json::to_value(user.roles).expect("effective roles"),
+            serde_json::json!(["user", "content_creator", "developer_program"]),
+        );
+    }
+
+    #[test]
+    fn malformed_or_unknown_role_data_fails_closed() {
+        for roles in [
+            mongodb::bson::Bson::from("admin"),
+            mongodb::bson::Bson::from(1),
+            mongodb::bson::Bson::from(doc! { "admin": true }),
+            mongodb::bson::Bson::Array(vec!["admin".into(), 1.into()]),
+            mongodb::bson::Bson::Array(vec!["admin".into(), "unknown_role".into()]),
+            mongodb::bson::Bson::Array(vec!["Admin".into()]),
+            mongodb::bson::Bson::Array(vec![doc! { "admin": mongodb::bson::Bson::Null }.into()]),
+            mongodb::bson::Bson::Array(vec![mongodb::bson::Bson::Null]),
+        ] {
+            mongodb::bson::from_document::<UserDocument>(doc! {
+                "discordId": "user", "email": "user@example.com", "roles": roles,
+            })
+            .expect_err("malformed roles must reject the entire record");
+        }
+    }
 
     #[test]
     fn desktop_consume_query_requires_code_pkce_and_strict_expiry_together() {
