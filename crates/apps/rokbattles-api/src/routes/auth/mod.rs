@@ -31,6 +31,7 @@ use crate::{
     state::{AppState, DiscordOAuthConfig},
 };
 
+mod account;
 mod cookies;
 mod desktop;
 mod oauth;
@@ -51,6 +52,7 @@ const EXCHANGE_REFILL: Duration = Duration::from_secs(10);
 pub fn router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .route("/me", get(get_me))
+        .route("/account", delete(account::delete))
         .route("/sessions", get(sessions::list).delete(sessions::delete_all))
         .route("/sessions/{session_id}", delete(sessions::delete_one))
         .route("/logout", post(post_logout))
@@ -225,6 +227,12 @@ async fn finish_discord_login(
         return Err(ApiError::bad_request("discord email not verified"));
     }
 
+    let operation = state.account_operations.lock(&profile.id).await;
+
+    if !operation.allows_login(oauth_state.created_at, oauth_state.expires_at) {
+        return Err(ApiError::unauthorized());
+    }
+
     state
         .auth_store
         .upsert_discord_user(DiscordUserUpsert { discord_id: profile.id.clone(), email })
@@ -239,6 +247,8 @@ async fn finish_discord_login(
 }
 
 /// Creates a browser session and redirects home with its session cookie.
+///
+/// The caller must hold the account write lock through user upsert and session creation.
 async fn create_browser_session(
     auth_store: &dyn AuthRepository,
     user_id: String,

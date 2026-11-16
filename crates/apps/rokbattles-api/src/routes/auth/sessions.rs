@@ -264,6 +264,13 @@ mod tests {
             ready(Ok(())).boxed()
         }
 
+        fn delete_account<'a>(
+            &'a self,
+            _user_id: &'a str,
+        ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+            ready(Err(store_error())).boxed()
+        }
+
         fn insert_session<'a>(
             &'a self,
             record: NewSessionRecord,

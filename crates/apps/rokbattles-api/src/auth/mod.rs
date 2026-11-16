@@ -50,17 +50,26 @@ pub mod roles;
 
 pub use roles::{Role, Roles};
 
+pub(crate) mod account_operations;
+
+use account_operations::AccountOperations;
+
 /// Shared repository used by authentication extractors.
 ///
 /// Extracted from [`AppState`] through [`FromRef`]. Routers can also supply this
 /// state directly when they need only authentication.
 #[derive(Clone)]
-pub struct AuthState(Arc<dyn AuthRepository>);
+pub struct AuthState(Arc<dyn AuthRepository>, AccountOperations);
 
 impl AuthState {
     /// Creates authentication state backed by the given repository.
     pub fn new(repository: Arc<dyn AuthRepository>) -> Self {
-        Self(repository)
+        Self(repository, AccountOperations::default())
+    }
+
+    /// Returns the shared account write coordinator for this API instance.
+    pub(crate) fn account_operations(&self) -> &AccountOperations {
+        &self.1
     }
 
     /// Returns the repository used to authenticate and manage sessions.
@@ -71,7 +80,7 @@ impl AuthState {
 
 impl FromRef<Arc<AppState>> for AuthState {
     fn from_ref(state: &Arc<AppState>) -> Self {
-        Self::new(state.auth_store.clone())
+        Self(state.auth_store.clone(), state.account_operations.clone())
     }
 }
 
@@ -84,6 +93,27 @@ pub struct AuthenticatedSession {
 }
 
 impl AuthenticatedSession {
+    /// Rechecks a session after waiting for an account write lock.
+    ///
+    /// A request authenticated before deletion must not write after it completes.
+    pub(crate) async fn ensure_active(
+        &self,
+        repository: &dyn AuthRepository,
+    ) -> Result<(), ApiError> {
+        let record = repository
+            .find_session_by_id(&self.sid)
+            .await
+            .map_err(|error| ApiError::internal(error.to_string()))?;
+
+        if record
+            .is_some_and(|record| record.user_id == self.user.discord_id && !is_expired(&record))
+        {
+            return Ok(());
+        }
+
+        Err(ApiError::unauthorized())
+    }
+
     /// Returns `true` if the current user has the given role.
     pub fn has_role(&self, role: Role) -> bool {
         self.user.roles.contains(role)
@@ -178,7 +208,7 @@ where
     type Rejection = ApiError;
 
     async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
-        let AuthState(auth_store) = AuthState::from_ref(state);
+        let AuthState(auth_store, _) = AuthState::from_ref(state);
 
         let sid = extract_cookie_value(
             parts.headers.get(COOKIE).and_then(|header| header.to_str().ok()),
@@ -362,6 +392,18 @@ mod tests {
         }
     }
 
+    #[tokio::test]
+    async fn queued_account_writes_reject_sessions_revoked_while_waiting() {
+        let store = MemoryAuthStore::new();
+        let principal = session(Roles::default());
+
+        principal.ensure_active(&store).await.expect("active session");
+        *store.session.lock().expect("session lock") = None;
+        let result = principal.ensure_active(&store).await;
+
+        assert!(matches!(result, Err(ApiError::Unauthorized)));
+    }
+
     fn store_error() -> AuthStoreError {
         AuthStoreError::Database(mongodb::error::Error::custom("auth store failure"))
     }
@@ -398,6 +440,13 @@ mod tests {
         }
 
         fn delete_user_sessions<'a>(
+            &'a self,
+            _user_id: &'a str,
+        ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+            ready(Err(store_error())).boxed()
+        }
+
+        fn delete_account<'a>(
             &'a self,
             _user_id: &'a str,
         ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
