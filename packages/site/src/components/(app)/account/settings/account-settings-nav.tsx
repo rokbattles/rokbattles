@@ -6,8 +6,6 @@ import { Navbar, NavbarItem, NavbarLabel, NavbarSection } from "@/components/ui/
 const items = [
   { href: "/account/settings", label: "Account" },
   { href: "/account/settings/game", label: "Game" },
-  { href: "/account/settings/content-creator", label: "Content Creator" },
-  { href: "/account/settings/developer", label: "Developer" },
 ];
 
 export function AccountSettingsNav() {

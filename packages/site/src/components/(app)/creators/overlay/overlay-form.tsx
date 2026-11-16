@@ -1,9 +1,9 @@
 "use client";
 
 import { type JSX, useState } from "react";
-import { OverlayConnection } from "@/components/(app)/account/settings/stream-overlay/overlay-connection";
-import { OverlayPreview } from "@/components/(app)/account/settings/stream-overlay/overlay-preview";
-import { OverlayUrlConfirmation } from "@/components/(app)/account/settings/stream-overlay/overlay-url-confirmation";
+import { OverlayConnection } from "@/components/(app)/creators/overlay/overlay-connection";
+import { OverlayPreview } from "@/components/(app)/creators/overlay/overlay-preview";
+import { OverlayUrlConfirmation } from "@/components/(app)/creators/overlay/overlay-url-confirmation";
 import { Button } from "@/components/ui/button";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
