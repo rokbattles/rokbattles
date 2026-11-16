@@ -35,14 +35,14 @@ notify.workspace = true
 tempfile.workspace = true
 
 [target.'cfg(target_os = "macos")'.dependencies]
-objc2 = "0.6.4"
-objc2-foundation = { version = "0.3.2", default-features = false, features = ["std", "NSArray", "NSData", "NSError", "NSString", "NSURL"] }
+objc2.workspace = true
+objc2-foundation = { workspace = true, features = ["std", "NSArray", "NSData", "NSError", "NSString", "NSURL"] }
 
 [target.'cfg(target_os = "windows")'.dependencies]
-winreg = "0.55.0"
+winreg.workspace = true
 
 [target.'cfg(target_os = "linux")'.dependencies]
-gtk = "0.18.2"
+gtk.workspace = true
 yaml_serde.workspace = true
 
 [target.'cfg(unix)'.dependencies]
