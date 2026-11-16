@@ -1,8 +1,8 @@
 use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
-use futures::{FutureExt, future::BoxFuture};
+use futures::{FutureExt, TryStreamExt, future::BoxFuture};
 use mongodb::{
     Collection, IndexModel,
-    bson::{DateTime, Document, doc},
+    bson::{DateTime, Document, doc, oid::ObjectId},
     options::{IndexOptions, UpdateOptions},
 };
 use serde::{Deserialize, Serialize};
@@ -13,9 +13,40 @@ use crate::auth::Roles;
 /// Session data used by authenticated routes.
 #[derive(Debug, Clone)]
 pub struct SessionRecord {
+    /// Database identifier used to reference this session in account settings.
+    pub id: ObjectId,
     pub user_id: String,
     pub created_at: DateTime,
     pub expires_at: DateTime,
+}
+
+/// The client platform that created a session.
+///
+/// Stored sessions without a platform use [`SessionPlatform::Unknown`]. Unrecognized
+/// platform names also deserialize as `Unknown`.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum SessionPlatform {
+    /// A session created by the browser sign-in flow.
+    Browser,
+    /// A session created by the desktop OAuth exchange.
+    Desktop,
+    /// A session whose platform was not recorded or is not recognized.
+    #[default]
+    #[serde(other)]
+    Unknown,
+}
+
+/// Session metadata returned when listing a user's active sessions.
+///
+/// Contains a database identifier, platform, and sign-in time. The bearer token
+/// and its stored hash are omitted.
+#[derive(Debug, Clone)]
+pub struct ListedSessionRecord {
+    /// Database identifier accepted by [`AuthRepository::delete_user_session`].
+    pub id: ObjectId,
+    pub platform: SessionPlatform,
+    pub created_at: DateTime,
 }
 
 /// User data used by authenticated routes.
@@ -64,6 +95,7 @@ pub struct DiscordUserUpsert {
 /// Session payload written after successful login.
 #[derive(Debug, Clone)]
 pub struct NewSessionRecord {
+    pub platform: SessionPlatform,
     pub session_id: String,
     pub user_id: String,
     pub created_at: DateTime,
@@ -100,6 +132,46 @@ pub trait AuthRepository: Send + Sync {
     fn delete_session_by_id<'a>(
         &'a self,
         sid: &'a str,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
+
+    /// Lists sessions owned by `user_id` whose expiration is later than `now`.
+    ///
+    /// Results are ordered by sign-in time, newest first, then by database ID.
+    /// Sessions expiring exactly at `now` are excluded.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the session records cannot be read or decoded.
+    fn list_active_sessions<'a>(
+        &'a self,
+        user_id: &'a str,
+        now: DateTime,
+    ) -> BoxFuture<'a, Result<Vec<ListedSessionRecord>, AuthStoreError>>;
+
+    /// Deletes the session with database ID `session_id` if it belongs to `user_id`.
+    ///
+    /// Returns `true` if a session was deleted. Returns `false` if it does not
+    /// exist or belongs to another user.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the deletion fails.
+    fn delete_user_session<'a>(
+        &'a self,
+        user_id: &'a str,
+        session_id: ObjectId,
+    ) -> BoxFuture<'a, Result<bool, AuthStoreError>>;
+
+    /// Deletes all sessions owned by `user_id`, including the current session.
+    ///
+    /// Expired sessions are also deleted. Succeeds if the user has no sessions.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the deletion fails.
+    fn delete_user_sessions<'a>(
+        &'a self,
+        user_id: &'a str,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
 
     fn find_user_by_discord_id<'a>(
@@ -150,6 +222,7 @@ impl MongoAuthStore {
     /// Ensure indexes for auth-related collections.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let session_indexes = vec![
+            IndexModel::builder().keys(doc! { "userId": 1, "expiresAt": 1 }).build(),
             IndexModel::builder()
                 .keys(doc! { "sessionHash": 1 })
                 .options(IndexOptions::builder().unique(true).build())
@@ -265,6 +338,57 @@ impl AuthRepository for MongoAuthStore {
         .boxed()
     }
 
+    fn list_active_sessions<'a>(
+        &'a self,
+        user_id: &'a str,
+        now: DateTime,
+    ) -> BoxFuture<'a, Result<Vec<ListedSessionRecord>, AuthStoreError>> {
+        async move {
+            let documents: Vec<SessionDocument> = self
+                .sessions
+                .find(active_sessions_filter(user_id, now))
+                .sort(doc! { "createdAt": -1, "_id": 1 })
+                .await?
+                .try_collect()
+                .await?;
+
+            Ok(documents
+                .into_iter()
+                .map(|record| ListedSessionRecord {
+                    id: record.id,
+                    platform: record.platform,
+                    created_at: record.created_at,
+                })
+                .collect())
+        }
+        .boxed()
+    }
+
+    fn delete_user_session<'a>(
+        &'a self,
+        user_id: &'a str,
+        session_id: ObjectId,
+    ) -> BoxFuture<'a, Result<bool, AuthStoreError>> {
+        async move {
+            let result = self.sessions.delete_one(user_session_filter(user_id, session_id)).await?;
+
+            Ok(result.deleted_count > 0)
+        }
+        .boxed()
+    }
+
+    fn delete_user_sessions<'a>(
+        &'a self,
+        user_id: &'a str,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+        async move {
+            self.sessions.delete_many(doc! { "userId": user_id }).await?;
+
+            Ok(())
+        }
+        .boxed()
+    }
+
     fn find_user_by_discord_id<'a>(
         &'a self,
         discord_id: &'a str,
@@ -328,6 +452,14 @@ impl AuthRepository for MongoAuthStore {
     }
 }
 
+fn active_sessions_filter(user_id: &str, now: DateTime) -> Document {
+    doc! { "userId": user_id, "expiresAt": { "$gt": now } }
+}
+
+fn user_session_filter(user_id: &str, session_id: ObjectId) -> Document {
+    doc! { "userId": user_id, "_id": session_id }
+}
+
 fn discord_user_update(user: &DiscordUserUpsert, now: DateTime) -> Document {
     doc! {
         "$set": {
@@ -355,6 +487,10 @@ fn hash_session_id(sid: &str) -> String {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 struct SessionDocument {
+    #[serde(rename = "_id")]
+    id: ObjectId,
+    #[serde(default)]
+    platform: SessionPlatform,
     #[serde(rename = "sessionHash")]
     session_hash: String,
     #[serde(rename = "userId")]
@@ -367,14 +503,21 @@ struct SessionDocument {
 
 impl From<SessionDocument> for SessionRecord {
     fn from(value: SessionDocument) -> Self {
-        Self { user_id: value.user_id, created_at: value.created_at, expires_at: value.expires_at }
+        Self {
+            id: value.id,
+            user_id: value.user_id,
+            created_at: value.created_at,
+            expires_at: value.expires_at,
+        }
     }
 }
 
 impl From<NewSessionRecord> for SessionDocument {
     fn from(value: NewSessionRecord) -> Self {
         Self {
+            id: ObjectId::new(),
             session_hash: hash_session_id(&value.session_id),
+            platform: value.platform,
             user_id: value.user_id,
             created_at: value.created_at,
             expires_at: value.expires_at,
@@ -539,6 +682,7 @@ mod tests {
     fn serialized_session_contains_hash_instead_of_bearer_token() {
         let document = mongodb::bson::to_document(&SessionDocument::from(NewSessionRecord {
             session_id: "secret-token".to_string(),
+            platform: SessionPlatform::Browser,
             user_id: "discord-user".to_string(),
             created_at: DateTime::from_millis(1000),
             expires_at: DateTime::from_millis(2000),
@@ -560,5 +704,59 @@ mod tests {
 
         assert!(record.desktop.is_none());
         assert_eq!(record.verifier, "existing-verifier");
+    }
+
+    #[test]
+    fn sessions_without_platform_decode_as_unknown_and_keep_their_identity() {
+        let id = ObjectId::new();
+        let document: SessionDocument = mongodb::bson::from_document(doc! {
+            "_id": id, "sessionHash": "legacy-hash", "userId": "alice",
+            "createdAt": DateTime::from_millis(1000),
+            "expiresAt": DateTime::from_millis(2000),
+        })
+        .expect("legacy session");
+
+        assert_eq!(document.platform, SessionPlatform::Unknown);
+
+        let record = SessionRecord::from(document);
+
+        assert_eq!(record.id, id);
+        assert_eq!(record.user_id, "alice");
+    }
+
+    #[test]
+    fn new_sessions_persist_their_platform_and_mongodb_identity() {
+        for (platform, expected) in
+            [(SessionPlatform::Browser, "browser"), (SessionPlatform::Desktop, "desktop")]
+        {
+            let document = mongodb::bson::to_document(&SessionDocument::from(NewSessionRecord {
+                session_id: "secret".to_owned(),
+                user_id: "alice".to_owned(),
+                platform,
+                created_at: DateTime::from_millis(1000),
+                expires_at: DateTime::from_millis(2000),
+            }))
+            .expect("session document");
+
+            assert_eq!(document.get_str("platform").expect("platform"), expected);
+            document.get_object_id("_id").expect("MongoDB identity");
+
+            let decoded: SessionDocument =
+                mongodb::bson::from_document(document).expect("round trip");
+
+            assert_eq!(decoded.platform, platform);
+        }
+    }
+
+    #[test]
+    fn session_management_queries_scope_by_user_and_exclude_expired_records() {
+        let now = DateTime::now();
+        let id = ObjectId::new();
+
+        assert_eq!(
+            active_sessions_filter("alice", now),
+            doc! { "userId": "alice", "expiresAt": { "$gt": now } }
+        );
+        assert_eq!(user_session_filter("alice", id), doc! { "userId": "alice", "_id": id });
     }
 }

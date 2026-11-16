@@ -1,6 +1,7 @@
 //! Database helpers used by API routes.
 
 mod auth_store;
+
 mod game_localization_store;
 mod game_query_store;
 mod reports_store;
@@ -8,7 +9,8 @@ mod territory_planner_v2_store;
 
 pub use auth_store::{
     AuthRepository, AuthStoreError, DesktopLogin, DesktopOAuthState, DiscordUserUpsert,
-    MongoAuthStore, NewSessionRecord, OAuthStateRecord, SessionRecord, UserRecord,
+    ListedSessionRecord, MongoAuthStore, NewSessionRecord, OAuthStateRecord, SessionPlatform,
+    SessionRecord, UserRecord,
 };
 pub use game_localization_store::{
     GameLocalizationStore, GameLocalizationStoreError, GameTranslation,

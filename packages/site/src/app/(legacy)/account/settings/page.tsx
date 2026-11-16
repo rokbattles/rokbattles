@@ -1,4 +1,5 @@
 import { AccountEmail } from "@/components/(app)/account/settings/account-email";
+import { LoggedInDevicesLink } from "@/components/(app)/account/settings/logged-in-devices-link";
 import { SettingsActionRow } from "@/components/(app)/account/settings/settings-action-row";
 import { SettingsLink } from "@/components/(app)/account/settings/settings-link";
 import { SettingsPage } from "@/components/(app)/account/settings/settings-page";
@@ -18,11 +19,7 @@ export default async function Page() {
       <Divider />
       <SettingsSection title="Security">
         <div>
-          <SettingsLink
-            href="/account/settings/devices"
-            label="Logged-in Devices"
-            value="0 devices"
-          />
+          <LoggedInDevicesLink />
           <SettingsLink href="/account/settings/apps" label="Authorized Apps" value="0 apps" />
         </div>
       </SettingsSection>
