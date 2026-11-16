@@ -16,6 +16,8 @@ pub struct Config {
     pub sentry_dsn: Option<String>,
     pub pk_token: Option<String>,
     pub kdmt_token: Option<String>,
+    pub turnstile_secret_key: Option<String>,
+    pub turnstile_hostnames: Vec<String>,
 }
 
 /// Errors for missing or invalid config.
@@ -48,6 +50,15 @@ impl Config {
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let pk_token = lookup("PK_TOKEN").filter(|value| !value.trim().is_empty());
         let kdmt_token = lookup("KDMT_TOKEN").filter(|value| !value.trim().is_empty());
+        let turnstile_secret_key =
+            lookup("TURNSTILE_SECRET_KEY").filter(|value| !value.trim().is_empty());
+        let turnstile_hostnames = lookup("TURNSTILE_HOSTNAMES")
+            .unwrap_or_default()
+            .split(',')
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .map(str::to_owned)
+            .collect();
 
         Ok(Self {
             bind_addr,
@@ -59,6 +70,8 @@ impl Config {
             sentry_dsn,
             pk_token,
             kdmt_token,
+            turnstile_secret_key,
+            turnstile_hostnames,
         })
     }
 }
@@ -99,6 +112,8 @@ mod tests {
         assert_eq!(cfg.sentry_dsn, None);
         assert_eq!(cfg.pk_token, None);
         assert_eq!(cfg.kdmt_token, None);
+        assert_eq!(cfg.turnstile_secret_key, None);
+        assert!(cfg.turnstile_hostnames.is_empty());
     }
 
     #[test]

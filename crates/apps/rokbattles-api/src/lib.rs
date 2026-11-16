@@ -9,6 +9,7 @@ pub mod rate_limit;
 pub mod routes;
 pub mod state;
 pub(crate) mod time_utils;
+pub mod turnstile;
 
 use std::sync::Arc;
 

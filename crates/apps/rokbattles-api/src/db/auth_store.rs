@@ -174,7 +174,7 @@ pub trait AuthRepository: Send + Sync {
         user_id: &'a str,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
 
-    /// Deletes a user, their sessions, and their governor binds.
+    /// Deletes a user, their sessions, governor binds, and program applications.
     ///
     /// Only records owned by `user_id` are removed. Other account data and game
     /// reports are preserved. The user record is deleted last so an incomplete
@@ -220,6 +220,7 @@ pub struct MongoAuthStore {
     oauth_states: Collection<OAuthStateDocument>,
     desktop_oauth_states: Collection<DesktopOAuthState>,
     claimed_governors: Collection<Document>,
+    program_applications: Collection<Document>,
 }
 
 impl MongoAuthStore {
@@ -231,6 +232,7 @@ impl MongoAuthStore {
             oauth_states: db.collection::<OAuthStateDocument>("oauthStates"),
             desktop_oauth_states: db.collection("desktopOauthStates"),
             claimed_governors: db.collection("claimedGovernors"),
+            program_applications: db.collection(super::PROGRAM_APPLICATIONS_COLLECTION),
         }
     }
 
@@ -406,6 +408,7 @@ impl AuthRepository for MongoAuthStore {
 
     fn delete_account<'a>(&'a self, user_id: &'a str) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
+            self.program_applications.delete_many(doc! { "userId": user_id }).await?;
             self.claimed_governors.delete_many(doc! { "discordId": user_id }).await?;
 
             self.sessions.delete_many(doc! { "userId": user_id }).await?;
