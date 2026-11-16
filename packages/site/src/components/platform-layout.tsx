@@ -10,6 +10,7 @@ import {
   Heart,
   LogIn,
   Map as MapIcon,
+  MonitorPlay,
   Scale,
   Trophy,
   Warehouse,
@@ -34,6 +35,7 @@ import {
 } from "@/components/ui/sidebar";
 import { SidebarLayout } from "@/components/ui/sidebar-layout";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { hasRole } from "@/lib/(app)/roles";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -185,6 +187,19 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 ) : null}
               </SidebarSection>
             )}
+            {!loading && hasRole(user, "content_creator") ? (
+              <SidebarSection>
+                <SidebarHeading>Content Creators</SidebarHeading>
+                <SidebarItem
+                  title="Stream Overlay"
+                  href="/creators/overlay"
+                  current={pathname === "/creators/overlay"}
+                >
+                  <MonitorPlay data-slot="icon" aria-hidden="true" />
+                  <SidebarLabel>Stream Overlay</SidebarLabel>
+                </SidebarItem>
+              </SidebarSection>
+            ) : null}
             <SidebarSpacer />
             <SidebarSection>
               <SidebarItem

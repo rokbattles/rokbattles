@@ -1,7 +1,7 @@
 "use client";
 
 import { type JSX, use } from "react";
-import { GovernorOverlaySettings } from "@/components/(app)/account/settings/stream-overlay/governor-overlay-settings";
+import { GovernorOverlaySettings } from "@/components/(app)/creators/overlay/governor-overlay-settings";
 import { Text } from "@/components/ui/text";
 import type { OverlayCommander } from "@/lib/(app)/types/overlay";
 import { GovernorContext } from "@/providers/governor-context";

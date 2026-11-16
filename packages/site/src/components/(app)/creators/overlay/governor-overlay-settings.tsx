@@ -1,7 +1,7 @@
 "use client";
 
 import type { JSX } from "react";
-import { OverlayForm } from "@/components/(app)/account/settings/stream-overlay/overlay-form";
+import { OverlayForm } from "@/components/(app)/creators/overlay/overlay-form";
 import { Text } from "@/components/ui/text";
 import { useOverlaySettings } from "@/hooks/(app)/use-overlay-settings";
 import type { OverlayCommander } from "@/lib/(app)/types/overlay";
