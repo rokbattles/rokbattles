@@ -38,6 +38,9 @@ pub async fn post(
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
+    let _operation = state.account_operations.lock(&session.user.discord_id).await;
+    session.ensure_active(state.auth_store.as_ref()).await?;
+
     let claims = state.reports_store.claimed_governors_collection();
 
     if governor_claim_exists(claims, governor_id).await? {

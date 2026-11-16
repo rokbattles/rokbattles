@@ -13,6 +13,7 @@ use serde::Deserialize;
 
 use super::{cookies, oauth};
 use crate::{
+    auth::account_operations::AccountOperations,
     db::{AuthRepository, DesktopLogin, DesktopOAuthState, NewSessionRecord, SessionPlatform},
     error::ApiError,
     state::AppState,
@@ -90,10 +91,12 @@ pub(super) async fn exchange(
     State(state): State<Arc<AppState>>,
     Json(request): Json<ExchangeRequest>,
 ) -> Result<Response, ApiError> {
-    exchange_session(state.auth_store.as_ref(), request, DateTime::now()).await
+    exchange_session(&state.account_operations, state.auth_store.as_ref(), request, DateTime::now())
+        .await
 }
 
 async fn exchange_session(
+    operations: &AccountOperations,
     auth_store: &dyn AuthRepository,
     request: ExchangeRequest,
     now: DateTime,
@@ -111,6 +114,20 @@ async fn exchange_session(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?
         .ok_or_else(ApiError::unauthorized)?;
+
+    let operation = operations.lock(&oauth_state.user_id).await;
+    let issued_at =
+        DateTime::from_millis(oauth_state.expires_at.timestamp_millis() - OAUTH_STATE_TTL_MILLIS);
+
+    if !operation.allows_login(issued_at, oauth_state.expires_at)
+        || auth_store
+            .find_user_by_discord_id(&oauth_state.user_id)
+            .await
+            .map_err(|error| ApiError::internal(error.to_string()))?
+            .is_none()
+    {
+        return Err(ApiError::unauthorized());
+    }
 
     let now = DateTime::now();
     let sid = oauth::generate_session_id();
@@ -169,7 +186,9 @@ mod tests {
     const CODE: &str = "desktop-authorization-code-0123456789abcdefghijklm";
     const VERIFIER: &str = "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk";
     const CHALLENGE: &str = "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM";
-    const NOW_MILLIS: i64 = 1_700_000_000_000;
+    fn now_millis() -> i64 {
+        DateTime::now().timestamp_millis()
+    }
 
     fn request() -> ExchangeRequest {
         ExchangeRequest { code: CODE.to_string(), verifier: VERIFIER.to_string() }
@@ -180,6 +199,7 @@ mod tests {
         sessions: Mutex<Vec<NewSessionRecord>>,
         consume_calls: AtomicUsize,
         barrier: Option<Barrier>,
+        user_exists: bool,
     }
 
     impl MemoryAuthStore {
@@ -194,6 +214,7 @@ mod tests {
                 sessions: Mutex::new(Vec::new()),
                 consume_calls: AtomicUsize::new(0),
                 barrier: None,
+                user_exists: true,
             }
         }
     }
@@ -285,11 +306,23 @@ mod tests {
             ready(Err(unexpected_store_call())).boxed()
         }
 
+        fn delete_account<'a>(
+            &'a self,
+            _user_id: &'a str,
+        ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+            ready(Err(unexpected_store_call())).boxed()
+        }
+
         fn find_user_by_discord_id<'a>(
             &'a self,
-            _discord_id: &'a str,
+            discord_id: &'a str,
         ) -> BoxFuture<'a, Result<Option<UserRecord>, AuthStoreError>> {
-            ready(Err(unexpected_store_call())).boxed()
+            ready(Ok(self.user_exists.then(|| UserRecord {
+                discord_id: discord_id.to_owned(),
+                email: "test@example.com".to_owned(),
+                roles: Default::default(),
+            })))
+            .boxed()
         }
 
         fn insert_oauth_state<'a>(
@@ -348,11 +381,55 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn pending_desktop_codes_cannot_create_sessions_after_account_deletion() {
+        let operations = AccountOperations::default();
+        let issued_at = now_millis() - 1000;
+        let deletion = operations.lock("discord-user").await;
+        deletion.mark_deleted();
+        drop(deletion);
+
+        let store = MemoryAuthStore::new(issued_at + OAUTH_STATE_TTL_MILLIS);
+
+        let response =
+            exchange_session(&operations, &store, request(), DateTime::from_millis(now_millis()))
+                .await
+                .expect_err("code predates deletion")
+                .into_response();
+
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert!(store.sessions.lock().expect("session lock").is_empty());
+    }
+
+    #[tokio::test]
+    async fn desktop_exchange_requires_an_existing_user() {
+        let mut store = MemoryAuthStore::new(now_millis() + OAUTH_STATE_TTL_MILLIS);
+        store.user_exists = false;
+
+        let response = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect_err("deleted user")
+        .into_response();
+
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        assert!(store.sessions.lock().expect("session lock").is_empty());
+    }
+
+    #[tokio::test]
     async fn valid_exchange_creates_one_bound_session_and_private_cookie_response() {
-        let store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
-        let response = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect("valid exchange");
+        let store = MemoryAuthStore::new(now_millis() + 60_000);
+        let response = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect("valid exchange");
 
         assert_eq!(response.status(), StatusCode::NO_CONTENT);
         assert_eq!(response.headers()[header::CACHE_CONTROL], "no-store");
@@ -374,16 +451,26 @@ mod tests {
 
     #[tokio::test]
     async fn replayed_code_cannot_issue_a_second_session_or_cookie() {
-        let store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
-        let first = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect("first exchange");
+        let store = MemoryAuthStore::new(now_millis() + 60_000);
+        let first = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect("first exchange");
         assert_eq!(first.status(), StatusCode::NO_CONTENT);
 
-        let replay = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect_err("code cannot be replayed")
-            .into_response();
+        let replay = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect_err("code cannot be replayed")
+        .into_response();
         assert_eq!(replay.status(), StatusCode::UNAUTHORIZED);
         assert!(!replay.headers().contains_key(header::SET_COOKIE));
         assert_eq!(store.sessions.lock().expect("session lock").len(), 1);
@@ -391,12 +478,17 @@ mod tests {
 
     #[tokio::test]
     async fn expired_codes_are_rejected_even_while_the_records_still_exist() {
-        for expiry in [NOW_MILLIS - 1, NOW_MILLIS] {
+        for expiry in [now_millis() - 1, now_millis()] {
             let store = MemoryAuthStore::new(expiry);
-            let response = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-                .await
-                .expect_err("expired code")
-                .into_response();
+            let response = exchange_session(
+                &AccountOperations::default(),
+                &store,
+                request(),
+                DateTime::from_millis(now_millis()),
+            )
+            .await
+            .expect_err("expired code")
+            .into_response();
 
             assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
             assert!(!response.headers().contains_key(header::SET_COOKIE));
@@ -406,11 +498,16 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn code_one_millisecond_before_expiry_can_be_exchanged() {
-        let store = MemoryAuthStore::new(NOW_MILLIS + 1);
-        let response = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect("unexpired code");
+    async fn unexpired_code_can_be_exchanged() {
+        let store = MemoryAuthStore::new(now_millis() + 60_000);
+        let response = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect("unexpired code");
 
         assert_eq!(response.status(), StatusCode::NO_CONTENT);
         assert_eq!(store.sessions.lock().expect("session lock").len(), 1);
@@ -418,58 +515,87 @@ mod tests {
 
     #[tokio::test]
     async fn incorrect_pkce_proof_does_not_burn_the_code_for_its_owner() {
-        let store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
+        let store = MemoryAuthStore::new(now_millis() + 60_000);
         let wrong_proof = ExchangeRequest { verifier: "w".repeat(43), ..request() };
-        let rejected = exchange_session(&store, wrong_proof, DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect_err("wrong PKCE proof")
-            .into_response();
+        let rejected = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            wrong_proof,
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect_err("wrong PKCE proof")
+        .into_response();
 
         assert_eq!(rejected.status(), StatusCode::UNAUTHORIZED);
         assert!(!rejected.headers().contains_key(header::SET_COOKIE));
         assert!(store.sessions.lock().expect("session lock").is_empty());
         assert!(store.pending.lock().expect("pending lock").is_some());
 
-        let accepted = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect("owner can still exchange");
+        let accepted = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect("owner can still exchange");
         assert_eq!(accepted.status(), StatusCode::NO_CONTENT);
         assert_eq!(store.sessions.lock().expect("session lock").len(), 1);
     }
 
     #[tokio::test]
     async fn presenting_the_pkce_challenge_instead_of_the_verifier_is_rejected() {
-        let store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
+        let store = MemoryAuthStore::new(now_millis() + 60_000);
         let challenge_as_proof = ExchangeRequest { verifier: CHALLENGE.to_string(), ..request() };
-        let response =
-            exchange_session(&store, challenge_as_proof, DateTime::from_millis(NOW_MILLIS))
-                .await
-                .expect_err("challenge is not a proof")
-                .into_response();
+        let response = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            challenge_as_proof,
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect_err("challenge is not a proof")
+        .into_response();
 
         assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
         assert!(store.sessions.lock().expect("session lock").is_empty());
-        let valid = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect("original verifier still works");
+        let valid = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect("original verifier still works");
         assert_eq!(valid.status(), StatusCode::NO_CONTENT);
     }
 
     #[tokio::test]
     async fn stored_code_hash_cannot_be_used_as_the_authorization_code() {
-        let store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
+        let store = MemoryAuthStore::new(now_millis() + 60_000);
         let hash_as_code =
             ExchangeRequest { code: oauth::derive_code_challenge(CODE), ..request() };
-        let response = exchange_session(&store, hash_as_code, DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect_err("stored hash is not a code")
-            .into_response();
+        let response = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            hash_as_code,
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect_err("stored hash is not a code")
+        .into_response();
 
         assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
         assert!(store.sessions.lock().expect("session lock").is_empty());
-        let valid = exchange_session(&store, request(), DateTime::from_millis(NOW_MILLIS))
-            .await
-            .expect("original code still works");
+        let valid = exchange_session(
+            &AccountOperations::default(),
+            &store,
+            request(),
+            DateTime::from_millis(now_millis()),
+        )
+        .await
+        .expect("original code still works");
         assert_eq!(valid.status(), StatusCode::NO_CONTENT);
     }
 
@@ -483,11 +609,12 @@ mod tests {
             (CODE.to_string(), "v".repeat(129)),
             (CODE.to_string(), "!".repeat(43)),
         ] {
-            let store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
+            let store = MemoryAuthStore::new(now_millis() + 60_000);
             let response = exchange_session(
+                &AccountOperations::default(),
                 &store,
                 ExchangeRequest { code, verifier },
-                DateTime::from_millis(NOW_MILLIS),
+                DateTime::from_millis(now_millis()),
             )
             .await
             .expect_err("malformed tokens")
@@ -504,15 +631,20 @@ mod tests {
     #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
     async fn concurrent_exchanges_issue_exactly_one_session_and_cookie() {
         const CONTENDERS: usize = 16;
-        let mut store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
+        let mut store = MemoryAuthStore::new(now_millis() + 60_000);
         store.barrier = Some(Barrier::new(CONTENDERS));
         let store = Arc::new(store);
         let tasks = (0..CONTENDERS).map(|_| {
             let store = Arc::clone(&store);
             tokio::spawn(async move {
-                exchange_session(store.as_ref(), request(), DateTime::from_millis(NOW_MILLIS))
-                    .await
-                    .unwrap_or_else(IntoResponse::into_response)
+                exchange_session(
+                    &AccountOperations::default(),
+                    store.as_ref(),
+                    request(),
+                    DateTime::from_millis(now_millis()),
+                )
+                .await
+                .unwrap_or_else(IntoResponse::into_response)
             })
         });
         let responses = tokio::time::timeout(Duration::from_secs(5), join_all(tasks))
@@ -543,7 +675,7 @@ mod tests {
     #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
     async fn concurrent_incorrect_proofs_cannot_consume_a_valid_owners_code() {
         const CONTENDERS: usize = 16;
-        let mut store = MemoryAuthStore::new(NOW_MILLIS + 60_000);
+        let mut store = MemoryAuthStore::new(now_millis() + 60_000);
         store.barrier = Some(Barrier::new(CONTENDERS));
         let store = Arc::new(store);
         let tasks = (0..CONTENDERS).map(|index| {
@@ -554,10 +686,14 @@ mod tests {
                 if !valid_proof {
                     proof.verifier = "w".repeat(43);
                 }
-                let response =
-                    exchange_session(store.as_ref(), proof, DateTime::from_millis(NOW_MILLIS))
-                        .await
-                        .unwrap_or_else(IntoResponse::into_response);
+                let response = exchange_session(
+                    &AccountOperations::default(),
+                    store.as_ref(),
+                    proof,
+                    DateTime::from_millis(now_millis()),
+                )
+                .await
+                .unwrap_or_else(IntoResponse::into_response);
                 (valid_proof, response)
             })
         });

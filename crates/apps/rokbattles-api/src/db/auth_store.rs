@@ -174,6 +174,19 @@ pub trait AuthRepository: Send + Sync {
         user_id: &'a str,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
 
+    /// Deletes a user, their sessions, and their governor binds.
+    ///
+    /// Only records owned by `user_id` are removed. Other account data and game
+    /// reports are preserved. The user record is deleted last so an incomplete
+    /// cleanup can be retried after signing in again. Already deleted records
+    /// are ignored.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if a deletion fails. Earlier deletions may have completed;
+    /// these operations are not atomic across collections on standalone MongoDB.
+    fn delete_account<'a>(&'a self, user_id: &'a str) -> BoxFuture<'a, Result<(), AuthStoreError>>;
+
     fn find_user_by_discord_id<'a>(
         &'a self,
         discord_id: &'a str,
@@ -206,6 +219,7 @@ pub struct MongoAuthStore {
     users: Collection<UserDocument>,
     oauth_states: Collection<OAuthStateDocument>,
     desktop_oauth_states: Collection<DesktopOAuthState>,
+    claimed_governors: Collection<Document>,
 }
 
 impl MongoAuthStore {
@@ -216,6 +230,7 @@ impl MongoAuthStore {
             users: db.collection::<UserDocument>("users"),
             oauth_states: db.collection::<OAuthStateDocument>("oauthStates"),
             desktop_oauth_states: db.collection("desktopOauthStates"),
+            claimed_governors: db.collection("claimedGovernors"),
         }
     }
 
@@ -383,6 +398,20 @@ impl AuthRepository for MongoAuthStore {
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
             self.sessions.delete_many(doc! { "userId": user_id }).await?;
+
+            Ok(())
+        }
+        .boxed()
+    }
+
+    fn delete_account<'a>(&'a self, user_id: &'a str) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+        async move {
+            self.claimed_governors.delete_many(doc! { "discordId": user_id }).await?;
+
+            self.sessions.delete_many(doc! { "userId": user_id }).await?;
+
+            // Keep the account available for sign-in and retry if cleanup fails.
+            self.users.delete_one(doc! { "discordId": user_id }).await?;
 
             Ok(())
         }

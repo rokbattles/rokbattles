@@ -1,7 +1,11 @@
 use std::sync::Arc;
 
-use crate::db::{
-    AuthRepository, GameLocalizationStore, GameQueryStore, ReportsStore, TerritoryPlannerV2Store,
+use crate::{
+    auth::account_operations::AccountOperations,
+    db::{
+        AuthRepository, GameLocalizationStore, GameQueryStore, ReportsStore,
+        TerritoryPlannerV2Store,
+    },
 };
 
 /// Discord OAuth settings used by auth routes.
@@ -15,6 +19,7 @@ pub struct DiscordOAuthConfig {
 /// Shared state used by route handlers.
 #[derive(Clone)]
 pub struct AppState {
+    pub(crate) account_operations: AccountOperations,
     pub auth_store: Arc<dyn AuthRepository>,
     pub game_query: GameQueryStore,
     pub game_localizations: GameLocalizationStore,
@@ -37,6 +42,7 @@ impl AppState {
         pk_token: Option<String>,
     ) -> Self {
         Self {
+            account_operations: AccountOperations::default(),
             auth_store,
             game_query,
             game_localizations,
