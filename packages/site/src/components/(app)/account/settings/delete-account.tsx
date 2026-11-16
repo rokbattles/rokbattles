@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Alert, AlertActions, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/components/ui/link";
 
 export function DeleteAccount() {
   const [open, setOpen] = useState(false);
@@ -66,9 +67,9 @@ export function DeleteAccount() {
         {error ? (
           <div role="alert" className="mt-4 space-y-2 text-sm text-red-400">
             <p>{error}</p>
-            <a href="/proxy/v1/auth/discord/login" className="underline">
+            <Link href="/proxy/v1/auth/discord/login" prefetch={false} className="underline">
               Sign in again
-            </a>
+            </Link>
           </div>
         ) : null}
         <AlertActions>
