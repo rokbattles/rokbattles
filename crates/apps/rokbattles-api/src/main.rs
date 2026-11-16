@@ -11,10 +11,11 @@ use rokbattles_api::{
     build_router,
     config::Config,
     db::{
-        GameLocalizationStore, GameQueryStore, MongoAuthStore, ReportsStore,
-        TerritoryPlannerV2Store,
+        GameLocalizationStore, GameQueryStore, MongoAuthStore, ProgramApplicationsStore,
+        ReportsStore, TerritoryPlannerV2Store,
     },
     state::{AppState, DiscordOAuthConfig},
+    turnstile::Turnstile,
 };
 use tracing::info;
 
@@ -68,6 +69,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let territory_planner_v2 = TerritoryPlannerV2Store::new(database.clone());
     territory_planner_v2.ensure_indexes().await?;
 
+    let program_applications = ProgramApplicationsStore::new(database.clone());
+    program_applications.ensure_indexes().await?;
+
+    let turnstile = Turnstile::new(config.turnstile_secret_key, config.turnstile_hostnames);
+
     let auth_store = Arc::new(MongoAuthStore::new(database));
     auth_store.ensure_indexes().await?;
 
@@ -86,7 +92,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             discord_oauth,
             config.pk_token,
         )
-        .with_kdmt_token(config.kdmt_token),
+        .with_kdmt_token(config.kdmt_token)
+        .with_program_applications(program_applications, turnstile),
     );
     let app = build_router(state, config.rate_limit_mode);
 

@@ -3,9 +3,10 @@ use std::sync::Arc;
 use crate::{
     auth::account_operations::AccountOperations,
     db::{
-        AuthRepository, GameLocalizationStore, GameQueryStore, ReportsStore,
-        TerritoryPlannerV2Store,
+        AuthRepository, GameLocalizationStore, GameQueryStore, ProgramApplicationsStore,
+        ReportsStore, TerritoryPlannerV2Store,
     },
+    turnstile::Turnstile,
 };
 
 /// Discord OAuth settings used by auth routes.
@@ -14,6 +15,13 @@ pub struct DiscordOAuthConfig {
     pub client_id: String,
     pub client_secret: String,
     pub redirect_uri: String,
+}
+
+/// Storage and token verification used by the program application routes.
+#[derive(Clone)]
+pub(crate) struct ProgramApplicationsState {
+    pub(crate) store: ProgramApplicationsStore,
+    pub(crate) turnstile: Turnstile,
 }
 
 /// Shared state used by route handlers.
@@ -28,6 +36,7 @@ pub struct AppState {
     pub discord_oauth: DiscordOAuthConfig,
     pub(crate) pk_token: Option<String>,
     pub(crate) kdmt_token: Option<String>,
+    pub(crate) program_applications: Option<ProgramApplicationsState>,
 }
 
 impl AppState {
@@ -51,11 +60,22 @@ impl AppState {
             discord_oauth,
             pk_token,
             kdmt_token: None,
+            program_applications: None,
         }
     }
 
     pub fn with_kdmt_token(mut self, token: Option<String>) -> Self {
         self.kdmt_token = token;
+        self
+    }
+
+    /// Enables program application routes with the given store and verifier.
+    pub fn with_program_applications(
+        mut self,
+        store: ProgramApplicationsStore,
+        turnstile: Turnstile,
+    ) -> Self {
+        self.program_applications = Some(ProgramApplicationsState { store, turnstile });
         self
     }
 }

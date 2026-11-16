@@ -61,8 +61,8 @@ export function DeleteAccount() {
       <Alert open={open} onClose={() => !submitting.current && setOpen(false)}>
         <AlertTitle>Delete your account?</AlertTitle>
         <AlertDescription>
-          This will permanently delete your ROK Battles account and governor binds, and log you out
-          of all devices. This action cannot be undone.
+          This will permanently delete your ROK Battles account, governor binds, and program
+          applications, and log you out of all devices. This action cannot be undone.
         </AlertDescription>
         {error ? (
           <div role="alert" className="mt-4 space-y-2 text-sm text-red-400">

@@ -16,6 +16,7 @@ mod kdmt;
 mod loot_explorer;
 mod overlays;
 mod pk;
+mod program_applications;
 mod reports;
 pub(crate) mod territory_planner_v2;
 
@@ -41,6 +42,7 @@ fn v1_router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router(rate_limit_mode))
+        .route("/program-applications", program_applications::routes(rate_limit_mode))
         .nest("/kdmt", kdmt::router())
         .route("/overlay/{overlay}", get(overlays::battles))
         .route("/overlay/{overlay}/settings", get(overlays::token_settings))

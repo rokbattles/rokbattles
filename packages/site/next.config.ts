@@ -41,7 +41,7 @@ function sentryConnectSources(): string[] {
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'${!isProdEnv ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' https://challenges.cloudflare.com 'unsafe-inline' 'wasm-unsafe-eval'${!isProdEnv ? " 'unsafe-eval'" : ""}`,
   "script-src-attr 'none'",
   // React, charts, motion, and UI primitives rely on inline style attributes.
   "style-src 'self' 'unsafe-inline'",
@@ -58,7 +58,7 @@ const contentSecurityPolicy = [
   "worker-src 'self' blob:",
   "media-src 'none'",
   "object-src 'none'",
-  "frame-src 'none'",
+  "frame-src https://challenges.cloudflare.com",
   "base-uri 'none'",
   "form-action 'self'",
   // Preserve SAMEORIGIN framing; OBS/Streamlabs browser sources load directly.

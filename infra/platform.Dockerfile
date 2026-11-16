@@ -63,6 +63,8 @@ RUN pnpm --filter=@rokbattles/site... run sync:legal
 RUN pnpm --filter=@rokbattles/site... run generate:datasets
 ARG API_URL
 ENV API_URL=${API_URL}
+ARG NEXT_PUBLIC_TURNSTILE_SITE_KEY
+ENV NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY}
 RUN pnpm --filter=@rokbattles/site... build
 
 FROM base AS runner
