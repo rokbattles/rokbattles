@@ -58,6 +58,11 @@ wgpu = { version = "=29.0.4", default-features = false }
 wasm-bindgen-futures = "0.4.77"
 web-sys = "0.3.104"
 bytemuck = "1.25"
+gtk = "0.18.2"
+objc2 = "0.6.4"
+objc2-foundation = { version = "0.3.2", default-features = false }
+regex = "1"
+winreg = "0.55.0"
 
 [profile.release]
 opt-level = "z"

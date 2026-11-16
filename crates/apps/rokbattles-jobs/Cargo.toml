@@ -28,7 +28,7 @@ yaml_serde.workspace = true
 mimalloc = { workspace = true, features = ["secure"] }
 
 [dev-dependencies]
-regex = "1"
+regex.workspace = true
 
 [lints]
 workspace = true
