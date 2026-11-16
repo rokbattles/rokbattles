@@ -316,4 +316,82 @@ mod tests {
             assert!(serde_json::from_str::<Submission>(body).is_err());
         }
     }
+
+    #[test]
+    fn rejects_mongodb_operator_objects_in_submission_fields() {
+        for program in ["content_creator", "developer_program"] {
+            for field in ["program", "answer", "turnstileToken"] {
+                for operator in [
+                    serde_json::json!({ "$ne": null }),
+                    serde_json::json!({ "$gt": "" }),
+                    serde_json::json!({ "$regex": ".*" }),
+                    serde_json::json!({ "$where": "return true" }),
+                ] {
+                    let mut body = serde_json::json!({
+                        "program": program,
+                        "answer": "https://www.youtube.com/@creator",
+                        "turnstileToken": "test-token",
+                    });
+                    body[field] = operator;
+
+                    assert!(
+                        serde_json::from_value::<Submission>(body).is_err(),
+                        "operator object accepted in {field} for {program}"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn query_shaped_answers_are_serialized_as_bson_strings() {
+        for (program, answer, expected) in [
+            (Program::DeveloperProgram, r#"{"$ne":null}"#, r#"{"$ne":null}"#),
+            (
+                Program::DeveloperProgram,
+                r#"{"$where":"function() { return true; }"}"#,
+                r#"{"$where":"function() { return true; }"}"#,
+            ),
+            (
+                Program::DeveloperProgram,
+                r#"{"$set":{"status":"approved","userId":"other"}}"#,
+                r#"{"$set":{"status":"approved","userId":"other"}}"#,
+            ),
+            (
+                Program::ContentCreator,
+                "https://www.youtube.com/@creator?filter=%7B%22%24ne%22%3Anull%7D",
+                "https://www.youtube.com/@creator",
+            ),
+        ] {
+            let submission: Submission = serde_json::from_value(serde_json::json!({
+                "program": program,
+                "answer": answer,
+                "turnstileToken": "test-token",
+            }))
+            .expect("string answer");
+            let answer =
+                validate_answer(submission.program, &submission.answer).expect("valid answer");
+            let application = ProgramApplication {
+                id: ObjectId::new(),
+                user_id: "authenticated-user".to_owned(),
+                program: submission.program,
+                form: vec![FormAnswer {
+                    question: submission.program.question().to_owned(),
+                    answer,
+                }],
+                status: "open".to_owned(),
+                created_at: DateTime::from_millis(0),
+                updated_at: DateTime::from_millis(0),
+            };
+
+            let document = mongodb::bson::to_document(&application).expect("application BSON");
+            let form = document.get_array("form").expect("form");
+            let entry = form[0].as_document().expect("form entry");
+
+            assert_eq!(entry.get_str("answer").expect("BSON string"), expected);
+            assert_eq!(entry.len(), 2);
+            assert_eq!(document.get_str("userId").expect("owner"), "authenticated-user");
+            assert_eq!(document.get_str("status").expect("status"), "open");
+        }
+    }
 }
