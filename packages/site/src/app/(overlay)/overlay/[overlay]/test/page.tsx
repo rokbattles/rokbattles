@@ -1,29 +1,9 @@
 import { notFound } from "next/navigation";
 import type { JSX } from "react";
-import { type BattleCardData, BattleCards } from "@/components/overlay/battle-cards";
-import { getOverlayCommanders } from "@/lib/overlay-commanders";
-import type { OverlayPreferences } from "@/lib/types/overlay";
-
-const samples: Pick<BattleCardData, "outcome" | "killCount" | "tradePercent">[] = [
-  { outcome: "victory", killCount: 28107, tradePercent: 215 },
-  { outcome: "defeat", killCount: 8432, tradePercent: 67 },
-  { outcome: "battle", killCount: 15680, tradePercent: 104 },
-  { outcome: "victory", killCount: 123456, tradePercent: 348 },
-  { outcome: "defeat", killCount: 950, tradePercent: 23 },
-  { outcome: "battle", killCount: 64205, tradePercent: 100 },
-  { outcome: "victory", killCount: 1250000, tradePercent: null },
-];
-
-const battles: BattleCardData[] = samples.map((sample, index) => ({
-  id: `sample-${index}`,
-  commanders: {
-    primaryCommanderId: 1,
-    secondaryCommanderId: index % 2 === 0 ? 0 : 3,
-    primaryCommanderAwakened: false,
-    secondaryCommanderAwakened: false,
-  },
-  ...sample,
-}));
+import { BattleCards } from "@/components/(app)/overlay/battle-cards";
+import { getOverlayCommanders } from "@/lib/(app)/overlay-commanders";
+import { overlaySampleBattles } from "@/lib/(app)/overlay-samples";
+import type { OverlayPreferences } from "@/lib/(app)/types/overlay";
 
 export default async function Page({
   params,
@@ -54,7 +34,7 @@ export default async function Page({
 
   return (
     <BattleCards
-      battles={battles.slice(0, limit)}
+      battles={overlaySampleBattles.slice(0, limit)}
       commanders={getOverlayCommanders()}
       branding={branding}
       status="test"

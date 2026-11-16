@@ -1,9 +1,8 @@
 "use client";
 
 import { type JSX, useEffect, useState } from "react";
-import type { OverlayCommander } from "@/lib/overlay-commanders";
-import type { OverlayBranding } from "@/lib/types/overlay";
-import { type BattleCardData, BattleCards } from "./battle-cards";
+import type { BattleCardData, OverlayBranding, OverlayCommander } from "@/lib/(app)/types/overlay";
+import { BattleCards } from "./battle-cards";
 
 type Battle = BattleCardData & { expiresAt: number };
 type Feed = { items: Battle[]; serverTime: number; branding: OverlayBranding };
@@ -82,9 +81,7 @@ export function BattleOverlay({ token, commanders }: BattleOverlayProps): JSX.El
       clearInterval(expiryTimer);
     };
   }, [token]);
-
   const visibleBattles = feed.items.filter((battle) => battle.expiresAt > now).slice(0, 7);
-
   return (
     <BattleCards
       battles={visibleBattles}

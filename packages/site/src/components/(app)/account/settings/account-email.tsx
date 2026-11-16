@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { RevealButton } from "@/components/(app)/account/settings/reveal-button";
 
 export function AccountEmail({ email }: { email: string }) {
   const [revealed, setRevealed] = useState(false);
@@ -12,15 +13,12 @@ export function AccountEmail({ email }: { email: string }) {
         <span id="account-email" className="break-all text-zinc-400">
           {revealed ? email : "********"}
         </span>
-        <button
-          className="shrink-0 cursor-pointer text-white underline decoration-white/50 underline-offset-4 hover:decoration-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-          type="button"
-          aria-controls="account-email"
-          aria-expanded={revealed}
-          onClick={() => setRevealed(!revealed)}
-        >
-          {revealed ? "Hide" : "Reveal"}
-        </button>
+        <RevealButton
+          controls="account-email"
+          label="Email"
+          revealed={revealed}
+          onToggle={() => setRevealed(!revealed)}
+        />
       </div>
     </div>
   );
