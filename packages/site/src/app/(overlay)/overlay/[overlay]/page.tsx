@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { BattleOverlay } from "@/components/overlay/battle-overlay";
-import { getOverlayCommanders } from "@/lib/overlay-commanders";
+import { BattleOverlay } from "@/components/(app)/overlay/battle-overlay";
+import { getOverlayCommanders } from "@/lib/(app)/overlay-commanders";
 
 export default async function Page({ params }: { params: Promise<{ overlay: string }> }) {
   const { overlay } = await params;

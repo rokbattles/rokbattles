@@ -91,6 +91,7 @@ pub async fn settings(
         NO_STORE,
         Json(serde_json::json!({
             "enabled": claim.get_str("overlayTokenHash").is_ok(),
+            "path": stored_path(&claim),
             "settings": Settings::from_claim(&claim)?
         })),
     ))
@@ -132,6 +133,15 @@ fn token_hash(token: &str) -> String {
     format!("{:x}", Sha256::digest(token.as_bytes()))
 }
 
+// Keep the lookup hash for existing bearer URLs; only the authenticated owner
+// settings response exposes the recoverable token stored by new rotations.
+fn stored_path(claim: &Document) -> Option<String> {
+    let token = claim.get_str("overlayToken").ok()?;
+    let hash = claim.get_str("overlayTokenHash").ok()?;
+
+    (valid_token(token) && token_hash(token) == hash).then(|| format!("/overlay/{token}"))
+}
+
 fn generate_token() -> String {
     let mut bytes = [0u8; 32];
     rand::rng().fill(&mut bytes);
@@ -163,7 +173,7 @@ pub async fn rotate(
                 "discordId": &session.user.discord_id,
                 "governorId": governor,
             },
-            doc! {"$set": {"overlayTokenHash": token_hash(&token)}},
+            doc! {"$set": {"overlayTokenHash": token_hash(&token), "overlayToken": &token}},
         )
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
@@ -191,7 +201,7 @@ pub async fn revoke(
                 "discordId": &session.user.discord_id,
                 "governorId": governor,
             },
-            doc! {"$unset": {"overlayTokenHash": ""}},
+            doc! {"$unset": {"overlayTokenHash": "", "overlayToken": ""}},
         )
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
@@ -284,6 +294,27 @@ mod tests {
         assert_ne!(token_hash(&a), token_hash(&b));
         assert!(!valid_token("ov_test"));
         assert!(!valid_token("ov_../../etc/passwd"));
+    }
+
+    #[test]
+    fn retrieves_only_a_valid_active_token_and_preserves_hash_only_claims() {
+        let token = generate_token();
+        let hash = token_hash(&token);
+        let legacy = doc! {"overlayTokenHash": &hash};
+        assert_eq!(stored_path(&legacy), None);
+        assert_eq!(legacy.get_str("overlayTokenHash").unwrap(), hash);
+
+        let active = doc! {"overlayTokenHash": &hash, "overlayToken": &token};
+        assert_eq!(stored_path(&active), Some(format!("/overlay/{token}")));
+
+        for claim in [
+            doc! {},
+            doc! {"overlayToken": &token},
+            doc! {"overlayTokenHash": token_hash(&generate_token()), "overlayToken": &token},
+            doc! {"overlayTokenHash": token_hash("invalid"), "overlayToken": "invalid"},
+        ] {
+            assert_eq!(stored_path(&claim), None);
+        }
     }
 
     #[test]
