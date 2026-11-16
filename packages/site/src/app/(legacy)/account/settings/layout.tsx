@@ -1,17 +1,15 @@
-import type React from "react";
-import { AccountSettingsNav } from "@/components/account/account-settings-nav";
+import type { ReactNode } from "react";
+import { AccountSettingsNav } from "@/components/(app)/account/settings/account-settings-nav";
 import { Heading } from "@/components/ui/heading";
-import { getCurrentUser } from "@/lib/current-user";
-import { hasOverlayAccess } from "@/lib/overlay-access";
+import { requireCurrentUser } from "@/lib/require-user";
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
-  const user = await getCurrentUser();
+export default async function Layout({ children }: { children: ReactNode }) {
+  await requireCurrentUser();
+
   return (
     <div className="space-y-4">
-      <div>
-        <Heading>Account Settings</Heading>
-      </div>
-      <AccountSettingsNav showOverlay={hasOverlayAccess(user)} />
+      <Heading>Account Settings</Heading>
+      <AccountSettingsNav />
       {children}
     </div>
   );

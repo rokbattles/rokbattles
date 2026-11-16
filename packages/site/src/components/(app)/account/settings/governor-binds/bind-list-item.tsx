@@ -1,6 +1,6 @@
 "use client";
 
-import { BindActionsDropdown } from "@/components/account-binds/bind-actions-dropdown";
+import { BindActionsDropdown } from "@/components/(app)/account/settings/governor-binds/bind-actions-dropdown";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import type { ClaimedGovernor } from "@/lib/types/current-user";
@@ -20,7 +20,6 @@ export function BindListItem({ bind, isPending, onSetDefault, onUnlink }: BindLi
       ) : (
         <Avatar initials="G" className="size-10" square />
       )}
-
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <p className="truncate font-medium text-white">
@@ -30,7 +29,6 @@ export function BindListItem({ bind, isPending, onSetDefault, onUnlink }: BindLi
         </div>
         <p className="text-xs text-zinc-400">{bind.governorId.toString()}</p>
       </div>
-
       <div className="ml-auto shrink-0">
         <BindActionsDropdown
           bind={bind}

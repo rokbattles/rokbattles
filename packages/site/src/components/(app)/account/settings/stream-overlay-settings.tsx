@@ -6,31 +6,12 @@ import { Description, Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { Text } from "@/components/ui/text";
-import type { OverlayPreferences } from "@/lib/types/overlay";
+import { type OverlayConfig, requestOverlay } from "@/lib/(app)/stream-overlay";
 import { GovernorContext } from "@/providers/governor-context";
 
-type OverlayConfig = {
-  enabled: boolean;
-  settings: OverlayPreferences;
-};
-
 type GovernorOverlaySettingsProps = { governorId: number };
+
 type OverlayFormProps = { endpoint: string; config: OverlayConfig };
-
-async function request<T = unknown>(path: string, method = "GET", body?: unknown): Promise<T> {
-  const response = await fetch(path, {
-    method,
-    cache: "no-store",
-    headers: body ? { "Content-Type": "application/json" } : undefined,
-    body: body ? JSON.stringify(body) : undefined,
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to update overlay. Please try again.");
-  }
-
-  return response.json();
-}
 
 export function OverlaySettings(): JSX.Element {
   const governor = use(GovernorContext)?.activeGovernor;
@@ -50,7 +31,7 @@ function GovernorOverlaySettings({ governorId }: GovernorOverlaySettingsProps): 
   useEffect(() => {
     let cancelled = false;
 
-    request<OverlayConfig>(endpoint)
+    requestOverlay<OverlayConfig>(endpoint)
       .then((value) => {
         if (!cancelled) {
           setConfig(value);
@@ -86,7 +67,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
   const [error, setError] = useState("");
 
   async function rotate(): Promise<void> {
-    const { path } = await request<{ path: string }>(`${endpoint}/rotate`, "POST");
+    const { path } = await requestOverlay<{ path: string }>(`${endpoint}/rotate`, "POST");
 
     setUrl(`https://rokbattles.com${path}`);
     setEnabled(true);
@@ -98,7 +79,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
     setError("");
 
     try {
-      await request(endpoint, "PUT", settings);
+      await requestOverlay(endpoint, "PUT", settings);
 
       if (!enabled) {
         await rotate();
@@ -118,7 +99,7 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
       if (action === "rotate") {
         await rotate();
       } else {
-        await request(endpoint, "DELETE");
+        await requestOverlay(endpoint, "DELETE");
 
         setEnabled(false);
         setUrl("");
@@ -148,7 +129,6 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
             ))}
           </Listbox>
         </Field>
-
         <Field className="w-1/2">
           <Label>Branding</Label>
           <Listbox
@@ -165,12 +145,10 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
             </ListboxOption>
           </Listbox>
         </Field>
-
         <Button type="submit" disabled={busy}>
           {enabled ? "Save settings" : "Create overlay URL"}
         </Button>
       </form>
-
       {url ? (
         <Field>
           <Label>OBS browser source URL</Label>
@@ -178,11 +156,9 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
           <Description>Copy this URL into a Browser Source. Keep this URL private.</Description>
         </Field>
       ) : null}
-
       {enabled ? (
         <div className="space-y-3">
           <Text>For your privacy, an existing URL is only shown when created.</Text>
-
           <div className="flex flex-wrap gap-3">
             <Button outline disabled={busy} onClick={() => void changeToken("rotate")}>
               Replace URL
@@ -193,7 +169,6 @@ function OverlayForm({ endpoint, config }: OverlayFormProps): JSX.Element {
           </div>
         </div>
       ) : null}
-
       {error ? <Text role="alert">{error}</Text> : null}
     </div>
   );

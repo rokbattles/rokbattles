@@ -4,8 +4,7 @@ import { type FormEvent, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
-import { claimBind } from "@/lib/account-binds/api";
-import { MAX_GOVERNOR_BINDS } from "@/lib/account-binds/constants";
+import { claimBind, MAX_GOVERNOR_BINDS } from "@/lib/(app)/governor-binds";
 
 type ClaimBindFormProps = {
   canClaimMore: boolean;
@@ -33,6 +32,7 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
     }
 
     const numericGovernorId = Number(trimmed);
+
     if (!Number.isFinite(numericGovernorId)) {
       setErrorMessage("Enter a valid governor ID.");
       return;

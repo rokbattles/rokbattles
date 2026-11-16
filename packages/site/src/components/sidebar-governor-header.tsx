@@ -15,7 +15,7 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown";
 import { SidebarHeader, SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
-import { MAX_GOVERNOR_BINDS } from "@/lib/account-binds/constants";
+import { MAX_GOVERNOR_BINDS } from "@/lib/(app)/governor-binds";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -68,7 +68,7 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
                 </DropdownItem>
               ))}
             {canClaimMore ? (
-              <DropdownItem href="/account/settings/governors">
+              <DropdownItem href="/account/settings/game/governors">
                 <Plus data-slot="icon" aria-hidden="true" />
                 <DropdownLabel>Claim governor</DropdownLabel>
               </DropdownItem>
