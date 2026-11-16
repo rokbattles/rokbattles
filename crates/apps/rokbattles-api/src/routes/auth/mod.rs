@@ -9,7 +9,7 @@ use axum::{
     },
     middleware,
     response::{IntoResponse, Redirect, Response},
-    routing::{MethodRouter, get, post},
+    routing::{MethodRouter, delete, get, post},
 };
 use futures::StreamExt;
 use mongodb::{
@@ -22,7 +22,10 @@ use serde::{Deserialize, de::DeserializeOwned};
 
 use crate::{
     auth::{AuthenticatedSession, extract_cookie_value},
-    db::{DesktopLogin, DiscordUserUpsert, NewSessionRecord, OAuthStateRecord},
+    db::{
+        AuthRepository, DesktopLogin, DiscordUserUpsert, NewSessionRecord, OAuthStateRecord,
+        SessionPlatform,
+    },
     error::ApiError,
     rate_limit::{self, RateLimitMode, RateLimiter},
     state::{AppState, DiscordOAuthConfig},
@@ -31,6 +34,7 @@ use crate::{
 mod cookies;
 mod desktop;
 mod oauth;
+mod sessions;
 mod types;
 
 use self::types::{AuthMeResponse, ClaimedGovernor, CurrentUser, LogoutResponse};
@@ -47,6 +51,8 @@ const EXCHANGE_REFILL: Duration = Duration::from_secs(10);
 pub fn router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .route("/me", get(get_me))
+        .route("/sessions", get(sessions::list).delete(sessions::delete_all))
+        .route("/sessions/{session_id}", delete(sessions::delete_one))
         .route("/logout", post(post_logout))
         .route("/discord/callback", get(get_discord_callback))
         .merge(limited_routes(
@@ -229,14 +235,23 @@ async fn finish_discord_login(
         return desktop::authorize(state, &login, profile.id).await;
     }
 
-    let now = DateTime::now();
+    create_browser_session(state.auth_store.as_ref(), profile.id, DateTime::now()).await
+}
+
+/// Creates a browser session and redirects home with its session cookie.
+async fn create_browser_session(
+    auth_store: &dyn AuthRepository,
+    user_id: String,
+    now: DateTime,
+) -> Result<Response, ApiError> {
     let expires_at = DateTime::from_millis(now.timestamp_millis() + SESSION_TTL_MILLIS);
     let sid = oauth::generate_session_id();
-    state
-        .auth_store
+
+    auth_store
         .insert_session(NewSessionRecord {
             session_id: sid.clone(),
-            user_id: profile.id,
+            platform: SessionPlatform::Browser,
+            user_id,
             created_at: now,
             expires_at,
         })
@@ -245,6 +260,7 @@ async fn finish_discord_login(
 
     let mut response = Redirect::to("/").into_response();
     let set_cookie = cookies::build_set_session_cookie(&sid, SESSION_MAX_AGE_SECONDS);
+
     response.headers_mut().append(
         SET_COOKIE,
         set_cookie

@@ -62,6 +62,11 @@ impl AuthState {
     pub fn new(repository: Arc<dyn AuthRepository>) -> Self {
         Self(repository)
     }
+
+    /// Returns the repository used to authenticate and manage sessions.
+    pub(crate) fn repository(&self) -> &dyn AuthRepository {
+        self.0.as_ref()
+    }
 }
 
 impl FromRef<Arc<AppState>> for AuthState {
@@ -275,6 +280,7 @@ mod tests {
         AuthenticatedSession {
             sid: "test-session".to_string(),
             session: SessionRecord {
+                id: mongodb::bson::oid::ObjectId::new(),
                 user_id: "user".to_string(),
                 created_at: DateTime::from_millis(0),
                 expires_at: DateTime::from_millis(i64::MAX),
@@ -373,6 +379,29 @@ mod tests {
                 Ok(None)
             })
             .boxed()
+        }
+
+        fn list_active_sessions<'a>(
+            &'a self,
+            _user_id: &'a str,
+            _now: DateTime,
+        ) -> BoxFuture<'a, Result<Vec<crate::db::ListedSessionRecord>, AuthStoreError>> {
+            ready(Err(store_error())).boxed()
+        }
+
+        fn delete_user_session<'a>(
+            &'a self,
+            _user_id: &'a str,
+            _session_id: mongodb::bson::oid::ObjectId,
+        ) -> BoxFuture<'a, Result<bool, AuthStoreError>> {
+            ready(Err(store_error())).boxed()
+        }
+
+        fn delete_user_sessions<'a>(
+            &'a self,
+            _user_id: &'a str,
+        ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+            ready(Err(store_error())).boxed()
         }
 
         fn find_user_by_discord_id<'a>(
@@ -612,8 +641,12 @@ mod tests {
     #[test]
     fn detects_expired_session() {
         let old = DateTime::from_millis(1);
-        let session =
-            SessionRecord { user_id: "user".to_string(), created_at: old, expires_at: old };
+        let session = SessionRecord {
+            id: mongodb::bson::oid::ObjectId::new(),
+            user_id: "user".to_string(),
+            created_at: old,
+            expires_at: old,
+        };
 
         assert!(is_expired(&session));
     }

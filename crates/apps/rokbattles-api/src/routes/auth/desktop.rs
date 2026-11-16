@@ -13,7 +13,7 @@ use serde::Deserialize;
 
 use super::{cookies, oauth};
 use crate::{
-    db::{AuthRepository, DesktopLogin, DesktopOAuthState, NewSessionRecord},
+    db::{AuthRepository, DesktopLogin, DesktopOAuthState, NewSessionRecord, SessionPlatform},
     error::ApiError,
     state::AppState,
 };
@@ -114,9 +114,11 @@ async fn exchange_session(
 
     let now = DateTime::now();
     let sid = oauth::generate_session_id();
+
     auth_store
         .insert_session(NewSessionRecord {
             session_id: sid.clone(),
+            platform: SessionPlatform::Desktop,
             user_id: oauth_state.user_id,
             created_at: now,
             expires_at: DateTime::from_millis(now.timestamp_millis() + SESSION_TTL_MILLIS),
@@ -260,6 +262,29 @@ mod tests {
             ready(Err(unexpected_store_call())).boxed()
         }
 
+        fn list_active_sessions<'a>(
+            &'a self,
+            _user_id: &'a str,
+            _now: DateTime,
+        ) -> BoxFuture<'a, Result<Vec<crate::db::ListedSessionRecord>, AuthStoreError>> {
+            ready(Err(unexpected_store_call())).boxed()
+        }
+
+        fn delete_user_session<'a>(
+            &'a self,
+            _user_id: &'a str,
+            _session_id: mongodb::bson::oid::ObjectId,
+        ) -> BoxFuture<'a, Result<bool, AuthStoreError>> {
+            ready(Err(unexpected_store_call())).boxed()
+        }
+
+        fn delete_user_sessions<'a>(
+            &'a self,
+            _user_id: &'a str,
+        ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+            ready(Err(unexpected_store_call())).boxed()
+        }
+
         fn find_user_by_discord_id<'a>(
             &'a self,
             _discord_id: &'a str,
@@ -337,6 +362,7 @@ mod tests {
         let sessions = store.sessions.lock().expect("session lock");
         assert_eq!(sessions.len(), 1);
         let session = sessions.first().expect("issued session");
+        assert_eq!(session.platform, SessionPlatform::Desktop);
         assert_eq!(session.session_id, sid);
         assert_eq!(session.user_id, "discord-user");
         assert_eq!(
