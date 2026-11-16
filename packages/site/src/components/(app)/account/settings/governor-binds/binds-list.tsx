@@ -1,26 +1,23 @@
 "use client";
 
-import { BindListItem } from "@/components/account-binds/bind-list-item";
-import { Subheading } from "@/components/ui/heading";
+import { BindListItem } from "@/components/(app)/account/settings/governor-binds/bind-list-item";
+import { SettingsSection } from "@/components/(app)/account/settings/settings-section";
 import { Text } from "@/components/ui/text";
 import type { ClaimedGovernor } from "@/lib/types/current-user";
 
-type PendingBindAction = {
-  governorId: number;
-  action: "set-default" | "unlink";
-} | null;
-
 type BindsListProps = {
   binds: ClaimedGovernor[];
-  pendingAction: PendingBindAction;
+  pendingGovernorId: number | null;
   onSetDefault: (governorId: number) => Promise<void>;
   onUnlink: (governorId: number) => Promise<void>;
 };
 
-export function BindsList({ binds, pendingAction, onSetDefault, onUnlink }: BindsListProps) {
+export function BindsList({ binds, pendingGovernorId, onSetDefault, onUnlink }: BindsListProps) {
   return (
-    <section className="space-y-4">
-      <Subheading level={3}>Binds</Subheading>
+    <SettingsSection
+      title="Governor Binds"
+      description="These are the governors linked to your ROK Battles account. You can manage your binds or link another governor."
+    >
       {binds.length === 0 ? (
         <Text>No binds yet.</Text>
       ) : (
@@ -29,13 +26,13 @@ export function BindsList({ binds, pendingAction, onSetDefault, onUnlink }: Bind
             <BindListItem
               key={bind.governorId}
               bind={bind}
-              isPending={pendingAction?.governorId === bind.governorId}
+              isPending={pendingGovernorId === bind.governorId}
               onSetDefault={onSetDefault}
               onUnlink={onUnlink}
             />
           ))}
         </ul>
       )}
-    </section>
+    </SettingsSection>
   );
 }

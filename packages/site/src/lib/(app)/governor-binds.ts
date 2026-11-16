@@ -1,10 +1,9 @@
+import type { ClaimedGovernor } from "@/lib/types/current-user";
+
+export const MAX_GOVERNOR_BINDS = 10;
+
 type ClaimBindResponse = {
-  claim: {
-    governorId: number;
-    governorName: string | null;
-    governorAvatar: string | null;
-    default: boolean;
-  };
+  claim: ClaimedGovernor;
 };
 
 export class BindApiError extends Error {}

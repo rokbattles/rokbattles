@@ -14,7 +14,7 @@ export async function requireCurrentUser(): Promise<CurrentUser> {
 export async function requireCurrentUserWithGovernor(): Promise<CurrentUser> {
   const user = await requireCurrentUser();
   if (!user.claimedGovernors || user.claimedGovernors.length === 0) {
-    redirect("/account/settings/governors");
+    redirect("/account/settings/game/governors");
   }
 
   return user;

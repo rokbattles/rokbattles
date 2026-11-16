@@ -1,19 +1,41 @@
-import { Description, Field, FieldGroup, Label } from "@/components/ui/fieldset";
-import { Input } from "@/components/ui/input";
+import { AccountEmail } from "@/components/(app)/account/settings/account-email";
+import { SettingsActionRow } from "@/components/(app)/account/settings/settings-action-row";
+import { SettingsLink } from "@/components/(app)/account/settings/settings-link";
+import { SettingsPage } from "@/components/(app)/account/settings/settings-page";
+import { SettingsSection } from "@/components/(app)/account/settings/settings-section";
+import { Button } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
 import { requireCurrentUser } from "@/lib/require-user";
 
 export default async function Page() {
   const user = await requireCurrentUser();
 
   return (
-    <div className="space-y-8 mt-8">
-      <FieldGroup>
-        <Field>
-          <Label htmlFor="account-email">Email address</Label>
-          <Input id="account-email" type="email" value={user.email} disabled readOnly />
-          <Description>Your email address is synced from Discord.</Description>
-        </Field>
-      </FieldGroup>
-    </div>
+    <SettingsPage>
+      <SettingsSection title="Account Info">
+        <AccountEmail email={user.email} />
+      </SettingsSection>
+      <Divider />
+      <SettingsSection title="Security">
+        <div>
+          <SettingsLink
+            href="/account/settings/devices"
+            label="Logged-in Devices"
+            value="0 devices"
+          />
+          <SettingsLink href="/account/settings/apps" label="Authorized Apps" value="0 apps" />
+        </div>
+      </SettingsSection>
+      <Divider />
+      <SettingsActionRow
+        label="Close your account"
+        description="Permanently close your account."
+        inset
+      >
+        <Button color="red" disabled>
+          Delete account
+        </Button>
+      </SettingsActionRow>
+    </SettingsPage>
   );
 }
