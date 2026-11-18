@@ -14,6 +14,7 @@
 //! | Root `type` | Body fields | Category |
 //! | --- | --- | --- |
 //! | `System` | `subType = 11`, `subParam = 1`, `3`, or `4` | [`MailType::SystemBarbarianFort`] |
+//! | `System` | `subType = 26` | [`MailType::SystemBundle`] |
 //! | `System` | `subType = 29`, `subParam = 11` or `15` | [`MailType::SystemKaharTreasure`] |
 //! | `System` | `subType = 149`, `subParam = 1` | [`MailType::SystemKauKaruak`] |
 //! | `Alliance` | `type = 14`, `param = 1`, or `type = 60` | [`MailType::AllianceAOOBattleResults`] |
@@ -27,8 +28,8 @@
 //!
 //! `EventMemberLootReport` also requires `body.content.EventName` to be `GVE`,
 //! ignoring ASCII case. Other event names are unsupported. The canonical
-//! System and Alliance labels returned by [`MailType::as_str`] can also appear
-//! directly in the root `type`; those labels do not require subtype checks.
+//! System and Alliance labels for processable categories can also appear
+//! directly in the root `type`. Bundle mail always requires the System subtype.
 //!
 //! # Examples
 //!
@@ -96,8 +97,14 @@ pub enum MailType {
     EventMemberLootReport,
     /// Resource gathering reports.
     Rss,
+    /// Resource assistance sent by carriage.
+    CarriageSentReport,
+    /// Scout reports.
+    ScoutReport,
     /// System barbarian fort reports.
     SystemBarbarianFort,
+    /// System notices for bundle purchases and related store rewards.
+    SystemBundle,
     /// System Kahar treasure reward mail.
     SystemKaharTreasure,
     /// System Trial of Kau Karuak rewards, distinct from Karuak Ceremony boss loot.
@@ -111,10 +118,10 @@ pub enum MailType {
 }
 
 impl MailType {
-    /// All categories registered for processing, in registry order.
+    /// All supported categories in registry order.
     ///
     /// Available even when the `processors` feature is disabled.
-    pub const ALL: [Self; 13] = [
+    pub const ALL: [Self; 16] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
@@ -122,7 +129,10 @@ impl MailType {
         Self::GhostCavKillBar,
         Self::EventMemberLootReport,
         Self::Rss,
+        Self::CarriageSentReport,
+        Self::ScoutReport,
         Self::SystemBarbarianFort,
+        Self::SystemBundle,
         Self::SystemKaharTreasure,
         Self::SystemKauKaruak,
         Self::AllianceAOOBattleResults,
@@ -154,7 +164,10 @@ impl MailType {
             "GhostCavKillBar" => Some(Self::GhostCavKillBar),
             "EventMemberLootReport" => Some(Self::EventMemberLootReport),
             "Rss" => Some(Self::Rss),
+            "CarriageSentReport" => Some(Self::CarriageSentReport),
+            "ScoutReport" => Some(Self::ScoutReport),
             MAIL_TYPE_SYSTEM_BARBARIAN_FORT => Some(Self::SystemBarbarianFort),
+            "SystemBundle" => Some(Self::SystemBundle),
             MAIL_TYPE_SYSTEM_KAHAR_TREASURE => Some(Self::SystemKaharTreasure),
             MAIL_TYPE_SYSTEM_KAU_KARUAK => Some(Self::SystemKauKaruak),
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS => Some(Self::AllianceAOOBattleResults),
@@ -187,13 +200,22 @@ impl MailType {
             Self::GhostCavKillBar => "GhostCavKillBar",
             Self::EventMemberLootReport => "EventMemberLootReport",
             Self::Rss => "Rss",
+            Self::CarriageSentReport => "CarriageSentReport",
+            Self::ScoutReport => "ScoutReport",
             Self::SystemBarbarianFort => MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
+            Self::SystemBundle => "SystemBundle",
             Self::SystemKaharTreasure => MAIL_TYPE_SYSTEM_KAHAR_TREASURE,
             Self::SystemKauKaruak => MAIL_TYPE_SYSTEM_KAU_KARUAK,
             Self::AllianceAOOBattleResults => MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS,
             Self::AllianceAOOBattleInfo => MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO,
             Self::AllianceAOOIndividualResults => MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS,
         }
+    }
+
+    /// Returns whether the category has a registered processor.
+    #[must_use]
+    pub const fn is_processable(self) -> bool {
+        !matches!(self, Self::CarriageSentReport | Self::ScoutReport | Self::SystemBundle)
     }
 
     /// Returns the MongoDB collection name assigned to this category.
@@ -209,7 +231,10 @@ impl MailType {
             Self::GhostCavKillBar => "mails_ghostcavkillbar",
             Self::EventMemberLootReport => "mails_eventmemberlootreport",
             Self::Rss => "mails_rss",
+            Self::CarriageSentReport => "mails_carriagesentreport",
+            Self::ScoutReport => "mails_scoutreport",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
+            Self::SystemBundle => "mails_system_bundle",
             Self::SystemKaharTreasure => "mails_system_kahartreasure",
             Self::SystemKauKaruak => "mails_system_kaukaruak",
             Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
@@ -267,15 +292,18 @@ pub fn raw_mail_type_string(value: &Value) -> Option<String> {
 /// discriminator fields. Root field names are case-sensitive; recognized label
 /// values and the GVE event name are compared ignoring ASCII case.
 ///
-/// A successful match identifies a processor category, not a fully valid mail.
-/// Canonical System and Alliance category labels are accepted directly without
-/// inspecting their bodies.
+/// A successful match identifies a supported category. Canonical labels for
+/// processable System and Alliance categories are accepted directly.
 #[must_use]
 pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType> {
     let mail_type = root.get("type").and_then(Value::as_str)?;
 
     // Resolve the game's broad labels before trying the registry's canonical labels.
     if mail_type.eq_ignore_ascii_case("System") {
+        if root.get("body").and_then(|body| body.get("subType")).and_then(value_as_u64) == Some(26)
+        {
+            return Some(MailType::SystemBundle);
+        }
         if is_system_kau_karuak_mail(root) {
             return Some(MailType::SystemKauKaruak);
         }
@@ -299,6 +327,7 @@ pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType>
     }
 
     MailType::from_label_ignore_ascii_case(mail_type)
+        .filter(|mail_type| *mail_type != MailType::SystemBundle)
 }
 
 /// Detects a registered category from a decoded JSON payload.
@@ -312,23 +341,19 @@ pub fn detect_mail_type(value: &Value) -> Option<MailType> {
     detect_mail_type_from_root(root)
 }
 
-/// Returns whether `mail_type` is an exact canonical registry label.
+/// Returns whether `mail_type` is an exact canonical label with a registered processor.
 ///
-/// Equivalent to [`MailType::from_label`] returning `Some`. This check is
-/// case-sensitive and does not validate a payload: `EventMemberLootReport`
-/// is a recognized label even when a particular report is not a GVE report.
+/// This check is case-sensitive and applies to the label alone.
 #[must_use]
 pub fn is_processable_mail_type(mail_type: &str) -> bool {
-    MailType::from_label(mail_type).is_some()
+    MailType::from_label(mail_type).is_some_and(MailType::is_processable)
 }
 
-/// Returns the same result as [`is_processable_mail_type`].
-///
-/// Support here means case-sensitive registry membership, independent of
-/// whether this build enables processor dispatch.
+/// Returns whether `mail_type` is an exact canonical label, including categories
+/// supported for raw storage.
 #[must_use]
 pub fn is_supported_mail_type(mail_type: &str) -> bool {
-    is_processable_mail_type(mail_type)
+    MailType::from_label(mail_type).is_some()
 }
 
 fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
@@ -421,9 +446,8 @@ fn value_to_string(value: &Value) -> Option<String> {
 ///
 /// # Errors
 ///
-/// Returns the selected processor's [`rokbattles_mail_sdk::ProcessError`]
-/// unchanged if processing fails. The exact required fields and validation
-/// rules depend on the selected category.
+/// Returns [`rokbattles_mail_sdk::ProcessError::UnsupportedMailType`] when the
+/// category has no processor. Otherwise returns any error from the processor.
 #[cfg(feature = "processors")]
 pub fn process_mail(
     mail_type: MailType,
@@ -457,6 +481,9 @@ pub fn process_mail(
         MailType::AllianceAOOIndividualResults => {
             rokbattles_mail_processor_alliance_aoo_individual_results::process(input)
         }
+        MailType::CarriageSentReport | MailType::ScoutReport | MailType::SystemBundle => {
+            Err(rokbattles_mail_sdk::ProcessError::UnsupportedMailType(mail_type.as_str()))
+        }
     }
 }
 
@@ -465,6 +492,41 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+
+    #[test]
+    fn detects_system_bundle_mail_for_any_sub_param() {
+        for sub_param in [1, 17, 19, 24, 25] {
+            let mail = json!({"type": "System", "body": {"subType": 26, "subParam": sub_param}});
+            assert_eq!(detect_mail_type(&mail), Some(MailType::SystemBundle));
+        }
+        let mail = json!({"type": "system", "body": {"subType": "26"}});
+        assert_eq!(detect_mail_type(&mail), Some(MailType::SystemBundle));
+    }
+
+    #[test]
+    fn requires_system_type_and_subtype_for_bundle_mail() {
+        for mail in [
+            json!({"type": "System", "body": {"subType": 25, "subParam": 26}}),
+            json!({"type": "SystemBundle", "body": {"subType": 26}}),
+            json!({"type": "System"}),
+        ] {
+            assert_eq!(detect_mail_type(&mail), None);
+        }
+    }
+
+    #[cfg(feature = "processors")]
+    #[test]
+    fn rejects_dispatch_for_raw_only_categories() {
+        for mail_type in
+            [MailType::CarriageSentReport, MailType::ScoutReport, MailType::SystemBundle]
+        {
+            assert!(matches!(
+                process_mail(mail_type, &Value::Null),
+                Err(rokbattles_mail_sdk::ProcessError::UnsupportedMailType(label))
+                    if label == mail_type.as_str()
+            ));
+        }
+    }
 
     #[test]
     fn recognizes_ghost_cav_kill_bar_without_accepting_trigger_tasks() {

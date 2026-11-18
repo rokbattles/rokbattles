@@ -122,4 +122,45 @@ mod tests {
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_PENDING);
     }
+
+    #[test]
+    fn raw_only_mail_samples_are_supported_and_stored_as_unprocessable() {
+        let samples: &[(&[u8], &str)] = &[
+            (
+                include_bytes!(
+                    "../../../../../samples/CarriageSentReport/Persistent.Mail.514413917806539823"
+                ),
+                "CarriageSentReport",
+            ),
+            (
+                include_bytes!(
+                    "../../../../../samples/ScoutReport/Persistent.Mail.3021287117837380854"
+                ),
+                "ScoutReport",
+            ),
+            (
+                include_bytes!(
+                    "../../../../../samples/System/Persistent.Mail.100458224177735425125"
+                ),
+                "SystemBundle",
+            ),
+        ];
+
+        for &(bytes, expected_type) in samples {
+            let decoded = rokbattles_mail_codec::decode(bytes).expect("decode sample");
+            let mail_type = extract_mail_type(&decoded).expect("classify sample");
+            assert_eq!(mail_type, expected_type);
+            assert!(rokbattles_mail_registry::is_supported_mail_type(&mail_type));
+
+            let doc = document::build(DocumentInput {
+                original_bytes: bytes,
+                user_agent: "ROKBattles/test",
+                mail: &extract_metadata(&decoded).expect("extract sample metadata"),
+                status: insert_status_for_mail_type(&mail_type),
+                now: DateTime::now(),
+            })
+            .expect("build raw mail document");
+            assert_eq!(doc.get_str("status").expect("status"), "unprocessable");
+        }
+    }
 }

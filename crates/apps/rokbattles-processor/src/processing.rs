@@ -278,6 +278,9 @@ fn observed_version(doc: &Document) -> ObservedVersion {
 
 fn extract_mail_type(root: &Value) -> Result<MailType, ProcessorError> {
     if let Some(mail_type) = rokbattles_mail_registry::detect_mail_type(root) {
+        if !mail_type.is_processable() {
+            return Err(ProcessorError::UnsupportedMailType(mail_type.to_string()));
+        }
         return Ok(mail_type);
     }
 
@@ -713,7 +716,9 @@ mod tests {
             let Some(root) = normalize_mail_root(&decoded) else {
                 panic!("non-object root for {}", input.display());
             };
-            let Some(mail_type) = rokbattles_mail_registry::detect_mail_type(root) else {
+            let Some(mail_type) = rokbattles_mail_registry::detect_mail_type(root)
+                .filter(|mail_type| mail_type.is_processable())
+            else {
                 continue;
             };
             let processed = process_mail(mail_type, root)

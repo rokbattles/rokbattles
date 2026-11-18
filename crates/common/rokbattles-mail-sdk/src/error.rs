@@ -26,12 +26,15 @@ pub enum ExtractError {
     },
 }
 
-/// A failure to validate section names, join a worker, or extract a section.
+/// A failure to select a processor, validate section names, join a worker, or extract a section.
 ///
-/// Returned by [`crate::Processor::process`] without partial output. See that
-/// method for error ordering and panics that can propagate outside this type.
+/// See [`crate::Processor::process`] for error ordering and panics that can
+/// propagate during processing.
 #[derive(Debug, thiserror::Error)]
 pub enum ProcessError {
+    /// The selected mail category has no registered processor.
+    #[error("no processor registered for mail type {0}")]
+    UnsupportedMailType(&'static str),
     /// A section name is repeated during validation or output insertion.
     #[error("duplicate processor section: {section}")]
     DuplicateSection {

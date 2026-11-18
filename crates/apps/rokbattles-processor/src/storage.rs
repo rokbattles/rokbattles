@@ -7,6 +7,8 @@ use mongodb::{
 };
 use rokbattles_mail_registry::MailType;
 
+use crate::error::ProcessorError;
+
 pub const STATUS_PENDING: &str = "pending";
 pub const STATUS_REPROCESS: &str = "reprocess";
 pub const STATUS_PROCESSED: &str = "processed";
@@ -95,7 +97,7 @@ impl Storage {
         source_checksum: &str,
         source_size: i64,
         doc: Document,
-    ) -> mongodb::error::Result<()> {
+    ) -> Result<(), ProcessorError> {
         let collection = match mail_type {
             MailType::Battle => &self.battle,
             MailType::DuelBattle2 => &self.duelbattle2,
@@ -110,6 +112,9 @@ impl Storage {
             MailType::AllianceAOOBattleResults => &self.alliance_aoobattleresults,
             MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,
             MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,
+            MailType::CarriageSentReport | MailType::ScoutReport | MailType::SystemBundle => {
+                return Err(ProcessorError::UnsupportedMailType(mail_type.to_string()));
+            }
         };
 
         let update = processed_update_pipeline(source_checksum, source_size, doc);

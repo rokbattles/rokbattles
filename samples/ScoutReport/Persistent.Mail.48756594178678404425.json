@@ -1,0 +1,418 @@
+{
+  "mailScene": 0,
+  "sender": "system",
+  "starMark": 0,
+  "unread": false,
+  "box": "Report",
+  "reportMerge": 0,
+  "serverId": 11523,
+  "time": 1786784044423489,
+  "senderInfo": {
+    "Name": "system",
+    "Abbr": ""
+  },
+  "type": "ScoutReport",
+  "holdTag": 0,
+  "id": "48756594178678404425",
+  "preMailId": "",
+  "senderTradeTime": 0,
+  "prevBox": "",
+  "body": {
+    "content": {
+      "playerId": 215966769,
+      "gopPhase": 0,
+      "strongholdType": 0,
+      "p": 1.009602665901184,
+      "isRally": false,
+      "rallyTroop": {
+        "playerId": 0,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": [],
+        "loots": [],
+        "joinOrleans": false,
+        "xbuffs": [],
+        "isCaptain": false,
+        "transferMax": 0,
+        "paySkinRecover": {
+          "recoverd": false,
+          "isRecovering": false,
+          "startTick": 0,
+          "totalTick": 0
+        },
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": [],
+            "archives": [],
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 7200,
+            "x": 7200
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": [],
+        "isAggressiveRallyCaptain": false,
+        "playerName": "",
+        "units": [],
+        "trustInfo": {
+          "trustState": 0,
+          "arrivedTm": 0,
+          "isCaptain": false,
+          "trustShId": 0
+        },
+        "isStop": false,
+        "abbr": "",
+        "troopMark": [],
+        "tactics": 0,
+        "obstacleMode": 0,
+        "transferUpdateTime": 0,
+        "playerAvatar": "",
+        "tag": ""
+      },
+      "char": {
+        "id": 927762401,
+        "type": 1,
+        "alliance": {
+          "id": 8548462,
+          "abbr": "WP30",
+          "name": "World  Peace",
+          "logo": "8_16_78_6_0_0"
+        },
+        "pos": {
+          "y": 3557.25927734375,
+          "x": 2637.846923828125
+        }
+      },
+      "isSameSide": false,
+      "nonBinAcc": false,
+      "durability": {
+        "num": 0,
+        "nextUpdateTime": 0,
+        "outfireCDEndTime": 0,
+        "max": 0,
+        "numStamp": 0,
+        "repairCDEndTime": 0,
+        "state": 0,
+        "speed": 0,
+        "stateEndTime": 0,
+        "interval": 0
+      },
+      "reinforces": [],
+      "isTurret": false,
+      "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27728753/2026-07-15/CE40C8170B1C51E7E90DE59C0092C065_250x250.jpg\",\"avatarFrame\":\"null\"}",
+      "playerTech": 5,
+      "rallyKvkSkills": [],
+      "battleTech": 5,
+      "isConquerSeason": false,
+      "snatchCnt": 0,
+      "ress": [],
+      "heros": [
+        {
+          "transJobId": 0,
+          "collections": [],
+          "label": 1,
+          "stripedSkill": 0,
+          "formationInfo": {
+            "formationId": 3
+          },
+          "assistSkills": [],
+          "transJobSkillInfos": [],
+          "skills": [
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 1716
+            },
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 383
+            },
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 1714
+            },
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 1718
+            }
+          ],
+          "star": 6,
+          "level": 60,
+          "awaked": true,
+          "heroId": 536
+        },
+        {
+          "transJobId": 0,
+          "collections": [],
+          "label": 2,
+          "stripedSkill": 0,
+          "formationInfo": {
+            "formationId": 0
+          },
+          "assistSkills": [],
+          "transJobSkillInfos": [],
+          "skills": [
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 384
+            },
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 1719
+            },
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 1722
+            },
+            {
+              "idx": 0,
+              "level": 5,
+              "SkillTrans": [],
+              "skillId": 1721
+            }
+          ],
+          "star": 4,
+          "level": 30,
+          "awaked": true,
+          "heroId": 537
+        }
+      ],
+      "outpostRallyTroops": [],
+      "kvkSkills": [],
+      "scoutPlayerName": "Khả Seni hjhj",
+      "rallyHeros": [],
+      "tower": {
+        "hpSpeed": 0,
+        "hpStamp": 0,
+        "interval": 0,
+        "level": 0,
+        "hp": 0,
+        "nextUpdateTime": 0
+      },
+      "troop": {
+        "playerId": 215966769,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": [],
+        "loots": [],
+        "joinOrleans": false,
+        "xbuffs": [],
+        "isCaptain": false,
+        "transferMax": 0,
+        "paySkinRecover": {
+          "recoverd": false,
+          "isRecovering": false,
+          "startTick": 0,
+          "totalTick": 0
+        },
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": [],
+            "archives": [],
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 7200,
+            "x": 7200
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": [
+          {
+            "ezUnitShowId": 0,
+            "formationId": 3,
+            "label": 1,
+            "skins": [],
+            "heroId": 536,
+            "awaked": true,
+            "level": 60
+          },
+          {
+            "ezUnitShowId": 0,
+            "formationId": 0,
+            "label": 2,
+            "skins": [],
+            "heroId": 537,
+            "awaked": true,
+            "level": 30
+          }
+        ],
+        "isAggressiveRallyCaptain": false,
+        "playerName": "Khả Seni hjhj",
+        "units": [
+          {
+            "unitId": 4,
+            "unitCount": 251868,
+            "maxCount": 316000
+          }
+        ],
+        "trustInfo": {
+          "trustState": 0,
+          "arrivedTm": 0,
+          "isCaptain": false,
+          "trustShId": 0
+        },
+        "isStop": false,
+        "abbr": "WP30",
+        "troopMark": [],
+        "tactics": 0,
+        "obstacleMode": 0,
+        "transferUpdateTime": 0,
+        "playerAvatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27728753/2026-07-15/CE40C8170B1C51E7E90DE59C0092C065_250x250.jpg\",\"avatarFrame\":\"null\"}",
+        "tag": ""
+      },
+      "reserveTroop": {
+        "playerId": 0,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": [],
+        "loots": [],
+        "joinOrleans": false,
+        "xbuffs": [],
+        "isCaptain": false,
+        "transferMax": 0,
+        "paySkinRecover": {
+          "recoverd": false,
+          "isRecovering": false,
+          "startTick": 0,
+          "totalTick": 0
+        },
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": [],
+            "archives": [],
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 7200,
+            "x": 7200
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": [],
+        "isAggressiveRallyCaptain": false,
+        "playerName": "",
+        "units": [],
+        "trustInfo": {
+          "trustState": 0,
+          "arrivedTm": 0,
+          "isCaptain": false,
+          "trustShId": 0
+        },
+        "isStop": false,
+        "abbr": "",
+        "troopMark": [],
+        "tactics": 0,
+        "obstacleMode": 0,
+        "transferUpdateTime": 0,
+        "playerAvatar": "",
+        "tag": ""
+      },
+      "reinforce": {
+        "playerId": 0,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": [],
+        "loots": [],
+        "joinOrleans": false,
+        "xbuffs": [],
+        "isCaptain": false,
+        "transferMax": 0,
+        "paySkinRecover": {
+          "recoverd": false,
+          "isRecovering": false,
+          "startTick": 0,
+          "totalTick": 0
+        },
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": [],
+            "archives": [],
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 7200,
+            "x": 7200
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": [],
+        "isAggressiveRallyCaptain": false,
+        "playerName": "",
+        "units": [],
+        "trustInfo": {
+          "trustState": 0,
+          "arrivedTm": 0,
+          "isCaptain": false,
+          "trustShId": 0
+        },
+        "isStop": false,
+        "abbr": "",
+        "troopMark": [],
+        "tactics": 0,
+        "obstacleMode": 0,
+        "transferUpdateTime": 0,
+        "playerAvatar": "",
+        "tag": ""
+      },
+      "schema": 202,
+      "allianceBuildingType": 0,
+      "isOutpost": false,
+      "snatchLimit": 0,
+      "scoutPlayerId": 215719724
+    }
+  },
+  "flaglist": [],
+  "receiver": "player_215719724",
+  "isMergeChild": false,
+  "receiverInfo": {
+    "Name": "",
+    "Abbr": ""
+  },
+  "addition": "",
+  "attachments": [],
+  "title": ""
+}

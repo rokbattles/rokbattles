@@ -1,7 +1,6 @@
 //! Registry dispatch and serialization of category-specific processor output.
 //!
-//! Only object roots with a recognized category are processed. Other shapes and
-//! unknown categories are skipped successfully, without creating or deleting files.
+//! Processor output is written for object roots with a registered processor.
 
 use std::path::Path;
 
@@ -11,7 +10,7 @@ use serde_json::Value;
 use super::paths::processed_output_path;
 use crate::{MailCliError, fs_utils::write_json_file};
 
-/// Writes processor output when the decoded value matches a registered category.
+/// Writes processor output when the decoded value matches a processable category.
 ///
 /// Recognition does not guarantee valid processor input: extraction errors are
 /// returned with the source file path. Serialization and write errors instead
@@ -27,7 +26,9 @@ pub(super) fn write_processed_json(
         return Ok(());
     };
 
-    let Some(mail_type) = detect_mail_type(processed_input) else {
+    let Some(mail_type) =
+        detect_mail_type(processed_input).filter(|mail_type| mail_type.is_processable())
+    else {
         return Ok(());
     };
 
