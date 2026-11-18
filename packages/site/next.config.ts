@@ -51,6 +51,7 @@ const contentSecurityPolicy = [
   `connect-src ${[
     "'self'",
     "https://cdn.rokbattles.com", // Map binary fetches, not only artwork.
+    "https://*.dns-probe.rokbattles.com",
     ...sentryConnectSources(),
     ...(!isProdEnv ? ["ws:", "wss:"] : []), // Next HMR, including LAN/HTTPS proxies.
   ].join(" ")}`,

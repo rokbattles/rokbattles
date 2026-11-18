@@ -15,7 +15,10 @@ use hickory_proto::{
 };
 use rustc_hash::FxHashSet;
 
-use crate::MAX_DNS_MESSAGE_BYTES;
+use crate::{
+    MAX_DNS_MESSAGE_BYTES,
+    probe::{Nonce, hostname_nonce},
+};
 
 const DNS_TTL_SECONDS: u32 = 60;
 // A compressed A answer uses a two-byte name pointer, ten bytes of record
@@ -60,12 +63,12 @@ pub enum ResolveError {
 }
 
 pub(crate) enum IntraResolution {
-    Local(Vec<u8>),
+    Local(Vec<u8>, Option<Nonce>),
     Forward,
 }
 
 enum Resolution {
-    Local(Message),
+    Local(Message, Option<Nonce>),
     NonTarget(Message),
 }
 
@@ -97,26 +100,34 @@ impl Resolver {
         Ok(Self { gateway_ipv4s: addresses.into(), next_start: Arc::new(AtomicUsize::new(0)) })
     }
 
-    /// Resolve one DNS wire-format request into a DNS wire-format response.
+    /// Resolves one DNS wire-format request locally.
     ///
-    /// The resolver never performs recursion or forwards a request. It returns
-    /// `REFUSED` for names outside [`ROCGATE_HOSTNAMES`].
+    /// Answers gateway lookups for [`ROCGATE_HOSTNAMES`]. Browser probe names
+    /// receive `NXDOMAIN`. Unrelated names receive `REFUSED`.
     ///
     /// # Errors
     ///
     /// Returns [`ResolveError::Decode`] for malformed requests and
     /// [`ResolveError::Encode`] if the response cannot be serialized.
     pub fn resolve(&self, wire_request: &[u8]) -> Result<Vec<u8>, ResolveError> {
+        self.resolve_for_ios(wire_request).map(|(response, _)| response)
+    }
+
+    pub(crate) fn resolve_for_ios(
+        &self,
+        wire_request: &[u8],
+    ) -> Result<(Vec<u8>, Option<Nonce>), ResolveError> {
         let request = Message::from_vec(wire_request)?;
-        let response = match self.resolve_message(&request, wire_request.len()) {
-            Resolution::Local(response) => response,
+
+        let (response, nonce) = match self.resolve_message(&request, wire_request.len()) {
+            Resolution::Local(response, nonce) => (response, nonce),
             Resolution::NonTarget(mut response) => {
                 response.metadata.response_code = ResponseCode::Refused;
-                response
+                (response, None)
             }
         };
 
-        Ok(response.to_vec()?)
+        Ok((response.to_vec()?, nonce))
     }
 
     pub(crate) fn resolve_for_intra(
@@ -124,8 +135,11 @@ impl Resolver {
         wire_request: &[u8],
     ) -> Result<IntraResolution, ResolveError> {
         let request = Message::from_vec(wire_request)?;
+
         match self.resolve_message(&request, wire_request.len()) {
-            Resolution::Local(response) => Ok(IntraResolution::Local(response.to_vec()?)),
+            Resolution::Local(response, nonce) => {
+                Ok(IntraResolution::Local(response.to_vec()?, nonce))
+            }
             Resolution::NonTarget(_) => Ok(IntraResolution::Forward),
         }
     }
@@ -142,19 +156,34 @@ impl Resolver {
 
         let [query] = request.queries.as_slice() else {
             response.metadata.response_code = ResponseCode::FormErr;
-            return Resolution::Local(response);
+            return Resolution::Local(response, None);
         };
+
         if request.metadata.message_type != MessageType::Query {
             response.metadata.response_code = ResponseCode::FormErr;
-            return Resolution::Local(response);
+            return Resolution::Local(response, None);
         }
 
         if request.metadata.op_code != OpCode::Query {
             response.metadata.response_code = ResponseCode::NotImp;
-            return Resolution::Local(response);
+            return Resolution::Local(response, None);
         }
 
-        if query.query_class() != DNSClass::IN || !self.is_target(query.name()) {
+        if query.query_class() != DNSClass::IN {
+            return Resolution::NonTarget(response);
+        }
+
+        let name = query.name().to_ascii();
+        if let Some(nonce) = hostname_nonce(&name) {
+            // The lookup itself is the signal. Probe names have no address.
+            response.metadata.response_code = ResponseCode::NXDomain;
+            return Resolution::Local(response, Some(nonce));
+        }
+
+        if !ROCGATE_HOSTNAMES
+            .iter()
+            .any(|hostname| name.trim_end_matches('.').eq_ignore_ascii_case(hostname))
+        {
             return Resolution::NonTarget(response);
         }
 
@@ -173,14 +202,7 @@ impl Resolver {
             }
         }
 
-        Resolution::Local(response)
-    }
-
-    fn is_target(&self, name: &hickory_proto::rr::Name) -> bool {
-        let name = name.to_ascii();
-        ROCGATE_HOSTNAMES
-            .iter()
-            .any(|hostname| name.trim_end_matches('.').eq_ignore_ascii_case(hostname))
+        Resolution::Local(response, None)
     }
 }
 

@@ -3,19 +3,20 @@
 use axum::{
     Router,
     body::Bytes,
-    extract::{Query, State},
+    extract::{DefaultBodyLimit, Path, Query, State},
     http::{
         HeaderMap, StatusCode,
-        header::{CONTENT_TYPE, HeaderValue},
+        header::{CACHE_CONTROL, CONTENT_TYPE, HeaderValue},
     },
     response::{IntoResponse, Response},
-    routing::get,
+    routing::{get, post},
 };
 use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
 use serde::Deserialize;
 
 use crate::{
-    DNS_MEDIA_TYPE, DoHForwarder, MAX_DNS_MESSAGE_BYTES, ResolveError, Resolver,
+    DNS_MEDIA_TYPE, DnsProbe, DoHForwarder, MAX_DNS_MESSAGE_BYTES, ResolveError, Resolver,
+    probe::{NONCE_LENGTH, Nonce},
     resolver::IntraResolution,
 };
 
@@ -30,6 +31,7 @@ struct DnsQuery {
 struct AppState {
     resolver: Resolver,
     forwarder: DoHForwarder,
+    probe: Option<DnsProbe>,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -58,13 +60,47 @@ impl IntoResponse for HttpError {
     }
 }
 
-/// Build the HTTP router for the iOS `/query` and Intra `/intra` endpoints.
+/// Builds the HTTP router for the iOS `/query` and Intra `/intra` endpoints.
 pub fn router(resolver: Resolver, forwarder: DoHForwarder) -> Router {
+    router_with_probe(resolver, forwarder, None)
+}
+
+/// Builds the DNS-over-HTTPS router with optional browser checks.
+///
+/// Pass `None` to disable the probe control routes. Both DNS endpoints still
+/// handle probe names locally.
+pub fn router_with_probe(
+    resolver: Resolver,
+    forwarder: DoHForwarder,
+    probe: Option<DnsProbe>,
+) -> Router {
     Router::new()
         .route("/query", get(get_dns_query).post(post_dns_query))
         .route("/intra", get(get_intra_query).post(post_intra_query))
-        .with_state(AppState { resolver, forwarder })
-        .layer(axum::extract::DefaultBodyLimit::max(MAX_DNS_MESSAGE_BYTES))
+        .layer(DefaultBodyLimit::max(MAX_DNS_MESSAGE_BYTES))
+        .route(
+            "/dns-probe/{operation}",
+            post(probe_request).layer(DefaultBodyLimit::max(NONCE_LENGTH)),
+        )
+        .with_state(AppState { resolver, forwarder, probe })
+}
+
+async fn probe_request(
+    State(state): State<AppState>,
+    Path(operation): Path<String>,
+    headers: HeaderMap,
+    body: Bytes,
+) -> Response {
+    let status = match (&state.probe, operation.as_str()) {
+        (Some(probe), "start" | "result") => match probe.authenticate(&headers, &body) {
+            Ok(nonce) if operation == "start" => probe.start(nonce).await,
+            Ok(nonce) => probe.result(nonce).await,
+            Err(status) => status,
+        },
+        _ => StatusCode::NOT_FOUND,
+    };
+
+    (status, [(CACHE_CONTROL, "no-store")]).into_response()
 }
 
 async fn get_dns_query(
@@ -72,7 +108,7 @@ async fn get_dns_query(
     Query(query): Query<DnsQuery>,
 ) -> Result<Response, HttpError> {
     let wire_request = decode_dns_parameter(&query.dns)?;
-    resolve(&state.resolver, &wire_request)
+    resolve(&state, &wire_request).await
 }
 
 async fn post_dns_query(
@@ -82,7 +118,7 @@ async fn post_dns_query(
 ) -> Result<Response, HttpError> {
     require_dns_media_type(&headers)?;
 
-    resolve(&state.resolver, &body)
+    resolve(&state, &body).await
 }
 
 async fn get_intra_query(
@@ -103,21 +139,44 @@ async fn post_intra_query(
     resolve_for_intra(&state, &body).await
 }
 
-fn resolve(resolver: &Resolver, wire_request: &[u8]) -> Result<Response, HttpError> {
-    let wire_response = resolver.resolve(wire_request).map_err(map_resolve_error)?;
-    Ok(dns_response(wire_response))
+async fn resolve(state: &AppState, wire_request: &[u8]) -> Result<Response, HttpError> {
+    let (wire_response, nonce) =
+        state.resolver.resolve_for_ios(wire_request).map_err(map_resolve_error)?;
+
+    Ok(observed_dns_response(state, wire_response, nonce).await)
 }
 
 async fn resolve_for_intra(state: &AppState, wire_request: &[u8]) -> Result<Response, HttpError> {
-    let wire_response =
-        match state.resolver.resolve_for_intra(wire_request).map_err(map_resolve_error)? {
-            IntraResolution::Local(response) => response,
-            IntraResolution::Forward => match state.forwarder.forward(wire_request).await {
-                Ok(response) => response,
-                Err(_) => state.resolver.servfail(wire_request).map_err(map_resolve_error)?,
-            },
-        };
-    Ok(dns_response(wire_response))
+    match state.resolver.resolve_for_intra(wire_request).map_err(map_resolve_error)? {
+        IntraResolution::Local(response, nonce) => {
+            Ok(observed_dns_response(state, response, nonce).await)
+        }
+        IntraResolution::Forward => match state.forwarder.forward(wire_request).await {
+            Ok(response) => Ok(dns_response(response)),
+            Err(_) => {
+                state.resolver.servfail(wire_request).map(dns_response).map_err(map_resolve_error)
+            }
+        },
+    }
+}
+
+async fn observed_dns_response(
+    state: &AppState,
+    wire_response: Vec<u8>,
+    nonce: Option<Nonce>,
+) -> Response {
+    let mut response = dns_response(wire_response);
+
+    if let Some(nonce) = nonce {
+        if let Some(probe) = &state.probe {
+            probe.observe(nonce).await;
+        }
+
+        // A cached reply would skip recording the lookup.
+        response.headers_mut().insert(CACHE_CONTROL, HeaderValue::from_static("no-store"));
+    }
+
+    response
 }
 
 fn dns_response(wire_response: Vec<u8>) -> Response {
@@ -164,7 +223,10 @@ mod tests {
     use axum::{
         body::{Body, to_bytes},
         extract::State,
-        http::{Method, Request, header::ACCEPT},
+        http::{
+            Method, Request,
+            header::{ACCEPT, AUTHORIZATION},
+        },
         routing::post,
     };
     use hickory_proto::{
@@ -181,6 +243,7 @@ mod tests {
     const GATEWAY_IPV4_A: Ipv4Addr = Ipv4Addr::new(93, 184, 216, 34);
     const GATEWAY_IPV4_B: Ipv4Addr = Ipv4Addr::new(1, 1, 1, 1);
     const UPSTREAM_IPV4: Ipv4Addr = Ipv4Addr::new(198, 51, 100, 42);
+    const PROBE_SECRET: &str = "1111111111111111111111111111111111111111111111111111111111111111";
 
     #[derive(Clone)]
     struct MockState {
@@ -266,6 +329,31 @@ mod tests {
         )
         .expect("forwarder fixture should build");
         router(resolver, forwarder)
+    }
+
+    fn probe_app() -> Router {
+        let resolver = Resolver::new(vec![GATEWAY_IPV4_A]).expect("resolver fixture should build");
+        let forwarder = DoHForwarder::new().expect("forwarder fixture should build");
+        let probe = DnsProbe::new(PROBE_SECRET).expect("probe fixture should build");
+
+        router_with_probe(resolver, forwarder, Some(probe))
+    }
+
+    async fn probe_control(
+        app: Router,
+        operation: &str,
+        nonce: String,
+        authorized: bool,
+    ) -> Response {
+        let mut request =
+            Request::builder().method(Method::POST).uri(format!("/dns-probe/{operation}"));
+        if authorized {
+            request = request.header(AUTHORIZATION, format!("Bearer {PROBE_SECRET}"));
+        }
+
+        app.oneshot(request.body(Body::from(nonce)).expect("fixture request should build"))
+            .await
+            .expect("probe control should return a response")
     }
 
     fn dns_query(name: &str) -> Vec<u8> {
@@ -426,6 +514,69 @@ mod tests {
         assert_eq!(
             (message.metadata.response_code, message.answers.is_empty()),
             (ResponseCode::NoError, true)
+        );
+    }
+
+    #[tokio::test]
+    async fn both_doh_paths_should_confirm_and_consume_the_matching_attempt() {
+        let app = probe_app();
+
+        for (index, path) in ["/query", "/intra"].into_iter().enumerate() {
+            for post in [false, true] {
+                let nonce = format!("{:032x}", 2 * index + usize::from(post));
+                let query =
+                    dns_query_for(&format!("{nonce}.DNS-PROBE.rokbattles.com"), RecordType::AAAA);
+
+                assert_eq!(
+                    probe_control(app.clone(), "start", nonce.clone(), true).await.status(),
+                    StatusCode::NO_CONTENT
+                );
+
+                let response = if post {
+                    send_post(app.clone(), path, query, DNS_MEDIA_TYPE).await
+                } else {
+                    send_get(app.clone(), path, &query).await
+                };
+                assert_eq!(response.headers()[CACHE_CONTROL], "no-store");
+                let response = decode_dns_response(response).await;
+                assert_eq!(response.metadata.response_code, ResponseCode::NXDomain);
+                assert!(response.answers.is_empty());
+
+                for expected in [StatusCode::NO_CONTENT, StatusCode::NOT_FOUND] {
+                    assert_eq!(
+                        probe_control(app.clone(), "result", nonce.clone(), true).await.status(),
+                        expected
+                    );
+                }
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn intra_should_keep_probe_names_local_when_checks_are_disabled() {
+        let query = dns_query("0123456789abcdef0123456789abcdef.dns-probe.rokbattles.com");
+        let response = send_get(app(), "/intra", &query).await;
+        let reply = decode_dns_response(response).await;
+
+        assert_eq!(reply.metadata.response_code, ResponseCode::NXDomain);
+        assert!(reply.answers.is_empty());
+    }
+
+    #[tokio::test]
+    async fn probe_controls_should_require_authorization_and_only_expose_start_and_result() {
+        let app = probe_app();
+        let nonce = "abcdef0123456789abcdef0123456789".to_string();
+
+        for operation in ["start", "result"] {
+            assert_eq!(
+                probe_control(app.clone(), operation, nonce.clone(), false).await.status(),
+                StatusCode::UNAUTHORIZED
+            );
+        }
+
+        assert_eq!(
+            probe_control(app, "observed", nonce, true).await.status(),
+            StatusCode::NOT_FOUND
         );
     }
 
