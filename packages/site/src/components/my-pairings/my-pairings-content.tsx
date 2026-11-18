@@ -1,456 +1,194 @@
 "use client";
 
-import { use, useEffect, useId, useMemo, useState } from "react";
-import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
-import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
-import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
-import { Text } from "@/components/ui/text";
-import { getCommanderName } from "@/hooks/use-commander-name";
-import { usePairingLoadouts } from "@/hooks/use-pairing-loadouts";
-import { usePairingOpponents } from "@/hooks/use-pairing-opponents";
-import { usePairings } from "@/hooks/use-pairings";
-import { formatDurationShort } from "@/lib/datetime";
-import type { LoadoutSnapshot, PairingsActivity, PairingsBattleType } from "@/lib/pairings";
-import { formatPerSecond } from "@/lib/statistics-format";
-import { GovernorContext } from "@/providers/governor-context";
+import { ArrowDown, ArrowUp, ChevronRight } from "lucide-react";
+import { useMemo, useState } from "react";
+import { PairingsCharts } from "@/components/my-pairings/pairings-charts";
+import {
+  PairingIdentity,
+  PairingsState,
+  PairingsToolbar,
+  usePairingsContext,
+} from "@/components/my-pairings/pairings-shared";
+import { Heading, Subheading } from "@/components/ui/heading";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { usePairingsQuery } from "@/hooks/use-pairings";
+import type { PairingAggregate, PairingsResponse } from "@/lib/pairings";
+import {
+  formatCompact,
+  formatExact,
+  formatTrade,
+  MIN_PAIRING_BATTLES,
+  netKp,
+  pairingKey,
+  pairingName,
+  tradeRatio,
+} from "@/lib/pairings/analytics";
 
-const numberFormatter = new Intl.NumberFormat("en-US");
-const percentFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 1,
-  minimumFractionDigits: 0,
-});
+type SortKey = "count" | "gained" | "lost" | "net" | "trade";
 
-const ALL_LOADOUT_KEY = "all-loadouts";
-const EMPTY_LOADOUT: LoadoutSnapshot = {
-  equipment: [],
-  armaments: [],
-  inscriptions: [],
-  formation: null,
-};
-
-function formatNumber(value: number): string {
-  if (!Number.isFinite(value)) {
-    return "0";
-  }
-
-  return numberFormatter.format(Math.round(value));
-}
-
-function formatPercent(value: number): string {
-  if (!Number.isFinite(value)) {
-    return "0%";
-  }
-
-  return `${percentFormatter.format(value)}%`;
-}
-
-function formatDurationSeconds(valueSeconds: number) {
-  if (!Number.isFinite(valueSeconds) || valueSeconds <= 0) {
-    return "0s";
-  }
-
-  const base = 1;
-  return formatDurationShort(base, base + valueSeconds);
-}
-
-function ratePerSecond(value: number, durationMillis: number) {
-  if (!Number.isFinite(value) || !Number.isFinite(durationMillis) || durationMillis <= 0) {
-    return 0;
-  }
-
-  return value / (durationMillis / 1000);
-}
-
-function createPairingKey(primaryId: number, secondaryId: number) {
-  return `${primaryId}:${secondaryId}`;
-}
-
-function formatCommanderPair(primaryId: number, secondaryId: number, unknownLabel: string) {
-  const primaryName = primaryId > 0 ? (getCommanderName(primaryId) ?? primaryId) : unknownLabel;
-  const secondaryName = secondaryId > 0 ? (getCommanderName(secondaryId) ?? secondaryId) : null;
-
-  if (!secondaryName) {
-    return String(primaryName);
-  }
-
-  return `${primaryName} / ${secondaryName}`;
-}
+const sortValue = (item: PairingAggregate, key: SortKey) =>
+  ({
+    count: item.count,
+    gained: item.totals.killScore,
+    lost: item.totals.enemyKillScore,
+    net: netKp(item.totals),
+    trade: tradeRatio(item.totals) ?? (item.totals.killScore > 0 ? Number.POSITIVE_INFINITY : -1),
+  })[key];
 
 export function MyPairingsContent() {
-  const governorContext = use(GovernorContext);
-
-  if (!governorContext) {
-    throw new Error("My Pairings must be used within a GovernorProvider");
-  }
-
-  const { activeGovernor } = governorContext;
-
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
-  const [excludedActivities, setExcludedActivities] = useState<PairingsActivity[]>([]);
-  const [excludedBattles, setExcludedBattles] = useState<PairingsBattleType[]>([]);
-  const hasCustomRange = Boolean(startDate && endDate);
-  const rangeStartDate = hasCustomRange ? startDate : undefined;
-  const rangeEndDate = hasCustomRange ? endDate : undefined;
-  const {
-    data,
-    loading: pairingsLoading,
-    error: pairingsError,
-  } = usePairings({
-    governorId: activeGovernor?.governorId,
-    startDate: rangeStartDate,
-    endDate: rangeEndDate,
-    excludeActivities: excludedActivities,
-    excludeBattles: excludedBattles,
-  });
-  const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
-  const [selectedLoadoutKey, setSelectedLoadoutKey] = useState<string | null>(ALL_LOADOUT_KEY);
-  const [loadoutsFetchStarted, setLoadoutsFetchStarted] = useState(false);
-  const [loadoutsReady, setLoadoutsReady] = useState(false);
-  const [showAllOpponents, setShowAllOpponents] = useState(false);
-  const opponentsId = useId();
-
-  useEffect(() => {
-    if (data.length === 0) {
-      setSelectedPairingKey(null);
-      return;
-    }
-
-    setSelectedPairingKey((current) => {
-      if (
-        current &&
-        data.some(
-          (pairing) =>
-            createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === current
-        )
-      ) {
-        return current;
-      }
-
-      const first = data[0];
-      return createPairingKey(first.primaryCommanderId, first.secondaryCommanderId);
-    });
-  }, [data]);
-
-  const pairingOptions = useMemo(
-    () =>
-      data.map((pairing) => ({
-        value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
-        label: formatCommanderPair(
-          pairing.primaryCommanderId,
-          pairing.secondaryCommanderId,
-          "Unknown commander"
-        ),
-      })),
-    [data]
+  const { governorId, query, range, today } = usePairingsContext();
+  const result = usePairingsQuery<PairingsResponse>(
+    governorId ? `/proxy/v1/governor/${governorId}/pairings?${query}` : null
   );
 
-  const selectedPairing = data.find(
-    (pairing) =>
-      createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) ===
-      selectedPairingKey
-  );
-  const hasSelectedPairing = Boolean(selectedPairing);
-
-  const canLoadLoadouts = hasSelectedPairing && !pairingsLoading && !pairingsError;
-  const {
-    data: loadouts,
-    loading: loadoutsLoading,
-    error: loadoutsError,
-  } = usePairingLoadouts({
-    governorId: activeGovernor?.governorId,
-    primaryCommanderId: canLoadLoadouts ? (selectedPairing?.primaryCommanderId ?? null) : null,
-    secondaryCommanderId: canLoadLoadouts ? (selectedPairing?.secondaryCommanderId ?? null) : null,
-    startDate: rangeStartDate,
-    endDate: rangeEndDate,
-    excludeActivities: excludedActivities,
-    excludeBattles: excludedBattles,
-  });
-  const loadoutsResetKey = useMemo(
-    () =>
-      [
-        activeGovernor?.governorId ?? "none",
-        selectedPairingKey ?? "none",
-        rangeStartDate ?? "none",
-        rangeEndDate ?? "none",
-        excludedActivities.join(",") || "none",
-        excludedBattles.join(",") || "none",
-        canLoadLoadouts ? "ready" : "idle",
-      ].join("|"),
-    [
-      activeGovernor?.governorId,
-      selectedPairingKey,
-      rangeStartDate,
-      rangeEndDate,
-      excludedActivities,
-      excludedBattles,
-      canLoadLoadouts,
-    ]
-  );
-  const opponentsResetKey = useMemo(
-    () =>
-      [
-        selectedPairingKey ?? "none",
-        selectedLoadoutKey ?? "none",
-        rangeStartDate ?? "none",
-        rangeEndDate ?? "none",
-        excludedActivities.join(",") || "none",
-        excludedBattles.join(",") || "none",
-      ].join("|"),
-    [
-      selectedPairingKey,
-      selectedLoadoutKey,
-      rangeStartDate,
-      rangeEndDate,
-      excludedActivities,
-      excludedBattles,
-    ]
-  );
-
-  useEffect(() => {
-    void loadoutsResetKey;
-    setLoadoutsFetchStarted(false);
-    setLoadoutsReady(false);
-  }, [loadoutsResetKey]);
-
-  useEffect(() => {
-    if (!canLoadLoadouts) {
-      setLoadoutsFetchStarted(false);
-      setLoadoutsReady(false);
-      return;
-    }
-
-    if (loadoutsLoading) {
-      setLoadoutsFetchStarted(true);
-      return;
-    }
-
-    if (loadoutsFetchStarted) {
-      setLoadoutsReady(true);
-    }
-  }, [canLoadLoadouts, loadoutsLoading, loadoutsFetchStarted]);
-
-  const loadoutCards = useMemo<LoadoutCard[]>(() => {
-    if (!selectedPairing) {
-      return [];
-    }
-
-    const allLoadouts: LoadoutCard = {
-      key: ALL_LOADOUT_KEY,
-      label: "All loadouts",
-      count: selectedPairing.count,
-      totals: selectedPairing.totals,
-      loadout: EMPTY_LOADOUT,
-    };
-
-    const cards = loadouts.map<LoadoutCard>((loadout, index) => ({
-      ...loadout,
-      label: `Loadout ${(index + 1).toString()}`,
-    }));
-
-    return [allLoadouts, ...cards];
-  }, [loadouts, selectedPairing]);
-
-  useEffect(() => {
-    if (!selectedPairing) {
-      setSelectedLoadoutKey(ALL_LOADOUT_KEY);
-      return;
-    }
-
-    const keys = new Set(loadoutCards.map((card) => card.key));
-    setSelectedLoadoutKey((current) => {
-      if (current && keys.has(current)) {
-        return current;
-      }
-
-      return ALL_LOADOUT_KEY;
-    });
-  }, [loadoutCards, selectedPairing]);
-
-  const selectedLoadoutCard =
-    loadoutCards.find((loadout) => loadout.key === selectedLoadoutKey) ?? null;
-  const hasSelectedLoadout = Boolean(selectedLoadoutCard);
-  const generalStats = useMemo(() => {
-    if (!selectedLoadoutCard) {
-      return [];
-    }
-
-    const durationSeconds = selectedLoadoutCard.totals.battleDuration / 1000;
-    const avgDurationSeconds =
-      selectedLoadoutCard.count > 0 ? durationSeconds / selectedLoadoutCard.count : 0;
-
-    return [
-      {
-        id: "battles",
-        name: "Battle reports",
-        value: formatNumber(selectedLoadoutCard.count),
-        description: "Total battle reports recorded for this loadout.",
-      },
-      {
-        id: "killPoints",
-        name: "Kill points gained",
-        value: formatNumber(selectedLoadoutCard.totals.killScore),
-        description: "Total kill points earned while using this pairing.",
-      },
-      {
-        id: "enemyKillPoints",
-        name: "Kill points lost",
-        value: formatNumber(selectedLoadoutCard.totals.enemyKillScore),
-        description: "Total kill points earned by opponents against this pairing.",
-      },
-      {
-        id: "severelyWounded",
-        name: "Severely wounded taken",
-        value: formatNumber(selectedLoadoutCard.totals.severelyWounded),
-        description: "Number of troops that became severely wounded while using this pairing.",
-      },
-      {
-        id: "enemySeverelyWounded",
-        name: "Severely wounded inflicted",
-        value: formatNumber(selectedLoadoutCard.totals.enemySeverelyWounded),
-        description: "Number of opponent troops this pairing caused to become severely wounded.",
-      },
-      {
-        id: "avgDuration",
-        name: "Avg. battle duration",
-        value: formatDurationSeconds(avgDurationSeconds),
-        description: "Average battle duration for this pairing.",
-      },
-      {
-        id: "weightedTradePercent",
-        name: "Trade percentage",
-        value: formatPercent(selectedLoadoutCard.totals.weightedTradePercent),
-        description: "Total kill points gained divided by total kill points lost.",
-      },
-      {
-        id: "dps",
-        name: "Damage per second (DPS)",
-        value: formatPerSecond(
-          ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
-        ),
-        description: "Average damage inflicted per second while using this pairing.",
-      },
-      {
-        id: "sps",
-        name: "Sevs per second (SPS)",
-        value: formatPerSecond(
-          ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
-        ),
-        description:
-          "Average severely wounded troops inflicted per second while using this pairing.",
-      },
-      {
-        id: "tps",
-        name: "Sevs taken per second (TPS)",
-        value: formatPerSecond(
-          ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
-        ),
-        description: "Average severely wounded troops taken per second while using this pairing.",
-      },
-      {
-        id: "hps",
-        name: "Healing per second (HPS)",
-        value: formatPerSecond(selectedLoadoutCard.totals.hps),
-        description: "Average healing performed per second while using this pairing.",
-      },
-    ];
-  }, [selectedLoadoutCard]);
-
-  const opponentLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
-  const canLoadOpponents =
-    Boolean(selectedPairing) && loadoutsReady && !pairingsLoading && !pairingsError;
-
-  const {
-    data: opponents,
-    loading: opponentsLoading,
-    error: opponentsError,
-  } = usePairingOpponents({
-    governorId: activeGovernor?.governorId,
-    primaryCommanderId: canLoadOpponents ? (selectedPairing?.primaryCommanderId ?? null) : null,
-    secondaryCommanderId: canLoadOpponents ? (selectedPairing?.secondaryCommanderId ?? null) : null,
-    loadoutKey: opponentLoadoutKey,
-    startDate: rangeStartDate,
-    endDate: rangeEndDate,
-    excludeActivities: excludedActivities,
-    excludeBattles: excludedBattles,
-  });
-
-  useEffect(() => {
-    void opponentsResetKey;
-    setShowAllOpponents(false);
-  }, [opponentsResetKey]);
-
-  const hasMoreOpponents = opponents.length > 10;
-  const visibleOpponents = showAllOpponents ? opponents : opponents.slice(0, 10);
-  const opponentRows = useMemo(
-    () =>
-      visibleOpponents.map((entry, index) => ({
-        id: `${entry.enemyPrimaryCommanderId}:${entry.enemySecondaryCommanderId}`,
-        index: index + 1,
-        pairing: formatCommanderPair(
-          entry.enemyPrimaryCommanderId,
-          entry.enemySecondaryCommanderId,
-          "Unknown commander"
-        ),
-        battles: formatNumber(entry.count),
-        killPoints: formatNumber(entry.totals.killScore),
-        opponentKillPoints: formatNumber(entry.totals.enemyKillScore),
-        dps: formatPerSecond(ratePerSecond(entry.totals.dps, entry.totals.battleDuration)),
-        sps: formatPerSecond(ratePerSecond(entry.totals.sps, entry.totals.battleDuration)),
-        tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
-        hps: formatPerSecond(entry.totals.hps),
-      })),
-    [visibleOpponents]
-  );
-
-  if (!activeGovernor) {
-    return null;
-  }
+  const items = result.data?.items.filter((item) => item.count >= MIN_PAIRING_BATTLES) ?? [];
 
   return (
-    <div className="space-y-10">
-      <Text>Analyze performance across commander pairings, loadouts, and matchups</Text>
-      <PairingsFilters
-        pairingOptions={pairingOptions}
-        pairingValue={selectedPairingKey}
-        onPairingChange={setSelectedPairingKey}
-        pairingsLoading={pairingsLoading}
-        startDate={startDate}
-        endDate={endDate}
-        onStartDateChange={setStartDate}
-        onEndDateChange={setEndDate}
-        excludedActivities={excludedActivities}
-        onExcludedActivitiesChange={setExcludedActivities}
-        excludedBattles={excludedBattles}
-        onExcludedBattlesChange={setExcludedBattles}
-      />
-      <PairingsLoadouts
-        pairingsLoading={pairingsLoading}
-        pairingsError={pairingsError}
-        hasSelectedPairing={hasSelectedPairing}
-        loadoutsLoading={loadoutsLoading}
-        loadoutsError={loadoutsError}
-        loadoutCards={loadoutCards}
-        selectedLoadoutKey={selectedLoadoutKey}
-        onSelectLoadout={(key) => setSelectedLoadoutKey(key)}
-      />
-      <PairingsLoadoutBreakdown
-        pairingsLoading={pairingsLoading}
-        pairingsError={pairingsError}
-        hasSelectedPairing={hasSelectedPairing}
-        loadoutsLoading={loadoutsLoading}
-        loadoutsReady={loadoutsReady}
-        loadoutsError={loadoutsError}
-        hasSelectedLoadout={hasSelectedLoadout}
-        generalStats={generalStats}
-        enemiesLoading={opponentsLoading}
-        enemiesError={opponentsError}
-        opponentRows={opponentRows}
-        hasMoreOpponents={hasMoreOpponents}
-        showAllOpponents={showAllOpponents}
-        onToggleShowAllOpponents={() => setShowAllOpponents((prev) => !prev)}
-        opponentsId={opponentsId}
-      />
-    </div>
+    <>
+      <Heading>My Pairings</Heading>
+      <div className="relative mt-4 min-w-0 max-w-full space-y-8 overflow-x-clip">
+        <PairingsToolbar range={range} today={today} />
+        {result.loading ? (
+          <PairingsState loading />
+        ) : result.error ? (
+          <PairingsState error={result.error} retry={result.retry} />
+        ) : !items.length ? (
+          <PairingsState>No pairings with 100+ battles in this range.</PairingsState>
+        ) : (
+          <PairingsOverview key={governorId} items={items} query={query.toString()} />
+        )}
+      </div>
+    </>
+  );
+}
+
+function PairingsOverview({ items, query }: { items: PairingAggregate[]; query: string }) {
+  return (
+    <>
+      <PairingsCharts items={items} query={query} />
+      <PairingsTable items={items} query={query} />
+    </>
+  );
+}
+
+function PairingsTable({ items, query }: { items: PairingAggregate[]; query: string }) {
+  const [sort, setSort] = useState<{ key: SortKey; descending: boolean }>({
+    key: "net",
+    descending: true,
+  });
+
+  const rows = useMemo(
+    () =>
+      items.toSorted((a, b) => {
+        const left = sortValue(a, sort.key),
+          right = sortValue(b, sort.key);
+        return left === right
+          ? b.count - a.count
+          : (left > right ? 1 : -1) * (sort.descending ? -1 : 1);
+      }),
+    [items, sort]
+  );
+
+  return (
+    <section className="space-y-4">
+      <Subheading>Pairing overview</Subheading>
+      <Table
+        dense
+        className="[--gutter:--spacing(4)] [&>div]:w-full [&_table]:w-full [&_table]:min-w-[48rem]"
+      >
+        <caption className="sr-only">Commander pairings with at least 100 battles</caption>
+        <TableHead>
+          <TableRow>
+            <TableHeader>Pairing</TableHeader>
+            {(
+              [
+                ["count", "Battles"],
+                ["gained", "KP gained"],
+                ["lost", "KP lost"],
+                ["net", "Net KP"],
+                ["trade", "Trade %"],
+              ] as const
+            ).map(([key, label]) => (
+              <TableHeader
+                key={key}
+                className="text-right"
+                aria-sort={
+                  sort.key === key ? (sort.descending ? "descending" : "ascending") : "none"
+                }
+              >
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 rounded focus-visible:outline-2 focus-visible:outline-blue-500"
+                  onClick={() => setSort({ key, descending: sort.key !== key || !sort.descending })}
+                >
+                  {label}
+                  {sort.key === key ? (
+                    sort.descending ? (
+                      <ArrowDown className="size-3" />
+                    ) : (
+                      <ArrowUp className="size-3" />
+                    )
+                  ) : null}
+                </button>
+              </TableHeader>
+            ))}
+            <TableHeader>
+              <span className="sr-only">Insights</span>
+            </TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((item) => (
+            <TableRow
+              key={pairingKey(item)}
+              href={`/account/pairings/${pairingKey(item)}?${query}`}
+              title={`View ${pairingName(item.primaryCommanderId, item.secondaryCommanderId)} insights`}
+            >
+              <TableCell>
+                <div className="flex items-center gap-3">
+                  <PairingIdentity
+                    primary={item.primaryCommanderId}
+                    secondary={item.secondaryCommanderId}
+                  />
+                </div>
+              </TableCell>
+              <TableCell className="text-right tabular-nums text-zinc-400">
+                {formatExact(item.count)}
+              </TableCell>
+              <TableCell
+                className="text-right tabular-nums"
+                title={formatExact(item.totals.killScore)}
+              >
+                {formatCompact(item.totals.killScore)}
+              </TableCell>
+              <TableCell
+                className="text-right tabular-nums text-zinc-400"
+                title={formatExact(item.totals.enemyKillScore)}
+              >
+                {formatCompact(item.totals.enemyKillScore)}
+              </TableCell>
+              <TableCell
+                className={`text-right tabular-nums ${netKp(item.totals) >= 0 ? "text-green-400" : "text-red-400"}`}
+                title={formatExact(netKp(item.totals))}
+              >
+                {netKp(item.totals) > 0 ? "+" : ""}
+                {formatCompact(netKp(item.totals))}
+              </TableCell>
+              <TableCell className="text-right tabular-nums">{formatTrade(item.totals)}</TableCell>
+              <TableCell>
+                <ChevronRight className="size-4 text-zinc-500" aria-hidden="true" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </section>
   );
 }

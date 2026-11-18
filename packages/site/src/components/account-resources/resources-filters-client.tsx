@@ -38,12 +38,16 @@ type ResourcesFiltersClientProps = {
   startDate: string;
   endDate: string;
   maxDate: string;
+  rangeLabel?: string;
+  compact?: boolean;
 };
 
 export function ResourcesFiltersClient({
   startDate,
   endDate,
   maxDate,
+  rangeLabel = "Resource",
+  compact = false,
 }: ResourcesFiltersClientProps): ReactElement {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -70,38 +74,46 @@ export function ResourcesFiltersClient({
     setOpen(false);
   };
 
+  const presetsNavigation = (
+    <nav className="flex gap-5" aria-label={`${rangeLabel} date ranges`}>
+      {presets.map(({ id, label }) => {
+        const range = resourcePresetRange(id, maxDate);
+        const active = range.start === startDate && range.end === endDate;
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("start", range.start);
+        params.set("end", range.end);
+
+        return (
+          <Link
+            key={id}
+            href={`?${params}`}
+            replace
+            scroll={false}
+            prefetch={false}
+            aria-current={active ? "page" : undefined}
+            className={`-mb-px whitespace-nowrap border-b-2 py-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 ${
+              active
+                ? "border-white text-white"
+                : "border-transparent text-zinc-400 hover:border-zinc-600 hover:text-white"
+            }`}
+          >
+            {label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+
   return (
     <div
-      className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10"
+      className={
+        compact
+          ? "flex min-w-0 flex-wrap items-center gap-3"
+          : "flex flex-wrap items-center justify-between gap-3 border-b border-white/10"
+      }
       aria-busy={isPending}
     >
-      <nav className="flex gap-5" aria-label="Resource date ranges">
-        {presets.map(({ id, label }) => {
-          const range = resourcePresetRange(id, maxDate);
-          const active = range.start === startDate && range.end === endDate;
-          const params = new URLSearchParams(searchParams.toString());
-          params.set("start", range.start);
-          params.set("end", range.end);
-
-          return (
-            <Link
-              key={id}
-              href={`?${params}`}
-              replace
-              scroll={false}
-              prefetch={false}
-              aria-current={active ? "page" : undefined}
-              className={`-mb-px whitespace-nowrap border-b-2 py-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-500 ${
-                active
-                  ? "border-white text-white"
-                  : "border-transparent text-zinc-400 hover:border-zinc-600 hover:text-white"
-              }`}
-            >
-              {label}
-            </Link>
-          );
-        })}
-      </nav>
+      {compact ? null : presetsNavigation}
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Trigger
           render={
@@ -117,7 +129,7 @@ export function ResourcesFiltersClient({
         <Popover.Portal>
           <Popover.Positioner
             side="bottom"
-            align="end"
+            align={compact ? "start" : "end"}
             sideOffset={8}
             collisionPadding={12}
             className="z-50"

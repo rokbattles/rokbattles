@@ -30,16 +30,7 @@ pub(crate) struct PairingsRequest {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct PairingLoadoutsRequest {
-    pub range: GovernorDateRange,
-    pub exclude_activities: Vec<PairingsActivity>,
-    pub exclude_battles: Vec<PairingsBattleType>,
-    pub primary_commander_id: i64,
-    pub secondary_commander_id: i64,
-}
-
-#[derive(Debug, Clone)]
-pub(crate) struct PairingOpponentsRequest {
+pub(crate) struct PairingRequest {
     pub range: GovernorDateRange,
     pub exclude_activities: Vec<PairingsActivity>,
     pub exclude_battles: Vec<PairingsBattleType>,
@@ -55,45 +46,26 @@ pub(crate) fn parse_pairings_request(
     let exclude_activities =
         parse_exclude_activities(params.get("excludeActivities").map(String::as_str))?;
     let exclude_battles = parse_exclude_battles(params.get("excludeBattles").map(String::as_str))?;
+
     Ok(PairingsRequest { range, exclude_activities, exclude_battles })
 }
 
-pub(crate) fn parse_pairing_loadouts_request(
+pub(crate) fn parse_pairing_request(
     params: &FxHashMap<String, String>,
-) -> Result<PairingLoadoutsRequest, ApiError> {
-    let range = parse_default_governor_date_range(params)?;
-    let exclude_activities =
-        parse_exclude_activities(params.get("excludeActivities").map(String::as_str))?;
-    let exclude_battles = parse_exclude_battles(params.get("excludeBattles").map(String::as_str))?;
+) -> Result<PairingRequest, ApiError> {
+    let PairingsRequest { range, exclude_activities, exclude_battles } =
+        parse_pairings_request(params)?;
+
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
 
-    Ok(PairingLoadoutsRequest {
-        range,
-        exclude_activities,
-        exclude_battles,
-        primary_commander_id,
-        secondary_commander_id,
-    })
-}
-
-pub(crate) fn parse_pairing_opponents_request(
-    params: &FxHashMap<String, String>,
-) -> Result<PairingOpponentsRequest, ApiError> {
-    let range = parse_default_governor_date_range(params)?;
-    let exclude_activities =
-        parse_exclude_activities(params.get("excludeActivities").map(String::as_str))?;
-    let exclude_battles = parse_exclude_battles(params.get("excludeBattles").map(String::as_str))?;
-    let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
-    let secondary_commander_id =
-        parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
     let loadout_key = params
         .get("loadoutKey")
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty());
 
-    Ok(PairingOpponentsRequest {
+    Ok(PairingRequest {
         range,
         exclude_activities,
         exclude_battles,
@@ -284,18 +256,23 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_pairing_loadouts_request_accepts_pairing() {
-        let request = parse_pairing_loadouts_request(&FxHashMap::from_iter([
-            ("primary".to_string(), "123".to_string()),
-            ("secondary".to_string(), "0".to_string()),
-        ]))
-        .expect("request");
-        assert_eq!((request.primary_commander_id, request.secondary_commander_id), (123, 0));
+    fn parse_pairing_request_accepts_solo_commanders_and_rejects_invalid_ids() {
+        let params = |primary: &str, secondary: &str| {
+            FxHashMap::from_iter([
+                ("primary".to_string(), primary.to_string()),
+                ("secondary".to_string(), secondary.to_string()),
+            ])
+        };
+        let solo = parse_pairing_request(&params("123", "0")).expect("solo pairing");
+        assert_eq!((solo.primary_commander_id, solo.secondary_commander_id), (123, 0));
+        for (primary, secondary) in [("0", "1"), ("-1", "1"), ("123", "-1"), ("123", "")] {
+            parse_pairing_request(&params(primary, secondary)).expect_err("invalid pairing");
+        }
     }
 
     #[test]
-    fn parse_pairing_opponents_request_defaults_to_all_loadouts() {
-        let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
+    fn parse_pairing_request_defaults_to_all_loadouts() {
+        let request = parse_pairing_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
             ("secondary".to_string(), "456".to_string()),
         ]))
@@ -304,8 +281,8 @@ mod tests {
     }
 
     #[test]
-    fn parse_pairing_opponents_request_accepts_loadout_key() {
-        let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
+    fn parse_pairing_request_accepts_loadout_key() {
+        let request = parse_pairing_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
             ("secondary".to_string(), "456".to_string()),
             ("loadoutKey".to_string(), " eq:1:100_2:25|arm:1000_2|ins:101|fm:1 ".to_string()),
@@ -315,8 +292,8 @@ mod tests {
     }
 
     #[test]
-    fn parse_pairing_opponents_request_treats_blank_loadout_key_as_all_loadouts() {
-        let request = parse_pairing_opponents_request(&FxHashMap::from_iter([
+    fn parse_pairing_request_treats_blank_loadout_key_as_all_loadouts() {
+        let request = parse_pairing_request(&FxHashMap::from_iter([
             ("primary".to_string(), "123".to_string()),
             ("secondary".to_string(), "456".to_string()),
             ("loadoutKey".to_string(), "  ".to_string()),

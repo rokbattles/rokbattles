@@ -32,6 +32,7 @@ pub fn router() -> Router<Arc<AppState>> {
         .route("/{governor_id}/loot/kahars-treasure", get(loot::get_kahars_treasure))
         .route("/{governor_id}/resources", get(resources::get))
         .route("/{governor_id}/pairings", get(pairings::get))
-        .route("/{governor_id}/pairings/loadouts", get(pairings::get_loadouts))
-        .route("/{governor_id}/pairings/opponents", get(pairings::get_opponents))
+        .route("/{governor_id}/pairings/detail", get(pairings::get_detail))
+        .route("/{governor_id}/pairings/matchups", get(pairings::get_matchups))
+        .route("/{governor_id}/pairings/performance", get(pairings::get_performance))
 }

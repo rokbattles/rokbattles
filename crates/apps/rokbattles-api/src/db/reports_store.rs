@@ -94,8 +94,12 @@ impl ReportsStore {
         }
     }
 
-    /// Ensure indexes for report filters, sorting, and bind refresh are in place.
+    /// Creates the indexes used to query reports and refresh governor claims.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
+        let pvp_options = IndexOptions::builder()
+            .partial_filter_expression(doc! { "opponents.player_id": { "$gt": 0 } })
+            .build();
+
         let models = vec![
             IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "sender.tracking_key": 1, "metadata.gs_id": 1, "metadata.mail_time": -1 })
@@ -115,6 +119,21 @@ impl ReportsStore {
             IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
                 .build(),
+
+            IndexModel::builder()
+                .keys(doc! { "sender.player_id": 1, "metadata.mail_time": 1 })
+                .options(pvp_options.clone())
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "sender.player_id": 1,
+                    "sender.commanders.primary.id": 1,
+                    "sender.commanders.secondary.id": 1,
+                    "metadata.mail_time": 1,
+                })
+                .options(pvp_options)
+                .build(),
+
             IndexModel::builder()
                 .keys(doc! { "opponents.player_id": 1, "metadata.mail_time": -1 })
                 .build(),

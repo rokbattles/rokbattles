@@ -152,7 +152,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     <SidebarItem
                       title="My Pairings"
                       href="/account/pairings"
-                      current={pathname === "/account/pairings"}
+                      current={pathname.startsWith("/account/pairings")}
                     >
                       <Scale data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>My Pairings</SidebarLabel>
