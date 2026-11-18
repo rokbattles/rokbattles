@@ -1,0 +1,43 @@
+{
+  "mailScene": 0,
+  "sender": "system",
+  "starMark": 0,
+  "unread": false,
+  "box": "AllianceBox",
+  "reportMerge": 0,
+  "serverId": 2801,
+  "time": 1776613816945733,
+  "senderInfo": {
+    "Name": "system",
+    "Abbr": ""
+  },
+  "type": "CarriageSentReport",
+  "holdTag": 0,
+  "id": "78351364177661381616",
+  "preMailId": "",
+  "senderTradeTime": 0,
+  "body": {
+    "content": {
+      "Ress": [
+        {
+          "Value": 4444444,
+          "Type": 1
+        }
+      ],
+      "SendPlayerId": 200231246,
+      "Active": true,
+      "SenderName": "Halli 1",
+      "Tax": 0.10000000149011612
+    }
+  },
+  "flaglist": [],
+  "receiver": "player_206178820",
+  "prevBox": "",
+  "receiverInfo": {
+    "Name": "",
+    "Abbr": ""
+  },
+  "addition": "",
+  "attachments": [],
+  "title": ""
+}

@@ -40,6 +40,22 @@ impl MailReconstructor {
                 let content = decode_message(body, "MailRss", &self.schema.descriptors)?;
                 Ok(json!({ "content": content }))
             }
+            "ScoutReport" => {
+                let content = decode_message(body, "ScoutReportInfo", &self.schema.descriptors)?;
+                Ok(json!({ "content": content }))
+            }
+            "CarriageSentReport" => {
+                let decoded =
+                    decode_message(body, "CarriageSentReportInfo", &self.schema.descriptors)?;
+                let root = object(&decoded, "CarriageSentReportInfo")?;
+                Ok(json!({ "content": {
+                    "SendPlayerId": root.get("SenderPlayerId"),
+                    "SenderName": root.get("SenderName"),
+                    "Ress": root.get("Ress"),
+                    "Tax": root.get("Tax"),
+                    "Active": root.get("Active").and_then(Value::as_bool).unwrap_or_default(),
+                } }))
+            }
             "BarCanyonKillBoss" | "KillEliteBarReport" | "GhostCavKillBar" => {
                 self.reconstruct_elite_bar_report(body)
             }
@@ -112,6 +128,11 @@ impl MailReconstructor {
         output.insert("title".to_string(), Value::String(String::new()));
         output.insert("subTitle".to_string(), Value::String(String::new()));
         output.insert("content".to_string(), Value::String(String::new()));
+
+        if sub_type.as_i64() == Some(26) {
+            output.insert("kvs".to_string(), kvs);
+            return Ok(Value::Object(output));
+        }
 
         if sub_type.as_i64() == Some(11) {
             let kvs = object(&kvs, "MailSys.Kvs")?;
@@ -599,6 +620,14 @@ mod tests {
     #[test]
     fn reconstructs_every_supported_body_adapter() {
         let reconstructor = MailReconstructor::synthetic();
+        let mut carriage = Vec::new();
+        push_varint(
+            &mut carriage,
+            field(&reconstructor, "CarriageSentReportInfo", "SenderPlayerId"),
+            1,
+        );
+        let mut scout = Vec::new();
+        push_varint(&mut scout, field(&reconstructor, "ScoutReportInfo", "ScoutPlayerId"), 1);
         let cases = [
             ("DuelBattle2", duel_body(&reconstructor)),
             ("BarCanyonKillBoss", bar_canyon_body(&reconstructor)),
@@ -606,7 +635,10 @@ mod tests {
             ("GhostCavKillBar", bar_canyon_body(&reconstructor)),
             ("EventMemberLootReport", event_member_loot_body(&reconstructor)),
             ("Rss", rss_body(&reconstructor)),
+            ("CarriageSentReport", carriage),
+            ("ScoutReport", scout),
             ("System", system_body(&reconstructor, 11, 1)),
+            ("System", system_body(&reconstructor, 26, 24)),
             ("System", system_body(&reconstructor, 29, 11)),
             ("Alliance", system_body(&reconstructor, 60, 0)),
             ("Alliance", system_body(&reconstructor, 61, 0)),
@@ -619,6 +651,20 @@ mod tests {
                 .reconstruct_body(mail_type, &body, &[])
                 .unwrap_or_else(|error| panic!("{mail_type} should reconstruct: {error}"));
         }
+    }
+
+    #[test]
+    fn preserves_purchase_data_in_system_bundle_body() {
+        let reconstructor = MailReconstructor::synthetic();
+        let mut body = Vec::new();
+        push_varint(&mut body, field(&reconstructor, "MailSys", "Type"), 26);
+        push_varint(&mut body, field(&reconstructor, "MailSys", "Param"), 19);
+        push_bytes(&mut body, field(&reconstructor, "MailSys", "Kvs"), br#"{"name":"bundle"}"#);
+
+        let decoded = reconstructor.reconstruct_body("System", &body, &[]).expect("bundle body");
+        assert_eq!(decoded["subType"], 26);
+        assert_eq!(decoded["subParam"], 19);
+        assert_eq!(decoded["kvs"], json!({"name": "bundle"}));
     }
 
     #[test]

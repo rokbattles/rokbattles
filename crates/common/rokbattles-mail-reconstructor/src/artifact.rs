@@ -331,6 +331,11 @@ mod tests {
                         field("Kvs", 3, 1, 9, ""),
                     ],
                 ),
+                message("ScoutReportInfo", vec![field("ScoutPlayerId", 1, 1, 3, "")]),
+                message(
+                    "CarriageSentReportInfo",
+                    vec![field("SenderPlayerId", 1, 1, 3, ""), field("Active", 5, 1, 8, "")],
+                ),
                 message(
                     "MailAttachment",
                     vec![

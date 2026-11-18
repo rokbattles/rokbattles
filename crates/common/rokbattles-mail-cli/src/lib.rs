@@ -1,11 +1,10 @@
 #![forbid(unsafe_code)]
 
-//! Decodes a directory of persistent mail files and processes recognized mail.
+//! Decodes a directory of persistent mail files and runs available processors.
 //!
 //! [`run`] reads each selected file with [`rokbattles_mail_codec::decode`] and
-//! writes its decoded JSON. For object roots recognized by the mail registry,
-//! it also writes the category processor's output to a separate JSON file.
-//! Unknown categories and non-object roots still receive decoded output.
+//! writes its decoded JSON. For object roots with a registered processor, it also
+//! writes the processor's output to a separate JSON file.
 //!
 //! # Files and output
 //!
@@ -16,7 +15,7 @@
 //!
 //! Output names retain the complete input filename:
 //!
-//! | Input | Decoded output | Processed output, when recognized |
+//! | Input | Decoded output | Processed output, when a processor exists |
 //! | --- | --- | --- |
 //! | `sample.mail` | `sample.mail.json` | `sample.mail-processed.json` |
 //! | `Persistent.Mail.123` | `Persistent.Mail.123.json` | `Persistent.Mail.123-processed.json` |
@@ -24,7 +23,7 @@
 //! The output directory is created if necessary. Existing output files are
 //! overwritten. Processing stops at the first error, leaving completed writes
 //! in place; decoded JSON is written before category processing begins. Skipping
-//! an unrecognized category does not remove an older processed output file.
+//! a mail without a processor leaves any older processed output file in place.
 //!
 //! # Command-line usage
 //!

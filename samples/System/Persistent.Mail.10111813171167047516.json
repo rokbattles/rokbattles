@@ -1,0 +1,49 @@
+{
+  "mailScene": 0,
+  "sender": "system",
+  "starMark": 0,
+  "unread": false,
+  "box": "Archive",
+  "reportMerge": 0,
+  "serverId": 11517,
+  "time": 1711670475432158,
+  "senderInfo": {
+    "Name": "system",
+    "Abbr": ""
+  },
+  "type": "System",
+  "holdTag": 0,
+  "id": "10111813171167047516",
+  "preMailId": "",
+  "senderTradeTime": 0,
+  "body": {
+    "subType": 26,
+    "subTitle": "You have purchased: <b>30-Day Gem Supply</b>",
+    "title": "Bundle Successfully Purchased",
+    "content": "Congratulations! You have purchased the following bundle: <b>30-Day Gem Supply</b>. Your Gems have been added to your account. Thank you for your support!",
+    "subParam": 17
+  },
+  "receiver": "player_150284345",
+  "flaglist": {
+    "stm": true
+  },
+  "receiverInfo": {
+    "Name": "",
+    "Abbr": ""
+  },
+  "addition": "",
+  "attachments": [
+    {
+      "id": 1,
+      "loot": [
+        {
+          "Value": 2200,
+          "Type": 1,
+          "SubType": 25
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "title": ""
+}

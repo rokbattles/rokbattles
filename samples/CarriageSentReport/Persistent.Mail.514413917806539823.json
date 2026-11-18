@@ -1,0 +1,45 @@
+{
+  "mailScene": 0,
+  "sender": "system",
+  "starMark": 0,
+  "unread": false,
+  "isNew": true,
+  "box": "AllianceBox",
+  "reportMerge": 0,
+  "serverId": 2842,
+  "time": 1780653982999143,
+  "senderInfo": {
+    "Name": "system",
+    "Abbr": ""
+  },
+  "type": "CarriageSentReport",
+  "addition": "",
+  "holdTag": 0,
+  "id": "514413917806539823",
+  "preMailId": "",
+  "senderTradeTime": 0,
+  "body": {
+    "content": {
+      "Ress": [
+        {
+          "Value": 2213707,
+          "Type": 2
+        }
+      ],
+      "SendPlayerId": 196758496,
+      "Active": false,
+      "SenderName": "Thorfin D 5",
+      "Tax": 0
+    }
+  },
+  "flaglist": [],
+  "receiver": "player_199895292",
+  "prevBox": "",
+  "receiverInfo": {
+    "Name": "",
+    "Abbr": ""
+  },
+  "is_new": false,
+  "attachments": [],
+  "title": ""
+}

@@ -1,0 +1,155 @@
+{
+  "mailScene": 0,
+  "sender": "system",
+  "starMark": 0,
+  "unread": false,
+  "box": "SystemBox",
+  "reportMerge": 0,
+  "serverId": 15941,
+  "time": 1777354251774776,
+  "senderInfo": {
+    "Name": "system",
+    "Abbr": ""
+  },
+  "type": "System",
+  "holdTag": 0,
+  "id": "100458224177735425125",
+  "preMailId": "",
+  "senderTradeTime": 0,
+  "body": {
+    "subType": 26,
+    "subTitle": "You have purchased: <b>Daily Special Offer Collection</b>",
+    "title": "Bundle Successfully Purchased",
+    "content": "Congratulations! You have successfully purchased the \"<b>Daily Special Offer Collection</b>\" bundle. The Gems have been added to your account and the other items have been sent to your inventory. Thank you for your support!",
+    "subParam": 1
+  },
+  "flaglist": {
+    "stm": true
+  },
+  "receiver": "player_38544894",
+  "prevBox": "",
+  "receiverInfo": {
+    "Name": "",
+    "Abbr": ""
+  },
+  "addition": "",
+  "attachments": [
+    {
+      "id": 1,
+      "loot": [
+        {
+          "Value": 200,
+          "Type": 1,
+          "SubType": 25
+        },
+        {
+          "Value": 1,
+          "Type": 4,
+          "SubType": 1
+        },
+        {
+          "Value": 1,
+          "Type": 2,
+          "SubType": 7427
+        },
+        {
+          "Value": 2,
+          "Type": 2,
+          "SubType": 36
+        },
+        {
+          "Value": 1,
+          "Type": 2,
+          "SubType": 47
+        },
+        {
+          "Value": 10,
+          "Type": 2,
+          "SubType": 147
+        },
+        {
+          "Value": 25,
+          "Type": 2,
+          "SubType": 151
+        },
+        {
+          "Value": 400,
+          "Type": 1,
+          "SubType": 25
+        },
+        {
+          "Value": 1,
+          "Type": 4,
+          "SubType": 1
+        },
+        {
+          "Value": 1,
+          "Type": 2,
+          "SubType": 7427
+        },
+        {
+          "Value": 4,
+          "Type": 2,
+          "SubType": 36
+        },
+        {
+          "Value": 2,
+          "Type": 2,
+          "SubType": 47
+        },
+        {
+          "Value": 2,
+          "Type": 2,
+          "SubType": 3
+        },
+        {
+          "Value": 2,
+          "Type": 2,
+          "SubType": 9
+        },
+        {
+          "Value": 50,
+          "Type": 2,
+          "SubType": 151
+        },
+        {
+          "Value": 600,
+          "Type": 1,
+          "SubType": 25
+        },
+        {
+          "Value": 1,
+          "Type": 4,
+          "SubType": 1
+        },
+        {
+          "Value": 1,
+          "Type": 2,
+          "SubType": 7427
+        },
+        {
+          "Value": 8,
+          "Type": 2,
+          "SubType": 36
+        },
+        {
+          "Value": 1,
+          "Type": 2,
+          "SubType": 48
+        },
+        {
+          "Value": 5,
+          "Type": 2,
+          "SubType": 124
+        },
+        {
+          "Value": 75,
+          "Type": 2,
+          "SubType": 151
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "title": ""
+}
