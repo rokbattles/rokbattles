@@ -7,8 +7,8 @@ static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 use std::path::PathBuf;
 
 use rokbattles_dns_resolver::{
-    CLOUDFLARE_DOH_FALLBACK_URL, CLOUDFLARE_DOH_PRIMARY_URL, Config, DoHForwarder,
-    ROCGATE_HOSTNAMES, Resolver, router,
+    CLOUDFLARE_DOH_FALLBACK_URL, CLOUDFLARE_DOH_PRIMARY_URL, Config, DnsProbe, DoHForwarder,
+    ROCGATE_HOSTNAMES, Resolver, router_with_probe,
 };
 use tracing::info;
 
@@ -36,9 +36,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         cloudflare_doh_fallback = CLOUDFLARE_DOH_FALLBACK_URL,
         "starting DNS-over-HTTPS resolver"
     );
+
     let resolver = Resolver::new(config.gateway)?;
     let forwarder = DoHForwarder::new()?;
-    let app = router(resolver, forwarder);
+    let probe = DnsProbe::from_env()?;
+    let app = router_with_probe(resolver, forwarder, probe);
 
     let listener = tokio::net::TcpListener::bind(BIND_ADDRESS).await?;
     axum::serve(listener, app).await?;
