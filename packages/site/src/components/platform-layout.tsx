@@ -4,6 +4,7 @@ import {
   BookOpen,
   ChartPie,
   CircleHelp,
+  Code2,
   Flag,
   Flame,
   Gift,
@@ -187,19 +188,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 ) : null}
               </SidebarSection>
             )}
-            {!loading && hasRole(user, "content_creator") ? (
-              <SidebarSection>
-                <SidebarHeading>Content Creators</SidebarHeading>
-                <SidebarItem
-                  title="Stream Overlay"
-                  href="/creators/overlay"
-                  current={pathname === "/creators/overlay"}
-                >
-                  <MonitorPlay data-slot="icon" aria-hidden="true" />
-                  <SidebarLabel>Stream Overlay</SidebarLabel>
-                </SidebarItem>
-              </SidebarSection>
-            ) : null}
+            <ProgramSidebarSections user={user} loading={loading} pathname={pathname} />
             <SidebarSpacer />
             <SidebarSection>
               <SidebarItem
@@ -247,5 +236,50 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
     >
       {children}
     </SidebarLayout>
+  );
+}
+
+function ProgramSidebarSections({
+  user,
+  loading,
+  pathname,
+}: {
+  user: CurrentUser | null;
+  loading: boolean;
+  pathname: string;
+}) {
+  if (loading || !user) {
+    return null;
+  }
+
+  return (
+    <>
+      {hasRole(user, "content_creator") ? (
+        <SidebarSection>
+          <SidebarHeading>Content Creators</SidebarHeading>
+          <SidebarItem
+            title="Stream Overlay"
+            href="/creators/overlay"
+            current={pathname === "/creators/overlay"}
+          >
+            <MonitorPlay data-slot="icon" aria-hidden="true" />
+            <SidebarLabel>Stream Overlay</SidebarLabel>
+          </SidebarItem>
+        </SidebarSection>
+      ) : null}
+      {hasRole(user, "developer_program") ? (
+        <SidebarSection>
+          <SidebarHeading>Developer Program</SidebarHeading>
+          <SidebarItem
+            title="Apps"
+            href="/developer/apps"
+            current={pathname === "/developer/apps" || pathname.startsWith("/developer/apps/")}
+          >
+            <Code2 data-slot="icon" aria-hidden="true" />
+            <SidebarLabel>Apps</SidebarLabel>
+          </SidebarItem>
+        </SidebarSection>
+      ) : null}
+    </>
   );
 }

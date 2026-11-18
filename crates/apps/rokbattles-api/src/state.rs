@@ -3,8 +3,8 @@ use std::sync::Arc;
 use crate::{
     auth::account_operations::AccountOperations,
     db::{
-        AuthRepository, GameLocalizationStore, GameQueryStore, ProgramApplicationsStore,
-        ReportsStore, TerritoryPlannerV2Store,
+        AuthRepository, DeveloperAppsStore, GameLocalizationStore, GameQueryStore,
+        ProgramApplicationsStore, ReportsStore, TerritoryPlannerV2Store,
     },
     turnstile::Turnstile,
 };
@@ -36,6 +36,7 @@ pub struct AppState {
     pub discord_oauth: DiscordOAuthConfig,
     pub(crate) pk_token: Option<String>,
     pub(crate) kdmt_token: Option<String>,
+    pub(crate) developer_apps: Option<DeveloperAppsStore>,
     pub(crate) program_applications: Option<ProgramApplicationsState>,
 }
 
@@ -61,11 +62,18 @@ impl AppState {
             pk_token,
             kdmt_token: None,
             program_applications: None,
+            developer_apps: None,
         }
     }
 
     pub fn with_kdmt_token(mut self, token: Option<String>) -> Self {
         self.kdmt_token = token;
+        self
+    }
+
+    /// Enables developer app registration and settings routes.
+    pub fn with_developer_apps(mut self, store: DeveloperAppsStore) -> Self {
+        self.developer_apps = Some(store);
         self
     }
 

@@ -2,6 +2,7 @@
 
 mod auth_store;
 
+mod developer_apps_store;
 mod game_localization_store;
 mod game_query_store;
 mod program_applications_store;
@@ -12,6 +13,11 @@ pub use auth_store::{
     AuthRepository, AuthStoreError, DesktopLogin, DesktopOAuthState, DiscordUserUpsert,
     ListedSessionRecord, MongoAuthStore, NewSessionRecord, OAuthStateRecord, SessionPlatform,
     SessionRecord, UserRecord,
+};
+pub use developer_apps_store::DeveloperAppsStore;
+pub(crate) use developer_apps_store::{
+    DEVELOPER_APPS_COLLECTION, DeveloperApp, DeveloperAppGeneralSettings, DeveloperAppSettings,
+    DeveloperAppUpdate,
 };
 pub use game_localization_store::{
     GameLocalizationStore, GameLocalizationStoreError, GameTranslation,
