@@ -10,15 +10,17 @@ use axum::{
 use self::{
     store::{
         claim_document_is_default, claim_exists_for_user, delete_claim_for_user,
-        find_most_recent_governor_id, governor_claim_exists, insert_claim, set_bind_as_default,
-        summarize_user_claims,
+        find_default_or_latest_governor_id, governor_claim_exists, insert_claim,
+        set_bind_as_default, summarize_user_claims,
     },
     types::{BindGovernorResponse, ClaimedGovernor},
 };
 use crate::{
-    auth::AuthenticatedSession,
     error::ApiError,
-    routes::governor::{common::parse_governor_id_param, snapshot::find_latest_sender_snapshot},
+    routes::{
+        governor::{common::parse_governor_id_param, snapshot::find_latest_sender_snapshot},
+        me::AccountAccess,
+    },
     state::AppState,
 };
 
@@ -35,11 +37,11 @@ fn can_claim_more_governors(claim_count: u64) -> bool {
 pub async fn post(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
-    let _operation = state.account_operations.lock(&session.user.discord_id).await;
-    session.ensure_active(state.auth_store.as_ref()).await?;
+    let _operation = state.account_operations.lock(access.account_id()).await;
+    access.ensure_active(&state).await?;
 
     let claims = state.reports_store.claimed_governors_collection();
 
@@ -47,8 +49,7 @@ pub async fn post(
         return Err(ApiError::conflict("Governor already claimed"));
     }
 
-    let summary =
-        summarize_user_claims(claims, &session.user.discord_id, MAX_GOVERNOR_BINDS).await?;
+    let summary = summarize_user_claims(claims, access.account_id(), MAX_GOVERNOR_BINDS).await?;
     if !can_claim_more_governors(summary.claim_count) {
         return Err(ApiError::conflict("Claim limit reached"));
     }
@@ -62,7 +63,7 @@ pub async fn post(
 
     insert_claim(
         claims,
-        &session.user.discord_id,
+        access.account_id(),
         governor_id,
         governor_name.as_deref(),
         governor_avatar.as_deref(),
@@ -83,16 +84,19 @@ pub async fn post(
 pub async fn patch_default(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
+    let _operation = state.account_operations.lock(access.account_id()).await;
+    access.ensure_active(&state).await?;
+
     let claims = state.reports_store.claimed_governors_collection();
 
-    if !claim_exists_for_user(claims, &session.user.discord_id, governor_id).await? {
+    if !claim_exists_for_user(claims, access.account_id(), governor_id).await? {
         return Err(ApiError::not_found("Claim not found"));
     }
 
-    set_bind_as_default(claims, &session.user.discord_id, governor_id).await?;
+    set_bind_as_default(claims, access.account_id(), governor_id).await?;
     Ok((StatusCode::NO_CONTENT, [("Cache-Control", "no-store")]))
 }
 
@@ -100,12 +104,14 @@ pub async fn patch_default(
 pub async fn delete(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
+    let _operation = state.account_operations.lock(access.account_id()).await;
+    access.ensure_active(&state).await?;
+
     let claims = state.reports_store.claimed_governors_collection();
-    let deleted_claim =
-        delete_claim_for_user(claims, &session.user.discord_id, governor_id).await?;
+    let deleted_claim = delete_claim_for_user(claims, access.account_id(), governor_id).await?;
 
     let Some(deleted_claim) = deleted_claim else {
         return Err(ApiError::not_found("Claim not found"));
@@ -113,9 +119,9 @@ pub async fn delete(
 
     if claim_document_is_default(&deleted_claim)
         && let Some(next_default_governor_id) =
-            find_most_recent_governor_id(claims, &session.user.discord_id).await?
+            find_default_or_latest_governor_id(claims, access.account_id()).await?
     {
-        set_bind_as_default(claims, &session.user.discord_id, next_default_governor_id).await?;
+        set_bind_as_default(claims, access.account_id(), next_default_governor_id).await?;
     }
 
     Ok((StatusCode::NO_CONTENT, [("Cache-Control", "no-store")]))

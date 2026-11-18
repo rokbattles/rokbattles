@@ -1,4 +1,4 @@
-//! IP-based rate limiting for HTTP handlers.
+//! Rate limiting for client networks and registered apps.
 //!
 //! In [`RateLimitMode::Cloudflare`], requests are identified by `CF-Connecting-IP`.
 //! IPv4 addresses have individual buckets. IPv6 addresses share a bucket per `/64`.
@@ -20,6 +20,7 @@ use axum::{
     middleware::Next,
     response::{IntoResponse, Response},
 };
+use mongodb::bson::oid::ObjectId;
 
 const MAX_CLIENTS: usize = 25_000;
 const CLEANUP_INTERVAL: Duration = Duration::from_secs(60);
@@ -47,6 +48,12 @@ impl FromStr for RateLimitMode {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+enum ClientKey {
+    Network(IpAddr),
+    App(ObjectId),
+}
+
 struct Buckets {
     // The Generic Cell Rate Algorithm (GCRA) tracks when each client's bucket
     // will be full again.
@@ -54,11 +61,11 @@ struct Buckets {
         clippy::disallowed_types,
         reason = "Randomized hashing protects against HashDoS from untrusted IP addresses"
     )]
-    clients: std::collections::HashMap<IpAddr, Instant>,
+    clients: std::collections::HashMap<ClientKey, Instant>,
     next_cleanup: Instant,
 }
 
-/// Tracks a request budget for each client network.
+/// Tracks request budgets independently by client.
 pub(crate) struct RateLimiter {
     mode: RateLimitMode,
     burst: u32,
@@ -90,8 +97,19 @@ impl RateLimiter {
             return Ok(());
         }
 
-        let ip = cloudflare_ip(headers)?;
+        self.consume(ClientKey::Network(cloudflare_ip(headers)?), now)
+    }
 
+    /// Consumes the budget for a verified Developer Program app.
+    pub(crate) fn check_app(&self, id: ObjectId) -> Result<(), Rejection> {
+        if self.mode == RateLimitMode::Local {
+            return Ok(());
+        }
+
+        self.consume(ClientKey::App(id), Instant::now())
+    }
+
+    fn consume(&self, key: ClientKey, now: Instant) -> Result<(), Rejection> {
         if self.burst == 0 || self.refill_every.is_zero() {
             return Err(Rejection::Unavailable);
         }
@@ -108,7 +126,7 @@ impl RateLimiter {
                 now.checked_add(CLEANUP_INTERVAL).ok_or(Rejection::Unavailable)?;
         }
 
-        let arrival = match buckets.clients.get(&ip) {
+        let arrival = match buckets.clients.get(&key) {
             Some(arrival) => *arrival,
             None if buckets.clients.len() >= self.max_clients => {
                 return Err(Rejection::Limited(
@@ -125,7 +143,7 @@ impl RateLimiter {
         }
 
         let next = arrival.max(now).checked_add(self.refill_every).ok_or(Rejection::Unavailable)?;
-        buckets.clients.insert(ip, next);
+        buckets.clients.insert(key, next);
 
         Ok(())
     }
@@ -153,7 +171,7 @@ fn cloudflare_ip(headers: &HeaderMap) -> Result<IpAddr, Rejection> {
 }
 
 #[derive(Debug)]
-enum Rejection {
+pub(crate) enum Rejection {
     InvalidIp,
     Limited(Duration),
     Unavailable,

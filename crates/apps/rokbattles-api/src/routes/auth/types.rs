@@ -19,7 +19,7 @@ pub(super) struct CurrentUser {
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub(super) struct ClaimedGovernor {
+pub(crate) struct ClaimedGovernor {
     pub governor_id: i64,
     pub governor_name: Option<String>,
     pub governor_avatar: Option<String>,

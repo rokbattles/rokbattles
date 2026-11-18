@@ -15,9 +15,11 @@ use self::{
     types::{ResourcesRange, ResourcesResponse},
 };
 use crate::{
-    auth::AuthenticatedSession,
     error::ApiError,
-    routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+    routes::{
+        governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+        me::AccountAccess,
+    },
     state::AppState,
 };
 
@@ -31,12 +33,12 @@ pub async fn get(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_resources_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();

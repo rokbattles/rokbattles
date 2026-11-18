@@ -7,14 +7,15 @@ use axum::{
 
 use crate::{rate_limit::RateLimitMode, state::AppState};
 
-mod auth;
+pub(crate) mod auth;
 mod combat_lab;
-mod developer_apps;
+pub(crate) mod developer_apps;
 mod game;
 mod governor;
 mod health;
 mod kdmt;
 mod loot_explorer;
+mod me;
 mod overlays;
 mod pk;
 mod program_applications;
@@ -25,6 +26,7 @@ pub(crate) mod territory_planner_v2;
 pub fn router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .route("/health", get(health::get))
+        .route("/.well-known/openid-configuration", get(crate::oidc::discovery))
         .nest("/v1", v1_router(rate_limit_mode))
         .nest("/v2", v2_router())
 }
@@ -42,7 +44,8 @@ fn v1_router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
     Router::new()
         .nest("/game", game::router())
         .nest("/governor", governor::router())
-        .nest("/auth", auth::router(rate_limit_mode))
+        .nest("/auth", auth::router(rate_limit_mode).merge(crate::oidc::router(rate_limit_mode)))
+        .nest("/me", me::router(rate_limit_mode))
         .merge(developer_apps::router(rate_limit_mode))
         .route("/program-applications", program_applications::routes(rate_limit_mode))
         .nest("/kdmt", kdmt::router())

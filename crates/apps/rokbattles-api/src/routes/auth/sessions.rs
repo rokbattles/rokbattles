@@ -504,7 +504,7 @@ mod tests {
     async fn browser_sign_in_issues_a_browser_session_with_existing_cookie_and_expiry() {
         let store = MemoryAuthStore::default();
         let now = DateTime::now();
-        let response = super::super::create_browser_session(&store, "alice".to_owned(), now)
+        let response = super::super::create_browser_session(&store, "alice".to_owned(), now, "/")
             .await
             .expect("browser sign-in");
 

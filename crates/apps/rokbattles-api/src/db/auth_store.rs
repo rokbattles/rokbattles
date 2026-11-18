@@ -65,6 +65,7 @@ pub struct OAuthStateRecord {
     pub created_at: DateTime,
     pub expires_at: DateTime,
     pub desktop: Option<DesktopLogin>,
+    pub oidc_request: Option<String>,
 }
 
 /// Loopback destination and PKCE binding for a desktop-initiated login.
@@ -128,6 +129,16 @@ pub trait AuthRepository: Send + Sync {
         &'a self,
         sid: &'a str,
     ) -> BoxFuture<'a, Result<Option<SessionRecord>, AuthStoreError>>;
+
+    /// Looks up an unexpired session by its internal database ID and owner.
+    fn active_session_by_record_id<'a>(
+        &'a self,
+        _user_id: &'a str,
+        _id: ObjectId,
+        _now: DateTime,
+    ) -> BoxFuture<'a, Result<Option<SessionRecord>, AuthStoreError>> {
+        futures::future::ready(Ok(None)).boxed()
+    }
 
     fn delete_session_by_id<'a>(
         &'a self,
@@ -222,6 +233,7 @@ pub struct MongoAuthStore {
     claimed_governors: Collection<Document>,
     program_applications: Collection<Document>,
     developer_apps: Collection<Document>,
+    oidc_grants: Collection<Document>,
 }
 
 impl MongoAuthStore {
@@ -235,6 +247,7 @@ impl MongoAuthStore {
             claimed_governors: db.collection("claimedGovernors"),
             program_applications: db.collection(super::PROGRAM_APPLICATIONS_COLLECTION),
             developer_apps: db.collection(super::DEVELOPER_APPS_COLLECTION),
+            oidc_grants: db.collection(crate::oidc::GRANTS_COLLECTION),
         }
     }
 
@@ -346,6 +359,26 @@ impl AuthRepository for MongoAuthStore {
         .boxed()
     }
 
+    fn active_session_by_record_id<'a>(
+        &'a self,
+        user_id: &'a str,
+        id: ObjectId,
+        now: DateTime,
+    ) -> BoxFuture<'a, Result<Option<SessionRecord>, AuthStoreError>> {
+        async move {
+            let document = self
+                .sessions
+                .find_one(doc! {
+                    "_id": id,
+                    "userId": user_id,
+                    "expiresAt": { "$gt": now },
+                })
+                .await?;
+            Ok(document.map(SessionRecord::from))
+        }
+        .boxed()
+    }
+
     fn delete_session_by_id<'a>(
         &'a self,
         sid: &'a str,
@@ -412,6 +445,11 @@ impl AuthRepository for MongoAuthStore {
         async move {
             self.program_applications.delete_many(doc! { "userId": user_id }).await?;
             self.developer_apps.delete_many(doc! { "userId": user_id }).await?;
+            self.oidc_grants
+                .delete_many(doc! {
+                    "$or": [{ "userId": user_id }, { "ownerId": user_id }]
+                })
+                .await?;
             self.claimed_governors.delete_many(doc! { "discordId": user_id }).await?;
 
             self.sessions.delete_many(doc! { "userId": user_id }).await?;
@@ -585,6 +623,8 @@ struct OAuthStateDocument {
     expires_at: DateTime,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     desktop: Option<DesktopLogin>,
+    #[serde(default, rename = "oidcRequest", skip_serializing_if = "Option::is_none")]
+    oidc_request: Option<String>,
 }
 
 impl From<OAuthStateDocument> for OAuthStateRecord {
@@ -595,6 +635,7 @@ impl From<OAuthStateDocument> for OAuthStateRecord {
             created_at: value.created_at,
             expires_at: value.expires_at,
             desktop: value.desktop,
+            oidc_request: value.oidc_request,
         }
     }
 }
@@ -607,6 +648,7 @@ impl From<OAuthStateRecord> for OAuthStateDocument {
             created_at: value.created_at,
             expires_at: value.expires_at,
             desktop: value.desktop,
+            oidc_request: value.oidc_request,
         }
     }
 }

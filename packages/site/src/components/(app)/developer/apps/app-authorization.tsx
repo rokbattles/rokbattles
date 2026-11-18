@@ -6,8 +6,7 @@ import { SettingsSection } from "@/components/(app)/account/settings/settings-se
 import { Button } from "@/components/ui/button";
 import { Divider } from "@/components/ui/divider";
 import { Input } from "@/components/ui/input";
-import { Code } from "@/components/ui/text";
-import { updateDeveloperApp } from "@/lib/(app)/developer-apps";
+import { type AppOidc, updateDeveloperApp } from "@/lib/(app)/developer-apps";
 import { ScopePreview } from "./scope-preview";
 
 const MAX_REDIRECT_URIS = 10;
@@ -15,11 +14,14 @@ const MAX_REDIRECT_URIS = 10;
 export function AppAuthorization({
   appId,
   initialRedirectUris,
+  initialOidc,
 }: {
   appId: string;
   initialRedirectUris: string[];
+  initialOidc: AppOidc | null;
 }) {
   const [savedUris, setSavedUris] = useState(initialRedirectUris);
+  const [oidc, setOidc] = useState(initialOidc);
   const [rows, setRows] = useState(() =>
     (initialRedirectUris.length ? initialRedirectUris : [""]).map((uri, index) => ({
       id: `initial-${index}`,
@@ -48,6 +50,7 @@ export function AppAuthorization({
     try {
       const updated = await updateDeveloperApp(appId, { section: "authorization", redirectUris });
       setSavedUris(updated.redirectUris);
+      setOidc(updated.oidc);
       setResult({ message: "Redirect URIs saved.", error: false });
     } catch (error) {
       setResult({
@@ -63,13 +66,7 @@ export function AppAuthorization({
     <>
       <SettingsSection
         title="Redirect URIs"
-        description={
-          <>
-            Register up to {MAX_REDIRECT_URIS} callback URLs. Use HTTPS or HTTP on{" "}
-            <Code>127.0.0.1</Code> or <Code>[::1]</Code> for local development. The URL in an
-            authorization request must exactly match a saved redirect URI.
-          </>
-        }
+        description={`Register up to ${MAX_REDIRECT_URIS} callback URLs.`}
       >
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-2">
@@ -130,10 +127,10 @@ export function AppAuthorization({
       </SettingsSection>
       <Divider />
       <SettingsSection
-        title="Authorization Preview"
-        description="Preview OpenID Connect parameters. The authorization endpoint is coming later."
+        title="OpenID Connect"
+        description="Use the available scopes to build an authorization request."
       >
-        <ScopePreview appId={appId} redirectUris={savedUris} />
+        <ScopePreview appId={appId} redirectUris={savedUris} oidc={oidc} />
       </SettingsSection>
     </>
   );

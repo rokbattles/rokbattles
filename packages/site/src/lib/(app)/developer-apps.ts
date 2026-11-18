@@ -11,11 +11,19 @@ type AppUpdate =
 
 type AppRegistration = { name: string; acceptTerms: boolean };
 
+export type AppPermission = { id: string; description: string };
+
+export type AppOidc = {
+  authorizeUrl: string;
+  scopes: AppPermission[];
+};
+
 export type DeveloperApp = GeneralSettings & {
   redirectUris: string[];
   id: string;
   termsAcceptedAt: number;
   userAgent: string;
+  oidc: AppOidc | null;
 };
 
 export function createDeveloperApp(input: AppRegistration): Promise<DeveloperApp> {

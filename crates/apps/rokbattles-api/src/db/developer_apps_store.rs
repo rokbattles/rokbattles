@@ -68,6 +68,8 @@ impl DeveloperAppUpdate {
 pub(crate) struct DeveloperApp {
     #[serde(rename = "_id")]
     pub id: ObjectId,
+    #[serde(rename = "userId")]
+    pub owner_id: String,
     pub terms_accepted_at: DateTime,
     pub settings: DeveloperAppSettings,
 }
@@ -107,6 +109,14 @@ impl DeveloperAppsStore {
         self.collection.find_one(owned_app(user_id, id)).await
     }
 
+    /// Looks up a registration for the OIDC issuer. The issuer checks owner eligibility.
+    pub(crate) async fn find_registration(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<DeveloperApp>> {
+        self.collection.find_one(doc! { "_id": id }).await
+    }
+
     pub(crate) async fn insert(
         &self,
         user_id: &str,
@@ -125,7 +135,7 @@ impl DeveloperAppsStore {
             .as_object_id()
             .ok_or_else(|| mongodb::error::Error::custom("missing developer app ObjectId"))?;
 
-        Ok(DeveloperApp { id, terms_accepted_at, settings })
+        Ok(DeveloperApp { id, owner_id: user_id.to_owned(), terms_accepted_at, settings })
     }
 
     pub(crate) async fn update(

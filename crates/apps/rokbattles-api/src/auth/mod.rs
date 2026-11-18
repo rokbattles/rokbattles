@@ -36,7 +36,7 @@ use std::{marker::PhantomData, ops::Deref, sync::Arc};
 
 use axum::{
     extract::{FromRef, FromRequestParts},
-    http::{header::COOKIE, request::Parts},
+    http::{HeaderMap, header::COOKIE, request::Parts},
 };
 use tracing::warn;
 
@@ -208,10 +208,18 @@ where
     type Rejection = ApiError;
 
     async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
-        let AuthState(auth_store, _) = AuthState::from_ref(state);
+        let auth = AuthState::from_ref(state);
+        Self::authenticate(&parts.headers, auth.repository()).await
+    }
+}
 
+impl AuthenticatedSession {
+    pub(crate) async fn authenticate(
+        headers: &HeaderMap,
+        auth_store: &dyn AuthRepository,
+    ) -> Result<Self, ApiError> {
         let sid = extract_cookie_value(
-            parts.headers.get(COOKIE).and_then(|header| header.to_str().ok()),
+            headers.get(COOKIE).and_then(|header| header.to_str().ok()),
             "sid",
         )
         .ok_or_else(ApiError::unauthorized)?;

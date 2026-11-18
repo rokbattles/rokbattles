@@ -2,35 +2,36 @@
 
 import { useState } from "react";
 import { Checkbox, CheckboxField } from "@/components/ui/checkbox";
-import { Description, Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";
+import { Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";
 import { Subheading } from "@/components/ui/heading";
-import { Select } from "@/components/ui/select";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { Code, Text } from "@/components/ui/text";
+import type { AppOidc } from "@/lib/(app)/developer-apps";
 import { CopyValue } from "./copy-value";
 
-type OptionalScope = "profile" | "email";
-
-const authorizeEndpoint = "https://rokbattles.com/proxy/v1/auth/authorize";
-
-const optionalScopes: { value: OptionalScope; description: string }[] = [
-  { value: "profile", description: "Requests standard profile claims." },
-  { value: "email", description: "Requests email and email verification claims." },
-];
-
-export function ScopePreview({ appId, redirectUris }: { appId: string; redirectUris: string[] }) {
+export function ScopePreview({
+  appId,
+  redirectUris,
+  oidc,
+}: {
+  appId: string;
+  redirectUris: string[];
+  oidc: AppOidc | null;
+}) {
   const [selection, setSelection] = useState("");
+  const [enabled, setEnabled] = useState(() => new Set<string>());
+  if (!oidc) {
+    return <Text>OpenID Connect is unavailable.</Text>;
+  }
+
   const redirectUri = redirectUris.includes(selection) ? selection : redirectUris[0];
-  const [enabled, setEnabled] = useState({ profile: false, email: false });
-  const scopes = [
-    "openid",
-    ...optionalScopes.filter(({ value }) => enabled[value]).map(({ value }) => value),
-  ];
+  const scopes = oidc.scopes.filter(({ id }) => id === "openid" || enabled.has(id));
 
   const parameters = new URLSearchParams({
     response_type: "code",
     client_id: appId,
     redirect_uri: redirectUri ?? "",
-    scope: scopes.join(" "),
+    scope: scopes.map(({ id }) => id).join(" "),
     state: "<state>",
     nonce: "<nonce>",
     code_challenge: "<code_challenge>",
@@ -40,23 +41,26 @@ export function ScopePreview({ appId, redirectUris }: { appId: string; redirectU
   return (
     <div className="space-y-6">
       <Fieldset>
-        <Legend>Identity scopes</Legend>
+        <Legend>Available scopes</Legend>
         <div className="mt-3 grid items-start gap-4 sm:grid-cols-3">
-          <CheckboxField>
-            <Checkbox checked disabled />
-            <Label>openid</Label>
-            <Description>Required for OpenID Connect sign-in.</Description>
-          </CheckboxField>
-          {optionalScopes.map(({ value, description }) => (
-            <CheckboxField key={value}>
+          {oidc.scopes.map(({ id }) => (
+            <CheckboxField key={id}>
               <Checkbox
-                checked={enabled[value]}
+                checked={id === "openid" || enabled.has(id)}
+                disabled={id === "openid"}
                 onChange={(checked) =>
-                  setEnabled((previous) => ({ ...previous, [value]: checked }))
+                  setEnabled((previous) => {
+                    const next = new Set(previous);
+                    if (checked) {
+                      next.add(id);
+                    } else {
+                      next.delete(id);
+                    }
+                    return next;
+                  })
                 }
               />
-              <Label>{value}</Label>
-              <Description>{description}</Description>
+              <Label>{id}</Label>
             </CheckboxField>
           ))}
         </div>
@@ -65,13 +69,13 @@ export function ScopePreview({ appId, redirectUris }: { appId: string; redirectU
         <>
           <Field>
             <Label>Redirect URI</Label>
-            <Select value={redirectUri} onChange={(event) => setSelection(event.target.value)}>
+            <Listbox<string> value={redirectUri} onChange={setSelection}>
               {redirectUris.map((uri) => (
-                <option key={uri} value={uri}>
-                  {uri}
-                </option>
+                <ListboxOption key={uri} value={uri}>
+                  <ListboxLabel>{uri}</ListboxLabel>
+                </ListboxOption>
               ))}
-            </Select>
+            </Listbox>
           </Field>
           <div className="space-y-2">
             <Subheading level={3}>Authorization URL</Subheading>
@@ -83,7 +87,7 @@ export function ScopePreview({ appId, redirectUris }: { appId: string; redirectU
             <CopyValue
               as="input"
               label="Authorization URL"
-              value={`${authorizeEndpoint}?${parameters}`}
+              value={`${oidc.authorizeUrl}?${parameters}`}
             />
           </div>
         </>

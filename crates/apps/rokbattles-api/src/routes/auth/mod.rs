@@ -27,6 +27,7 @@ use crate::{
         SessionPlatform,
     },
     error::ApiError,
+    oidc,
     rate_limit::{self, RateLimitMode, RateLimiter},
     state::{AppState, DiscordOAuthConfig},
 };
@@ -37,8 +38,10 @@ mod desktop;
 mod oauth;
 mod sessions;
 mod types;
+pub(crate) use cookies::build_clear_session_cookie;
+pub(crate) use types::ClaimedGovernor;
 
-use self::types::{AuthMeResponse, ClaimedGovernor, CurrentUser, LogoutResponse};
+use self::types::{AuthMeResponse, CurrentUser, LogoutResponse};
 
 const OAUTH_STATE_TTL_MILLIS: i64 = 10 * 60 * 1000;
 const SESSION_TTL_MILLIS: i64 = 7 * 24 * 60 * 60 * 1000;
@@ -130,13 +133,15 @@ async fn post_logout(
 }
 
 async fn get_discord_login(State(state): State<Arc<AppState>>) -> Result<Redirect, ApiError> {
-    begin_discord_login(&state, None).await
+    let url = begin_discord_login(&state, None, None).await?;
+    Ok(Redirect::temporary(url.as_str()))
 }
 
-async fn begin_discord_login(
+pub(crate) async fn begin_discord_login(
     state: &AppState,
     desktop: Option<DesktopLogin>,
-) -> Result<Redirect, ApiError> {
+    oidc_request: Option<String>,
+) -> Result<Url, ApiError> {
     let verifier = oauth::generate_code_verifier();
     let challenge = oauth::derive_code_challenge(&verifier);
     let state_token = oauth::generate_state();
@@ -151,6 +156,7 @@ async fn begin_discord_login(
             created_at: now,
             expires_at,
             desktop,
+            oidc_request,
         })
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
@@ -167,12 +173,13 @@ async fn begin_discord_login(
         .append_pair("code_challenge_method", "S256")
         .append_pair("state", &state_token);
 
-    Ok(Redirect::temporary(redirect_url.as_ref()))
+    Ok(redirect_url)
 }
 
 async fn get_discord_callback(
     State(state): State<Arc<AppState>>,
     Query(query): Query<DiscordCallbackQuery>,
+    headers: HeaderMap,
 ) -> Result<Response, ApiError> {
     let Some(state_token) = query.state else {
         return Err(ApiError::bad_request("missing state"));
@@ -189,6 +196,13 @@ async fn get_discord_callback(
 
     if oauth_state.expires_at.timestamp_millis() <= DateTime::now().timestamp_millis() {
         return Err(ApiError::bad_request("invalid or expired state"));
+    }
+
+    if let Some(request) = &oauth_state.oidc_request
+        && let Some(response) =
+            oidc::browser_continuation(&state, &headers, request, query.error.is_some()).await?
+    {
+        return Ok(response);
     }
 
     if query.error.is_some() {
@@ -217,33 +231,36 @@ async fn finish_discord_login(
     code: &str,
     oauth_state: OAuthStateRecord,
 ) -> Result<Response, ApiError> {
-    let token = exchange_discord_token(&state.discord_oauth, code, &oauth_state.verifier).await?;
-    let profile = fetch_discord_profile(&token.access_token).await?;
-
-    let Some(email) = profile.email else {
-        return Err(ApiError::bad_request("discord email not verified"));
-    };
-    if !profile.verified.unwrap_or(false) {
-        return Err(ApiError::bad_request("discord email not verified"));
-    }
-
-    let operation = state.account_operations.lock(&profile.id).await;
+    let identity = discord_identity(state, code, &oauth_state.verifier).await?;
+    let operation = state.account_operations.lock(&identity.discord_id).await;
 
     if !operation.allows_login(oauth_state.created_at, oauth_state.expires_at) {
         return Err(ApiError::unauthorized());
     }
 
+    let user_id = identity.discord_id.clone();
     state
         .auth_store
-        .upsert_discord_user(DiscordUserUpsert { discord_id: profile.id.clone(), email })
+        .upsert_discord_user(identity)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
     if let Some(login) = oauth_state.desktop {
-        return desktop::authorize(state, &login, profile.id).await;
+        return desktop::authorize(state, &login, user_id).await;
     }
 
-    create_browser_session(state.auth_store.as_ref(), profile.id, DateTime::now()).await
+    let destination = oauth_state.oidc_request.as_deref().map(oidc::resume_path);
+    let mut response = create_browser_session(
+        state.auth_store.as_ref(),
+        user_id,
+        DateTime::now(),
+        destination.as_deref().unwrap_or("/"),
+    )
+    .await?;
+    if destination.is_some() {
+        oidc::set_private_headers(response.headers_mut());
+    }
+    Ok(response)
 }
 
 /// Creates a browser session and redirects home with its session cookie.
@@ -253,6 +270,7 @@ async fn create_browser_session(
     auth_store: &dyn AuthRepository,
     user_id: String,
     now: DateTime,
+    destination: &str,
 ) -> Result<Response, ApiError> {
     let expires_at = DateTime::from_millis(now.timestamp_millis() + SESSION_TTL_MILLIS);
     let sid = oauth::generate_session_id();
@@ -268,7 +286,7 @@ async fn create_browser_session(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let mut response = Redirect::to("/").into_response();
+    let mut response = Redirect::to(destination).into_response();
     let set_cookie = cookies::build_set_session_cookie(&sid, SESSION_MAX_AGE_SECONDS);
 
     response.headers_mut().append(
@@ -281,12 +299,12 @@ async fn create_browser_session(
     Ok(response)
 }
 
-async fn load_claimed_governors(
-    state: &Arc<AppState>,
+pub(crate) async fn load_claimed_governors(
+    state: &AppState,
     discord_id: &str,
 ) -> Result<Vec<ClaimedGovernor>, ApiError> {
     let options = FindOptions::builder()
-        .sort(doc! { "default": -1, "createdAt": -1 })
+        .sort(doc! { "default": -1, "createdAt": -1, "_id": -1 })
         .projection(doc! {
             "_id": 0,
             "governorId": 1,
@@ -319,11 +337,38 @@ async fn load_claimed_governors(
         });
     }
 
+    // A failed promotion on standalone MongoDB can leave every flag unset.
+    if !claims.iter().any(|claim| claim.default)
+        && let Some(newest) = claims.first_mut()
+    {
+        newest.default = true;
+    }
+
     Ok(claims)
 }
 
 fn optional_string_field(document: &Document, key: &str) -> Option<String> {
     document.get(key).and_then(Bson::as_str).map(ToString::to_string)
+}
+
+async fn discord_identity(
+    state: &AppState,
+    code: &str,
+    verifier: &str,
+) -> Result<DiscordUserUpsert, ApiError> {
+    #[cfg(test)]
+    if let Some(identity) = &state.test_discord_identity {
+        return Ok(identity.clone());
+    }
+
+    let token = exchange_discord_token(&state.discord_oauth, code, verifier).await?;
+    let profile = fetch_discord_profile(&token.access_token).await?;
+    let email = profile
+        .email
+        .filter(|_| profile.verified == Some(true))
+        .ok_or_else(|| ApiError::bad_request("discord email not verified"))?;
+
+    Ok(DiscordUserUpsert { discord_id: profile.id, email })
 }
 
 async fn exchange_discord_token(

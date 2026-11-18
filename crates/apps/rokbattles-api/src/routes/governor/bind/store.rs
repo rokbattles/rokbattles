@@ -6,7 +6,7 @@ use mongodb::{
 };
 use rokbattles_bson::bson_to_i64_exact;
 
-use crate::error::ApiError;
+use crate::{db::is_duplicate_key, error::ApiError};
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub(super) struct UserClaimSummary {
@@ -73,7 +73,13 @@ pub(super) async fn insert_claim(
             "default": default,
         })
         .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
+        .map_err(|error| {
+            if is_duplicate_key(&error) {
+                ApiError::conflict("Governor already claimed or the default bind changed")
+            } else {
+                ApiError::internal(error.to_string())
+            }
+        })?;
 
     Ok(())
 }
@@ -108,33 +114,46 @@ pub(super) fn claim_document_is_default(claim: &Document) -> bool {
     claim.get_bool("default").unwrap_or(false)
 }
 
-/// Reset previous defaults and set one bind as default.
+/// Sets the default bind while retaining the previous default for error recovery.
 pub(super) async fn set_bind_as_default(
     claims: &Collection<Document>,
     discord_id: &str,
     governor_id: i64,
 ) -> Result<(), ApiError> {
-    claims
-        .update_many(
-            doc! { "discordId": discord_id, "default": true },
+    let target = doc! { "discordId": discord_id, "governorId": governor_id };
+    let previous = claims
+        .find_one_and_update(
+            doc! { "discordId": discord_id, "default": true, "governorId": { "$ne": governor_id } },
             doc! { "$set": { "default": false } },
         )
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    claims
-        .update_one(
-            doc! { "discordId": discord_id, "governorId": governor_id },
-            doc! { "$set": { "default": true } },
-        )
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
+    let promotion = claims.update_one(target, doc! { "$set": { "default": true } }).await;
+    let result = match promotion {
+        Ok(result) if result.matched_count == 1 => return Ok(()),
+        Ok(_) => ApiError::not_found("Claim not found"),
+        Err(error) if is_duplicate_key(&error) => ApiError::conflict("The default bind changed"),
+        Err(error) => ApiError::internal(error.to_string()),
+    };
 
-    Ok(())
+    if let Some(id) = previous.as_ref().and_then(|previous| previous.get_object_id("_id").ok())
+        && let Err(error) = claims
+            .update_one(
+                doc! { "_id": id, "discordId": discord_id },
+                doc! { "$set": { "default": true } },
+            )
+            .await
+    {
+        // A concurrent successful promotion can already have installed another default.
+        tracing::warn!(kind = ?std::mem::discriminant(&*error.kind), "could not restore previous default bind");
+    }
+
+    Err(result)
 }
 
-/// Find the most recently created claim for the user.
-pub(super) async fn find_most_recent_governor_id(
+/// Finds the current default or the newest bind when no default is recorded.
+pub(super) async fn find_default_or_latest_governor_id(
     claims: &Collection<Document>,
     discord_id: &str,
 ) -> Result<Option<i64>, ApiError> {
@@ -142,7 +161,7 @@ pub(super) async fn find_most_recent_governor_id(
         .find_one(doc! { "discordId": discord_id })
         .with_options(
             FindOneOptions::builder()
-                .sort(doc! { "createdAt": -1 })
+                .sort(doc! { "default": -1, "createdAt": -1, "_id": -1 })
                 .projection(doc! { "governorId": 1 })
                 .build(),
         )

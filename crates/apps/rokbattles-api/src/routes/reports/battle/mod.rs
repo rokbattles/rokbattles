@@ -23,7 +23,13 @@ use self::{
     types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse},
 };
 use crate::{
-    error::ApiError, routes::reports::common::pagination::paginate_cursor_rows, state::AppState,
+    error::ApiError,
+    routes::{
+        governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+        me::AccountAccess,
+        reports::common::pagination::paginate_cursor_rows,
+    },
+    state::AppState,
 };
 
 mod commander_skins;
@@ -47,6 +53,27 @@ pub async fn get(
     Query(params): Query<FxHashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_reports_request(&params)?;
+    Ok(([("Cache-Control", "no-store")], Json(load_reports(&state, request).await?)))
+}
+
+pub(crate) async fn get_mine(
+    State(state): State<Arc<AppState>>,
+    Path(governor_id): Path<String>,
+    Query(mut params): Query<FxHashMap<String, String>>,
+    access: AccountAccess,
+) -> Result<Json<ReportsResponse>, ApiError> {
+    let governor_id = parse_governor_id_param(&governor_id)?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+
+    params.insert("receiver".to_owned(), governor_id.to_string());
+    let request = parse_reports_request(&params)?;
+    Ok(Json(load_reports(&state, request).await?))
+}
+
+async fn load_reports(
+    state: &AppState,
+    request: ReportsRequest,
+) -> Result<ReportsResponse, ApiError> {
     let final_match = build_reports_match(&request);
 
     let options = build_battle_list_find_options(&request);
@@ -87,13 +114,11 @@ pub async fn get(
 
     map_context::enrich_map_context(&state.reports_store, &mut paged_rows.items).await?;
 
-    let response = ReportsResponse {
+    Ok(ReportsResponse {
         items: paged_rows.items.into_iter().map(|row| row.item).collect(),
         next_after: paged_rows.next_after,
         previous_before: paged_rows.previous_before,
-    };
-
-    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
+    })
 }
 
 fn build_battle_list_find_options(request: &ReportsRequest) -> FindOptions {
@@ -216,23 +241,49 @@ pub async fn get_by_id(
     Path(id): Path<String>,
 ) -> Result<impl IntoResponse, ApiError> {
     let report_id = parse_report_id(&id)?;
+    let response = load_report(&state, report_id, None).await?;
+    Ok((StatusCode::OK, [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)], Json(response)))
+}
 
+pub(crate) async fn get_my_report(
+    State(state): State<Arc<AppState>>,
+    Path((governor_id, report_id)): Path<(String, String)>,
+    access: AccountAccess,
+) -> Result<Json<ReportByIdResponse>, ApiError> {
+    let governor_id = parse_governor_id_param(&governor_id)?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+
+    let report_id = parse_report_id(&report_id)?;
+    let response = load_report(&state, report_id, Some(governor_id)).await?;
+    if response.mail.is_none() {
+        return Err(ApiError::not_found("report not found"));
+    }
+    Ok(Json(response))
+}
+
+async fn load_report(
+    state: &AppState,
+    report_id: String,
+    receiver: Option<i64>,
+) -> Result<ReportByIdResponse, ApiError> {
     let options = FindOneOptions::builder().projection(build_battle_detail_projection()).build();
 
+    let mut filter = build_battle_detail_filter(&report_id);
+    if let Some(receiver) = receiver {
+        filter.insert("metadata.mail_receiver", format!("player_{receiver}"));
+    }
     let mail = state
         .reports_store
         .battle_collection()
-        .find_one(build_battle_detail_filter(&report_id))
+        .find_one(filter)
         .with_options(options)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let response = ReportByIdResponse {
+    Ok(ReportByIdResponse {
         id: report_id,
         mail: mail.as_ref().and_then(map_battle_detail_document),
-    };
-
-    Ok((StatusCode::OK, [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)], Json(response)))
+    })
 }
 
 fn parse_report_id(raw_id: &str) -> Result<String, ApiError> {

@@ -103,9 +103,9 @@ export function AppSettings({ initialApp }: { initialApp: DeveloperApp }) {
             <dd className="space-y-2">
               <CopyValue label="User-Agent" value={initialApp.userAgent} />
               <Text>
-                Use this header for future API requests made on behalf of users. Inside the
-                parentheses, you can append <Code>/version</Code> and{" "}
-                <Code>; platform information</Code> to the app name.
+                Use this header for API requests made on behalf of users. You can include the app
+                version and platform information in parentheses, for example{" "}
+                <Code>(MyApp/1.0.0; Windows/10)</Code>.
               </Text>
             </dd>
           </div>

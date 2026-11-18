@@ -7,10 +7,12 @@ import { SettingsLink } from "@/components/(app)/account/settings/settings-link"
 import { SettingsPage } from "@/components/(app)/account/settings/settings-page";
 import { SettingsSection } from "@/components/(app)/account/settings/settings-section";
 import { Divider } from "@/components/ui/divider";
+import { getAuthorizedApps } from "@/lib/(app)/authorized-apps";
 import { requireCurrentUser } from "@/lib/require-user";
 
 export default async function Page() {
-  const user = await requireCurrentUser();
+  const [user, apps] = await Promise.all([requireCurrentUser(), getAuthorizedApps()]);
+  const appCount = apps ? `${apps.length} ${apps.length === 1 ? "app" : "apps"}` : undefined;
 
   return (
     <SettingsPage>
@@ -21,7 +23,7 @@ export default async function Page() {
       <SettingsSection title="Security">
         <div>
           <LoggedInDevicesLink />
-          <SettingsLink href="/account/settings/apps" label="Authorized Apps" value="0 apps" />
+          <SettingsLink href="/account/settings/apps" label="Authorized Apps" value={appCount} />
         </div>
       </SettingsSection>
       <Divider />
