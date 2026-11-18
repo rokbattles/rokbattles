@@ -9,7 +9,8 @@ doctest = false
 
 [dependencies]
 rustc-hash.workspace = true
-axum = { workspace = true, features = ["http1", "json", "query", "tokio", "tracing"] }
+async-trait.workspace = true
+axum = { workspace = true, features = ["form", "http1", "json", "query", "tokio", "tracing"] }
 base64.workspace = true
 dotenvy.workspace = true
 futures = { workspace = true, features = ["std"] }
@@ -20,6 +21,7 @@ rokbattles-bson = { path = "../../common/rokbattles-bson" }
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
 sha2.workspace = true
+ring.workspace = true
 subtle.workspace = true
 thiserror.workspace = true
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "sync"] }

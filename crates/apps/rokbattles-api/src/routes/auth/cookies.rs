@@ -5,7 +5,7 @@ pub(super) fn build_set_session_cookie(session_id: &str, max_age_seconds: u64) -
     format!("{SESSION_COOKIE_NAME}={session_id}; Max-Age={max_age_seconds}; {SESSION_COOKIE_FLAGS}")
 }
 
-pub(super) fn build_clear_session_cookie() -> String {
+pub(crate) fn build_clear_session_cookie() -> String {
     format!("{SESSION_COOKIE_NAME}=; Max-Age=0; {SESSION_COOKIE_FLAGS}")
 }
 

@@ -38,3 +38,9 @@ pub use territory_planner_v2_store::{
     TerritoryResourceCost, TerritoryRuleset, TerritorySeason, TerritorySite,
     TerritoryStructureRule,
 };
+
+pub(crate) fn is_duplicate_key(error: &mongodb::error::Error) -> bool {
+    use mongodb::error::{ErrorKind, WriteFailure};
+
+    matches!(&*error.kind, ErrorKind::Write(WriteFailure::WriteError(error)) if error.code == 11000)
+}

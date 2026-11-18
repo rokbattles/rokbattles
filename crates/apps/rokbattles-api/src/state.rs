@@ -6,6 +6,7 @@ use crate::{
         AuthRepository, DeveloperAppsStore, GameLocalizationStore, GameQueryStore,
         ProgramApplicationsStore, ReportsStore, TerritoryPlannerV2Store,
     },
+    oidc::Oidc,
     turnstile::Turnstile,
 };
 
@@ -34,8 +35,11 @@ pub struct AppState {
     pub reports_store: ReportsStore,
     pub territory_planner_v2: TerritoryPlannerV2Store,
     pub discord_oauth: DiscordOAuthConfig,
+    #[cfg(test)]
+    pub(crate) test_discord_identity: Option<crate::db::DiscordUserUpsert>,
     pub(crate) pk_token: Option<String>,
     pub(crate) kdmt_token: Option<String>,
+    pub(crate) oidc: Option<Arc<Oidc>>,
     pub(crate) developer_apps: Option<DeveloperAppsStore>,
     pub(crate) program_applications: Option<ProgramApplicationsState>,
 }
@@ -59,15 +63,24 @@ impl AppState {
             reports_store,
             territory_planner_v2,
             discord_oauth,
+            #[cfg(test)]
+            test_discord_identity: None,
             pk_token,
             kdmt_token: None,
             program_applications: None,
             developer_apps: None,
+            oidc: None,
         }
     }
 
     pub fn with_kdmt_token(mut self, token: Option<String>) -> Self {
         self.kdmt_token = token;
+        self
+    }
+
+    /// Enables the private OIDC provider.
+    pub fn with_oidc(mut self, oidc: Oidc) -> Self {
+        self.oidc = Some(Arc::new(oidc));
         self
     }
 

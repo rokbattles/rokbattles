@@ -11,7 +11,11 @@ export default async function Page({ params }: PageProps<"/developer/apps/[id]/a
 
   return (
     <SettingsPage>
-      <AppAuthorization appId={app.id} initialRedirectUris={app.redirectUris} />
+      <AppAuthorization
+        appId={app.id}
+        initialRedirectUris={app.redirectUris}
+        initialOidc={app.oidc}
+      />
     </SettingsPage>
   );
 }

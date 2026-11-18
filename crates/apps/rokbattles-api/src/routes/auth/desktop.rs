@@ -45,7 +45,8 @@ pub(super) async fn login(
 ) -> Result<Response, ApiError> {
     validate_login(&login)?;
 
-    Ok(private(super::begin_discord_login(&state, Some(login)).await?.into_response()))
+    let url = super::begin_discord_login(&state, Some(login), None).await?;
+    Ok(private(Redirect::temporary(url.as_str()).into_response()))
 }
 
 pub(super) fn callback(login: &DesktopLogin, key: &str, value: &str) -> Result<Response, ApiError> {

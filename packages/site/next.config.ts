@@ -113,10 +113,15 @@ const config: NextConfig = {
     ];
   },
   async rewrites() {
+    const apiUrl = process.env.API_URL || "http://localhost:8001";
     return [
       {
+        source: "/.well-known/openid-configuration",
+        destination: `${apiUrl}/.well-known/openid-configuration`,
+      },
+      {
         source: "/proxy/:path*",
-        destination: `${process.env.API_URL || "http://localhost:8001"}/:path*`,
+        destination: `${apiUrl}/:path*`,
       },
     ];
   },
@@ -155,6 +160,24 @@ const config: NextConfig = {
         headers: [
           { key: "Cache-Control", value: "no-store" },
           { key: "Referrer-Policy", value: "no-referrer" },
+        ],
+      },
+      {
+        source: "/oauth/consent",
+        headers: [
+          { key: "Cache-Control", value: "no-store" },
+          { key: "Referrer-Policy", value: "same-origin" },
+          { key: "X-Frame-Options", value: "DENY" },
+          {
+            key: "Content-Security-Policy",
+            value: contentSecurityPolicy
+              .replace("frame-ancestors 'self'", "frame-ancestors 'none'")
+              .replace(
+                "form-action 'self'",
+                "form-action 'self' https: http://127.0.0.1:* http://[::1]:*"
+              )
+              .replace("; upgrade-insecure-requests", ""),
+          },
         ],
       },
     ];

@@ -21,6 +21,7 @@ use crate::{
         DeveloperAppsStore,
     },
     error::ApiError,
+    oidc::{Scope, ScopeInfo},
     rate_limit::{self, RateLimitMode, RateLimiter},
     state::AppState,
 };
@@ -56,17 +57,30 @@ struct AppResponse {
     id: String,
     terms_accepted_at: i64,
     user_agent: String,
+    oidc: Option<AppOidc>,
     #[serde(flatten)]
     settings: DeveloperAppSettings,
 }
 
-impl From<DeveloperApp> for AppResponse {
-    fn from(app: DeveloperApp) -> Self {
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct AppOidc {
+    authorize_url: String,
+    scopes: Vec<ScopeInfo>,
+}
+
+impl AppResponse {
+    fn new(state: &AppState, app: DeveloperApp) -> Self {
         let id = app.id.to_hex();
+        let oidc = state.oidc.as_ref().map(|oidc| AppOidc {
+            authorize_url: oidc.authorize_url(),
+            scopes: Scope::ALL.into_iter().map(Scope::info).collect(),
+        });
         Self {
             user_agent: user_agent(&id, &app.settings.name),
             id,
             terms_accepted_at: app.terms_accepted_at.timestamp_millis(),
+            oidc,
             settings: app.settings,
         }
     }
@@ -100,7 +114,7 @@ async fn list(
     State(state): State<Arc<AppState>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let apps = store(&state)?.list(&session.user.discord_id).await.map_err(storage_error)?;
-    Ok(Json(apps.into_iter().map(AppResponse::from).collect::<Vec<_>>()))
+    Ok(Json(apps.into_iter().map(|app| AppResponse::new(&state, app)).collect::<Vec<_>>()))
 }
 
 async fn details(
@@ -113,7 +127,7 @@ async fn details(
         .await
         .map_err(storage_error)?
         .ok_or_else(app_not_found)?;
-    Ok(Json(AppResponse::from(app)))
+    Ok(Json(AppResponse::new(&state, app)))
 }
 
 async fn create(
@@ -127,7 +141,7 @@ async fn create(
 
     let app =
         store(&state)?.insert(&session.user.discord_id, settings).await.map_err(storage_error)?;
-    Ok((StatusCode::CREATED, Json(AppResponse::from(app))))
+    Ok((StatusCode::CREATED, Json(AppResponse::new(&state, app))))
 }
 
 async fn update(
@@ -170,7 +184,7 @@ async fn save_update(
         .await
         .map_err(storage_error)?
         .ok_or_else(app_not_found)?;
-    Ok(Json(AppResponse::from(app)))
+    Ok(Json(AppResponse::new(state, app)))
 }
 
 fn storage_error(error: mongodb::error::Error) -> ApiError {
@@ -289,7 +303,7 @@ fn validate_legal_url(value: Option<String>, label: &str) -> Result<Option<Strin
     Ok(value)
 }
 
-fn is_redirect_uri(uri: &str) -> bool {
+pub(crate) fn is_redirect_uri(uri: &str) -> bool {
     let Some((url, authority)) = parse_web_uri(uri) else {
         return false;
     };

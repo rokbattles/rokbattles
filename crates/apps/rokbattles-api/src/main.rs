@@ -14,6 +14,7 @@ use rokbattles_api::{
         DeveloperAppsStore, GameLocalizationStore, GameQueryStore, MongoAuthStore,
         ProgramApplicationsStore, ReportsStore, TerritoryPlannerV2Store,
     },
+    oidc::{Oidc, OidcConfig},
     state::{AppState, DiscordOAuthConfig},
     turnstile::Turnstile,
 };
@@ -77,6 +78,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let turnstile = Turnstile::new(config.turnstile_secret_key, config.turnstile_hostnames);
 
+    let rate_limit_mode = config.rate_limit_mode;
+    let oidc = match OidcConfig::from_env()? {
+        Some(config) => Some(Oidc::new(config, database.clone(), rate_limit_mode).await?),
+        None => None,
+    };
+
     let auth_store = Arc::new(MongoAuthStore::new(database));
     auth_store.ensure_indexes().await?;
 
@@ -85,21 +92,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         client_secret: config.discord_client_secret.clone(),
         redirect_uri: config.discord_redirect_uri.clone(),
     };
-    let state = Arc::new(
-        AppState::new(
-            auth_store,
-            game_query,
-            game_localizations,
-            reports_store,
-            territory_planner_v2,
-            discord_oauth,
-            config.pk_token,
-        )
-        .with_kdmt_token(config.kdmt_token)
-        .with_developer_apps(developer_apps)
-        .with_program_applications(program_applications, turnstile),
-    );
-    let app = build_router(state, config.rate_limit_mode);
+    let state = AppState::new(
+        auth_store,
+        game_query,
+        game_localizations,
+        reports_store,
+        territory_planner_v2,
+        discord_oauth,
+        config.pk_token,
+    )
+    .with_kdmt_token(config.kdmt_token)
+    .with_developer_apps(developer_apps)
+    .with_program_applications(program_applications, turnstile);
+    let state = match oidc {
+        Some(oidc) => state.with_oidc(oidc),
+        None => state,
+    };
+    let app = build_router(Arc::new(state), config.rate_limit_mode);
 
     info!(bind_addr = %config.bind_addr, "starting rokbattles-api");
     let listener = tokio::net::TcpListener::bind(&config.bind_addr).await?;

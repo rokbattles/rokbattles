@@ -21,13 +21,13 @@ export default async function Page() {
       </div>
 
       {apps.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-white/15 px-6 py-10 text-center">
+        <div className="rounded-md border border-dashed border-white/15 px-6 py-10 text-center">
           <Text>You haven’t registered any apps yet.</Text>
         </div>
       ) : (
         <ul
           aria-label="Your apps"
-          className="divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10"
+          className="divide-y divide-white/10 overflow-hidden rounded-md border border-white/10"
         >
           {apps.map((app) => (
             <li key={app.id}>

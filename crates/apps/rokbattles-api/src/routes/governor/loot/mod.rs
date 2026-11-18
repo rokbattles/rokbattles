@@ -27,9 +27,11 @@ use self::{
     types::PersonalLootResponse,
 };
 use crate::{
-    auth::AuthenticatedSession,
     error::ApiError,
-    routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+    routes::{
+        governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+        me::AccountAccess,
+    },
     state::AppState,
 };
 
@@ -43,12 +45,12 @@ pub async fn get_barbarians(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_barbarian_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -71,12 +73,12 @@ pub async fn get_kahars_treasure(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_kahar_treasure_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -92,12 +94,12 @@ pub async fn get_karuak_ceremony(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_karuak_ceremony_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -120,12 +122,12 @@ pub async fn get_barbarian_forts(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_fort_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -149,12 +151,12 @@ pub async fn get_baulurs(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_baulur_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -175,12 +177,12 @@ pub async fn get_lohars_trial(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
     Query(params): Query<FxHashMap<String, String>>,
-    session: AuthenticatedSession,
+    access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_lohar_trial_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
+    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
