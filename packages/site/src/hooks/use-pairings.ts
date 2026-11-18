@@ -1,88 +1,55 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import type {
-  PairingAggregate,
-  PairingsActivity,
-  PairingsBattleType,
-  PairingsRange,
-  PairingsResponse,
-  PairingsResult,
-} from "@/lib/pairings";
-import { buildPairingsRangeParams, PAIRINGS_GENERIC_ERROR } from "@/lib/pairings";
+import { useEffect, useState } from "react";
 
-export type {
-  LoadoutAggregate,
-  LoadoutSnapshot,
-} from "@/lib/pairings";
+export function usePairingsQuery<T>(url: string | null) {
+  const [attempt, setAttempt] = useState(0);
+  const [result, setResult] = useState<{
+    key: string;
+    data: T | null;
+    error: string | null;
+  } | null>(null);
 
-type PairingsOptions = {
-  governorId: number | null | undefined;
-  startDate?: string;
-  endDate?: string;
-  excludeActivities?: PairingsActivity[];
-  excludeBattles?: PairingsBattleType[];
-};
-
-export function usePairings(options: PairingsOptions): PairingsResult {
-  const { governorId, startDate, endDate, excludeActivities, excludeBattles } = options;
-  const [pairings, setPairings] = useState<PairingAggregate[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [range, setRange] = useState<PairingsRange | null>(null);
-
-  const fetchPairings = useCallback(async () => {
-    if (governorId == null) {
-      setPairings([]);
-      setRange(null);
-      setError(null);
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const params = buildPairingsRangeParams({
-        startDate,
-        endDate,
-        excludeActivities,
-        excludeBattles,
-      });
-      const res = await fetch(`/proxy/v1/governor/${governorId}/pairings?${params}`, {
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        throw new Error(`Failed to load pairings: ${res.status}`);
-      }
-
-      const data = (await res.json()) as PairingsResponse;
-      setPairings(Array.isArray(data.items) ? data.items : []);
-      setRange(data.range ?? null);
-      setError(null);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : PAIRINGS_GENERIC_ERROR;
-      setPairings([]);
-      setRange(null);
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  }, [governorId, startDate, endDate, excludeActivities, excludeBattles]);
+  const key = `${url}:${attempt}`;
 
   useEffect(() => {
-    setPairings([]);
-    setError(null);
+    if (!url) return;
+    const controller = new AbortController();
 
-    void fetchPairings();
-  }, [fetchPairings]);
+    async function load(requestUrl: string) {
+      try {
+        const response = await fetch(requestUrl, { cache: "no-store", signal: controller.signal });
+        if (!response.ok) {
+          throw new Error(
+            response.status === 401
+              ? "Sign in again to view your pairings."
+              : "We couldn't load your pairings. Please try again."
+          );
+        }
+
+        const data = (await response.json()) as T;
+        if (!controller.signal.aborted) setResult({ key, data, error: null });
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          setResult({
+            key,
+            data: null,
+            error: error instanceof Error ? error.message : "Unable to load pairings.",
+          });
+        }
+      }
+    }
+
+    void load(url);
+    return () => controller.abort();
+  }, [url, key]);
+
+  const current = url && result?.key === key ? result : null;
 
   return {
-    data: pairings,
-    loading,
-    error,
-    range,
+    data: current?.data ?? null,
+    loading: Boolean(url && !current),
+    error: current?.error ?? null,
+    retry: () => setAttempt((value) => value + 1),
   };
 }

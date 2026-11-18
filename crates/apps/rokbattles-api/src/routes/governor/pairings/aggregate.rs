@@ -1,4 +1,4 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 use mongodb::bson::{Bson, Document};
 use rokbattles_bson::{nested_array, nested_f64, nested_i64, nested_str};
@@ -8,172 +8,169 @@ use crate::{
     routes::governor::{
         date_range::GovernorDateRange,
         pairings::types::{
-            EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingAggregateResponse,
-            PairingLoadoutAggregateResponse, PairingOpponentAggregateResponse, PairingTotals,
+            EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingDurationDistribution,
+            PairingPerformanceMetrics, PairingPerformancePoint, PairingPerformanceResponse,
+            PairingsRange,
         },
     },
-    time_utils::{normalize_bson_timestamp_millis, normalize_timestamp_millis},
+    time_utils::{date_key_utc, normalize_bson_timestamp_millis, normalize_timestamp_millis},
 };
 
 #[derive(Debug, Clone)]
-struct PairingEntry {
-    self_primary_commander_id: i64,
-    self_secondary_commander_id: i64,
-    enemy_primary_commander_id: i64,
-    enemy_secondary_commander_id: i64,
-    battle_duration_millis: i64,
-    delta: BattleTotalsDelta,
+pub(super) struct PairingEntry {
+    pub(super) self_primary_commander_id: i64,
+    pub(super) self_secondary_commander_id: i64,
+    pub(super) enemy_primary_commander_id: i64,
+    pub(super) enemy_secondary_commander_id: i64,
+    pub(super) battle_duration_millis: i64,
+    pub(super) delta: BattleTotalsDelta,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
-struct BattleTotalsDelta {
-    kill_score: i64,
-    deaths: i64,
-    severely_wounded: i64,
-    wounded: i64,
-    healing_count: i64,
-    power_loss: i64,
-    atk_power_loss: i64,
-    skill_power_loss: i64,
-    enemy_kill_score: i64,
-    enemy_deaths: i64,
-    enemy_severely_wounded: i64,
-    enemy_wounded: i64,
-    enemy_power_loss: i64,
-    enemy_atk_power_loss: i64,
-    enemy_skill_power_loss: i64,
+pub(super) struct BattleTotalsDelta {
+    pub(super) kill_score: i64,
+    pub(super) severely_wounded: i64,
+    pub(super) healing_count: i64,
+    pub(super) power_loss: i64,
+    pub(super) enemy_kill_score: i64,
+    pub(super) enemy_severely_wounded: i64,
+    pub(super) enemy_wounded: i64,
+    pub(super) enemy_power_loss: i64,
 }
 
-pub(crate) fn aggregate_pairings(
-    mails: &[Document],
-    range: &GovernorDateRange,
-) -> Vec<PairingAggregateResponse> {
-    let mut buckets: FxHashMap<(i64, i64), PairingAggregateResponse> = FxHashMap::default();
+#[derive(Default)]
+struct PerformanceAccumulator {
+    metrics: PairingPerformanceMetrics,
+    rate_duration_millis: i64,
+    damage: i64,
+    healing: i64,
+    durations: Vec<i64>,
+}
 
-    for mail in mails {
-        if !mail_is_in_range(mail, range) {
-            continue;
+impl PerformanceAccumulator {
+    fn push(&mut self, entry: &PairingEntry) {
+        self.metrics.battles += 1;
+        self.metrics.battle_duration_millis += entry.battle_duration_millis;
+        if entry.battle_duration_millis > 0 {
+            self.durations.push(entry.battle_duration_millis);
         }
 
-        for_each_pairing_entry(mail, |entry| {
-            if entry.self_primary_commander_id <= 0 {
-                return;
-            }
+        self.metrics.kp_gain += entry.delta.kill_score;
+        self.metrics.kp_loss += entry.delta.enemy_kill_score;
+        self.metrics.sevs_gain += entry.delta.enemy_severely_wounded;
+        self.metrics.sevs_loss += entry.delta.severely_wounded;
 
-            let key = (entry.self_primary_commander_id, entry.self_secondary_commander_id);
-            let bucket = buckets.entry(key).or_insert_with(|| PairingAggregateResponse {
-                primary_commander_id: entry.self_primary_commander_id,
-                secondary_commander_id: entry.self_secondary_commander_id,
-                count: 0,
-                totals: PairingTotals::default(),
-            });
+        // Reports encode decreases in power as negative deltas.
+        self.metrics.power_loss += entry.delta.power_loss.saturating_neg().max(0);
+        self.metrics.opponent_power_loss += entry.delta.enemy_power_loss.saturating_neg().max(0);
 
-            bucket.count += 1;
-            apply_battle_delta(&mut bucket.totals, entry.delta, entry.battle_duration_millis);
-        });
+        // Use Combat Lab's one-second fallback for rates when timing is missing.
+        self.rate_duration_millis +=
+            if entry.battle_duration_millis > 0 { entry.battle_duration_millis } else { 1_000 };
+        self.damage += entry.delta.enemy_wounded + entry.delta.enemy_severely_wounded;
+        self.healing += entry.delta.healing_count;
     }
 
-    let mut items = buckets.into_values().collect::<Vec<_>>();
-    finalize_totals(&mut items, |item| &mut item.totals);
-    sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
-    items
-}
+    fn finish(mut self) -> PairingPerformanceMetrics {
+        self.metrics.duration_distribution = duration_distribution(&mut self.durations);
+        self.metrics.trade_percent = if self.metrics.kp_loss > 0 {
+            Some(self.metrics.kp_gain as f64 / self.metrics.kp_loss as f64 * 100.0)
+        } else {
+            None
+        };
 
-pub(crate) fn aggregate_loadouts(
-    mails: &[Document],
-    range: &GovernorDateRange,
-    primary_commander_id: i64,
-    secondary_commander_id: i64,
-) -> Vec<PairingLoadoutAggregateResponse> {
-    let mut buckets: FxHashMap<String, PairingLoadoutAggregateResponse> = FxHashMap::default();
-
-    for mail in mails {
-        if !mail_is_in_range(mail, range) {
-            continue;
+        if self.rate_duration_millis > 0 {
+            let seconds = self.rate_duration_millis as f64 / 1_000.0;
+            self.metrics.dps = Some(self.damage as f64 / seconds);
+            self.metrics.sps = Some(self.metrics.sevs_gain as f64 / seconds);
+            self.metrics.tps = Some(self.metrics.sevs_loss as f64 / seconds);
+            self.metrics.hps = Some(self.healing as f64 / seconds);
         }
 
-        let loadout = build_loadout_snapshot(mail);
-        let key = build_loadout_key(&loadout);
-
-        for_each_pairing_entry(mail, |entry| {
-            if entry.self_primary_commander_id != primary_commander_id
-                || entry.self_secondary_commander_id != secondary_commander_id
-            {
-                return;
-            }
-
-            let bucket =
-                buckets.entry(key.clone()).or_insert_with(|| PairingLoadoutAggregateResponse {
-                    key: key.clone(),
-                    count: 0,
-                    totals: PairingTotals::default(),
-                    loadout: loadout.clone(),
-                });
-
-            bucket.count += 1;
-            apply_battle_delta(&mut bucket.totals, entry.delta, entry.battle_duration_millis);
-        });
+        self.metrics
     }
-
-    let mut items = buckets.into_values().collect::<Vec<_>>();
-    finalize_totals(&mut items, |item| &mut item.totals);
-    sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
-    items
 }
 
-pub(crate) fn aggregate_opponents(
+fn duration_distribution(durations: &mut [i64]) -> Option<PairingDurationDistribution> {
+    if durations.is_empty() {
+        return None;
+    }
+
+    durations.sort_unstable();
+    let percentile = |percent: usize| {
+        let rank = (durations.len() - 1) * percent;
+        let lower = rank / 100;
+        let upper = (lower + 1).min(durations.len() - 1);
+        let lower_value = *durations.get(lower)? as f64;
+        let upper_value = *durations.get(upper)? as f64;
+        Some(lower_value + (upper_value - lower_value) * (rank % 100) as f64 / 100.0)
+    };
+
+    Some(PairingDurationDistribution {
+        count: durations.len(),
+        p10_millis: percentile(10)?,
+        p25_millis: percentile(25)?,
+        p50_millis: percentile(50)?,
+        p75_millis: percentile(75)?,
+        p90_millis: percentile(90)?,
+    })
+}
+
+pub(super) fn aggregate_performance(
     mails: &[Document],
     range: &GovernorDateRange,
-    primary_commander_id: i64,
-    secondary_commander_id: i64,
+    primary: i64,
+    secondary: i64,
     loadout_key: Option<&str>,
-) -> Vec<PairingOpponentAggregateResponse> {
-    let mut buckets: FxHashMap<(i64, i64), PairingOpponentAggregateResponse> = FxHashMap::default();
+) -> PairingPerformanceResponse {
+    let mut totals = PerformanceAccumulator::default();
+    let mut days: BTreeMap<_, _> = (range.start_millis..range.end_millis)
+        .step_by(86_400_000)
+        .filter_map(|time| date_key_utc(time).map(|date| (date, PerformanceAccumulator::default())))
+        .collect();
 
     for mail in mails {
-        if !mail_is_in_range(mail, range) {
+        if !mail_is_in_range(mail, range)
+            || loadout_key
+                .is_some_and(|key| build_loadout_key(&build_loadout_snapshot(mail)) != key)
+        {
             continue;
         }
 
-        if let Some(loadout_key) = loadout_key {
-            let snapshot = build_loadout_snapshot(mail);
-            if build_loadout_key(&snapshot) != loadout_key {
-                continue;
-            }
-        }
+        let Some(day) = extract_event_time_millis(mail)
+            .and_then(date_key_utc)
+            .and_then(|date| days.get_mut(&date))
+        else {
+            continue;
+        };
 
-        let mut found_matching_entry = false;
         for_each_pairing_entry(mail, |entry| {
-            if entry.self_primary_commander_id != primary_commander_id
-                || entry.self_secondary_commander_id != secondary_commander_id
+            if entry.self_primary_commander_id != primary
+                || entry.self_secondary_commander_id != secondary
             {
                 return;
             }
 
-            found_matching_entry = true;
-            let key = (entry.enemy_primary_commander_id, entry.enemy_secondary_commander_id);
-            let bucket = buckets.entry(key).or_insert_with(|| PairingOpponentAggregateResponse {
-                enemy_primary_commander_id: entry.enemy_primary_commander_id,
-                enemy_secondary_commander_id: entry.enemy_secondary_commander_id,
-                count: 0,
-                totals: PairingTotals::default(),
-            });
-            bucket.count += 1;
-            apply_battle_delta(&mut bucket.totals, entry.delta, entry.battle_duration_millis);
+            for accumulator in [&mut totals, &mut *day] {
+                accumulator.push(&entry);
+            }
         });
-
-        if !found_matching_entry {
-            continue;
-        }
     }
 
-    let mut items = buckets.into_values().collect::<Vec<_>>();
-    finalize_totals(&mut items, |item| &mut item.totals);
-    sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
-    items
+    PairingPerformanceResponse {
+        range: PairingsRange { start: range.start.clone(), end: range.end.clone() },
+        totals: totals.finish(),
+        series: days
+            .into_iter()
+            .map(|(date, accumulator)| PairingPerformancePoint {
+                date,
+                metrics: accumulator.finish(),
+            })
+            .collect(),
+    }
 }
 
-fn mail_is_in_range(mail: &Document, range: &GovernorDateRange) -> bool {
+pub(super) fn mail_is_in_range(mail: &Document, range: &GovernorDateRange) -> bool {
     extract_event_time_millis(mail)
         .map(|event_time| event_time >= range.start_millis && event_time < range.end_millis)
         .unwrap_or(false)
@@ -183,35 +180,23 @@ fn extract_event_time_millis(mail: &Document) -> Option<i64> {
     normalize_bson_timestamp_millis(mail.get_document("metadata").ok()?.get("mail_time"))
 }
 
-fn for_each_pairing_entry(mail: &Document, mut push: impl FnMut(PairingEntry)) {
+pub(super) fn for_each_pairing_entry(mail: &Document, mut push: impl FnMut(PairingEntry)) {
     let self_primary_commander_id =
         nested_i64(mail, &["sender", "commanders", "primary", "id"]).unwrap_or_default();
     let self_secondary_commander_id =
         nested_i64(mail, &["sender", "commanders", "secondary", "id"]).unwrap_or_default();
 
-    let mut opponents = nested_array(mail, &["opponents"])
+    let opponents = nested_array(mail, &["opponents"])
         .into_iter()
         .flatten()
         .filter_map(Bson::as_document)
         .filter(|opponent| {
             let player_id = nested_i64(opponent, &["player_id"]).unwrap_or_default();
             player_id > 0
-        })
-        .collect::<Vec<_>>();
-
-    opponents.sort_by(|left, right| {
-        let left_start = nested_i64(left, &["start_tick"]).unwrap_or_default();
-        let right_start = nested_i64(right, &["start_tick"]).unwrap_or_default();
-        if left_start != right_start {
-            return left_start.cmp(&right_start);
-        }
-
-        let left_player = nested_i64(left, &["player_id"]).unwrap_or_default();
-        let right_player = nested_i64(right, &["player_id"]).unwrap_or_default();
-        left_player.cmp(&right_player)
-    });
+        });
 
     for opponent in opponents {
+        let battle_interval = extract_battle_interval(mail, opponent);
         push(PairingEntry {
             self_primary_commander_id,
             self_secondary_commander_id,
@@ -219,109 +204,45 @@ fn for_each_pairing_entry(mail: &Document, mut push: impl FnMut(PairingEntry)) {
                 .unwrap_or_default(),
             enemy_secondary_commander_id: nested_i64(opponent, &["commanders", "secondary", "id"])
                 .unwrap_or_default(),
-            battle_duration_millis: extract_battle_duration_millis(mail, opponent),
+            battle_duration_millis: battle_interval.map_or(0, |(start, end)| end - start),
             delta: extract_battle_delta(opponent),
         });
     }
 }
 
-fn extract_battle_duration_millis(mail: &Document, opponent: &Document) -> i64 {
+fn extract_battle_interval(mail: &Document, opponent: &Document) -> Option<(i64, i64)> {
     let timeline_start = nested_f64(mail, &["timeline", "start_timestamp"]).unwrap_or_default();
     let start_tick = nested_f64(opponent, &["start_tick"]).unwrap_or_default();
     let end_tick = nested_f64(opponent, &["end_tick"]).unwrap_or(start_tick);
 
     let start = normalize_timestamp_millis(timeline_start + start_tick);
     let end = normalize_timestamp_millis(timeline_start + end_tick);
+
     match (start, end) {
-        (Some(start), Some(end)) if end > start => end - start,
-        _ => 0,
+        (Some(start), Some(end)) if end > start && timeline_start > 0.0 => Some((start, end)),
+        _ => None,
     }
 }
 
 fn extract_battle_delta(opponent: &Document) -> BattleTotalsDelta {
+    let sender =
+        |field| nested_i64(opponent, &["battle_results", "sender", field]).unwrap_or_default();
+    let enemy =
+        |field| nested_i64(opponent, &["battle_results", "opponent", field]).unwrap_or_default();
+
     BattleTotalsDelta {
-        kill_score: nested_i64(opponent, &["battle_results", "sender", "kill_points"])
-            .unwrap_or_default(),
-        deaths: nested_i64(opponent, &["battle_results", "sender", "dead"]).unwrap_or_default(),
-        severely_wounded: nested_i64(opponent, &["battle_results", "sender", "severely_wounded"])
-            .unwrap_or_default(),
-        wounded: nested_i64(opponent, &["battle_results", "sender", "slightly_wounded"])
-            .unwrap_or_default(),
-        healing_count: nested_i64(opponent, &["battle_results", "sender", "heal"])
-            .unwrap_or_default(),
-        power_loss: power_loss(opponent, &["battle_results", "sender", "power"]),
-        atk_power_loss: power_loss(opponent, &["battle_results", "sender", "attack_power"]),
-        skill_power_loss: power_loss(opponent, &["battle_results", "sender", "skill_power"]),
-        enemy_kill_score: nested_i64(opponent, &["battle_results", "opponent", "kill_points"])
-            .unwrap_or_default(),
-        enemy_deaths: nested_i64(opponent, &["battle_results", "opponent", "dead"])
-            .unwrap_or_default(),
-        enemy_severely_wounded: nested_i64(
-            opponent,
-            &["battle_results", "opponent", "severely_wounded"],
-        )
-        .unwrap_or_default(),
-        enemy_wounded: nested_i64(opponent, &["battle_results", "opponent", "slightly_wounded"])
-            .unwrap_or_default(),
-        enemy_power_loss: power_loss(opponent, &["battle_results", "opponent", "power"]),
-        enemy_atk_power_loss: power_loss(opponent, &["battle_results", "opponent", "attack_power"]),
-        enemy_skill_power_loss: power_loss(
-            opponent,
-            &["battle_results", "opponent", "skill_power"],
-        ),
+        kill_score: sender("kill_points"),
+        severely_wounded: sender("severely_wounded"),
+        healing_count: sender("heal"),
+        power_loss: sender("power"),
+        enemy_kill_score: enemy("kill_points"),
+        enemy_severely_wounded: enemy("severely_wounded"),
+        enemy_wounded: enemy("slightly_wounded"),
+        enemy_power_loss: enemy("power"),
     }
 }
 
-fn power_loss(document: &Document, path: &[&str]) -> i64 {
-    nested_i64(document, path).unwrap_or_default()
-}
-
-fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, battle_duration: i64) {
-    totals.kill_score += delta.kill_score;
-    totals.deaths += delta.deaths;
-    totals.severely_wounded += delta.severely_wounded;
-    totals.wounded += delta.wounded;
-    totals.healing_count += delta.healing_count;
-    totals.power_loss += delta.power_loss;
-    totals.atk_power_loss += delta.atk_power_loss;
-    totals.skill_power_loss += delta.skill_power_loss;
-    totals.enemy_kill_score += delta.enemy_kill_score;
-    totals.enemy_deaths += delta.enemy_deaths;
-    totals.enemy_severely_wounded += delta.enemy_severely_wounded;
-    totals.enemy_wounded += delta.enemy_wounded;
-    totals.enemy_power_loss += delta.enemy_power_loss;
-    totals.enemy_atk_power_loss += delta.enemy_atk_power_loss;
-    totals.enemy_skill_power_loss += delta.enemy_skill_power_loss;
-    totals.dps += delta.enemy_wounded + delta.enemy_severely_wounded;
-    totals.sps += delta.enemy_severely_wounded;
-    totals.tps += delta.severely_wounded;
-    totals.battle_duration += battle_duration;
-}
-
-fn finalize_totals<T>(items: &mut [T], lookup: impl Fn(&mut T) -> &mut PairingTotals) {
-    for item in items {
-        let totals = lookup(item);
-        totals.weighted_trade_percent =
-            compute_trade_percent(totals.kill_score, totals.enemy_kill_score);
-        totals.hps = if totals.battle_duration > 0 {
-            totals.healing_count as f64 / (totals.battle_duration as f64 / 1000.0)
-        } else {
-            0.0
-        };
-    }
-}
-
-fn compute_trade_percent(kill_score: i64, enemy_kill_score: i64) -> f64 {
-    if kill_score == enemy_kill_score {
-        100.0
-    } else if enemy_kill_score <= 0 {
-        0.0
-    } else {
-        (kill_score as f64 / enemy_kill_score as f64) * 100.0
-    }
-}
-
-fn build_loadout_snapshot(mail: &Document) -> LoadoutSnapshot {
+pub(super) fn build_loadout_snapshot(mail: &Document) -> LoadoutSnapshot {
     let equipment =
         parse_equipment(nested_str(mail, &["sender", "commanders", "primary", "equipment"]));
     let formation = nested_i64(mail, &["sender", "commanders", "primary", "formation"])
@@ -488,20 +409,9 @@ fn format_armament_value(value: f64) -> String {
     format!("{rounded:.6}").trim_end_matches('0').trim_end_matches('.').to_string()
 }
 
-fn sort_by_kill_score_then_count<T>(items: &mut [T], lookup: impl Fn(&T) -> (&PairingTotals, i64)) {
-    items.sort_by(|left, right| {
-        let (left_totals, left_count) = lookup(left);
-        let (right_totals, right_count) = lookup(right);
-        right_totals
-            .kill_score
-            .cmp(&left_totals.kill_score)
-            .then_with(|| right_count.cmp(&left_count))
-    });
-}
-
 #[cfg(test)]
 mod tests {
-    use mongodb::bson::{doc, to_document};
+    use mongodb::bson::doc;
 
     use super::*;
 
@@ -581,40 +491,200 @@ mod tests {
     }
 
     #[test]
-    fn aggregate_pairings_groups_by_pairing_and_accumulates_totals() {
-        let mails = vec![
-            build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
-            build_test_mail_with_scores("{1:100_2:25}", "1000_2;1001_3", 100, 200),
-        ];
+    fn performance_reconciles_daily_totals_and_weights_trade_by_kp() {
+        let mut range = test_range();
+        range.end_millis = range.start_millis + 3 * 86_400_000;
+        range.end = "2025-01-03".to_string();
+        let first = build_test_mail_with_scores("", "", 100, 10);
+        let mut second = build_test_mail_with_scores("", "", 100, 190);
+        second
+            .get_document_mut("metadata")
+            .expect("metadata")
+            .insert("mail_time", range.start_millis + 86_400_000);
+        let response = aggregate_performance(&[first, second], &range, 100, 200, None);
+        assert_eq!(
+            response.totals,
+            PairingPerformanceMetrics {
+                battles: 2,
+                battle_duration_millis: 10_000,
+                duration_distribution: Some(PairingDurationDistribution {
+                    count: 2,
+                    p10_millis: 5_000.0,
+                    p25_millis: 5_000.0,
+                    p50_millis: 5_000.0,
+                    p75_millis: 5_000.0,
+                    p90_millis: 5_000.0,
+                }),
+                kp_gain: 200,
+                kp_loss: 200,
+                sevs_gain: 22,
+                sevs_loss: 14,
+                power_loss: 600,
+                opponent_power_loss: 1_200,
+                trade_percent: Some(100.0),
+                dps: Some(4.8),
+                sps: Some(2.2),
+                tps: Some(1.4),
+                hps: Some(5.0),
+            }
+        );
+        assert_eq!(
+            response.series.iter().map(|day| day.metrics.battles).collect::<Vec<_>>(),
+            [1, 1, 0]
+        );
+        assert_eq!(response.series[0].metrics.trade_percent, Some(1_000.0));
+        assert_eq!(response.series[2].date, "2025-01-03");
+        assert_eq!(response.series[2].metrics, PairingPerformanceMetrics::default());
+    }
 
-        let items = aggregate_pairings(&mails, &test_range());
-        assert_eq!(items.len(), 1);
-        let first = &items[0];
-        assert_eq!(first.primary_commander_id, 100);
-        assert_eq!(first.secondary_commander_id, 200);
-        assert_eq!(first.count, 2);
-        assert_eq!(first.totals.kill_score, 200);
-        assert_eq!(first.totals.healing_count, 50);
-        assert_eq!(first.totals.power_loss, -600);
-        assert_eq!(first.totals.atk_power_loss, -200);
-        assert_eq!(first.totals.skill_power_loss, -400);
-        assert_eq!(first.totals.enemy_severely_wounded, 22);
-        assert_eq!(first.totals.enemy_power_loss, -1_200);
-        assert_eq!(first.totals.enemy_atk_power_loss, -500);
-        assert_eq!(first.totals.enemy_skill_power_loss, -700);
-        assert_eq!(first.totals.dps, 48);
-        assert!((first.totals.weighted_trade_percent - 80.0).abs() < 1e-9);
-        assert!((first.totals.hps - 5.0).abs() < 1e-9);
+    #[test]
+    fn performance_filters_pairing_loadout_date_and_npc_battles() {
+        let selected = build_test_mail("{1:100}", "");
+        let key = build_loadout_key(&build_loadout_snapshot(&selected));
+        let mut boundary = selected.clone();
+        boundary
+            .get_document_mut("metadata")
+            .expect("metadata")
+            .insert("mail_time", test_range().end_millis);
+        let mut npc = selected.clone();
+        npc.get_array_mut("opponents").expect("opponents")[0]
+            .as_document_mut()
+            .expect("opponent")
+            .insert("player_id", 0);
+        let mut other_pairing = selected.clone();
+        other_pairing
+            .get_document_mut("sender")
+            .expect("sender")
+            .get_document_mut("commanders")
+            .expect("commanders")
+            .get_document_mut("secondary")
+            .expect("secondary")
+            .insert("id", 201);
+        let response = aggregate_performance(
+            &[selected, build_test_mail("{1:999}", ""), boundary, npc, other_pairing],
+            &test_range(),
+            100,
+            200,
+            Some(&key),
+        );
+        assert_eq!(response.totals.battles, 1);
+        assert_eq!(response.totals.kp_gain, 100);
+        assert_eq!(response.totals.duration_distribution.expect("one timed battle").count, 1);
+    }
 
-        let serialized = to_document(&first.totals).expect("serialized pairing totals");
-        assert!(!serialized.contains_key("tradePercent"));
-        assert_eq!(serialized.get_f64("weightedTradePercent"), Ok(80.0));
-        assert_eq!(serialized.get_i64("powerLoss"), Ok(-600));
-        assert_eq!(serialized.get_i64("atkPowerLoss"), Ok(-200));
-        assert_eq!(serialized.get_i64("skillPowerLoss"), Ok(-400));
-        assert_eq!(serialized.get_i64("enemyPowerLoss"), Ok(-1_200));
-        assert_eq!(serialized.get_i64("enemyAtkPowerLoss"), Ok(-500));
-        assert_eq!(serialized.get_i64("enemySkillPowerLoss"), Ok(-700));
+    #[test]
+    fn performance_keeps_unknown_duration_and_lossless_trade_out_of_finite_values() {
+        let mut mail = build_test_mail_with_scores("", "", 100, 0);
+        mail.remove("timeline");
+        let response = aggregate_performance(&[mail], &test_range(), 100, 200, None);
+        assert_eq!(response.totals.battle_duration_millis, 0);
+        assert_eq!(response.totals.duration_distribution, None);
+        assert_eq!(response.totals.trade_percent, None);
+        assert_eq!(response.totals.battles, 1);
+        assert_eq!(
+            (response.totals.dps, response.totals.sps, response.totals.tps, response.totals.hps),
+            (Some(24.0), Some(11.0), Some(7.0), Some(25.0))
+        );
+    }
+
+    #[test]
+    fn duration_percentiles_interpolate_observations_and_exclude_missing_timings() {
+        let mut mails: Vec<_> = [1_000, 3_000, 5_000, 7_000, 9_000]
+            .into_iter()
+            .map(|duration| {
+                let mut mail = build_test_mail("", "");
+                mail.get_array_mut("opponents").expect("opponents")[0]
+                    .as_document_mut()
+                    .expect("opponent")
+                    .insert("end_tick", duration);
+                mail
+            })
+            .collect();
+        let mut missing = build_test_mail("", "");
+        missing.remove("timeline");
+        mails.push(missing);
+        let response = aggregate_performance(&mails, &test_range(), 100, 200, None);
+        assert_eq!(response.totals.battles, 6);
+        assert_eq!(response.totals.battle_duration_millis, 25_000);
+        assert_eq!(
+            response.totals.duration_distribution,
+            Some(PairingDurationDistribution {
+                count: 5,
+                p10_millis: 1_800.0,
+                p25_millis: 3_000.0,
+                p50_millis: 5_000.0,
+                p75_millis: 7_000.0,
+                p90_millis: 8_200.0,
+            })
+        );
+    }
+
+    #[test]
+    fn overall_duration_percentiles_use_all_battles_instead_of_averaging_daily_percentiles() {
+        let mut range = test_range();
+        range.end_millis = range.start_millis + 2 * 86_400_000;
+        range.end = "2025-01-02".to_string();
+        let mut first = build_test_mail("", "");
+        first.get_array_mut("opponents").expect("opponents")[0]
+            .as_document_mut()
+            .expect("opponent")
+            .insert("end_tick", 1_000);
+        let mut second = build_test_mail("", "");
+        second
+            .get_document_mut("metadata")
+            .expect("metadata")
+            .insert("mail_time", range.start_millis + 86_400_000);
+        second.get_array_mut("opponents").expect("opponents")[0]
+            .as_document_mut()
+            .expect("opponent")
+            .insert("end_tick", 10_000);
+        let response = aggregate_performance(
+            &[first, second.clone(), second.clone(), second],
+            &range,
+            100,
+            200,
+            None,
+        );
+        assert_eq!(
+            response.totals.duration_distribution.expect("all timed battles").p50_millis,
+            10_000.0
+        );
+        assert_eq!(
+            response.series[0].metrics.duration_distribution.as_ref().expect("day one").p50_millis,
+            1_000.0
+        );
+        assert_eq!(
+            response.series[1].metrics.duration_distribution.as_ref().expect("day two").count,
+            3
+        );
+    }
+
+    #[test]
+    fn tempo_rates_use_combined_duration_instead_of_averaging_battle_rates() {
+        let first = build_test_mail("", "");
+        let mut second = first.clone();
+        second.get_array_mut("opponents").expect("opponents")[0]
+            .as_document_mut()
+            .expect("opponent")
+            .insert("end_tick", 15_000);
+        let response = aggregate_performance(&[first, second], &test_range(), 100, 200, None);
+        assert_eq!(
+            (response.totals.dps, response.totals.sps, response.totals.tps, response.totals.hps),
+            (Some(2.4), Some(1.1), Some(0.7), Some(2.5))
+        );
+    }
+
+    #[test]
+    fn performance_does_not_count_power_increases_as_losses() {
+        let mut mail = build_test_mail("", "");
+        let results = mail.get_array_mut("opponents").expect("opponents")[0]
+            .as_document_mut()
+            .expect("opponent")
+            .get_document_mut("battle_results")
+            .expect("results");
+        results.get_document_mut("sender").expect("sender").insert("power", 10);
+        let response = aggregate_performance(&[mail], &test_range(), 100, 200, None);
+        assert_eq!((response.totals.power_loss, response.totals.opponent_power_loss), (0, 600));
     }
 
     #[test]
@@ -624,12 +694,13 @@ mod tests {
             build_test_mail("{1:100_2:29}", "1000_2;1001_3"),
         ];
 
-        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        let items =
+            super::super::detail::aggregate_detail(&mails, &test_range(), 100, 200).loadouts;
         assert_eq!(items.len(), 2);
         let attrs =
             items.iter().map(|item| item.loadout.equipment[0].attr).collect::<BTreeSet<_>>();
         assert_eq!(attrs, BTreeSet::from([Some(21), Some(29)]));
-        assert!(items.iter().all(|item| item.count == 1));
+        assert!(items.iter().all(|item| item.stats.battles == 1));
     }
 
     #[test]
@@ -639,10 +710,11 @@ mod tests {
             build_test_mail("{1:100_2:21}", "1000_9;1001_3"),
         ];
 
-        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        let items =
+            super::super::detail::aggregate_detail(&mails, &test_range(), 100, 200).loadouts;
         assert_eq!(items.len(), 2);
         assert_ne!(items[0].key, items[1].key);
-        assert!(items.iter().all(|item| item.count == 1));
+        assert!(items.iter().all(|item| item.stats.battles == 1));
     }
 
     #[test]
@@ -652,10 +724,11 @@ mod tests {
             build_test_mail("{1:100_2:25}", "2001_3;1000_2"),
         ];
 
-        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        let items =
+            super::super::detail::aggregate_detail(&mails, &test_range(), 100, 200).loadouts;
         assert_eq!(items.len(), 1);
-        assert_eq!(items[0].count, 2);
-        assert_eq!(items[0].totals.kill_score, 200);
+        assert_eq!(items[0].stats.battles, 2);
+        assert_eq!(items[0].stats.kp_gain, 200);
         assert_eq!(items[0].key, "eq:1:100_2:25|arm:1000_2|2001_13|ins:101|202|303|fm:1");
         assert_eq!(items[0].loadout.inscriptions, vec![101, 202, 303]);
         assert_eq!(items[0].loadout.formation, Some(1));
@@ -666,7 +739,8 @@ mod tests {
         let mails =
             vec![build_test_mail("{1:100_2:21}", "3001_0.026000;4001_0.015000;5001_0.022000")];
 
-        let items = aggregate_loadouts(&mails, &test_range(), 100, 200);
+        let items =
+            super::super::detail::aggregate_detail(&mails, &test_range(), 100, 200).loadouts;
         assert_eq!(items.len(), 1);
         assert_eq!(
             items[0].loadout.armaments,
@@ -677,48 +751,5 @@ mod tests {
                 LoadoutArmament { id: 5001, value: 0.022 },
             ]
         );
-    }
-
-    #[test]
-    fn aggregate_opponents_filters_by_loadout_key() {
-        let mails = vec![
-            build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
-            build_test_mail("{1:100_2:29}", "1000_2;1001_3"),
-            build_test_mail("{1:100_2:25}", "1000_9;1001_3"),
-        ];
-        let loadout_key = build_loadout_key(&build_loadout_snapshot(&mails[0]));
-        let items = aggregate_opponents(&mails, &test_range(), 100, 200, Some(&loadout_key));
-
-        assert_eq!(items.len(), 1);
-        assert_eq!(items[0].count, 1);
-        assert_eq!(items[0].totals.kill_score, 100);
-    }
-
-    #[test]
-    fn aggregate_opponents_includes_all_loadouts_without_key() {
-        let mails = vec![
-            build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
-            build_test_mail("{1:100_2:29}", "1000_9;1001_3"),
-        ];
-        let items = aggregate_opponents(&mails, &test_range(), 100, 200, None);
-
-        assert_eq!(items.len(), 1);
-        assert_eq!(items[0].count, 2);
-        assert_eq!(items[0].totals.kill_score, 200);
-    }
-
-    #[test]
-    fn aggregate_opponents_returns_no_matches_for_unknown_loadout() {
-        let mails = vec![build_test_mail("{1:100_2:25}", "1000_2;1001_3")];
-        let items = aggregate_opponents(&mails, &test_range(), 100, 200, Some("unknown"));
-        assert!(items.is_empty());
-    }
-
-    #[test]
-    fn power_loss_preserves_stored_deltas() {
-        assert_eq!(power_loss(&doc! { "value": -10_i64 }, &["value"]), -10);
-        assert_eq!(power_loss(&doc! { "value": 0_i64 }, &["value"]), 0);
-        assert_eq!(power_loss(&doc! { "value": 10_i64 }, &["value"]), 10);
-        assert_eq!(power_loss(&Document::new(), &["value"]), 0);
     }
 }

@@ -1,24 +1,16 @@
 import type { EquipmentToken } from "@/lib/report/parsers";
 
-export const PAIRINGS_GENERIC_ERROR = "Failed to load pairings.";
-
 export type PairingsActivity = "ark" | "home" | "kvk" | "strife";
 export type PairingsBattleType = "open-field" | "swarming" | "rally" | "garrison";
 
 export function buildPairingsRangeParams(options: {
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
   excludeActivities?: PairingsActivity[];
   excludeBattles?: PairingsBattleType[];
 }) {
   const { startDate, endDate, excludeActivities, excludeBattles } = options;
-  const params =
-    startDate && endDate
-      ? new URLSearchParams({ start: startDate, end: endDate })
-      : new URLSearchParams({
-          start: `${new Date().getUTCFullYear()}-01-01`,
-          end: `${new Date().getUTCFullYear()}-12-31`,
-        });
+  const params = new URLSearchParams({ start: startDate, end: endDate });
 
   if (excludeActivities && excludeActivities.length > 0) {
     params.set("excludeActivities", excludeActivities.join(","));
@@ -29,17 +21,6 @@ export function buildPairingsRangeParams(options: {
   }
 
   return params;
-}
-
-export function formatExcludedPairingsFilters<T extends string>(
-  excluded: T[],
-  options: Record<T, string>
-) {
-  if (excluded.length === 0) {
-    return null;
-  }
-
-  return excluded.map((value) => options[value]).join(", ");
 }
 
 export type PairingTotals = {
@@ -61,6 +42,8 @@ export type PairingTotals = {
   sps: number;
   tps: number;
   hps: number;
+  healingCount: number;
+  enemyHealingCount: number;
   weightedTradePercent: number;
   battleDuration: number;
 };
@@ -69,6 +52,7 @@ export type PairingAggregate = {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
+  positiveTrades: number;
   totals: PairingTotals;
 };
 
@@ -80,13 +64,6 @@ export type PairingsRange = {
 export type PairingsResponse = {
   range: PairingsRange;
   items: PairingAggregate[];
-};
-
-export type PairingsResult = {
-  data: PairingAggregate[];
-  loading: boolean;
-  error: string | null;
-  range: PairingsRange | null;
 };
 
 export type LoadoutArmament = {
@@ -101,38 +78,65 @@ export type LoadoutSnapshot = {
   formation: number | null;
 };
 
-export type LoadoutAggregate = {
+export type PairingStats = {
+  battles: number;
+  kpGain: number;
+  kpLoss: number;
+  netKp: number;
+  tradePercent: number | null;
+};
+
+export type PairingDetailLoadout = {
   key: string;
-  count: number;
-  totals: PairingTotals;
+  stats: PairingStats;
   loadout: LoadoutSnapshot;
 };
 
-export type PairingLoadoutsResponse = {
+export type PairingDetailResponse = {
   range: PairingsRange;
-  items: LoadoutAggregate[];
+  pairing: PairingStats | null;
+  loadouts: PairingDetailLoadout[];
 };
 
-export type PairingLoadoutsResult = {
-  data: LoadoutAggregate[];
-  loading: boolean;
-  error: string | null;
+export type PairingMatchup = {
+  primaryCommanderId: number;
+  secondaryCommanderId: number;
+  stats: PairingStats;
 };
 
-export type OpponentAggregate = {
-  enemyPrimaryCommanderId: number;
-  enemySecondaryCommanderId: number;
+export type PairingMatchupsResponse = {
+  range: PairingsRange;
+  items: PairingMatchup[];
+};
+
+export type PairingDurationDistribution = {
   count: number;
-  totals: PairingTotals;
+  p10Millis: number;
+  p25Millis: number;
+  p50Millis: number;
+  p75Millis: number;
+  p90Millis: number;
 };
 
-export type PairingOpponentsResponse = {
+export type PairingPerformanceMetrics = {
+  battles: number;
+  battleDurationMillis: number;
+  durationDistribution: PairingDurationDistribution | null;
+  kpGain: number;
+  kpLoss: number;
+  sevsGain: number;
+  sevsLoss: number;
+  powerLoss: number;
+  opponentPowerLoss: number;
+  tradePercent: number | null;
+  dps: number | null;
+  sps: number | null;
+  tps: number | null;
+  hps: number | null;
+};
+
+export type PairingPerformanceResponse = {
   range: PairingsRange;
-  items: OpponentAggregate[];
-};
-
-export type PairingOpponentsResult = {
-  data: OpponentAggregate[];
-  loading: boolean;
-  error: string | null;
+  totals: PairingPerformanceMetrics;
+  series: { date: string; metrics: PairingPerformanceMetrics }[];
 };
