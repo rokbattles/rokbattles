@@ -9,6 +9,7 @@ use crate::{rate_limit::RateLimitMode, state::AppState};
 
 mod auth;
 mod combat_lab;
+mod developer_apps;
 mod game;
 mod governor;
 mod health;
@@ -42,6 +43,7 @@ fn v1_router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router(rate_limit_mode))
+        .merge(developer_apps::router(rate_limit_mode))
         .route("/program-applications", program_applications::routes(rate_limit_mode))
         .nest("/kdmt", kdmt::router())
         .route("/overlay/{overlay}", get(overlays::battles))
