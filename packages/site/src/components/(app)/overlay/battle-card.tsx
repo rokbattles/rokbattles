@@ -13,8 +13,16 @@ type BattleCardProps = {
 const numbers = new Intl.NumberFormat("en-US");
 const labels = { victory: "Victory", defeat: "Defeat", battle: "Battle", unknown: "Battle" };
 const watermarks = {
-  icon_watermark: { src: "/assets/rokbattles-icon-white.svg", width: 32, height: 32 },
-  text_watermark: { src: "/assets/rokbattles-wordmark-white.svg", width: 112, height: 13 },
+  icon_watermark: {
+    src: "https://cdn.rokbattles.com/assets/rokbattles-icon-white.svg",
+    width: 32,
+    height: 32,
+  },
+  text_watermark: {
+    src: "https://cdn.rokbattles.com/assets/rokbattles-wordmark-white.svg",
+    width: 112,
+    height: 13,
+  },
 };
 export function BattleCard({ battle, commanders, branding }: BattleCardProps): JSX.Element {
   const trade = battle.tradePercent === null ? "∞" : numbers.format(battle.tradePercent);

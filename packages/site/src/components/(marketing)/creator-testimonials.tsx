@@ -20,7 +20,7 @@ const creatorTestimonials: CreatorTestimonial[] = [
   {
     name: "Sttuu",
     initials: "S",
-    avatarUrl: "/assets/creators/sttuu.jpg",
+    avatarUrl: "https://cdn.rokbattles.com/assets/creators/sttuu.jpg",
     channelUrl: "https://www.youtube.com/@Sttuuu",
     quote:
       "ROK Battles has become one of my go-to tools while playing the game. The account and march analysis is unrivalled, and it’s always improving and getting better. I genuinely can’t recommend it enough.",
@@ -28,7 +28,7 @@ const creatorTestimonials: CreatorTestimonial[] = [
   {
     name: "WarDaddyChadski",
     initials: "WC",
-    avatarUrl: "/assets/creators/wardaddychadski.jpg",
+    avatarUrl: "https://cdn.rokbattles.com/assets/creators/wardaddychadski.jpg",
     channelUrl: "https://www.youtube.com/@WarDaddyChadski",
     quote:
       "ROK Battles is the greatest tool we have ever seen when it comes to the combat of Rise of Kingdoms. Having the data, analytics, and results all in one place for any march, any commander, gear, armaments, etc, is a dream for those of us to love the game and the battle aspect of RoK.",
@@ -36,7 +36,7 @@ const creatorTestimonials: CreatorTestimonial[] = [
   {
     name: "Mr Siege",
     initials: "MS",
-    avatarUrl: "/assets/creators/mrsiege.jpg",
+    avatarUrl: "https://cdn.rokbattles.com/assets/creators/mrsiege.jpg",
     channelUrl: "https://www.youtube.com/@MrSiegeOfficial",
     quote:
       "ROK Battles is my go-to for analyzing trade quality and overall results of my marches. The seamless setup and clean navigation make it a no-brainer tool for any creator or player.",
@@ -44,7 +44,7 @@ const creatorTestimonials: CreatorTestimonial[] = [
   {
     name: "DOM 117",
     initials: "D",
-    avatarUrl: "/assets/creators/dom117.jpg",
+    avatarUrl: "https://cdn.rokbattles.com/assets/creators/dom117.jpg",
     channelUrl: "https://www.youtube.com/@dom117x",
     quote: "We theorycrafted it. We tested it. Now we’re here to prove it. Welcome to ROK Battles.",
   },

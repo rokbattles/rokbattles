@@ -12,7 +12,7 @@ import { Link } from "./ui/link";
 function Logo() {
   return (
     <Image
-      src="/assets/logo.svg"
+      src="https://cdn.rokbattles.com/assets/logo.svg"
       alt="ROK Battles"
       loading="eager"
       width={2104}
