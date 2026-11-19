@@ -1,6 +1,6 @@
 import { Check, CircleAlert } from "lucide-react";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { TextLink } from "@/components/ui/text";
 import type { AppPermission } from "@/lib/(app)/developer-apps";
@@ -22,7 +22,7 @@ type Consent = {
 };
 
 async function getConsent(request: string): Promise<Consent | null> {
-  const cookieStore = await cookies();
+  const [cookieStore, requestHeaders] = await Promise.all([cookies(), headers()]);
   const sid = cookieStore.get("sid")?.value;
   const browser = cookieStore.get("__Host-oidc-browser")?.value;
   if (!sid || !browser) {
@@ -31,8 +31,16 @@ async function getConsent(request: string): Promise<Consent | null> {
 
   const api = process.env.API_URL || "http://localhost:8001";
   const query = new URLSearchParams({ request });
+  const apiHeaders = new Headers({ Cookie: `sid=${sid}; __Host-oidc-browser=${browser}` });
+
+  // The API rate limiter uses the client IP supplied by Cloudflare.
+  const clientIp = requestHeaders.get("cf-connecting-ip");
+  if (clientIp !== null) {
+    apiHeaders.set("cf-connecting-ip", clientIp);
+  }
+
   const response = await fetch(`${api}/v1/auth/authorize/consent?${query}`, {
-    headers: { Cookie: `sid=${sid}; __Host-oidc-browser=${browser}` },
+    headers: apiHeaders,
     cache: "no-store",
   });
 
