@@ -187,7 +187,6 @@ pub(crate) async fn share_selection(
     access: AccountAccess,
     Json(selection): Json<ShareSelection>,
 ) -> Result<impl IntoResponse, ApiError> {
-    access.require_session()?;
     let ids = selected_ids(selection.governor_ids)?;
     let recipient = parse_discord_id(&selection.discord_id)?;
     let owner = access.account_id();
@@ -238,7 +237,6 @@ pub(crate) async fn revoke_share(
     Path((governor_id, recipient)): Path<(String, String)>,
     access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
-    access.require_session()?;
     let governor_id = parse_governor_id_param(&governor_id)?;
     let recipient = parse_discord_id(&recipient)?;
     let owner = access.account_id();
