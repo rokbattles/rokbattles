@@ -1,6 +1,6 @@
-//! Exchanges one-time authorization codes and rotates session-bound tokens.
+//! Exchanges one-time authorization codes and rotates delegated tokens.
 
-use std::sync::Arc;
+use std::{sync::Arc, time::Duration};
 
 use axum::{
     Form, Json,
@@ -16,19 +16,19 @@ use super::{
     Oidc, Scope, account_error, after,
     flow::registered_redirect,
     hash, opaque_token, provider, random_token, scope_string, storage_error,
-    store::{AccessToken, Authorization, RefreshFamily, grant_id},
+    store::{AccessToken, Authorization, RefreshFamily, SpentRefreshToken, grant_id},
 };
 use crate::{
     db::{DeveloperApp, SessionRecord},
     error::ApiError,
+    rate_limit::Rejection,
     state::AppState,
 };
 
 const ID_TOKEN_TTL_SECONDS: i64 = 300;
-const ACCESS_TTL_SECONDS: i64 = 7 * 24 * 60 * 60;
-const REFRESH_IDLE_SECONDS: i64 = 7 * 24 * 60 * 60;
-// Keep each family's replay history bounded, even when a client refreshes continuously.
-const MAX_ROTATIONS: usize = 4096;
+const TOKEN_TTL_SECONDS: i64 = 7 * 24 * 60 * 60;
+// Keep each document bounded when a client refreshes repeatedly within one window.
+const MAX_UNEXPIRED_ROTATIONS: usize = 4096;
 
 #[derive(Deserialize)]
 pub(super) struct TokenForm {
@@ -55,6 +55,7 @@ struct TokenResponse {
 
 enum TokenError {
     OAuth(&'static str),
+    RateLimited(Duration),
     Internal(ApiError),
 }
 
@@ -71,6 +72,7 @@ impl IntoResponse for TokenError {
                 (StatusCode::BAD_REQUEST, Json(serde_json::json!({ "error": error })))
                     .into_response()
             }
+            Self::RateLimited(wait) => Rejection::Limited(wait).into_response(),
             Self::Internal(ApiError::NotFound(message)) => {
                 ApiError::NotFound(message).into_response()
             }
@@ -146,12 +148,12 @@ async fn code_exchange(
     {
         return Err(invalid_grant());
     }
-    let (session, app) = live_authorization(state, oidc, &stored.authorization, now)
-        .await?
-        .ok_or_else(invalid_grant)?;
+    let app = live_grant(state, oidc, &stored.authorization).await?.ok_or_else(invalid_grant)?;
     if registered_redirect(&app, &stored.redirect_uri).is_none() {
         return Err(invalid_grant());
     }
+    let session =
+        authorizing_session(state, &stored.authorization, now).await?.ok_or_else(invalid_grant)?;
 
     let id_token = oidc.config.sign(&serde_json::json!({
         "iss": oidc.origin(),
@@ -167,17 +169,18 @@ async fn code_exchange(
     }
 
     let id = ObjectId::new();
-    let (response, access) =
-        new_pair(id, &stored.authorization.scopes, Some(id_token), now, session.expires_at);
+    let (response, access) = new_pair(id, &stored.authorization.scopes, Some(id_token), now);
     let family = RefreshFamily {
         id,
         authorization: stored.authorization,
         current_hash: hash(&response.refresh_token),
         spent_hashes: Vec::new(),
+        spent_refresh_tokens: Vec::new(),
+        refresh_expires_at: access.expires_at,
+        expires_at: access.expires_at,
         access_tokens: vec![access],
-        refresh_expires_at: after(now, REFRESH_IDLE_SECONDS).min(session.expires_at),
-        expires_at: session.expires_at,
         revoked: false,
+        rolling: true,
     };
     oidc.store.insert_family(&family).await.map_err(storage_error)?;
 
@@ -195,37 +198,53 @@ async fn refresh_exchange(
     let id = family_id(token, "r").ok_or_else(invalid_grant)?;
     let mut family =
         oidc.store.family(id).await.map_err(storage_error)?.ok_or_else(invalid_grant)?;
-    if family.authorization.client_id != client_id
-        || family.revoked
-        || family.expires_at <= now
-        || family.refresh_expires_at <= now
-    {
+    let previous_expiry = family.refresh_expires_at.min(family.expires_at);
+    if family.authorization.client_id != client_id || family.revoked || previous_expiry <= now {
         return Err(invalid_grant());
     }
 
     let current_hash = hash(token);
     if !bool::from(current_hash.as_bytes().ct_eq(family.current_hash.as_bytes())) {
-        oidc.store.revoke_replayed_family(id, &current_hash).await.map_err(storage_error)?;
+        oidc.store.revoke_replayed_family(id, &current_hash, now).await.map_err(storage_error)?;
         return Err(invalid_grant());
     }
-    if family.spent_hashes.len() >= MAX_ROTATIONS {
+    if !live_family(state, oidc, &family, now).await? {
         return Err(invalid_grant());
+    }
+    let scopes = refresh_scopes(form.scope.as_deref(), &family.authorization.scopes)?;
+
+    family.spent_refresh_tokens.retain(|spent| spent.expires_at > now);
+    if family.spent_refresh_tokens.len() + family.spent_hashes.len() >= MAX_UNEXPIRED_ROTATIONS {
+        let available_at = family
+            .spent_refresh_tokens
+            .iter()
+            .map(|spent| spent.expires_at)
+            .chain((!family.spent_hashes.is_empty()).then_some(previous_expiry))
+            .min()
+            .unwrap_or(previous_expiry);
+        let wait = available_at.timestamp_millis().saturating_sub(now.timestamp_millis()).max(1);
+        return Err(TokenError::RateLimited(Duration::from_millis(wait.cast_unsigned())));
     }
 
-    let (session, _) = live_authorization(state, oidc, &family.authorization, now)
-        .await?
-        .ok_or_else(invalid_grant)?;
-    let scopes = refresh_scopes(form.scope.as_deref(), &family.authorization.scopes)?;
-    let (response, access) = new_pair(id, &scopes, None, now, session.expires_at);
+    let (response, access) = new_pair(id, &scopes, None, now);
     family.current_hash = hash(&response.refresh_token);
-    family.spent_hashes.push(current_hash.clone());
+    family.spent_refresh_tokens.extend(
+        std::mem::take(&mut family.spent_hashes)
+            .into_iter()
+            .map(|hash| SpentRefreshToken { hash, expires_at: previous_expiry }),
+    );
+    family
+        .spent_refresh_tokens
+        .push(SpentRefreshToken { hash: current_hash.clone(), expires_at: previous_expiry });
     family.access_tokens.retain(|access| access.expires_at > now);
+    family.refresh_expires_at = access.expires_at;
+    family.expires_at = access.expires_at;
     family.access_tokens.push(access);
-    family.refresh_expires_at = after(now, REFRESH_IDLE_SECONDS).min(family.expires_at);
+    family.rolling = true;
 
     if !oidc.store.rotate_family(&family, &current_hash).await.map_err(storage_error)? {
         // A concurrent refresh may have spent this token after our read.
-        oidc.store.revoke_replayed_family(id, &current_hash).await.map_err(storage_error)?;
+        oidc.store.revoke_replayed_family(id, &current_hash, now).await.map_err(storage_error)?;
         return Err(invalid_grant());
     }
 
@@ -248,12 +267,11 @@ fn new_pair(
     scopes: &[Scope],
     id_token: Option<String>,
     now: DateTime,
-    session_expiry: DateTime,
 ) -> (TokenResponse, AccessToken) {
     let id = id.to_hex();
     let access_token = format!("a.{id}.{}", random_token());
     let refresh_token = format!("r.{id}.{}", random_token());
-    let expiry = after(now, ACCESS_TTL_SECONDS).min(session_expiry);
+    let expiry = after(now, TOKEN_TTL_SECONDS);
     let access =
         AccessToken { hash: hash(&access_token), scopes: scopes.to_vec(), expires_at: expiry };
     let response = TokenResponse {
@@ -268,12 +286,11 @@ fn new_pair(
     (response, access)
 }
 
-async fn live_authorization(
+async fn live_grant(
     state: &AppState,
     oidc: &Oidc,
     authorization: &Authorization,
-    now: DateTime,
-) -> Result<Option<(SessionRecord, DeveloperApp)>, ApiError> {
+) -> Result<Option<DeveloperApp>, ApiError> {
     let Some(app) = oidc.eligible_app(state.auth_store.as_ref(), authorization.client_id).await?
     else {
         return Ok(None);
@@ -290,19 +307,39 @@ async fn live_authorization(
         return Ok(None);
     }
 
+    let subject = oidc.store.subject(&authorization.user_id).await.map_err(storage_error)?;
+    Ok((subject.as_deref() == Some(authorization.subject.as_str())).then_some(app))
+}
+
+async fn authorizing_session(
+    state: &AppState,
+    authorization: &Authorization,
+    now: DateTime,
+) -> Result<Option<SessionRecord>, ApiError> {
     let session = state
         .auth_store
         .active_session_by_record_id(&authorization.user_id, authorization.session_id, now)
         .await
         .map_err(account_error)?;
 
-    Ok(session
-        .filter(|session| {
-            session.id == authorization.session_id
-                && session.user_id == authorization.user_id
-                && session.expires_at > now
-        })
-        .map(|session| (session, app)))
+    Ok(session.filter(|session| {
+        session.id == authorization.session_id
+            && session.user_id == authorization.user_id
+            && session.expires_at > now
+    }))
+}
+
+async fn live_family(
+    state: &AppState,
+    oidc: &Oidc,
+    family: &RefreshFamily,
+    now: DateTime,
+) -> Result<bool, ApiError> {
+    if !family.rolling && authorizing_session(state, &family.authorization, now).await?.is_none() {
+        return Ok(false);
+    }
+
+    Ok(live_grant(state, oidc, &family.authorization).await?.is_some())
 }
 
 /// A scoped access token accepted by a shared resource route.
@@ -364,12 +401,12 @@ async fn load_access(
         return Ok(None);
     }
     let digest = hash(token);
-    let Some(access) = family.access_tokens.into_iter().find(|entry| {
+    let Some(access) = family.access_tokens.iter().find(|entry| {
         entry.expires_at > now && bool::from(digest.as_bytes().ct_eq(entry.hash.as_bytes()))
     }) else {
         return Ok(None);
     };
-    if live_authorization(state, oidc, &family.authorization, now).await?.is_none() {
+    if !live_family(state, oidc, &family, now).await? {
         return Ok(None);
     }
 
@@ -379,7 +416,7 @@ async fn load_access(
         client_id: family.authorization.client_id,
         account_id: family.authorization.user_id,
         subject: family.authorization.subject,
-        scopes: access.scopes,
+        scopes: access.scopes.clone(),
     }))
 }
 
@@ -445,19 +482,47 @@ mod tests {
     use super::*;
     use crate::oidc::test_support::{Fixture, ORIGIN, USER, VERIFIER, body, claim};
 
+    async fn issue_pair(fixture: &Fixture) -> Value {
+        let code = fixture.code("openid").await;
+        let response = fixture.exchange(&code, VERIFIER).await;
+        assert_eq!(response.status(), StatusCode::OK);
+        body(response).await
+    }
+
+    async fn refresh_at(
+        fixture: &Fixture,
+        token: &str,
+        now: DateTime,
+    ) -> Result<TokenResponse, TokenError> {
+        let form = serde_json::from_value(json!({
+            "grant_type": "refresh_token",
+            "client_id": fixture.id,
+            "refresh_token": token,
+        }))
+        .expect("refresh form");
+        let oidc = provider(&fixture.state).expect("OIDC provider");
+        let client = ObjectId::parse_str(&fixture.id).expect("client ID");
+        refresh_exchange(&fixture.state, oidc, client, form, now).await
+    }
+
+    async fn access_valid_at(fixture: &Fixture, token: &str, now: DateTime) -> bool {
+        let oidc = provider(&fixture.state).expect("OIDC provider");
+        let id = family_id(token, "a").expect("access token family");
+        load_access(&fixture.state, oidc, token, id, now).await.expect("token lookup").is_some()
+    }
+
+    async fn stored_family(fixture: &Fixture, refresh: &str) -> RefreshFamily {
+        let oidc = provider(&fixture.state).expect("OIDC provider");
+        let id = family_id(refresh, "r").expect("refresh token family");
+        oidc.store.family(id).await.expect("family lookup").expect("token family")
+    }
+
     #[test]
-    fn access_tokens_last_up_to_seven_days_within_the_session() {
+    fn access_tokens_last_seven_days_from_issuance() {
         let now = DateTime::from_millis(0);
-        let id = ObjectId::new();
-        let long_session = after(now, 8 * 24 * 60 * 60);
-        let (response, token) = new_pair(id, &[Scope::OpenId], None, now, long_session);
+        let (response, token) = new_pair(ObjectId::new(), &[Scope::OpenId], None, now);
         assert_eq!(response.expires_in, 604_800);
         assert_eq!(token.expires_at, after(now, 604_800));
-
-        let short_session = after(now, 600);
-        let (response, token) = new_pair(id, &[Scope::OpenId], None, now, short_session);
-        assert_eq!(response.expires_in, 600);
-        assert_eq!(token.expires_at, short_session);
     }
 
     #[test]
@@ -568,10 +633,9 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn expired_access_can_refresh_but_replay_and_session_logout_end_access() {
+    async fn expired_access_can_refresh_but_replay_ends_access() {
         let fixture = Fixture::new().await;
-        let code = fixture.code("openid").await;
-        let issued = body(fixture.exchange(&code, VERIFIER).await).await;
+        let issued = issue_pair(&fixture).await;
         let access = claim(&issued, "access_token");
         let refresh = claim(&issued, "refresh_token");
         fixture.expire_access_tokens();
@@ -590,16 +654,20 @@ mod tests {
         assert_eq!(replay.status(), StatusCode::BAD_REQUEST);
         assert_eq!(body(replay).await, json!({ "error": "invalid_grant" }));
         assert_eq!(fixture.profile(access, "").await.status(), StatusCode::UNAUTHORIZED);
+    }
 
-        let code = fixture.code("openid").await;
-        let issued = body(fixture.exchange(&code, VERIFIER).await).await;
+    #[tokio::test]
+    async fn issued_app_tokens_survive_browser_logout_but_pending_codes_do_not() {
+        let fixture = Fixture::new().await;
+        let issued = issue_pair(&fixture).await;
+        let pending_code = fixture.code("openid").await;
         let logout = fixture
             .call(Method::POST, "/v1/auth/logout", &[("cookie", "sid=alice")], String::new())
             .await;
         assert_eq!(logout.status(), StatusCode::OK);
         assert_eq!(
             fixture.profile(claim(&issued, "access_token"), "").await.status(),
-            StatusCode::UNAUTHORIZED
+            StatusCode::OK
         );
         let refresh = fixture
             .token(&[
@@ -607,7 +675,171 @@ mod tests {
                 ("refresh_token", claim(&issued, "refresh_token")),
             ])
             .await;
-        assert_eq!(refresh.status(), StatusCode::BAD_REQUEST);
+        assert_eq!(refresh.status(), StatusCode::OK);
+        assert_eq!(body(refresh).await["expires_in"], 604_800);
+        assert_eq!(
+            fixture.exchange(&pending_code, VERIFIER).await.status(),
+            StatusCode::BAD_REQUEST
+        );
+    }
+
+    #[tokio::test]
+    async fn refreshing_beyond_the_browser_session_restarts_the_seven_day_window() {
+        let fixture = Fixture::new().await;
+        let initial = issue_pair(&fixture).await;
+        let initial_refresh = claim(&initial, "refresh_token");
+        let initial_access = claim(&initial, "access_token");
+        let initial_family = stored_family(&fixture, initial_refresh).await;
+        assert_eq!(initial["expires_in"], 604_800);
+        assert_eq!(initial_family.expires_at, initial_family.refresh_expires_at);
+        let first_deadline = initial_family.refresh_expires_at;
+        let first_rotation = after(first_deadline, -1);
+        assert!(
+            authorizing_session(&fixture.state, &initial_family.authorization, first_rotation)
+                .await
+                .expect("session lookup")
+                .is_none()
+        );
+        assert!(access_valid_at(&fixture, initial_access, first_rotation).await);
+
+        let first = refresh_at(&fixture, initial_refresh, first_rotation)
+            .await
+            .ok()
+            .expect("rotation after browser expiry");
+        assert_eq!(first.expires_in, 604_800);
+        assert_ne!(first.refresh_token, initial_refresh);
+        assert_ne!(first.access_token, initial_access);
+        assert!(!access_valid_at(&fixture, initial_access, first_deadline).await);
+        assert!(matches!(
+            refresh_at(&fixture, initial_refresh, first_deadline).await,
+            Err(TokenError::OAuth("invalid_grant"))
+        ));
+        assert!(access_valid_at(&fixture, &first.access_token, first_deadline).await);
+
+        let second_deadline = after(first_rotation, TOKEN_TTL_SECONDS);
+        let second_rotation = after(second_deadline, -1);
+        let second = refresh_at(&fixture, &first.refresh_token, second_rotation)
+            .await
+            .ok()
+            .expect("second rotation");
+        assert_eq!(second.expires_in, 604_800);
+        let family = stored_family(&fixture, &second.refresh_token).await;
+        let final_deadline = after(second_rotation, TOKEN_TTL_SECONDS);
+        assert_eq!(family.refresh_expires_at, final_deadline);
+        assert_eq!(family.expires_at, final_deadline);
+        assert_eq!(family.spent_refresh_tokens.len(), 1);
+        assert!(access_valid_at(&fixture, &second.access_token, after(final_deadline, -1)).await);
+        assert!(!access_valid_at(&fixture, &second.access_token, final_deadline).await);
+        assert!(matches!(
+            refresh_at(&fixture, &second.refresh_token, final_deadline).await,
+            Err(TokenError::OAuth("invalid_grant"))
+        ));
+    }
+
+    async fn mark_as_legacy(fixture: &Fixture, tokens: &Value) -> DateTime {
+        let oidc = provider(&fixture.state).expect("OIDC provider");
+        let mut family = stored_family(fixture, claim(tokens, "refresh_token")).await;
+        let session = authorizing_session(&fixture.state, &family.authorization, DateTime::now())
+            .await
+            .expect("session lookup")
+            .expect("session");
+        let expiry = session.expires_at;
+        family.refresh_expires_at = expiry;
+        family.expires_at = expiry;
+        family.access_tokens[0].expires_at = expiry;
+
+        let mut document = mongodb::bson::to_document(&family).expect("token family document");
+        document.remove("rolling");
+        document.remove("spentRefreshTokens");
+        let legacy: RefreshFamily = mongodb::bson::from_document(document).expect("legacy family");
+        assert!(!legacy.rolling);
+        assert!(
+            oidc.store.rotate_family(&legacy, &family.current_hash).await.expect("store legacy")
+        );
+        expiry
+    }
+
+    #[tokio::test]
+    async fn only_valid_legacy_families_upgrade_to_rolling_on_refresh() {
+        let fixture = Fixture::new().await;
+        let existing = issue_pair(&fixture).await;
+        let existing_access = claim(&existing, "access_token");
+        let existing_refresh = claim(&existing, "refresh_token");
+        let expiry = mark_as_legacy(&fixture, &existing).await;
+        assert!(matches!(
+            refresh_at(&fixture, existing_refresh, expiry).await,
+            Err(TokenError::OAuth("invalid_grant"))
+        ));
+
+        let other = issue_pair(&fixture).await;
+        mark_as_legacy(&fixture, &other).await;
+        let now = DateTime::now();
+        assert!(access_valid_at(&fixture, existing_access, now).await);
+        let upgraded = refresh_at(&fixture, existing_refresh, now)
+            .await
+            .ok()
+            .expect("valid legacy token upgrades");
+        assert_eq!(upgraded.expires_in, 604_800);
+        assert!(!access_valid_at(&fixture, existing_access, expiry).await);
+        assert!(access_valid_at(&fixture, &upgraded.access_token, expiry).await);
+
+        let logout = fixture
+            .call(Method::POST, "/v1/auth/logout", &[("cookie", "sid=alice")], String::new())
+            .await;
+        assert_eq!(logout.status(), StatusCode::OK);
+        assert!(access_valid_at(&fixture, &upgraded.access_token, DateTime::now()).await);
+        assert!(!access_valid_at(&fixture, claim(&other, "access_token"), DateTime::now()).await);
+        assert!(matches!(
+            refresh_at(&fixture, claim(&other, "refresh_token"), DateTime::now()).await,
+            Err(TokenError::OAuth("invalid_grant"))
+        ));
+    }
+
+    #[tokio::test]
+    async fn rotation_capacity_recovers_when_spent_tokens_expire() {
+        let fixture = Fixture::new().await;
+        let initial = issue_pair(&fixture).await;
+        let refresh = claim(&initial, "refresh_token");
+        let mut family = stored_family(&fixture, refresh).await;
+        let available_at = after(family.expires_at, -1);
+        family.spent_refresh_tokens =
+            vec![
+                SpentRefreshToken { hash: hash("spent refresh"), expires_at: available_at };
+                MAX_UNEXPIRED_ROTATIONS
+            ];
+        let oidc = provider(&fixture.state).expect("OIDC provider");
+        assert!(
+            oidc.store.rotate_family(&family, &family.current_hash).await.expect("seed history")
+        );
+
+        assert!(matches!(
+            refresh_at(&fixture, refresh, after(available_at, -1)).await,
+            Err(TokenError::RateLimited(wait)) if wait == Duration::from_secs(1)
+        ));
+        let renewed = refresh_at(&fixture, refresh, available_at)
+            .await
+            .ok()
+            .expect("refresh when history expires");
+        assert_eq!(
+            stored_family(&fixture, &renewed.refresh_token).await.spent_refresh_tokens.len(),
+            1
+        );
+    }
+
+    #[tokio::test]
+    async fn a_rolling_token_requires_the_grant_to_match_an_existing_account() {
+        let fixture = Fixture::new().await;
+        let tokens = issue_pair(&fixture).await;
+        fixture.remove_account_subject();
+
+        assert_eq!(
+            fixture.profile(claim(&tokens, "access_token"), "").await.status(),
+            StatusCode::UNAUTHORIZED
+        );
+        assert!(matches!(
+            refresh_at(&fixture, claim(&tokens, "refresh_token"), DateTime::now()).await,
+            Err(TokenError::OAuth("invalid_grant"))
+        ));
     }
 
     #[tokio::test]
