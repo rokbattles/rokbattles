@@ -24,6 +24,7 @@ use crate::{
 };
 
 mod aggregate;
+pub(crate) mod carriage;
 mod query;
 mod store;
 mod types;

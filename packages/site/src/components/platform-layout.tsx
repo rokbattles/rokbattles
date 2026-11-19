@@ -13,6 +13,7 @@ import {
   Map as MapIcon,
   MonitorPlay,
   Scale,
+  Store,
   Trophy,
   Warehouse,
 } from "lucide-react";
@@ -175,6 +176,14 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     >
                       <Warehouse data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>My Resources</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem
+                      title="My Trading Post"
+                      href="/account/trading-post"
+                      current={pathname === "/account/trading-post"}
+                    >
+                      <Store data-slot="icon" aria-hidden="true" />
+                      <SidebarLabel>My Trading Post</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="Ark Recap"

@@ -15,6 +15,7 @@ processors = [
     "dep:rokbattles-mail-processor-alliance-aoo-individual-results",
     "dep:rokbattles-mail-processor-barcanyonkillboss",
     "dep:rokbattles-mail-processor-battle",
+    "dep:rokbattles-mail-processor-carriagesentreport",
     "dep:rokbattles-mail-processor-duelbattle2",
     "dep:rokbattles-mail-processor-eventmemberlootreport",
     "dep:rokbattles-mail-processor-killelitebarreport",
@@ -33,6 +34,7 @@ rokbattles-mail-processor-alliance-aoo-battle-results = { path = "../rokbattles-
 rokbattles-mail-processor-alliance-aoo-individual-results = { path = "../rokbattles-mail-processor-alliance-aoo-individual-results", optional = true }
 rokbattles-mail-processor-barcanyonkillboss = { path = "../rokbattles-mail-processor-barcanyonkillboss", optional = true }
 rokbattles-mail-processor-battle = { path = "../rokbattles-mail-processor-battle", optional = true }
+rokbattles-mail-processor-carriagesentreport = { path = "../rokbattles-mail-processor-carriagesentreport", optional = true }
 rokbattles-mail-processor-duelbattle2 = { path = "../rokbattles-mail-processor-duelbattle2", optional = true }
 rokbattles-mail-processor-eventmemberlootreport = { path = "../rokbattles-mail-processor-eventmemberlootreport", optional = true }
 rokbattles-mail-processor-killelitebarreport = { path = "../rokbattles-mail-processor-killelitebarreport", optional = true }

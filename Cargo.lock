@@ -4966,6 +4966,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-mail-processor-carriagesentreport"
+version = "1.9.6"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
 name = "rokbattles-mail-processor-duelbattle2"
 version = "1.9.6"
 dependencies = [
@@ -5055,6 +5063,7 @@ dependencies = [
  "rokbattles-mail-processor-alliance-aoo-individual-results",
  "rokbattles-mail-processor-barcanyonkillboss",
  "rokbattles-mail-processor-battle",
+ "rokbattles-mail-processor-carriagesentreport",
  "rokbattles-mail-processor-duelbattle2",
  "rokbattles-mail-processor-eventmemberlootreport",
  "rokbattles-mail-processor-ghostcavkillbar",

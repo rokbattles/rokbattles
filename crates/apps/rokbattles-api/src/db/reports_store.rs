@@ -48,6 +48,7 @@ pub struct ReportsStore {
     mails_killelitebarreport: Collection<Document>,
     mails_ghostcavkillbar: Collection<Document>,
     mails_rss: Collection<Document>,
+    mails_carriagesentreport: Collection<Document>,
     claimed_governors: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
     g_rok_prec_barbarianfort: Collection<Document>,
@@ -79,6 +80,7 @@ impl ReportsStore {
             mails_killelitebarreport: db.collection("mails_killelitebarreport"),
             mails_ghostcavkillbar: db.collection("mails_ghostcavkillbar"),
             mails_rss: db.collection("mails_rss"),
+            mails_carriagesentreport: db.collection("mails_carriagesentreport"),
             claimed_governors: db.collection("claimedGovernors"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
@@ -477,6 +479,10 @@ impl ReportsStore {
             self.mails_rss.create_index(model).await?;
         }
 
+        self.mails_carriagesentreport
+            .create_index(IndexModel::builder().keys(doc! { "metadata.mail_receiver": 1 }).build())
+            .await?;
+
         let claimed_governor_models = vec![
             IndexModel::builder()
                 .keys(doc! { "overlayTokenHash": 1 })
@@ -689,6 +695,11 @@ impl ReportsStore {
     /// Access the RSS mail collection.
     pub fn rss_collection(&self) -> &Collection<Document> {
         &self.mails_rss
+    }
+
+    /// Returns the collection of processed carriage reports.
+    pub fn carriage_collection(&self) -> &Collection<Document> {
+        &self.mails_carriagesentreport
     }
 
     /// Access claimed governor binds.

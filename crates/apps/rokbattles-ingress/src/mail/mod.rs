@@ -124,29 +124,39 @@ mod tests {
     }
 
     #[test]
-    fn raw_only_mail_samples_are_supported_and_stored_as_unprocessable() {
-        let samples: &[(&[u8], &str)] = &[
+    fn sample_mail_status_depends_on_processor_support() {
+        let samples: &[(&[u8], &str, &str)] = &[
             (
                 include_bytes!(
                     "../../../../../samples/CarriageSentReport/Persistent.Mail.514413917806539823"
                 ),
                 "CarriageSentReport",
+                STATUS_PENDING,
+            ),
+            (
+                include_bytes!(
+                    "../../../../../samples/CarriageSentReport/Persistent.Mail.78351364177661381616"
+                ),
+                "CarriageSentReport",
+                STATUS_PENDING,
             ),
             (
                 include_bytes!(
                     "../../../../../samples/ScoutReport/Persistent.Mail.3021287117837380854"
                 ),
                 "ScoutReport",
+                STATUS_UNPROCESSABLE,
             ),
             (
                 include_bytes!(
                     "../../../../../samples/System/Persistent.Mail.100458224177735425125"
                 ),
                 "SystemBundle",
+                STATUS_UNPROCESSABLE,
             ),
         ];
 
-        for &(bytes, expected_type) in samples {
+        for &(bytes, expected_type, expected_status) in samples {
             let decoded = rokbattles_mail_codec::decode(bytes).expect("decode sample");
             let mail_type = extract_mail_type(&decoded).expect("classify sample");
             assert_eq!(mail_type, expected_type);
@@ -160,7 +170,7 @@ mod tests {
                 now: DateTime::now(),
             })
             .expect("build raw mail document");
-            assert_eq!(doc.get_str("status").expect("status"), "unprocessable");
+            assert_eq!(doc.get_str("status").expect("status"), expected_status);
         }
     }
 }
