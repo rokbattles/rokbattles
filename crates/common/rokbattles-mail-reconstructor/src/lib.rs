@@ -16,9 +16,10 @@
 //! | `Battle`, `Battle2` | JSON and split attack records become `body.content`. |
 //! | `DuelBattle2` | `DuelMailReport` protobuf becomes `body.detail`. |
 //! | `Rss` | `MailRss` protobuf becomes `body.content`. |
+//! | `CarriageSentReport`, `ScoutReport` | Report fields become `body.content`. |
 //! | `BarCanyonKillBoss`, `KillEliteBarReport`, `GhostCavKillBar` | `EliteBarReportInfo` fields become `body.content`. |
 //! | `EventMemberLootReport` | `EventMemeberLootInfo` fields become `body.content`. |
-//! | `System` | `MailSys` fields become subtype fields and generated reward text. |
+//! | `System` | `MailSys` fields become subtype fields and generated reward text. Bundle notices retain their display keys and purchase data. |
 //! | `Alliance` | `MailSys` fields become `type`, `param`, and decoded `kvs`. |
 //!
 //! The assembled mail must also be recognized by
@@ -32,19 +33,11 @@
 //! This recreates the persistent representation from available network fields.
 //! Missing envelope values generally become empty strings or zeroes. A missing
 //! or zero entry server ID uses [`ReconstructionContext::server_id`]. Some body
-//! adapters supply display text and defaults that are absent from the network
-//! message; they do not recover the original client's localized text.
+//! adapters supply display text or defaults when fields are absent. Bundle
+//! notices retain language keys for later localization.
 //!
 //! Artifacts are limited to 32 MiB. Entries and declared inflated body lengths
 //! are limited to 25 MiB. Output file size has no separate bound here.
-//!
-//! # Contributor guide
-//!
-//! `artifact` resolves field numbers and indexes message descriptors; `protobuf`
-//! reads wire fields; `entity` decodes the mail envelope. `dynamic` converts
-//! descriptor-backed bodies to JSON, while `body` applies mail-specific shapes
-//! and `value` handles compression and Lua table conventions. `reconstructor`
-//! assembles the persistent fields, checks the category, and encodes the file.
 
 #![forbid(unsafe_code)]
 
@@ -55,6 +48,8 @@ mod entity;
 mod error;
 mod protobuf;
 mod reconstructor;
+mod scout;
+mod system_bundle;
 mod value;
 
 pub use error::ReconstructionError;
