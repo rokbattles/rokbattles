@@ -1,8 +1,4 @@
 //! Shared decompression and persistent JSON value conventions.
-//!
-//! Lua tables use arrays for empty tables and may arrive as alternating one-based
-//! indices and values. Normalization applies these conventions recursively and
-//! removes null object members; it is not a lossless JSON transformation.
 
 use std::io::Read;
 
@@ -67,11 +63,11 @@ pub(crate) fn decode_flags(value: &str) -> Value {
 /// arrays shaped like `[1, value, 2, value, ...]` into their values.
 ///
 /// Empty arrays and null array elements are retained.
-pub(crate) fn normalize_lua_table(value: &mut Value) {
+pub(crate) fn normalize_persistent_tables(value: &mut Value) {
     match value {
         Value::Array(values) => {
             for value in values.iter_mut() {
-                normalize_lua_table(value);
+                normalize_persistent_tables(value);
             }
             // Require the full one-based sequence before discarding index slots.
             let is_indexed_table = !values.is_empty()
@@ -92,7 +88,7 @@ pub(crate) fn normalize_lua_table(value: &mut Value) {
         Value::Object(values) => {
             values.retain(|_key, value| !value.is_null());
             for value in values.values_mut() {
-                normalize_lua_table(value);
+                normalize_persistent_tables(value);
             }
             if values.is_empty() {
                 *value = Value::Array(Vec::new());
@@ -173,14 +169,14 @@ mod tests {
     }
 
     #[test]
-    fn normalizes_nested_lua_table_shapes() {
+    fn normalizes_nested_persistent_tables() {
         let mut value = json!({
             "indexed": [1, {"keep": 1, "drop": null}, 2, []],
             "empty": {},
             "null": null
         });
 
-        normalize_lua_table(&mut value);
+        normalize_persistent_tables(&mut value);
 
         assert_eq!(
             value,
@@ -195,7 +191,7 @@ mod tests {
     fn leaves_nonsequential_index_pairs_unchanged() {
         let mut value = json!([1, "first", 3, "third"]);
 
-        normalize_lua_table(&mut value);
+        normalize_persistent_tables(&mut value);
 
         assert_eq!(value, json!([1, "first", 3, "third"]));
     }

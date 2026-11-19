@@ -13,7 +13,9 @@ use crate::{
     entity::{bytes, text},
     protobuf::fields,
     reconstructor::MailReconstructor,
-    value::normalize_lua_table,
+    scout::scout_content,
+    system_bundle::bundle_keys,
+    value::normalize_persistent_tables,
 };
 
 impl MailReconstructor {
@@ -29,7 +31,7 @@ impl MailReconstructor {
                 let mut content: Value =
                     serde_json::from_slice(body).map_err(ReconstructionError::InvalidBodyJson)?;
                 merge_attack_bodies(&mut content, attack_bodies, &self.schema)?;
-                normalize_lua_table(&mut content);
+                normalize_persistent_tables(&mut content);
                 Ok(json!({ "content": content }))
             }
             "DuelBattle2" => {
@@ -41,8 +43,8 @@ impl MailReconstructor {
                 Ok(json!({ "content": content }))
             }
             "ScoutReport" => {
-                let content = decode_message(body, "ScoutReportInfo", &self.schema.descriptors)?;
-                Ok(json!({ "content": content }))
+                let report = decode_message(body, "ScoutReportInfo", &self.schema.descriptors)?;
+                Ok(json!({ "content": scout_content(&report) }))
             }
             "CarriageSentReport" => {
                 let decoded =
@@ -70,8 +72,7 @@ impl MailReconstructor {
         let decoded = decode_message(body, "EliteBarReportInfo", &self.schema.descriptors)?;
         let root = object(&decoded, "EliteBarReportInfo")?;
         let infos = format_report_infos(root.get("Infos"), true)?;
-        // Dynamic decoding initializes absent integers to zero; the client uses
-        // level 1 only when Level is absent, while preserving an explicit zero.
+        // Default to level 1 when Level is absent and preserve an explicit zero.
         let level_field = self
             .schema
             .descriptors
@@ -130,6 +131,13 @@ impl MailReconstructor {
         output.insert("content".to_string(), Value::String(String::new()));
 
         if sub_type.as_i64() == Some(26) {
+            let [title, subtitle, content] = bundle_keys(
+                sub_param.as_i64().unwrap_or_default(),
+                kvs.get("title").and_then(Value::as_str),
+            );
+            output.insert("title".to_string(), json!(title));
+            output.insert("subTitle".to_string(), json!(subtitle));
+            output.insert("content".to_string(), json!(content));
             output.insert("kvs".to_string(), kvs);
             return Ok(Value::Object(output));
         }
@@ -222,7 +230,7 @@ fn reconstruct_loot(attachment: &Map<String, Value>) -> Value {
     filter_placeholder_rewards(attachment.get("Data"))
 }
 
-// The client applies the same placeholder filtering to attachments and boss loot.
+// Attachments and boss loot share the same placeholder filtering.
 fn filter_placeholder_rewards(value: Option<&Value>) -> Value {
     let mut loot = value.cloned().unwrap_or_else(|| Value::Array(Vec::new()));
     if let Value::Array(rewards) = &mut loot {
@@ -308,7 +316,7 @@ fn merge_attack_bodies(
             encoded_body.ok_or(ReconstructionError::MissingField("MailReportAttack.Body"))?;
         let mut value =
             serde_json::from_slice(encoded_body).map_err(ReconstructionError::InvalidAttackJson)?;
-        normalize_lua_table(&mut value);
+        normalize_persistent_tables(&mut value);
         attack_map.insert(name.to_string(), value);
     }
     Ok(())
@@ -321,7 +329,7 @@ fn object<'a>(
     value.as_object().ok_or(ReconstructionError::InvalidBodyShape(name))
 }
 
-/// Parses embedded Kvs JSON and normalizes its Lua table representation.
+/// Parses embedded Kvs JSON and normalizes its table values for persistent mail.
 ///
 /// Missing, non-string, or empty input yields an empty object. A supplied JSON
 /// value is normalized, so the text `{}` becomes an empty array.
@@ -331,7 +339,7 @@ fn parse_kvs(value: Option<&Value>) -> Result<Value, ReconstructionError> {
         return Ok(Value::Object(Map::new()));
     }
     let mut value = serde_json::from_str(text).map_err(ReconstructionError::InvalidBodyJson)?;
-    normalize_lua_table(&mut value);
+    normalize_persistent_tables(&mut value);
     Ok(value)
 }
 
@@ -654,21 +662,61 @@ mod tests {
     }
 
     #[test]
-    fn preserves_purchase_data_in_system_bundle_body() {
+    fn reconstructs_bundle_display_keys_and_preserves_purchase_data() {
         let reconstructor = MailReconstructor::synthetic();
         let mut body = Vec::new();
         push_varint(&mut body, field(&reconstructor, "MailSys", "Type"), 26);
-        push_varint(&mut body, field(&reconstructor, "MailSys", "Param"), 19);
-        push_bytes(&mut body, field(&reconstructor, "MailSys", "Kvs"), br#"{"name":"bundle"}"#);
+        push_varint(&mut body, field(&reconstructor, "MailSys", "Param"), 17);
+        let kvs = br#"{"card_last_time":"2592000000","title":"LC_STORE_IAP_MONTHLYCARD_GEM30_KOREA_TITLE"}"#;
+        push_bytes(&mut body, field(&reconstructor, "MailSys", "Kvs"), kvs);
 
         let decoded = reconstructor.reconstruct_body("System", &body, &[]).expect("bundle body");
-        assert_eq!(decoded["subType"], 26);
-        assert_eq!(decoded["subParam"], 19);
-        assert_eq!(decoded["kvs"], json!({"name": "bundle"}));
+        assert_eq!(
+            decoded,
+            json!({
+                "subType": 26,
+                "subParam": 17,
+                "title": "LC_MAIL_RECHARGE_NORMAL_TITLE",
+                "subTitle": "LC_MAIL_RECHARGE_NORMAL_SUBTITLE",
+                "content": "LC_MAIL_RECHARGE_NOITEM_CONTENT",
+                "kvs": serde_json::from_slice::<Value>(kvs).expect("purchase data"),
+            })
+        );
     }
 
     #[test]
-    fn ghost_cav_network_adapter_uses_client_level_default() {
+    fn scout_body_uses_persistent_field_names_and_scales_scout_strength() {
+        let reconstructor = MailReconstructor::synthetic();
+        let mut pos = Vec::new();
+        push_fixed32(&mut pos, 1, 1.25);
+        push_fixed32(&mut pos, 2, 2.5);
+        let mut character = Vec::new();
+        push_varint(&mut character, 1, 42);
+        push_varint(&mut character, 2, 7);
+        push_bytes(&mut character, 3, &pos);
+        let mut scout = Vec::new();
+        push_varint(&mut scout, 1, 10);
+        push_bytes(&mut scout, 2, b"Scout");
+        push_bytes(&mut scout, 3, &character);
+        push_varint(&mut scout, 4, 20);
+        push_fixed32(&mut scout, 15, 0.75);
+        push_varint(&mut scout, 24, 4);
+
+        let decoded =
+            reconstructor.reconstruct_body("ScoutReport", &scout, &[]).expect("scout body");
+        let content = &decoded["content"];
+        assert_eq!(content["scoutPlayerId"], 10);
+        assert_eq!(content["scoutPlayerName"], "Scout");
+        assert_eq!(content["char"], json!({"id":42, "type":7, "pos":{"x":1.25, "y":2.5}}));
+        assert_eq!(content["playerId"], 20);
+        assert_eq!(content["p"], 1.125);
+        assert_eq!(content["isConquerSeason"], true);
+        assert_eq!(content["isRally"], false);
+        assert!(content.get("ScoutPlayerId").is_none());
+    }
+
+    #[test]
+    fn ghost_cav_network_adapter_defaults_level_only_when_absent() {
         let reconstructor = MailReconstructor::synthetic();
         let mut body = Vec::new();
         push_varint(&mut body, field(&reconstructor, "EliteBarReportInfo", "NpcType"), 70005);
@@ -682,7 +730,7 @@ mod tests {
     }
 
     #[test]
-    fn report_participant_loot_filters_only_client_item_placeholders() {
+    fn report_participant_loot_filters_only_item_placeholders() {
         let infos = json!([{"PlayerId": 7, "Loots": [
             {"Type": 2, "SubType": 0, "Value": 0},
             {"Type": 1, "SubType": 0, "Value": 10},
