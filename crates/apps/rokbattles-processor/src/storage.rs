@@ -25,6 +25,7 @@ pub struct Storage {
     ghostcavkillbar: Collection<Document>,
     eventmemberlootreport: Collection<Document>,
     rss: Collection<Document>,
+    carriage_sent_report: Collection<Document>,
     system_barbarianfort: Collection<Document>,
     system_kahartreasure: Collection<Document>,
     system_kaukaruak: Collection<Document>,
@@ -45,6 +46,7 @@ impl Storage {
             ghostcavkillbar: db.collection(MailType::GhostCavKillBar.collection_name()),
             eventmemberlootreport: db.collection(MailType::EventMemberLootReport.collection_name()),
             rss: db.collection(MailType::Rss.collection_name()),
+            carriage_sent_report: db.collection(MailType::CarriageSentReport.collection_name()),
             system_barbarianfort: db.collection(MailType::SystemBarbarianFort.collection_name()),
             system_kahartreasure: db.collection(MailType::SystemKaharTreasure.collection_name()),
             system_kaukaruak: db.collection(MailType::SystemKauKaruak.collection_name()),
@@ -69,6 +71,7 @@ impl Storage {
         self.ghostcavkillbar.create_index(mail_id_index.clone()).await?;
         self.eventmemberlootreport.create_index(mail_id_index.clone()).await?;
         self.rss.create_index(mail_id_index.clone()).await?;
+        self.carriage_sent_report.create_index(mail_id_index.clone()).await?;
         self.system_barbarianfort.create_index(mail_id_index.clone()).await?;
         self.system_kahartreasure.create_index(mail_id_index.clone()).await?;
         self.system_kaukaruak.create_index(mail_id_index.clone()).await?;
@@ -106,13 +109,14 @@ impl Storage {
             MailType::GhostCavKillBar => &self.ghostcavkillbar,
             MailType::EventMemberLootReport => &self.eventmemberlootreport,
             MailType::Rss => &self.rss,
+            MailType::CarriageSentReport => &self.carriage_sent_report,
             MailType::SystemBarbarianFort => &self.system_barbarianfort,
             MailType::SystemKaharTreasure => &self.system_kahartreasure,
             MailType::SystemKauKaruak => &self.system_kaukaruak,
             MailType::AllianceAOOBattleResults => &self.alliance_aoobattleresults,
             MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,
             MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,
-            MailType::CarriageSentReport | MailType::ScoutReport | MailType::SystemBundle => {
+            MailType::ScoutReport | MailType::SystemBundle => {
                 return Err(ProcessorError::UnsupportedMailType(mail_type.to_string()));
             }
         };

@@ -1,0 +1,20 @@
+{
+  "carriage": {
+    "active": false,
+    "resources": [
+      {
+        "type": 2,
+        "value": 2213707
+      }
+    ],
+    "target_id": 196758496,
+    "target_name": "Thorfin D 5",
+    "tax": 0
+  },
+  "metadata": {
+    "mail_id": "514413917806539823",
+    "mail_receiver": "player_199895292",
+    "mail_time": 1780653982999143,
+    "server_id": 2842
+  }
+}

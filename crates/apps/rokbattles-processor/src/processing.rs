@@ -588,6 +588,12 @@ mod tests {
         let samples: &[(&[u8], MailType)] = &[
             (
                 include_bytes!(
+                    "../../../../samples/CarriageSentReport/Persistent.Mail.514413917806539823"
+                ),
+                MailType::CarriageSentReport,
+            ),
+            (
+                include_bytes!(
                     "../../../../samples/GhostCavKillBar/Persistent.Mail.13411379179417835931"
                 ),
                 MailType::GhostCavKillBar,

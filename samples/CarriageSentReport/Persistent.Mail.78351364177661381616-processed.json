@@ -1,0 +1,20 @@
+{
+  "carriage": {
+    "active": true,
+    "resources": [
+      {
+        "type": 1,
+        "value": 4444444
+      }
+    ],
+    "target_id": 200231246,
+    "target_name": "Halli 1",
+    "tax": 0.10000000149011612
+  },
+  "metadata": {
+    "mail_id": "78351364177661381616",
+    "mail_receiver": "player_206178820",
+    "mail_time": 1776613816945733,
+    "server_id": 2801
+  }
+}

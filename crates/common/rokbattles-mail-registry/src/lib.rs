@@ -215,7 +215,7 @@ impl MailType {
     /// Returns whether the category has a registered processor.
     #[must_use]
     pub const fn is_processable(self) -> bool {
-        !matches!(self, Self::CarriageSentReport | Self::ScoutReport | Self::SystemBundle)
+        !matches!(self, Self::ScoutReport | Self::SystemBundle)
     }
 
     /// Returns the MongoDB collection name assigned to this category.
@@ -465,6 +465,9 @@ pub fn process_mail(
             rokbattles_mail_processor_eventmemberlootreport::process(input)
         }
         MailType::Rss => rokbattles_mail_processor_rss::process(input),
+        MailType::CarriageSentReport => {
+            rokbattles_mail_processor_carriagesentreport::process(input)
+        }
         MailType::SystemBarbarianFort => {
             rokbattles_mail_processor_system_barbarianfort::process(input)
         }
@@ -481,7 +484,7 @@ pub fn process_mail(
         MailType::AllianceAOOIndividualResults => {
             rokbattles_mail_processor_alliance_aoo_individual_results::process(input)
         }
-        MailType::CarriageSentReport | MailType::ScoutReport | MailType::SystemBundle => {
+        MailType::ScoutReport | MailType::SystemBundle => {
             Err(rokbattles_mail_sdk::ProcessError::UnsupportedMailType(mail_type.as_str()))
         }
     }
@@ -517,9 +520,7 @@ mod tests {
     #[cfg(feature = "processors")]
     #[test]
     fn rejects_dispatch_for_raw_only_categories() {
-        for mail_type in
-            [MailType::CarriageSentReport, MailType::ScoutReport, MailType::SystemBundle]
-        {
+        for mail_type in [MailType::ScoutReport, MailType::SystemBundle] {
             assert!(matches!(
                 process_mail(mail_type, &Value::Null),
                 Err(rokbattles_mail_sdk::ProcessError::UnsupportedMailType(label))
