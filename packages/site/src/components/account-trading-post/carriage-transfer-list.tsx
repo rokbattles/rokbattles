@@ -191,8 +191,10 @@ function CounterpartyRanking({
       ) : (
         <ul className="divide-y divide-white/5 text-sm">
           {entries.map((entry) => (
-            <li key={entry.governorId} className="space-y-1.5 px-4 py-2.5">
-              <span className="font-medium text-white break-words">{counterpartyName(entry)}</span>
+            <li key={entry.governorId} className="space-y-1 px-4 py-2.5">
+              <span className="block font-medium text-white break-words">
+                {counterpartyName(entry)}
+              </span>
               <ResourceAmounts resources={entry.resources} />
             </li>
           ))}
@@ -233,7 +235,7 @@ function formatReportedTax(tax: CarriageActivity["tax"]) {
   const min = taxFormatter.format(tax.min);
   const max = taxFormatter.format(tax.max);
 
-  return min === max ? min : `${min}–${max}`;
+  return min === max ? min : `${min.replace("%", "")}-${max}`;
 }
 
 function CarriageActivityRow({ entry }: { entry: CarriageActivity }) {
@@ -257,7 +259,7 @@ function CarriageActivityRow({ entry }: { entry: CarriageActivity }) {
           ) : null}
           <TransferTime millis={entry.newestAt} />
           {entry.reportCount > 1 ? ` · Consolidated ${entry.reportCount} reports` : null}
-          {tax ? <p className="mt-0.5">Reported tax {tax}</p> : null}
+          {tax ? ` · ${tax} Tax` : null}
         </div>
       </TableCell>
       {tradingResources.map(({ type }) => (
