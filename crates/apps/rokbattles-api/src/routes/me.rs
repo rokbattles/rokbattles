@@ -10,10 +10,10 @@ use axum::{
     response::{IntoResponse, Response},
     routing::get,
 };
+use mongodb::bson::{Document, oid::ObjectId};
 use reqwest::Url;
 
 use super::{
-    auth::load_claimed_governors,
     governor::{bind, loot, resources},
     reports::battle,
 };
@@ -66,13 +66,26 @@ pub(super) fn router(mode: RateLimitMode) -> Router<Arc<AppState>> {
             axum::routing::post(bind::post).delete(bind::delete),
         )
         .route("/governor-binds/{governor_id}/default", axum::routing::patch(bind::patch_default))
+        .route("/governor-binds/bulk-unbind", axum::routing::post(bind::bulk_unbind))
+        .route("/governor-binds/share", axum::routing::post(bind::share_selection))
+        .route(
+            "/governor-binds/{governor_id}/shares/{discord_id}",
+            axum::routing::delete(bind::revoke_share),
+        )
+        .route(
+            "/governor-binds/{governor_id}/suggestions/bind",
+            axum::routing::post(bind::bind_suggestions),
+        )
         .route_layer(Extension(Scope::GovernorBindsWrite))
         .route_layer(middleware::from_fn_with_state(
             Arc::new(RateLimiter::new(mode, 10, Duration::from_secs(4))),
             rate_limit::enforce,
         ));
 
-    reads.merge(writes).layer(middleware::from_fn(oidc::private_response))
+    reads
+        .merge(writes)
+        .route("/governor-binds/{governor_id}/suggestions", get(bind::suggestions))
+        .layer(middleware::from_fn(oidc::private_response))
 }
 
 /// The account making a request. Legacy routes use the browser session branch.
@@ -87,6 +100,44 @@ impl AccountAccess {
             Self::Session(session) => &session.user.discord_id,
             Self::App(access) => &access.account_id,
         }
+    }
+
+    pub(crate) fn require_session(&self) -> Result<(), ApiError> {
+        match self {
+            Self::Session(_) => Ok(()),
+            Self::App(_) => {
+                Err(ApiError::Forbidden("This action requires a user session".to_owned()))
+            }
+        }
+    }
+
+    fn authorized_shares(&self) -> Option<&[ObjectId]> {
+        match self {
+            Self::Session(_) => None,
+            Self::App(access) => Some(&access.shared_governor_memberships),
+        }
+    }
+
+    pub(crate) async fn governor_claim(
+        &self,
+        state: &AppState,
+        governor_id: i64,
+    ) -> Result<Document, ApiError> {
+        bind::find_accessible_claim(
+            &state.reports_store,
+            self.account_id(),
+            governor_id,
+            self.authorized_shares(),
+        )
+        .await
+    }
+
+    pub(crate) async fn ensure_governor(
+        &self,
+        state: &AppState,
+        governor_id: i64,
+    ) -> Result<(), ApiError> {
+        self.governor_claim(state, governor_id).await.map(|_| ())
     }
 
     pub(crate) async fn ensure_active(&self, state: &AppState) -> Result<(), ApiError> {
@@ -174,5 +225,12 @@ async fn list_binds(
     State(state): State<Arc<AppState>>,
     access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
-    Ok(Json(load_claimed_governors(&state, access.account_id()).await?))
+    Ok(Json(
+        bind::load_claimed_governors(
+            &state.reports_store,
+            access.account_id(),
+            access.authorized_shares(),
+        )
+        .await?,
+    ))
 }

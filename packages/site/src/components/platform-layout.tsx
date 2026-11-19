@@ -83,7 +83,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
       sidebar={
         <Sidebar>
           {!loading && user ? (
-            <SidebarGovernorHeader user={user} handleLogout={handleLogout} />
+            <SidebarGovernorHeader handleLogout={handleLogout} />
           ) : (
             <SidebarHeader>
               <div className="px-2">

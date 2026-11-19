@@ -130,6 +130,10 @@ impl Scope {
         }
     }
 
+    fn is_governor_scope(self) -> bool {
+        matches!(self, Self::GovernorBindsRead | Self::GovernorBindsWrite | Self::GovernorDataRead)
+    }
+
     pub(crate) fn info(self) -> ScopeInfo {
         let description = match self {
             Self::OpenId => "Sign in with ROK Battles",
@@ -139,7 +143,7 @@ impl Scope {
                 "Add, remove, and change the default for your governor binds"
             }
             Self::GovernorDataRead => {
-                "View battle reports, loot, and resources for your current governor binds, including binds added later"
+                "View battle reports, loot, and resources for your primary binds and governors currently shared with you, including primary binds added later"
             }
         };
 

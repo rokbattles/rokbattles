@@ -11,13 +11,8 @@ use axum::{
     response::{IntoResponse, Redirect, Response},
     routing::{MethodRouter, delete, get, post},
 };
-use futures::StreamExt;
-use mongodb::{
-    bson::{Bson, DateTime, Document, doc},
-    options::FindOptions,
-};
+use mongodb::bson::DateTime;
 use reqwest::Url;
-use rokbattles_bson::bson_to_i64_exact;
 use serde::{Deserialize, de::DeserializeOwned};
 
 use crate::{
@@ -29,6 +24,7 @@ use crate::{
     error::ApiError,
     oidc,
     rate_limit::{self, RateLimitMode, RateLimiter},
+    routes::governor::bind::load_claimed_governors,
     state::{AppState, DiscordOAuthConfig},
 };
 
@@ -39,7 +35,6 @@ mod oauth;
 mod sessions;
 mod types;
 pub(crate) use cookies::build_clear_session_cookie;
-pub(crate) use types::ClaimedGovernor;
 
 use self::types::{AuthMeResponse, CurrentUser, LogoutResponse};
 
@@ -91,7 +86,8 @@ async fn get_me(
     State(state): State<Arc<AppState>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claimed_governors = load_claimed_governors(&state, &session.user.discord_id).await?;
+    let claimed_governors =
+        load_claimed_governors(&state.reports_store, &session.user.discord_id, None).await?;
 
     Ok((
         [("Cache-Control", "no-store")],
@@ -299,58 +295,6 @@ async fn create_browser_session(
     Ok(response)
 }
 
-pub(crate) async fn load_claimed_governors(
-    state: &AppState,
-    discord_id: &str,
-) -> Result<Vec<ClaimedGovernor>, ApiError> {
-    let options = FindOptions::builder()
-        .sort(doc! { "default": -1, "createdAt": -1, "_id": -1 })
-        .projection(doc! {
-            "_id": 0,
-            "governorId": 1,
-            "governorName": 1,
-            "governorAvatar": 1,
-            "createdAt": 1,
-            "default": 1
-        })
-        .build();
-
-    let claims_collection = state.reports_store.claimed_governors_collection();
-    let mut cursor = claims_collection
-        .find(doc! { "discordId": discord_id })
-        .with_options(options)
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    let mut claims = Vec::new();
-    while let Some(next) = cursor.next().await {
-        let document = next.map_err(|error| ApiError::internal(error.to_string()))?;
-        let Some(governor_id) = document.get("governorId").and_then(bson_to_i64_exact) else {
-            continue;
-        };
-
-        claims.push(ClaimedGovernor {
-            governor_id,
-            governor_name: optional_string_field(&document, "governorName"),
-            governor_avatar: optional_string_field(&document, "governorAvatar"),
-            default: document.get_bool("default").unwrap_or(false),
-        });
-    }
-
-    // A failed promotion on standalone MongoDB can leave every flag unset.
-    if !claims.iter().any(|claim| claim.default)
-        && let Some(newest) = claims.first_mut()
-    {
-        newest.default = true;
-    }
-
-    Ok(claims)
-}
-
-fn optional_string_field(document: &Document, key: &str) -> Option<String> {
-    document.get(key).and_then(Bson::as_str).map(ToString::to_string)
-}
-
 async fn discord_identity(
     state: &AppState,
     code: &str,
@@ -454,7 +398,6 @@ struct DiscordProfileResponse {
 
 #[cfg(test)]
 mod tests {
-    use mongodb::bson::doc;
 
     use super::*;
 
@@ -765,17 +708,5 @@ mod tests {
         assert_eq!(profile.id, "123");
         assert_eq!(profile.email.as_deref(), Some("test@example.com"));
         assert_eq!(profile.verified, Some(true));
-    }
-
-    #[test]
-    fn extracts_optional_string_fields() {
-        let document = doc! {
-            "governorName": "test",
-            "governorAvatar": mongodb::bson::Bson::Null
-        };
-
-        assert_eq!(optional_string_field(&document, "governorName"), Some("test".to_string()));
-        assert_eq!(optional_string_field(&document, "governorAvatar"), None);
-        assert_eq!(optional_string_field(&document, "missing"), None);
     }
 }

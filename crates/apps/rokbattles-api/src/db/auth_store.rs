@@ -450,7 +450,14 @@ impl AuthRepository for MongoAuthStore {
                     "$or": [{ "userId": user_id }, { "ownerId": user_id }]
                 })
                 .await?;
+
             self.claimed_governors.delete_many(doc! { "discordId": user_id }).await?;
+            self.claimed_governors
+                .update_many(
+                    doc! { "shares.discordId": user_id },
+                    doc! { "$pull": { "shares": { "discordId": user_id } } },
+                )
+                .await?;
 
             self.sessions.delete_many(doc! { "userId": user_id }).await?;
 

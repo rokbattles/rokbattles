@@ -50,6 +50,7 @@ pub struct ReportsStore {
     mails_rss: Collection<Document>,
     mails_carriagesentreport: Collection<Document>,
     claimed_governors: Collection<Document>,
+    users: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
     g_rok_prec_barbarianfort: Collection<Document>,
     g_rok_prec_baulur: Collection<Document>,
@@ -82,6 +83,7 @@ impl ReportsStore {
             mails_rss: db.collection("mails_rss"),
             mails_carriagesentreport: db.collection("mails_carriagesentreport"),
             claimed_governors: db.collection("claimedGovernors"),
+            users: db.collection("users"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
             g_rok_prec_baulur: db.collection("g_rok_prec_baulur"),
@@ -117,6 +119,9 @@ impl ReportsStore {
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "sender.app_uid": 1, "sender.player_id": 1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
@@ -493,6 +498,12 @@ impl ReportsStore {
                 .options(IndexOptions::builder().unique(true).build())
                 .build(),
             IndexModel::builder().keys(doc! { "discordId": 1, "governorId": 1 }).build(),
+            IndexModel::builder().keys(doc! { "discordId": 1, "appUid": 1 }).build(),
+            IndexModel::builder().keys(doc! { "shares.discordId": 1 }).build(),
+            IndexModel::builder()
+                .keys(doc! { "shares.overlayTokenHash": 1 })
+                .options(IndexOptions::builder().sparse(true).build())
+                .build(),
             IndexModel::builder().keys(doc! { "discordId": 1, "createdAt": -1 }).build(),
             IndexModel::builder()
                 .keys(doc! { "discordId": 1, "default": -1, "createdAt": -1 })
@@ -700,6 +711,10 @@ impl ReportsStore {
     /// Returns the collection of processed carriage reports.
     pub fn carriage_collection(&self) -> &Collection<Document> {
         &self.mails_carriagesentreport
+    }
+
+    pub(crate) fn users_collection(&self) -> &Collection<Document> {
+        &self.users
     }
 
     /// Access claimed governor binds.

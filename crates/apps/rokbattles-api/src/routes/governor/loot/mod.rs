@@ -28,10 +28,7 @@ use self::{
 };
 use crate::{
     error::ApiError,
-    routes::{
-        governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
-        me::AccountAccess,
-    },
+    routes::{governor::common::parse_governor_id_param, me::AccountAccess},
     state::AppState,
 };
 
@@ -50,7 +47,7 @@ pub async fn get_barbarians(
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_barbarian_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -78,7 +75,7 @@ pub async fn get_kahars_treasure(
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_kahar_treasure_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -99,7 +96,7 @@ pub async fn get_karuak_ceremony(
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_karuak_ceremony_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -127,7 +124,7 @@ pub async fn get_barbarian_forts(
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_fort_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -156,7 +153,7 @@ pub async fn get_baulurs(
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_baulur_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
@@ -182,7 +179,7 @@ pub async fn get_lohars_trial(
     let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_lohar_trial_loot_request(&params)?;
 
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();

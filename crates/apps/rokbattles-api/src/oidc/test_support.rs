@@ -213,6 +213,10 @@ impl OidcRepository for Memory {
             .then(|| format!("subject-{user}")))
     }
 
+    async fn shared_governor_memberships(&self, _user: &str) -> MongoResult<Vec<ObjectId>> {
+        Ok(Vec::new())
+    }
+
     async fn insert_request(&self, request: &Request) -> MongoResult<()> {
         self.requests.lock().expect("requests").insert(request.id.clone(), request.clone());
         Ok(())

@@ -15,6 +15,7 @@ use sha2::{Digest, Sha256};
 use crate::{
     auth::{AuthenticatedSession, RequireRole, Role, roles},
     error::ApiError,
+    routes::governor::bind::{find_accessible_claim, share_documents, share_for},
     state::AppState,
 };
 
@@ -66,18 +67,61 @@ impl Settings {
     }
 }
 
-async fn owned_claim(
-    state: &AppState,
-    session: &AuthenticatedSession,
-    governor: i64,
-) -> Result<Document, ApiError> {
-    state
-        .reports_store
-        .claimed_governors_collection()
-        .find_one(doc! {"discordId": &session.user.discord_id, "governorId": governor})
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?
-        .ok_or_else(|| ApiError::not_found("Claim not found"))
+// A recipient's overlay lives on their share so revoking the share also removes
+// its overlay token. The primary holder's overlay lives on the bind itself.
+struct OverlayMembership {
+    filter: Document,
+    fields: Document,
+    prefix: &'static str,
+}
+
+impl OverlayMembership {
+    async fn load(
+        state: &AppState,
+        session: &AuthenticatedSession,
+        governor: i64,
+    ) -> Result<Self, ApiError> {
+        let user = &session.user.discord_id;
+        let claim = find_accessible_claim(&state.reports_store, user, governor, None).await?;
+        let id = claim.get("_id").ok_or_else(|| ApiError::not_found("Claim not found"))?;
+
+        if let Some(share) = share_for(&claim, user) {
+            Ok(Self {
+                filter: doc! {
+                    "_id": id, "shares": { "$elemMatch": { "_id": share.get("_id"), "discordId": user } }
+                },
+                fields: share.clone(),
+                prefix: "shares.$.",
+            })
+        } else {
+            Ok(Self { filter: doc! { "_id": id, "discordId": user }, fields: claim, prefix: "" })
+        }
+    }
+
+    async fn update(
+        self,
+        state: &AppState,
+        operation: &str,
+        fields: Document,
+    ) -> Result<(), ApiError> {
+        let fields = fields
+            .into_iter()
+            .map(|(key, value)| (format!("{}{key}", self.prefix), value))
+            .collect::<Document>();
+
+        let result = state
+            .reports_store
+            .claimed_governors_collection()
+            .update_one(self.filter, doc! { operation: fields })
+            .await
+            .map_err(|error| ApiError::internal(error.to_string()))?;
+
+        if result.matched_count != 1 {
+            return Err(ApiError::not_found("Claim not found"));
+        }
+
+        Ok(())
+    }
 }
 
 pub async fn settings(
@@ -85,14 +129,14 @@ pub async fn settings(
     Path(governor): Path<i64>,
     session: RequireRole<roles::ContentCreator>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claim = owned_claim(&state, &session, governor).await?;
+    let membership = OverlayMembership::load(&state, &session, governor).await?;
 
     Ok((
         NO_STORE,
         Json(serde_json::json!({
-            "enabled": claim.get_str("overlayTokenHash").is_ok(),
-            "path": stored_path(&claim),
-            "settings": Settings::from_claim(&claim)?
+            "enabled": membership.fields.get_str("overlayTokenHash").is_ok(),
+            "path": stored_path(&membership.fields),
+            "settings": Settings::from_claim(&membership.fields)?
         })),
     ))
 }
@@ -104,27 +148,11 @@ pub async fn save(
     Json(settings): Json<Settings>,
 ) -> Result<impl IntoResponse, ApiError> {
     settings.validate()?;
-    let claim = owned_claim(&state, &session, governor).await?;
+    let membership = OverlayMembership::load(&state, &session, governor).await?;
     let settings_doc = mongodb::bson::to_document(&settings)
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let result = state
-        .reports_store
-        .claimed_governors_collection()
-        .update_one(
-            doc! {
-                "_id": claim.get("_id").cloned(),
-                "discordId": &session.user.discord_id,
-                "governorId": governor,
-            },
-            doc! {"$set": {"overlaySettings": settings_doc}},
-        )
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    if result.matched_count != 1 {
-        return Err(ApiError::not_found("Claim not found"));
-    }
+    membership.update(&state, "$set", doc! { "overlaySettings": settings_doc }).await?;
 
     Ok((NO_STORE, Json(settings)))
 }
@@ -133,8 +161,8 @@ fn token_hash(token: &str) -> String {
     format!("{:x}", Sha256::digest(token.as_bytes()))
 }
 
-// Keep the lookup hash for existing bearer URLs; only the authenticated owner
-// settings response exposes the recoverable token stored by new rotations.
+// Older overlays stored only the token hash. Rotating an overlay stores the
+// token so the authenticated settings route can display the URL again.
 fn stored_path(claim: &Document) -> Option<String> {
     let token = claim.get_str("overlayToken").ok()?;
     let hash = claim.get_str("overlayTokenHash").ok()?;
@@ -161,26 +189,16 @@ pub async fn rotate(
     Path(governor): Path<i64>,
     session: RequireRole<roles::ContentCreator>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claim = owned_claim(&state, &session, governor).await?;
+    let membership = OverlayMembership::load(&state, &session, governor).await?;
     let token = generate_token();
 
-    let result = state
-        .reports_store
-        .claimed_governors_collection()
-        .update_one(
-            doc! {
-                "_id": claim.get("_id").cloned(),
-                "discordId": &session.user.discord_id,
-                "governorId": governor,
-            },
-            doc! {"$set": {"overlayTokenHash": token_hash(&token), "overlayToken": &token}},
+    membership
+        .update(
+            &state,
+            "$set",
+            doc! { "overlayTokenHash": token_hash(&token), "overlayToken": &token },
         )
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    if result.matched_count != 1 {
-        return Err(ApiError::not_found("Claim not found"));
-    }
+        .await?;
 
     Ok((NO_STORE, Json(serde_json::json!({"path": format!("/overlay/{token}")}))))
 }
@@ -190,78 +208,75 @@ pub async fn revoke(
     Path(governor): Path<i64>,
     session: RequireRole<roles::ContentCreator>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claim = owned_claim(&state, &session, governor).await?;
+    let membership = OverlayMembership::load(&state, &session, governor).await?;
 
-    let result = state
-        .reports_store
-        .claimed_governors_collection()
-        .update_one(
-            doc! {
-                "_id": claim.get("_id").cloned(),
-                "discordId": &session.user.discord_id,
-                "governorId": governor,
-            },
-            doc! {"$unset": {"overlayTokenHash": "", "overlayToken": ""}},
-        )
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    if result.matched_count != 1 {
-        return Err(ApiError::not_found("Claim not found"));
-    }
+    membership
+        .update(&state, "$unset", doc! { "overlayTokenHash": "", "overlayToken": "" })
+        .await?;
 
     Ok((NO_STORE, Json(serde_json::json!({"enabled": false}))))
 }
 
-async fn token_claim(state: &AppState, token: &str) -> Result<Document, ApiError> {
+async fn token_claim(state: &AppState, token: &str) -> Result<(i64, Settings), ApiError> {
     if !valid_token(token) {
         return Err(ApiError::not_found("Overlay not found"));
     }
 
+    let hash = token_hash(token);
     let claim = state
         .reports_store
         .claimed_governors_collection()
-        .find_one(doc! {"overlayTokenHash": token_hash(token)})
+        .find_one(doc! { "$or": [
+            { "overlayTokenHash": &hash },
+            { "shares.overlayTokenHash": &hash },
+        ] })
         .max_time(QUERY_TIMEOUT)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?
         .ok_or_else(|| ApiError::not_found("Overlay not found"))?;
 
-    let owner_id =
-        claim.get_str("discordId").map_err(|_error| ApiError::not_found("Overlay not found"))?;
-    // OBS uses a bearer URL without a session. Recheck the owner's current role
-    // on every request so removing membership also disables existing URLs.
+    let membership = if claim.get_str("overlayTokenHash").ok() == Some(&hash) {
+        Some(&claim)
+    } else {
+        share_documents(&claim).find(|share| share.get_str("overlayTokenHash").ok() == Some(&hash))
+    }
+    .ok_or_else(|| ApiError::not_found("Overlay not found"))?;
+    let owner_id = membership
+        .get_str("discordId")
+        .map_err(|_error| ApiError::not_found("Overlay not found"))?;
+
+    // OBS requests present an overlay URL without a session. Check that the
+    // account that issued the URL still has the content creator role.
     let owner = state
         .auth_store
         .find_user_by_discord_id(owner_id)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?
         .ok_or_else(|| ApiError::not_found("Overlay not found"))?;
+
     if !owner.roles.contains(Role::ContentCreator) {
         return Err(ApiError::not_found("Overlay not found"));
     }
 
-    Ok(claim)
+    let governor = nested_i64(&claim, &["governorId"])
+        .ok_or_else(|| ApiError::internal("Invalid overlay governor"))?;
+    Ok((governor, Settings::from_claim(membership)?))
 }
 
 pub async fn token_settings(
     State(state): State<Arc<AppState>>,
     Path(token): Path<String>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claim = token_claim(&state, &token).await?;
+    let (_, settings) = token_claim(&state, &token).await?;
 
-    Ok((NO_STORE, Json(Settings::from_claim(&claim)?)))
+    Ok((NO_STORE, Json(settings)))
 }
 
 pub async fn battles(
     State(state): State<Arc<AppState>>,
     Path(token): Path<String>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let claim = token_claim(&state, &token).await?;
-
-    let governor = nested_i64(&claim, &["governorId"])
-        .ok_or_else(|| ApiError::internal("Invalid overlay governor"))?;
-    let settings = Settings::from_claim(&claim)?;
+    let (governor, settings) = token_claim(&state, &token).await?;
     let now = DateTime::now().timestamp_millis();
 
     let reports = store::fetch_reports(&state, governor, settings.limit, now).await?;
