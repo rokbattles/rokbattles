@@ -331,7 +331,26 @@ mod tests {
                         field("Kvs", 3, 1, 9, ""),
                     ],
                 ),
-                message("ScoutReportInfo", vec![field("ScoutPlayerId", 1, 1, 3, "")]),
+                message(
+                    "ScoutReportInfo",
+                    vec![
+                        field("ScoutPlayerId", 1, 2, 3, ""),
+                        field("Name", 2, 2, 9, ""),
+                        field("Char", 3, 2, 11, "CharInfo"),
+                        field("PlayerId", 4, 2, 3, ""),
+                        field("P", 15, 2, 2, ""),
+                        field("IsRally", 16, 1, 8, ""),
+                        field("LostLandType", 24, 1, 5, ""),
+                    ],
+                ),
+                message(
+                    "CharInfo",
+                    vec![
+                        field("Id", 1, 2, 3, ""),
+                        field("Type", 2, 2, 14, ""),
+                        field("Pos", 3, 2, 11, "PosInfo"),
+                    ],
+                ),
                 message(
                     "CarriageSentReportInfo",
                     vec![field("SenderPlayerId", 1, 1, 3, ""), field("Active", 5, 1, 8, "")],
