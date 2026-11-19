@@ -25,8 +25,7 @@ use self::{
 use crate::{
     error::ApiError,
     routes::{
-        governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
-        me::AccountAccess,
+        governor::common::parse_governor_id_param, me::AccountAccess,
         reports::common::pagination::paginate_cursor_rows,
     },
     state::AppState,
@@ -63,7 +62,7 @@ pub(crate) async fn get_mine(
     access: AccountAccess,
 ) -> Result<Json<ReportsResponse>, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id)?;
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     params.insert("receiver".to_owned(), governor_id.to_string());
     let request = parse_reports_request(&params)?;
@@ -251,7 +250,7 @@ pub(crate) async fn get_my_report(
     access: AccountAccess,
 ) -> Result<Json<ReportByIdResponse>, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id)?;
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let report_id = parse_report_id(&report_id)?;
     let response = load_report(&state, report_id, Some(governor_id)).await?;

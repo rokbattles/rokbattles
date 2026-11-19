@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use crate::auth::Roles;
+use crate::{auth::Roles, routes::governor::bind::ClaimedGovernor};
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -15,15 +15,6 @@ pub(super) struct CurrentUser {
     pub email: String,
     pub roles: Roles,
     pub claimed_governors: Vec<ClaimedGovernor>,
-}
-
-#[derive(Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub(crate) struct ClaimedGovernor {
-    pub governor_id: i64,
-    pub governor_name: Option<String>,
-    pub governor_avatar: Option<String>,
-    pub default: bool,
 }
 
 #[derive(Debug, Serialize)]

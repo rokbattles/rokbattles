@@ -130,16 +130,20 @@ impl Scope {
         }
     }
 
+    fn is_governor_scope(self) -> bool {
+        matches!(self, Self::GovernorBindsRead | Self::GovernorBindsWrite | Self::GovernorDataRead)
+    }
+
     pub(crate) fn info(self) -> ScopeInfo {
         let description = match self {
             Self::OpenId => "Sign in with ROK Battles",
             Self::ProfileRead => "View your linked Discord ID",
             Self::GovernorBindsRead => "View your governor binds",
             Self::GovernorBindsWrite => {
-                "Add, remove, and change the default for your governor binds"
+                "Add or remove binds, change your default bind, share your binds, and revoke your binds."
             }
             Self::GovernorDataRead => {
-                "View battle reports, loot, and resources for your current governor binds, including binds added later"
+                "View battle reports, loot, and resources for your primary and shared binds, including binds added later."
             }
         };
 
@@ -306,6 +310,79 @@ mod tests {
         let issued = fixture.exchange(&code, VERIFIER).await;
         assert_eq!(issued.status(), StatusCode::OK);
         assert_eq!(body(issued).await["scope"], scopes);
+    }
+
+    #[tokio::test]
+    async fn share_routes_require_the_bind_write_scope_for_app_tokens() {
+        let fixture = Fixture::new().await;
+
+        let read_code = fixture.code("openid governor.binds:read").await;
+        let read_tokens = body(fixture.exchange(&read_code, VERIFIER).await).await;
+        let read_header = format!("Bearer {}", claim(&read_tokens, "access_token"));
+
+        let write_code = fixture.code("openid governor.binds:write").await;
+        let write_tokens = body(fixture.exchange(&write_code, VERIFIER).await).await;
+        let write_header = format!("Bearer {}", claim(&write_tokens, "access_token"));
+        let user_agent = format!("ROKBattles/{}", fixture.id);
+
+        for (method, path) in [
+            (Method::POST, "/v1/me/governor-binds/share"),
+            (Method::DELETE, "/v1/me/governor-binds/0/shares/123"),
+        ] {
+            let denied = fixture
+                .call(
+                    method.clone(),
+                    path,
+                    &[
+                        ("authorization", &read_header),
+                        ("user-agent", &user_agent),
+                        ("content-type", "application/json"),
+                    ],
+                    r#"{"governorIds":[],"discordId":"123"}"#.to_owned(),
+                )
+                .await;
+            assert_eq!(denied.status(), StatusCode::FORBIDDEN);
+            assert_eq!(body(denied).await, json!({ "error": "insufficient_scope" }));
+
+            let allowed = fixture
+                .call(
+                    method,
+                    path,
+                    &[
+                        ("authorization", &write_header),
+                        ("user-agent", &user_agent),
+                        ("content-type", "application/json"),
+                    ],
+                    r#"{"governorIds":[],"discordId":"123"}"#.to_owned(),
+                )
+                .await;
+            assert_eq!(allowed.status(), StatusCode::BAD_REQUEST);
+        }
+    }
+
+    #[tokio::test]
+    async fn share_routes_reject_cross_origin_session_requests() {
+        let fixture = Fixture::new().await;
+
+        for (method, path) in [
+            (Method::POST, "/v1/me/governor-binds/share"),
+            (Method::DELETE, "/v1/me/governor-binds/0/shares/123"),
+        ] {
+            let denied = fixture
+                .call(
+                    method,
+                    path,
+                    &[
+                        ("cookie", "sid=alice"),
+                        ("origin", "https://other.example"),
+                        ("content-type", "application/json"),
+                    ],
+                    r#"{"governorIds":[],"discordId":"123"}"#.to_owned(),
+                )
+                .await;
+            assert_eq!(denied.status(), StatusCode::FORBIDDEN);
+            assert_eq!(body(denied).await, json!({ "error": "invalid-origin" }));
+        }
     }
 
     #[tokio::test]

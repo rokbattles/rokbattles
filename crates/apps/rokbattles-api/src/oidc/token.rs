@@ -350,6 +350,7 @@ pub(crate) struct AppAccess {
     pub(crate) account_id: String,
     pub(crate) subject: String,
     pub(crate) scopes: Vec<Scope>,
+    pub(crate) shared_governor_memberships: Vec<ObjectId>,
 }
 
 impl AppAccess {
@@ -417,6 +418,7 @@ async fn load_access(
         account_id: family.authorization.user_id,
         subject: family.authorization.subject,
         scopes: access.scopes.clone(),
+        shared_governor_memberships: family.authorization.shared_governor_memberships,
     }))
 }
 

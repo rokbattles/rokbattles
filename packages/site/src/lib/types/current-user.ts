@@ -5,6 +5,8 @@ export interface ClaimedGovernor {
   governorName: string | null;
   governorAvatar: string | null;
   default: boolean;
+  isShared?: boolean;
+  sharedWith?: string[];
 }
 
 export interface CurrentUser {

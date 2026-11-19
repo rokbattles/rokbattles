@@ -15,16 +15,13 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown";
 import { SidebarHeader, SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
-import { MAX_GOVERNOR_BINDS } from "@/lib/(app)/governor-binds";
-import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
 type SidebarGovernorHeaderProps = {
-  user: CurrentUser;
   handleLogout: () => Promise<void>;
 };
 
-export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHeaderProps) {
+export function SidebarGovernorHeader({ handleLogout }: SidebarGovernorHeaderProps) {
   const [isCookieDialogOpen, setIsCookieDialogOpen] = useState(false);
   const context = use(GovernorContext);
   if (!context) {
@@ -37,7 +34,6 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
     ? (activeGovernor.governorName ?? activeGovernor.governorId.toString())
     : "Select Governor";
   const displayAvatar = activeGovernor?.governorAvatar ?? null;
-  const canClaimMore = user.claimedGovernors.length < MAX_GOVERNOR_BINDS;
 
   return (
     <>
@@ -67,12 +63,10 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
                   </DropdownLabel>
                 </DropdownItem>
               ))}
-            {canClaimMore ? (
-              <DropdownItem href="/account/settings/game/governors">
-                <Plus data-slot="icon" aria-hidden="true" />
-                <DropdownLabel>Claim governor</DropdownLabel>
-              </DropdownItem>
-            ) : null}
+            <DropdownItem href="/account/settings/game/governors">
+              <Plus data-slot="icon" aria-hidden="true" />
+              <DropdownLabel>Manage governor binds</DropdownLabel>
+            </DropdownItem>
             <DropdownDivider />
             <DropdownItem href="/account/settings">
               <Settings data-slot="icon" aria-hidden="true" />

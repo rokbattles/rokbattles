@@ -254,10 +254,21 @@ pub(super) async fn decision(
         .ok_or_else(invalid_callback)?;
     let redirect = registered_redirect(&app, &request.redirect_uri).ok_or_else(invalid_callback)?;
     consume(oidc, &request, &session).await?;
+
     match form.decision {
         Decision::Allow => {
+            let shared_memberships = if request.scopes.iter().any(|scope| scope.is_governor_scope())
+            {
+                oidc.store
+                    .shared_governor_memberships(&session.user.discord_id)
+                    .await
+                    .map_err(storage_error)?
+            } else {
+                Vec::new()
+            };
+
             let grant = approve(oidc, &request, &session, &app, now).await?;
-            issue_code(oidc, &request, &session, &grant, redirect, now).await
+            issue_code(oidc, &request, &session, &grant, redirect, now, shared_memberships).await
         }
         Decision::Deny => Ok(callback(redirect, Some(&request.state), "error", "access_denied")),
         Decision::SwitchAccount => {
@@ -341,6 +352,7 @@ async fn issue_code(
     grant: &Grant,
     redirect: Url,
     now: DateTime,
+    shared_governor_memberships: Vec<ObjectId>,
 ) -> Result<Response, ApiError> {
     let binding = request.binding.as_ref().ok_or_else(invalid_request)?;
     let code = random_token();
@@ -353,6 +365,7 @@ async fn issue_code(
                 subject: binding.subject.clone(),
                 session_id: binding.session_id,
                 grant_generation: grant.generation,
+                shared_governor_memberships,
                 scopes: request.scopes.clone(),
             },
             redirect_uri: request.redirect_uri.clone(),

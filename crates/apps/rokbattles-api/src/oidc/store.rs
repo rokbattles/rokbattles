@@ -69,6 +69,12 @@ pub(super) struct Authorization {
     pub(super) subject: String,
     pub(super) session_id: ObjectId,
     pub(super) grant_generation: ObjectId,
+    /// Share IDs captured when the user approved the app.
+    ///
+    /// A restored share gets a new ID and requires fresh consent. Records
+    /// stored before this field was added deserialize with an empty list.
+    #[serde(default)]
+    pub(super) shared_governor_memberships: Vec<ObjectId>,
     pub(super) scopes: Vec<Scope>,
 }
 
@@ -122,6 +128,7 @@ pub(super) struct RefreshFamily {
 pub(super) trait OidcRepository: Send + Sync {
     async fn registration(&self, id: ObjectId) -> Result<Option<DeveloperApp>>;
     async fn subject(&self, user_id: &str) -> Result<Option<String>>;
+    async fn shared_governor_memberships(&self, user_id: &str) -> Result<Vec<ObjectId>>;
     async fn insert_request(&self, request: &Request) -> Result<()>;
     async fn request(&self, id: &str, browser_hash: &str, now: DateTime)
     -> Result<Option<Request>>;
@@ -165,6 +172,7 @@ pub(super) trait OidcRepository: Send + Sync {
 
 pub(super) struct MongoOidcStore {
     users: Collection<Document>,
+    claims: Collection<Document>,
     apps: DeveloperAppsStore,
     requests: Collection<Request>,
     grants: Collection<Grant>,
@@ -176,6 +184,7 @@ impl MongoOidcStore {
     pub(super) fn new(db: Database) -> Self {
         Self {
             users: db.collection("users"),
+            claims: db.collection("claimedGovernors"),
             apps: DeveloperAppsStore::new(db.clone()),
             requests: db.collection("v3_oidc_requests"),
             grants: db.collection(GRANTS_COLLECTION),
@@ -237,6 +246,27 @@ impl OidcRepository for MongoOidcStore {
             .await?;
 
         Ok(document.and_then(|record| record.get_str("oidcSubject").ok().map(str::to_owned)))
+    }
+
+    async fn shared_governor_memberships(&self, user_id: &str) -> Result<Vec<ObjectId>> {
+        let mut cursor = self
+            .claims
+            .find(doc! { "shares.discordId": user_id })
+            .projection(doc! { "shares": { "$elemMatch": { "discordId": user_id } } })
+            .await?;
+
+        let mut ids = Vec::new();
+
+        while let Some(claim) = cursor.try_next().await? {
+            if let Ok(shares) = claim.get_array("shares")
+                && let Some(share) = shares.first().and_then(|value| value.as_document())
+                && let Ok(id) = share.get_object_id("_id")
+            {
+                ids.push(id);
+            }
+        }
+
+        Ok(ids)
     }
 
     async fn insert_request(&self, request: &Request) -> Result<()> {

@@ -15,10 +15,7 @@ use crate::{
     error::ApiError,
     routes::{
         governor::{
-            common::{
-                ensure_governor_claim_for_user, parse_default_governor_date_range,
-                parse_governor_id_param,
-            },
+            common::{parse_default_governor_date_range, parse_governor_id_param},
             date_range::GovernorDateRange,
         },
         me::AccountAccess,
@@ -70,7 +67,7 @@ pub(crate) async fn get(
     access: AccountAccess,
 ) -> Result<impl IntoResponse, ApiError> {
     let governor_id = parse_governor_id_param(&governor_id)?;
-    ensure_governor_claim_for_user(&state, access.account_id(), governor_id).await?;
+    access.ensure_governor(&state, governor_id).await?;
 
     let range = query.date_range()?;
     let reports = store::fetch_reports(&state, governor_id, range.as_ref()).await?;
