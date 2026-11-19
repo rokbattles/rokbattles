@@ -82,6 +82,10 @@ pub const SOC_RAGE_TABLE: RageTable = &[
     RagePairing::new(575, 620, 6.6),
     RagePairing::new(619, 620, 6.4),
     RagePairing::new(103, 620, 7.8),
+    RagePairing::new(595, 621, 6.7),
+    RagePairing::new(621, 185, 7.0),
+    RagePairing::new(621, 545, 8.5),
+    RagePairing::new(545, 621, 8.5),
 ];
 
 /// Built-in average skill cycles for pre-Season of Conquest pairings.
@@ -161,6 +165,7 @@ const ASSIST_TABLE: &[AssistCommander] = &[
     AssistCommander::new(616, 45.6),
     AssistCommander::new(115, 20.6),
     AssistCommander::new(194, 0.0),
+    AssistCommander::new(621, 1.8),
     AssistCommander::new(6, 0.0),
     AssistCommander::new(179, 30.0),
 ];
@@ -391,6 +396,10 @@ mod tests {
             (575, 620, 6.6),
             (619, 620, 6.4),
             (103, 620, 7.8),
+            (595, 621, 6.7),
+            (621, 185, 7.0),
+            (621, 545, 8.5),
+            (545, 621, 8.5),
         ];
 
         assert_eq!(actual, expected);
@@ -488,6 +497,7 @@ mod tests {
             (616, 45.6),
             (115, 20.6),
             (194, 0.0),
+            (621, 1.8),
             (6, 0.0),
             (179, 30.0),
         ];
