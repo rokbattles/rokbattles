@@ -183,6 +183,7 @@ impl AuthRepository for Auth {
 
 struct Memory {
     registrations: Mutex<FxHashMap<ObjectId, String>>,
+    account_exists: AtomicBool,
     requests: Mutex<FxHashMap<String, Request>>,
     grants: Mutex<FxHashMap<String, Grant>>,
     codes: Mutex<FxHashMap<String, Code>>,
@@ -208,7 +209,8 @@ impl OidcRepository for Memory {
     }
 
     async fn subject(&self, user: &str) -> MongoResult<Option<String>> {
-        Ok(Some(format!("subject-{user}")))
+        Ok((user != USER || self.account_exists.load(Ordering::Relaxed))
+            .then(|| format!("subject-{user}")))
     }
 
     async fn insert_request(&self, request: &Request) -> MongoResult<()> {
@@ -361,9 +363,20 @@ impl OidcRepository for Memory {
         Ok(true)
     }
 
-    async fn revoke_replayed_family(&self, id: ObjectId, spent: &str) -> MongoResult<()> {
+    async fn revoke_replayed_family(
+        &self,
+        id: ObjectId,
+        spent: &str,
+        now: DateTime,
+    ) -> MongoResult<()> {
         if let Some(family) = self.families.lock().expect("families").get_mut(&id)
-            && family.spent_hashes.iter().any(|hash| hash == spent)
+            && family.expires_at > now
+            && family.refresh_expires_at > now
+            && (family.spent_hashes.iter().any(|hash| hash == spent)
+                || family
+                    .spent_refresh_tokens
+                    .iter()
+                    .any(|token| token.hash == spent && token.expires_at > now))
         {
             family.revoked = true;
         }
@@ -373,6 +386,7 @@ impl OidcRepository for Memory {
 
 pub(super) struct Fixture {
     router: Router,
+    pub(super) state: Arc<AppState>,
     auth: Arc<Auth>,
     memory: Arc<Memory>,
     pub(super) id: String,
@@ -394,6 +408,7 @@ impl Fixture {
         let app = ObjectId::new();
         let memory = Arc::new(Memory {
             registrations: Mutex::new([(app, APP_OWNER.to_owned())].into_iter().collect()),
+            account_exists: AtomicBool::new(true),
             requests: Mutex::default(),
             grants: Mutex::default(),
             codes: Mutex::default(),
@@ -424,8 +439,9 @@ impl Fixture {
             discord_id: USER.to_owned(),
             email: "upstream@example.test".to_owned(),
         });
-        let router = crate::build_router(Arc::new(state), RateLimitMode::Local);
-        Self { router, auth, memory, id: app.to_hex() }
+        let state = Arc::new(state);
+        let router = crate::build_router(state.clone(), RateLimitMode::Local);
+        Self { router, state, auth, memory, id: app.to_hex() }
     }
 
     pub(super) fn register_app(&self, id: ObjectId) {
@@ -434,6 +450,10 @@ impl Fixture {
 
     pub(super) fn remove_owner_from_developer_program(&self) {
         self.auth.owner_in_program.store(false, Ordering::Relaxed);
+    }
+
+    pub(super) fn remove_account_subject(&self) {
+        self.memory.account_exists.store(false, Ordering::Relaxed);
     }
 
     pub(super) fn expire_access_tokens(&self) {

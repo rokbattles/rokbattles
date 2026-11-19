@@ -116,7 +116,8 @@ export default async function Page({ searchParams }: PageProps<"/oauth/consent">
         </section>
         <div className="space-y-2 text-sm/5 text-zinc-400">
           <p>
-            The app can renew access during this session. You can deauthorize it in{" "}
+            The app can renew access even after you sign out. Access expires after seven days
+            without renewal. You can deauthorize it in{" "}
             <TextLink href="/account/settings/apps" target="_blank" rel="noopener noreferrer">
               Account Settings
             </TextLink>

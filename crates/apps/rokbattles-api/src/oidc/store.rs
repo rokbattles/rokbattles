@@ -94,16 +94,28 @@ pub(super) struct AccessToken {
 
 #[derive(Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+pub(super) struct SpentRefreshToken {
+    pub(super) hash: String,
+    pub(super) expires_at: DateTime,
+}
+
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub(super) struct RefreshFamily {
     #[serde(rename = "_id")]
     pub(super) id: ObjectId,
     pub(super) authorization: Authorization,
     pub(super) current_hash: String,
     pub(super) spent_hashes: Vec<String>,
+    #[serde(default)]
+    pub(super) spent_refresh_tokens: Vec<SpentRefreshToken>,
     pub(super) access_tokens: Vec<AccessToken>,
     pub(super) refresh_expires_at: DateTime,
     pub(super) expires_at: DateTime,
     pub(super) revoked: bool,
+    // Existing families keep their session check until their next successful rotation.
+    #[serde(default)]
+    pub(super) rolling: bool,
 }
 
 #[async_trait]
@@ -143,7 +155,12 @@ pub(super) trait OidcRepository: Send + Sync {
     async fn insert_family(&self, family: &RefreshFamily) -> Result<()>;
     async fn family(&self, id: ObjectId) -> Result<Option<RefreshFamily>>;
     async fn rotate_family(&self, next: &RefreshFamily, current_hash: &str) -> Result<bool>;
-    async fn revoke_replayed_family(&self, id: ObjectId, spent_hash: &str) -> Result<()>;
+    async fn revoke_replayed_family(
+        &self,
+        id: ObjectId,
+        spent_hash: &str,
+        now: DateTime,
+    ) -> Result<()>;
 }
 
 pub(super) struct MongoOidcStore {
@@ -349,10 +366,26 @@ impl OidcRepository for MongoOidcStore {
         Ok(self.families.replace_one(filter, next).await?.matched_count == 1)
     }
 
-    async fn revoke_replayed_family(&self, id: ObjectId, spent_hash: &str) -> Result<()> {
+    async fn revoke_replayed_family(
+        &self,
+        id: ObjectId,
+        spent_hash: &str,
+        now: DateTime,
+    ) -> Result<()> {
         self.families
             .update_one(
-                doc! { "_id": id, "spentHashes": spent_hash },
+                doc! {
+                    "_id": id,
+                    "expiresAt": { "$gt": now },
+                    "refreshExpiresAt": { "$gt": now },
+                    "$or": [
+                        { "spentHashes": spent_hash },
+                        { "spentRefreshTokens": { "$elemMatch": {
+                            "hash": spent_hash,
+                            "expiresAt": { "$gt": now },
+                        } } },
+                    ],
+                },
                 doc! { "$set": { "revoked": true } },
             )
             .await?;
