@@ -8,7 +8,7 @@ export function MarketingFooter() {
     <footer className={cn(gutter, "flex flex-wrap items-center justify-between gap-6 py-8")}>
       <Link href="/home" className="shrink-0">
         <Image
-          src="/assets/logo.svg"
+          src="https://cdn.rokbattles.com/assets/logo.svg"
           alt="ROK Battles"
           width={2104}
           height={556}

@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             />
             <div className="px-6 pt-6 sm:px-8 sm:pt-8">
               <Image
-                src="/assets/logo.svg"
+                src="https://cdn.rokbattles.com/assets/logo.svg"
                 alt="ROK Battles"
                 width={2104}
                 height={556}
