@@ -19,6 +19,7 @@ export type ReportsQueryParams = {
   rallySide: ReportsFilterSide;
   garrisonSide: ReportsFilterSide;
   garrisonBuildingType?: ReportsGarrisonBuildingType;
+  openField?: boolean;
 };
 
 export function buildReportsQueryParams({
@@ -35,6 +36,7 @@ export function buildReportsQueryParams({
   rallySide,
   garrisonSide,
   garrisonBuildingType,
+  openField,
 }: ReportsQueryParams) {
   const params = new URLSearchParams();
 
@@ -80,6 +82,10 @@ export function buildReportsQueryParams({
     if (garrisonBuildingType) {
       params.set("gb", garrisonBuildingType);
     }
+  }
+
+  if (openField) {
+    params.set("of", "1");
   }
 
   const query = params.toString();

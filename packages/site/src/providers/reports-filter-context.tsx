@@ -8,11 +8,13 @@ export type ReportsFilterType = "home" | "ark" | "kvk" | "strife";
 export type ReportsFilterSubtype = "1" | "2" | "3" | "5" | "6" | "100";
 export type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
 export type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
+export type ReportsFilterMode = "openfield" | "rally" | "garrison";
 
 const filterTypes = new Set<ReportsFilterType>(["home", "ark", "kvk", "strife"]);
 const kvkSubtypes = new Set<ReportsFilterSubtype>(["1", "2", "3", "100"]);
 const arkSubtypes = new Set<ReportsFilterSubtype>(["1", "2", "3", "5", "6"]);
 const filterSides = new Set<ReportsFilterSide>(["none", "sender", "opponent", "both"]);
+const filterModes = new Set<ReportsFilterMode>(["openfield", "rally", "garrison"]);
 const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>(["flag", "fortress", "other"]);
 
 function resolveFilterType(value: string | null): ReportsFilterType | undefined {
@@ -44,6 +46,13 @@ function resolveSide(value: string | null): ReportsFilterSide {
     return "none";
   }
   return filterSides.has(value as ReportsFilterSide) ? (value as ReportsFilterSide) : "none";
+}
+
+function resolveMode(value: string | null): ReportsFilterMode | undefined {
+  if (!value) {
+    return undefined;
+  }
+  return filterModes.has(value as ReportsFilterMode) ? (value as ReportsFilterMode) : undefined;
 }
 
 function resolveGarrisonBuildingType(
@@ -78,6 +87,8 @@ export type ReportsFilterContextValue = {
   setGarrisonSide: Dispatch<SetStateAction<ReportsFilterSide>>;
   garrisonBuildingType?: ReportsGarrisonBuildingType;
   setGarrisonBuildingType: Dispatch<SetStateAction<ReportsGarrisonBuildingType | undefined>>;
+  mode?: ReportsFilterMode;
+  setMode: (mode: ReportsFilterMode | undefined) => void;
   reset: () => void;
 };
 
@@ -106,6 +117,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [rallySideParam, setRallySideParam] = useQueryState("rs", parseAsString);
   const [garrisonSideParam, setGarrisonSideParam] = useQueryState("gs", parseAsString);
   const [garrisonBuildingParam, setGarrisonBuildingParam] = useQueryState("gb", parseAsString);
+  const [modeParam, setModeParam] = useQueryState("mode", parseAsString);
 
   const playerId = playerIdParam ?? undefined;
   const type = resolveFilterType(typeParam);
@@ -117,6 +129,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const rallySide = resolveSide(rallySideParam);
   const garrisonSide = resolveSide(garrisonSideParam);
   const garrisonBuildingType = resolveGarrisonBuildingType(garrisonBuildingParam);
+  const mode = resolveMode(modeParam);
 
   const setPlayerId: Dispatch<SetStateAction<number | undefined>> = (value) => {
     const next = typeof value === "function" ? value(playerId) : value;
@@ -156,11 +169,17 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const setRallySide: Dispatch<SetStateAction<ReportsFilterSide>> = (value) => {
     const next = typeof value === "function" ? value(rallySide) : value;
     setRallySideParam(next === "none" ? null : next);
+    if (next !== "none") {
+      setModeParam(null);
+    }
   };
 
   const setGarrisonSide: Dispatch<SetStateAction<ReportsFilterSide>> = (value) => {
     const next = typeof value === "function" ? value(garrisonSide) : value;
     setGarrisonSideParam(next === "none" ? null : next);
+    if (next !== "none") {
+      setModeParam(null);
+    }
   };
 
   const setGarrisonBuildingType: Dispatch<
@@ -170,7 +189,16 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setGarrisonBuildingParam(next ?? null);
   };
 
+  // Picking a mode tab replaces any detailed rally/garrison filters.
+  const setMode = (next: ReportsFilterMode | undefined) => {
+    setModeParam(next ?? null);
+    setRallySideParam(null);
+    setGarrisonSideParam(null);
+    setGarrisonBuildingParam(null);
+  };
+
   const reset = () => {
+    setModeParam(null);
     setPlayerId(undefined);
     setType(undefined);
     setSubtype(undefined);
@@ -204,6 +232,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setGarrisonSide,
     garrisonBuildingType,
     setGarrisonBuildingType,
+    mode,
+    setMode,
     reset,
   };
 

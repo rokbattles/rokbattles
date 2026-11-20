@@ -5,7 +5,7 @@ import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildReportsQueryParams } from "@/lib/reports-query";
 import type { ReportsListResponse } from "@/lib/types/reports-list";
 import { GovernorContext } from "@/providers/governor-context";
-import { ReportsFilterContext } from "@/providers/reports-filter-context";
+import { ReportsFilterContext, type ReportsFilterSide } from "@/providers/reports-filter-context";
 
 export type ReportsScope = "all" | "mine";
 
@@ -45,10 +45,18 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
     senderSecondaryCommanderId,
     opponentPrimaryCommanderId,
     opponentSecondaryCommanderId,
-    rallySide,
-    garrisonSide,
-    garrisonBuildingType,
+    garrisonSide: filterGarrisonSide,
+    garrisonBuildingType: filterGarrisonBuildingType,
+    rallySide: filterRallySide,
+    mode,
   } = context;
+
+  // Mode tabs map onto the existing rally/garrison filters, plus open field.
+  const rallySide: ReportsFilterSide = mode === "rally" ? "both" : mode ? "none" : filterRallySide;
+  const garrisonSide: ReportsFilterSide =
+    mode === "garrison" ? "both" : mode ? "none" : filterGarrisonSide;
+  const garrisonBuildingType = mode ? undefined : filterGarrisonBuildingType;
+  const openField = mode === "openfield";
 
   const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
@@ -77,6 +85,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         rallySide,
         garrisonSide,
         garrisonBuildingType: garrisonBuildingType ?? null,
+        openField,
       }),
     [
       scope,
@@ -90,6 +99,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
+      openField,
     ]
   );
 
@@ -109,6 +119,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         rallySide,
         garrisonSide,
         garrisonBuildingType,
+        openField,
       });
 
       const response = await fetch(`/proxy/v1/reports/battle${query}`, {
@@ -132,6 +143,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
+      openField,
       scope,
     ]
   );
