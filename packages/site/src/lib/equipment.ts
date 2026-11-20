@@ -82,3 +82,29 @@ export function toRomanNumeral(value: number | undefined) {
   const numerals = ["", "I", "II", "III", "IV", "V"];
   return numerals[value] ?? null;
 }
+
+export type EquipmentRarity = "normal" | "advanced" | "elite" | "epic" | "legendary";
+
+const EQUIPMENT_RARITIES = new Set<string>(["normal", "advanced", "elite", "epic", "legendary"]);
+
+export function getEquipmentRarity(id: number | null | undefined): EquipmentRarity | undefined {
+  const rarity = getEquipmentEntry(id)?.rarity;
+  return typeof rarity === "string" && EQUIPMENT_RARITIES.has(rarity)
+    ? (rarity as EquipmentRarity)
+    : undefined;
+}
+
+/** The gold frame drawn behind legendary gear. */
+export const AWAKEN_FRAME_SPRITE_URL = getGameSpriteUrl("img_AwakenFrame.png");
+
+/** The gold nameplate under legendary gear. It has no number: the tier is drawn on top of it. */
+export const AWAKEN_NAMEPLATE_SPRITE_URL = getGameSpriteUrl("img_AwakenNameplate1.png");
+
+/** The iconic tier number (1 to 5) that is centered on the gold diamond of the nameplate. */
+export function getIconicTierSpriteUrl(tier: number | undefined): string | undefined {
+  if (typeof tier !== "number" || !Number.isInteger(tier) || tier < 1 || tier > 5) {
+    return undefined;
+  }
+
+  return getGameSpriteUrl(`img_black_${String(tier)}.png`);
+}
