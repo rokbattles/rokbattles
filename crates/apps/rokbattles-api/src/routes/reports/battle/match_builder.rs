@@ -71,6 +71,14 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.push(build_primary_commander_in_condition(&request.commander_primary_ids));
     }
 
+    // `mail_time` is stored in microseconds; the end bound covers the whole last second.
+    if let Some(from) = request.time_from {
+        match_pipeline.push(doc! { "metadata.mail_time": { "$gte": from * 1_000_000 } });
+    }
+    if let Some(to) = request.time_to {
+        match_pipeline.push(doc! { "metadata.mail_time": { "$lt": (to + 1) * 1_000_000 } });
+    }
+
     if request.trade_min.is_some() || request.trade_max.is_some() {
         match_pipeline.push(build_trade_percent_condition(request.trade_min, request.trade_max));
     }
@@ -412,6 +420,20 @@ mod tests {
         assert!(rendered.contains("summary.opponent.kill_points"));
         assert!(rendered.contains("$gte"));
         assert!(rendered.contains("$lte"));
+    }
+
+    #[test]
+    fn time_range_bounds_mail_time_in_microseconds() {
+        let request = parse_reports_request(&FxHashMap::from_iter([
+            ("tfrom".to_string(), "1000".to_string()),
+            ("tto".to_string(), "2000".to_string()),
+        ]))
+        .expect("valid time range");
+
+        let rendered = format!("{:?}", build_reports_match(&request));
+        assert!(rendered.contains("1000000000"));
+        assert!(rendered.contains("2001000000"));
+        assert!(rendered.contains("$gte"));
     }
 
     #[test]
