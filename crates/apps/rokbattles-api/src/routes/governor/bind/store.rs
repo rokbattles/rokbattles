@@ -5,7 +5,7 @@ use rustc_hash::FxHashSet;
 
 use super::types::ClaimedGovernor;
 use crate::{
-    db::{ReportsStore, is_duplicate_key},
+    db::ReportsStore,
     error::ApiError,
     routes::governor::snapshot::{GovernorSnapshot, find_latest_sender_snapshot},
 };
@@ -83,6 +83,31 @@ pub(super) async fn find_primary_claim(
         .await
         .map_err(database_error)?
         .ok_or_else(|| ApiError::not_found("Primary bind not found"))
+}
+
+pub(super) async fn existing_primary_bind(
+    store: &ReportsStore,
+    discord_id: &str,
+    governor_id: i64,
+) -> Result<Option<ClaimedGovernor>, ApiError> {
+    let Some(claim) = store
+        .claimed_governors_collection()
+        .find_one(doc! { "governorId": governor_id })
+        .projection(doc! { "discordId": 1 })
+        .await
+        .map_err(database_error)?
+    else {
+        return Ok(None);
+    };
+
+    if !is_primary(&claim, discord_id) {
+        return Err(ApiError::conflict("Governor already claimed"));
+    }
+
+    Ok(load_claimed_governors(store, discord_id, None)
+        .await?
+        .into_iter()
+        .find(|claim| claim.governor_id == governor_id && !claim.is_shared))
 }
 
 pub(crate) async fn load_claimed_governors(
@@ -293,29 +318,21 @@ pub(super) async fn insert_claim(
     store: &ReportsStore,
     discord_id: &str,
     governor_id: i64,
-    app_uid: i64,
     snapshot: &GovernorSnapshot,
     default: bool,
-) -> Result<(), ApiError> {
+) -> mongodb::error::Result<()> {
     store
         .claimed_governors_collection()
         .insert_one(doc! {
             "discordId": discord_id,
             "governorId": governor_id,
-            "appUid": app_uid,
+            "appUid": snapshot.app_uid,
             "createdAt": DateTime::now(),
             "governorName": snapshot.governor_name.as_deref(),
             "governorAvatar": snapshot.governor_avatar.as_deref(),
             "default": default,
         })
-        .await
-        .map_err(|error| {
-            if is_duplicate_key(&error) {
-                ApiError::conflict("Governor already claimed or the default bind changed")
-            } else {
-                database_error(error)
-            }
-        })?;
+        .await?;
 
     Ok(())
 }
