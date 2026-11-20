@@ -17,7 +17,7 @@ import {
   type ReportsTroopType,
 } from "@/providers/reports-filter-context";
 
-type FilterKey = "player" | "troop" | "commander" | "rally" | "garrison";
+type FilterKey = "player" | "troop" | "trade" | "commander" | "rally" | "garrison";
 
 type CommanderOption = { id: number; name: string };
 
@@ -75,6 +75,7 @@ export function ReportsFilterBar({
   const available: { key: FilterKey; label: string }[] = [
     ...(lockedPlayerId === undefined ? [{ key: "player" as const, label: "Player" }] : []),
     { key: "troop", label: "Troop type" },
+    { key: "trade", label: "Trade %" },
     { key: "commander", label: "Commander" },
     ...(hideRallyGarrison
       ? []
@@ -217,6 +218,16 @@ function buildChips(
       onClear: () => c.setTroopType(undefined),
     });
   }
+  if (c.tradeMin !== undefined || c.tradeMax !== undefined) {
+    chips.push({
+      key: "trade",
+      label: tradeLabel(c.tradeMin, c.tradeMax),
+      onClear: () => {
+        c.setTradeMin(undefined);
+        c.setTradeMax(undefined);
+      },
+    });
+  }
   if (c.commanderPrimaryId !== undefined || c.commanderSecondaryId !== undefined) {
     chips.push({
       key: "commander",
@@ -285,6 +296,17 @@ function FilterEditor({
           Matches battles where the primary commander on either side has this specialty.
         </Description>
       </Field>
+    );
+  } else if (filter === "trade") {
+    body = (
+      <TradeEditor
+        min={c.tradeMin}
+        max={c.tradeMax}
+        onChange={(min, max) => {
+          c.setTradeMin(min);
+          c.setTradeMax(max);
+        }}
+      />
     );
   } else if (filter === "commander") {
     body = (
@@ -377,6 +399,76 @@ function SideSelect({
         ))}
       </Listbox>
     </Field>
+  );
+}
+
+function tradeLabel(min: number | undefined, max: number | undefined) {
+  if (min !== undefined && max !== undefined) return `Trade %: ${min}–${max}`;
+  if (min !== undefined) return `Trade %: ${min} or more`;
+  return `Trade %: ${max} or less`;
+}
+
+function parseBound(text: string) {
+  const trimmed = text.trim();
+  if (trimmed === "") return undefined;
+  const numeric = Number(trimmed);
+  return Number.isInteger(numeric) && numeric >= 0 ? numeric : undefined;
+}
+
+function TradeEditor({
+  min,
+  max,
+  onChange,
+}: {
+  min: number | undefined;
+  max: number | undefined;
+  onChange: (min: number | undefined, max: number | undefined) => void;
+}) {
+  const [minText, setMinText] = useState(min === undefined ? "" : String(min));
+  const [maxText, setMaxText] = useState(max === undefined ? "" : String(max));
+
+  const commit = () => {
+    const nextMin = parseBound(minText);
+    const nextMax = parseBound(maxText);
+    // Swap if the bounds were entered the wrong way round.
+    if (nextMin !== undefined && nextMax !== undefined && nextMin > nextMax) {
+      onChange(nextMax, nextMin);
+      setMinText(String(nextMax));
+      setMaxText(String(nextMin));
+      return;
+    }
+    onChange(nextMin, nextMax);
+  };
+
+  const submitOnEnter = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") commit();
+  };
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <Field>
+        <Label>Trade % at least</Label>
+        <Input
+          inputMode="numeric"
+          placeholder="e.g. 150"
+          value={minText}
+          onChange={(event) => setMinText(event.target.value)}
+          onBlur={commit}
+          onKeyDown={submitOnEnter}
+        />
+      </Field>
+      <Field>
+        <Label>Trade % at most</Label>
+        <Input
+          inputMode="numeric"
+          placeholder="e.g. 400"
+          value={maxText}
+          onChange={(event) => setMaxText(event.target.value)}
+          onBlur={commit}
+          onKeyDown={submitOnEnter}
+        />
+      </Field>
+    </div>
   );
 }
 

@@ -13,6 +13,8 @@ export type ReportsQueryParams = {
   playerId?: number;
   receiverId?: number;
   troopType?: ReportsTroopType;
+  tradeMin?: number;
+  tradeMax?: number;
   commanderPrimaryId?: number;
   commanderSecondaryId?: number;
   rallySide: ReportsFilterSide;
@@ -27,6 +29,8 @@ export function buildReportsQueryParams({
   playerId,
   receiverId,
   troopType,
+  tradeMin,
+  tradeMax,
   commanderPrimaryId,
   commanderSecondaryId,
   rallySide,
@@ -48,6 +52,12 @@ export function buildReportsQueryParams({
     params.set("receiver", String(receiverId));
   }
   if (troopType) params.set("cps", commanderIdsWithTalent(troopType).join(","));
+  if (typeof tradeMin === "number" && Number.isFinite(tradeMin)) {
+    params.set("tmin", String(tradeMin));
+  }
+  if (typeof tradeMax === "number" && Number.isFinite(tradeMax)) {
+    params.set("tmax", String(tradeMax));
+  }
   if (typeof commanderPrimaryId === "number" && Number.isFinite(commanderPrimaryId)) {
     params.set("cpc", String(commanderPrimaryId));
   }

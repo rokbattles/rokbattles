@@ -55,6 +55,9 @@ pub(crate) struct ReportsRequest {
     pub commander_secondary_id: Option<i64>,
     /// Primary commander on either side must be one of these (used for troop type).
     pub commander_primary_ids: Vec<i64>,
+    /// Trade % bounds, inclusive.
+    pub trade_min: Option<i64>,
+    pub trade_max: Option<i64>,
     pub rally_side: ReportsFilterSide,
     pub garrison_side: ReportsFilterSide,
     pub garrison_building_type: Option<ReportsGarrisonBuildingType>,
@@ -115,6 +118,14 @@ pub(crate) fn parse_reports_request(
 
     let commander_primary_ids = parse_id_list(params.get("cps").map(String::as_str))?;
 
+    let trade_min = parse_trade_bound(params.get("tmin").map(String::as_str))?;
+    let trade_max = parse_trade_bound(params.get("tmax").map(String::as_str))?;
+    if let (Some(min), Some(max)) = (trade_min, trade_max)
+        && min > max
+    {
+        return Err(ApiError::bad_request("Trade minimum cannot exceed the maximum"));
+    }
+
     let rally_side = parse_filter_side(params.get("rs").map(String::as_str), "Invalid rally side")?
         .unwrap_or(ReportsFilterSide::None);
     let garrison_side =
@@ -153,6 +164,8 @@ pub(crate) fn parse_reports_request(
         commander_primary_id,
         commander_secondary_id,
         commander_primary_ids,
+        trade_min,
+        trade_max,
         rally_side,
         garrison_side,
         garrison_building_type,
@@ -161,6 +174,7 @@ pub(crate) fn parse_reports_request(
 }
 
 const MAX_COMMANDER_IDS: usize = 500;
+const MAX_TRADE_PERCENT: i64 = 1_000_000;
 
 fn parse_id_list(value: Option<&str>) -> Result<Vec<i64>, ApiError> {
     let Some(value) = value else {
@@ -180,6 +194,17 @@ fn parse_id_list(value: Option<&str>) -> Result<Vec<i64>, ApiError> {
     }
 
     Ok(ids)
+}
+
+fn parse_trade_bound(value: Option<&str>) -> Result<Option<i64>, ApiError> {
+    let Some(value) = value else {
+        return Ok(None);
+    };
+
+    match value.parse::<i64>() {
+        Ok(bound) if (0..=MAX_TRADE_PERCENT).contains(&bound) => Ok(Some(bound)),
+        _ => Err(ApiError::bad_request("Invalid trade percent")),
+    }
 }
 
 fn parse_filter_subtype(
@@ -356,21 +381,36 @@ mod tests {
     }
 
     #[test]
-    fn parses_troop_type_ids() {
-        let parsed = parse_reports_request(&FxHashMap::from_iter([(
-            "cps".to_string(),
-            "3, 15,99".to_string(),
-        )]))
-        .expect("parsed troop type ids");
+    fn parses_troop_type_ids_and_trade_bounds() {
+        let parsed = parse_reports_request(&FxHashMap::from_iter([
+            ("cps".to_string(), "3, 15,99".to_string()),
+            ("tmin".to_string(), "150".to_string()),
+            ("tmax".to_string(), "400".to_string()),
+        ]))
+        .expect("parsed troop type and trade filters");
         assert_eq!(parsed.commander_primary_ids, vec![3, 15, 99]);
+        assert_eq!(parsed.trade_min, Some(150));
+        assert_eq!(parsed.trade_max, Some(400));
     }
 
     #[test]
-    fn rejects_bad_troop_type_ids() {
-        for value in ["3,,5", "0", "abc"] {
-            parse_reports_request(&FxHashMap::from_iter([("cps".to_string(), value.to_string())]))
+    fn rejects_bad_troop_type_ids_and_trade_bounds() {
+        for (key, value) in [
+            ("cps", "3,,5"),
+            ("cps", "0"),
+            ("cps", "abc"),
+            ("tmin", "-1"),
+            ("tmin", "abc"),
+            ("tmax", "99999999999"),
+        ] {
+            parse_reports_request(&FxHashMap::from_iter([(key.to_string(), value.to_string())]))
                 .expect_err("invalid value should be rejected");
         }
+        parse_reports_request(&FxHashMap::from_iter([
+            ("tmin".to_string(), "300".to_string()),
+            ("tmax".to_string(), "100".to_string()),
+        ]))
+        .expect_err("min above max should be rejected");
     }
 
     #[test]

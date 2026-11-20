@@ -48,6 +48,10 @@ export type ReportsFilterContextValue = {
   setPlayerId: Dispatch<SetStateAction<number | undefined>>;
   troopType?: ReportsTroopType;
   setTroopType: Dispatch<SetStateAction<ReportsTroopType | undefined>>;
+  tradeMin?: number;
+  setTradeMin: Dispatch<SetStateAction<number | undefined>>;
+  tradeMax?: number;
+  setTradeMax: Dispatch<SetStateAction<number | undefined>>;
   commanderPrimaryId?: number;
   setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>>;
   commanderSecondaryId?: number;
@@ -66,6 +70,8 @@ export const ReportsFilterContext = createContext<ReportsFilterContextValue | un
 export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [playerIdParam, setPlayerIdParam] = useQueryState("pid", parseAsInteger);
   const [troopTypeParam, setTroopTypeParam] = useQueryState("tt", parseAsString);
+  const [tradeMinParam, setTradeMinParam] = useQueryState("tmin", parseAsInteger);
+  const [tradeMaxParam, setTradeMaxParam] = useQueryState("tmax", parseAsInteger);
   const [commanderPrimaryParam, setCommanderPrimaryParam] = useQueryState("cpc", parseAsInteger);
   const [commanderSecondaryParam, setCommanderSecondaryParam] = useQueryState(
     "csc",
@@ -77,6 +83,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
 
   const playerId = playerIdParam ?? undefined;
   const troopType = resolveTroopType(troopTypeParam);
+  const tradeMin = tradeMinParam ?? undefined;
+  const tradeMax = tradeMaxParam ?? undefined;
   const commanderPrimaryId = commanderPrimaryParam ?? undefined;
   const commanderSecondaryId = commanderSecondaryParam ?? undefined;
   const rallySide = resolveSide(rallySideParam);
@@ -91,6 +99,16 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const setTroopType: Dispatch<SetStateAction<ReportsTroopType | undefined>> = (value) => {
     const next = typeof value === "function" ? value(troopType) : value;
     setTroopTypeParam(next ?? null);
+  };
+
+  const setTradeMin: Dispatch<SetStateAction<number | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(tradeMin) : value;
+    setTradeMinParam(next ?? null);
+  };
+
+  const setTradeMax: Dispatch<SetStateAction<number | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(tradeMax) : value;
+    setTradeMaxParam(next ?? null);
   };
 
   const setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>> = (value) => {
@@ -123,6 +141,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const reset = () => {
     setPlayerId(undefined);
     setTroopType(undefined);
+    setTradeMin(undefined);
+    setTradeMax(undefined);
     setCommanderPrimaryId(undefined);
     setCommanderSecondaryId(undefined);
     setRallySide("none");
@@ -135,6 +155,10 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setPlayerId,
     troopType,
     setTroopType,
+    tradeMin,
+    setTradeMin,
+    tradeMax,
+    setTradeMax,
     commanderPrimaryId,
     setCommanderPrimaryId,
     commanderSecondaryId,

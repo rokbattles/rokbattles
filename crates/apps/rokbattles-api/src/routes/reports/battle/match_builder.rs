@@ -71,6 +71,10 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.push(build_primary_commander_in_condition(&request.commander_primary_ids));
     }
 
+    if request.trade_min.is_some() || request.trade_max.is_some() {
+        match_pipeline.push(build_trade_percent_condition(request.trade_min, request.trade_max));
+    }
+
     if let Some(filter_type) = request.filter_type {
         match filter_type {
             ReportsFilterType::Kvk => {
@@ -207,6 +211,45 @@ fn build_primary_commander_in_condition(ids: &[i64]) -> Document {
             },
         ]
     }
+}
+
+/// Trade % between the bounds, using the same rules as `compute_trade_percent`:
+/// equal kill points are 100, no opponent kill points is 0, otherwise the rounded ratio.
+fn build_trade_percent_condition(min: Option<i64>, max: Option<i64>) -> Document {
+    let sender = doc! { "$ifNull": ["$summary.sender.kill_points", 0] };
+    let opponent = doc! { "$ifNull": ["$summary.opponent.kill_points", 0] };
+    let ratio = doc! {
+        "$floor": {
+            "$add": [
+                { "$multiply": [{ "$divide": ["$$sender", "$$opponent"] }, 100.0] },
+                0.5,
+            ]
+        }
+    };
+    let trade = doc! {
+        "$let": {
+            "vars": { "sender": sender, "opponent": opponent },
+            "in": {
+                "$switch": {
+                    "branches": [
+                        { "case": { "$eq": ["$$sender", "$$opponent"] }, "then": 100 },
+                        { "case": { "$lte": ["$$opponent", 0] }, "then": 0 },
+                    ],
+                    "default": ratio,
+                }
+            }
+        }
+    };
+
+    let mut bounds: Vec<Bson> = Vec::new();
+    if let Some(min) = min {
+        bounds.push(Bson::Document(doc! { "$gte": [trade.clone(), min] }));
+    }
+    if let Some(max) = max {
+        bounds.push(Bson::Document(doc! { "$lte": [trade, max] }));
+    }
+
+    doc! { "$expr": { "$and": bounds } }
 }
 
 /// Battles that are neither rallies nor garrisons on either side.
@@ -353,6 +396,22 @@ mod tests {
         assert!(rendered.contains("sender.commanders.primary.id"));
         assert!(rendered.contains("$in"));
         assert!(rendered.contains("$elemMatch"));
+    }
+
+    #[test]
+    fn trade_percent_filter_mirrors_the_list_calculation() {
+        let request = parse_reports_request(&FxHashMap::from_iter([
+            ("tmin".to_string(), "150".to_string()),
+            ("tmax".to_string(), "400".to_string()),
+        ]))
+        .expect("valid trade bounds");
+
+        let rendered = format!("{:?}", build_reports_match(&request));
+        assert!(rendered.contains("$expr"));
+        assert!(rendered.contains("summary.sender.kill_points"));
+        assert!(rendered.contains("summary.opponent.kill_points"));
+        assert!(rendered.contains("$gte"));
+        assert!(rendered.contains("$lte"));
     }
 
     #[test]
