@@ -52,7 +52,7 @@ export function AccountLootLayout({
     <div className="space-y-8">
       <div className="space-y-5">
         <div className="space-y-2">
-          <Heading>My Loot</Heading>
+          <Heading>Loot</Heading>
           <p className="max-w-xl text-sm/6 text-zinc-400">
             Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak
             Ceremony, Lohar's Trial, and Kahar's Treasure.
