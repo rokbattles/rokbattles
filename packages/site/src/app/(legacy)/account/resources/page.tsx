@@ -7,7 +7,7 @@ export default async function Page() {
 
   return (
     <>
-      <Heading>My Resources</Heading>
+      <Heading>Resources</Heading>
       <AccountResourcesContent />
     </>
   );
