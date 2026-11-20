@@ -32,7 +32,10 @@ use tower::ServiceExt;
 
 use super::{
     Oidc, OidcConfig, after, hash,
-    store::{BrowserBinding, Code, Grant, OidcRepository, RefreshFamily, Request},
+    store::{
+        AccessToken, BrowserBinding, Code, Grant, OidcRepository, RefreshFamily, Request,
+        TokenHistory,
+    },
 };
 use crate::{
     auth::{Role, Roles},
@@ -188,6 +191,7 @@ struct Memory {
     grants: Mutex<FxHashMap<String, Grant>>,
     codes: Mutex<FxHashMap<String, Code>>,
     families: Mutex<FxHashMap<ObjectId, RefreshFamily>>,
+    token_history: Mutex<FxHashMap<String, TokenHistory>>,
 }
 
 #[async_trait]
@@ -355,6 +359,32 @@ impl OidcRepository for Memory {
         Ok(self.families.lock().expect("families").get(&id).cloned())
     }
 
+    async fn archive_token_history(&self, history: &TokenHistory) -> MongoResult<()> {
+        self.token_history
+            .lock()
+            .expect("token history")
+            .entry(history.id.clone())
+            .or_insert_with(|| history.clone());
+        Ok(())
+    }
+
+    async fn archived_access(
+        &self,
+        family_id: ObjectId,
+        hash: &str,
+        now: DateTime,
+    ) -> MongoResult<Option<AccessToken>> {
+        Ok(self
+            .token_history
+            .lock()
+            .expect("token history")
+            .values()
+            .filter(|history| history.family_id == family_id)
+            .flat_map(|history| &history.access_tokens)
+            .find(|token| token.hash == hash && token.expires_at > now)
+            .cloned())
+    }
+
     async fn rotate_family(&self, next: &RefreshFamily, current: &str) -> MongoResult<bool> {
         let mut families = self.families.lock().expect("families");
         let Some(family) = families
@@ -380,7 +410,14 @@ impl OidcRepository for Memory {
                 || family
                     .spent_refresh_tokens
                     .iter()
-                    .any(|token| token.hash == spent && token.expires_at > now))
+                    .any(|token| token.hash == spent && token.expires_at > now)
+                || self.token_history.lock().expect("token history").values().any(|history| {
+                    history.family_id == id
+                        && history
+                            .spent_refresh_tokens
+                            .iter()
+                            .any(|token| token.hash == spent && token.expires_at > now)
+                }))
         {
             family.revoked = true;
         }
@@ -398,6 +435,14 @@ pub(super) struct Fixture {
 
 impl Fixture {
     pub(super) async fn new() -> Self {
+        Self::with_read_rate_limits(RateLimitMode::Local, 120, Duration::from_millis(250)).await
+    }
+
+    pub(super) async fn with_read_rate_limits(
+        mode: RateLimitMode,
+        burst: u32,
+        refill_every: Duration,
+    ) -> Self {
         let database = Client::with_uri_str("mongodb://127.0.0.1:1")
             .await
             .expect("construct client without connecting")
@@ -417,13 +462,16 @@ impl Fixture {
             grants: Mutex::default(),
             codes: Mutex::default(),
             families: Mutex::default(),
+            token_history: Mutex::default(),
         });
         let seed = URL_SAFE_NO_PAD.encode([7_u8; 32]);
         let config = OidcConfig::new(ORIGIN, &seed, "").expect("issuer config");
         let oidc = Oidc {
             config,
             store: memory.clone(),
-            app_limiter: RateLimiter::new(RateLimitMode::Local, 120, Duration::from_millis(250)),
+            profile_limiter: RateLimiter::new(mode, burst, refill_every),
+            governor_binds_read_limiter: RateLimiter::new(mode, burst, refill_every),
+            governor_data_read_limiter: RateLimiter::new(mode, burst, refill_every),
         };
         let mut state = AppState::new(
             auth.clone(),

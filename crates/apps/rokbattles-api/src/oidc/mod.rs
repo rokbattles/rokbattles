@@ -49,7 +49,9 @@ const PROFILE_PATH: &str = "/proxy/v1/me/profile";
 pub struct Oidc {
     config: OidcConfig,
     store: Arc<dyn OidcRepository>,
-    pub(crate) app_limiter: RateLimiter,
+    pub(crate) profile_limiter: RateLimiter,
+    pub(crate) governor_binds_read_limiter: RateLimiter,
+    pub(crate) governor_data_read_limiter: RateLimiter,
 }
 
 impl Oidc {
@@ -65,7 +67,9 @@ impl Oidc {
         Ok(Self {
             config,
             store: Arc::new(store),
-            app_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
+            profile_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
+            governor_binds_read_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
+            governor_data_read_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
         })
     }
 

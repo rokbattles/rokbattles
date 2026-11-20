@@ -1,6 +1,6 @@
 //! Exchanges one-time authorization codes and rotates delegated tokens.
 
-use std::{sync::Arc, time::Duration};
+use std::sync::Arc;
 
 use axum::{
     Form, Json,
@@ -16,19 +16,17 @@ use super::{
     Oidc, Scope, account_error, after,
     flow::registered_redirect,
     hash, opaque_token, provider, random_token, scope_string, storage_error,
-    store::{AccessToken, Authorization, RefreshFamily, SpentRefreshToken, grant_id},
+    store::{AccessToken, Authorization, RefreshFamily, SpentRefreshToken, TokenHistory, grant_id},
 };
 use crate::{
     db::{DeveloperApp, SessionRecord},
     error::ApiError,
-    rate_limit::Rejection,
     state::AppState,
 };
 
 const ID_TOKEN_TTL_SECONDS: i64 = 300;
 const TOKEN_TTL_SECONDS: i64 = 7 * 24 * 60 * 60;
-// Keep each document bounded when a client refreshes repeatedly within one window.
-const MAX_UNEXPIRED_ROTATIONS: usize = 4096;
+const TOKEN_HISTORY_BATCH_SIZE: usize = 4096;
 
 #[derive(Deserialize)]
 pub(super) struct TokenForm {
@@ -55,7 +53,6 @@ struct TokenResponse {
 
 enum TokenError {
     OAuth(&'static str),
-    RateLimited(Duration),
     Internal(ApiError),
 }
 
@@ -72,7 +69,6 @@ impl IntoResponse for TokenError {
                 (StatusCode::BAD_REQUEST, Json(serde_json::json!({ "error": error })))
                     .into_response()
             }
-            Self::RateLimited(wait) => Rejection::Limited(wait).into_response(),
             Self::Internal(ApiError::NotFound(message)) => {
                 ApiError::NotFound(message).into_response()
             }
@@ -213,30 +209,36 @@ async fn refresh_exchange(
     }
     let scopes = refresh_scopes(form.scope.as_deref(), &family.authorization.scopes)?;
 
-    family.spent_refresh_tokens.retain(|spent| spent.expires_at > now);
-    if family.spent_refresh_tokens.len() + family.spent_hashes.len() >= MAX_UNEXPIRED_ROTATIONS {
-        let available_at = family
-            .spent_refresh_tokens
-            .iter()
-            .map(|spent| spent.expires_at)
-            .chain((!family.spent_hashes.is_empty()).then_some(previous_expiry))
-            .min()
-            .unwrap_or(previous_expiry);
-        let wait = available_at.timestamp_millis().saturating_sub(now.timestamp_millis()).max(1);
-        return Err(TokenError::RateLimited(Duration::from_millis(wait.cast_unsigned())));
-    }
-
-    let (response, access) = new_pair(id, &scopes, None, now);
-    family.current_hash = hash(&response.refresh_token);
     family.spent_refresh_tokens.extend(
         std::mem::take(&mut family.spent_hashes)
             .into_iter()
             .map(|hash| SpentRefreshToken { hash, expires_at: previous_expiry }),
     );
+    if family.spent_refresh_tokens.len() >= TOKEN_HISTORY_BATCH_SIZE
+        || family.access_tokens.len() >= TOKEN_HISTORY_BATCH_SIZE
+    {
+        // Copy only previously committed tokens before the conditional family write.
+        // Concurrent refreshes can safely archive the same snapshot under this hash.
+        oidc.store
+            .archive_token_history(&TokenHistory {
+                id: current_hash.clone(),
+                family_id: id,
+                spent_refresh_tokens: std::mem::take(&mut family.spent_refresh_tokens),
+                access_tokens: std::mem::take(&mut family.access_tokens),
+                expires_at: family.expires_at,
+            })
+            .await
+            .map_err(storage_error)?;
+    } else {
+        family.spent_refresh_tokens.retain(|spent| spent.expires_at > now);
+        family.access_tokens.retain(|access| access.expires_at > now);
+    }
+
+    let (response, access) = new_pair(id, &scopes, None, now);
+    family.current_hash = hash(&response.refresh_token);
     family
         .spent_refresh_tokens
         .push(SpentRefreshToken { hash: current_hash.clone(), expires_at: previous_expiry });
-    family.access_tokens.retain(|access| access.expires_at > now);
     family.refresh_expires_at = access.expires_at;
     family.expires_at = access.expires_at;
     family.access_tokens.push(access);
@@ -346,7 +348,7 @@ async fn live_family(
 pub(crate) struct AppAccess {
     token: String,
     family: ObjectId,
-    pub(crate) client_id: ObjectId,
+    client_id: ObjectId,
     pub(crate) account_id: String,
     pub(crate) subject: String,
     pub(crate) scopes: Vec<Scope>,
@@ -402,9 +404,14 @@ async fn load_access(
         return Ok(None);
     }
     let digest = hash(token);
-    let Some(access) = family.access_tokens.iter().find(|entry| {
+    let inline = family.access_tokens.iter().find(|entry| {
         entry.expires_at > now && bool::from(digest.as_bytes().ct_eq(entry.hash.as_bytes()))
-    }) else {
+    });
+    let access = match inline {
+        Some(access) => Some(access.clone()),
+        None => oidc.store.archived_access(id, &digest, now).await.map_err(storage_error)?,
+    };
+    let Some(access) = access else {
         return Ok(None);
     };
     if !live_family(state, oidc, &family, now).await? {
@@ -417,7 +424,7 @@ async fn load_access(
         client_id: family.authorization.client_id,
         account_id: family.authorization.user_id,
         subject: family.authorization.subject,
-        scopes: access.scopes.clone(),
+        scopes: access.scopes,
         shared_governor_memberships: family.authorization.shared_governor_memberships,
     }))
 }
@@ -476,13 +483,18 @@ pub(crate) fn bearer_rejection(error: ApiError) -> Response {
 
 #[cfg(test)]
 mod tests {
+    use std::time::Duration;
+
     use axum::http::Method;
     use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
     use ring::signature::{ED25519, UnparsedPublicKey};
     use serde_json::{Value, json};
 
     use super::*;
-    use crate::oidc::test_support::{Fixture, ORIGIN, USER, VERIFIER, body, claim};
+    use crate::{
+        oidc::test_support::{Fixture, ORIGIN, USER, VERIFIER, body, claim},
+        rate_limit::RateLimitMode,
+    };
 
     async fn issue_pair(fixture: &Fixture) -> Value {
         let code = fixture.code("openid").await;
@@ -632,6 +644,86 @@ mod tests {
             .await;
         assert_eq!(missing_scope.status(), StatusCode::FORBIDDEN);
         assert!(missing_scope.headers().contains_key(header::WWW_AUTHENTICATE));
+    }
+
+    #[tokio::test]
+    async fn bearer_profile_and_governor_binds_have_independent_budgets_per_ip() {
+        let fixture =
+            Fixture::with_read_rate_limits(RateLimitMode::Cloudflare, 1, Duration::from_secs(60))
+                .await;
+        let code = fixture.code("openid governor.binds:read").await;
+        let issued = fixture.exchange(&code, VERIFIER).await;
+        assert_eq!(issued.status(), StatusCode::OK);
+        let tokens = body(issued).await;
+        let bearer = format!("Bearer {}", claim(&tokens, "access_token"));
+        let user_agent = format!("ROKBattles/{}", fixture.id);
+
+        // Exhaust the binds budget without running a report-store query.
+        let mut headers = HeaderMap::new();
+        headers.insert("cf-connecting-ip", HeaderValue::from_static("192.0.2.2"));
+        provider(&fixture.state)
+            .expect("OIDC provider")
+            .governor_binds_read_limiter
+            .check_ip(&headers)
+            .expect("initial governor-binds allowance");
+
+        for (path, ip, expected) in [
+            ("/v1/me/profile", "192.0.2.1", StatusCode::OK),
+            ("/v1/me/profile", "192.0.2.1", StatusCode::TOO_MANY_REQUESTS),
+            ("/v1/me/governor-binds", "192.0.2.2", StatusCode::TOO_MANY_REQUESTS),
+            ("/v1/me/profile", "192.0.2.2", StatusCode::OK),
+        ] {
+            let response = fixture
+                .call(
+                    Method::GET,
+                    path,
+                    &[
+                        ("authorization", &bearer),
+                        ("user-agent", &user_agent),
+                        ("cf-connecting-ip", ip),
+                    ],
+                    String::new(),
+                )
+                .await;
+            assert_eq!(response.status(), expected, "{path} from {ip}");
+            if expected == StatusCode::TOO_MANY_REQUESTS {
+                assert!(response.headers().contains_key(header::RETRY_AFTER));
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn bearer_governor_data_reads_share_a_budget_per_ip() {
+        let fixture =
+            Fixture::with_read_rate_limits(RateLimitMode::Cloudflare, 1, Duration::from_secs(60))
+                .await;
+        let code = fixture.code("openid governor.data:read").await;
+        let issued = fixture.exchange(&code, VERIFIER).await;
+        assert_eq!(issued.status(), StatusCode::OK);
+        let tokens = body(issued).await;
+        let bearer = format!("Bearer {}", claim(&tokens, "access_token"));
+        let user_agent = format!("ROKBattles/{}", fixture.id);
+
+        // Invalid governor IDs let the handlers respond without querying MongoDB.
+        for (path, ip, expected) in [
+            ("/v1/me/governors/0/reports/battle", "192.0.2.1", StatusCode::BAD_REQUEST),
+            ("/v1/me/governors/0/loot/barbarians", "192.0.2.1", StatusCode::TOO_MANY_REQUESTS),
+            ("/v1/me/governors/0/resources", "192.0.2.2", StatusCode::BAD_REQUEST),
+        ] {
+            let response = fixture
+                .call(
+                    Method::GET,
+                    path,
+                    &[
+                        ("authorization", &bearer),
+                        ("user-agent", &user_agent),
+                        ("cf-connecting-ip", ip),
+                    ],
+                    String::new(),
+                )
+                .await;
+            assert_eq!(response.status(), expected, "{path} from {ip}");
+        }
     }
 
     #[tokio::test]
@@ -798,34 +890,49 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn rotation_capacity_recovers_when_spent_tokens_expire() {
+    async fn full_token_history_is_archived_without_limiting_refresh() {
         let fixture = Fixture::new().await;
         let initial = issue_pair(&fixture).await;
         let refresh = claim(&initial, "refresh_token");
+        let access = claim(&initial, "access_token");
         let mut family = stored_family(&fixture, refresh).await;
-        let available_at = after(family.expires_at, -1);
-        family.spent_refresh_tokens =
-            vec![
-                SpentRefreshToken { hash: hash("spent refresh"), expires_at: available_at };
-                MAX_UNEXPIRED_ROTATIONS
-            ];
+        let now = DateTime::now();
+        let expires_soon = after(now, 1);
+        let expires_soon_token = format!("r.{}.{}", family.id.to_hex(), random_token());
+        let unexpired_spent_token = format!("r.{}.{}", family.id.to_hex(), random_token());
+        family.spent_refresh_tokens = vec![
+            SpentRefreshToken {
+                hash: hash(&unexpired_spent_token),
+                expires_at: family.expires_at
+            };
+            TOKEN_HISTORY_BATCH_SIZE - 1
+        ];
+        family
+            .spent_refresh_tokens
+            .push(SpentRefreshToken { hash: hash(&expires_soon_token), expires_at: expires_soon });
         let oidc = provider(&fixture.state).expect("OIDC provider");
         assert!(
             oidc.store.rotate_family(&family, &family.current_hash).await.expect("seed history")
         );
 
+        let renewed =
+            refresh_at(&fixture, refresh, now).await.ok().expect("refresh with full history");
+        let updated = stored_family(&fixture, &renewed.refresh_token).await;
+        assert_eq!(updated.spent_refresh_tokens.len(), 1);
+        assert_eq!(updated.access_tokens.len(), 1);
+        assert!(access_valid_at(&fixture, access, now).await);
+        assert!(!access_valid_at(&fixture, access, family.expires_at).await);
+
         assert!(matches!(
-            refresh_at(&fixture, refresh, after(available_at, -1)).await,
-            Err(TokenError::RateLimited(wait)) if wait == Duration::from_secs(1)
+            refresh_at(&fixture, &expires_soon_token, expires_soon).await,
+            Err(TokenError::OAuth("invalid_grant"))
         ));
-        let renewed = refresh_at(&fixture, refresh, available_at)
-            .await
-            .ok()
-            .expect("refresh when history expires");
-        assert_eq!(
-            stored_family(&fixture, &renewed.refresh_token).await.spent_refresh_tokens.len(),
-            1
-        );
+        assert!(access_valid_at(&fixture, &renewed.access_token, expires_soon).await);
+        assert!(matches!(
+            refresh_at(&fixture, &unexpired_spent_token, expires_soon).await,
+            Err(TokenError::OAuth("invalid_grant"))
+        ));
+        assert!(!access_valid_at(&fixture, &renewed.access_token, expires_soon).await);
     }
 
     #[tokio::test]

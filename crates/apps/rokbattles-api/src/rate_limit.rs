@@ -1,4 +1,4 @@
-//! Rate limiting for client networks and registered apps.
+//! Rate limiting for client networks.
 //!
 //! In [`RateLimitMode::Cloudflare`], requests are identified by `CF-Connecting-IP`.
 //! IPv4 addresses have individual buckets. IPv6 addresses share a bucket per `/64`.
@@ -20,8 +20,6 @@ use axum::{
     middleware::Next,
     response::{IntoResponse, Response},
 };
-use mongodb::bson::oid::ObjectId;
-
 const MAX_CLIENTS: usize = 25_000;
 const CLEANUP_INTERVAL: Duration = Duration::from_secs(60);
 
@@ -48,12 +46,6 @@ impl FromStr for RateLimitMode {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
-enum ClientKey {
-    Network(IpAddr),
-    App(ObjectId),
-}
-
 struct Buckets {
     // The Generic Cell Rate Algorithm (GCRA) tracks when each client's bucket
     // will be full again.
@@ -61,7 +53,7 @@ struct Buckets {
         clippy::disallowed_types,
         reason = "Randomized hashing protects against HashDoS from untrusted IP addresses"
     )]
-    clients: std::collections::HashMap<ClientKey, Instant>,
+    clients: std::collections::HashMap<IpAddr, Instant>,
     next_cleanup: Instant,
 }
 
@@ -91,25 +83,20 @@ impl RateLimiter {
         }
     }
 
-    /// Checks and consumes the client's allowance at `now`.
+    /// Consumes the budget for the Cloudflare client network.
+    pub(crate) fn check_ip(&self, headers: &HeaderMap) -> Result<(), Rejection> {
+        self.check_at(headers, Instant::now())
+    }
+
     fn check_at(&self, headers: &HeaderMap, now: Instant) -> Result<(), Rejection> {
         if self.mode == RateLimitMode::Local {
             return Ok(());
         }
 
-        self.consume(ClientKey::Network(cloudflare_ip(headers)?), now)
+        self.consume(cloudflare_ip(headers)?, now)
     }
 
-    /// Consumes the budget for a verified Developer Program app.
-    pub(crate) fn check_app(&self, id: ObjectId) -> Result<(), Rejection> {
-        if self.mode == RateLimitMode::Local {
-            return Ok(());
-        }
-
-        self.consume(ClientKey::App(id), Instant::now())
-    }
-
-    fn consume(&self, key: ClientKey, now: Instant) -> Result<(), Rejection> {
+    fn consume(&self, key: IpAddr, now: Instant) -> Result<(), Rejection> {
         if self.burst == 0 || self.refill_every.is_zero() {
             return Err(Rejection::Unavailable);
         }
@@ -208,7 +195,7 @@ pub(crate) async fn enforce(
     request: Request,
     next: Next,
 ) -> Response {
-    match limiter.check_at(request.headers(), Instant::now()) {
+    match limiter.check_ip(request.headers()) {
         Ok(()) => next.run(request).await,
         Err(rejection) => rejection.into_response(),
     }
