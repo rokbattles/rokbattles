@@ -4,10 +4,12 @@
 //! with `stored` or HTTP 200 with `skipped`. Invalid acknowledgements allow retries
 //! because ingress may have stored the mail before the client lost the response.
 
-use std::time::Duration;
+use std::{io::Read, time::Duration};
 
+use flate2::{Compression, read::GzEncoder};
 use reqwest::{
     StatusCode,
+    header::{CONTENT_ENCODING, HeaderMap, HeaderValue},
     multipart::{Form, Part},
 };
 use serde::Deserialize;
@@ -33,6 +35,9 @@ impl UploadStatus {
 
 #[derive(Debug, thiserror::Error)]
 pub(crate) enum UploadApiError {
+    #[error("upload preparation failed: {0}")]
+    Preparation(#[from] tokio::task::JoinError),
+
     #[error("upload request failed: {0}")]
     Request(#[from] reqwest::Error),
 
@@ -46,11 +51,11 @@ pub(crate) enum UploadApiError {
 impl UploadApiError {
     /// Returns whether the upload can be retried without a source change.
     ///
-    /// Transport and protocol errors, HTTP 429, and server errors allow retries.
+    /// Preparation, transport, and protocol errors, HTTP 429, and server errors allow retries.
     /// Other HTTP rejections require a changed file signature before another attempt.
     pub(crate) fn is_retryable(&self) -> bool {
         match self {
-            Self::Request(_) | Self::Protocol { .. } => true,
+            Self::Preparation(_) | Self::Request(_) | Self::Protocol { .. } => true,
             Self::Rejected { status, .. } => {
                 *status == StatusCode::TOO_MANY_REQUESTS || status.is_server_error()
             }
@@ -85,10 +90,13 @@ struct UploadResponse {
 
 /// Uploads mail bytes and validates the acknowledgement against `file_name`.
 ///
+/// Sends gzip when it reduces the request size after accounting for the
+/// multipart file part's `Content-Encoding` header.
+///
 /// # Errors
 ///
-/// Returns an error if the request fails, ingress rejects it, or the response is
-/// too large or does not contain a matching acknowledgement.
+/// Returns an error if upload preparation or the request fails, ingress rejects
+/// it, or the response is too large or lacks a matching acknowledgement.
 ///
 /// # Cancellation
 ///
@@ -100,8 +108,10 @@ pub(crate) async fn post_file_to_api(
     file_name: &str,
     bytes: Vec<u8>,
 ) -> Result<UploadStatus, UploadApiError> {
-    let part =
-        Part::bytes(bytes).file_name(file_name.to_string()).mime_str("application/octet-stream")?;
+    let part = tokio::task::spawn_blocking(move || encode_mail_part(bytes))
+        .await?
+        .file_name(file_name.to_string())
+        .mime_str("application/octet-stream")?;
     let form = Form::new().part("file", part);
 
     let resp = client.post(api_url).multipart(form).send().await?;
@@ -150,6 +160,25 @@ pub(crate) async fn post_file_to_api(
     Ok(response.status)
 }
 
+fn encode_mail_part(bytes: Vec<u8>) -> Part {
+    const GZIP_HEADER_BYTES: usize = "content-encoding: gzip\r\n".len();
+
+    // Stop encoding once gzip can no longer reduce the request size.
+    let limit = bytes.len().saturating_sub(GZIP_HEADER_BYTES);
+    let mut compressed = Vec::new();
+    let result = GzEncoder::new(bytes.as_slice(), Compression::fast())
+        .take(limit as u64)
+        .read_to_end(&mut compressed);
+
+    if result.is_ok() && compressed.len() < limit {
+        let mut headers = HeaderMap::new();
+        headers.insert(CONTENT_ENCODING, HeaderValue::from_static("gzip"));
+        Part::bytes(compressed).headers(headers)
+    } else {
+        Part::bytes(bytes)
+    }
+}
+
 async fn read_response_body(mut response: reqwest::Response) -> anyhow::Result<Vec<u8>> {
     let mut body = Vec::new();
 
@@ -170,6 +199,7 @@ pub(crate) fn upload_backoff(attempts: u32) -> Duration {
 
 #[cfg(test)]
 pub(super) mod tests {
+    use flate2::bufread::GzDecoder;
     use tokio::{
         io::{AsyncReadExt, AsyncWriteExt},
         net::TcpListener,
@@ -268,14 +298,23 @@ pub(super) mod tests {
         (state, item)
     }
 
+    fn split_headers(message: &[u8]) -> (&str, &[u8]) {
+        let header_end =
+            message.windows(4).position(|part| part == b"\r\n\r\n").expect("header terminator");
+        let headers = message.get(..header_end).expect("headers");
+        let body = message.get(header_end + 4..).expect("body");
+
+        (std::str::from_utf8(headers).expect("UTF-8 headers"), body)
+    }
+
     #[tokio::test]
-    async fn upload_acknowledges_stored_mail_and_preserves_multipart_payload() {
+    async fn upload_acknowledges_stored_mail_and_sends_a_gzip_file_part() {
         let (url, server) = respond_once(response(
             "201 Created",
             r#"{"status":"stored","mail_id":"123","mail_type":"Battle"}"#,
         ))
         .await;
-        let bytes = b"\x00binary mail\xff".to_vec();
+        let bytes = b"\x00binary mail\xff".repeat(128);
         let (mut state, item) = pending_upload();
 
         let result = post_file_to_api(&client(), &url, "Persistent.Mail.123", bytes.clone()).await;
@@ -287,12 +326,41 @@ pub(super) mod tests {
         assert_eq!(message, "Stored new mail Persistent.Mail.123");
 
         let request = server.await.expect("API task");
-        let text = String::from_utf8_lossy(&request);
+        let (request_headers, body) = split_headers(&request);
+        let (part_headers, payload) = split_headers(body);
 
-        assert!(text.starts_with("POST /v2/upload HTTP/1.1\r\n"));
-        assert!(text.contains("name=\"file\"; filename=\"Persistent.Mail.123\""));
-        assert!(text.contains("Content-Type: application/octet-stream"));
-        assert!(request.windows(bytes.len()).any(|part| part == bytes));
+        assert!(request_headers.starts_with("POST /v2/upload HTTP/1.1\r\n"));
+        assert!(!request_headers.to_ascii_lowercase().contains("content-encoding:"));
+        assert!(part_headers.contains("name=\"file\"; filename=\"Persistent.Mail.123\""));
+        assert!(part_headers.contains("Content-Type: application/octet-stream"));
+        assert!(
+            part_headers.lines().any(|line| line.eq_ignore_ascii_case("content-encoding: gzip"))
+        );
+
+        let mut decoder = GzDecoder::new(payload);
+        let mut decoded = Vec::new();
+        decoder.read_to_end(&mut decoded).expect("decode uploaded gzip");
+        assert_eq!(decoded, bytes);
+        assert!(decoder.get_ref().starts_with(b"\r\n--"), "multipart closing boundary");
+    }
+
+    #[tokio::test]
+    async fn sends_raw_mail_when_gzip_would_not_shrink_the_request() {
+        let (url, server) =
+            respond_once(response("201 Created", r#"{"status":"stored","mail_id":"123"}"#)).await;
+        let bytes = vec![b'x'; 32];
+
+        post_file_to_api(&client(), &url, "Persistent.Mail.123", bytes.clone())
+            .await
+            .expect("acknowledged upload");
+
+        let request = server.await.expect("API task");
+        let (_, body) = split_headers(&request);
+        let (part_headers, payload) = split_headers(body);
+        assert!(!part_headers.to_ascii_lowercase().contains("content-encoding:"));
+        assert!(
+            payload.strip_prefix(bytes.as_slice()).expect("original bytes").starts_with(b"\r\n--")
+        );
     }
 
     #[tokio::test]

@@ -4779,6 +4779,7 @@ version = "1.9.6"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
+ "flate2",
  "gtk",
  "libc",
  "notify",
