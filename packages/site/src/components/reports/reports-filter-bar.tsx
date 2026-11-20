@@ -5,7 +5,7 @@ import { type ReactNode, use, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Combobox, ComboboxLabel, ComboboxOption } from "@/components/ui/combobox";
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from "@/components/ui/dropdown";
-import { Field, Label } from "@/components/ui/fieldset";
+import { Description, Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { useCommanderOptions } from "@/hooks/use-commander-name";
@@ -14,11 +14,20 @@ import {
   type ReportsFilterContextValue,
   type ReportsFilterSide,
   type ReportsGarrisonBuildingType,
+  type ReportsTroopType,
 } from "@/providers/reports-filter-context";
 
-type FilterKey = "player" | "commander" | "rally" | "garrison";
+type FilterKey = "player" | "troop" | "commander" | "rally" | "garrison";
 
 type CommanderOption = { id: number; name: string };
+
+const troopLabels: Record<ReportsTroopType, string> = {
+  infantry: "Infantry",
+  cavalry: "Cavalry",
+  archer: "Archer",
+  leadership: "Leadership",
+  integration: "Integration",
+};
 
 const sideLabels: Record<ReportsFilterSide, string> = {
   none: "None",
@@ -65,6 +74,7 @@ export function ReportsFilterBar({
 
   const available: { key: FilterKey; label: string }[] = [
     ...(lockedPlayerId === undefined ? [{ key: "player" as const, label: "Player" }] : []),
+    { key: "troop", label: "Troop type" },
     { key: "commander", label: "Commander" },
     ...(hideRallyGarrison
       ? []
@@ -200,6 +210,13 @@ function buildChips(
       onClear: () => c.setPlayerId(undefined),
     });
   }
+  if (c.troopType) {
+    chips.push({
+      key: "troop",
+      label: `Troop type: ${troopLabels[c.troopType]}`,
+      onClear: () => c.setTroopType(undefined),
+    });
+  }
   if (c.commanderPrimaryId !== undefined || c.commanderSecondaryId !== undefined) {
     chips.push({
       key: "commander",
@@ -247,6 +264,28 @@ function FilterEditor({
 
   if (filter === "player") {
     body = <PlayerEditor value={c.playerId} onChange={c.setPlayerId} />;
+  } else if (filter === "troop") {
+    body = (
+      <Field>
+        <Label>Troop type</Label>
+        <Listbox<ReportsTroopType | "">
+          value={c.troopType ?? ""}
+          onChange={(value) => c.setTroopType(value === "" ? undefined : value)}
+        >
+          <ListboxOption value="">
+            <ListboxLabel>Any</ListboxLabel>
+          </ListboxOption>
+          {(Object.keys(troopLabels) as ReportsTroopType[]).map((troop) => (
+            <ListboxOption key={troop} value={troop}>
+              <ListboxLabel>{troopLabels[troop]}</ListboxLabel>
+            </ListboxOption>
+          ))}
+        </Listbox>
+        <Description>
+          Matches battles where the primary commander on either side has this specialty.
+        </Description>
+      </Field>
+    );
   } else if (filter === "commander") {
     body = (
       <CommanderPair
