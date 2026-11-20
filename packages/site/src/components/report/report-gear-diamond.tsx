@@ -138,7 +138,7 @@ function GearSlot({ token }: GearSlotProps) {
           alt=""
           width={20}
           height={20}
-          className="pointer-events-none absolute top-[65%] left-[65%] z-10 w-[31%] -translate-x-1/2 -translate-y-1/2 object-contain"
+          className="pointer-events-none absolute top-[70%] left-[70%] z-10 w-[26%] -translate-x-1/2 -translate-y-1/2 object-contain"
           unoptimized
           draggable={false}
         />
