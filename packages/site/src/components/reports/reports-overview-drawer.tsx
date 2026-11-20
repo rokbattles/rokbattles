@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -11,6 +10,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Subheading } from "@/components/ui/heading";
+import { accountReportsSource } from "@/lib/account-reports-source";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportsOverviewSummaryCard from "./reports-overview-summary-card";
 import ReportsOverviewTimelineChart from "./reports-overview-timeline-chart";
@@ -30,7 +30,7 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
     }
 
     const query = new URLSearchParams(searchParams.toString());
-    const from = pathname === "/account/reports" ? "account-reports" : "reports";
+    const from = accountReportsSource(pathname) ?? "reports";
     query.set("from", from);
 
     const queryString = query.toString();

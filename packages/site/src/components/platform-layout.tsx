@@ -2,6 +2,7 @@
 
 import {
   BookOpen,
+  Castle,
   ChartPie,
   CircleHelp,
   Code2,
@@ -14,6 +15,7 @@ import {
   MonitorPlay,
   Scale,
   Store,
+  Swords,
   Trophy,
   Warehouse,
 } from "lucide-react";
@@ -144,12 +146,28 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 {showMyReports ? (
                   <>
                     <SidebarItem
-                      title="My Battles"
+                      title="Open Field"
                       href="/account/reports"
                       current={pathname === "/account/reports"}
                     >
                       <Flame data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Battles</SidebarLabel>
+                      <SidebarLabel>Open Field</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem
+                      title="Rallies"
+                      href="/account/rallies"
+                      current={pathname === "/account/rallies"}
+                    >
+                      <Swords data-slot="icon" aria-hidden="true" />
+                      <SidebarLabel>Rallies</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem
+                      title="Garrisons"
+                      href="/account/garrisons"
+                      current={pathname === "/account/garrisons"}
+                    >
+                      <Castle data-slot="icon" aria-hidden="true" />
+                      <SidebarLabel>Garrisons</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="My Pairings"
