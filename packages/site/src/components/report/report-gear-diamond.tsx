@@ -159,7 +159,7 @@ export function ReportGearDiamond({ tokens }: ReportGearDiamondProps) {
 
   return (
     <div
-      className="flex flex-col items-center pb-[calc(var(--gear-slot)*0.2)] [--gear-nameplate:calc(var(--gear-slot)*1.05)] [--gear-slot:62px] sm:[--gear-slot:68px]"
+      className="flex flex-col items-center pb-[calc(var(--gear-slot)*0.13)] [--gear-nameplate:calc(var(--gear-slot)*0.76)] [--gear-slot:62px] sm:[--gear-slot:68px]"
       role="group"
       aria-label="Equipment"
     >
