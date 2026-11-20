@@ -2,10 +2,10 @@
 
 import { parseAsString, useQueryState } from "nuqs";
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { buildReportsQueryParams } from "@/lib/reports-query";
+import { buildReportsQueryParams, type ReportsBattleKind } from "@/lib/reports-query";
 import type { ReportsListResponse } from "@/lib/types/reports-list";
 import { GovernorContext } from "@/providers/governor-context";
-import { ReportsFilterContext, type ReportsFilterSide } from "@/providers/reports-filter-context";
+import { ReportsFilterContext } from "@/providers/reports-filter-context";
 
 export type ReportsScope = "all" | "mine";
 
@@ -25,7 +25,10 @@ export type UseReportsPageResult = {
   loadPreviousPage: () => Promise<void>;
 };
 
-export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResult {
+export function useReportsPage(
+  scope: ReportsScope = "all",
+  kind?: ReportsBattleKind
+): UseReportsPageResult {
   const context = use(ReportsFilterContext);
   const governorContext = use(GovernorContext);
 
@@ -45,18 +48,15 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
     senderSecondaryCommanderId,
     opponentPrimaryCommanderId,
     opponentSecondaryCommanderId,
+    rallySide: filterRallySide,
     garrisonSide: filterGarrisonSide,
     garrisonBuildingType: filterGarrisonBuildingType,
-    rallySide: filterRallySide,
-    mode,
   } = context;
 
-  // Mode tabs map onto the existing rally/garrison filters, plus open field.
-  const rallySide: ReportsFilterSide = mode === "rally" ? "both" : mode ? "none" : filterRallySide;
-  const garrisonSide: ReportsFilterSide =
-    mode === "garrison" ? "both" : mode ? "none" : filterGarrisonSide;
-  const garrisonBuildingType = mode ? undefined : filterGarrisonBuildingType;
-  const openField = mode === "openfield";
+  // Pages limited to one battle kind ignore the detailed rally/garrison filters.
+  const rallySide = kind ? "none" : filterRallySide;
+  const garrisonSide = kind ? "none" : filterGarrisonSide;
+  const garrisonBuildingType = kind ? undefined : filterGarrisonBuildingType;
 
   const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
@@ -85,7 +85,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         rallySide,
         garrisonSide,
         garrisonBuildingType: garrisonBuildingType ?? null,
-        openField,
+        kind: kind ?? null,
       }),
     [
       scope,
@@ -99,7 +99,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
-      openField,
+      kind,
     ]
   );
 
@@ -119,7 +119,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         rallySide,
         garrisonSide,
         garrisonBuildingType,
-        openField,
+        kind,
       });
 
       const response = await fetch(`/proxy/v1/reports/battle${query}`, {
@@ -143,7 +143,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
-      openField,
+      kind,
       scope,
     ]
   );

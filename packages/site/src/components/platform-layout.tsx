@@ -14,6 +14,7 @@ import {
   MonitorPlay,
   Scale,
   Store,
+  Swords,
   Trophy,
   Warehouse,
 } from "lucide-react";
@@ -150,6 +151,14 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     >
                       <Flame data-slot="icon" aria-hidden="true" />
                       <SidebarLabel>My Battles</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem
+                      title="My Rallies & Garrisons"
+                      href="/account/rallies"
+                      current={pathname === "/account/rallies"}
+                    >
+                      <Swords data-slot="icon" aria-hidden="true" />
+                      <SidebarLabel>My Rallies & Garrisons</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="My Pairings"

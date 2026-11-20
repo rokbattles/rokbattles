@@ -30,7 +30,12 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
     }
 
     const query = new URLSearchParams(searchParams.toString());
-    const from = pathname === "/account/reports" ? "account-reports" : "reports";
+    const from =
+      pathname === "/account/reports"
+        ? "account-reports"
+        : pathname === "/account/rallies"
+          ? "account-rallies"
+          : "reports";
     query.set("from", from);
 
     const queryString = query.toString();
