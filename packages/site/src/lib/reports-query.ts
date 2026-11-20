@@ -5,6 +5,8 @@ import type {
   ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
+export type ReportsBattleKind = "openfield" | "rallygarrison";
+
 export type ReportsQueryParams = {
   after?: string;
   before?: string;
@@ -19,7 +21,7 @@ export type ReportsQueryParams = {
   rallySide: ReportsFilterSide;
   garrisonSide: ReportsFilterSide;
   garrisonBuildingType?: ReportsGarrisonBuildingType;
-  openField?: boolean;
+  kind?: ReportsBattleKind;
 };
 
 export function buildReportsQueryParams({
@@ -36,7 +38,7 @@ export function buildReportsQueryParams({
   rallySide,
   garrisonSide,
   garrisonBuildingType,
-  openField,
+  kind,
 }: ReportsQueryParams) {
   const params = new URLSearchParams();
 
@@ -84,8 +86,10 @@ export function buildReportsQueryParams({
     }
   }
 
-  if (openField) {
+  if (kind === "openfield") {
     params.set("of", "1");
+  } else if (kind === "rallygarrison") {
+    params.set("rg", "1");
   }
 
   const query = params.toString();

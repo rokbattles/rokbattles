@@ -48,8 +48,17 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
   const arkMatchId =
     fromParam === "ark" ? resolveSearchParam(resolvedSearchParams.matchId) : undefined;
-  const backBase = isAccountReports ? "/account/reports" : "/";
-  const backLabel = isAccountReports ? "Back to My Reports" : "Explore Battles";
+  const isAccountRallies = fromParam === "account-rallies";
+  const backBase = isAccountRallies
+    ? "/account/rallies"
+    : isAccountReports
+      ? "/account/reports"
+      : "/";
+  const backLabel = isAccountRallies
+    ? "Back to My Rallies & Garrisons"
+    : isAccountReports
+      ? "Back to My Reports"
+      : "Explore Battles";
   const backQuery = buildQueryString(resolvedSearchParams, "from");
   const backHref = arkMatchId
     ? `/account/ark/${encodeURIComponent(arkMatchId)}?tab=reports`

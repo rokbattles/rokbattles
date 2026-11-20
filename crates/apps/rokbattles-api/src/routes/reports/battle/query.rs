@@ -55,6 +55,8 @@ pub(crate) struct ReportsRequest {
     pub garrison_building_type: Option<ReportsGarrisonBuildingType>,
     /// Only battles that are neither rallies nor garrisons.
     pub open_field: bool,
+    /// Only battles that are rallies or garrisons on either side.
+    pub rally_garrison: bool,
 }
 
 impl ReportsRequest {
@@ -119,12 +121,18 @@ pub(crate) fn parse_reports_request(
     )?;
 
     let open_field = matches!(params.get("of").map(String::as_str), Some("1"));
-    if open_field
+    let rally_garrison = matches!(params.get("rg").map(String::as_str), Some("1"));
+    if open_field && rally_garrison {
+        return Err(ApiError::bad_request("Open field cannot be combined with rally/garrison"));
+    }
+    if (open_field || rally_garrison)
         && (rally_side != ReportsFilterSide::None
             || garrison_side != ReportsFilterSide::None
             || garrison_building_type.is_some())
     {
-        return Err(ApiError::bad_request("Open field cannot be combined with rally or garrison"));
+        return Err(ApiError::bad_request(
+            "Open field and rally/garrison views cannot be combined with rally or garrison filters",
+        ));
     }
 
     Ok(ReportsRequest {
@@ -142,6 +150,7 @@ pub(crate) fn parse_reports_request(
         garrison_side,
         garrison_building_type,
         open_field,
+        rally_garrison,
     })
 }
 
@@ -302,6 +311,22 @@ mod tests {
                 (key.to_string(), value.to_string()),
             ]))
             .expect_err("open field with rally or garrison should be rejected");
+        }
+    }
+
+    #[test]
+    fn parses_rally_garrison_and_rejects_conflicts() {
+        let parsed =
+            parse_reports_request(&FxHashMap::from_iter([("rg".to_string(), "1".to_string())]))
+                .expect("parsed rally/garrison");
+        assert!(parsed.rally_garrison);
+        assert!(!parsed.open_field);
+
+        for pairs in [[("rg", "1"), ("of", "1")], [("rg", "1"), ("rs", "sender")]] {
+            parse_reports_request(&FxHashMap::from_iter(
+                pairs.map(|(k, v)| (k.to_string(), v.to_string())),
+            ))
+            .expect_err("conflicting kind should be rejected");
         }
     }
 

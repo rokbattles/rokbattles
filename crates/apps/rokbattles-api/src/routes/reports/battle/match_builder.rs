@@ -157,7 +157,23 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.push(build_open_field_condition());
     }
 
+    if request.rally_garrison {
+        match_pipeline.push(build_rally_garrison_condition());
+    }
+
     doc! { "$and": match_pipeline }
+}
+
+/// Battles that are a rally or a garrison on either side.
+fn build_rally_garrison_condition() -> Document {
+    doc! {
+        "$or": [
+            { "sender.rally": true },
+            { "opponents": { "$elemMatch": { "player_id": { "$gt": 0 }, "rally": true } } },
+            build_garrison_condition("sender.", None),
+            build_opponent_garrison_condition(None),
+        ]
+    }
 }
 
 /// Battles that are neither rallies nor garrisons on either side.
@@ -274,6 +290,19 @@ mod tests {
 
         let rendered = format!("{:?}", build_reports_match(&request));
         assert!(rendered.contains("$nor"));
+        assert!(rendered.contains("sender.rally"));
+        assert!(rendered.contains("sender.alliance_building_id"));
+    }
+
+    #[test]
+    fn rally_garrison_matches_either_kind_on_either_side() {
+        let request =
+            parse_reports_request(&FxHashMap::from_iter([("rg".to_string(), "1".to_string())]))
+                .expect("valid rally/garrison view");
+
+        let rendered = format!("{:?}", build_reports_match(&request));
+        assert!(rendered.contains("$or"));
+        assert!(!rendered.contains("$nor"));
         assert!(rendered.contains("sender.rally"));
         assert!(rendered.contains("sender.alliance_building_id"));
     }
