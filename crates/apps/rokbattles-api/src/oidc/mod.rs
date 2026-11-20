@@ -69,7 +69,7 @@ impl Oidc {
             store: Arc::new(store),
             profile_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
             governor_binds_read_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
-            governor_data_read_limiter: RateLimiter::new(mode, 120, Duration::from_secs(1)),
+            governor_data_read_limiter: RateLimiter::new(mode, 120, Duration::from_millis(250)),
         })
     }
 
