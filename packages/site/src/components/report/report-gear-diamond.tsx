@@ -125,7 +125,7 @@ function GearSlot({ token }: GearSlotProps) {
             alt=""
             width={48}
             height={48}
-            className="absolute left-1/2 w-[29%] -translate-x-1/2 -translate-y-1/2 object-contain"
+            className="absolute left-1/2 w-[23%] -translate-x-1/2 -translate-y-1/2 object-contain"
             style={{ top: `${String(NAMEPLATE_DIAMOND_Y * 100)}%` }}
             unoptimized
             draggable={false}
