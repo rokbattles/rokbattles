@@ -4860,8 +4860,10 @@ name = "rokbattles-ingress"
 version = "1.9.6"
 dependencies = [
  "axum",
+ "brotli",
  "bytes",
  "dotenvy",
+ "flate2",
  "mimalloc",
  "mongodb",
  "rokbattles-mail-codec",

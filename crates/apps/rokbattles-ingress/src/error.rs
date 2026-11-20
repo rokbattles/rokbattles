@@ -16,6 +16,8 @@ use serde::Serialize;
 pub enum ApiError {
     #[error("{0}")]
     BadRequest(String),
+    #[error("decompressed mail exceeds the upload size limit")]
+    PayloadTooLarge,
     #[error("unsupported mail type: {0}")]
     UnsupportedType(String),
     #[error("decode failed: {0}")]
@@ -52,6 +54,7 @@ impl ApiError {
     fn status_code(&self) -> StatusCode {
         match self {
             ApiError::BadRequest(_) => StatusCode::BAD_REQUEST,
+            ApiError::PayloadTooLarge => StatusCode::PAYLOAD_TOO_LARGE,
             ApiError::UnsupportedType(_) => StatusCode::UNPROCESSABLE_ENTITY,
             ApiError::DecodeFailed(_) => StatusCode::BAD_REQUEST,
             ApiError::Unauthorized => StatusCode::UNAUTHORIZED,
