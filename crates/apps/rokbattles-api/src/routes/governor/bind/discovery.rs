@@ -20,7 +20,7 @@ use super::{
     types::{BindSelection, BindSuggestion},
 };
 use crate::{
-    db::{ReportsStore, exclude_test_reports_filter},
+    db::{ReportsStore, exclude_test_reports_filter, is_duplicate_key},
     error::ApiError,
     routes::{
         governor::{common::parse_governor_id_param, snapshot::find_latest_sender_snapshot},
@@ -39,7 +39,9 @@ pub(crate) async fn suggestions(
     let governor_id = parse_governor_id_param(&governor_id)?;
 
     let store = &state.reports_store;
-    let app_uid = primary_app_uid(store, access.account_id(), governor_id).await?;
+    let Some(app_uid) = primary_app_uid(store, access.account_id(), governor_id).await? else {
+        return Ok((NO_STORE, Json(Vec::new())));
+    };
     let battle = store.battle_collection();
 
     let ids: Vec<i64> = battle
@@ -102,7 +104,9 @@ pub(crate) async fn bind_suggestions(
     access.ensure_active(&state).await?;
 
     let store = &state.reports_store;
-    let app_uid = primary_app_uid(store, discord_id, governor_id).await?;
+    let app_uid = primary_app_uid(store, discord_id, governor_id)
+        .await?
+        .ok_or_else(|| ApiError::bad_request("Select governors from this Lilith account."))?;
     let battle = store.battle_collection();
     let claims = store.claimed_governors_collection();
 
@@ -134,7 +138,20 @@ pub(crate) async fn bind_suggestions(
     }
 
     for (id, snapshot) in candidates {
-        insert_claim(store, discord_id, id, app_uid, &snapshot, false).await?;
+        if let Err(error) = insert_claim(store, discord_id, id, &snapshot, false).await {
+            if !is_duplicate_key(&error) {
+                return Err(database_error(error));
+            }
+
+            let Some(existing) =
+                claims.find_one(doc! { "governorId": id }).await.map_err(database_error)?
+            else {
+                return Err(database_error(error));
+            };
+            if existing.get_str("discordId").ok() != Some(discord_id) {
+                return Err(ApiError::conflict("A selected governor was already claimed."));
+            }
+        }
     }
 
     Ok((StatusCode::NO_CONTENT, NO_STORE))
@@ -144,10 +161,7 @@ async fn primary_app_uid(
     store: &ReportsStore,
     discord_id: &str,
     governor_id: i64,
-) -> Result<i64, ApiError> {
+) -> Result<Option<i64>, ApiError> {
     let claim = find_primary_claim(store, discord_id, governor_id).await?;
-
-    resolve_claim_app_uid(store, &claim).await?.ok_or_else(|| ApiError::conflict(
-        "This governor's Lilith ID is unavailable. Upload a battle report for this governor and try again once it has been processed.",
-    ))
+    resolve_claim_app_uid(store, &claim).await
 }

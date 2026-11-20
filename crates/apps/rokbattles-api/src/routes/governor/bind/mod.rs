@@ -13,12 +13,14 @@ use rustc_hash::FxHashSet;
 
 use self::{
     store::{
-        database_error, find_primary_claim, insert_claim, owned_lilith_accounts,
-        preserve_existing_default, primary_filter, set_default, within_lilith_quota,
+        database_error, existing_primary_bind, find_primary_claim, insert_claim,
+        owned_lilith_accounts, preserve_existing_default, primary_filter, set_default,
+        within_lilith_quota,
     },
     types::{BindGovernorResponse, BindSelection, ShareSelection},
 };
 use crate::{
+    db::{ReportsStore, is_duplicate_key},
     error::ApiError,
     routes::{
         governor::{common::parse_governor_id_param, snapshot::find_latest_sender_snapshot},
@@ -39,8 +41,8 @@ const NO_STORE: [(&str, &str); 1] = [("Cache-Control", "no-store")];
 
 /// Creates a primary bind for the authenticated account.
 ///
-/// The governor needs a battle report with a Lilith ID. The limit counts
-/// distinct Lilith IDs across the account's primary binds.
+/// Battle reports supply optional governor details. The limit counts distinct
+/// known Lilith IDs across the account's primary binds.
 pub async fn post(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
@@ -52,47 +54,54 @@ pub async fn post(
     let _operation = state.account_operations.lock(discord_id).await;
     access.ensure_active(&state).await?;
 
-    let store = &state.reports_store;
+    let mut claim = claim_governor(&state.reports_store, discord_id, governor_id).await?;
+    claim.shared_with.clear();
+    Ok((NO_STORE, Json(BindGovernorResponse { claim })))
+}
 
-    if store
-        .claimed_governors_collection()
-        .find_one(doc! { "governorId": governor_id })
-        .await
-        .map_err(database_error)?
-        .is_some()
+async fn claim_governor(
+    store: &ReportsStore,
+    discord_id: &str,
+    governor_id: i64,
+) -> Result<ClaimedGovernor, ApiError> {
+    if let Some(claim) = existing_primary_bind(store, discord_id, governor_id).await? {
+        return Ok(claim);
+    }
+
+    let snapshot = find_latest_sender_snapshot(store.battle_collection(), governor_id)
+        .await?
+        .unwrap_or_default();
+    if let Some(app_uid) = snapshot.app_uid
+        && !within_lilith_quota(&owned_lilith_accounts(store, discord_id).await?, app_uid)
     {
-        return Err(ApiError::conflict("Governor already claimed"));
-    }
-
-    let snapshot = find_latest_sender_snapshot(store.battle_collection(), governor_id).await?;
-    let Some((snapshot, app_uid)) =
-        snapshot.and_then(|snapshot| snapshot.app_uid.map(|id| (snapshot, id)))
-    else {
-        return Err(ApiError::conflict(
-            "This governor's Lilith ID is unavailable. Upload a battle report for this governor and try again once it has been processed.",
+        return Err(ApiError::bad_request(
+            "You can bind governors from up to 100 Lilith accounts.",
         ));
-    };
-
-    if !within_lilith_quota(&owned_lilith_accounts(store, discord_id).await?, app_uid) {
-        return Err(ApiError::conflict("You can bind governors from up to 100 Lilith accounts."));
     }
 
-    let default = !preserve_existing_default(store, discord_id).await?;
-    insert_claim(store, discord_id, governor_id, app_uid, &snapshot, default).await?;
+    let mut default = !preserve_existing_default(store, discord_id).await?;
+    while let Err(error) = insert_claim(store, discord_id, governor_id, &snapshot, default).await {
+        if !is_duplicate_key(&error) {
+            return Err(database_error(error));
+        }
+        if let Some(claim) = existing_primary_bind(store, discord_id, governor_id).await? {
+            return Ok(claim);
+        }
+        if !default {
+            return Err(database_error(error));
+        }
+        // Another API instance may have inserted this account's first bind.
+        default = false;
+    }
 
-    Ok((
-        NO_STORE,
-        Json(BindGovernorResponse {
-            claim: ClaimedGovernor {
-                governor_id,
-                governor_name: snapshot.governor_name,
-                governor_avatar: snapshot.governor_avatar,
-                default,
-                is_shared: false,
-                shared_with: Vec::new(),
-            },
-        }),
-    ))
+    Ok(ClaimedGovernor {
+        governor_id,
+        governor_name: snapshot.governor_name,
+        governor_avatar: snapshot.governor_avatar,
+        default,
+        is_shared: false,
+        shared_with: Vec::new(),
+    })
 }
 
 /// Sets the caller's default governor using one of their primary or shared binds.

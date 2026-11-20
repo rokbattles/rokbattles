@@ -7,7 +7,7 @@ use rokbattles_bson::bson_to_i64_exact;
 
 use crate::{db::exclude_test_reports_filter, error::ApiError};
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct GovernorSnapshot {
     pub app_uid: Option<i64>,
     pub governor_name: Option<String>,
