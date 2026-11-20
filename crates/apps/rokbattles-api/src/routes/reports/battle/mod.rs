@@ -169,6 +169,8 @@ fn battle_list_index_hint(request: &ReportsRequest) -> Option<Hint> {
         || !request.commander_primary_ids.is_empty()
         || request.trade_min.is_some()
         || request.trade_max.is_some()
+        || request.time_from.is_some()
+        || request.time_to.is_some()
     {
         return None;
     }
@@ -240,6 +242,8 @@ fn should_hint_home_partial_index(request: &ReportsRequest) -> bool {
         && request.commander_primary_ids.is_empty()
         && request.trade_min.is_none()
         && request.trade_max.is_none()
+        && request.time_from.is_none()
+        && request.time_to.is_none()
         && matches!(request.rally_side, ReportsFilterSide::None)
         && matches!(request.garrison_side, ReportsFilterSide::None)
 }
