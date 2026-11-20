@@ -50,6 +50,9 @@ pub(crate) struct ReportsRequest {
     pub sender_secondary_commander_id: Option<i64>,
     pub opponent_primary_commander_id: Option<i64>,
     pub opponent_secondary_commander_id: Option<i64>,
+    /// Commander pair that may be on either side of the battle.
+    pub commander_primary_id: Option<i64>,
+    pub commander_secondary_id: Option<i64>,
     pub rally_side: ReportsFilterSide,
     pub garrison_side: ReportsFilterSide,
     pub garrison_building_type: Option<ReportsGarrisonBuildingType>,
@@ -103,6 +106,11 @@ pub(crate) fn parse_reports_request(
         "Invalid opponent secondary commander id",
     )?;
 
+    let commander_primary_id =
+        parse_optional_i64(params.get("cpc").map(String::as_str), "Invalid commander id")?;
+    let commander_secondary_id =
+        parse_optional_i64(params.get("csc").map(String::as_str), "Invalid commander id")?;
+
     let rally_side = parse_filter_side(params.get("rs").map(String::as_str), "Invalid rally side")?
         .unwrap_or(ReportsFilterSide::None);
     let garrison_side =
@@ -138,6 +146,8 @@ pub(crate) fn parse_reports_request(
         sender_secondary_commander_id,
         opponent_primary_commander_id,
         opponent_secondary_commander_id,
+        commander_primary_id,
+        commander_secondary_id,
         rally_side,
         garrison_side,
         garrison_building_type,
@@ -303,6 +313,19 @@ mod tests {
             ]))
             .expect_err("open field with rally or garrison should be rejected");
         }
+    }
+
+    #[test]
+    fn parses_either_side_commander_pair() {
+        let parsed = parse_reports_request(&FxHashMap::from_iter([
+            ("cpc".to_string(), "15".to_string()),
+            ("csc".to_string(), "134".to_string()),
+        ]))
+        .expect("parsed commander pair");
+        assert_eq!(parsed.commander_primary_id, Some(15));
+        assert_eq!(parsed.commander_secondary_id, Some(134));
+        parse_reports_request(&FxHashMap::from_iter([("cpc".to_string(), "x".to_string())]))
+            .expect_err("invalid commander id should be rejected");
     }
 
     #[test]

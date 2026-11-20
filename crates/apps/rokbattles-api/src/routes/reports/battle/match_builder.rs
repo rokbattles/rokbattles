@@ -60,6 +60,13 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         });
     }
 
+    if request.commander_primary_id.is_some() || request.commander_secondary_id.is_some() {
+        match_pipeline.push(build_either_side_commander_condition(
+            request.commander_primary_id,
+            request.commander_secondary_id,
+        ));
+    }
+
     if let Some(filter_type) = request.filter_type {
         match filter_type {
             ReportsFilterType::Kvk => {
@@ -158,6 +165,27 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     }
 
     doc! { "$and": match_pipeline }
+}
+
+/// The commander pair on the sender, or on any opponent. Ids left out match any commander.
+fn build_either_side_commander_condition(primary: Option<i64>, secondary: Option<i64>) -> Document {
+    let mut sender = Document::new();
+    let mut opponent = doc! { "player_id": { "$gt": 0 } };
+    if let Some(id) = primary {
+        sender.insert("sender.commanders.primary.id", id);
+        opponent.insert("commanders.primary.id", id);
+    }
+    if let Some(id) = secondary {
+        sender.insert("sender.commanders.secondary.id", id);
+        opponent.insert("commanders.secondary.id", id);
+    }
+
+    doc! {
+        "$or": [
+            sender,
+            { "opponents": { "$elemMatch": opponent } },
+        ]
+    }
 }
 
 /// Battles that are neither rallies nor garrisons on either side.
@@ -277,6 +305,21 @@ mod tests {
         assert_eq!(rendered.matches("$nor").count(), 2);
         assert!(rendered.contains("sender.rally"));
         assert!(rendered.contains("sender.alliance_building_id"));
+    }
+
+    #[test]
+    fn either_side_commander_matches_sender_or_an_opponent() {
+        let request = parse_reports_request(&FxHashMap::from_iter([
+            ("cpc".to_string(), "15".to_string()),
+            ("csc".to_string(), "134".to_string()),
+        ]))
+        .expect("valid commander pair");
+
+        let rendered = format!("{:?}", build_reports_match(&request));
+        assert!(rendered.contains("sender.commanders.primary.id"));
+        assert!(rendered.contains("sender.commanders.secondary.id"));
+        assert!(rendered.contains("$elemMatch"));
+        assert!(rendered.contains("commanders.secondary.id"));
     }
 
     #[test]

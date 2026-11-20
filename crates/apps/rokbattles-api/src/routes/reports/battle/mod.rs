@@ -164,6 +164,8 @@ fn battle_list_index_hint(request: &ReportsRequest) -> Option<Hint> {
         || request.sender_secondary_commander_id.is_some()
         || request.opponent_primary_commander_id.is_some()
         || request.opponent_secondary_commander_id.is_some()
+        || request.commander_primary_id.is_some()
+        || request.commander_secondary_id.is_some()
     {
         return None;
     }
@@ -230,6 +232,8 @@ fn should_hint_home_partial_index(request: &ReportsRequest) -> bool {
         && request.sender_secondary_commander_id.is_none()
         && request.opponent_primary_commander_id.is_none()
         && request.opponent_secondary_commander_id.is_none()
+        && request.commander_primary_id.is_none()
+        && request.commander_secondary_id.is_none()
         && matches!(request.rally_side, ReportsFilterSide::None)
         && matches!(request.garrison_side, ReportsFilterSide::None)
 }

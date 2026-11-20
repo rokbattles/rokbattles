@@ -18,7 +18,7 @@ import {
   type ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
-type FilterKey = "player" | "type" | "sender" | "opponent" | "rally" | "garrison";
+type FilterKey = "player" | "type" | "commander" | "rally" | "garrison";
 
 type CommanderOption = { id: number; name: string };
 
@@ -93,8 +93,7 @@ export function ReportsFilterBar({
   const available: { key: FilterKey; label: string }[] = [
     ...(lockedPlayerId === undefined ? [{ key: "player" as const, label: "Player" }] : []),
     { key: "type", label: "Battle type" },
-    { key: "sender", label: "Sender commanders" },
-    { key: "opponent", label: "Opponent commanders" },
+    { key: "commander", label: "Commander" },
     ...(hideRallyGarrison
       ? []
       : [
@@ -242,33 +241,13 @@ function buildChips(
       },
     });
   }
-  if (c.senderPrimaryCommanderId !== undefined || c.senderSecondaryCommanderId !== undefined) {
+  if (c.commanderPrimaryId !== undefined || c.commanderSecondaryId !== undefined) {
     chips.push({
-      key: "sender",
-      label: pairLabel(
-        "Sender",
-        commanders,
-        c.senderPrimaryCommanderId,
-        c.senderSecondaryCommanderId
-      ),
+      key: "commander",
+      label: pairLabel("Commander", commanders, c.commanderPrimaryId, c.commanderSecondaryId),
       onClear: () => {
-        c.setSenderPrimaryCommanderId(undefined);
-        c.setSenderSecondaryCommanderId(undefined);
-      },
-    });
-  }
-  if (c.opponentPrimaryCommanderId !== undefined || c.opponentSecondaryCommanderId !== undefined) {
-    chips.push({
-      key: "opponent",
-      label: pairLabel(
-        "Opponent",
-        commanders,
-        c.opponentPrimaryCommanderId,
-        c.opponentSecondaryCommanderId
-      ),
-      onClear: () => {
-        c.setOpponentPrimaryCommanderId(undefined);
-        c.setOpponentSecondaryCommanderId(undefined);
+        c.setCommanderPrimaryId(undefined);
+        c.setCommanderSecondaryId(undefined);
       },
     });
   }
@@ -352,24 +331,14 @@ function FilterEditor({
         ) : null}
       </div>
     );
-  } else if (filter === "sender") {
+  } else if (filter === "commander") {
     body = (
       <CommanderPair
         commanders={commanders}
-        primary={c.senderPrimaryCommanderId}
-        secondary={c.senderSecondaryCommanderId}
-        onPrimary={c.setSenderPrimaryCommanderId}
-        onSecondary={c.setSenderSecondaryCommanderId}
-      />
-    );
-  } else if (filter === "opponent") {
-    body = (
-      <CommanderPair
-        commanders={commanders}
-        primary={c.opponentPrimaryCommanderId}
-        secondary={c.opponentSecondaryCommanderId}
-        onPrimary={c.setOpponentPrimaryCommanderId}
-        onSecondary={c.setOpponentSecondaryCommanderId}
+        primary={c.commanderPrimaryId}
+        secondary={c.commanderSecondaryId}
+        onPrimary={c.setCommanderPrimaryId}
+        onSecondary={c.setCommanderSecondaryId}
       />
     );
   } else if (filter === "rally") {

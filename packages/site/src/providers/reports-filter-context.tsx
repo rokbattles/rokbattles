@@ -64,14 +64,10 @@ export type ReportsFilterContextValue = {
   setType: Dispatch<SetStateAction<ReportsFilterType | undefined>>;
   subtype?: ReportsFilterSubtype;
   setSubtype: Dispatch<SetStateAction<ReportsFilterSubtype | undefined>>;
-  senderPrimaryCommanderId?: number;
-  setSenderPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
-  senderSecondaryCommanderId?: number;
-  setSenderSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
-  opponentPrimaryCommanderId?: number;
-  setOpponentPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
-  opponentSecondaryCommanderId?: number;
-  setOpponentSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
+  commanderPrimaryId?: number;
+  setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>>;
+  commanderSecondaryId?: number;
+  setCommanderSecondaryId: Dispatch<SetStateAction<number | undefined>>;
   rallySide: ReportsFilterSide;
   setRallySide: Dispatch<SetStateAction<ReportsFilterSide>>;
   garrisonSide: ReportsFilterSide;
@@ -87,20 +83,9 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [playerIdParam, setPlayerIdParam] = useQueryState("pid", parseAsInteger);
   const [typeParam, setTypeParam] = useQueryState("type", parseAsString);
   const [subtypeParam, setSubtypeParam] = useQueryState("subtype", parseAsString);
-  const [senderPrimaryCommanderParam, setSenderPrimaryCommanderParam] = useQueryState(
-    "spc",
-    parseAsInteger
-  );
-  const [senderSecondaryCommanderParam, setSenderSecondaryCommanderParam] = useQueryState(
-    "ssc",
-    parseAsInteger
-  );
-  const [opponentPrimaryCommanderParam, setOpponentPrimaryCommanderParam] = useQueryState(
-    "opc",
-    parseAsInteger
-  );
-  const [opponentSecondaryCommanderParam, setOpponentSecondaryCommanderParam] = useQueryState(
-    "osc",
+  const [commanderPrimaryParam, setCommanderPrimaryParam] = useQueryState("cpc", parseAsInteger);
+  const [commanderSecondaryParam, setCommanderSecondaryParam] = useQueryState(
+    "csc",
     parseAsInteger
   );
   const [rallySideParam, setRallySideParam] = useQueryState("rs", parseAsString);
@@ -110,10 +95,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const playerId = playerIdParam ?? undefined;
   const type = resolveFilterType(typeParam);
   const subtype = resolveFilterSubtype(type, subtypeParam);
-  const senderPrimaryCommanderId = senderPrimaryCommanderParam ?? undefined;
-  const senderSecondaryCommanderId = senderSecondaryCommanderParam ?? undefined;
-  const opponentPrimaryCommanderId = opponentPrimaryCommanderParam ?? undefined;
-  const opponentSecondaryCommanderId = opponentSecondaryCommanderParam ?? undefined;
+  const commanderPrimaryId = commanderPrimaryParam ?? undefined;
+  const commanderSecondaryId = commanderSecondaryParam ?? undefined;
   const rallySide = resolveSide(rallySideParam);
   const garrisonSide = resolveSide(garrisonSideParam);
   const garrisonBuildingType = resolveGarrisonBuildingType(garrisonBuildingParam);
@@ -133,24 +116,14 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setSubtypeParam(next ?? null);
   };
 
-  const setSenderPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(senderPrimaryCommanderId) : value;
-    setSenderPrimaryCommanderParam(next ?? null);
+  const setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(commanderPrimaryId) : value;
+    setCommanderPrimaryParam(next ?? null);
   };
 
-  const setSenderSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(senderSecondaryCommanderId) : value;
-    setSenderSecondaryCommanderParam(next ?? null);
-  };
-
-  const setOpponentPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(opponentPrimaryCommanderId) : value;
-    setOpponentPrimaryCommanderParam(next ?? null);
-  };
-
-  const setOpponentSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(opponentSecondaryCommanderId) : value;
-    setOpponentSecondaryCommanderParam(next ?? null);
+  const setCommanderSecondaryId: Dispatch<SetStateAction<number | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(commanderSecondaryId) : value;
+    setCommanderSecondaryParam(next ?? null);
   };
 
   const setRallySide: Dispatch<SetStateAction<ReportsFilterSide>> = (value) => {
@@ -174,10 +147,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setPlayerId(undefined);
     setType(undefined);
     setSubtype(undefined);
-    setSenderPrimaryCommanderId(undefined);
-    setSenderSecondaryCommanderId(undefined);
-    setOpponentPrimaryCommanderId(undefined);
-    setOpponentSecondaryCommanderId(undefined);
+    setCommanderPrimaryId(undefined);
+    setCommanderSecondaryId(undefined);
     setRallySide("none");
     setGarrisonSide("none");
     setGarrisonBuildingType(undefined);
@@ -190,14 +161,10 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setType,
     subtype,
     setSubtype,
-    senderPrimaryCommanderId,
-    setSenderPrimaryCommanderId,
-    senderSecondaryCommanderId,
-    setSenderSecondaryCommanderId,
-    opponentPrimaryCommanderId,
-    setOpponentPrimaryCommanderId,
-    opponentSecondaryCommanderId,
-    setOpponentSecondaryCommanderId,
+    commanderPrimaryId,
+    setCommanderPrimaryId,
+    commanderSecondaryId,
+    setCommanderSecondaryId,
     rallySide,
     setRallySide,
     garrisonSide,
