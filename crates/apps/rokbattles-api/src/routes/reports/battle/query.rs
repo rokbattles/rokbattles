@@ -58,6 +58,9 @@ pub(crate) struct ReportsRequest {
     /// Trade % bounds, inclusive.
     pub trade_min: Option<i64>,
     pub trade_max: Option<i64>,
+    /// Report time bounds in unix seconds, inclusive.
+    pub time_from: Option<i64>,
+    pub time_to: Option<i64>,
     pub rally_side: ReportsFilterSide,
     pub garrison_side: ReportsFilterSide,
     pub garrison_building_type: Option<ReportsGarrisonBuildingType>,
@@ -126,6 +129,14 @@ pub(crate) fn parse_reports_request(
         return Err(ApiError::bad_request("Trade minimum cannot exceed the maximum"));
     }
 
+    let time_from = parse_unix_seconds(params.get("tfrom").map(String::as_str))?;
+    let time_to = parse_unix_seconds(params.get("tto").map(String::as_str))?;
+    if let (Some(from), Some(to)) = (time_from, time_to)
+        && from > to
+    {
+        return Err(ApiError::bad_request("Start time cannot be after the end time"));
+    }
+
     let rally_side = parse_filter_side(params.get("rs").map(String::as_str), "Invalid rally side")?
         .unwrap_or(ReportsFilterSide::None);
     let garrison_side =
@@ -166,6 +177,8 @@ pub(crate) fn parse_reports_request(
         commander_primary_ids,
         trade_min,
         trade_max,
+        time_from,
+        time_to,
         rally_side,
         garrison_side,
         garrison_building_type,
@@ -194,6 +207,20 @@ fn parse_id_list(value: Option<&str>) -> Result<Vec<i64>, ApiError> {
     }
 
     Ok(ids)
+}
+
+/// Unix seconds up to the year 2100, so the microsecond conversion cannot overflow.
+const MAX_UNIX_SECONDS: i64 = 4_102_444_800;
+
+fn parse_unix_seconds(value: Option<&str>) -> Result<Option<i64>, ApiError> {
+    let Some(value) = value else {
+        return Ok(None);
+    };
+
+    match value.parse::<i64>() {
+        Ok(seconds) if (0..=MAX_UNIX_SECONDS).contains(&seconds) => Ok(Some(seconds)),
+        _ => Err(ApiError::bad_request("Invalid time")),
+    }
 }
 
 fn parse_trade_bound(value: Option<&str>) -> Result<Option<i64>, ApiError> {
@@ -411,6 +438,30 @@ mod tests {
             ("tmax".to_string(), "100".to_string()),
         ]))
         .expect_err("min above max should be rejected");
+    }
+
+    #[test]
+    fn parses_time_range() {
+        let parsed = parse_reports_request(&FxHashMap::from_iter([
+            ("tfrom".to_string(), "1755216000".to_string()),
+            ("tto".to_string(), "1755302399".to_string()),
+        ]))
+        .expect("parsed time range");
+        assert_eq!(parsed.time_from, Some(1_755_216_000));
+        assert_eq!(parsed.time_to, Some(1_755_302_399));
+    }
+
+    #[test]
+    fn rejects_bad_time_range() {
+        for (key, value) in [("tfrom", "-1"), ("tfrom", "abc"), ("tto", "99999999999")] {
+            parse_reports_request(&FxHashMap::from_iter([(key.to_string(), value.to_string())]))
+                .expect_err("invalid time should be rejected");
+        }
+        parse_reports_request(&FxHashMap::from_iter([
+            ("tfrom".to_string(), "200".to_string()),
+            ("tto".to_string(), "100".to_string()),
+        ]))
+        .expect_err("start after end should be rejected");
     }
 
     #[test]

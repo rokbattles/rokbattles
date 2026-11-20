@@ -15,6 +15,8 @@ export type ReportsQueryParams = {
   troopType?: ReportsTroopType;
   tradeMin?: number;
   tradeMax?: number;
+  dateFrom?: string;
+  dateTo?: string;
   commanderPrimaryId?: number;
   commanderSecondaryId?: number;
   rallySide: ReportsFilterSide;
@@ -31,6 +33,8 @@ export function buildReportsQueryParams({
   troopType,
   tradeMin,
   tradeMax,
+  dateFrom,
+  dateTo,
   commanderPrimaryId,
   commanderSecondaryId,
   rallySide,
@@ -57,6 +61,13 @@ export function buildReportsQueryParams({
   }
   if (typeof tradeMax === "number" && Number.isFinite(tradeMax)) {
     params.set("tmax", String(tradeMax));
+  }
+  // Dates are whole UTC days: from the first second of the start day to the last of the end day.
+  if (dateFrom) {
+    params.set("tfrom", String(Math.floor(Date.parse(`${dateFrom}T00:00:00Z`) / 1000)));
+  }
+  if (dateTo) {
+    params.set("tto", String(Math.floor(Date.parse(`${dateTo}T23:59:59Z`) / 1000)));
   }
   if (typeof commanderPrimaryId === "number" && Number.isFinite(commanderPrimaryId)) {
     params.set("cpc", String(commanderPrimaryId));
