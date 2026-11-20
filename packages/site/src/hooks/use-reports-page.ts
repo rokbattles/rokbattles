@@ -2,6 +2,7 @@
 
 import { parseAsString, useQueryState } from "nuqs";
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useReportsRange } from "@/hooks/use-reports-range";
 import { buildReportsQueryParams, type ReportsBattleKind } from "@/lib/reports-query";
 import type { ReportsListResponse } from "@/lib/types/reports-list";
 import { GovernorContext } from "@/providers/governor-context";
@@ -45,14 +46,16 @@ export function useReportsPage(
     troopType,
     tradeMin,
     tradeMax,
-    dateFrom,
-    dateTo,
     commanderPrimaryId,
     commanderSecondaryId,
     rallySide: filterRallySide,
     garrisonSide: filterGarrisonSide,
     garrisonBuildingType: filterGarrisonBuildingType,
   } = context;
+
+  const { range } = useReportsRange();
+  const dateFrom = range.start;
+  const dateTo = range.end;
 
   // Pages limited to one battle kind ignore the detailed rally/garrison filters.
   const rallySide = kind ? "none" : filterRallySide;

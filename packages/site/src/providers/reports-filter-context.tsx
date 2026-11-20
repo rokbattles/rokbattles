@@ -25,13 +25,6 @@ function resolveTroopType(value: string | null): ReportsTroopType | undefined {
   return troopTypes.has(value as ReportsTroopType) ? (value as ReportsTroopType) : undefined;
 }
 
-function resolveDate(value: string | null): string | undefined {
-  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    return undefined;
-  }
-  return Number.isNaN(Date.parse(`${value}T00:00:00Z`)) ? undefined : value;
-}
-
 function resolveSide(value: string | null): ReportsFilterSide {
   if (!value) {
     return "none";
@@ -59,11 +52,6 @@ export type ReportsFilterContextValue = {
   setTradeMin: Dispatch<SetStateAction<number | undefined>>;
   tradeMax?: number;
   setTradeMax: Dispatch<SetStateAction<number | undefined>>;
-  /** Inclusive UTC dates in YYYY-MM-DD form. */
-  dateFrom?: string;
-  setDateFrom: Dispatch<SetStateAction<string | undefined>>;
-  dateTo?: string;
-  setDateTo: Dispatch<SetStateAction<string | undefined>>;
   commanderPrimaryId?: number;
   setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>>;
   commanderSecondaryId?: number;
@@ -84,8 +72,6 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [troopTypeParam, setTroopTypeParam] = useQueryState("tt", parseAsString);
   const [tradeMinParam, setTradeMinParam] = useQueryState("tmin", parseAsInteger);
   const [tradeMaxParam, setTradeMaxParam] = useQueryState("tmax", parseAsInteger);
-  const [dateFromParam, setDateFromParam] = useQueryState("df", parseAsString);
-  const [dateToParam, setDateToParam] = useQueryState("dt", parseAsString);
   const [commanderPrimaryParam, setCommanderPrimaryParam] = useQueryState("cpc", parseAsInteger);
   const [commanderSecondaryParam, setCommanderSecondaryParam] = useQueryState(
     "csc",
@@ -99,8 +85,6 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const troopType = resolveTroopType(troopTypeParam);
   const tradeMin = tradeMinParam ?? undefined;
   const tradeMax = tradeMaxParam ?? undefined;
-  const dateFrom = resolveDate(dateFromParam);
-  const dateTo = resolveDate(dateToParam);
   const commanderPrimaryId = commanderPrimaryParam ?? undefined;
   const commanderSecondaryId = commanderSecondaryParam ?? undefined;
   const rallySide = resolveSide(rallySideParam);
@@ -125,16 +109,6 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const setTradeMax: Dispatch<SetStateAction<number | undefined>> = (value) => {
     const next = typeof value === "function" ? value(tradeMax) : value;
     setTradeMaxParam(next ?? null);
-  };
-
-  const setDateFrom: Dispatch<SetStateAction<string | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(dateFrom) : value;
-    setDateFromParam(next ?? null);
-  };
-
-  const setDateTo: Dispatch<SetStateAction<string | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(dateTo) : value;
-    setDateToParam(next ?? null);
   };
 
   const setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>> = (value) => {
@@ -169,8 +143,6 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setTroopType(undefined);
     setTradeMin(undefined);
     setTradeMax(undefined);
-    setDateFrom(undefined);
-    setDateTo(undefined);
     setCommanderPrimaryId(undefined);
     setCommanderSecondaryId(undefined);
     setRallySide("none");
@@ -187,10 +159,6 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setTradeMin,
     tradeMax,
     setTradeMax,
-    dateFrom,
-    setDateFrom,
-    dateTo,
-    setDateTo,
     commanderPrimaryId,
     setCommanderPrimaryId,
     commanderSecondaryId,

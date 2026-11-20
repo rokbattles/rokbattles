@@ -17,7 +17,7 @@ import {
   type ReportsTroopType,
 } from "@/providers/reports-filter-context";
 
-type FilterKey = "player" | "troop" | "trade" | "date" | "commander" | "rally" | "garrison";
+type FilterKey = "player" | "troop" | "trade" | "commander" | "rally" | "garrison";
 
 type CommanderOption = { id: number; name: string };
 
@@ -76,7 +76,6 @@ export function ReportsFilterBar({
     ...(lockedPlayerId === undefined ? [{ key: "player" as const, label: "Player" }] : []),
     { key: "troop", label: "Troop type" },
     { key: "trade", label: "Trade %" },
-    { key: "date", label: "Date range" },
     { key: "commander", label: "Commander" },
     ...(hideRallyGarrison
       ? []
@@ -229,16 +228,6 @@ function buildChips(
       },
     });
   }
-  if (c.dateFrom !== undefined || c.dateTo !== undefined) {
-    chips.push({
-      key: "date",
-      label: dateLabel(c.dateFrom, c.dateTo),
-      onClear: () => {
-        c.setDateFrom(undefined);
-        c.setDateTo(undefined);
-      },
-    });
-  }
   if (c.commanderPrimaryId !== undefined || c.commanderSecondaryId !== undefined) {
     chips.push({
       key: "commander",
@@ -316,17 +305,6 @@ function FilterEditor({
         onChange={(min, max) => {
           c.setTradeMin(min);
           c.setTradeMax(max);
-        }}
-      />
-    );
-  } else if (filter === "date") {
-    body = (
-      <DateEditor
-        from={c.dateFrom}
-        to={c.dateTo}
-        onChange={(from, to) => {
-          c.setDateFrom(from);
-          c.setDateTo(to);
         }}
       />
     );
@@ -421,57 +399,6 @@ function SideSelect({
         ))}
       </Listbox>
     </Field>
-  );
-}
-
-function dateLabel(from: string | undefined, to: string | undefined) {
-  if (from && to) return `Date: ${from} to ${to}`;
-  if (from) return `Date: from ${from}`;
-  return `Date: until ${to}`;
-}
-
-function DateEditor({
-  from,
-  to,
-  onChange,
-}: {
-  from: string | undefined;
-  to: string | undefined;
-  onChange: (from: string | undefined, to: string | undefined) => void;
-}) {
-  const update = (nextFrom: string | undefined, nextTo: string | undefined) => {
-    // Swap if the dates were picked the wrong way round.
-    if (nextFrom && nextTo && nextFrom > nextTo) {
-      onChange(nextTo, nextFrom);
-      return;
-    }
-    onChange(nextFrom, nextTo);
-  };
-
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field>
-          <Label>From (UTC)</Label>
-          <Input
-            type="date"
-            value={from ?? ""}
-            onChange={(event) => update(event.target.value || undefined, to)}
-          />
-        </Field>
-        <Field>
-          <Label>To (UTC)</Label>
-          <Input
-            type="date"
-            value={to ?? ""}
-            onChange={(event) => update(from, event.target.value || undefined)}
-          />
-        </Field>
-      </div>
-      <p className="text-sm/6 text-zinc-500">
-        Both dates are included. Times are in UTC, like the report list.
-      </p>
-    </div>
   );
 }
 
