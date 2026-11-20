@@ -12,7 +12,7 @@ export function accountReportsSource(pathname: string): AccountReportsSource | u
 }
 
 export const accountReportsBack: Record<AccountReportsSource, { href: string; label: string }> = {
-  "account-reports": { href: "/account/reports", label: "Back to My Reports" },
-  "account-rallies": { href: "/account/rallies", label: "Back to My Rallies" },
-  "account-garrisons": { href: "/account/garrisons", label: "Back to My Garrisons" },
+  "account-reports": { href: "/account/reports", label: "Back to Open Field" },
+  "account-rallies": { href: "/account/rallies", label: "Back to Rallies" },
+  "account-garrisons": { href: "/account/garrisons", label: "Back to Garrisons" },
 };

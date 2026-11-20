@@ -146,28 +146,28 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 {showMyReports ? (
                   <>
                     <SidebarItem
-                      title="My Open Field"
+                      title="Open Field"
                       href="/account/reports"
                       current={pathname === "/account/reports"}
                     >
                       <Flame data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Open Field</SidebarLabel>
+                      <SidebarLabel>Open Field</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Rallies"
+                      title="Rallies"
                       href="/account/rallies"
                       current={pathname === "/account/rallies"}
                     >
                       <Swords data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Rallies</SidebarLabel>
+                      <SidebarLabel>Rallies</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Garrisons"
+                      title="Garrisons"
                       href="/account/garrisons"
                       current={pathname === "/account/garrisons"}
                     >
                       <Castle data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Garrisons</SidebarLabel>
+                      <SidebarLabel>Garrisons</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="My Pairings"
