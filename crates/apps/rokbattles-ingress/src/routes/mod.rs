@@ -15,6 +15,8 @@ use axum::{
 
 use crate::state::AppState;
 
+const MAX_UPLOAD_BYTES: usize = 25 * 1024 * 1024;
+
 /// Builds the router with a 25 MiB request body limit for both upload endpoints.
 pub(crate) fn router(state: Arc<AppState>) -> Router {
     Router::new()
@@ -22,7 +24,7 @@ pub(crate) fn router(state: Arc<AppState>) -> Router {
         .route("/v2/upload", post(upload::upload))
         .route("/v2/relay/upload", post(relay::upload))
         .with_state(state)
-        .layer(DefaultBodyLimit::max(25 * 1024 * 1024))
+        .layer(DefaultBodyLimit::max(MAX_UPLOAD_BYTES))
 }
 
 /// Liveness only; does not probe MongoDB.
@@ -37,11 +39,12 @@ mod tests {
         extract::{FromRequest, Multipart},
         http::Request,
     };
+    use bytes::Bytes;
 
-    pub(super) async fn multipart(body: &str) -> Multipart {
+    pub(super) async fn multipart(body: impl AsRef<[u8]>) -> Multipart {
         let request = Request::builder()
             .header("content-type", "multipart/form-data; boundary=mail-boundary")
-            .body(Body::from(body.to_string()))
+            .body(Body::from(Bytes::copy_from_slice(body.as_ref())))
             .expect("multipart request");
 
         Multipart::from_request(request, &()).await.expect("multipart extractor")
