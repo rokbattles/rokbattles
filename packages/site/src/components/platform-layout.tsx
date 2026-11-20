@@ -144,12 +144,12 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 {showMyReports ? (
                   <>
                     <SidebarItem
-                      title="My Battles"
+                      title="Battles"
                       href="/account/reports"
                       current={pathname === "/account/reports"}
                     >
                       <Flame data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Battles</SidebarLabel>
+                      <SidebarLabel>Battles</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="Pairings"

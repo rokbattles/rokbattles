@@ -75,7 +75,7 @@ export function PersonalLootContent({ active, endpoint }: PersonalLootContentPro
   const searchParams = useSearchParams();
   const governorContext = use(GovernorContext);
   if (!governorContext) {
-    throw new Error("My Loot page must be used within a GovernorProvider");
+    throw new Error("Loot page must be used within a GovernorProvider");
   }
 
   const formatLevel = useCallback((level: number) => `Level ${level.toString()}`, []);
