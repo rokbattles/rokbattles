@@ -1,0 +1,52 @@
+name: Trivy
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "infra/*.Dockerfile"
+      - ".github/workflows/trivy.yml"
+  push:
+    branches: [main]
+
+concurrency:
+  group: trivy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    name: Scan Dockerfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Trivy
+        env:
+          TRIVY_VERSION: "0.76.2"
+          TRIVY_SHA256: bc0fc726e017b8927a62b2d3531d7a84ee01769daf5c99ed866dced54089fdbf
+        run: |
+          archive="trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz"
+          curl --fail --silent --show-error --location --retry 3 \
+            "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/${archive}" \
+            --output "$RUNNER_TEMP/$archive"
+          printf '%s  %s\n' "$TRIVY_SHA256" "$RUNNER_TEMP/$archive" | sha256sum --check -
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP" trivy
+
+      - name: Scan Dockerfiles
+        run: |
+          # Scan from the repository root so SARIF paths include infra/.
+          "$RUNNER_TEMP/trivy" config --misconfig-scanners dockerfile \
+            --exit-code 0 --format sarif --output "$RUNNER_TEMP/trivy.sarif" .
+
+      - name: Upload results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          sarif_file: ${{ runner.temp }}/trivy.sarif
+          category: trivy-dockerfile
