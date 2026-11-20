@@ -168,9 +168,15 @@ impl FromRequestParts<Arc<AppState>> for AccountAccess {
                 )));
             }
             if let Some(oidc) = &state.oidc {
-                oidc.app_limiter
-                    .check_app(access.client_id)
-                    .map_err(IntoResponse::into_response)?;
+                let limiter = match scope {
+                    Scope::OpenId => Some(&oidc.profile_limiter),
+                    Scope::GovernorBindsRead => Some(&oidc.governor_binds_read_limiter),
+                    Scope::GovernorDataRead => Some(&oidc.governor_data_read_limiter),
+                    Scope::ProfileRead | Scope::GovernorBindsWrite => None,
+                };
+                if let Some(limiter) = limiter {
+                    limiter.check_ip(&parts.headers).map_err(IntoResponse::into_response)?;
+                }
             }
             return Ok(Self::App(access));
         }

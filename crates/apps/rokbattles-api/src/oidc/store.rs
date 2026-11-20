@@ -124,6 +124,23 @@ pub(super) struct RefreshFamily {
     pub(super) rolling: bool,
 }
 
+#[derive(Clone, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(super) struct TokenHistory {
+    #[serde(rename = "_id")]
+    pub(super) id: String,
+    pub(super) family_id: ObjectId,
+    pub(super) spent_refresh_tokens: Vec<SpentRefreshToken>,
+    pub(super) access_tokens: Vec<AccessToken>,
+    pub(super) expires_at: DateTime,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct ArchivedAccess {
+    access_tokens: Vec<AccessToken>,
+}
+
 #[async_trait]
 pub(super) trait OidcRepository: Send + Sync {
     async fn registration(&self, id: ObjectId) -> Result<Option<DeveloperApp>>;
@@ -161,6 +178,13 @@ pub(super) trait OidcRepository: Send + Sync {
     async fn consume_code(&self, hash: &str, now: DateTime) -> Result<bool>;
     async fn insert_family(&self, family: &RefreshFamily) -> Result<()>;
     async fn family(&self, id: ObjectId) -> Result<Option<RefreshFamily>>;
+    async fn archive_token_history(&self, history: &TokenHistory) -> Result<()>;
+    async fn archived_access(
+        &self,
+        family_id: ObjectId,
+        hash: &str,
+        now: DateTime,
+    ) -> Result<Option<AccessToken>>;
     async fn rotate_family(&self, next: &RefreshFamily, current_hash: &str) -> Result<bool>;
     async fn revoke_replayed_family(
         &self,
@@ -178,6 +202,7 @@ pub(super) struct MongoOidcStore {
     grants: Collection<Grant>,
     codes: Collection<Code>,
     families: Collection<RefreshFamily>,
+    token_history: Collection<TokenHistory>,
 }
 
 impl MongoOidcStore {
@@ -190,6 +215,7 @@ impl MongoOidcStore {
             grants: db.collection(GRANTS_COLLECTION),
             codes: db.collection("v3_oidc_codes"),
             families: db.collection("v3_oidc_token_families"),
+            token_history: db.collection("v3_oidc_token_history"),
         }
     }
 
@@ -201,7 +227,16 @@ impl MongoOidcStore {
 
         self.requests.create_index(ttl.clone()).await?;
         self.codes.create_index(ttl.clone()).await?;
-        self.families.create_index(ttl).await?;
+        self.families.create_index(ttl.clone()).await?;
+        self.token_history
+            .create_indexes([
+                ttl,
+                IndexModel::builder().keys(doc! { "familyId": 1, "accessTokens.hash": 1 }).build(),
+                IndexModel::builder()
+                    .keys(doc! { "familyId": 1, "spentRefreshTokens.hash": 1 })
+                    .build(),
+            ])
+            .await?;
         self.grants
             .create_indexes([
                 IndexModel::builder().keys(doc! { "userId": 1, "revoked": 1 }).build(),
@@ -391,6 +426,30 @@ impl OidcRepository for MongoOidcStore {
         self.families.find_one(doc! { "_id": id }).await
     }
 
+    async fn archive_token_history(&self, history: &TokenHistory) -> Result<()> {
+        match self.token_history.insert_one(history).await {
+            Ok(_) => Ok(()),
+            Err(error) if is_duplicate_key(&error) => Ok(()),
+            Err(error) => Err(error),
+        }
+    }
+
+    async fn archived_access(
+        &self,
+        family_id: ObjectId,
+        hash: &str,
+        now: DateTime,
+    ) -> Result<Option<AccessToken>> {
+        let entry = doc! { "hash": hash, "expiresAt": { "$gt": now } };
+        let history = self
+            .token_history
+            .clone_with_type::<ArchivedAccess>()
+            .find_one(doc! { "familyId": family_id, "accessTokens": { "$elemMatch": &entry } })
+            .projection(doc! { "_id": 0, "accessTokens": { "$elemMatch": entry } })
+            .await?;
+        Ok(history.and_then(|history| history.access_tokens.into_iter().next()))
+    }
+
     async fn rotate_family(&self, next: &RefreshFamily, current_hash: &str) -> Result<bool> {
         let filter = doc! { "_id": next.id, "currentHash": current_hash, "revoked": false };
         Ok(self.families.replace_one(filter, next).await?.matched_count == 1)
@@ -402,23 +461,34 @@ impl OidcRepository for MongoOidcStore {
         spent_hash: &str,
         now: DateTime,
     ) -> Result<()> {
-        self.families
-            .update_one(
-                doc! {
-                    "_id": id,
-                    "expiresAt": { "$gt": now },
-                    "refreshExpiresAt": { "$gt": now },
-                    "$or": [
-                        { "spentHashes": spent_hash },
-                        { "spentRefreshTokens": { "$elemMatch": {
-                            "hash": spent_hash,
-                            "expiresAt": { "$gt": now },
-                        } } },
-                    ],
-                },
-                doc! { "$set": { "revoked": true } },
-            )
-            .await?;
+        let active = doc! {
+            "_id": id,
+            "expiresAt": { "$gt": now },
+            "refreshExpiresAt": { "$gt": now },
+        };
+        let entry = doc! { "hash": spent_hash, "expiresAt": { "$gt": now } };
+        let mut inline = active.clone();
+        inline.insert(
+            "$or",
+            vec![
+                doc! { "spentHashes": spent_hash },
+                doc! { "spentRefreshTokens": { "$elemMatch": &entry } },
+            ],
+        );
+        let revoke = doc! { "$set": { "revoked": true } };
+        // History is written before removal from the family. Checking inline first
+        // also finds replays when a concurrent rotation is moving their history.
+        if self.families.update_one(inline, revoke.clone()).await?.matched_count == 0
+            && self
+                .token_history
+                .clone_with_type::<Document>()
+                .find_one(doc! { "familyId": id, "spentRefreshTokens": { "$elemMatch": entry } })
+                .projection(doc! { "_id": 1 })
+                .await?
+                .is_some()
+        {
+            self.families.update_one(active, revoke).await?;
+        }
         Ok(())
     }
 }
