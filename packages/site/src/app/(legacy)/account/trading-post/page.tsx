@@ -9,7 +9,7 @@ export default async function Page() {
 
   return (
     <div className="space-y-6">
-      <Heading>My Trading Post</Heading>
+      <Heading>Trading Post</Heading>
       <Suspense fallback={<Text role="status">Loading carriage transfers…</Text>}>
         <AccountCarriageTransfers />
       </Suspense>

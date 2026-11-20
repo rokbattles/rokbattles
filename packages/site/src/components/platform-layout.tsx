@@ -152,38 +152,38 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       <SidebarLabel>My Battles</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Pairings"
+                      title="Pairings"
                       href="/account/pairings"
                       current={pathname.startsWith("/account/pairings")}
                     >
                       <Scale data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Pairings</SidebarLabel>
+                      <SidebarLabel>Pairings</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Loot"
+                      title="Loot"
                       href="/account/loot"
                       current={
                         pathname === "/account/loot" || pathname.startsWith("/account/loot/")
                       }
                     >
                       <Gift data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Loot</SidebarLabel>
+                      <SidebarLabel>Loot</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Resources"
+                      title="Resources"
                       href="/account/resources"
                       current={pathname === "/account/resources"}
                     >
                       <Warehouse data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Resources</SidebarLabel>
+                      <SidebarLabel>Resources</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Trading Post"
+                      title="Trading Post"
                       href="/account/trading-post"
                       current={pathname === "/account/trading-post"}
                     >
                       <Store data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Trading Post</SidebarLabel>
+                      <SidebarLabel>Trading Post</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="Ark Recap"

@@ -58,7 +58,7 @@ export function PairingDetailContent({
         className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white"
       >
         <ArrowLeft className="size-3.5" aria-hidden="true" />
-        My Pairings
+        Pairings
       </Link>
       <h1>
         <PairingIdentity primary={primary} secondary={secondary} large />

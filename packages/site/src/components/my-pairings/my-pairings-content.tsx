@@ -52,7 +52,7 @@ export function MyPairingsContent() {
 
   return (
     <>
-      <Heading>My Pairings</Heading>
+      <Heading>Pairings</Heading>
       <div className="relative mt-4 min-w-0 max-w-full space-y-8 overflow-x-clip">
         <PairingsToolbar range={range} today={today} />
         {result.loading ? (
