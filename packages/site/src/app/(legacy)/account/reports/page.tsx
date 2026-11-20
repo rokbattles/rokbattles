@@ -4,6 +4,6 @@ import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 export default async function Page() {
   await requireCurrentUserWithGovernor();
 
-  // Rallies and garrisons have their own page, so this list shows open field battles.
-  return <AccountReportsContent kind="openfield" />;
+  // Rallies and garrisons have their own pages, so this list shows open field battles.
+  return <AccountReportsContent title="My Open Field Battles" kind="openfield" />;
 }
