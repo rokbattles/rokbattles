@@ -1,0 +1,50 @@
+name: Semgrep
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 16 * * 2"
+
+concurrency:
+  group: semgrep-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    name: Semgrep Community Edition
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Scan repository
+        run: |
+          mkdir -p "$RUNNER_TEMP/semgrep"
+          # GitHub compares the complete SARIF report against the PR base.
+          # Keep the inventory of Rust unsafe blocks out of the advisory results.
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            --env HOME=/tmp \
+            --mount "type=bind,source=$GITHUB_WORKSPACE,target=/src,readonly" \
+            --mount "type=bind,source=$RUNNER_TEMP/semgrep,target=/results" \
+            --workdir /src \
+            semgrep/semgrep:1.186.0@sha256:6e1b04340e60e910fbb4ddbf3c857ab0918f064417ad5ac530014ccb3cf8c8f1 \
+            semgrep scan --oss-only --metrics off --disable-version-check \
+              --config p/javascript --config p/rust --config p/github-actions \
+              --exclude-rule rust.lang.security.unsafe-usage.unsafe-usage \
+              --sarif --output /results/semgrep.sarif
+
+      - name: Upload results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          sarif_file: ${{ runner.temp }}/semgrep/semgrep.sarif
+          category: semgrep-ce
