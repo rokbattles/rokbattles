@@ -1,7 +1,5 @@
 import type {
   ReportsFilterSide,
-  ReportsFilterSubtype,
-  ReportsFilterType,
   ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
@@ -12,12 +10,8 @@ export type ReportsQueryParams = {
   before?: string;
   playerId?: number;
   receiverId?: number;
-  type?: ReportsFilterType;
-  subtype?: ReportsFilterSubtype;
-  senderPrimaryCommanderId?: number;
-  senderSecondaryCommanderId?: number;
-  opponentPrimaryCommanderId?: number;
-  opponentSecondaryCommanderId?: number;
+  commanderPrimaryId?: number;
+  commanderSecondaryId?: number;
   rallySide: ReportsFilterSide;
   garrisonSide: ReportsFilterSide;
   garrisonBuildingType?: ReportsGarrisonBuildingType;
@@ -29,12 +23,8 @@ export function buildReportsQueryParams({
   before,
   playerId,
   receiverId,
-  type,
-  subtype,
-  senderPrimaryCommanderId,
-  senderSecondaryCommanderId,
-  opponentPrimaryCommanderId,
-  opponentSecondaryCommanderId,
+  commanderPrimaryId,
+  commanderSecondaryId,
   rallySide,
   garrisonSide,
   garrisonBuildingType,
@@ -53,28 +43,11 @@ export function buildReportsQueryParams({
   if (typeof receiverId === "number" && Number.isFinite(receiverId)) {
     params.set("receiver", String(receiverId));
   }
-  if (type) params.set("type", type);
-  if (subtype && (type === "kvk" || type === "ark")) params.set("subtype", subtype);
-  if (typeof senderPrimaryCommanderId === "number" && Number.isFinite(senderPrimaryCommanderId)) {
-    params.set("spc", String(senderPrimaryCommanderId));
+  if (typeof commanderPrimaryId === "number" && Number.isFinite(commanderPrimaryId)) {
+    params.set("cpc", String(commanderPrimaryId));
   }
-  if (
-    typeof senderSecondaryCommanderId === "number" &&
-    Number.isFinite(senderSecondaryCommanderId)
-  ) {
-    params.set("ssc", String(senderSecondaryCommanderId));
-  }
-  if (
-    typeof opponentPrimaryCommanderId === "number" &&
-    Number.isFinite(opponentPrimaryCommanderId)
-  ) {
-    params.set("opc", String(opponentPrimaryCommanderId));
-  }
-  if (
-    typeof opponentSecondaryCommanderId === "number" &&
-    Number.isFinite(opponentSecondaryCommanderId)
-  ) {
-    params.set("osc", String(opponentSecondaryCommanderId));
+  if (typeof commanderSecondaryId === "number" && Number.isFinite(commanderSecondaryId)) {
+    params.set("csc", String(commanderSecondaryId));
   }
   // The rally and garrison pages are the same as filtering to either side.
   const effectiveRallySide = kind === "rally" ? "both" : rallySide;
