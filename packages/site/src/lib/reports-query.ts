@@ -1,6 +1,8 @@
+import { commanderIdsWithTalent } from "@/hooks/use-commander-name";
 import type {
   ReportsFilterSide,
   ReportsGarrisonBuildingType,
+  ReportsTroopType,
 } from "@/providers/reports-filter-context";
 
 export type ReportsBattleKind = "openfield" | "rally" | "garrison";
@@ -10,6 +12,7 @@ export type ReportsQueryParams = {
   before?: string;
   playerId?: number;
   receiverId?: number;
+  troopType?: ReportsTroopType;
   commanderPrimaryId?: number;
   commanderSecondaryId?: number;
   rallySide: ReportsFilterSide;
@@ -23,6 +26,7 @@ export function buildReportsQueryParams({
   before,
   playerId,
   receiverId,
+  troopType,
   commanderPrimaryId,
   commanderSecondaryId,
   rallySide,
@@ -43,6 +47,7 @@ export function buildReportsQueryParams({
   if (typeof receiverId === "number" && Number.isFinite(receiverId)) {
     params.set("receiver", String(receiverId));
   }
+  if (troopType) params.set("cps", commanderIdsWithTalent(troopType).join(","));
   if (typeof commanderPrimaryId === "number" && Number.isFinite(commanderPrimaryId)) {
     params.set("cpc", String(commanderPrimaryId));
   }

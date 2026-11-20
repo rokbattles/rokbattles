@@ -42,6 +42,7 @@ export function useReportsPage(
 
   const {
     playerId: filterPlayerId,
+    troopType,
     commanderPrimaryId,
     commanderSecondaryId,
     rallySide: filterRallySide,
@@ -72,6 +73,7 @@ export function useReportsPage(
       JSON.stringify({
         scope,
         playerId: playerId ?? null,
+        troopType: troopType ?? null,
         commanderPrimaryId: commanderPrimaryId ?? null,
         commanderSecondaryId: commanderSecondaryId ?? null,
         rallySide,
@@ -82,6 +84,7 @@ export function useReportsPage(
     [
       scope,
       playerId,
+      troopType,
       commanderPrimaryId,
       commanderSecondaryId,
       rallySide,
@@ -98,6 +101,7 @@ export function useReportsPage(
         before,
         playerId: scope === "mine" ? undefined : playerId,
         receiverId: scope === "mine" ? playerId : undefined,
+        troopType,
         commanderPrimaryId,
         commanderSecondaryId,
         rallySide,
@@ -118,6 +122,7 @@ export function useReportsPage(
     },
     [
       playerId,
+      troopType,
       commanderPrimaryId,
       commanderSecondaryId,
       rallySide,

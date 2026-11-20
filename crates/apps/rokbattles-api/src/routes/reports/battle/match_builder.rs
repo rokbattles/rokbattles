@@ -67,6 +67,10 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         ));
     }
 
+    if !request.commander_primary_ids.is_empty() {
+        match_pipeline.push(build_primary_commander_in_condition(&request.commander_primary_ids));
+    }
+
     if let Some(filter_type) = request.filter_type {
         match filter_type {
             ReportsFilterType::Kvk => {
@@ -184,6 +188,23 @@ fn build_either_side_commander_condition(primary: Option<i64>, secondary: Option
         "$or": [
             sender,
             { "opponents": { "$elemMatch": opponent } },
+        ]
+    }
+}
+
+/// The primary commander on the sender, or on any opponent, is one of `ids`.
+fn build_primary_commander_in_condition(ids: &[i64]) -> Document {
+    doc! {
+        "$or": [
+            { "sender.commanders.primary.id": { "$in": ids } },
+            {
+                "opponents": {
+                    "$elemMatch": {
+                        "player_id": { "$gt": 0 },
+                        "commanders.primary.id": { "$in": ids },
+                    }
+                }
+            },
         ]
     }
 }
@@ -320,6 +341,18 @@ mod tests {
         assert!(rendered.contains("sender.commanders.secondary.id"));
         assert!(rendered.contains("$elemMatch"));
         assert!(rendered.contains("commanders.secondary.id"));
+    }
+
+    #[test]
+    fn troop_type_matches_primary_commander_on_either_side() {
+        let request =
+            parse_reports_request(&FxHashMap::from_iter([("cps".to_string(), "3,15".to_string())]))
+                .expect("valid troop type ids");
+
+        let rendered = format!("{:?}", build_reports_match(&request));
+        assert!(rendered.contains("sender.commanders.primary.id"));
+        assert!(rendered.contains("$in"));
+        assert!(rendered.contains("$elemMatch"));
     }
 
     #[test]

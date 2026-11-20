@@ -53,6 +53,8 @@ pub(crate) struct ReportsRequest {
     /// Commander pair that may be on either side of the battle.
     pub commander_primary_id: Option<i64>,
     pub commander_secondary_id: Option<i64>,
+    /// Primary commander on either side must be one of these (used for troop type).
+    pub commander_primary_ids: Vec<i64>,
     pub rally_side: ReportsFilterSide,
     pub garrison_side: ReportsFilterSide,
     pub garrison_building_type: Option<ReportsGarrisonBuildingType>,
@@ -111,6 +113,8 @@ pub(crate) fn parse_reports_request(
     let commander_secondary_id =
         parse_optional_i64(params.get("csc").map(String::as_str), "Invalid commander id")?;
 
+    let commander_primary_ids = parse_id_list(params.get("cps").map(String::as_str))?;
+
     let rally_side = parse_filter_side(params.get("rs").map(String::as_str), "Invalid rally side")?
         .unwrap_or(ReportsFilterSide::None);
     let garrison_side =
@@ -148,11 +152,34 @@ pub(crate) fn parse_reports_request(
         opponent_secondary_commander_id,
         commander_primary_id,
         commander_secondary_id,
+        commander_primary_ids,
         rally_side,
         garrison_side,
         garrison_building_type,
         open_field,
     })
+}
+
+const MAX_COMMANDER_IDS: usize = 500;
+
+fn parse_id_list(value: Option<&str>) -> Result<Vec<i64>, ApiError> {
+    let Some(value) = value else {
+        return Ok(Vec::new());
+    };
+
+    let ids = value
+        .split(',')
+        .map(|part| match part.trim().parse::<i64>() {
+            Ok(id) if id > 0 => Ok(id),
+            _ => Err(ApiError::bad_request("Invalid commander id list")),
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
+    if ids.len() > MAX_COMMANDER_IDS {
+        return Err(ApiError::bad_request("Too many commander ids"));
+    }
+
+    Ok(ids)
 }
 
 fn parse_filter_subtype(
@@ -326,6 +353,24 @@ mod tests {
         assert_eq!(parsed.commander_secondary_id, Some(134));
         parse_reports_request(&FxHashMap::from_iter([("cpc".to_string(), "x".to_string())]))
             .expect_err("invalid commander id should be rejected");
+    }
+
+    #[test]
+    fn parses_troop_type_ids() {
+        let parsed = parse_reports_request(&FxHashMap::from_iter([(
+            "cps".to_string(),
+            "3, 15,99".to_string(),
+        )]))
+        .expect("parsed troop type ids");
+        assert_eq!(parsed.commander_primary_ids, vec![3, 15, 99]);
+    }
+
+    #[test]
+    fn rejects_bad_troop_type_ids() {
+        for value in ["3,,5", "0", "abc"] {
+            parse_reports_request(&FxHashMap::from_iter([("cps".to_string(), value.to_string())]))
+                .expect_err("invalid value should be rejected");
+        }
     }
 
     #[test]

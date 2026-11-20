@@ -4,11 +4,26 @@ import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext } from "react";
 
+export type ReportsTroopType = "infantry" | "cavalry" | "archer" | "leadership" | "integration";
 export type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
 export type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
 
+const troopTypes = new Set<ReportsTroopType>([
+  "infantry",
+  "cavalry",
+  "archer",
+  "leadership",
+  "integration",
+]);
 const filterSides = new Set<ReportsFilterSide>(["none", "sender", "opponent", "both"]);
 const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>(["flag", "fortress", "other"]);
+
+function resolveTroopType(value: string | null): ReportsTroopType | undefined {
+  if (!value) {
+    return undefined;
+  }
+  return troopTypes.has(value as ReportsTroopType) ? (value as ReportsTroopType) : undefined;
+}
 
 function resolveSide(value: string | null): ReportsFilterSide {
   if (!value) {
@@ -31,6 +46,8 @@ function resolveGarrisonBuildingType(
 export type ReportsFilterContextValue = {
   playerId?: number;
   setPlayerId: Dispatch<SetStateAction<number | undefined>>;
+  troopType?: ReportsTroopType;
+  setTroopType: Dispatch<SetStateAction<ReportsTroopType | undefined>>;
   commanderPrimaryId?: number;
   setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>>;
   commanderSecondaryId?: number;
@@ -48,6 +65,7 @@ export const ReportsFilterContext = createContext<ReportsFilterContextValue | un
 
 export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [playerIdParam, setPlayerIdParam] = useQueryState("pid", parseAsInteger);
+  const [troopTypeParam, setTroopTypeParam] = useQueryState("tt", parseAsString);
   const [commanderPrimaryParam, setCommanderPrimaryParam] = useQueryState("cpc", parseAsInteger);
   const [commanderSecondaryParam, setCommanderSecondaryParam] = useQueryState(
     "csc",
@@ -58,6 +76,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [garrisonBuildingParam, setGarrisonBuildingParam] = useQueryState("gb", parseAsString);
 
   const playerId = playerIdParam ?? undefined;
+  const troopType = resolveTroopType(troopTypeParam);
   const commanderPrimaryId = commanderPrimaryParam ?? undefined;
   const commanderSecondaryId = commanderSecondaryParam ?? undefined;
   const rallySide = resolveSide(rallySideParam);
@@ -67,6 +86,11 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const setPlayerId: Dispatch<SetStateAction<number | undefined>> = (value) => {
     const next = typeof value === "function" ? value(playerId) : value;
     setPlayerIdParam(next ?? null);
+  };
+
+  const setTroopType: Dispatch<SetStateAction<ReportsTroopType | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(troopType) : value;
+    setTroopTypeParam(next ?? null);
   };
 
   const setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>> = (value) => {
@@ -98,6 +122,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
 
   const reset = () => {
     setPlayerId(undefined);
+    setTroopType(undefined);
     setCommanderPrimaryId(undefined);
     setCommanderSecondaryId(undefined);
     setRallySide("none");
@@ -108,6 +133,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const value = {
     playerId,
     setPlayerId,
+    troopType,
+    setTroopType,
     commanderPrimaryId,
     setCommanderPrimaryId,
     commanderSecondaryId,
