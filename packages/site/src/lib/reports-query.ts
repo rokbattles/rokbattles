@@ -1,8 +1,8 @@
+import { commanderIdsWithTalent } from "@/hooks/use-commander-name";
 import type {
   ReportsFilterSide,
-  ReportsFilterSubtype,
-  ReportsFilterType,
   ReportsGarrisonBuildingType,
+  ReportsTroopType,
 } from "@/providers/reports-filter-context";
 
 export type ReportsBattleKind = "openfield" | "rally" | "garrison";
@@ -12,8 +12,9 @@ export type ReportsQueryParams = {
   before?: string;
   playerId?: number;
   receiverId?: number;
-  type?: ReportsFilterType;
-  subtype?: ReportsFilterSubtype;
+  troopType?: ReportsTroopType;
+  tradeMin?: number;
+  tradeMax?: number;
   commanderPrimaryId?: number;
   commanderSecondaryId?: number;
   rallySide: ReportsFilterSide;
@@ -27,8 +28,9 @@ export function buildReportsQueryParams({
   before,
   playerId,
   receiverId,
-  type,
-  subtype,
+  troopType,
+  tradeMin,
+  tradeMax,
   commanderPrimaryId,
   commanderSecondaryId,
   rallySide,
@@ -49,8 +51,13 @@ export function buildReportsQueryParams({
   if (typeof receiverId === "number" && Number.isFinite(receiverId)) {
     params.set("receiver", String(receiverId));
   }
-  if (type) params.set("type", type);
-  if (subtype && (type === "kvk" || type === "ark")) params.set("subtype", subtype);
+  if (troopType) params.set("cps", commanderIdsWithTalent(troopType).join(","));
+  if (typeof tradeMin === "number" && Number.isFinite(tradeMin)) {
+    params.set("tmin", String(tradeMin));
+  }
+  if (typeof tradeMax === "number" && Number.isFinite(tradeMax)) {
+    params.set("tmax", String(tradeMax));
+  }
   if (typeof commanderPrimaryId === "number" && Number.isFinite(commanderPrimaryId)) {
     params.set("cpc", String(commanderPrimaryId));
   }

@@ -5,7 +5,7 @@ import { type ReactNode, use, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Combobox, ComboboxLabel, ComboboxOption } from "@/components/ui/combobox";
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from "@/components/ui/dropdown";
-import { Field, Label } from "@/components/ui/fieldset";
+import { Description, Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { useCommanderOptions } from "@/hooks/use-commander-name";
@@ -13,38 +13,20 @@ import {
   ReportsFilterContext,
   type ReportsFilterContextValue,
   type ReportsFilterSide,
-  type ReportsFilterSubtype,
-  type ReportsFilterType,
   type ReportsGarrisonBuildingType,
+  type ReportsTroopType,
 } from "@/providers/reports-filter-context";
 
-type FilterKey = "player" | "type" | "commander" | "rally" | "garrison";
+type FilterKey = "player" | "troop" | "trade" | "commander" | "rally" | "garrison";
 
 type CommanderOption = { id: number; name: string };
 
-const typeLabels: Record<ReportsFilterType, string> = {
-  home: "Home",
-  ark: "Ark of Osiris/Osiris League",
-  kvk: "KVK",
-  strife: "Supreme Strife",
-};
-
-const subtypeOptions: Partial<
-  Record<ReportsFilterType, { value: ReportsFilterSubtype; label: string }[]>
-> = {
-  kvk: [
-    { value: "1", label: "Season 1" },
-    { value: "2", label: "Season 2" },
-    { value: "3", label: "Season 3" },
-    { value: "100", label: "Season of Conquest" },
-  ],
-  ark: [
-    { value: "1", label: "Golden Battleground" },
-    { value: "6", label: "Silver Battleground" },
-    { value: "3", label: "Osiris League" },
-    { value: "2", label: "Practice Match" },
-    { value: "5", label: "Custom Match" },
-  ],
+const troopLabels: Record<ReportsTroopType, string> = {
+  infantry: "Infantry",
+  cavalry: "Cavalry",
+  archer: "Archer",
+  leadership: "Leadership",
+  integration: "Integration",
 };
 
 const sideLabels: Record<ReportsFilterSide, string> = {
@@ -92,7 +74,8 @@ export function ReportsFilterBar({
 
   const available: { key: FilterKey; label: string }[] = [
     ...(lockedPlayerId === undefined ? [{ key: "player" as const, label: "Player" }] : []),
-    { key: "type", label: "Battle type" },
+    { key: "troop", label: "Troop type" },
+    { key: "trade", label: "Trade %" },
     { key: "commander", label: "Commander" },
     ...(hideRallyGarrison
       ? []
@@ -228,16 +211,20 @@ function buildChips(
       onClear: () => c.setPlayerId(undefined),
     });
   }
-  if (c.type) {
-    const subtype = c.subtype
-      ? subtypeOptions[c.type]?.find((option) => option.value === c.subtype)?.label
-      : undefined;
+  if (c.troopType) {
     chips.push({
-      key: "type",
-      label: subtype ? `${typeLabels[c.type]} · ${subtype}` : typeLabels[c.type],
+      key: "troop",
+      label: `Troop type: ${troopLabels[c.troopType]}`,
+      onClear: () => c.setTroopType(undefined),
+    });
+  }
+  if (c.tradeMin !== undefined || c.tradeMax !== undefined) {
+    chips.push({
+      key: "trade",
+      label: tradeLabel(c.tradeMin, c.tradeMax),
       onClear: () => {
-        c.setType(undefined);
-        c.setSubtype(undefined);
+        c.setTradeMin(undefined);
+        c.setTradeMax(undefined);
       },
     });
   }
@@ -288,48 +275,38 @@ function FilterEditor({
 
   if (filter === "player") {
     body = <PlayerEditor value={c.playerId} onChange={c.setPlayerId} />;
-  } else if (filter === "type") {
-    const subtypes = c.type ? subtypeOptions[c.type] : undefined;
+  } else if (filter === "troop") {
     body = (
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field>
-          <Label>Battle type</Label>
-          <Listbox<ReportsFilterType | "">
-            value={c.type ?? ""}
-            onChange={(value) => {
-              c.setType(value === "" ? undefined : value);
-              c.setSubtype(undefined);
-            }}
-          >
-            <ListboxOption value="">
-              <ListboxLabel>Any</ListboxLabel>
+      <Field>
+        <Label>Troop type</Label>
+        <Listbox<ReportsTroopType | "">
+          value={c.troopType ?? ""}
+          onChange={(value) => c.setTroopType(value === "" ? undefined : value)}
+        >
+          <ListboxOption value="">
+            <ListboxLabel>Any</ListboxLabel>
+          </ListboxOption>
+          {(Object.keys(troopLabels) as ReportsTroopType[]).map((troop) => (
+            <ListboxOption key={troop} value={troop}>
+              <ListboxLabel>{troopLabels[troop]}</ListboxLabel>
             </ListboxOption>
-            {(Object.keys(typeLabels) as ReportsFilterType[]).map((type) => (
-              <ListboxOption key={type} value={type}>
-                <ListboxLabel>{typeLabels[type]}</ListboxLabel>
-              </ListboxOption>
-            ))}
-          </Listbox>
-        </Field>
-        {subtypes ? (
-          <Field>
-            <Label>Subtype</Label>
-            <Listbox<ReportsFilterSubtype | "">
-              value={c.subtype ?? ""}
-              onChange={(value) => c.setSubtype(value === "" ? undefined : value)}
-            >
-              <ListboxOption value="">
-                <ListboxLabel>Any</ListboxLabel>
-              </ListboxOption>
-              {subtypes.map((option) => (
-                <ListboxOption key={option.value} value={option.value}>
-                  <ListboxLabel>{option.label}</ListboxLabel>
-                </ListboxOption>
-              ))}
-            </Listbox>
-          </Field>
-        ) : null}
-      </div>
+          ))}
+        </Listbox>
+        <Description>
+          Matches battles where the primary commander on either side has this specialty.
+        </Description>
+      </Field>
+    );
+  } else if (filter === "trade") {
+    body = (
+      <TradeEditor
+        min={c.tradeMin}
+        max={c.tradeMax}
+        onChange={(min, max) => {
+          c.setTradeMin(min);
+          c.setTradeMax(max);
+        }}
+      />
     );
   } else if (filter === "commander") {
     body = (
@@ -422,6 +399,76 @@ function SideSelect({
         ))}
       </Listbox>
     </Field>
+  );
+}
+
+function tradeLabel(min: number | undefined, max: number | undefined) {
+  if (min !== undefined && max !== undefined) return `Trade %: ${min}–${max}`;
+  if (min !== undefined) return `Trade %: ${min} or more`;
+  return `Trade %: ${max} or less`;
+}
+
+function parseBound(text: string) {
+  const trimmed = text.trim();
+  if (trimmed === "") return undefined;
+  const numeric = Number(trimmed);
+  return Number.isInteger(numeric) && numeric >= 0 ? numeric : undefined;
+}
+
+function TradeEditor({
+  min,
+  max,
+  onChange,
+}: {
+  min: number | undefined;
+  max: number | undefined;
+  onChange: (min: number | undefined, max: number | undefined) => void;
+}) {
+  const [minText, setMinText] = useState(min === undefined ? "" : String(min));
+  const [maxText, setMaxText] = useState(max === undefined ? "" : String(max));
+
+  const commit = () => {
+    const nextMin = parseBound(minText);
+    const nextMax = parseBound(maxText);
+    // Swap if the bounds were entered the wrong way round.
+    if (nextMin !== undefined && nextMax !== undefined && nextMin > nextMax) {
+      onChange(nextMax, nextMin);
+      setMinText(String(nextMax));
+      setMaxText(String(nextMin));
+      return;
+    }
+    onChange(nextMin, nextMax);
+  };
+
+  const submitOnEnter = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") commit();
+  };
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <Field>
+        <Label>Trade % at least</Label>
+        <Input
+          inputMode="numeric"
+          placeholder="e.g. 150"
+          value={minText}
+          onChange={(event) => setMinText(event.target.value)}
+          onBlur={commit}
+          onKeyDown={submitOnEnter}
+        />
+      </Field>
+      <Field>
+        <Label>Trade % at most</Label>
+        <Input
+          inputMode="numeric"
+          placeholder="e.g. 400"
+          value={maxText}
+          onChange={(event) => setMaxText(event.target.value)}
+          onBlur={commit}
+          onKeyDown={submitOnEnter}
+        />
+      </Field>
+    </div>
   );
 }
 

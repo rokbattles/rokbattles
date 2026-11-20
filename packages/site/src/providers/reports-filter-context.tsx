@@ -4,39 +4,25 @@ import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext } from "react";
 
-export type ReportsFilterType = "home" | "ark" | "kvk" | "strife";
-export type ReportsFilterSubtype = "1" | "2" | "3" | "5" | "6" | "100";
+export type ReportsTroopType = "infantry" | "cavalry" | "archer" | "leadership" | "integration";
 export type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
 export type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
 
-const filterTypes = new Set<ReportsFilterType>(["home", "ark", "kvk", "strife"]);
-const kvkSubtypes = new Set<ReportsFilterSubtype>(["1", "2", "3", "100"]);
-const arkSubtypes = new Set<ReportsFilterSubtype>(["1", "2", "3", "5", "6"]);
+const troopTypes = new Set<ReportsTroopType>([
+  "infantry",
+  "cavalry",
+  "archer",
+  "leadership",
+  "integration",
+]);
 const filterSides = new Set<ReportsFilterSide>(["none", "sender", "opponent", "both"]);
 const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>(["flag", "fortress", "other"]);
 
-function resolveFilterType(value: string | null): ReportsFilterType | undefined {
+function resolveTroopType(value: string | null): ReportsTroopType | undefined {
   if (!value) {
     return undefined;
   }
-  return filterTypes.has(value as ReportsFilterType) ? (value as ReportsFilterType) : undefined;
-}
-
-function resolveFilterSubtype(
-  type: ReportsFilterType | undefined,
-  value: string | null
-): ReportsFilterSubtype | undefined {
-  if (!value) {
-    return undefined;
-  }
-  const subtype = value as ReportsFilterSubtype;
-  if (type === "kvk" && kvkSubtypes.has(subtype)) {
-    return subtype;
-  }
-  if (type === "ark" && arkSubtypes.has(subtype)) {
-    return subtype;
-  }
-  return undefined;
+  return troopTypes.has(value as ReportsTroopType) ? (value as ReportsTroopType) : undefined;
 }
 
 function resolveSide(value: string | null): ReportsFilterSide {
@@ -60,10 +46,12 @@ function resolveGarrisonBuildingType(
 export type ReportsFilterContextValue = {
   playerId?: number;
   setPlayerId: Dispatch<SetStateAction<number | undefined>>;
-  type?: ReportsFilterType;
-  setType: Dispatch<SetStateAction<ReportsFilterType | undefined>>;
-  subtype?: ReportsFilterSubtype;
-  setSubtype: Dispatch<SetStateAction<ReportsFilterSubtype | undefined>>;
+  troopType?: ReportsTroopType;
+  setTroopType: Dispatch<SetStateAction<ReportsTroopType | undefined>>;
+  tradeMin?: number;
+  setTradeMin: Dispatch<SetStateAction<number | undefined>>;
+  tradeMax?: number;
+  setTradeMax: Dispatch<SetStateAction<number | undefined>>;
   commanderPrimaryId?: number;
   setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>>;
   commanderSecondaryId?: number;
@@ -81,8 +69,9 @@ export const ReportsFilterContext = createContext<ReportsFilterContextValue | un
 
 export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [playerIdParam, setPlayerIdParam] = useQueryState("pid", parseAsInteger);
-  const [typeParam, setTypeParam] = useQueryState("type", parseAsString);
-  const [subtypeParam, setSubtypeParam] = useQueryState("subtype", parseAsString);
+  const [troopTypeParam, setTroopTypeParam] = useQueryState("tt", parseAsString);
+  const [tradeMinParam, setTradeMinParam] = useQueryState("tmin", parseAsInteger);
+  const [tradeMaxParam, setTradeMaxParam] = useQueryState("tmax", parseAsInteger);
   const [commanderPrimaryParam, setCommanderPrimaryParam] = useQueryState("cpc", parseAsInteger);
   const [commanderSecondaryParam, setCommanderSecondaryParam] = useQueryState(
     "csc",
@@ -93,8 +82,9 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [garrisonBuildingParam, setGarrisonBuildingParam] = useQueryState("gb", parseAsString);
 
   const playerId = playerIdParam ?? undefined;
-  const type = resolveFilterType(typeParam);
-  const subtype = resolveFilterSubtype(type, subtypeParam);
+  const troopType = resolveTroopType(troopTypeParam);
+  const tradeMin = tradeMinParam ?? undefined;
+  const tradeMax = tradeMaxParam ?? undefined;
   const commanderPrimaryId = commanderPrimaryParam ?? undefined;
   const commanderSecondaryId = commanderSecondaryParam ?? undefined;
   const rallySide = resolveSide(rallySideParam);
@@ -106,14 +96,19 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setPlayerIdParam(next ?? null);
   };
 
-  const setType: Dispatch<SetStateAction<ReportsFilterType | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(type) : value;
-    setTypeParam(next ?? null);
+  const setTroopType: Dispatch<SetStateAction<ReportsTroopType | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(troopType) : value;
+    setTroopTypeParam(next ?? null);
   };
 
-  const setSubtype: Dispatch<SetStateAction<ReportsFilterSubtype | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(subtype) : value;
-    setSubtypeParam(next ?? null);
+  const setTradeMin: Dispatch<SetStateAction<number | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(tradeMin) : value;
+    setTradeMinParam(next ?? null);
+  };
+
+  const setTradeMax: Dispatch<SetStateAction<number | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(tradeMax) : value;
+    setTradeMaxParam(next ?? null);
   };
 
   const setCommanderPrimaryId: Dispatch<SetStateAction<number | undefined>> = (value) => {
@@ -145,8 +140,9 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
 
   const reset = () => {
     setPlayerId(undefined);
-    setType(undefined);
-    setSubtype(undefined);
+    setTroopType(undefined);
+    setTradeMin(undefined);
+    setTradeMax(undefined);
     setCommanderPrimaryId(undefined);
     setCommanderSecondaryId(undefined);
     setRallySide("none");
@@ -157,10 +153,12 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const value = {
     playerId,
     setPlayerId,
-    type,
-    setType,
-    subtype,
-    setSubtype,
+    troopType,
+    setTroopType,
+    tradeMin,
+    setTradeMin,
+    tradeMax,
+    setTradeMax,
     commanderPrimaryId,
     setCommanderPrimaryId,
     commanderSecondaryId,
