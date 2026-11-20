@@ -16,13 +16,13 @@ type AccountReportsContentProps = {
 };
 
 export function AccountReportsContent({
-  title = "My Battle Reports",
+  title = "Battle Reports",
   kind,
 }: AccountReportsContentProps) {
   const governorContext = use(GovernorContext);
 
   if (!governorContext) {
-    throw new Error("My Reports page must be used within a GovernorProvider");
+    throw new Error("Reports page must be used within a GovernorProvider");
   }
 
   const { activeGovernor } = governorContext;
