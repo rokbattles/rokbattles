@@ -4,6 +4,7 @@ import { Funnel } from "lucide-react";
 
 import { use } from "react";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
+import { ReportsModeTabs } from "@/components/reports/reports-mode-tabs";
 import ReportsTable from "@/components/reports/reports-table";
 import { Heading, Subheading } from "@/components/ui/heading";
 import { GovernorContext } from "@/providers/governor-context";
@@ -24,8 +25,9 @@ export function AccountReportsContent() {
   return (
     <>
       <Heading>My Battle Reports</Heading>
-      <div className="mt-8 flex items-end justify-between">
+      <div className="mt-8 flex flex-wrap items-end justify-between gap-4">
         <Subheading>Live feed (UTC)</Subheading>
+        <ReportsModeTabs />
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
           <Funnel data-slot="icon" aria-hidden="true" />
           Filter

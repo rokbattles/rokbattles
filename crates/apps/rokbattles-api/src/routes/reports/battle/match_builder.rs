@@ -153,7 +153,23 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
 
     append_compound_condition(&mut match_pipeline, garrison_conditions);
 
+    if request.open_field {
+        match_pipeline.push(build_open_field_condition());
+    }
+
     doc! { "$and": match_pipeline }
+}
+
+/// Battles that are neither rallies nor garrisons on either side.
+fn build_open_field_condition() -> Document {
+    doc! {
+        "$nor": [
+            { "sender.rally": true },
+            { "opponents": { "$elemMatch": { "player_id": { "$gt": 0 }, "rally": true } } },
+            build_garrison_condition("sender.", None),
+            build_opponent_garrison_condition(None),
+        ]
+    }
 }
 
 fn build_server_season_condition(base: &str) -> Document {
@@ -249,6 +265,18 @@ mod tests {
 
     use super::*;
     use crate::routes::reports::battle::query::parse_reports_request;
+
+    #[test]
+    fn open_field_excludes_rally_and_garrison_battles() {
+        let request =
+            parse_reports_request(&FxHashMap::from_iter([("of".to_string(), "1".to_string())]))
+                .expect("valid open field filter");
+
+        let rendered = format!("{:?}", build_reports_match(&request));
+        assert!(rendered.contains("$nor"));
+        assert!(rendered.contains("sender.rally"));
+        assert!(rendered.contains("sender.alliance_building_id"));
+    }
 
     #[test]
     fn receiver_filter_selects_only_the_governors_received_reports() {
