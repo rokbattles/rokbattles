@@ -68,7 +68,7 @@ const contentSecurityPolicy = [
 ].join("; ");
 
 const config: NextConfig = {
-  agentRules: false,
+  agentRules: true,
   poweredByHeader: false,
   compiler: {
     reactRemoveProperties: true,

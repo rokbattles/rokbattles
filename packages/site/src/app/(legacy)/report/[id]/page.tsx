@@ -49,7 +49,7 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const arkMatchId =
     fromParam === "ark" ? resolveSearchParam(resolvedSearchParams.matchId) : undefined;
   const backBase = isAccountReports ? "/account/reports" : "/";
-  const backLabel = isAccountReports ? "Back to My Reports" : "Explore Battles";
+  const backLabel = isAccountReports ? "Back to Battles" : "Explore Battles";
   const backQuery = buildQueryString(resolvedSearchParams, "from");
   const backHref = arkMatchId
     ? `/account/ark/${encodeURIComponent(arkMatchId)}?tab=reports`

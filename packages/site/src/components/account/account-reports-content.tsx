@@ -12,7 +12,7 @@ export function AccountReportsContent() {
   const governorContext = use(GovernorContext);
 
   if (!governorContext) {
-    throw new Error("My Reports page must be used within a GovernorProvider");
+    throw new Error("Battles page must be used within a GovernorProvider");
   }
 
   const { activeGovernor } = governorContext;
@@ -23,7 +23,7 @@ export function AccountReportsContent() {
 
   return (
     <>
-      <Heading>My Battle Reports</Heading>
+      <Heading>Battle Reports</Heading>
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Live feed (UTC)</Subheading>
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>

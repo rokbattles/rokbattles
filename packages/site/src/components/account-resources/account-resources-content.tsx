@@ -25,7 +25,7 @@ export function AccountResourcesContent(): ReactElement {
   });
 
   if (!governorContext) {
-    throw new Error("My Resources page must be used within a GovernorProvider");
+    throw new Error("Resources page must be used within a GovernorProvider");
   }
 
   const today = toDateInput(todayUtcStartMillis());
