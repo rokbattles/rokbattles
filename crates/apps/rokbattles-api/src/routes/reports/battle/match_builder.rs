@@ -289,7 +289,8 @@ mod tests {
                 .expect("valid open field filter");
 
         let rendered = format!("{:?}", build_reports_match(&request));
-        assert!(rendered.contains("$nor"));
+        // The base test-report filter already has one `$nor`; open field adds a second.
+        assert_eq!(rendered.matches("$nor").count(), 2);
         assert!(rendered.contains("sender.rally"));
         assert!(rendered.contains("sender.alliance_building_id"));
     }
@@ -302,7 +303,8 @@ mod tests {
 
         let rendered = format!("{:?}", build_reports_match(&request));
         assert!(rendered.contains("$or"));
-        assert!(!rendered.contains("$nor"));
+        // Only the base test-report filter's `$nor`; no open field exclusion.
+        assert_eq!(rendered.matches("$nor").count(), 1);
         assert!(rendered.contains("sender.rally"));
         assert!(rendered.contains("sender.alliance_building_id"));
     }
