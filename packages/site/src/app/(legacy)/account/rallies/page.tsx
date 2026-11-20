@@ -4,5 +4,5 @@ import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 export default async function Page() {
   await requireCurrentUserWithGovernor();
 
-  return <AccountReportsContent title="My Rallies & Garrisons" kind="rallygarrison" />;
+  return <AccountReportsContent title="My Rallies" kind="rally" />;
 }

@@ -2,6 +2,7 @@
 
 import {
   BookOpen,
+  Castle,
   ChartPie,
   CircleHelp,
   Code2,
@@ -145,20 +146,28 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 {showMyReports ? (
                   <>
                     <SidebarItem
-                      title="My Battles"
+                      title="My Open Field"
                       href="/account/reports"
                       current={pathname === "/account/reports"}
                     >
                       <Flame data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Battles</SidebarLabel>
+                      <SidebarLabel>My Open Field</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      title="My Rallies & Garrisons"
+                      title="My Rallies"
                       href="/account/rallies"
                       current={pathname === "/account/rallies"}
                     >
                       <Swords data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>My Rallies & Garrisons</SidebarLabel>
+                      <SidebarLabel>My Rallies</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem
+                      title="My Garrisons"
+                      href="/account/garrisons"
+                      current={pathname === "/account/garrisons"}
+                    >
+                      <Castle data-slot="icon" aria-hidden="true" />
+                      <SidebarLabel>My Garrisons</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       title="My Pairings"

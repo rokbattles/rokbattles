@@ -1,8 +1,8 @@
 import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
-
 import { ReportView } from "@/components/report/report-view";
 import { Link } from "@/components/ui/link";
+import { accountReportsBack } from "@/lib/account-reports-source";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Battle Report";
@@ -48,17 +48,14 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
   const arkMatchId =
     fromParam === "ark" ? resolveSearchParam(resolvedSearchParams.matchId) : undefined;
-  const isAccountRallies = fromParam === "account-rallies";
-  const backBase = isAccountRallies
-    ? "/account/rallies"
-    : isAccountReports
-      ? "/account/reports"
-      : "/";
-  const backLabel = isAccountRallies
-    ? "Back to My Rallies & Garrisons"
-    : isAccountReports
-      ? "Back to My Reports"
-      : "Explore Battles";
+  const accountBack =
+    fromParam === "account-rallies" || fromParam === "account-garrisons"
+      ? accountReportsBack[fromParam]
+      : isAccountReports
+        ? accountReportsBack["account-reports"]
+        : undefined;
+  const backBase = accountBack?.href ?? "/";
+  const backLabel = accountBack?.label ?? "Explore Battles";
   const backQuery = buildQueryString(resolvedSearchParams, "from");
   const backHref = arkMatchId
     ? `/account/ark/${encodeURIComponent(arkMatchId)}?tab=reports`

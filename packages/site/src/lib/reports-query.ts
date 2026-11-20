@@ -5,7 +5,7 @@ import type {
   ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
-export type ReportsBattleKind = "openfield" | "rallygarrison";
+export type ReportsBattleKind = "openfield" | "rally" | "garrison";
 
 export type ReportsQueryParams = {
   after?: string;
@@ -76,11 +76,14 @@ export function buildReportsQueryParams({
   ) {
     params.set("osc", String(opponentSecondaryCommanderId));
   }
-  if (rallySide !== "none") {
-    params.set("rs", rallySide);
+  // The rally and garrison pages are the same as filtering to either side.
+  const effectiveRallySide = kind === "rally" ? "both" : rallySide;
+  const effectiveGarrisonSide = kind === "garrison" ? "both" : garrisonSide;
+  if (effectiveRallySide !== "none") {
+    params.set("rs", effectiveRallySide);
   }
-  if (garrisonSide !== "none") {
-    params.set("gs", garrisonSide);
+  if (effectiveGarrisonSide !== "none") {
+    params.set("gs", effectiveGarrisonSide);
     if (garrisonBuildingType) {
       params.set("gb", garrisonBuildingType);
     }
@@ -88,8 +91,6 @@ export function buildReportsQueryParams({
 
   if (kind === "openfield") {
     params.set("of", "1");
-  } else if (kind === "rallygarrison") {
-    params.set("rg", "1");
   }
 
   const query = params.toString();
