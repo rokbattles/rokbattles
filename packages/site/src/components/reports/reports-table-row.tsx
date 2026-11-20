@@ -2,8 +2,8 @@
 
 import { cn } from "cn";
 import { usePathname, useSearchParams } from "next/navigation";
-
 import { TableRow } from "@/components/ui/table";
+import { accountReportsSource } from "@/lib/account-reports-source";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportMapCell from "./report-map-cell";
 import ReportsTableCells from "./reports-table-cells";
@@ -29,7 +29,7 @@ export default function ReportsTableRow({ report, now, onOpenOverview }: Reports
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const query = new URLSearchParams(searchParams.toString());
-  const from = pathname === "/account/reports" ? "account-reports" : "reports";
+  const from = accountReportsSource(pathname) ?? "reports";
   query.set("from", from);
 
   const queryString = query.toString();

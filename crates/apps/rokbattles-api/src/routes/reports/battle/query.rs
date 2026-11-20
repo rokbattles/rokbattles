@@ -53,6 +53,8 @@ pub(crate) struct ReportsRequest {
     pub rally_side: ReportsFilterSide,
     pub garrison_side: ReportsFilterSide,
     pub garrison_building_type: Option<ReportsGarrisonBuildingType>,
+    /// Only battles that are neither rallies nor garrisons.
+    pub open_field: bool,
 }
 
 impl ReportsRequest {
@@ -116,6 +118,15 @@ pub(crate) fn parse_reports_request(
         "Invalid garrison building",
     )?;
 
+    let open_field = matches!(params.get("of").map(String::as_str), Some("1"));
+    if open_field
+        && (rally_side != ReportsFilterSide::None
+            || garrison_side != ReportsFilterSide::None
+            || garrison_building_type.is_some())
+    {
+        return Err(ApiError::bad_request("Open field cannot be combined with rally or garrison"));
+    }
+
     Ok(ReportsRequest {
         before_cursor,
         after_cursor,
@@ -130,6 +141,7 @@ pub(crate) fn parse_reports_request(
         rally_side,
         garrison_side,
         garrison_building_type,
+        open_field,
     })
 }
 
@@ -271,6 +283,26 @@ mod tests {
             "abc".to_string(),
         )]));
         result.expect_err("input should be rejected");
+    }
+
+    #[test]
+    fn parses_open_field() {
+        let parsed =
+            parse_reports_request(&FxHashMap::from_iter([("of".to_string(), "1".to_string())]))
+                .expect("parsed open field");
+        assert!(parsed.open_field);
+        assert!(!parse_reports_request(&FxHashMap::default()).expect("parsed default").open_field);
+    }
+
+    #[test]
+    fn rejects_open_field_with_rally_or_garrison() {
+        for (key, value) in [("rs", "sender"), ("gs", "both")] {
+            parse_reports_request(&FxHashMap::from_iter([
+                ("of".to_string(), "1".to_string()),
+                (key.to_string(), value.to_string()),
+            ]))
+            .expect_err("open field with rally or garrison should be rejected");
+        }
     }
 
     #[test]

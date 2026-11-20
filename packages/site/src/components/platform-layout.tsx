@@ -2,6 +2,7 @@
 
 import {
   BookOpen,
+  Castle,
   ChartPie,
   CircleHelp,
   Code2,
@@ -15,6 +16,7 @@ import {
   Pickaxe,
   Scale,
   ShieldCheck,
+  Swords,
   Trophy,
 } from "lucide-react";
 import Image from "next/image";
@@ -63,7 +65,9 @@ const fullWidthRoutes = new Set([
 ]);
 
 const myDataLinks = [
-  { label: "Battles", href: "/account/reports", icon: Flame },
+  { label: "Open Field", href: "/account/reports", icon: Flame },
+  { label: "Rallies", href: "/account/rallies", icon: Swords },
+  { label: "Garrisons", href: "/account/garrisons", icon: Castle },
   { label: "Pairings", href: "/account/pairings", icon: Scale },
   { label: "Loot", href: "/account/loot", icon: Gift },
 ];
