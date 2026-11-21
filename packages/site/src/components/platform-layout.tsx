@@ -12,6 +12,7 @@ import {
   LogIn,
   Map as MapIcon,
   MonitorPlay,
+  Pickaxe,
   Scale,
   Shield,
   ShieldCheck,
@@ -69,10 +70,10 @@ const myDataLinks = [
   { label: "Battles", href: "/account/reports", icon: Flame },
   { label: "Pairings", href: "/account/pairings", icon: Scale },
   { label: "Loot", href: "/account/loot", icon: Gift },
-  { label: "Resources", href: "/account/resources", icon: Warehouse },
-  { label: "Trading Post", href: "/account/trading-post", icon: Store },
-  { label: "Ark Recap", href: "/account/ark", icon: Flag },
 ];
+
+const gatheringHref = "/account/resources";
+const tradingPostHref = "/account/trading-post";
 
 const roleLinks = [
   {
@@ -111,6 +112,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
     Partial<Record<SidebarCategoryLabel, boolean>>
   >({});
   const [combatLabOpen, setCombatLabOpen] = useState<boolean>();
+  const [resourcesOpen, setResourcesOpen] = useState<boolean>();
 
   if (!governorContext) {
     throw new Error("PlatformLayout must be used within a GovernorProvider");
@@ -121,6 +123,10 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const combatLabCurrent = currentLocation(pathname, "/combat-lab");
   const preSocCurrent = currentLocation(pathname, "/combat-lab/presoc");
   const showCombatLabSubnav = combatLabOpen ?? Boolean(combatLabCurrent);
+  const gatheringCurrent = currentLocation(pathname, gatheringHref);
+  const tradingPostCurrent = currentLocation(pathname, tradingPostHref);
+  const resourcesCurrent = gatheringCurrent || (tradingPostCurrent ? "location" : false);
+  const showResourcesSubnav = resourcesOpen ?? Boolean(resourcesCurrent);
 
   function categoryProps(label: SidebarCategoryLabel) {
     return {
@@ -235,6 +241,35 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     <SidebarLabel>{label}</SidebarLabel>
                   </SidebarItem>
                 ))}
+                <SidebarSubnav
+                  label="Resources"
+                  href={gatheringHref}
+                  icon={<Warehouse data-slot="icon" aria-hidden="true" />}
+                  current={resourcesCurrent}
+                  open={showResourcesSubnav}
+                  onToggle={() => setResourcesOpen(!showResourcesSubnav)}
+                >
+                  <SidebarItem title="Gathering" href={gatheringHref} current={gatheringCurrent}>
+                    <Pickaxe data-slot="icon" aria-hidden="true" />
+                    <SidebarLabel>Gathering</SidebarLabel>
+                  </SidebarItem>
+                  <SidebarItem
+                    title="Trading Post"
+                    href={tradingPostHref}
+                    current={tradingPostCurrent}
+                  >
+                    <Store data-slot="icon" aria-hidden="true" />
+                    <SidebarLabel>Trading Post</SidebarLabel>
+                  </SidebarItem>
+                </SidebarSubnav>
+                <SidebarItem
+                  title="Ark Recap"
+                  href="/account/ark"
+                  current={currentLocation(pathname, "/account/ark")}
+                >
+                  <Flag data-slot="icon" aria-hidden="true" />
+                  <SidebarLabel>Ark Recap</SidebarLabel>
+                </SidebarItem>
               </SidebarCategory>
             )}
             {signedInUser &&
