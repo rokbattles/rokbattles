@@ -21,7 +21,7 @@ use mongodb::{
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    auth::{AuthenticatedSession, Role},
+    auth::AuthenticatedSession,
     db::{FormAnswer, Program, ProgramApplication},
     error::ApiError,
     rate_limit::{self, RateLimitMode, RateLimiter},
@@ -112,10 +112,7 @@ async fn submit(
 
     let answer = validate_answer(submission.program, &submission.answer)?;
 
-    let role = match submission.program {
-        Program::ContentCreator => Role::ContentCreator,
-        Program::DeveloperProgram => Role::DeveloperProgram,
-    };
+    let role = submission.program.role();
 
     if session.has_role(role) {
         return Err(ApiError::conflict("program-already-active"));
@@ -156,6 +153,7 @@ async fn submit(
         program: submission.program,
         form: vec![FormAnswer { question: submission.program.question().to_owned(), answer }],
         status: "open".into(),
+        approval_started: false,
         created_at: now,
         updated_at: now,
     };
@@ -380,6 +378,7 @@ mod tests {
                     answer,
                 }],
                 status: "open".to_owned(),
+                approval_started: false,
                 created_at: DateTime::from_millis(0),
                 updated_at: DateTime::from_millis(0),
             };

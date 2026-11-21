@@ -6,10 +6,13 @@
 use futures::TryStreamExt;
 use mongodb::{
     Collection, IndexModel,
-    bson::{DateTime, doc, oid::ObjectId},
-    options::IndexOptions,
+    bson::{DateTime, Document, doc, oid::ObjectId, to_bson},
+    options::{IndexOptions, ReturnDocument},
 };
 use serde::{Deserialize, Serialize};
+
+use super::auth_store::USERS_COLLECTION;
+use crate::auth::Role;
 
 /// Collection containing applications for both programs.
 pub const PROGRAM_APPLICATIONS_COLLECTION: &str = "v3_program_applications";
@@ -23,6 +26,14 @@ pub enum Program {
 }
 
 impl Program {
+    /// Returns the site role granted when this program's application is approved.
+    pub fn role(self) -> Role {
+        match self {
+            Self::ContentCreator => Role::ContentCreator,
+            Self::DeveloperProgram => Role::DeveloperProgram,
+        }
+    }
+
     /// Returns the question recorded with a new application for this program.
     pub fn question(self) -> &'static str {
         match self {
@@ -51,8 +62,11 @@ pub struct ProgramApplication {
     pub id: ObjectId,
     pub user_id: String,
     pub program: Program,
+    #[serde(default)]
     pub form: Vec<FormAnswer>,
     pub status: String,
+    #[serde(default)]
+    pub approval_started: bool,
     pub created_at: DateTime,
     pub updated_at: DateTime,
 }
@@ -61,22 +75,31 @@ pub struct ProgramApplication {
 #[derive(Clone)]
 pub struct ProgramApplicationsStore {
     collection: Collection<ProgramApplication>,
+    users: Collection<Document>,
 }
 
 impl ProgramApplicationsStore {
     /// Creates a store backed by the given database.
     pub fn new(db: mongodb::Database) -> Self {
-        Self { collection: db.collection(PROGRAM_APPLICATIONS_COLLECTION) }
+        Self {
+            collection: db.collection(PROGRAM_APPLICATIONS_COLLECTION),
+            users: db.collection(USERS_COLLECTION),
+        }
     }
 
-    /// Ensures that a user can have at most one open application per program.
+    /// Ensures unique open applications and supports newest-first pagination.
     ///
     /// # Errors
     ///
     /// Returns an error if MongoDB cannot create the index, including when
     /// existing documents violate the uniqueness constraint.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
-        self.collection.create_index(open_application_index()).await?;
+        self.collection
+            .create_indexes([
+                open_application_index(),
+                IndexModel::builder().keys(doc! { "createdAt": -1, "_id": -1 }).build(),
+            ])
+            .await?;
 
         Ok(())
     }
@@ -107,6 +130,104 @@ impl ProgramApplicationsStore {
         self.collection.insert_one(application).await?;
 
         Ok(())
+    }
+
+    pub(crate) async fn list_for_review(
+        &self,
+        offset: u64,
+        limit: i64,
+    ) -> mongodb::error::Result<Vec<ProgramApplication>> {
+        self.collection
+            .find(doc! {})
+            .sort(doc! { "createdAt": -1, "_id": -1 })
+            .skip(offset)
+            .limit(limit)
+            .projection(doc! { "form": 0 })
+            .await?
+            .try_collect()
+            .await
+    }
+
+    pub(crate) async fn find_by_id(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<ProgramApplication>> {
+        self.collection.find_one(doc! { "_id": id }).await
+    }
+
+    /// Reserve approval before granting the role, including on standalone MongoDB.
+    /// Keeping the application open preserves its uniqueness constraint. If either
+    /// write fails, another approval can resume it and denial cannot race it.
+    pub(crate) async fn start_approval(&self, id: ObjectId) -> mongodb::error::Result<bool> {
+        let result = self
+            .collection
+            .update_one(
+                doc! { "_id": id, "status": "open" },
+                doc! { "$set": { "approvalStarted": true } },
+            )
+            .await?;
+        Ok(result.matched_count == 1)
+    }
+
+    /// Adds the program role only if it is absent. Accounts with a missing or
+    /// null roles field start with an empty list.
+    pub(crate) async fn grant_role(
+        &self,
+        application: &ProgramApplication,
+    ) -> mongodb::error::Result<bool> {
+        let role = to_bson(&application.program.role())?;
+        let result = self
+            .users
+            .update_one(
+                doc! { "discordId": &application.user_id },
+                vec![doc! {
+                    "$set": { "roles": {
+                        "$let": {
+                            "vars": { "current": { "$ifNull": ["$roles", []] } },
+                            "in": { "$cond": [
+                                { "$in": [role.clone(), "$$current"] },
+                                "$$current",
+                                { "$concatArrays": ["$$current", [role]] },
+                            ] },
+                        }
+                    } }
+                }],
+            )
+            .await?;
+        Ok(result.matched_count == 1)
+    }
+
+    pub(crate) async fn complete_approval(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<ProgramApplication>> {
+        self.collection
+            .find_one_and_update(
+                doc! { "_id": id, "status": "open", "approvalStarted": true },
+                doc! {
+                    "$set": { "status": "approved" },
+                    "$unset": { "approvalStarted": "" },
+                    "$currentDate": { "updatedAt": true },
+                },
+            )
+            .return_document(ReturnDocument::After)
+            .await
+    }
+
+    pub(crate) async fn deny(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<ProgramApplication>> {
+        self.collection
+            .find_one_and_update(
+                doc! { "_id": id, "status": "open", "approvalStarted": { "$ne": true } },
+                doc! {
+                    "$set": { "status": "closed" },
+                    "$currentDate": { "updatedAt": true },
+                },
+            )
+            .return_document(ReturnDocument::After)
+            .await
     }
 }
 

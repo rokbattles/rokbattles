@@ -14,6 +14,7 @@ import {
   MonitorPlay,
   Scale,
   Shield,
+  ShieldCheck,
   Store,
   Swords,
   Trophy,
@@ -54,7 +55,8 @@ type SidebarCategoryLabel =
   | "Tools"
   | "My Data"
   | "Content Creators"
-  | "Developer Program";
+  | "Developer Program"
+  | "Admin";
 
 const fullWidthRoutes = new Set([
   "/combat-lab",
@@ -72,7 +74,7 @@ const myDataLinks = [
   { label: "Ark Recap", href: "/account/ark", icon: Flag },
 ];
 
-const programLinks = [
+const roleLinks = [
   {
     category: "Content Creators",
     role: "content_creator",
@@ -86,6 +88,13 @@ const programLinks = [
     label: "Apps",
     href: "/developer/apps",
     icon: Code2,
+  },
+  {
+    category: "Admin",
+    role: "admin",
+    label: "Program Applications",
+    href: "/admin/program-applications",
+    icon: ShieldCheck,
   },
 ] as const;
 
@@ -229,7 +238,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               </SidebarCategory>
             )}
             {signedInUser &&
-              programLinks
+              roleLinks
                 .filter(({ role }) => hasRole(signedInUser, role))
                 .map(({ category, label, href, icon: Icon }) => (
                   <SidebarCategory key={category} {...categoryProps(category)}>
