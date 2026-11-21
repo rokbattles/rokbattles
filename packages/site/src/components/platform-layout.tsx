@@ -196,6 +196,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 icon={<ChartPie data-slot="icon" aria-hidden="true" />}
                 current={combatLabCurrent}
                 open={showCombatLabSubnav}
+                onNavigate={() => setCombatLabOpen(undefined)}
                 onToggle={() => setCombatLabOpen(!showCombatLabSubnav)}
               >
                 <SidebarItem
@@ -241,6 +242,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                   icon={<Pickaxe data-slot="icon" aria-hidden="true" />}
                   current={resourcesCurrent}
                   open={showResourcesSubnav}
+                  onNavigate={() => setResourcesOpen(undefined)}
                   onToggle={() => setResourcesOpen(!showResourcesSubnav)}
                 >
                   <SidebarItem title="Gathering" href={gatheringHref} current={gatheringCurrent}>

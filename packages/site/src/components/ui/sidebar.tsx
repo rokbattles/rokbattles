@@ -128,6 +128,7 @@ export function SidebarSubnav({
   icon,
   current,
   open,
+  onNavigate,
   onToggle,
   children,
 }: React.PropsWithChildren<
@@ -135,6 +136,7 @@ export function SidebarSubnav({
     href: string;
     icon: React.ReactNode;
     current: boolean | "location";
+    onNavigate: () => void;
   }
 >) {
   const sidebar = useContext(SidebarContext);
@@ -149,6 +151,7 @@ export function SidebarSubnav({
           title={label}
           href={href}
           current={showSubnav ? false : current}
+          onNavigate={onNavigate}
         >
           {icon}
           <SidebarLabel>{label}</SidebarLabel>
