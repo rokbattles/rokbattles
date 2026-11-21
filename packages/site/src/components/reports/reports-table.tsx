@@ -46,7 +46,7 @@ export default function ReportsTable({
 
   return (
     <>
-      <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table className="mt-4 [--gutter:var(--page-gutter)]">
         <ReportsTableHead resultLabel="Duration" />
         <TableBody>
           {data.map((report) => (

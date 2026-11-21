@@ -65,7 +65,7 @@ export function ArkBattleReports({ governorId, detail }: ArkBattleReportsProps):
 
     content = (
       <>
-        <Table className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+        <Table className="[--gutter:var(--page-gutter)]">
           <ReportsTableHead resultLabel="Duration" firstColumn="number" />
           <TableBody>
             {query.data.items.map((report, index) => (

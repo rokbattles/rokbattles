@@ -38,7 +38,7 @@ export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArena
 
   return (
     <>
-      <Table className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table className="mt-4 [--gutter:var(--page-gutter)]">
         <ReportsTableHead resultLabel="Win Count" />
         <TableBody>
           {data.map((duel) => (
