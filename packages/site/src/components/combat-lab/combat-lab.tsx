@@ -147,8 +147,8 @@ export function CombatLab({
         secondaryCommanderId={data.pairing.secondaryCommanderId}
       />
 
-      <div className="z-20 -mx-6 border-b backdrop-blur lg:sticky lg:top-0 lg:-mx-10 border-white/10 bg-zinc-950/90">
-        <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
+      <div className="z-20 -mx-(--page-gutter) border-white/10 border-b bg-zinc-950/90 backdrop-blur lg:sticky lg:top-0">
+        <div className="grid gap-4 px-(--page-gutter) py-4 lg:grid-cols-2 lg:items-center">
           <FilterGroup
             label="Time range"
             options={combatLabPreviewRangeKeys}
@@ -166,7 +166,7 @@ export function CombatLab({
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl space-y-10 px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+      <div className="space-y-10 py-7 sm:py-10">
         {drastc ? (
           <div className="rounded-md border px-4 py-3 border-amber-300/20 bg-amber-400/10 text-amber-100">
             <div className="flex items-center gap-3">

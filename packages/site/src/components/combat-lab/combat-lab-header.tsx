@@ -28,9 +28,9 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
   };
 
   return (
-    <header className="relative -mx-6 -mt-6 overflow-hidden border-b bg-zinc-950 text-white lg:-mx-10 lg:-mt-10 lg:rounded-t-lg border-white/10">
+    <header className="relative -mx-(--page-gutter) -mt-(--page-gutter) overflow-hidden border-white/10 border-b bg-zinc-950 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(37,99,235,.28),transparent_42%),radial-gradient(circle_at_20%_100%,rgba(124,58,237,.18),transparent_38%)]" />
-      <div className="relative mx-auto max-w-7xl px-4 pt-7 pb-4 sm:px-6 sm:pt-10 sm:pb-6 lg:px-8">
+      <div className="relative px-(--page-gutter) pt-7 pb-4 sm:pt-10 sm:pb-6">
         <div className="max-w-xl">
           <h1 className="font-semibold text-3xl tracking-tight sm:text-4xl">Combat Lab</h1>
           <Text className="mt-2 !text-sm/6 !text-zinc-400 sm:!text-base/6">
