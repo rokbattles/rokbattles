@@ -24,6 +24,8 @@ const COLORS = {
   enemy: "#f87171",
 };
 
+const PORTRAIT_SIZE = 176;
+
 type Font = {
   name: string;
   data: ArrayBuffer;
@@ -31,7 +33,7 @@ type Font = {
   style: "normal";
 };
 
-/** Fetches just the glyphs we need from Google Fonts, so names in any script are drawn. */
+/** Fetches just the glyphs we need from Google Fonts. */
 async function loadGoogleFont(
   family: string,
   weight: 500 | 700,
@@ -57,12 +59,15 @@ async function loadGoogleFont(
   }
 }
 
-async function loadFonts(text: string): Promise<Font[]> {
+// Everything the image writes: the header, the labels, the numbers, "VS", the date and the footer.
+// There are no player names.
+const IMAGE_TEXT =
+  "BATTLE REPORT KvK VS DEAD SEVERELY WOUNDED Battle report rokbattles.com 0123456789,:· UTC JanFebMarAprMayJunJulAugSepOctNovDec";
+
+async function loadFonts(): Promise<Font[]> {
   const fonts = await Promise.all([
-    loadGoogleFont("Inter", 700, text),
-    loadGoogleFont("Inter", 500, text),
-    loadGoogleFont("Noto Sans SC", 700, text),
-    loadGoogleFont("Noto Sans SC", 500, text),
+    loadGoogleFont("Inter", 700, IMAGE_TEXT),
+    loadGoogleFont("Inter", 500, IMAGE_TEXT),
   ]);
   return fonts.filter((font): font is Font => font !== null);
 }
@@ -86,7 +91,44 @@ function formatWhen(mailTimeMicros: number): string {
   return `${day} · ${time} UTC`;
 }
 
-const PORTRAIT_SIZE = 140;
+function Header({ kvk, when }: { kvk: boolean; when: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 22,
+            fontWeight: 700,
+            color: COLORS.accent,
+            letterSpacing: 4,
+          }}
+        >
+          BATTLE REPORT
+        </div>
+        {kvk ? (
+          <div
+            style={{
+              display: "flex",
+              marginLeft: 16,
+              padding: "2px 12px",
+              borderRadius: 8,
+              border: `2px solid ${COLORS.border}`,
+              fontSize: 20,
+              fontWeight: 700,
+              color: COLORS.muted,
+            }}
+          >
+            KvK
+          </div>
+        ) : null}
+      </div>
+      <div style={{ display: "flex", fontSize: 22, fontWeight: 500, color: COLORS.muted }}>
+        {when}
+      </div>
+    </div>
+  );
+}
 
 function Portrait({ sprites }: { sprites: string[] }) {
   return (
@@ -114,71 +156,20 @@ function Portrait({ sprites }: { sprites: string[] }) {
   );
 }
 
-function SideColumn({ side, extra }: { side: ReportEmbedSide; extra?: string }) {
-  const details = [
-    side.alliance ? `[${side.alliance}]` : null,
-    side.commanders
-      .map((commander) => commander.name)
-      .filter(Boolean)
-      .join(" + "),
-  ]
-    .filter(Boolean)
-    .join("  ·  ");
-
+function SideColumn({ side }: { side: ReportEmbedSide }) {
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
-        width: 430,
+        justifyContent: "center",
+        width: 450,
+        gap: 18,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        {side.commanders.map((commander) => (
-          <Portrait key={commander.sprites.join("|")} sprites={commander.sprites} />
-        ))}
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", width: 430, marginTop: 12 }}>
-        <div
-          style={{
-            display: "block",
-            maxWidth: 430,
-            fontSize: 40,
-            fontWeight: 700,
-            color: COLORS.text,
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {side.name}
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          marginTop: 4,
-          fontSize: 24,
-          fontWeight: 500,
-          color: COLORS.muted,
-        }}
-      >
-        {details}
-      </div>
-      {/* Always takes up a line, so both sides line up whether or not there are more enemies. */}
-      <div
-        style={{
-          display: "flex",
-          height: 26,
-          marginTop: 2,
-          fontSize: 20,
-          fontWeight: 500,
-          color: COLORS.muted,
-        }}
-      >
-        {extra ?? ""}
-      </div>
+      {side.commanders.map((sprites) => (
+        <Portrait key={sprites.join("|")} sprites={sprites} />
+      ))}
     </div>
   );
 }
@@ -192,21 +183,21 @@ function StatRow({ label, sender, enemy }: { label: string; sender: number; enem
         style={{
           display: "flex",
           justifyContent: "center",
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: 500,
           color: COLORS.muted,
-          letterSpacing: 2,
+          letterSpacing: 3,
           textTransform: "uppercase",
         }}
       >
         {label}
       </div>
-      <div style={{ display: "flex", alignItems: "center", marginTop: 6 }}>
+      <div style={{ display: "flex", alignItems: "center", marginTop: 8 }}>
         <div
           style={{
             display: "flex",
-            width: 190,
-            fontSize: 34,
+            width: 220,
+            fontSize: 40,
             fontWeight: 700,
             color: COLORS.sender,
           }}
@@ -217,8 +208,8 @@ function StatRow({ label, sender, enemy }: { label: string; sender: number; enem
           style={{
             display: "flex",
             flex: 1,
-            height: 22,
-            borderRadius: 11,
+            height: 28,
+            borderRadius: 14,
             overflow: "hidden",
             backgroundColor: COLORS.border,
           }}
@@ -235,9 +226,9 @@ function StatRow({ label, sender, enemy }: { label: string; sender: number; enem
         <div
           style={{
             display: "flex",
-            width: 190,
+            width: 220,
             justifyContent: "flex-end",
-            fontSize: 31,
+            fontSize: 40,
             fontWeight: 700,
             color: COLORS.enemy,
           }}
@@ -249,33 +240,13 @@ function StatRow({ label, sender, enemy }: { label: string; sender: number; enem
   );
 }
 
-/** Keeps Latin letters, Chinese and Japanese characters, numbers and punctuation. */
-function simplifyName(name: string): string {
-  const kept = name
-    .replace(
-      /[^\p{Script=Latin}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{N}\p{P}\p{Zs}]/gu,
-      ""
-    )
-    .replace(/\s+/g, " ")
-    .trim();
-  return kept.length > 0 ? kept : "Unknown";
-}
-
-function simplifyReport(report: ReportEmbed): ReportEmbed {
-  return {
-    ...report,
-    sender: { ...report.sender, name: simplifyName(report.sender.name) },
-    opponent: { ...report.opponent, name: simplifyName(report.opponent.name) },
-  };
-}
-
-function Footer({ logo }: { logo: string }) {
+function Footer() {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
       <div style={{ display: "flex", alignItems: "center" }}>
         {/* biome-ignore lint/performance/noImgElement: next/og renders plain img elements. */}
         {/* biome-ignore lint/a11y/useAltText: decorative logo inside a generated image. */}
-        <img src={logo} width={48} height={48} style={{ borderRadius: 10 }} />
+        <img src={REPORT_EMBED_LOGO} width={48} height={48} style={{ borderRadius: 10 }} />
         <div
           style={{
             display: "flex",
@@ -306,86 +277,42 @@ const frame = {
   backgroundImage:
     "radial-gradient(circle at 50% -10%, rgba(255,138,61,0.22) 0%, rgba(255,138,61,0) 55%)",
   borderTop: `6px solid ${COLORS.accent}`,
-  fontFamily: "Inter, Noto Sans SC",
+  fontFamily: "Inter",
   color: COLORS.text,
 };
 
 function FallbackCard() {
   return (
     <div style={frame}>
-      <div
-        style={{
-          display: "flex",
-          fontSize: 22,
-          fontWeight: 700,
-          color: COLORS.accent,
-          letterSpacing: 4,
-        }}
-      >
-        BATTLE REPORT
+      <Header kvk={false} when="" />
+      <div style={{ display: "flex", justifyContent: "center", fontSize: 72, fontWeight: 700 }}>
+        Battle report
       </div>
-      <div style={{ display: "flex", fontSize: 64, fontWeight: 700 }}>Battle report</div>
-      <Footer logo={REPORT_EMBED_LOGO} />
+      <Footer />
     </div>
   );
 }
 
 function ReportCard({ report }: { report: ReportEmbed }) {
-  const extra =
-    report.opponentCount > 1 ? `+${String(report.opponentCount - 1)} other enemies` : undefined;
-
   return (
     <div style={frame}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 22,
-              fontWeight: 700,
-              color: COLORS.accent,
-              letterSpacing: 4,
-            }}
-          >
-            BATTLE REPORT
-          </div>
-          {report.kvk ? (
-            <div
-              style={{
-                display: "flex",
-                marginLeft: 16,
-                padding: "2px 12px",
-                borderRadius: 8,
-                border: `2px solid ${COLORS.border}`,
-                fontSize: 20,
-                fontWeight: 700,
-                color: COLORS.muted,
-              }}
-            >
-              KvK
-            </div>
-          ) : null}
-        </div>
-        <div style={{ display: "flex", fontSize: 22, fontWeight: 500, color: COLORS.muted }}>
-          {formatWhen(report.mailTime)}
-        </div>
-      </div>
+      <Header kvk={report.kvk} when={formatWhen(report.mailTime)} />
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <SideColumn side={report.sender} />
-        <div style={{ display: "flex", fontSize: 54, fontWeight: 700, color: COLORS.accent }}>
+        <div style={{ display: "flex", fontSize: 60, fontWeight: 700, color: COLORS.accent }}>
           VS
         </div>
-        <SideColumn side={report.opponent} extra={extra} />
+        <SideColumn side={report.opponent} />
       </div>
 
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 10,
-          padding: "12px 28px",
-          borderRadius: 16,
+          gap: 18,
+          padding: "20px 32px",
+          borderRadius: 18,
           backgroundColor: COLORS.panel,
           border: `2px solid ${COLORS.border}`,
         }}
@@ -398,12 +325,12 @@ function ReportCard({ report }: { report: ReportEmbed }) {
         />
       </div>
 
-      <Footer logo={REPORT_EMBED_LOGO} />
+      <Footer />
     </div>
   );
 }
 
-/** Renders fully before responding, so a font or layout error can be caught and retried. */
+/** Renders fully before responding, so an error can be caught and the plain card used instead. */
 async function renderPng(element: ReactElement, fonts: Font[]): Promise<ArrayBuffer | null> {
   try {
     return await new ImageResponse(element, { ...size, fonts }).arrayBuffer();
@@ -423,36 +350,14 @@ function pngResponse(body: ArrayBuffer): Response {
 
 export default async function Image({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const report = await getReportEmbed(id);
+  const [report, fonts] = await Promise.all([getReportEmbed(id), loadFonts()]);
 
-  const textFor = (r: ReportEmbed | null) =>
-    r
-      ? `${r.sender.name}${r.opponent.name}${r.sender.alliance ?? ""}${r.opponent.alliance ?? ""}${[...r.sender.commanders, ...r.opponent.commanders].map((commander) => commander.name ?? "").join("")}${formatWhen(r.mailTime)}`
-      : "";
-  const staticText =
-    "BATTLE REPORT KvK VS Dead Severely wounded rokbattles.com rokbattles 0123456789,.[]·:UTC +and other enemies Unknown Battle report…";
-
-  if (report) {
-    const first = await renderPng(
-      <ReportCard report={report} />,
-      await loadFonts(textFor(report) + staticText)
-    );
-    if (first) {
-      return pngResponse(first);
-    }
-
-    // Some scripts cannot be drawn. Retry with the names reduced to what the fonts support.
-    const simple = simplifyReport(report);
-    const second = await renderPng(
-      <ReportCard report={simple} />,
-      await loadFonts(textFor(simple) + staticText)
-    );
-    if (second) {
-      return pngResponse(second);
-    }
+  const png = await renderPng(report ? <ReportCard report={report} /> : <FallbackCard />, fonts);
+  if (png) {
+    return pngResponse(png);
   }
 
-  const fallback = await renderPng(<FallbackCard />, await loadFonts(staticText));
+  const fallback = await renderPng(<FallbackCard />, fonts);
   return fallback
     ? pngResponse(fallback)
     : new Response("Could not render the report image", { status: 500 });

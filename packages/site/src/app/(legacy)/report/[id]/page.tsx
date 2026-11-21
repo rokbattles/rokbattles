@@ -20,7 +20,6 @@ export async function generateMetadata({ params }: PageProps<"/report/[id]">): P
     openGraph: {
       title: { absolute: embed.title },
       description: embed.description,
-      siteName: "rokbattles",
       type: "website",
     },
     twitter: {

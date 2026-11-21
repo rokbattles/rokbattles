@@ -1,17 +1,11 @@
-import { getCommanderName, getCommanderSprites } from "@/lib/commander";
-import type { BattleMail, BattlePlayer } from "@/lib/types/battle";
+import { getCommanderSprites } from "@/lib/commander";
+import type { BattlePlayer } from "@/lib/types/battle";
 import type { ReportByIdResponse } from "@/lib/types/report";
-
-export type ReportEmbedCommander = {
-  name: string | null;
-  sprites: string[];
-};
 
 export type ReportEmbedSide = {
   name: string;
-  alliance: string | null;
-  /** The primary commander first, then the secondary one when there is one. */
-  commanders: ReportEmbedCommander[];
+  /** Sprite layers for the primary commander, then the secondary one when there is one. */
+  commanders: string[][];
   dead: number;
   severelyWounded: number;
 };
@@ -22,8 +16,7 @@ export type ReportEmbed = {
   description: string;
   sender: ReportEmbedSide;
   opponent: ReportEmbedSide;
-  /** How many opponents the battle had. The opponent side shows the first one's name and commanders. */
-  opponentCount: number;
+  /** Microseconds since the epoch, as the API stores it. */
   mailTime: number;
   kvk: boolean;
 };
@@ -34,36 +27,23 @@ export function formatCount(value: number): string {
   return numberFormat.format(value);
 }
 
-function playerLabel(player: BattlePlayer | undefined, fallback: string) {
-  const name = player?.playerName?.trim();
-  return name && name.length > 0 ? name : fallback;
-}
-
-function commanderOf(
-  player: BattlePlayer | undefined,
-  which: "primary" | "secondary"
-): ReportEmbedCommander | null {
-  const commander = player?.commanders?.[which];
-  const sprites = getCommanderSprites(commander?.id, commander?.awakened === true) ?? [];
-  if (sprites.length === 0) {
-    return null;
-  }
-  return { name: getCommanderName(commander?.id) ?? null, sprites };
+function commandersOf(player: BattlePlayer | undefined): string[][] {
+  return (["primary", "secondary"] as const)
+    .map((which) => {
+      const commander = player?.commanders?.[which];
+      return getCommanderSprites(commander?.id, commander?.awakened === true) ?? [];
+    })
+    .filter((sprites) => sprites.length > 0);
 }
 
 function sideOf(
   player: BattlePlayer | undefined,
-  fallback: string,
-  totals: BattleMail["summary"]["sender"] | undefined
+  totals: { dead: number | null; severelyWounded: number | null } | undefined
 ): ReportEmbedSide {
-  const commanders = [commanderOf(player, "primary"), commanderOf(player, "secondary")].filter(
-    (commander): commander is ReportEmbedCommander => commander !== null
-  );
-  const alliance = player?.alliance?.abbreviation?.trim();
+  const name = player?.playerName?.trim();
   return {
-    name: playerLabel(player, fallback),
-    alliance: alliance && alliance.length > 0 ? alliance : null,
-    commanders,
+    name: name && name.length > 0 ? name : "Unknown",
+    commanders: commandersOf(player),
     dead: totals?.dead ?? 0,
     severelyWounded: totals?.severelyWounded ?? 0,
   };
@@ -96,16 +76,15 @@ export async function getReportEmbed(id: string): Promise<ReportEmbed | null> {
     return null;
   }
 
-  const opponent = mail.opponents?.[0];
-  const sender = sideOf(mail.sender, "Unknown", mail.summary?.sender);
-  const enemy = sideOf(opponent, "Unknown", mail.summary?.opponent);
+  // The opponent side shows the first opponent. The totals cover all of them.
+  const sender = sideOf(mail.sender, mail.summary?.sender);
+  const opponent = sideOf(mail.opponents?.[0], mail.summary?.opponent);
 
   return {
-    title: `${sender.name} vs ${enemy.name}`,
-    description: `Dead ${formatCount(sender.dead)} vs ${formatCount(enemy.dead)} · Severely wounded ${formatCount(sender.severelyWounded)} vs ${formatCount(enemy.severelyWounded)}`,
+    title: `${sender.name} vs ${opponent.name}`,
+    description: `Dead ${formatCount(sender.dead)} vs ${formatCount(opponent.dead)} · Severely wounded ${formatCount(sender.severelyWounded)} vs ${formatCount(opponent.severelyWounded)}`,
     sender,
-    opponent: enemy,
-    opponentCount: mail.opponents?.length ?? 0,
+    opponent,
     mailTime: mail.metadata?.mailTime ?? 0,
     kvk: mail.metadata?.kvk === true,
   };
