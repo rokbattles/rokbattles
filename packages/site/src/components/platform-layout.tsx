@@ -14,12 +14,8 @@ import {
   MonitorPlay,
   Pickaxe,
   Scale,
-  Shield,
   ShieldCheck,
-  Store,
-  Swords,
   Trophy,
-  Warehouse,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -207,7 +203,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                   href="/combat-lab"
                   current={preSocCurrent ? false : combatLabCurrent}
                 >
-                  <Shield data-slot="icon" aria-hidden="true" />
                   <SidebarLabel>SoC</SidebarLabel>
                 </SidebarItem>
                 <SidebarItem
@@ -215,7 +210,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                   href="/combat-lab/presoc"
                   current={preSocCurrent}
                 >
-                  <Swords data-slot="icon" aria-hidden="true" />
                   <SidebarLabel>Pre-SoC</SidebarLabel>
                 </SidebarItem>
               </SidebarSubnav>
@@ -244,13 +238,12 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <SidebarSubnav
                   label="Resources"
                   href={gatheringHref}
-                  icon={<Warehouse data-slot="icon" aria-hidden="true" />}
+                  icon={<Pickaxe data-slot="icon" aria-hidden="true" />}
                   current={resourcesCurrent}
                   open={showResourcesSubnav}
                   onToggle={() => setResourcesOpen(!showResourcesSubnav)}
                 >
                   <SidebarItem title="Gathering" href={gatheringHref} current={gatheringCurrent}>
-                    <Pickaxe data-slot="icon" aria-hidden="true" />
                     <SidebarLabel>Gathering</SidebarLabel>
                   </SidebarItem>
                   <SidebarItem
@@ -258,7 +251,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     href={tradingPostHref}
                     current={tradingPostCurrent}
                   >
-                    <Store data-slot="icon" aria-hidden="true" />
                     <SidebarLabel>Trading Post</SidebarLabel>
                   </SidebarItem>
                 </SidebarSubnav>
