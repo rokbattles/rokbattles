@@ -64,8 +64,5 @@ fn v1_router(rate_limit_mode: RateLimitMode) -> Router<Arc<AppState>> {
         .route("/global/loot-explorer/strange-incidents", get(loot_explorer::get_strange_incidents))
         .route("/global/loot-explorer/lohars-trial", get(loot_explorer::get_lohar_trial))
         .route("/global/loot-explorer/kahars-treasure", get(loot_explorer::get_kahar_treasure))
-        .route("/report/battle/{id}", get(reports::battle::get_by_id))
-        .route("/report/duelbattle2/{id}", get(reports::duelbattle2::get_by_id))
-        .route("/reports/battle", get(reports::battle::get))
-        .route("/reports/duelbattle2", get(reports::duelbattle2::get))
+        .merge(reports::router(rate_limit_mode))
 }
