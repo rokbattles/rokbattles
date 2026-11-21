@@ -1,4 +1,7 @@
-//! Admin review of content creator and developer program applications.
+//! Administrator endpoints for reviewing program applications.
+//!
+//! Approval grants the role associated with the application. Denial closes the
+//! application so the account can submit a new one.
 
 use std::sync::Arc;
 
@@ -23,13 +26,6 @@ use crate::{
 
 const PAGE_SIZE: u32 = 10;
 const NO_STORE: [(axum::http::HeaderName, &str); 1] = [(CACHE_CONTROL, "no-store")];
-
-pub(super) fn router() -> Router<Arc<AppState>> {
-    Router::new()
-        .route("/program-applications", get(list))
-        .route("/program-applications/{id}", get(detail).patch(review))
-        .layer(DefaultBodyLimit::max(1024))
-}
 
 #[derive(Deserialize)]
 struct Pagination {
@@ -68,6 +64,7 @@ impl From<&ProgramApplication> for ApplicationSummary {
         } else {
             &application.status
         };
+
         Self {
             id: application.id.to_hex(),
             discord_id: application.user_id.clone(),
@@ -117,6 +114,13 @@ impl Decision {
     }
 }
 
+pub(super) fn router() -> Router<Arc<AppState>> {
+    Router::new()
+        .route("/program-applications", get(list))
+        .route("/program-applications/{id}", get(detail).patch(review))
+        .layer(DefaultBodyLimit::max(1024))
+}
+
 async fn list(
     _admin: RequireRole<Admin>,
     State(state): State<Arc<AppState>>,
@@ -124,15 +128,18 @@ async fn list(
 ) -> Result<impl IntoResponse, ApiError> {
     let page = pagination.page.unwrap_or(1);
     let offset = page.checked_sub(1).ok_or_else(|| ApiError::bad_request("Invalid page"))?;
-    let mut applications = store(&state)?
-        .list_for_review(u64::from(offset) * u64::from(PAGE_SIZE), i64::from(PAGE_SIZE + 1))
-        .await
-        .map_err(database_error)?;
+    let offset = u64::from(offset) * u64::from(PAGE_SIZE);
+    let store = application_store(&state)?;
+
+    let mut applications =
+        store.list_for_review(offset, i64::from(PAGE_SIZE + 1)).await.map_err(database_error)?;
 
     let has_next_page = applications.len() > PAGE_SIZE as usize;
     applications.truncate(PAGE_SIZE as usize);
+
     let applications = try_join_all(applications.iter().map(|application| async {
         let default_governor = default_governor(&state.reports_store, &application.user_id).await?;
+
         Ok::<_, ApiError>(ApplicationListItem { application: application.into(), default_governor })
     }))
     .await?;
@@ -145,7 +152,8 @@ async fn detail(
     State(state): State<Arc<AppState>>,
     Path(id): Path<String>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let application = find_application(store(&state)?, parse_id(&id)?).await?;
+    let application = find_application(application_store(&state)?, parse_id(&id)?).await?;
+
     let user = async {
         state.auth_store.find_user_by_discord_id(&application.user_id).await.map_err(database_error)
     };
@@ -163,17 +171,6 @@ async fn detail(
     ))
 }
 
-async fn default_governor(
-    store: &ReportsStore,
-    user_id: &str,
-) -> Result<Option<DefaultGovernor>, ApiError> {
-    let governors = load_claimed_governors(store, user_id, None).await?;
-    Ok(governors.into_iter().find(|governor| governor.default).map(|governor| DefaultGovernor {
-        governor_id: governor.governor_id,
-        governor_name: governor.governor_name,
-    }))
-}
-
 async fn review(
     _admin: RequireRole<Admin>,
     State(state): State<Arc<AppState>>,
@@ -182,12 +179,13 @@ async fn review(
     Json(review): Json<Review>,
 ) -> Result<impl IntoResponse, ApiError> {
     let id = parse_id(&id)?;
-    let store = store(&state)?;
+    let store = application_store(&state)?;
     let application = find_application(store, id).await?;
 
-    // Coordinate with submissions and account deletion in this process. The
-    // conditional database writes also enforce the decision across instances.
+    // Order this review with submissions and account deletion in this process.
     let _operation = state.account_operations.lock(&application.user_id).await;
+
+    // The reviewer's session or role may have changed while waiting for the lock.
     let admin = AuthenticatedSession::authenticate(&headers, state.auth_store.as_ref()).await?;
     admin.require_role(Role::Admin)?;
 
@@ -203,6 +201,7 @@ async fn review(
         Some(application) => application,
         None => find_application(store, id).await?,
     };
+
     if application.status != review.decision.final_status() {
         return Err(ApiError::conflict("application-already-reviewed"));
     }
@@ -215,7 +214,7 @@ async fn approve(
     store: &ProgramApplicationsStore,
     application: &ProgramApplication,
 ) -> Result<Option<ProgramApplication>, ApiError> {
-    // Leave an orphaned open application available for denial.
+    // Leave the application eligible for denial if the applicant no longer exists.
     if state
         .auth_store
         .find_user_by_discord_id(&application.user_id)
@@ -225,16 +224,32 @@ async fn approve(
     {
         return Err(ApiError::not_found("Applicant account not found"));
     }
+
     if !store.start_approval(application.id).await.map_err(database_error)? {
         return Ok(None);
     }
+
     if !store.grant_role(application).await.map_err(database_error)? {
         return Err(ApiError::not_found("Applicant account not found"));
     }
+
     store.complete_approval(application.id).await.map_err(database_error)
 }
 
-fn store(state: &AppState) -> Result<&ProgramApplicationsStore, ApiError> {
+async fn default_governor(
+    store: &ReportsStore,
+    user_id: &str,
+) -> Result<Option<DefaultGovernor>, ApiError> {
+    let governors = load_claimed_governors(store, user_id, None).await?;
+    let governor = governors.into_iter().find(|governor| governor.default);
+
+    Ok(governor.map(|governor| DefaultGovernor {
+        governor_id: governor.governor_id,
+        governor_name: governor.governor_name,
+    }))
+}
+
+fn application_store(state: &AppState) -> Result<&ProgramApplicationsStore, ApiError> {
     state
         .program_applications
         .as_ref()
@@ -280,11 +295,13 @@ mod tests {
         let legacy: ProgramApplication =
             from_document(document.clone()).expect("legacy application");
         let summary = serde_json::to_value(ApplicationSummary::from(&legacy)).expect("summary");
+
         assert_eq!(summary["status"], "open");
         assert!(summary.get("form").is_none());
 
         document.insert("approvalStarted", true);
         let in_progress: ProgramApplication = from_document(document).expect("reserved approval");
+
         assert_eq!(ApplicationSummary::from(&in_progress).status, "approving");
     }
 

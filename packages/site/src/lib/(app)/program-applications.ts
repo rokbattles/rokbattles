@@ -34,6 +34,10 @@ export const PROGRAMS: readonly ProgramDefinition[] = [
   },
 ];
 
+export function getProgramLabel(program: Program): string {
+  return PROGRAMS.find(({ id }) => id === program)?.label ?? program;
+}
+
 export class ProgramApplicationRequestError extends Error {
   constructor(public status: number) {
     super("Program application request failed");
