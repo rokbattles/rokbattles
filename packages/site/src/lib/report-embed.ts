@@ -2,11 +2,16 @@ import { getCommanderName, getCommanderSprites } from "@/lib/commander";
 import type { BattleMail, BattlePlayer } from "@/lib/types/battle";
 import type { ReportByIdResponse } from "@/lib/types/report";
 
+export type ReportEmbedCommander = {
+  name: string | null;
+  sprites: string[];
+};
+
 export type ReportEmbedSide = {
   name: string;
   alliance: string | null;
-  commanderName: string | null;
-  commanderSprites: string[];
+  /** The primary commander first, then the secondary one when there is one. */
+  commanders: ReportEmbedCommander[];
   dead: number;
   severelyWounded: number;
 };
@@ -17,7 +22,7 @@ export type ReportEmbed = {
   description: string;
   sender: ReportEmbedSide;
   opponent: ReportEmbedSide;
-  /** How many opponents the battle had. The opponent side shows the first one's name and commander. */
+  /** How many opponents the battle had. The opponent side shows the first one's name and commanders. */
   opponentCount: number;
   mailTime: number;
   kvk: boolean;
@@ -34,13 +39,16 @@ function playerLabel(player: BattlePlayer | undefined, fallback: string) {
   return name && name.length > 0 ? name : fallback;
 }
 
-function commanderOf(player: BattlePlayer | undefined) {
-  const primary = player?.commanders?.primary;
-  const id = primary?.id;
-  return {
-    name: getCommanderName(id) ?? null,
-    sprites: getCommanderSprites(id, primary?.awakened === true) ?? [],
-  };
+function commanderOf(
+  player: BattlePlayer | undefined,
+  which: "primary" | "secondary"
+): ReportEmbedCommander | null {
+  const commander = player?.commanders?.[which];
+  const sprites = getCommanderSprites(commander?.id, commander?.awakened === true) ?? [];
+  if (sprites.length === 0) {
+    return null;
+  }
+  return { name: getCommanderName(commander?.id) ?? null, sprites };
 }
 
 function sideOf(
@@ -48,13 +56,14 @@ function sideOf(
   fallback: string,
   totals: BattleMail["summary"]["sender"] | undefined
 ): ReportEmbedSide {
-  const commander = commanderOf(player);
+  const commanders = [commanderOf(player, "primary"), commanderOf(player, "secondary")].filter(
+    (commander): commander is ReportEmbedCommander => commander !== null
+  );
   const alliance = player?.alliance?.abbreviation?.trim();
   return {
     name: playerLabel(player, fallback),
     alliance: alliance && alliance.length > 0 ? alliance : null,
-    commanderName: commander.name,
-    commanderSprites: commander.sprites,
+    commanders,
     dead: totals?.dead ?? 0,
     severelyWounded: totals?.severelyWounded ?? 0,
   };

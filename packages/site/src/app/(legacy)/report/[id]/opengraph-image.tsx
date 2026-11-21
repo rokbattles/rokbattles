@@ -86,18 +86,28 @@ function formatWhen(mailTimeMicros: number): string {
   return `${day} · ${time} UTC`;
 }
 
-function Portrait({ side }: { side: ReportEmbedSide }) {
+const PORTRAIT_SIZE = 140;
+
+function Portrait({ sprites }: { sprites: string[] }) {
   return (
-    <div style={{ display: "flex", position: "relative", width: 164, height: 164 }}>
-      {side.commanderSprites.map((src) => (
+    <div
+      style={{ display: "flex", position: "relative", width: PORTRAIT_SIZE, height: PORTRAIT_SIZE }}
+    >
+      {sprites.map((src) => (
         // biome-ignore lint/performance/noImgElement: next/og renders plain img elements.
         // biome-ignore lint/a11y/useAltText: decorative layers inside a generated image.
         <img
           key={src}
           src={src}
-          width={164}
-          height={164}
-          style={{ position: "absolute", top: 0, left: 0, width: 164, height: 164 }}
+          width={PORTRAIT_SIZE}
+          height={PORTRAIT_SIZE}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: PORTRAIT_SIZE,
+            height: PORTRAIT_SIZE,
+          }}
         />
       ))}
     </div>
@@ -105,6 +115,16 @@ function Portrait({ side }: { side: ReportEmbedSide }) {
 }
 
 function SideColumn({ side, extra }: { side: ReportEmbedSide; extra?: string }) {
+  const details = [
+    side.alliance ? `[${side.alliance}]` : null,
+    side.commanders
+      .map((commander) => commander.name)
+      .filter(Boolean)
+      .join(" + "),
+  ]
+    .filter(Boolean)
+    .join("  ·  ");
+
   return (
     <div
       style={{
@@ -114,7 +134,11 @@ function SideColumn({ side, extra }: { side: ReportEmbedSide; extra?: string }) 
         width: 430,
       }}
     >
-      <Portrait side={side} />
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {side.commanders.map((commander) => (
+          <Portrait key={commander.sprites.join("|")} sprites={commander.sprites} />
+        ))}
+      </div>
       <div style={{ display: "flex", justifyContent: "center", width: 430, marginTop: 12 }}>
         <div
           style={{
@@ -140,9 +164,20 @@ function SideColumn({ side, extra }: { side: ReportEmbedSide; extra?: string }) 
           color: COLORS.muted,
         }}
       >
-        {[side.alliance ? `[${side.alliance}]` : null, side.commanderName, extra]
-          .filter(Boolean)
-          .join("  ·  ")}
+        {details}
+      </div>
+      {/* Always takes up a line, so both sides line up whether or not there are more enemies. */}
+      <div
+        style={{
+          display: "flex",
+          height: 26,
+          marginTop: 2,
+          fontSize: 20,
+          fontWeight: 500,
+          color: COLORS.muted,
+        }}
+      >
+        {extra ?? ""}
       </div>
     </div>
   );
@@ -392,7 +427,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
 
   const textFor = (r: ReportEmbed | null) =>
     r
-      ? `${r.sender.name}${r.opponent.name}${r.sender.alliance ?? ""}${r.opponent.alliance ?? ""}${r.sender.commanderName ?? ""}${r.opponent.commanderName ?? ""}${formatWhen(r.mailTime)}`
+      ? `${r.sender.name}${r.opponent.name}${r.sender.alliance ?? ""}${r.opponent.alliance ?? ""}${[...r.sender.commanders, ...r.opponent.commanders].map((commander) => commander.name ?? "").join("")}${formatWhen(r.mailTime)}`
       : "";
   const staticText =
     "BATTLE REPORT KvK VS Dead Severely wounded rokbattles.com rokbattles 0123456789,.[]·:UTC +and other enemies Unknown Battle report…";
