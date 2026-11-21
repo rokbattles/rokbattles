@@ -110,6 +110,7 @@ function Header({ kvk, when }: { kvk: boolean; when: string }) {
           <div
             style={{
               display: "flex",
+              boxSizing: "border-box",
               marginLeft: 16,
               padding: "2px 12px",
               borderRadius: 8,
@@ -267,6 +268,7 @@ function Footer() {
 }
 
 const frame = {
+  boxSizing: "border-box" as const,
   display: "flex",
   flexDirection: "column" as const,
   justifyContent: "space-between",
@@ -309,6 +311,7 @@ function ReportCard({ report }: { report: ReportEmbed }) {
       <div
         style={{
           display: "flex",
+          boxSizing: "border-box",
           flexDirection: "column",
           gap: 18,
           padding: "20px 32px",
