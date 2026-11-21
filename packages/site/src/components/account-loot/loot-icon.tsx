@@ -1,5 +1,8 @@
 import { cn } from "cn";
 import Image from "next/image";
+import { getGameSpriteUrl } from "@/lib/game-sprite";
+
+const ITEM_FRAME_URL = getGameSpriteUrl("item_icon_frame_state1.png");
 
 type LootIconProps = {
   spriteUrls?: string[];
@@ -11,6 +14,8 @@ export function LootIcon({ spriteUrls, className }: LootIconProps) {
     return null;
   }
 
+  const hasItemFrame = spriteUrls.includes(ITEM_FRAME_URL);
+
   return (
     <span
       aria-hidden="true"
@@ -20,7 +25,10 @@ export function LootIcon({ spriteUrls, className }: LootIconProps) {
         <Image
           key={spriteUrl}
           alt=""
-          className="object-contain"
+          className={cn(
+            spriteUrl === ITEM_FRAME_URL ? "scale-y-[1.014] object-fill" : "object-contain",
+            hasItemFrame && spriteUrl !== ITEM_FRAME_URL && "-translate-y-[3.214%] scale-[0.814]"
+          )}
           fill
           loading="lazy"
           sizes="32px"

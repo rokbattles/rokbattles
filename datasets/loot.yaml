@@ -48,426 +48,497 @@ loot:
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     2:
       name: "50,000 Food"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     3:
       name: "150,000 Food"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     4:
       name: "500,000 Food"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     5:
       name: "1,500,000 Food"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     6:
       name: "5,000,000 Food"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     7:
       name: "10,000 Wood"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     8:
       name: "50,000 Wood"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     9:
       name: "150,000 Wood"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     10:
       name: "500,000 Wood"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     11:
       name: "1,500,000 Wood"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     12:
       name: "5,000,000 Wood"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     14:
       name: "37,500 Stone"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_21.png
+        - item_icon_frame_state1.png
 
     15:
       name: "112,500 Stone"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_21.png
+        - item_icon_frame_state1.png
 
     16:
       name: "375,000 Stone"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_21.png
+        - item_icon_frame_state1.png
 
     17:
       name: "1,125,000 Stone"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_21.png
+        - item_icon_frame_state1.png
 
     18:
       name: "3,750,000 Stone"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_21.png
+        - item_icon_frame_state1.png
 
     21:
       name: "50,000 Gold"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_20.png
+        - item_icon_frame_state1.png
 
     22:
       name: "200,000 Gold"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_20.png
+        - item_icon_frame_state1.png
 
     23:
       name: "600,000 Gold"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_20.png
+        - item_icon_frame_state1.png
 
     24:
       name: "2,000,000 Gold"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_20.png
+        - item_icon_frame_state1.png
 
     26:
       name: "10 Gems"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     27:
       name: "50 Gems"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     28:
       name: "100 Gems"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     29:
       name: "200 Gems"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     30:
       name: "500 Gems"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     31:
       name: "1,000 Gems"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     32:
       name: "2,000 Gems"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_19.png
+        - item_icon_frame_state1.png
 
     34:
       name: "1-Minute Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     35:
       name: "15-Minute Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     36:
       name: "60-Minute Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     37:
       name: "3-Hour Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     38:
       name: "8-Hour Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     41:
       name: "3-Day Speedup"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     44:
       name: "Targeted Teleport"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_29.png
+        - item_icon_frame_state1.png
 
     45:
       name: "Random Teleport"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_31.png
+        - item_icon_frame_state1.png
 
     47:
       name: "Silver Key"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_45.png
+        - item_icon_frame_state1.png
 
     48:
       name: "Golden Key"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_46.png
+        - item_icon_frame_state1.png
 
     58:
       name: "5-Minute Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     60:
       name: "30-Minute Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     62:
       name: "5-Minute Building Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_10.png
+        - item_icon_frame_state1.png
 
     64:
       name: "15-Minute Building Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_10.png
+        - item_icon_frame_state1.png
 
     65:
       name: "30-Minute Building Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_10.png
+        - item_icon_frame_state1.png
 
     67:
       name: "3-Hour Building Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_10.png
+        - item_icon_frame_state1.png
 
     71:
       name: "1-Minute Training Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     72:
       name: "5-Minute Training Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     74:
       name: "15-Minute Training Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     75:
       name: "30-Minute Training Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     76:
       name: "60-Minute Training Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     77:
       name: "3-Hour Training Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     78:
       name: "8-Hour Training Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     79:
       name: "15-Hour Training Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_12.png
+        - item_icon_frame_state1.png
 
     82:
       name: "5-Minute Research Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     84:
       name: "15-Minute Research Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     85:
       name: "30-Minute Research Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     86:
       name: "60-Minute Research Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     87:
       name: "3-Hour Research Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     88:
       name: "8-Hour Research Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     89:
       name: "15-Hour Research Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_13.png
+        - item_icon_frame_state1.png
 
     92:
       name: "5-Minute Healing Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     94:
       name: "15-Minute Healing Speedup"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     95:
       name: "30-Minute Healing Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     96:
       name: "60-Minute Healing Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     97:
       name: "3-Hour Healing Speedup"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     98:
       name: "8-Hour Healing Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     99:
       name: "15-Hour Healing Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_11.png
+        - item_icon_frame_state1.png
 
     109:
       name: "Book of Covenant"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_24.png
+        - item_icon_frame_state1.png
 
     113:
       name: "12-Hour Enhanced Attack"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_26.png
+        - item_icon_frame_state1.png
 
     114:
       name: "24-Hour Enhanced Attack"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_26.png
+        - item_icon_frame_state1.png
 
     115:
       name: "12-Hour Enhanced Defense"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_27.png
+        - item_icon_frame_state1.png
 
     116:
       name: "24-Hour Enhanced Defense"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_27.png
+        - item_icon_frame_state1.png
 
     # 25%
     120:
@@ -475,6 +546,7 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_35.png
+        - item_icon_frame_state1.png
 
     # 100 AP
     124:
@@ -482,6 +554,7 @@ loot:
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_3.png
+        - item_icon_frame_state1.png
 
     # 500 AP
     125:
@@ -489,96 +562,112 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_3.png
+        - item_icon_frame_state1.png
 
     128:
       name: "Lvl 1 Tome of Knowledge"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     129:
       name: "Lvl 2 Tome of Knowledge"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     130:
       name: "Lvl 3 Tome of Knowledge"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     131:
       name: "Talent Reset"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_2209.png
+        - item_icon_frame_state1.png
 
     141:
       name: "1,000 Food"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_23.png
+        - item_icon_frame_state1.png
 
     142:
       name: "1,000 Wood"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_22.png
+        - item_icon_frame_state1.png
 
     143:
       name: "750 Stone"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_21.png
+        - item_icon_frame_state1.png
 
     144:
       name: "500 Gold"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_20.png
+        - item_icon_frame_state1.png
 
     145:
       name: "Arrow of Resistance"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_2.png
+        - item_icon_frame_state1.png
 
     147:
       name: "Lvl 4 Tome of Knowledge"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     148:
       name: "Lvl 5 Tome of Knowledge"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     149:
       name: "Lvl 6 Tome of Knowledge"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     150:
       name: "Lvl 7 Tome of Knowledge"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_4.png
+        - item_icon_frame_state1.png
 
     151:
       name: "5 VIP Points"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_50.png
+        - item_icon_frame_state1.png
 
     155:
       name: "100 VIP Points"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_50.png
+        - item_icon_frame_state1.png
 
     # 50 AP
     182:
@@ -586,6 +675,7 @@ loot:
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_3.png
+        - item_icon_frame_state1.png
 
     # 20,000
     188:
@@ -593,18 +683,21 @@ loot:
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_76.png
+        - item_icon_frame_state1.png
 
     189:
       name: "Level 6 Reserves"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_76.png
+        - item_icon_frame_state1.png
 
     190:
       name: "Crystal Key"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_2040.png
+        - item_icon_frame_state1.png
 
     233:
       name: "Soluna Coin"
@@ -616,6 +709,7 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_2070.png
+        - item_icon_frame_state1.png
 
     239:
       name: "Tech Token"
@@ -627,72 +721,84 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_89.png
+        - item_icon_frame_state1.png
 
     412:
       name: "Leather (NORMAL)"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_mat_30.png
+        - item_icon_frame_state1.png
 
     413:
       name: "Iron Ore (NORMAL)"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_mat_25.png
+        - item_icon_frame_state1.png
 
     414:
       name: "Animal Bone (NORMAL)"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_mat_35.png
+        - item_icon_frame_state1.png
 
     417:
       name: "Ebony (NORMAL)"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_mat_15.png
+        - item_icon_frame_state1.png
 
     419:
       name: "Leather (ADVANCED)"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_mat_29.png
+        - item_icon_frame_state1.png
 
     420:
       name: "Iron Ore (ADVANCED)"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_mat_24.png
+        - item_icon_frame_state1.png
 
     421:
       name: "Animal Bone (ADVANCED)"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_mat_34.png
+        - item_icon_frame_state1.png
 
     424:
       name: "Ebony (ADVANCED)"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_mat_14.png
+        - item_icon_frame_state1.png
 
     428:
       name: "Animal Bone (ELITE)"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_mat_33.png
+        - item_icon_frame_state1.png
 
     435:
       name: "Animal Bone (EPIC)"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_mat_32.png
+        - item_icon_frame_state1.png
 
     567:
       name: "Sovereign Key"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_2086.png
+        - item_icon_frame_state1.png
 
     # KVK 1 item
     577:
@@ -705,6 +811,7 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_2373.png
+        - item_icon_frame_state1.png
 
     4304:
       name: "Flux Scrip III"
@@ -729,30 +836,35 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_48.png
+        - item_icon_frame_state1.png
 
     7003:
       name: "Lvl 1 Resource Pack A"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_48.png
+        - item_icon_frame_state1.png
 
     7004:
       name: "Lvl 1 Resource Pack B"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_48.png
+        - item_icon_frame_state1.png
 
     7005:
       name: "Lvl 1 Resource Pack C"
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_48.png
+        - item_icon_frame_state1.png
 
     7006:
       name: "Lvl 2 Resource Pack"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_48.png
+        - item_icon_frame_state1.png
 
     # Normal
     7051:
@@ -760,6 +872,7 @@ loot:
       sprite:
         - img_icon_item_BGWhite.png
         - img_icon_item_199.png
+        - item_icon_frame_state1.png
 
     # Advanced
     7052:
@@ -767,6 +880,7 @@ loot:
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_199.png
+        - item_icon_frame_state1.png
 
     # Elite
     7053:
@@ -774,6 +888,7 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_199.png
+        - item_icon_frame_state1.png
 
     # Epic
     7054:
@@ -781,48 +896,56 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_199.png
+        - item_icon_frame_state1.png
 
     8002:
       name: 'Level 2 "Pick One" Resource Chest'
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_68.png
+        - item_icon_frame_state1.png
 
     8003:
       name: 'Level 3 "Pick One" Resource Chest'
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_68.png
+        - item_icon_frame_state1.png
 
     8004:
       name: 'Level 4 "Pick One" Resource Chest'
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_68.png
+        - item_icon_frame_state1.png
 
     8008:
       name: "Commander Sculpture Chest"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_273.png
+        - item_icon_frame_state1.png
 
     8450:
       name: "Commander Sculpture Chest"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_273.png
+        - item_icon_frame_state1.png
 
     9989:
       name: "Bundle of Dazzling Starlight Sculptures"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Stars04.png
+        - item_icon_frame_state1.png
 
     9994:
       name: "Blessed Dazzling Starlight Sculpture"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Stars08.png
+        - item_icon_frame_state1.png
 
     # Advanced
     9996:
@@ -830,6 +953,7 @@ loot:
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_HeroCarving_Star2.png
+        - item_icon_frame_state1.png
 
     # Elite
     9997:
@@ -837,6 +961,7 @@ loot:
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_HeroCarving_Star3.png
+        - item_icon_frame_state1.png
 
     # Epic
     9998:
@@ -844,6 +969,7 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_HeroCarving_Star4.png
+        - item_icon_frame_state1.png
 
     # Legendary
     9999:
@@ -851,101 +977,118 @@ loot:
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Star5.png
+        - item_icon_frame_state1.png
 
     10005:
       name: "Legendary Commander Sculpture"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Universal5.png
+        - item_icon_frame_state1.png
 
     39:
       name: "15-Hour Speedup"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     40:
       name: "24-Hour Speedup"
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_9.png
+        - item_icon_frame_state1.png
 
     56:
       name: "Territorial Teleport"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_30.png
+        - item_icon_frame_state1.png
 
     112:
       name: "24-Hour Enhanced Gathering"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_28.png
+        - item_icon_frame_state1.png
 
     404:
       name: "1,000 Individual Credits"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_89.png
+        - item_icon_frame_state1.png
 
     409:
       name: "1,000 Alliance Credits"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_90.png
+        - item_icon_frame_state1.png
 
     410:
       name: "5,000 Alliance Credits"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_90.png
+        - item_icon_frame_state1.png
 
     10003:
       name: "Elite Commander Sculpture"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_HeroCarving_Universal3.png
+        - item_icon_frame_state1.png
 
     10004:
       name: "Epic Commander Sculpture"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_HeroCarving_Universal4.png
+        - item_icon_frame_state1.png
 
     10370:
       name: "Lohar Sculpture"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_HeroCarving_37.png
+        - item_icon_frame_state1.png
 
     21068:
       name: "Karuak's Humility"
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_equip_4_13.png
+        - item_icon_frame_state1.png
 
     21099:
       name: "Savage Totem"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_equip_3_18.png
+        - item_icon_frame_state1.png
     22098:
       name: '"Lohar''s Bone Necklace" Blueprint Fragment'
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_equip_3_9.png
+        - item_icon_frame_state1.png
 
     22106:
       name: '"Milanese Plate" Blueprint Fragment'
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_equip_2_5.png
+        - item_icon_frame_state1.png
 
     22107:
       name: '"Ranger Trousers" Blueprint Fragment'
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_equip_2_12.png
+        - item_icon_frame_state1.png
 
   4:
     2:
