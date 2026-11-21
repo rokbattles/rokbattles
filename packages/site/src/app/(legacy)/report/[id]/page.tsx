@@ -3,12 +3,31 @@ import type { Metadata } from "next";
 
 import { ReportView } from "@/components/report/report-view";
 import { Link } from "@/components/ui/link";
+import { getReportEmbed } from "@/lib/report-embed";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const title = "Battle Report";
+export async function generateMetadata({ params }: PageProps<"/report/[id]">): Promise<Metadata> {
+  const { id } = await params;
+  const embed = await getReportEmbed(id);
 
+  if (!embed) {
+    return { title: "Battle Report" };
+  }
+
+  // The link preview image is the sibling opengraph-image route.
   return {
-    title,
+    title: embed.title,
+    description: embed.description,
+    openGraph: {
+      title: { absolute: embed.title },
+      description: embed.description,
+      siteName: "rokbattles",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: { absolute: embed.title },
+      description: embed.description,
+    },
   };
 }
 
