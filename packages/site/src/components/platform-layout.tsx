@@ -13,7 +13,9 @@ import {
   Map as MapIcon,
   MonitorPlay,
   Scale,
+  Shield,
   Store,
+  Swords,
   Trophy,
   Warehouse,
 } from "lucide-react";
@@ -21,19 +23,20 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import type React from "react";
-import { use, useCallback } from "react";
+import { use, useCallback, useState } from "react";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Navbar } from "@/components/ui/navbar";
 import {
   Sidebar,
   SidebarBody,
+  SidebarCategory,
   SidebarFooter,
   SidebarHeader,
-  SidebarHeading,
   SidebarItem,
   SidebarLabel,
   SidebarSection,
   SidebarSpacer,
+  SidebarSubnav,
 } from "@/components/ui/sidebar";
 import { SidebarLayout } from "@/components/ui/sidebar-layout";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -46,6 +49,13 @@ type PlatformLayoutProps = {
   initialUser?: CurrentUser | null;
 };
 
+type SidebarCategoryLabel =
+  | "Community"
+  | "Tools"
+  | "My Data"
+  | "Content Creators"
+  | "Developer Program";
+
 const fullWidthRoutes = new Set([
   "/combat-lab",
   "/combat-lab/rankings",
@@ -53,18 +63,65 @@ const fullWidthRoutes = new Set([
   "/combat-lab/presoc/rankings",
 ]);
 
+const myDataLinks = [
+  { label: "Battles", href: "/account/reports", icon: Flame },
+  { label: "Pairings", href: "/account/pairings", icon: Scale },
+  { label: "Loot", href: "/account/loot", icon: Gift },
+  { label: "Resources", href: "/account/resources", icon: Warehouse },
+  { label: "Trading Post", href: "/account/trading-post", icon: Store },
+  { label: "Ark Recap", href: "/account/ark", icon: Flag },
+];
+
+const programLinks = [
+  {
+    category: "Content Creators",
+    role: "content_creator",
+    label: "Stream Overlay",
+    href: "/creators/overlay",
+    icon: MonitorPlay,
+  },
+  {
+    category: "Developer Program",
+    role: "developer_program",
+    label: "Apps",
+    href: "/developer/apps",
+    icon: Code2,
+  },
+] as const;
+
+function currentLocation(pathname: string, href: string): boolean | "location" {
+  if (pathname === href) return true;
+  return pathname.startsWith(`${href}/`) ? "location" : false;
+}
+
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const pathname = usePathname();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
   const governorContext = use(GovernorContext);
+  const [collapsedCategories, setCollapsedCategories] = useState<
+    Partial<Record<SidebarCategoryLabel, boolean>>
+  >({});
+  const [combatLabOpen, setCombatLabOpen] = useState<boolean>();
 
   if (!governorContext) {
     throw new Error("PlatformLayout must be used within a GovernorProvider");
   }
 
   const { activeGovernor } = governorContext;
-  const showGovernorSection = Boolean(!loading && user);
-  const showMyReports = Boolean(!loading && user && activeGovernor);
+  const signedInUser = loading ? null : user;
+  const combatLabCurrent = currentLocation(pathname, "/combat-lab");
+  const preSocCurrent = currentLocation(pathname, "/combat-lab/presoc");
+  const showCombatLabSubnav = combatLabOpen ?? Boolean(combatLabCurrent);
+
+  function categoryProps(label: SidebarCategoryLabel) {
+    return {
+      label,
+      open: !collapsedCategories[label],
+      onToggle: () => {
+        setCollapsedCategories((previous) => ({ ...previous, [label]: !previous[label] }));
+      },
+    };
+  }
 
   const handleLogout = useCallback(async () => {
     const response = await fetch("/proxy/v1/auth/logout", { method: "POST" });
@@ -81,8 +138,8 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
       fullWidth={fullWidthRoutes.has(pathname)}
       navbar={<Navbar />}
       sidebar={
-        <Sidebar>
-          {!loading && user ? (
+        <Sidebar aria-label="Main navigation">
+          {signedInUser ? (
             <SidebarGovernorHeader handleLogout={handleLogout} />
           ) : (
             <SidebarHeader>
@@ -99,8 +156,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             </SidebarHeader>
           )}
           <SidebarBody>
-            <SidebarSection>
-              <SidebarHeading>Community</SidebarHeading>
+            <SidebarCategory {...categoryProps("Community")}>
               <SidebarItem title="Battle Reports" href="/" current={pathname === "/"}>
                 <Flame data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Battle Reports</SidebarLabel>
@@ -113,91 +169,80 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <Trophy data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Olympian Arena</SidebarLabel>
               </SidebarItem>
+            </SidebarCategory>
+            <SidebarCategory {...categoryProps("Tools")}>
               <SidebarItem
                 title="Loot Explorer"
                 href="/loot-explorer"
-                current={pathname === "/loot-explorer" || pathname.startsWith("/loot-explorer/")}
+                current={currentLocation(pathname, "/loot-explorer")}
               >
                 <Gift data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Loot Explorer</SidebarLabel>
               </SidebarItem>
-              <SidebarItem
-                title="Combat Lab"
+              <SidebarSubnav
+                label="Combat Lab"
                 href="/combat-lab"
-                current={pathname.startsWith("/combat-lab")}
+                icon={<ChartPie data-slot="icon" aria-hidden="true" />}
+                current={combatLabCurrent}
+                open={showCombatLabSubnav}
+                onToggle={() => setCombatLabOpen(!showCombatLabSubnav)}
               >
-                <ChartPie data-slot="icon" aria-hidden="true" />
-                <SidebarLabel>Combat Lab</SidebarLabel>
-              </SidebarItem>
+                <SidebarItem
+                  title="Season of Conquest"
+                  href="/combat-lab"
+                  current={preSocCurrent ? false : combatLabCurrent}
+                >
+                  <Shield data-slot="icon" aria-hidden="true" />
+                  <SidebarLabel>SoC</SidebarLabel>
+                </SidebarItem>
+                <SidebarItem
+                  title="Pre-Season of Conquest"
+                  href="/combat-lab/presoc"
+                  current={preSocCurrent}
+                >
+                  <Swords data-slot="icon" aria-hidden="true" />
+                  <SidebarLabel>Pre-SoC</SidebarLabel>
+                </SidebarItem>
+              </SidebarSubnav>
               <SidebarItem
                 title="Territory Lab"
                 href="/territory-lab"
-                current={pathname.startsWith("/territory-lab")}
+                current={currentLocation(pathname, "/territory-lab")}
               >
                 <MapIcon data-slot="icon" aria-hidden="true" />
                 <SidebarLabel>Territory Lab</SidebarLabel>
               </SidebarItem>
-            </SidebarSection>
-            {showGovernorSection && (
-              <SidebarSection>
-                <SidebarHeading>My Data</SidebarHeading>
-                {showMyReports ? (
-                  <>
-                    <SidebarItem
-                      title="Battles"
-                      href="/account/reports"
-                      current={pathname === "/account/reports"}
-                    >
-                      <Flame data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>Battles</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem
-                      title="Pairings"
-                      href="/account/pairings"
-                      current={pathname.startsWith("/account/pairings")}
-                    >
-                      <Scale data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>Pairings</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem
-                      title="Loot"
-                      href="/account/loot"
-                      current={
-                        pathname === "/account/loot" || pathname.startsWith("/account/loot/")
-                      }
-                    >
-                      <Gift data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>Loot</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem
-                      title="Resources"
-                      href="/account/resources"
-                      current={pathname === "/account/resources"}
-                    >
-                      <Warehouse data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>Resources</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem
-                      title="Trading Post"
-                      href="/account/trading-post"
-                      current={pathname === "/account/trading-post"}
-                    >
-                      <Store data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>Trading Post</SidebarLabel>
-                    </SidebarItem>
-                    <SidebarItem
-                      title="Ark Recap"
-                      href="/account/ark"
-                      current={pathname === "/account/ark" || pathname.startsWith("/account/ark/")}
-                    >
-                      <Flag data-slot="icon" aria-hidden="true" />
-                      <SidebarLabel>Ark Recap</SidebarLabel>
-                    </SidebarItem>
-                  </>
-                ) : null}
-              </SidebarSection>
+            </SidebarCategory>
+            {signedInUser && activeGovernor && (
+              <SidebarCategory {...categoryProps("My Data")}>
+                {myDataLinks.map(({ label, href, icon: Icon }) => (
+                  <SidebarItem
+                    key={href}
+                    title={label}
+                    href={href}
+                    current={currentLocation(pathname, href)}
+                  >
+                    <Icon data-slot="icon" aria-hidden="true" />
+                    <SidebarLabel>{label}</SidebarLabel>
+                  </SidebarItem>
+                ))}
+              </SidebarCategory>
             )}
-            <ProgramSidebarSections user={user} loading={loading} pathname={pathname} />
+            {signedInUser &&
+              programLinks
+                .filter(({ role }) => hasRole(signedInUser, role))
+                .map(({ category, label, href, icon: Icon }) => (
+                  <SidebarCategory key={category} {...categoryProps(category)}>
+                    <SidebarItem
+                      title={label}
+                      href={href}
+                      current={currentLocation(pathname, href)}
+                    >
+                      <Icon data-slot="icon" aria-hidden="true" />
+                      <SidebarLabel>{label}</SidebarLabel>
+                    </SidebarItem>
+                  </SidebarCategory>
+                ))}
             <SidebarSpacer />
             <SidebarSection>
               <SidebarItem
@@ -245,50 +290,5 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
     >
       {children}
     </SidebarLayout>
-  );
-}
-
-function ProgramSidebarSections({
-  user,
-  loading,
-  pathname,
-}: {
-  user: CurrentUser | null;
-  loading: boolean;
-  pathname: string;
-}) {
-  if (loading || !user) {
-    return null;
-  }
-
-  return (
-    <>
-      {hasRole(user, "content_creator") ? (
-        <SidebarSection>
-          <SidebarHeading>Content Creators</SidebarHeading>
-          <SidebarItem
-            title="Stream Overlay"
-            href="/creators/overlay"
-            current={pathname === "/creators/overlay"}
-          >
-            <MonitorPlay data-slot="icon" aria-hidden="true" />
-            <SidebarLabel>Stream Overlay</SidebarLabel>
-          </SidebarItem>
-        </SidebarSection>
-      ) : null}
-      {hasRole(user, "developer_program") ? (
-        <SidebarSection>
-          <SidebarHeading>Developer Program</SidebarHeading>
-          <SidebarItem
-            title="Apps"
-            href="/developer/apps"
-            current={pathname === "/developer/apps" || pathname.startsWith("/developer/apps/")}
-          >
-            <Code2 data-slot="icon" aria-hidden="true" />
-            <SidebarLabel>Apps</SidebarLabel>
-          </SidebarItem>
-        </SidebarSection>
-      ) : null}
-    </>
   );
 }

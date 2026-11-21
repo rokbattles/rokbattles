@@ -2,8 +2,7 @@
 
 import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "cn";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { LayoutGroup, motion } from "motion/react";
+import { ChevronDown, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import type React from "react";
 import { forwardRef, useContext, useId } from "react";
 import { TouchTarget } from "./button";
@@ -26,7 +25,7 @@ export function SidebarHeader({
   return (
     <div
       {...props}
-      className={cn(className, "flex items-center gap-2 border-b p-4 border-white/5")}
+      className={cn(className, "flex items-center gap-2 border-white/5 border-b px-3 py-3")}
     >
       <div className="min-w-0 flex-1" hidden={sidebar?.collapsed}>
         {children}
@@ -39,7 +38,7 @@ export function SidebarHeader({
           aria-expanded={!sidebar.collapsed}
           title={label}
           className={cn(
-            "flex size-8 shrink-0 items-center justify-center rounded-lg text-zinc-400 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500",
+            "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md text-zinc-400 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500",
             sidebar.collapsed && "mx-auto"
           )}
         >
@@ -58,10 +57,7 @@ export function SidebarBody({ className, ...props }: React.ComponentPropsWithout
   return (
     <div
       {...props}
-      className={cn(
-        className,
-        "flex flex-1 flex-col overflow-y-auto p-4 [&>[data-slot=section]+[data-slot=section]]:mt-8"
-      )}
+      className={cn(className, "flex flex-1 flex-col gap-3 overflow-y-auto px-3 py-2.5")}
     />
   );
 }
@@ -70,22 +66,13 @@ export function SidebarFooter({ className, ...props }: React.ComponentPropsWitho
   return (
     <div
       {...props}
-      className={cn(
-        className,
-        "flex flex-col border-t p-4 border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
-      )}
+      className={cn(className, "flex flex-col gap-2.5 border-white/5 border-t px-3 py-2.5")}
     />
   );
 }
 
 export function SidebarSection({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  const id = useId();
-
-  return (
-    <LayoutGroup id={id}>
-      <div {...props} className={cn(className, "flex flex-col gap-0.5")} data-slot="section" />
-    </LayoutGroup>
-  );
+  return <div {...props} className={cn(className, "flex flex-col gap-0.5")} />;
 }
 
 export function SidebarDivider({ className, ...props }: React.ComponentPropsWithoutRef<"hr">) {
@@ -93,19 +80,106 @@ export function SidebarDivider({ className, ...props }: React.ComponentPropsWith
 }
 
 export function SidebarSpacer({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  return <div aria-hidden="true" {...props} className={cn(className, "mt-8 flex-1")} />;
+  return <div aria-hidden="true" {...props} className={cn(className, "flex-1")} />;
 }
 
-export function SidebarHeading({ className, ...props }: React.ComponentPropsWithoutRef<"h3">) {
+type SidebarDisclosureProps = {
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+};
+
+export function SidebarCategory({
+  label,
+  open,
+  onToggle,
+  children,
+}: React.PropsWithChildren<SidebarDisclosureProps>) {
   const sidebar = useContext(SidebarContext);
+  const id = useId();
+
   return (
-    <h3
-      {...props}
-      className={cn(
-        className,
-        sidebar?.collapsed ? "sr-only" : "mb-1 px-2 font-medium text-xs/6 text-zinc-400"
+    <SidebarSection>
+      {!sidebar?.collapsed && (
+        <button
+          type="button"
+          aria-controls={id}
+          aria-expanded={open}
+          onClick={onToggle}
+          className="group flex min-h-10 cursor-pointer items-center gap-1.5 rounded-md px-2 text-left font-medium text-xs/5 text-zinc-400 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-500 lg:min-h-7"
+        >
+          {label}
+          <ChevronDown
+            aria-hidden="true"
+            className="size-3.5 -rotate-90 transition-transform group-aria-expanded:rotate-0 motion-reduce:transition-none"
+          />
+        </button>
       )}
-    />
+      <div id={id} hidden={!open && !sidebar?.collapsed}>
+        <SidebarSection>{children}</SidebarSection>
+      </div>
+    </SidebarSection>
+  );
+}
+
+export function SidebarSubnav({
+  label,
+  href,
+  icon,
+  current,
+  open,
+  onToggle,
+  children,
+}: React.PropsWithChildren<
+  SidebarDisclosureProps & {
+    href: string;
+    icon: React.ReactNode;
+    current: boolean | "location";
+  }
+>) {
+  const sidebar = useContext(SidebarContext);
+  const id = useId();
+  const showSubnav = open && !sidebar?.collapsed;
+
+  return (
+    <SidebarSection>
+      <div className="flex items-stretch gap-0.5">
+        <SidebarItem
+          className="min-w-0 flex-1"
+          title={label}
+          href={href}
+          current={showSubnav ? false : current}
+        >
+          {icon}
+          <SidebarLabel>{label}</SidebarLabel>
+        </SidebarItem>
+        {!sidebar?.collapsed && (
+          <button
+            type="button"
+            aria-label={`${label} subpages`}
+            aria-controls={id}
+            aria-expanded={open}
+            onClick={onToggle}
+            className="group flex w-11 shrink-0 cursor-pointer items-center justify-center rounded-md text-zinc-400 hover:bg-white/5 hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-500 lg:w-8"
+          >
+            <ChevronDown
+              aria-hidden="true"
+              className="size-3.5 -rotate-90 transition-transform group-aria-expanded:rotate-0 motion-reduce:transition-none"
+            />
+          </button>
+        )}
+      </div>
+      <div id={id} hidden={!showSubnav} className="ml-4 pl-3">
+        <SidebarSection
+          className={cn(
+            "*:before:pointer-events-none *:before:absolute *:before:top-0 *:before:-left-3 *:before:h-1/2 *:before:w-3 *:before:rounded-bl-lg *:before:border-white/15 *:before:border-b *:before:border-l",
+            "*:not-last:after:pointer-events-none *:not-last:after:absolute *:not-last:after:top-[calc(50%-0.5rem)] *:not-last:after:-bottom-0.5 *:not-last:after:-left-3 *:not-last:after:border-white/15 *:not-last:after:border-l"
+          )}
+        >
+          {children}
+        </SidebarSection>
+      </div>
+    </SidebarSection>
   );
 }
 
@@ -115,7 +189,7 @@ export const SidebarItem = forwardRef(function SidebarItem(
     className,
     children,
     ...props
-  }: { current?: boolean; className?: string; children: React.ReactNode } & (
+  }: { current?: boolean | "location"; className?: string; children: React.ReactNode } & (
     | Omit<BaseButton.Props, "as" | "className">
     | Omit<React.ComponentPropsWithoutRef<typeof Link>, "as" | "className">
   ),
@@ -125,30 +199,26 @@ export const SidebarItem = forwardRef(function SidebarItem(
   const sidebar = useContext(SidebarContext);
   const classes = cn(
     // Base
-    "flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left font-medium text-base/6 sm:py-2 sm:text-sm/5",
+    "flex min-h-11 w-full items-center gap-2.5 rounded-md px-2 text-left font-medium text-sm/5 lg:min-h-8",
+    "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-500",
     // Leading icon/icon-only
-    "*:data-[slot=icon]:size-6 *:data-[slot=icon]:shrink-0 sm:*:data-[slot=icon]:size-5",
+    "*:data-[slot=icon]:size-[18px] *:data-[slot=icon]:shrink-0 lg:*:data-[slot=icon]:size-4",
     // Trailing icon (down chevron or similar)
-    "*:last:data-[slot=icon]:ml-auto *:last:data-[slot=icon]:size-5 sm:*:last:data-[slot=icon]:size-4",
+    "*:last:data-[slot=icon]:ml-auto *:last:data-[slot=icon]:size-4",
     // Avatar
     "*:data-[slot=avatar]:-m-0.5 *:data-[slot=avatar]:size-7 sm:*:data-[slot=avatar]:size-6",
-    "text-white *:data-[slot=icon]:text-zinc-400",
+    "text-zinc-300 *:data-[slot=icon]:text-zinc-400",
     "not-data-disabled:hover:bg-white/5 not-data-disabled:hover:*:data-[slot=icon]:text-white",
     "not-data-disabled:active:bg-white/5 not-data-disabled:active:*:data-[slot=icon]:text-white",
-    "data-current:*:data-[slot=icon]:text-white",
+    "data-current:bg-white/8 data-current:text-white data-current:ring-1 data-current:ring-white/10 data-current:ring-inset data-current:*:data-[slot=icon]:text-white",
     sidebar?.collapsed && "justify-center *:last:data-[slot=icon]:ml-0"
   );
 
   return (
     <span className={cn(className, "relative")}>
-      {current && (
-        <motion.span
-          className="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-white"
-          layoutId="current-indicator"
-        />
-      )}
       {"href" in props ? (
         <Link
+          aria-current={current === true ? "page" : current || undefined}
           {...props}
           onClick={(event) => {
             props.onClick?.(event);
