@@ -14,15 +14,12 @@ use axum::{
     response::IntoResponse,
     routing::{MethodRouter, get, post},
 };
-use mongodb::{
-    bson::{DateTime, oid::ObjectId},
-    error::{ErrorKind, WriteFailure},
-};
+use mongodb::bson::{DateTime, oid::ObjectId};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    auth::{AuthenticatedSession, Role},
-    db::{FormAnswer, Program, ProgramApplication},
+    auth::AuthenticatedSession,
+    db::{FormAnswer, Program, ProgramApplication, is_duplicate_key},
     error::ApiError,
     rate_limit::{self, RateLimitMode, RateLimiter},
     state::AppState,
@@ -111,11 +108,7 @@ async fn submit(
         .ok_or_else(|| ApiError::internal("program applications unavailable"))?;
 
     let answer = validate_answer(submission.program, &submission.answer)?;
-
-    let role = match submission.program {
-        Program::ContentCreator => Role::ContentCreator,
-        Program::DeveloperProgram => Role::DeveloperProgram,
-    };
+    let role = submission.program.role();
 
     if session.has_role(role) {
         return Err(ApiError::conflict("program-already-active"));
@@ -156,6 +149,7 @@ async fn submit(
         program: submission.program,
         form: vec![FormAnswer { question: submission.program.question().to_owned(), answer }],
         status: "open".into(),
+        approval_started: false,
         created_at: now,
         updated_at: now,
     };
@@ -173,13 +167,6 @@ async fn submit(
         [(CACHE_CONTROL, "no-store")],
         Json(ApplicationsResponse { applications: vec![application.into()] }),
     ))
-}
-
-fn is_duplicate_key(error: &mongodb::error::Error) -> bool {
-    matches!(
-        error.kind.as_ref(),
-        ErrorKind::Write(WriteFailure::WriteError(error)) if error.code == 11000
-    )
 }
 
 fn validate_answer(program: Program, answer: &str) -> Result<String, ApiError> {
@@ -380,6 +367,7 @@ mod tests {
                     answer,
                 }],
                 status: "open".to_owned(),
+                approval_started: false,
                 created_at: DateTime::from_millis(0),
                 updated_at: DateTime::from_millis(0),
             };

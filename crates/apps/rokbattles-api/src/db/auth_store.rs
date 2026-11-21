@@ -10,6 +10,8 @@ use sha2::{Digest, Sha256};
 
 use crate::auth::Roles;
 
+pub(super) const USERS_COLLECTION: &str = "users";
+
 /// Session data used by authenticated routes.
 #[derive(Debug, Clone)]
 pub struct SessionRecord {
@@ -241,7 +243,7 @@ impl MongoAuthStore {
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             sessions: db.collection::<SessionDocument>("userSessions"),
-            users: db.collection::<UserDocument>("users"),
+            users: db.collection(USERS_COLLECTION),
             oauth_states: db.collection::<OAuthStateDocument>("oauthStates"),
             desktop_oauth_states: db.collection("desktopOauthStates"),
             claimed_governors: db.collection("claimedGovernors"),

@@ -1,17 +1,20 @@
 //! MongoDB storage for program applications.
 //!
-//! Each user can have one open application per program. A partial unique index
-//! enforces this limit; closed applications do not prevent later submissions.
+//! A partial unique index limits each account to one open application per program.
+//! Closing an application releases that slot and keeps the submitted answers.
 
 use futures::TryStreamExt;
 use mongodb::{
     Collection, IndexModel,
-    bson::{DateTime, doc, oid::ObjectId},
-    options::IndexOptions,
+    bson::{DateTime, Document, doc, oid::ObjectId, to_bson},
+    options::{IndexOptions, ReturnDocument},
 };
 use serde::{Deserialize, Serialize};
 
-/// Collection containing applications for both programs.
+use super::auth_store::USERS_COLLECTION;
+use crate::auth::Role;
+
+/// Name of the collection that stores program applications.
 pub const PROGRAM_APPLICATIONS_COLLECTION: &str = "v3_program_applications";
 
 /// A program that accepts user applications.
@@ -23,6 +26,14 @@ pub enum Program {
 }
 
 impl Program {
+    /// Returns the role granted to approved applicants.
+    pub fn role(self) -> Role {
+        match self {
+            Self::ContentCreator => Role::ContentCreator,
+            Self::DeveloperProgram => Role::DeveloperProgram,
+        }
+    }
+
     /// Returns the question recorded with a new application for this program.
     pub fn question(self) -> &'static str {
         match self {
@@ -32,18 +43,17 @@ impl Program {
     }
 }
 
-/// The question and validated answer recorded when an application is submitted.
+/// A question and its submitted answer.
 ///
-/// Storing the question preserves its wording if the form changes later.
+/// Keeping the original question lets reviewers read the answer in context
+/// after the form changes.
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct FormAnswer {
     pub question: String,
     pub answer: String,
 }
 
-/// A stored application belonging to a Discord user.
-///
-/// New applications have status `open` and identical creation and update times.
+/// A program application and its review state.
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProgramApplication {
@@ -51,8 +61,12 @@ pub struct ProgramApplication {
     pub id: ObjectId,
     pub user_id: String,
     pub program: Program,
+    #[serde(default)]
     pub form: Vec<FormAnswer>,
     pub status: String,
+    /// Whether an approval is reserved while the application is still open.
+    #[serde(default)]
+    pub approval_started: bool,
     pub created_at: DateTime,
     pub updated_at: DateTime,
 }
@@ -61,27 +75,33 @@ pub struct ProgramApplication {
 #[derive(Clone)]
 pub struct ProgramApplicationsStore {
     collection: Collection<ProgramApplication>,
+    users: Collection<Document>,
 }
 
 impl ProgramApplicationsStore {
-    /// Creates a store backed by the given database.
+    /// Creates a store for the given database.
     pub fn new(db: mongodb::Database) -> Self {
-        Self { collection: db.collection(PROGRAM_APPLICATIONS_COLLECTION) }
+        Self {
+            collection: db.collection(PROGRAM_APPLICATIONS_COLLECTION),
+            users: db.collection(USERS_COLLECTION),
+        }
     }
 
-    /// Ensures that a user can have at most one open application per program.
+    /// Creates the indexes for open submissions and newest-first reviews.
     ///
     /// # Errors
     ///
-    /// Returns an error if MongoDB cannot create the index, including when
-    /// existing documents violate the uniqueness constraint.
+    /// Returns an error if MongoDB cannot create the indexes. Existing duplicate
+    /// open applications prevent the unique index from being created.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
-        self.collection.create_index(open_application_index()).await?;
+        let newest_first = IndexModel::builder().keys(doc! { "createdAt": -1, "_id": -1 }).build();
+
+        self.collection.create_indexes([open_application_index(), newest_first]).await?;
 
         Ok(())
     }
 
-    /// Lists the user's open applications across both programs.
+    /// Lists an account's open applications across both programs.
     ///
     /// # Errors
     ///
@@ -97,16 +117,126 @@ impl ProgramApplicationsStore {
             .await
     }
 
+    /// Lists applications newest first, leaving form answers for the detail query.
+    pub(crate) async fn list_for_review(
+        &self,
+        offset: u64,
+        limit: i64,
+    ) -> mongodb::error::Result<Vec<ProgramApplication>> {
+        self.collection
+            .find(doc! {})
+            .sort(doc! { "createdAt": -1, "_id": -1 })
+            .skip(offset)
+            .limit(limit)
+            .projection(doc! { "form": 0 })
+            .await?
+            .try_collect()
+            .await
+    }
+
+    pub(crate) async fn find_by_id(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<ProgramApplication>> {
+        self.collection.find_one(doc! { "_id": id }).await
+    }
+
     /// Inserts a validated application.
     ///
     /// # Errors
     ///
-    /// Returns a duplicate-key error if another open application exists for the
-    /// same user and program, or another database error if the insertion fails.
+    /// Returns a duplicate-key error if the account already has an open
+    /// application for this program. Other insert failures come from MongoDB.
     pub async fn insert(&self, application: &ProgramApplication) -> mongodb::error::Result<()> {
         self.collection.insert_one(application).await?;
 
         Ok(())
+    }
+
+    /// Reserves an open application for approval.
+    ///
+    /// The application stays open until the role is granted so it still blocks
+    /// another submission. A reviewer can retry an interrupted approval.
+    /// Denial is allowed only before the reservation is made.
+    ///
+    /// Returns `false` if the application is missing or no longer open.
+    pub(crate) async fn start_approval(&self, id: ObjectId) -> mongodb::error::Result<bool> {
+        let result = self
+            .collection
+            .update_one(
+                doc! { "_id": id, "status": "open" },
+                doc! { "$set": { "approvalStarted": true } },
+            )
+            .await?;
+
+        Ok(result.matched_count == 1)
+    }
+
+    /// Grants the program role if the account does not already have it.
+    ///
+    /// A missing or null roles field is treated as an empty list. Returns
+    /// `false` if the account is missing.
+    pub(crate) async fn grant_role(
+        &self,
+        application: &ProgramApplication,
+    ) -> mongodb::error::Result<bool> {
+        let role = to_bson(&application.program.role())?;
+        let update = vec![doc! {
+            "$set": {
+                "roles": {
+                    "$let": {
+                        "vars": { "current_roles": { "$ifNull": ["$roles", []] } },
+                        "in": {
+                            "$cond": [
+                                { "$in": [role.clone(), "$$current_roles"] },
+                                "$$current_roles",
+                                { "$concatArrays": ["$$current_roles", [role]] },
+                            ],
+                        },
+                    },
+                },
+            },
+        }];
+
+        let result =
+            self.users.update_one(doc! { "discordId": &application.user_id }, update).await?;
+
+        Ok(result.matched_count == 1)
+    }
+
+    /// Marks a reserved application as approved after granting its program role.
+    pub(crate) async fn complete_approval(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<ProgramApplication>> {
+        self.collection
+            .find_one_and_update(
+                doc! { "_id": id, "status": "open", "approvalStarted": true },
+                doc! {
+                    "$set": { "status": "approved" },
+                    "$unset": { "approvalStarted": "" },
+                    "$currentDate": { "updatedAt": true },
+                },
+            )
+            .return_document(ReturnDocument::After)
+            .await
+    }
+
+    /// Closes an open application that has no pending approval.
+    pub(crate) async fn deny(
+        &self,
+        id: ObjectId,
+    ) -> mongodb::error::Result<Option<ProgramApplication>> {
+        self.collection
+            .find_one_and_update(
+                doc! { "_id": id, "status": "open", "approvalStarted": { "$ne": true } },
+                doc! {
+                    "$set": { "status": "closed" },
+                    "$currentDate": { "updatedAt": true },
+                },
+            )
+            .return_document(ReturnDocument::After)
+            .await
     }
 }
 

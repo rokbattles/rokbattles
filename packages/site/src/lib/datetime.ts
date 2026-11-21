@@ -1,5 +1,14 @@
 const FALLBACK_UTC_DISPLAY = "UTC --/-- --:--";
 
+const compactUtcFormatter = new Intl.DateTimeFormat("en-US", {
+  day: "2-digit",
+  hour: "2-digit",
+  hourCycle: "h23",
+  minute: "2-digit",
+  month: "2-digit",
+  timeZone: "UTC",
+});
+
 type LongLike = { $numberLong: string };
 type DateLike = { $date: string | LongLike };
 export type DateInput = number | string | Date | LongLike | DateLike | null | undefined;
@@ -187,4 +196,8 @@ export function formatUtcDateTime(value: DateInput): string {
   const minutes = pad(date.getUTCMinutes());
 
   return `UTC ${month}/${day} ${hours}:${minutes}`;
+}
+
+export function formatCompactUtcDateTime(value: string | number): string {
+  return `${compactUtcFormatter.format(new Date(value)).replace(",", "")} UTC`;
 }
