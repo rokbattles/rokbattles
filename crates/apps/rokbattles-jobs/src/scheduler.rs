@@ -1,11 +1,11 @@
 //! Scheduler setup for background jobs.
 
-use std::{future::Future, sync::Arc};
+use std::{fmt::Debug, future::Future, sync::Arc, time::Instant};
 
 use rokbattles_api::db::ReportsStore;
-use tokio::sync::Mutex;
+use tokio::sync::{Mutex, RwLock};
 use tokio_cron_scheduler::{Job, JobScheduler};
-use tracing::{error, info, warn};
+use tracing::{Instrument, debug, error, info, info_span, warn};
 
 use crate::{
     error::JobsError,
@@ -23,358 +23,277 @@ use crate::{
     refresh_binds::refresh_claimed_governor_bindings,
 };
 
-/// Every 30 mins
+// Every eight hours UTC.
+const PRECOMPUTE_CRON: &str = "0 0 */8 * * *";
+
+/// Every 30 minutes UTC.
 pub const REFRESH_BINDS_CRON: &str = "0 */30 * * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_BARBARIAN_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_BARBARIAN_FORT_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_BAULUR_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_KARUAK_CEREMONY_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_STRANGE_INCIDENTS_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_LOHAR_TRIAL_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_SOC_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours
-pub const PRECOMPUTE_PRESOC_CRON: &str = "0 0 */8 * * *";
 
-/// Create the scheduler with the governor bind refresh job registered.
-pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler, JobsError> {
-    let scheduler = JobScheduler::new().await?;
-    let reports_store = Arc::new(reports_store);
+/// Cron scheduler that drains active jobs before returning from shutdown.
+pub struct JobsScheduler {
+    cron: JobScheduler,
+    accepting_jobs: Arc<RwLock<bool>>,
+}
 
-    add_locked_job(
-        &scheduler,
-        REFRESH_BINDS_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "governor bind refresh is already running; skipping this tick",
-        |reports_store| async move {
-            match refresh_claimed_governor_bindings(&reports_store).await {
-                Ok(stats) => {
-                    info!(
-                        governors_seen = stats.governors_seen,
-                        governors_refreshed = stats.governors_refreshed,
-                        claims_matched = stats.claims_matched,
-                        claims_updated = stats.claims_updated,
-                        "refreshed claimed governor binds"
-                    );
-                }
-                Err(error) => {
-                    error!(%error, "failed to refresh claimed governor binds");
-                }
-            }
-        },
-    )
-    .await?;
+impl JobsScheduler {
+    /// Start invoking jobs on their schedules.
+    pub async fn start(&self) -> Result<(), JobsError> {
+        self.cron.start().await?;
+        Ok(())
+    }
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_KARUAK_CEREMONY_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "Karuak Ceremony precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_karuak_ceremony_data(&reports_store).await {
-                Ok(stats) => info!(
-                    documents_read = stats.documents_read,
-                    duplicate_reports_skipped = stats.duplicate_reports_skipped,
-                    empty_results_skipped = stats.empty_results_skipped,
-                    unmatched_results = stats.unmatched_results,
-                    results_counted = stats.results_counted,
-                    documents_written = stats.documents_written,
-                    "precomputed Karuak Ceremony data"
-                ),
-                Err(error) => error!(%error, "failed to precompute Karuak Ceremony data"),
-            }
-        },
-    )
-    .await?;
+    /// Close admission and wait for active jobs, including dependent stages, to finish.
+    pub async fn shutdown(&mut self) -> Result<(), JobsError> {
+        // Each active job holds a reader. The queued writer prevents new readers
+        // while cron independently stops dispatching ticks.
+        let close_admission = async {
+            *self.accepting_jobs.write().await = false;
+        };
+        let ((), result) = tokio::join!(biased; close_admission, self.cron.shutdown());
+        result?;
+        Ok(())
+    }
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_STRANGE_INCIDENTS_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "Strange Incidents precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_strange_incidents_data(&reports_store).await {
-                Ok(stats) => info!(
-                    documents_read = stats.documents_read,
-                    duplicate_reports_skipped = stats.duplicate_reports_skipped,
-                    empty_results_skipped = stats.empty_results_skipped,
-                    unmatched_results = stats.unmatched_results,
-                    results_counted = stats.results_counted,
-                    documents_written = stats.documents_written,
-                    "precomputed Strange Incidents data"
-                ),
-                Err(error) => error!(%error, "failed to precompute Strange Incidents data"),
-            }
-        },
-    )
-    .await?;
+    async fn add_job<F, Fut, Stats>(
+        &self,
+        reports_store: &Arc<ReportsStore>,
+        cron: &str,
+        name: &'static str,
+        task: F,
+    ) -> Result<(), JobsError>
+    where
+        F: Fn(Arc<ReportsStore>) -> Fut + Clone + Send + Sync + 'static,
+        Fut: Future<Output = Result<Stats, JobsError>> + Send + 'static,
+        Stats: Debug + Send,
+    {
+        let reports_store = Arc::clone(reports_store);
+        let accepting_jobs = Arc::clone(&self.accepting_jobs);
+        let lock = Arc::new(Mutex::new(()));
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_LOHAR_TRIAL_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "Lohar's Trial precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_lohar_trial_data(&reports_store).await {
-                Ok(stats) => info!(
-                    documents_read = stats.documents_read,
-                    duplicate_reports_skipped = stats.duplicate_reports_skipped,
-                    empty_results_skipped = stats.empty_results_skipped,
-                    unmatched_results = stats.unmatched_results,
-                    results_counted = stats.results_counted,
-                    documents_written = stats.documents_written,
-                    "precomputed Lohar's Trial data"
-                ),
-                Err(error) => error!(%error, "failed to precompute Lohar's Trial data"),
-            }
-        },
-    )
-    .await?;
+        self.cron
+            .add(Job::new_async(cron, move |_id, _scheduler| {
+                let reports_store = Arc::clone(&reports_store);
+                let accepting_jobs = Arc::clone(&accepting_jobs);
+                let lock = Arc::clone(&lock);
+                let task = task.clone();
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_BARBARIAN_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "barbarian precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_barbarian_data(&reports_store).await {
-                Ok(stats) => {
-                    info!(
-                        documents_read = stats.documents_read,
-                        reports_counted = stats.reports_counted,
-                        documents_written = stats.documents_written,
-                        "precomputed barbarian data"
-                    );
-                }
-                Err(error) => {
-                    error!(%error, "failed to precompute barbarian data");
-                }
-            }
-        },
-    )
-    .await?;
+                Box::pin(async move {
+                    run_job(&accepting_jobs, &lock, || task(reports_store))
+                        .instrument(info_span!("scheduled_job", job = name))
+                        .await
+                })
+            })?)
+            .await?;
+        debug!(job = name, cron, "registered scheduled job");
+        Ok(())
+    }
+}
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_BARBARIAN_FORT_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "barbarian fort precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_barbarian_fort_data(&reports_store).await {
-                Ok(stats) => {
-                    info!(
-                        documents_read = stats.documents_read,
-                        reports_counted = stats.reports_counted,
-                        documents_written = stats.documents_written,
-                        "precomputed barbarian fort data"
-                    );
-                }
-                Err(error) => {
-                    error!(%error, "failed to precompute barbarian fort data");
-                }
-            }
-        },
-    )
-    .await?;
+/// Create the scheduler with all recurring jobs registered.
+pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobsScheduler, JobsError> {
+    let scheduler = JobsScheduler {
+        cron: JobScheduler::new().await?,
+        accepting_jobs: Arc::new(RwLock::new(true)),
+    };
+    let store = Arc::new(reports_store);
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_BAULUR_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "Baulur precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_baulur_data(&reports_store).await {
-                Ok(stats) => {
-                    info!(
-                        documents_read = stats.documents_read,
-                        duplicate_reports_skipped = stats.duplicate_reports_skipped,
-                        results_counted = stats.results_counted,
-                        unmatched_results = stats.unmatched_results,
-                        documents_written = stats.documents_written,
-                        "precomputed Baulur data"
-                    );
-                }
-                Err(error) => {
-                    error!(%error, "failed to precompute Baulur data");
-                }
-            }
-        },
-    )
-    .await?;
+    scheduler
+        .add_job(&store, REFRESH_BINDS_CRON, "refresh_binds", |store| async move {
+            refresh_claimed_governor_bindings(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "karuak_ceremony", |store| async move {
+            precompute_karuak_ceremony_data(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "strange_incidents", |store| async move {
+            precompute_strange_incidents_data(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "lohar_trial", |store| async move {
+            precompute_lohar_trial_data(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "barbarian", |store| async move {
+            precompute_barbarian_data(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "barbarian_fort", |store| async move {
+            precompute_barbarian_fort_data(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "baulur", |store| async move {
+            precompute_baulur_data(&store).await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "kahar_treasure", |store| async move {
+            precompute_kahar_treasure_data(&store).await
+        })
+        .await?;
 
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_KAHAR_TREASURE_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "Kahar treasure precompute is already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_kahar_treasure_data(&reports_store).await {
-                Ok(stats) => {
-                    info!(
-                        documents_read = stats.documents_read,
-                        mails_counted = stats.mails_counted,
-                        empty_results_skipped = stats.empty_results_skipped,
-                        unmatched_results = stats.unmatched_results,
-                        documents_written = stats.documents_written,
-                        "precomputed Kahar treasure data"
-                    );
-                }
-                Err(error) => {
-                    error!(%error, "failed to precompute Kahar treasure data");
-                }
-            }
-        },
-    )
-    .await?;
-
-    // Keep the dependent jobs in one locked cycle so pairing roots use this cycle's scores.
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_SOC_CRON,
-        Arc::clone(&reports_store),
-        Arc::new(Mutex::new(())),
-        "SoC DRASTC and commander pairings are already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_drastc_data(&reports_store).await {
-                Ok(stats) => info!(?stats, "precomputed SoC DRASTC data"),
-                Err(error) => {
-                    error!(%error, "failed to precompute SoC DRASTC; skipping dependent pairings");
-                    return;
-                }
-            }
-            match precompute_commander_pairings_v2_data(&reports_store).await {
-                Ok(stats) => info!(?stats, "precomputed SoC compact commander pairings data"),
-                Err(error) => {
-                    error!(%error, "failed to precompute SoC compact commander pairings data")
-                }
-            }
-        },
-    )
-    .await?;
-
-    add_locked_job(
-        &scheduler,
-        PRECOMPUTE_PRESOC_CRON,
-        reports_store,
-        Arc::new(Mutex::new(())),
-        "pre-SoC DRASTC and commander pairings are already running; skipping this tick",
-        |reports_store| async move {
-            match precompute_drastc_presoc_data(&reports_store).await {
-                Ok(stats) => info!(?stats, "precomputed pre-SoC DRASTC data"),
-                Err(error) => {
-                    error!(%error, "failed to precompute pre-SoC DRASTC; skipping dependent pairings");
-                    return;
-                }
-            }
-            match precompute_commander_pairings_v2_presoc_data(&reports_store).await {
-                Ok(stats) => info!(?stats, "precomputed pre-SoC compact commander pairings data"),
-                Err(error) => error!(%error, "failed to precompute pre-SoC compact commander pairings data"),
-            }
-        },
-    )
-    .await?;
+    // Keep each season's scores and dependent pairings under the same job lock.
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "combat_lab_soc", |store| async move {
+            run_combat_lab_cycle(
+                precompute_drastc_data(&store),
+                precompute_commander_pairings_v2_data(&store),
+            )
+            .await
+        })
+        .await?;
+    scheduler
+        .add_job(&store, PRECOMPUTE_CRON, "combat_lab_presoc", |store| async move {
+            run_combat_lab_cycle(
+                precompute_drastc_presoc_data(&store),
+                precompute_commander_pairings_v2_presoc_data(&store),
+            )
+            .await
+        })
+        .await?;
 
     Ok(scheduler)
 }
 
-async fn add_locked_job<F, Fut>(
-    scheduler: &JobScheduler,
-    cron: &str,
-    reports_store: Arc<ReportsStore>,
-    lock: Arc<Mutex<()>>,
-    already_running_message: &'static str,
-    task: F,
-) -> Result<(), JobsError>
-where
-    F: Fn(Arc<ReportsStore>) -> Fut + Clone + Send + Sync + 'static,
-    Fut: Future<Output = ()> + Send + 'static,
-{
-    scheduler
-        .add(Job::new_async(cron, move |_uuid, _lock| {
-            let reports_store = Arc::clone(&reports_store);
-            let lock = Arc::clone(&lock);
-            let task = task.clone();
+async fn run_job<Stats: Debug, Fut: Future<Output = Result<Stats, JobsError>>>(
+    accepting_jobs: &RwLock<bool>,
+    lock: &Mutex<()>,
+    task: impl FnOnce() -> Fut,
+) {
+    let _admission = match accepting_jobs.try_read() {
+        Ok(guard) if *guard => guard,
+        _ => {
+            debug!("shutdown in progress, skipping tick");
+            return;
+        }
+    };
+    let Ok(_job_lock) = lock.try_lock() else {
+        warn!("previous run still active, skipping tick");
+        return;
+    };
 
-            Box::pin(async move {
-                let Ok(_guard) = lock.try_lock_owned() else {
-                    warn!("{}", already_running_message);
-                    return;
-                };
+    let started = Instant::now();
+    info!("job started");
+    match task().await {
+        Ok(stats) => info!(elapsed_ms = started.elapsed().as_millis(), ?stats, "job completed"),
+        Err(error) => error!(elapsed_ms = started.elapsed().as_millis(), %error, "job failed"),
+    }
+}
 
-                task(reports_store).await;
-            })
-        })?)
-        .await?;
+async fn run_combat_lab_cycle(
+    drastc: impl Future<Output = Result<impl Debug, JobsError>>,
+    pairings: impl Future<Output = Result<impl Debug, JobsError>>,
+) -> Result<(), JobsError> {
+    run_stage("drastc", drastc).await?;
+    run_stage("commander_pairings", pairings).await
+}
 
-    Ok(())
+async fn run_stage(
+    stage: &'static str,
+    task: impl Future<Output = Result<impl Debug, JobsError>>,
+) -> Result<(), JobsError> {
+    let started = Instant::now();
+    match task.await {
+        Ok(stats) => {
+            info!(stage, elapsed_ms = started.elapsed().as_millis(), ?stats, "job stage completed");
+            Ok(())
+        }
+        Err(error) => {
+            error!(stage, elapsed_ms = started.elapsed().as_millis(), %error, "job stage failed");
+            Err(error)
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{
-        PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        PRECOMPUTE_KAHAR_TREASURE_CRON, PRECOMPUTE_KARUAK_CEREMONY_CRON, PRECOMPUTE_SOC_CRON,
-        REFRESH_BINDS_CRON,
+    use std::{
+        future::{poll_fn, ready},
+        task::{Context, Poll, Waker},
     };
 
+    use tokio::sync::oneshot;
+
+    use super::*;
+
     #[test]
-    fn refresh_binds_cron_runs_every_thirty_minutes_utc() {
+    fn recurring_jobs_keep_their_utc_schedules() {
         assert_eq!(REFRESH_BINDS_CRON, "0 */30 * * * *");
+        assert_eq!(PRECOMPUTE_CRON, "0 0 */8 * * *");
     }
 
-    #[test]
-    fn precompute_barbarian_fort_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_BARBARIAN_FORT_CRON, "0 0 */8 * * *");
+    #[tokio::test]
+    async fn shutdown_rejects_ticks_and_waits_for_all_active_jobs() {
+        let accepting_jobs = Arc::new(RwLock::new(true));
+        let mut scheduler = JobsScheduler {
+            cron: JobScheduler::new().await.expect("cron scheduler"),
+            accepting_jobs: Arc::clone(&accepting_jobs),
+        };
+        scheduler.start().await.expect("start scheduler");
+        let lock = Mutex::new(());
+        let other_job_lock = Mutex::new(());
+        let idle_job_lock = Mutex::new(());
+        let (finish_job, wait_for_finish) = oneshot::channel();
+        let (finish_other_job, wait_for_other_finish) = oneshot::channel();
+        let mut context = Context::from_waker(Waker::noop());
+
+        let mut job = Box::pin(run_job(&accepting_jobs, &lock, || async {
+            wait_for_finish.await.expect("finish signal");
+            Ok(())
+        }));
+        assert!(matches!(job.as_mut().poll(&mut context), Poll::Pending));
+        run_job(&accepting_jobs, &lock, || -> std::future::Ready<Result<(), JobsError>> {
+            panic!("overlapping tick ran");
+        })
+        .await;
+
+        let mut other_job = Box::pin(run_job(&accepting_jobs, &other_job_lock, || async {
+            wait_for_other_finish.await.expect("finish signal");
+            Ok(())
+        }));
+        assert!(matches!(other_job.as_mut().poll(&mut context), Poll::Pending));
+
+        let mut shutdown = Box::pin(scheduler.shutdown());
+        assert!(matches!(shutdown.as_mut().poll(&mut context), Poll::Pending));
+        run_job(
+            &accepting_jobs,
+            &idle_job_lock,
+            || -> std::future::Ready<Result<(), JobsError>> {
+                panic!("tick ran during shutdown");
+            },
+        )
+        .await;
+
+        finish_job.send(()).expect("active job still waiting");
+        job.await;
+        assert!(matches!(shutdown.as_mut().poll(&mut context), Poll::Pending));
+        finish_other_job.send(()).expect("other job still waiting");
+        other_job.await;
+        shutdown.await.expect("shutdown");
+        run_job(
+            &accepting_jobs,
+            &idle_job_lock,
+            || -> std::future::Ready<Result<(), JobsError>> {
+                panic!("tick ran after shutdown");
+            },
+        )
+        .await;
     }
 
-    #[test]
-    fn precompute_barbarian_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_BARBARIAN_CRON, "0 0 */8 * * *");
-    }
+    #[tokio::test]
+    async fn combat_lab_skips_pairings_when_scoring_fails() {
+        let pairings = poll_fn(|_| -> Poll<Result<(), JobsError>> {
+            panic!("pairings ran without new scores");
+        });
+        let result =
+            run_combat_lab_cycle(ready(Err::<(), _>(JobsError::MissingDatabase)), pairings).await;
 
-    #[test]
-    fn precompute_baulur_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_BAULUR_CRON, "0 0 */8 * * *");
-    }
-
-    #[test]
-    fn precompute_kahar_treasure_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_KAHAR_TREASURE_CRON, "0 0 */8 * * *");
-    }
-
-    #[test]
-    fn soc_refresh_cycle_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_SOC_CRON, "0 0 */8 * * *");
-    }
-
-    #[test]
-    fn precompute_lohar_trial_cron_runs_every_eight_hours_utc() {
-        assert_eq!(super::PRECOMPUTE_LOHAR_TRIAL_CRON, "0 0 */8 * * *");
-    }
-
-    #[test]
-    fn precompute_karuak_ceremony_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_KARUAK_CEREMONY_CRON, "0 0 */8 * * *");
-    }
-
-    #[test]
-    fn presoc_refresh_cycle_runs_every_eight_hours_utc() {
-        assert_eq!(super::PRECOMPUTE_PRESOC_CRON, "0 0 */8 * * *");
+        assert!(matches!(result, Err(JobsError::MissingDatabase)));
     }
 }

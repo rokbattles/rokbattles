@@ -1,7 +1,11 @@
 use mongodb::bson::{Bson, Document, doc};
 use rokbattles_api::db::exclude_test_client_filter;
 
-use crate::{combat_lab_season::CombatLabSeason, commander_catalog::eligible_battle_match};
+use crate::{
+    combat_lab_pipeline::{commander_condition, conditional_entry, normalize_timestamp_expr},
+    combat_lab_season::CombatLabSeason,
+    commander_catalog::eligible_battle_match,
+};
 
 const DAY_MS: i64 = 24 * 60 * 60 * 1_000;
 const PERFORMANCE_CHUNK_MS: i64 = 32 * DAY_MS;
@@ -220,26 +224,6 @@ fn loadout_scenario_and_date_stage(daily_cutoff_ms: i64) -> Document {
     }
 }
 
-fn commander_condition(primary: &str, secondary: &str, ids: &[Bson]) -> Document {
-    doc! {
-        "$and": [
-            { "$in": [primary, ids.to_vec()] },
-            { "$in": [secondary, ids.to_vec()] },
-            { "$ne": [primary, secondary] },
-        ]
-    }
-}
-
-fn conditional_entry(condition: Document, entry: Document) -> Document {
-    doc! {
-        "$cond": [
-            condition,
-            Bson::Array(vec![Bson::Document(entry)]),
-            Bson::Array(Vec::new()),
-        ]
-    }
-}
-
 #[expect(
     clippy::too_many_arguments,
     reason = "Each argument names a field in a battle perspective projection"
@@ -258,7 +242,7 @@ fn perspective_entry(
     let mut entry = doc! {
         "p": primary,
         "s": secondary,
-        "t": normalize_timestamp_expr(doc! { "$ifNull": ["$metadata.mail_time", 0_i64] }),
+        "t": timestamp_millis_expr(doc! { "$ifNull": ["$metadata.mail_time", 0_i64] }),
         "u": { "$ifNull": [player, 0_i64] },
         "c": scenario.into(),
     };
@@ -454,13 +438,13 @@ fn battle_duration_expr() -> Document {
                 0_i64,
                 {
                     "$subtract": [
-                        normalize_timestamp_expr(doc! {
+                        timestamp_millis_expr(doc! {
                             "$add": [
                                 { "$ifNull": ["$timeline.start_timestamp", 0_i64] },
                                 { "$ifNull": ["$opponents.end_tick", 0_i64] },
                             ]
                         }),
-                        normalize_timestamp_expr(doc! {
+                        timestamp_millis_expr(doc! {
                             "$add": [
                                 { "$ifNull": ["$timeline.start_timestamp", 0_i64] },
                                 { "$ifNull": ["$opponents.start_tick", 0_i64] },
@@ -473,33 +457,8 @@ fn battle_duration_expr() -> Document {
     }
 }
 
-fn normalize_timestamp_expr(value: Document) -> Document {
-    doc! {
-        "$toLong": {
-            "$let": {
-                "vars": { "raw": value.clone(), "abs": { "$abs": value } },
-                "in": {
-                    "$switch": {
-                        "branches": [
-                            {
-                                "case": { "$lt": ["$$abs", 1_000_000_000_000_f64] },
-                                "then": { "$multiply": ["$$raw", 1_000.0] },
-                            },
-                            {
-                                "case": { "$gte": ["$$abs", 100_000_000_000_000_000_f64] },
-                                "then": { "$divide": ["$$raw", 1_000_000.0] },
-                            },
-                            {
-                                "case": { "$gte": ["$$abs", 100_000_000_000_000_f64] },
-                                "then": { "$divide": ["$$raw", 1_000.0] },
-                            },
-                        ],
-                        "default": "$$raw",
-                    }
-                }
-            }
-        }
-    }
+fn timestamp_millis_expr(value: Document) -> Document {
+    doc! { "$toLong": normalize_timestamp_expr(value) }
 }
 
 #[cfg(test)]
