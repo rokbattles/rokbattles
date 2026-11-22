@@ -31,7 +31,6 @@ import type {
 import { calculateTradePercentage } from "@/lib/combat-lab/trade-percentage";
 import { toRomanNumeral } from "@/lib/equipment";
 
-const numberFormatter = new Intl.NumberFormat("en-US");
 const dateFormatter2 = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
@@ -646,7 +645,7 @@ export function CombatLabEquipmentChart({
   const compactFormatter = createCompactFormatter();
   const decimalFormatter = createDecimalFormatter();
   const integerFormatter = createIntegerFormatter();
-  const { chartData, iconicData, nonLegendaryCount, series, specialTalentData, totals } = useMemo(
+  const { chartData, iconicData, series, specialTalentData, totals } = useMemo(
     () =>
       aggregateEquipmentUsage(slot, rangeKey, {
         iconic: (level) => `${"Iconic"} ${level}`,
@@ -786,13 +785,6 @@ export function CombatLabEquipmentChart({
           />
         ) : null}
       </div>
-      <Text className="text-center !text-xs/5">
-        {Math.abs(nonLegendaryCount) === 1
-          ? numberFormatter.format(nonLegendaryCount) +
-            " piece of equipment was excluded from iconic levels because it was not legendary."
-          : numberFormatter.format(nonLegendaryCount) +
-            " pieces of equipment were excluded from iconic levels because they were not legendary."}
-      </Text>
     </div>
   );
 }
@@ -1211,7 +1203,6 @@ function aggregateEquipmentUsage(
   const iconicTotals = new Map<number, number>();
   let observations = 0;
   let legendary = 0;
-  let nonLegendaryCount = 0;
   let specialTalent = 0;
   let noSpecialTalent = 0;
 
@@ -1225,7 +1216,6 @@ function aggregateEquipmentUsage(
     bucket.sampleSize += numberOrZero(point.sampleSize);
     observations += numberOrZero(point.sampleSize);
     legendary += numberOrZero(point.legendaryCount);
-    nonLegendaryCount += numberOrZero(point.nonLegendaryCount);
     specialTalent += numberOrZero(point.specialTalentCount);
     noSpecialTalent += numberOrZero(point.noSpecialTalentCount);
 
@@ -1314,7 +1304,6 @@ function aggregateEquipmentUsage(
   return {
     chartData,
     iconicData,
-    nonLegendaryCount,
     series,
     specialTalentData,
     totals: { observations, legendary, specialTalent },
