@@ -66,6 +66,7 @@ export function PairingDetailContent({
       <PairingsToolbar range={range} today={today} compact />
       <PairingDetailBody
         {...detail}
+        primaryCommanderId={primary}
         tab={tab}
         params={params.toString()}
         onSelect={changeLoadout}
@@ -116,10 +117,12 @@ function PairingDetailBody({
   matchups,
   performanceUrl,
   selectionKey,
+  primaryCommanderId,
   tab,
   params,
   onSelect,
 }: ReturnType<typeof usePairingDetail> & {
+  primaryCommanderId: number;
   tab: string;
   params: string;
   onSelect: (key: string | null) => void;
@@ -147,6 +150,7 @@ function PairingDetailBody({
     panel = (
       <PairingLoadoutComparison
         loadouts={data.loadouts}
+        primaryCommanderId={primaryCommanderId}
         selected={selected}
         allLoadouts={data.pairing}
         onSelect={onSelect}

@@ -17,6 +17,7 @@ type CommanderCatalogEntry = {
   name: string;
   prime?: boolean;
   rarity?: string;
+  talents?: readonly string[];
   override?: Record<string, string | undefined>;
   sprite?: string | string[];
   skills?: CommanderSkillEntry[];
@@ -55,6 +56,10 @@ export function getCommanderName(id: number | null | undefined) {
   }
 
   return commander.name;
+}
+
+export function getCommanderTalents(id: number | null | undefined): readonly string[] | undefined {
+  return typeof id === "number" ? commanderCatalog[String(id)]?.talents : undefined;
 }
 
 export function getCommanderSprites(

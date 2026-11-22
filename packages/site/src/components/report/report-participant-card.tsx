@@ -69,7 +69,6 @@ export function ReportParticipantCard({
           </div>
         </div>
       </div>
-
       <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
@@ -88,7 +87,7 @@ export function ReportParticipantCard({
         ) : null}
       </div>
       <div className="contents lg:block">
-        <ReportEquipmentSection tokens={equipmentTokens} />
+        <ReportEquipmentSection tokens={equipmentTokens} commanderId={primaryCommander?.id} />
       </div>
       <div className="contents lg:block">
         {showArtifacts ? <ReportArtifactSection tokens={artifactTokens} /> : null}

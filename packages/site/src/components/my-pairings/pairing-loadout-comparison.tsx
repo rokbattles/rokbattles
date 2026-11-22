@@ -1,8 +1,8 @@
 "use client";
 
 import { Circle, CircleCheck, Layers } from "lucide-react";
+import { EquipmentDiamond } from "@/components/equipment-diamond";
 import { LoadoutArmamentList } from "@/components/my-pairings/loadout-armament-list";
-import { LoadoutEquipmentGrid } from "@/components/my-pairings/loadout-equipment-grid";
 import { ReportInscriptionBadge } from "@/components/report/report-inscription-badge";
 import type { PairingDetailLoadout, PairingStats } from "@/lib/pairings";
 import { formatCompact, formatExact } from "@/lib/pairings/analytics";
@@ -10,11 +10,13 @@ import { formatDetailTrade } from "@/lib/pairings/detail";
 
 export function PairingLoadoutComparison({
   loadouts,
+  primaryCommanderId,
   selected,
   allLoadouts,
   onSelect,
 }: {
   loadouts: PairingDetailLoadout[];
+  primaryCommanderId: number;
   selected: string | null;
   allLoadouts: PairingStats;
   onSelect: (key: string | null) => void;
@@ -73,7 +75,10 @@ export function PairingLoadoutComparison({
             </dl>
             {item.loadout ? (
               <div className="mt-5 w-full space-y-5">
-                <LoadoutEquipmentGrid tokens={item.loadout.equipment} />
+                <EquipmentDiamond
+                  tokens={item.loadout.equipment}
+                  commanderId={primaryCommanderId}
+                />
                 <div className="space-y-2">
                   <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
                     Inscriptions
