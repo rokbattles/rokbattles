@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Table, TableBody } from "@/components/ui/table";
 import { type ReportsScope, useReportsPage } from "@/hooks/use-reports-page";
+import type { ReportsBattleKind } from "@/lib/reports-query";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportsEmptyStateRow from "./reports-empty-state-row";
 import ReportsErrorRow from "./reports-error-row";
@@ -15,11 +16,13 @@ import ReportsTableRow from "./reports-table-row";
 
 type ReportsTableProps = {
   scope?: ReportsScope;
+  kind?: ReportsBattleKind;
   skeletonCount?: number;
 };
 
 export default function ReportsTable({
   scope = "all",
+  kind,
   skeletonCount = 10,
 }: ReportsTableProps = {}) {
   const {
@@ -31,7 +34,8 @@ export default function ReportsTable({
     previousBefore,
     loadNextPage,
     loadPreviousPage,
-  } = useReportsPage(scope);
+  } = useReportsPage(scope, kind);
+
   const [overviewRow, setOverviewRow] = useState<ReportsListItem | null>(null);
 
   const handleNextPage = async () => {

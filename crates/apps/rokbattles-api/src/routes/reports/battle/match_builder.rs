@@ -1,8 +1,8 @@
 use mongodb::bson::{Bson, Document, doc};
 
 use super::query::{
-    ReportsFilterSide, ReportsFilterSubtype, ReportsFilterType, ReportsGarrisonBuildingType,
-    ReportsRequest,
+    ReceiverBattleKind, ReportsFilterSide, ReportsFilterSubtype, ReportsFilterType,
+    ReportsGarrisonBuildingType, ReportsRequest,
 };
 use crate::db::exclude_test_reports_filter;
 
@@ -19,6 +19,14 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
 
     if let Some(receiver_id) = request.receiver_id {
         match_pipeline.push(doc! { "metadata.mail_receiver": format!("player_{receiver_id}") });
+
+        if let Some((_, index)) = request.receiver_combat_index() {
+            match_pipeline.push(index.candidate_filter());
+        }
+
+        if let Some(kind) = request.receiver_kind {
+            match_pipeline.push(build_receiver_kind_condition(receiver_id, kind));
+        }
     }
 
     if let Some(player_id) = request.player_id {
@@ -124,18 +132,11 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     let mut rally_conditions: Vec<Document> = Vec::new();
 
     if matches!(request.rally_side, ReportsFilterSide::Sender | ReportsFilterSide::Both) {
-        rally_conditions.push(doc! { "sender.rally": true });
+        rally_conditions.push(build_rally_condition("sender."));
     }
 
     if matches!(request.rally_side, ReportsFilterSide::Opponent | ReportsFilterSide::Both) {
-        rally_conditions.push(doc! {
-            "opponents": {
-                "$elemMatch": {
-                    "player_id": { "$gt": 0 },
-                    "rally": true,
-                }
-            }
-        });
+        rally_conditions.push(build_player_opponent_condition(build_rally_condition("")));
     }
 
     append_compound_condition(&mut match_pipeline, rally_conditions);
@@ -153,7 +154,105 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
 
     append_compound_condition(&mut match_pipeline, garrison_conditions);
 
+    if request.open_field {
+        match_pipeline.push(build_open_field_condition());
+    }
+
     doc! { "$and": match_pipeline }
+}
+
+/// Builds the `of` filter for both sides of the battle.
+fn build_open_field_condition() -> Document {
+    doc! {
+        "$nor": [
+            build_rally_condition("sender."),
+            build_player_opponent_condition(build_rally_condition("")),
+            build_garrison_condition("sender.", None),
+            build_opponent_garrison_condition(None),
+        ]
+    }
+}
+
+fn build_receiver_kind_condition(receiver_id: i64, kind: ReceiverBattleKind) -> Document {
+    let rally = || {
+        build_condition_for_receiver_side(
+            receiver_id,
+            build_rally_condition("sender."),
+            build_rally_condition(""),
+        )
+    };
+    let garrison = || {
+        build_condition_for_receiver_side(
+            receiver_id,
+            build_garrison_condition("sender.", None),
+            build_garrison_condition("", None),
+        )
+    };
+    let enemy_rally_or_garrison = || build_enemy_rally_or_garrison_condition(receiver_id);
+
+    // Combat Lab classifies a march with both flags as a garrison.
+    match kind {
+        ReceiverBattleKind::Garrison => garrison(),
+        ReceiverBattleKind::Rally => doc! { "$and": [rally(), { "$nor": [garrison()] }] },
+        ReceiverBattleKind::Swarming => doc! {
+            "$and": [enemy_rally_or_garrison(), { "$nor": [rally(), garrison()] }]
+        },
+        ReceiverBattleKind::OpenField => doc! {
+            "$nor": [rally(), garrison(), enemy_rally_or_garrison()]
+        },
+    }
+}
+
+fn build_enemy_rally_or_garrison_condition(receiver_id: i64) -> Document {
+    doc! {
+        "$or": [
+            { "$and": [
+                build_receiver_membership("sender.", receiver_id),
+                build_player_opponent_condition(build_rally_or_garrison_condition("")),
+            ] },
+            { "$and": [
+                build_player_opponent_condition(build_receiver_membership("", receiver_id)),
+                build_rally_or_garrison_condition("sender."),
+            ] },
+        ]
+    }
+}
+
+fn build_condition_for_receiver_side(
+    receiver_id: i64,
+    sender_condition: Document,
+    opponent_condition: Document,
+) -> Document {
+    doc! {
+        "$or": [
+            { "$and": [build_receiver_membership("sender.", receiver_id), sender_condition] },
+            build_player_opponent_condition(doc! {
+                "$and": [build_receiver_membership("", receiver_id), opponent_condition]
+            }),
+        ]
+    }
+}
+
+fn build_receiver_membership(prefix: &str, receiver_id: i64) -> Document {
+    doc! {
+        "$or": [
+            { format!("{prefix}player_id"): receiver_id },
+            { format!("{prefix}participants.player_id"): receiver_id },
+        ]
+    }
+}
+
+fn build_player_opponent_condition(mut condition: Document) -> Document {
+    condition.insert("player_id", doc! { "$gt": 0 });
+    doc! { "opponents": { "$elemMatch": condition } }
+}
+
+fn build_rally_condition(prefix: &str) -> Document {
+    doc! { format!("{prefix}rally"): true }
+}
+
+fn build_rally_or_garrison_condition(prefix: &str) -> Document {
+    doc! { "$or": [build_rally_condition(prefix), build_garrison_condition(prefix, None)] }
 }
 
 fn build_server_season_condition(base: &str) -> Document {
@@ -249,6 +348,117 @@ mod tests {
 
     use super::*;
     use crate::routes::reports::battle::query::parse_reports_request;
+
+    #[test]
+    fn open_field_excludes_rally_and_garrison_battles() {
+        fn last_condition(key: &str, value: &str) -> Document {
+            let request = parse_reports_request(&FxHashMap::from_iter([(
+                key.to_string(),
+                value.to_string(),
+            )]))
+            .expect("valid battle filter");
+
+            build_reports_match(&request)
+                .get_array("$and")
+                .expect("match conditions")
+                .last()
+                .and_then(Bson::as_document)
+                .expect("role condition")
+                .clone()
+        }
+
+        let open_field = last_condition("of", "1");
+        let excluded = open_field.get_array("$nor").expect("open field exclusions");
+
+        let mut expected = Vec::new();
+        for key in ["rs", "gs"] {
+            let either_side = last_condition(key, "both");
+            expected.extend_from_slice(either_side.get_array("$or").expect("either-side filter"));
+        }
+
+        assert_eq!(excluded, &expected);
+    }
+
+    #[test]
+    fn receiver_garrison_matches_the_governor_and_structure_on_the_same_side() {
+        assert_eq!(
+            build_receiver_kind_condition(123, ReceiverBattleKind::Garrison),
+            doc! {
+                "$or": [
+                    { "$and": [
+                        { "$or": [
+                            { "sender.player_id": 123_i64 },
+                            { "sender.participants.player_id": 123_i64 },
+                        ] },
+                        { "$or": [
+                            { "sender.alliance_building_id": { "$gt": 0 } },
+                            { "sender.structure_id": { "$gt": 0 } },
+                        ] },
+                    ] },
+                    { "opponents": { "$elemMatch": {
+                        "player_id": { "$gt": 0 },
+                        "$and": [
+                            { "$or": [
+                                { "player_id": 123_i64 },
+                                { "participants.player_id": 123_i64 },
+                            ] },
+                            { "$or": [
+                                { "alliance_building_id": { "$gt": 0 } },
+                                { "structure_id": { "$gt": 0 } },
+                            ] },
+                        ],
+                    } } },
+                ],
+            }
+        );
+    }
+
+    #[test]
+    fn receiver_open_field_excludes_all_own_roles_and_swarming() {
+        let match_kind = |kind| build_receiver_kind_condition(123, kind);
+        let rally = match_kind(ReceiverBattleKind::Rally);
+        let garrison = match_kind(ReceiverBattleKind::Garrison);
+        let swarming = match_kind(ReceiverBattleKind::Swarming);
+
+        let rally_conditions = rally.get_array("$and").expect("rally conditions");
+        let swarming_conditions = swarming.get_array("$and").expect("swarming conditions");
+
+        assert_eq!(rally_conditions[1], Bson::Document(doc! { "$nor": [garrison.clone()] }));
+        assert_eq!(
+            swarming_conditions[1],
+            Bson::Document(doc! { "$nor": [rally_conditions[0].clone(), garrison.clone()] })
+        );
+        assert_eq!(
+            match_kind(ReceiverBattleKind::OpenField),
+            doc! { "$nor": [rally_conditions[0].clone(), garrison, swarming_conditions[0].clone()] }
+        );
+    }
+
+    #[test]
+    fn swarming_from_the_opponent_side_checks_the_sender_for_roles() {
+        let condition = build_enemy_rally_or_garrison_condition(123);
+        let branches = condition.get_array("$or").expect("swarming sides");
+
+        assert_eq!(
+            branches[1],
+            Bson::Document(doc! { "$and": [
+                { "opponents": { "$elemMatch": {
+                    "player_id": { "$gt": 0 },
+                    "$or": [
+                        { "player_id": 123_i64 },
+                        { "participants.player_id": 123_i64 },
+                    ],
+                } } },
+                { "$or": [
+                    { "sender.rally": true },
+                    { "$or": [
+                        { "sender.alliance_building_id": { "$gt": 0 } },
+                        { "sender.structure_id": { "$gt": 0 } },
+                    ] },
+                ] },
+            ] })
+        );
+    }
 
     #[test]
     fn receiver_filter_selects_only_the_governors_received_reports() {

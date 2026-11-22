@@ -29,6 +29,7 @@ pub use program_applications_store::{
     FormAnswer, PROGRAM_APPLICATIONS_COLLECTION, Program, ProgramApplication,
     ProgramApplicationsStore,
 };
+pub(crate) use reports_store::ReceiverCombatIndex;
 pub use reports_store::{
     ReportsStore, TEST_CLIENT_APP_ID, exclude_test_client_filter, exclude_test_reports_filter,
 };

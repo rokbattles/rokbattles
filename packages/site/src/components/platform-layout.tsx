@@ -39,6 +39,7 @@ import {
 import { SidebarLayout } from "@/components/ui/sidebar-layout";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { hasRole } from "@/lib/(app)/roles";
+import { accountReportLinks, openFieldReportLink } from "@/lib/account-reports-source";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -63,7 +64,6 @@ const fullWidthRoutes = new Set([
 ]);
 
 const myDataLinks = [
-  { label: "Battles", href: "/account/reports", icon: Flame },
   { label: "Pairings", href: "/account/pairings", icon: Scale },
   { label: "Loot", href: "/account/loot", icon: Gift },
 ];
@@ -98,6 +98,33 @@ const roleLinks = [
 function currentLocation(pathname: string, href: string): boolean | "location" {
   if (pathname === href) return true;
   return pathname.startsWith(`${href}/`) ? "location" : false;
+}
+
+function BattleReportsSubnav({ pathname }: { pathname: string }) {
+  const [openOverride, setOpenOverride] = useState<boolean>();
+
+  const current =
+    currentLocation(pathname, openFieldReportLink.href) ||
+    (accountReportLinks.some(({ href }) => currentLocation(pathname, href)) ? "location" : false);
+  const open = openOverride ?? Boolean(current);
+
+  return (
+    <SidebarSubnav
+      label="Battle Reports"
+      href={openFieldReportLink.href}
+      icon={<Flame data-slot="icon" aria-hidden="true" />}
+      current={current}
+      open={open}
+      onNavigate={() => setOpenOverride(undefined)}
+      onToggle={() => setOpenOverride(!open)}
+    >
+      {accountReportLinks.map(({ href, label }) => (
+        <SidebarItem key={href} title={label} href={href} current={currentLocation(pathname, href)}>
+          <SidebarLabel>{label}</SidebarLabel>
+        </SidebarItem>
+      ))}
+    </SidebarSubnav>
+  );
 }
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
@@ -225,6 +252,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             </SidebarCategory>
             {signedInUser && activeGovernor && (
               <SidebarCategory {...categoryProps("My Data")}>
+                <BattleReportsSubnav pathname={pathname} />
                 {myDataLinks.map(({ label, href, icon: Icon }) => (
                   <SidebarItem
                     key={href}

@@ -46,9 +46,15 @@ function parseNumberInput(value: string) {
 
 type ReportsFilterDialogProps = React.ComponentPropsWithoutRef<typeof Button> & {
   lockedPlayerId?: number;
+  /** Omits role controls when the page supplies a battle kind. */
+  hideRallyGarrison?: boolean;
 };
 
-export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterDialogProps) {
+export function ReportsFilterDialog({
+  lockedPlayerId,
+  hideRallyGarrison = false,
+  ...props
+}: ReportsFilterDialogProps) {
   const context = use(ReportsFilterContext);
   if (!context) throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
 
@@ -151,30 +157,30 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
   ]);
 
   const handleApply = () => {
-    const nextGarrisonSide = selectionsOverlap(localRallySide, localGarrisonSide)
-      ? "none"
-      : localGarrisonSide;
-    const resolvedPlayerId = hasLockedPlayerId ? lockedPlayerId : parseNumberInput(localPlayerId);
-    setPlayerId(
-      typeof resolvedPlayerId === "number" && Number.isFinite(resolvedPlayerId)
-        ? resolvedPlayerId
-        : undefined
-    );
+    if (!hasLockedPlayerId) {
+      setPlayerId(parseNumberInput(localPlayerId));
+    }
+
     setType(localType === "" ? undefined : localType);
     setSubtype(localSubtype === "" ? undefined : localSubtype);
+
     setSenderPrimaryCommanderId(parseNumberInput(localSenderPrimaryCommanderId));
     setSenderSecondaryCommanderId(parseNumberInput(localSenderSecondaryCommanderId));
     setOpponentPrimaryCommanderId(parseNumberInput(localOpponentPrimaryCommanderId));
     setOpponentSecondaryCommanderId(parseNumberInput(localOpponentSecondaryCommanderId));
-    setRallySide(localRallySide);
-    setGarrisonSide(nextGarrisonSide);
-    setGarrisonBuildingType(
-      nextGarrisonSide === "none"
-        ? undefined
-        : localGarrisonBuildingType === ""
-          ? undefined
-          : localGarrisonBuildingType
-    );
+
+    if (!hideRallyGarrison) {
+      const nextGarrisonSide = selectionsOverlap(localRallySide, localGarrisonSide)
+        ? "none"
+        : localGarrisonSide;
+
+      setRallySide(localRallySide);
+      setGarrisonSide(nextGarrisonSide);
+      setGarrisonBuildingType(
+        nextGarrisonSide === "none" ? undefined : localGarrisonBuildingType || undefined
+      );
+    }
+
     setIsOpen(false);
   };
 
@@ -367,78 +373,82 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     </Field>
                   ) : null}
                 </div>
-                <Field>
-                  <Label>Rally</Label>
-                  <Listbox<ReportsFilterSide>
-                    value={localRallySide}
-                    onChange={(value) => {
-                      setLocalRallySide(value);
-                      if (selectionsOverlap(value, localGarrisonSide)) {
-                        setLocalGarrisonSide("none");
-                        setLocalGarrisonBuildingType("");
-                      }
-                    }}
-                  >
-                    {sideOptions.map((option) => (
-                      <ListboxOption
-                        key={option.value}
-                        value={option.value}
-                        disabled={selectionsOverlap(option.value, localGarrisonSide)}
+                {hideRallyGarrison ? null : (
+                  <>
+                    <Field>
+                      <Label>Rally</Label>
+                      <Listbox<ReportsFilterSide>
+                        value={localRallySide}
+                        onChange={(value) => {
+                          setLocalRallySide(value);
+                          if (selectionsOverlap(value, localGarrisonSide)) {
+                            setLocalGarrisonSide("none");
+                            setLocalGarrisonBuildingType("");
+                          }
+                        }}
                       >
-                        <ListboxLabel>{option.label}</ListboxLabel>
-                      </ListboxOption>
-                    ))}
-                  </Listbox>
-                </Field>
-                <Field>
-                  <Label>Garrison</Label>
-                  <Listbox<ReportsFilterSide>
-                    value={localGarrisonSide}
-                    onChange={(value) => {
-                      setLocalGarrisonSide(value);
-                      if (selectionsOverlap(localRallySide, value)) {
-                        setLocalRallySide("none");
-                      }
-                      if (value === "none") {
-                        setLocalGarrisonBuildingType("");
-                      }
-                    }}
-                  >
-                    {sideOptions.map((option) => (
-                      <ListboxOption
-                        key={option.value}
-                        value={option.value}
-                        disabled={selectionsOverlap(option.value, localRallySide)}
+                        {sideOptions.map((option) => (
+                          <ListboxOption
+                            key={option.value}
+                            value={option.value}
+                            disabled={selectionsOverlap(option.value, localGarrisonSide)}
+                          >
+                            <ListboxLabel>{option.label}</ListboxLabel>
+                          </ListboxOption>
+                        ))}
+                      </Listbox>
+                    </Field>
+                    <Field>
+                      <Label>Garrison</Label>
+                      <Listbox<ReportsFilterSide>
+                        value={localGarrisonSide}
+                        onChange={(value) => {
+                          setLocalGarrisonSide(value);
+                          if (selectionsOverlap(localRallySide, value)) {
+                            setLocalRallySide("none");
+                          }
+                          if (value === "none") {
+                            setLocalGarrisonBuildingType("");
+                          }
+                        }}
                       >
-                        <ListboxLabel>{option.label}</ListboxLabel>
-                      </ListboxOption>
-                    ))}
-                  </Listbox>
-                </Field>
-                {localGarrisonSide !== "none" ? (
-                  <Field>
-                    <Label>Garrison Building</Label>
-                    <Listbox<ReportsGarrisonBuildingType | "">
-                      value={localGarrisonBuildingType}
-                      onChange={(value) => {
-                        setLocalGarrisonBuildingType(value);
-                      }}
-                    >
-                      <ListboxOption value="">
-                        <ListboxLabel>Any</ListboxLabel>
-                      </ListboxOption>
-                      <ListboxOption value="flag">
-                        <ListboxLabel>Alliance Flag</ListboxLabel>
-                      </ListboxOption>
-                      <ListboxOption value="fortress">
-                        <ListboxLabel>Alliance Fortress</ListboxLabel>
-                      </ListboxOption>
-                      <ListboxOption value="other">
-                        <ListboxLabel>Other</ListboxLabel>
-                      </ListboxOption>
-                    </Listbox>
-                  </Field>
-                ) : null}
+                        {sideOptions.map((option) => (
+                          <ListboxOption
+                            key={option.value}
+                            value={option.value}
+                            disabled={selectionsOverlap(option.value, localRallySide)}
+                          >
+                            <ListboxLabel>{option.label}</ListboxLabel>
+                          </ListboxOption>
+                        ))}
+                      </Listbox>
+                    </Field>
+                    {localGarrisonSide !== "none" ? (
+                      <Field>
+                        <Label>Garrison Building</Label>
+                        <Listbox<ReportsGarrisonBuildingType | "">
+                          value={localGarrisonBuildingType}
+                          onChange={(value) => {
+                            setLocalGarrisonBuildingType(value);
+                          }}
+                        >
+                          <ListboxOption value="">
+                            <ListboxLabel>Any</ListboxLabel>
+                          </ListboxOption>
+                          <ListboxOption value="flag">
+                            <ListboxLabel>Alliance Flag</ListboxLabel>
+                          </ListboxOption>
+                          <ListboxOption value="fortress">
+                            <ListboxLabel>Alliance Fortress</ListboxLabel>
+                          </ListboxOption>
+                          <ListboxOption value="other">
+                            <ListboxLabel>Other</ListboxLabel>
+                          </ListboxOption>
+                        </Listbox>
+                      </Field>
+                    ) : null}
+                  </>
+                )}
               </div>
             </Fieldset>
           </div>

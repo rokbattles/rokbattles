@@ -2,7 +2,7 @@
 
 import { parseAsString, useQueryState } from "nuqs";
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { buildReportsQueryParams } from "@/lib/reports-query";
+import { buildReportsQueryParams, type ReportsBattleKind } from "@/lib/reports-query";
 import type { ReportsListResponse } from "@/lib/types/reports-list";
 import { GovernorContext } from "@/providers/governor-context";
 import { ReportsFilterContext } from "@/providers/reports-filter-context";
@@ -25,7 +25,10 @@ export type UseReportsPageResult = {
   loadPreviousPage: () => Promise<void>;
 };
 
-export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResult {
+export function useReportsPage(
+  scope: ReportsScope = "all",
+  kind?: ReportsBattleKind
+): UseReportsPageResult {
   const context = use(ReportsFilterContext);
   const governorContext = use(GovernorContext);
 
@@ -45,10 +48,15 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
     senderSecondaryCommanderId,
     opponentPrimaryCommanderId,
     opponentSecondaryCommanderId,
-    rallySide,
-    garrisonSide,
-    garrisonBuildingType,
+    rallySide: filterRallySide,
+    garrisonSide: filterGarrisonSide,
+    garrisonBuildingType: filterGarrisonBuildingType,
   } = context;
+
+  // Ignore hidden role filters so stale query parameters cannot reset pagination.
+  const rallySide = kind ? "none" : filterRallySide;
+  const garrisonSide = kind ? "none" : filterGarrisonSide;
+  const garrisonBuildingType = kind ? undefined : filterGarrisonBuildingType;
 
   const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
@@ -58,8 +66,10 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
   const [error, setError] = useState<string | null>(null);
   const [nextAfter, setNextAfter] = useState<string | null>(null);
   const [previousBefore, setPreviousBefore] = useState<string | null>(null);
+
   const [afterParam, setAfterParam] = useQueryState("after", parseAsString);
   const [beforeParam, setBeforeParam] = useQueryState("before", parseAsString);
+
   const previousFilterSignatureRef = useRef<string | null>(null);
   const requestIdRef = useRef(0);
 
@@ -77,6 +87,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         rallySide,
         garrisonSide,
         garrisonBuildingType: garrisonBuildingType ?? null,
+        kind: kind ?? null,
       }),
     [
       scope,
@@ -90,6 +101,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
+      kind,
     ]
   );
 
@@ -109,6 +121,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
         rallySide,
         garrisonSide,
         garrisonBuildingType,
+        kind,
       });
 
       const response = await fetch(`/proxy/v1/reports/battle${query}`, {
@@ -132,6 +145,7 @@ export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResul
       rallySide,
       garrisonSide,
       garrisonBuildingType,
+      kind,
       scope,
     ]
   );
