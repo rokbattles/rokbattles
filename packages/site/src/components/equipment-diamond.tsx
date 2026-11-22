@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import { getEquipmentName, getEquipmentSlotName } from "@/hooks/use-equipment-name";
+import { getCommanderTalents } from "@/lib/commander";
 import {
   AWAKEN_FRAME_SPRITE_URL,
   AWAKEN_NAMEPLATE_SPRITE_URL,
@@ -174,17 +175,18 @@ function AwakeningDecoration({ iconicSrc }: { iconicSrc: string }) {
   );
 }
 
-type ReportGearDiamondProps = {
+type EquipmentDiamondProps = {
   tokens: EquipmentToken[];
-  commanderTalents?: readonly string[];
+  commanderId?: number;
 };
 
-export function ReportGearDiamond({ tokens, commanderTalents }: ReportGearDiamondProps) {
+export function EquipmentDiamond({ tokens, commanderId }: EquipmentDiamondProps) {
   const slots = new Map(tokens.map((token) => [token.slot, token]));
+  const commanderTalents = getCommanderTalents(commanderId);
 
   return (
     <div
-      className="relative h-[calc(var(--gear-slot)*5.95)] w-[calc(var(--gear-slot)*3.05)] [--gear-slot:48px] sm:[--gear-slot:52px]"
+      className="relative mx-auto h-[calc(var(--gear-slot)*5.95)] w-[calc(var(--gear-slot)*3.05)] [--gear-slot:48px] sm:[--gear-slot:52px]"
       role="group"
       aria-label="Equipment"
     >
