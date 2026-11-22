@@ -1,6 +1,6 @@
 //! Precompute Karuak Ceremony's five ordered reward slots, excluding empty rewards and mail copies.
 
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::BTreeMap;
 
 use futures::StreamExt;
 use mongodb::{
@@ -8,16 +8,17 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
-use rokbattles_bson::{bson_to_i64_exact, nested_i64_exact as nested_i64};
-use rustc_hash::FxHashSet;
+use rokbattles_bson::nested_i64_exact as nested_i64;
 use serde::ser::Error as _;
 
-use crate::{error::JobsError, loot_window::loot_cutoff_mail_time};
+use crate::{
+    error::JobsError,
+    loot::{LootKey, LootStats, Reward, build_loot_document, direct_i64, usize_to_i64},
+    loot_window::{RecentReports, loot_cutoff_mail_time},
+};
 
 const BOSS_IDS: [i64; 5] = [30_001, 30_002, 30_003, 30_004, 30_005];
 const REWARD_SLOTS: usize = 5;
-
-const DUPLICATE_WINDOW_MICROS: i64 = 2_000_000;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct KaruakCeremonyPrecomputeStats {
@@ -91,7 +92,7 @@ async fn read_observed_reports(
     let mut aggregates: BTreeMap<_, _> =
         BOSS_IDS.into_iter().map(|id| (id, AggregateStats::default())).collect();
     let mut stats = KaruakCeremonyPrecomputeStats::default();
-    let mut recent = RecentReports::default();
+    let mut recent = RecentReports::new(ReportKey::parse);
 
     while let Some(next) = cursor.next().await {
         let document = next?;
@@ -149,7 +150,7 @@ fn parse_slots(loot: &[Bson]) -> Option<[Reward; REWARD_SLOTS]> {
         return None;
     }
 
-    loot.iter().map(Reward::parse).collect::<Option<Vec<_>>>()?.try_into().ok()
+    loot.iter().map(Reward::positive).collect::<Option<Vec<_>>>()?.try_into().ok()
 }
 
 fn build_document(kind: i64, stats: &AggregateStats, refreshed_at: DateTime) -> Document {
@@ -160,19 +161,7 @@ fn build_document(kind: i64, stats: &AggregateStats, refreshed_at: DateTime) -> 
         .map(|(index, slot)| {
             let loot = slot
                 .iter()
-                .map(|(key, value)| {
-                    doc! {
-                        "type": key.reward_type,
-                        "sub_type": key.sub_type,
-                        "results": usize_to_i64(value.seen),
-                        "drop_rate": rate(value.seen, stats.results),
-                        "quantity": { "min": value.min.unwrap_or(0), "max": value.max.unwrap_or(0) },
-                        "total_quantity": value.total_quantity,
-                        "average_quantity": if value.seen == 0 { 0.0 } else {
-                            value.total_quantity as f64 / value.seen as f64
-                        },
-                    }
-                })
+                .map(|(key, value)| build_loot_document(*key, value, stats.results, 0))
                 .collect::<Vec<_>>();
 
             doc! {
@@ -207,36 +196,6 @@ struct AggregateStats {
     slots: [BTreeMap<LootKey, LootStats>; REWARD_SLOTS],
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct LootKey {
-    reward_type: i32,
-    sub_type: i32,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct Reward {
-    key: LootKey,
-    quantity: i64,
-}
-
-impl Reward {
-    fn parse(value: &Bson) -> Option<Self> {
-        let document = value.as_document()?;
-        let quantity = direct_i64(document, "value")?;
-        if quantity <= 0 {
-            return None;
-        }
-
-        Some(Self {
-            key: LootKey {
-                reward_type: direct_i32(document, "type")?,
-                sub_type: direct_i32(document, "sub_type")?,
-            },
-            quantity,
-        })
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct ParticipantOutcome {
     player_id: i64,
@@ -265,7 +224,7 @@ impl ReportKey {
                         .get_array("loot")
                         .ok()?
                         .iter()
-                        .map(Reward::parse)
+                        .map(Reward::positive)
                         .collect::<Option<_>>()?,
                 })
             })
@@ -283,72 +242,6 @@ impl ReportKey {
             participants,
         })
     }
-}
-
-#[derive(Debug, Default)]
-struct RecentReports {
-    keys: FxHashSet<ReportKey>,
-    arrivals: VecDeque<(i64, ReportKey)>,
-}
-
-impl RecentReports {
-    fn is_duplicate(&mut self, document: &Document) -> bool {
-        let Some(time) = nested_i64(document, &["metadata", "mail_time"]) else {
-            return false;
-        };
-
-        while self
-            .arrivals
-            .front()
-            .is_some_and(|(first, _)| time.saturating_sub(*first) > DUPLICATE_WINDOW_MICROS)
-        {
-            if let Some((_, key)) = self.arrivals.pop_front() {
-                self.keys.remove(&key);
-            }
-        }
-
-        let Some(key) = ReportKey::parse(document) else { return false };
-        if !self.keys.insert(key.clone()) {
-            return true;
-        }
-
-        self.arrivals.push_back((time, key));
-
-        false
-    }
-}
-
-#[derive(Debug, Default)]
-struct LootStats {
-    seen: usize,
-    total_quantity: i64,
-    min: Option<i64>,
-    max: Option<i64>,
-}
-
-impl LootStats {
-    fn record(&mut self, quantity: i64) {
-        self.seen += 1;
-        self.total_quantity += quantity;
-        self.min = Some(self.min.map_or(quantity, |value| value.min(quantity)));
-        self.max = Some(self.max.map_or(quantity, |value| value.max(quantity)));
-    }
-}
-
-fn direct_i32(document: &Document, key: &str) -> Option<i32> {
-    direct_i64(document, key).and_then(|v| i32::try_from(v).ok())
-}
-
-fn direct_i64(document: &Document, key: &str) -> Option<i64> {
-    document.get(key).and_then(bson_to_i64_exact)
-}
-
-fn rate(part: usize, total: usize) -> f64 {
-    if total == 0 { 0.0 } else { part as f64 / total as f64 }
-}
-
-fn usize_to_i64(value: usize) -> i64 {
-    i64::try_from(value).unwrap_or(i64::MAX)
 }
 
 #[cfg(test)]
@@ -455,7 +348,7 @@ mod tests {
         copy.get_array_mut("participants").expect("participants").reverse();
         copy.get_document_mut("metadata").expect("metadata").insert("mail_receiver", "other");
 
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
         assert!(!recent.is_duplicate(&original));
         assert!(recent.is_duplicate(&copy));
         assert!(!recent.is_duplicate(&report(13_000_000)));
@@ -463,7 +356,7 @@ mod tests {
 
     #[test]
     fn keeps_distinct_bosses_servers_players_and_rewards() {
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
         assert!(!recent.is_duplicate(&report(10_000_000)));
 
         let mut other_boss = report(10_001_000);
@@ -485,7 +378,7 @@ mod tests {
 
     #[test]
     fn does_not_deduplicate_without_complete_identity() {
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
 
         let mut missing_server = report(10_000_000);
         missing_server.get_document_mut("metadata").expect("metadata").remove("server_id");

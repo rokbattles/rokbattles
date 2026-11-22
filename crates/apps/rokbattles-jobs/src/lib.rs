@@ -2,11 +2,13 @@
 
 //! Shared code for the jobs.
 
+mod combat_lab_pipeline;
 pub(crate) mod combat_lab_season;
 pub(crate) mod combat_lab_troops;
 pub(crate) mod commander_catalog;
 pub mod config;
 pub mod error;
+mod loot;
 mod loot_window;
 pub mod precompute_barbarian;
 pub mod precompute_barbarianfort;

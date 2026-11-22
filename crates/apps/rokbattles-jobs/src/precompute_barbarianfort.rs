@@ -8,11 +8,12 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
-use rokbattles_bson::{
-    bson_to_f64, bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64,
-};
+use rokbattles_bson::{bson_to_i32_exact as bson_to_i32, nested_f64, nested_value as nested_bson};
 
-use crate::error::JobsError;
+use crate::{
+    error::JobsError,
+    loot::{LootKey, LootStats, build_loot_document, direct_i32, direct_i64, rate, usize_to_i64},
+};
 
 const SYSTEM_BARBARIAN_FORT_SUB_TYPE: i32 = 11;
 const BARBARIAN_FORT_SUB_PARAM: i32 = 1;
@@ -177,7 +178,7 @@ fn build_tier_document(tier: i32, stats: &TierStats, level_reports_seen: usize) 
     let loot = stats
         .loot
         .iter()
-        .map(|(key, loot_stats)| build_loot_document(*key, loot_stats, stats.seen))
+        .map(|(key, loot_stats)| build_loot_document(*key, loot_stats, stats.seen, 0))
         .collect::<Vec<_>>();
 
     doc! {
@@ -186,21 +187,6 @@ fn build_tier_document(tier: i32, stats: &TierStats, level_reports_seen: usize) 
         "receive_rate": rate(stats.seen, level_reports_seen),
         "damage_percentage": stats.damage_percentage.to_document(),
         "loot": loot,
-    }
-}
-
-fn build_loot_document(key: LootKey, stats: &LootStats, tier_seen: usize) -> Document {
-    doc! {
-        "type": key.reward_type,
-        "sub_type": key.sub_type,
-        "results": usize_to_i64(stats.seen),
-        "drop_rate": rate(stats.seen, tier_seen),
-        "quantity": {
-            "min": stats.quantity.min.unwrap_or(0),
-            "max": stats.quantity.max.unwrap_or(0),
-        },
-        "total_quantity": stats.total_quantity,
-        "average_quantity": rate_i64(stats.total_quantity, stats.seen),
     }
 }
 
@@ -305,12 +291,6 @@ struct TargetKey {
     level: i32,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct LootKey {
-    reward_type: i32,
-    sub_type: i32,
-}
-
 #[derive(Debug, Default)]
 struct LevelStats {
     reports_seen: usize,
@@ -322,21 +302,6 @@ struct TierStats {
     seen: usize,
     damage_percentage: NumericRange,
     loot: BTreeMap<LootKey, LootStats>,
-}
-
-#[derive(Debug, Default)]
-struct LootStats {
-    seen: usize,
-    total_quantity: i64,
-    quantity: IntegerRange,
-}
-
-impl LootStats {
-    fn record(&mut self, quantity: i64) {
-        self.seen += 1;
-        self.total_quantity += quantity;
-        self.quantity.record(quantity);
-    }
 }
 
 #[derive(Debug, Default)]
@@ -359,56 +324,8 @@ impl NumericRange {
     }
 }
 
-#[derive(Debug, Default)]
-struct IntegerRange {
-    min: Option<i64>,
-    max: Option<i64>,
-}
-
-impl IntegerRange {
-    fn record(&mut self, value: i64) {
-        self.min = Some(self.min.map_or(value, |current| current.min(value)));
-        self.max = Some(self.max.map_or(value, |current| current.max(value)));
-    }
-}
-
-fn nested_bson<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
-    let (last, parents) = path.split_last()?;
-    let mut current = document;
-
-    for key in parents {
-        current = current.get_document(key).ok()?;
-    }
-
-    current.get(*last)
-}
-
 fn nested_i32(document: &Document, path: &[&str]) -> Option<i32> {
     nested_bson(document, path).and_then(bson_to_i32)
-}
-
-fn nested_f64(document: &Document, path: &[&str]) -> Option<f64> {
-    nested_bson(document, path).and_then(bson_to_f64)
-}
-
-fn direct_i32(document: &Document, key: &str) -> Option<i32> {
-    document.get(key).and_then(bson_to_i32)
-}
-
-fn direct_i64(document: &Document, key: &str) -> Option<i64> {
-    document.get(key).and_then(bson_to_i64)
-}
-
-fn rate(part: usize, total: usize) -> f64 {
-    if total == 0 { 0.0 } else { part as f64 / total as f64 }
-}
-
-fn rate_i64(total_quantity: i64, seen: usize) -> f64 {
-    if seen == 0 { 0.0 } else { total_quantity as f64 / seen as f64 }
-}
-
-fn usize_to_i64(value: usize) -> i64 {
-    i64::try_from(value).unwrap_or(i64::MAX)
 }
 
 fn optional_f64(value: Option<f64>) -> Bson {

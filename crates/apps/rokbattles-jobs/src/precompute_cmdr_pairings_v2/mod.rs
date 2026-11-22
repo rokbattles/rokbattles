@@ -248,16 +248,14 @@ async fn read_performance_partition(
     let mut points = 0_usize;
 
     while let Some(next) = cursor.next().await {
-        let document = next?;
+        let mut document = next?;
         let pairing = pairing_key(&document, "p", "s").ok_or_else(|| {
             JobsError::InvalidCombatLabData("performance chunk is missing commander IDs".to_owned())
         })?;
         let month = document_i64(&document, "m").ok_or_else(|| {
             JobsError::InvalidCombatLabData("performance chunk is missing its month".to_owned())
         })?;
-        let records = document.get_array("v").cloned().map_err(|_error| {
-            JobsError::InvalidCombatLabData("performance chunk has no records".to_owned())
-        })?;
+        let records = take_performance_records(&mut document)?;
         for record in &records {
             let point = map_performance_record(pairing, month, record)?;
             roots.entry(pairing).or_default().accumulate(point, cutoffs);
@@ -273,6 +271,13 @@ async fn read_performance_partition(
         documents_written: writer.documents_written,
         max_document_bytes: writer.max_document_bytes,
     })
+}
+
+fn take_performance_records(document: &mut Document) -> Result<Vec<Bson>, JobsError> {
+    match document.remove("v") {
+        Some(Bson::Array(records)) => Ok(records),
+        _ => Err(JobsError::InvalidCombatLabData("performance chunk has no records".to_owned())),
+    }
 }
 
 struct LoadoutPartition {
@@ -658,6 +663,16 @@ impl<'a> BulkWriter<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn performance_records_preserve_tuple_order_and_require_an_array() {
+        let records = vec![Bson::Array(vec![2_i64.into(), 1_i64.into()]), Bson::Array(vec![])];
+        let mut document = doc! { "v": records.clone() };
+        assert_eq!(take_performance_records(&mut document).unwrap(), records);
+        take_performance_records(&mut document).expect_err("missing records");
+        take_performance_records(&mut doc! { "v": 1 }).expect_err("non-array records");
+        assert!(take_performance_records(&mut doc! { "v": [] }).unwrap().is_empty());
+    }
 
     #[test]
     fn compact_root_omits_unavailable_drastc_and_long_field_names() {

@@ -4,7 +4,11 @@ use mongodb::bson::{Bson, Document, doc};
 use rokbattles_api::db::exclude_test_client_filter;
 
 use super::model::{PairingKey, Strategy};
-use crate::{combat_lab_season::CombatLabSeason, commander_catalog::eligible_battle_match};
+use crate::{
+    combat_lab_pipeline::{commander_condition, conditional_entry, normalize_timestamp_expr},
+    combat_lab_season::CombatLabSeason,
+    commander_catalog::eligible_battle_match,
+};
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
@@ -34,12 +38,12 @@ fn build_pairing_entries_pipeline(
     season: CombatLabSeason,
 ) -> Vec<Document> {
     let commander_id_values = commander_id_bson_array(commander_ids);
-    let sender_condition = ids_match_condition(
+    let sender_condition = commander_condition(
         "$sender.commanders.primary.id",
         "$sender.commanders.secondary.id",
         &commander_id_values,
     );
-    let opponent_condition = ids_match_condition(
+    let opponent_condition = commander_condition(
         "$opponents.commanders.primary.id",
         "$opponents.commanders.secondary.id",
         &commander_id_values,
@@ -536,30 +540,6 @@ fn commander_id_bson_array(commander_ids: &[i64]) -> Vec<Bson> {
     commander_ids.iter().map(|id| Bson::Int64(*id)).collect()
 }
 
-fn ids_match_condition(
-    primary_expr: &'static str,
-    secondary_expr: &'static str,
-    commander_ids: &[Bson],
-) -> Document {
-    doc! {
-        "$and": [
-            { "$in": [primary_expr, commander_ids.to_vec()] },
-            { "$in": [secondary_expr, commander_ids.to_vec()] },
-            { "$ne": [primary_expr, secondary_expr] },
-        ]
-    }
-}
-
-fn conditional_entry(condition: Document, entry: Document) -> Document {
-    doc! {
-        "$cond": [
-            condition,
-            Bson::Array(vec![Bson::Document(entry)]),
-            Bson::Array(Vec::new()),
-        ]
-    }
-}
-
 fn perspective_entry(
     primary_expr: &'static str,
     secondary_expr: &'static str,
@@ -661,36 +641,6 @@ fn battle_duration_expr() -> Document {
 
 fn numeric_path(path: &'static str) -> Document {
     doc! { "$ifNull": [path, 0] }
-}
-
-fn normalize_timestamp_expr(value: Document) -> Document {
-    doc! {
-        "$let": {
-            "vars": {
-                "raw": value.clone(),
-                "abs": { "$abs": value },
-            },
-            "in": {
-                "$switch": {
-                    "branches": [
-                        {
-                            "case": { "$lt": ["$$abs", 1_000_000_000_000_f64] },
-                            "then": { "$multiply": ["$$raw", 1000.0] },
-                        },
-                        {
-                            "case": { "$gte": ["$$abs", 100_000_000_000_000_000_f64] },
-                            "then": { "$divide": ["$$raw", 1_000_000.0] },
-                        },
-                        {
-                            "case": { "$gte": ["$$abs", 100_000_000_000_000_f64] },
-                            "then": { "$divide": ["$$raw", 1000.0] },
-                        },
-                    ],
-                    "default": "$$raw",
-                }
-            }
-        }
-    }
 }
 
 #[cfg(test)]

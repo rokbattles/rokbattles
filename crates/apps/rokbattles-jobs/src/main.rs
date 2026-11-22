@@ -6,7 +6,7 @@
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
-use std::path::PathBuf;
+use std::{future::Future, io, path::PathBuf, time::Instant};
 
 use mongodb::options::ClientOptions;
 use rokbattles_api::db::ReportsStore;
@@ -37,22 +37,48 @@ async fn main() -> Result<(), JobsError> {
         ))
     });
 
+    let shutdown_signal = shutdown_signal()?;
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
     let db_name = client_options.default_database.clone().ok_or(JobsError::MissingDatabase)?;
     let client = mongodb::Client::with_options(client_options)?;
     let db = client.database(&db_name);
-    debug!(database = %db.name(), "connected to MongoDB");
-
+    let indexes_started = Instant::now();
+    debug!(database = %db.name(), "ensuring jobs indexes");
     let reports_store = ReportsStore::new(db);
     reports_store.ensure_indexes().await?;
+    info!(database = %db_name, elapsed_ms = indexes_started.elapsed().as_millis(), "jobs indexes ready");
 
     let mut scheduler = build_scheduler(reports_store).await?;
     scheduler.start().await?;
-    info!("started");
+    info!("jobs scheduler started");
 
-    tokio::signal::ctrl_c().await?;
-    info!("shutting down");
+    let signal = shutdown_signal.await?;
+    info!(signal, "shutting down jobs scheduler and waiting for active jobs");
+    let shutdown_started = Instant::now();
     scheduler.shutdown().await?;
+    info!(elapsed_ms = shutdown_started.elapsed().as_millis(), "jobs scheduler stopped");
 
     Ok(())
+}
+
+#[cfg(unix)]
+fn shutdown_signal() -> io::Result<impl Future<Output = io::Result<&'static str>>> {
+    use tokio::signal::unix::{SignalKind, signal};
+
+    let mut interrupt = signal(SignalKind::interrupt())?;
+    let mut terminate = signal(SignalKind::terminate())?;
+    Ok(async move {
+        tokio::select! {
+            _ = interrupt.recv() => Ok("SIGINT"),
+            _ = terminate.recv() => Ok("SIGTERM"),
+        }
+    })
+}
+
+#[cfg(not(unix))]
+fn shutdown_signal() -> io::Result<impl Future<Output = io::Result<&'static str>>> {
+    Ok(async {
+        tokio::signal::ctrl_c().await?;
+        Ok("Ctrl-C")
+    })
 }

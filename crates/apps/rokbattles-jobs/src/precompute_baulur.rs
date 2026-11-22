@@ -1,6 +1,6 @@
 //! Precompute Baulur reward rolls without confusing collapsed display positions with slots.
 
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::BTreeMap;
 
 use futures::StreamExt;
 use mongodb::{
@@ -8,19 +8,20 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
-use rokbattles_bson::{
-    bson_to_f64, bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64,
-};
-use rustc_hash::FxHashSet;
+use rokbattles_bson::{bson_to_i32_exact as bson_to_i32, nested_value as nested_bson};
 use serde::ser::Error as _;
 
-use crate::{error::JobsError, loot_window::loot_cutoff_mail_time};
+use crate::{
+    error::JobsError,
+    loot::{
+        LootKey, LootStats, Reward, build_loot_document, direct_f64, direct_i32, direct_i64, rate,
+        usize_to_i64,
+    },
+    loot_window::{RecentReports, loot_cutoff_mail_time},
+};
 
 const BAULUR_TARGET_KINDS: [i32; 2] = [102_000_055, 102_000_063];
 const ROLL_SLOTS: usize = 5;
-// Recipient copies observed in the source arrive milliseconds apart. Match complete
-// outcomes within two seconds; never merge identical rewards from later kills.
-const DUPLICATE_WINDOW_MICROS: i64 = 2_000_000;
 const SLOT_ITEMS: [&[i32]; ROLL_SLOTS] =
     [&[26], &[60, 65, 85], &[47, 48], &[7051, 7052, 7053], &[113, 115, 124, 9998]];
 
@@ -93,7 +94,7 @@ async fn read_observed_baulur_reports(
     let mut aggregate: BTreeMap<i32, KindStats> =
         BAULUR_TARGET_KINDS.into_iter().map(|kind| (kind, KindStats::default())).collect();
     let mut stats = BaulurPrecomputeStats::default();
-    let mut recent = RecentReports::default();
+    let mut recent = RecentReports::new(ReportKey::parse);
     while let Some(next) = cursor.next().await {
         let document = next?;
         stats.documents_read += 1;
@@ -133,7 +134,7 @@ fn accumulate_report_document(document: &Document, stats: &mut KindStats) -> usi
             pool.results += 1;
             pool.damage_rate.record(damage);
             if let Ok(loot) = participant.get_array("loot") {
-                for reward in loot.iter().filter_map(Reward::parse) {
+                for reward in loot.iter().filter_map(Reward::positive) {
                     pool.loot.entry(reward.key).or_default().record(reward.quantity);
                 }
             }
@@ -160,7 +161,7 @@ fn reconstruct_rolls(participant: &Document) -> Option<[Option<Reward>; ROLL_SLO
     let mut rolls = [None; ROLL_SLOTS];
     let mut previous_slot = None;
     for reward in participant.get_array("loot").ok()? {
-        let reward = Reward::parse(reward)?;
+        let reward = Reward::positive(reward)?;
         let slot = slot_for_item(reward.key)?;
         if previous_slot.is_some_and(|previous| slot <= previous) {
             return None;
@@ -242,26 +243,6 @@ fn build_roll_pool_document(stats: &RollPoolStats) -> Document {
     }
 }
 
-fn build_loot_document(
-    key: LootKey,
-    stats: &LootStats,
-    results: usize,
-    default_quantity: i64,
-) -> Document {
-    doc! {
-        "type": key.reward_type,
-        "sub_type": key.sub_type,
-        "results": usize_to_i64(stats.seen),
-        "drop_rate": rate(stats.seen, results),
-        "quantity": {
-            "min": stats.quantity.min.unwrap_or(default_quantity),
-            "max": stats.quantity.max.unwrap_or(default_quantity),
-        },
-        "total_quantity": stats.total_quantity,
-        "average_quantity": rate_i64(stats.total_quantity, stats.seen),
-    }
-}
-
 #[derive(Debug, Default)]
 struct KindStats {
     results: usize,
@@ -290,35 +271,6 @@ struct RollPoolStats {
 struct SlotStats {
     results: usize,
     loot: BTreeMap<LootKey, LootStats>,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct LootKey {
-    reward_type: i32,
-    sub_type: i32,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct Reward {
-    key: LootKey,
-    quantity: i64,
-}
-
-impl Reward {
-    fn parse(value: &Bson) -> Option<Self> {
-        let document = value.as_document()?;
-        let quantity = direct_i64(document, "value")?;
-        if quantity <= 0 {
-            return None;
-        }
-        Some(Self {
-            key: LootKey {
-                reward_type: direct_i32(document, "type")?,
-                sub_type: direct_i32(document, "sub_type")?,
-            },
-            quantity,
-        })
-    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -354,7 +306,7 @@ impl ReportKey {
                         .get_array("loot")
                         .ok()?
                         .iter()
-                        .map(Reward::parse)
+                        .map(Reward::positive)
                         .collect::<Option<_>>()?,
                 })
             })
@@ -369,53 +321,6 @@ impl ReportKey {
             location: [direct_f64(location, "x")?.to_bits(), direct_f64(location, "y")?.to_bits()],
             participants,
         })
-    }
-}
-
-#[derive(Debug, Default)]
-struct RecentReports {
-    keys: FxHashSet<ReportKey>,
-    arrivals: VecDeque<(i64, ReportKey)>,
-}
-
-impl RecentReports {
-    fn is_duplicate(&mut self, document: &Document) -> bool {
-        let Some(time) = nested_bson(document, &["metadata", "mail_time"]).and_then(bson_to_i64)
-        else {
-            return false;
-        };
-        while self
-            .arrivals
-            .front()
-            .is_some_and(|(first, _)| time.saturating_sub(*first) > DUPLICATE_WINDOW_MICROS)
-        {
-            if let Some((_, key)) = self.arrivals.pop_front() {
-                self.keys.remove(&key);
-            }
-        }
-        let Some(key) = ReportKey::parse(document) else {
-            return false;
-        };
-        if !self.keys.insert(key.clone()) {
-            return true;
-        }
-        self.arrivals.push_back((time, key));
-        false
-    }
-}
-
-#[derive(Debug, Default)]
-struct LootStats {
-    seen: usize,
-    total_quantity: i64,
-    quantity: IntegerRange,
-}
-
-impl LootStats {
-    fn record(&mut self, quantity: i64) {
-        self.seen += 1;
-        self.total_quantity += quantity;
-        self.quantity.record(quantity);
     }
 }
 
@@ -436,47 +341,8 @@ impl NumericRange {
     }
 }
 
-#[derive(Debug, Default)]
-struct IntegerRange {
-    min: Option<i64>,
-    max: Option<i64>,
-}
-
-impl IntegerRange {
-    fn record(&mut self, value: i64) {
-        self.min = Some(self.min.map_or(value, |current| current.min(value)));
-        self.max = Some(self.max.map_or(value, |current| current.max(value)));
-    }
-}
-
-fn nested_bson<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
-    let (last, parents) = path.split_last()?;
-    let mut current = document;
-    for key in parents {
-        current = current.get_document(key).ok()?;
-    }
-    current.get(*last)
-}
 fn nested_i32(document: &Document, path: &[&str]) -> Option<i32> {
     nested_bson(document, path).and_then(bson_to_i32)
-}
-fn direct_i32(document: &Document, key: &str) -> Option<i32> {
-    document.get(key).and_then(bson_to_i32)
-}
-fn direct_i64(document: &Document, key: &str) -> Option<i64> {
-    document.get(key).and_then(bson_to_i64)
-}
-fn direct_f64(document: &Document, key: &str) -> Option<f64> {
-    document.get(key).and_then(bson_to_f64)
-}
-fn rate(part: usize, total: usize) -> f64 {
-    if total == 0 { 0.0 } else { part as f64 / total as f64 }
-}
-fn rate_i64(total_quantity: i64, seen: usize) -> f64 {
-    if seen == 0 { 0.0 } else { total_quantity as f64 / seen as f64 }
-}
-fn usize_to_i64(value: usize) -> i64 {
-    i64::try_from(value).unwrap_or(i64::MAX)
 }
 fn optional_f64(value: Option<f64>) -> Bson {
     value.map(Bson::Double).unwrap_or(Bson::Null)
@@ -615,7 +481,7 @@ mod tests {
             .get_document_mut("metadata")
             .expect("metadata")
             .insert("mail_receiver", "another recipient");
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
         assert!(!recent.is_duplicate(&first));
         assert!(recent.is_duplicate(&second));
     }
@@ -625,29 +491,24 @@ mod tests {
         let a = participant(5.0, &[26, 60]);
         let mut b = participant(95.0, &[26, 85, 48]);
         b.insert("player_id", 43_i64);
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
         assert!(!recent.is_duplicate(&report(0, vec![a.clone(), b.clone()])));
         assert!(recent.is_duplicate(&report(30, vec![b, a])));
     }
 
     #[test]
     fn later_kills_and_different_outcomes_are_counted_separately() {
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
         assert!(!recent.is_duplicate(&report(0, vec![participant(5.0, &[26, 60])])));
         assert!(!recent.is_duplicate(&report(30, vec![participant(5.0, &[26, 65])])));
-        assert!(
-            !recent.is_duplicate(&report(
-                DUPLICATE_WINDOW_MICROS + 1,
-                vec![participant(5.0, &[26, 60])]
-            ))
-        );
+        assert!(!recent.is_duplicate(&report(2_000_001, vec![participant(5.0, &[26, 60])])));
     }
 
     #[test]
     fn missing_battle_identity_does_not_discard_reports() {
         let mut document = report(0, vec![participant(5.0, &[26, 60])]);
         document.remove("metadata");
-        let mut recent = RecentReports::default();
+        let mut recent = RecentReports::new(ReportKey::parse);
         assert!(!recent.is_duplicate(&document));
         assert!(!recent.is_duplicate(&document));
     }

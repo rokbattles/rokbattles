@@ -8,9 +8,12 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
-use rokbattles_bson::{bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64};
 
-use crate::{error::JobsError, loot_window::loot_cutoff_mail_time};
+use crate::{
+    error::JobsError,
+    loot::{LootKey, LootStats, Reward, build_loot_document, usize_to_i64},
+    loot_window::loot_cutoff_mail_time,
+};
 
 const KAHAR_TREASURE_AGGREGATE_KEY: &str = "all";
 const KAHAR_AP_COST: i64 = 200;
@@ -115,7 +118,7 @@ fn parse_slots(loot: &[Bson]) -> Option<[Reward; REWARD_SLOTS]> {
         return None;
     }
 
-    loot.iter().map(Reward::parse).collect::<Option<Vec<_>>>()?.try_into().ok()
+    loot.iter().map(Reward::positive).collect::<Option<Vec<_>>>()?.try_into().ok()
 }
 
 fn build_precomputed_document(stats: &AggregateStats, refreshed_at: DateTime) -> Document {
@@ -126,7 +129,7 @@ fn build_precomputed_document(stats: &AggregateStats, refreshed_at: DateTime) ->
         .map(|(index, slot)| {
             let loot = slot
                 .iter()
-                .map(|(key, loot_stats)| build_loot_document(*key, loot_stats, stats.results))
+                .map(|(key, loot_stats)| build_loot_document(*key, loot_stats, stats.results, 0))
                 .collect::<Vec<_>>();
 
             doc! {
@@ -150,106 +153,12 @@ fn build_precomputed_document(stats: &AggregateStats, refreshed_at: DateTime) ->
     }
 }
 
-fn build_loot_document(key: LootKey, stats: &LootStats, results: usize) -> Document {
-    doc! {
-        "type": key.reward_type,
-        "sub_type": key.sub_type,
-        "results": usize_to_i64(stats.seen),
-        "drop_rate": rate(stats.seen, results),
-        "quantity": {
-            "min": stats.quantity.min.unwrap_or(0),
-            "max": stats.quantity.max.unwrap_or(0),
-        },
-        "total_quantity": stats.total_quantity,
-        "average_quantity": rate_i64(stats.total_quantity, stats.seen),
-    }
-}
-
 #[derive(Debug, Default)]
 struct AggregateStats {
     results: usize,
     empty_results: usize,
     unmatched_results: usize,
     slots: [BTreeMap<LootKey, LootStats>; REWARD_SLOTS],
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-struct LootKey {
-    reward_type: i32,
-    sub_type: i32,
-}
-
-#[derive(Debug, Clone, Copy)]
-struct Reward {
-    key: LootKey,
-    quantity: i64,
-}
-
-impl Reward {
-    fn parse(value: &Bson) -> Option<Self> {
-        let document = value.as_document()?;
-        let quantity = direct_i64(document, "value")?;
-
-        if quantity <= 0 {
-            return None;
-        }
-
-        Some(Self {
-            key: LootKey {
-                reward_type: direct_i32(document, "type")?,
-                sub_type: direct_i32(document, "sub_type")?,
-            },
-            quantity,
-        })
-    }
-}
-
-#[derive(Debug, Default)]
-struct LootStats {
-    seen: usize,
-    total_quantity: i64,
-    quantity: IntegerRange,
-}
-
-impl LootStats {
-    fn record(&mut self, quantity: i64) {
-        self.seen += 1;
-        self.total_quantity += quantity;
-        self.quantity.record(quantity);
-    }
-}
-
-#[derive(Debug, Default)]
-struct IntegerRange {
-    min: Option<i64>,
-    max: Option<i64>,
-}
-
-impl IntegerRange {
-    fn record(&mut self, value: i64) {
-        self.min = Some(self.min.map_or(value, |current| current.min(value)));
-        self.max = Some(self.max.map_or(value, |current| current.max(value)));
-    }
-}
-
-fn direct_i32(document: &Document, key: &str) -> Option<i32> {
-    document.get(key).and_then(bson_to_i32)
-}
-
-fn direct_i64(document: &Document, key: &str) -> Option<i64> {
-    document.get(key).and_then(bson_to_i64)
-}
-
-fn rate(part: usize, total: usize) -> f64 {
-    if total == 0 { 0.0 } else { part as f64 / total as f64 }
-}
-
-fn rate_i64(total_quantity: i64, seen: usize) -> f64 {
-    if seen == 0 { 0.0 } else { total_quantity as f64 / seen as f64 }
-}
-
-fn usize_to_i64(value: usize) -> i64 {
-    i64::try_from(value).unwrap_or(i64::MAX)
 }
 
 #[cfg(test)]

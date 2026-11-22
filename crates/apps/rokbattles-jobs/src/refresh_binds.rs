@@ -1,12 +1,9 @@
 //! Keep claimed governor names and avatars in sync with recent battle data.
 
-use futures::StreamExt;
-use mongodb::{
-    Collection,
-    bson::{Document, doc},
-};
+use futures::TryStreamExt;
+use mongodb::bson::{Document, doc};
 use rokbattles_api::db::{ReportsStore, exclude_test_reports_filter};
-use rokbattles_bson::{bson_integer_to_i64, nested_string, nested_value};
+use rokbattles_bson::{bson_integer_to_i64, nested_string};
 
 use crate::error::JobsError;
 
@@ -30,29 +27,48 @@ pub struct RefreshBindsStats {
 pub async fn refresh_claimed_governor_bindings(
     reports_store: &ReportsStore,
 ) -> Result<RefreshBindsStats, JobsError> {
-    refresh_claimed_governor_bindings_from_collections(
-        reports_store.claimed_governors_collection(),
-        reports_store.battle_collection(),
-    )
-    .await
-}
+    let claimed_governors = reports_store.claimed_governors_collection();
+    let pipeline = [
+        // distinct("governorId") also expands legacy array values.
+        doc! { "$unwind": "$governorId" },
+        doc! { "$group": { "_id": "$governorId" } },
+        doc! { "$match": { "$expr": { "$in": [{ "$type": "$_id" }, ["int", "long"]] } } },
+        doc! {
+            "$lookup": {
+                "from": reports_store.battle_collection().name(),
+                "localField": "_id",
+                "foreignField": "sender.player_id",
+                "pipeline": [
+                    { "$match": exclude_test_reports_filter() },
+                    // Array IDs can match an equality join but form a separate group.
+                    { "$match": { "$expr": { "$ne": [{ "$type": "$sender.player_id" }, "array"] } } },
+                    { "$sort": { "metadata.mail_time": -1 } },
+                    { "$limit": 1 },
+                    { "$project": {
+                        "_id": "$sender.player_id",
+                        "governorName": "$sender.player_name",
+                        "governorAvatar": "$sender.avatar_url",
+                    } },
+                ],
+                "as": "snapshot",
+            }
+        },
+        doc! { "$unwind": { "path": "$snapshot", "preserveNullAndEmptyArrays": true } },
+    ];
 
-async fn refresh_claimed_governor_bindings_from_collections(
-    claimed_governors: &Collection<Document>,
-    battle_reports: &Collection<Document>,
-) -> Result<RefreshBindsStats, JobsError> {
-    let distinct_ids = claimed_governors.distinct("governorId", doc! {}).await?;
-    let governor_ids = distinct_ids.iter().filter_map(bson_integer_to_i64).collect::<Vec<_>>();
-
-    let mut stats =
-        RefreshBindsStats { governors_seen: governor_ids.len(), ..RefreshBindsStats::default() };
-
-    if governor_ids.is_empty() {
-        return Ok(stats);
+    let mut cursor = claimed_governors.aggregate(pipeline).await?;
+    let mut stats = RefreshBindsStats::default();
+    let mut snapshots = Vec::new();
+    while let Some(row) = cursor.try_next().await? {
+        stats.governors_seen += 1;
+        if let Some(snapshot) =
+            row.get_document("snapshot").ok().and_then(map_latest_snapshot_document)
+        {
+            snapshots.push(snapshot);
+        }
     }
 
-    let snapshots = fetch_latest_sender_snapshots(battle_reports, &governor_ids).await?;
-
+    // Finish reading before updating claims, so a failed lookup can't leave a partial refresh.
     for snapshot in snapshots {
         let update_result = claimed_governors
             .update_many(
@@ -76,74 +92,25 @@ async fn refresh_claimed_governor_bindings_from_collections(
     Ok(stats)
 }
 
-async fn fetch_latest_sender_snapshots(
-    battle_reports: &Collection<Document>,
-    governor_ids: &[i64],
-) -> Result<Vec<LatestGovernorSnapshot>, JobsError> {
-    let pipeline = vec![
-        doc! {
-            "$match": {
-                "$and": [
-                    exclude_test_reports_filter(),
-                    { "sender.player_id": { "$in": governor_ids } },
-                ]
-            }
-        },
-        doc! {
-            "$sort": {
-                "sender.player_id": 1,
-                "metadata.mail_time": -1,
-            }
-        },
-        doc! {
-            "$group": {
-                "_id": "$sender.player_id",
-                "governorName": { "$first": "$sender.player_name" },
-                "governorAvatar": { "$first": "$sender.avatar_url" },
-            }
-        },
-    ];
-
-    let mut cursor = battle_reports.aggregate(pipeline).await?;
-
-    let mut snapshots = Vec::new();
-    while let Some(next) = cursor.next().await {
-        let document = next?;
-        if let Some(snapshot) = map_latest_snapshot_document(&document) {
-            snapshots.push(snapshot);
-        }
-    }
-
-    Ok(snapshots)
-}
-
 fn map_latest_snapshot_document(document: &Document) -> Option<LatestGovernorSnapshot> {
     Some(LatestGovernorSnapshot {
-        governor_id: nested_i64_exact(document, &["_id"])?,
+        governor_id: document.get("_id").and_then(bson_integer_to_i64)?,
         governor_name: nested_string(document, &["governorName"]),
         governor_avatar: nested_string(document, &["governorAvatar"]),
     })
-}
-
-fn nested_i64_exact(document: &Document, path: &[&str]) -> Option<i64> {
-    nested_value(document, path).and_then(bson_integer_to_i64)
 }
 
 #[cfg(test)]
 mod tests {
     use mongodb::bson::{Bson, doc};
 
-    use super::{bson_integer_to_i64, map_latest_snapshot_document};
+    use super::map_latest_snapshot_document;
 
     #[test]
-    fn bson_integer_to_i64_accepts_stored_integer_id_types() {
-        assert_eq!(bson_integer_to_i64(&Bson::Int32(1001)), Some(1001));
-        assert_eq!(bson_integer_to_i64(&Bson::Int64(1001)), Some(1001));
-    }
-
-    #[test]
-    fn bson_integer_to_i64_rejects_float_ids() {
-        assert_eq!(bson_integer_to_i64(&Bson::Double(1001.0)), None);
+    fn map_latest_snapshot_document_skips_non_integer_ids_matched_by_lookup() {
+        for id in [Bson::Double(1001.0), Bson::Array(vec![Bson::Int32(1001)])] {
+            assert!(map_latest_snapshot_document(&doc! { "_id": id }).is_none());
+        }
     }
 
     #[test]
