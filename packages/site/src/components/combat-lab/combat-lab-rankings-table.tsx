@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef } from "react";
 import { CombatLabRankingsScoreCell } from "@/components/combat-lab/combat-lab-rankings-score-cell";
 import { CombatLabRankingsSortableHeader } from "@/components/combat-lab/combat-lab-rankings-sortable-header";
 import { CommanderIcon } from "@/components/commander-icon";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -97,12 +96,7 @@ export function CombatLabRankingsTable({
             onSort={onSort}
             className="w-0 px-2"
           />
-          <TableHeader className="w-0 px-2 text-right">
-            <span className="inline-flex items-center gap-1">
-              Confidence
-              <Badge>Beta</Badge>
-            </span>
-          </TableHeader>
+          <TableHeader className="w-0 px-2 text-right">Confidence</TableHeader>
           {breakdownColumns.map((column) => (
             <CombatLabRankingsSortableHeader
               key={column.key}
