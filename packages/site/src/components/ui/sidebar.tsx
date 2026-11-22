@@ -25,7 +25,10 @@ export function SidebarHeader({
   return (
     <div
       {...props}
-      className={cn(className, "flex items-center gap-2 border-white/5 border-b px-3 py-3")}
+      className={cn(
+        className,
+        "flex items-center gap-2 border-white/5 border-b px-3 py-3 lg:min-h-14 lg:border-white/10 lg:py-1"
+      )}
     >
       <div className="min-w-0 flex-1" hidden={sidebar?.collapsed}>
         {children}
