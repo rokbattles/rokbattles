@@ -8,7 +8,6 @@ import {
   Flag,
   Flame,
   Gift,
-  Heart,
   LogIn,
   Map as MapIcon,
   MonitorPlay,
@@ -311,16 +310,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 ))}
             <SidebarSpacer />
             <SidebarSection>
-              <SidebarItem
-                title="Donate"
-                href="https://github.com/sponsors/rokbattles"
-                target="_blank"
-                rel="noopener noreferrer"
-                prefetch={false}
-              >
-                <Heart data-slot="icon" aria-hidden="true" />
-                <SidebarLabel>Donate</SidebarLabel>
-              </SidebarItem>
               <SidebarItem
                 title="Support"
                 href="/discord"
