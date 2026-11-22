@@ -22,8 +22,8 @@ import { usePathname } from "next/navigation";
 
 import type React from "react";
 import { use, useCallback, useState } from "react";
+import { PlatformBreadcrumbs } from "@/components/platform-breadcrumbs";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
-import { Navbar } from "@/components/ui/navbar";
 import {
   Sidebar,
   SidebarBody,
@@ -174,7 +174,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   return (
     <SidebarLayout
       fullWidth={fullWidthRoutes.has(pathname)}
-      navbar={<Navbar />}
+      breadcrumbs={<PlatformBreadcrumbs pathname={pathname} />}
       sidebar={
         <Sidebar aria-label="Main navigation">
           {signedInUser ? (
