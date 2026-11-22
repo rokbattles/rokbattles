@@ -9,6 +9,60 @@ use mongodb::{
 /// App ID used by the internal test client.
 pub const TEST_CLIENT_APP_ID: i64 = 10_088_010;
 
+/// Selects a partial index for PvP reports received by a governor.
+#[derive(Clone, Copy)]
+pub(crate) enum ReceiverCombatIndex {
+    Rally,
+    RallyOrGarrison,
+}
+
+impl ReceiverCombatIndex {
+    pub(crate) const fn name(self) -> &'static str {
+        match self {
+            Self::Rally => "receiver_time_rally_pvp",
+            Self::RallyOrGarrison => "receiver_time_rally_or_garrison_pvp",
+        }
+    }
+
+    /// Matches reports with the indexed role on either side of the battle.
+    ///
+    /// The list query checks the receiving governor's membership separately.
+    pub(crate) fn candidate_filter(self) -> Document {
+        let mut candidates = vec![doc! { "sender.rally": true }, doc! { "opponents.rally": true }];
+
+        if matches!(self, Self::RallyOrGarrison) {
+            candidates.extend([
+                doc! { "sender.alliance_building_id": { "$gt": 0 } },
+                doc! { "sender.structure_id": { "$gt": 0 } },
+                doc! { "opponents.alliance_building_id": { "$gt": 0 } },
+                doc! { "opponents.structure_id": { "$gt": 0 } },
+            ]);
+        }
+
+        doc! { "$or": candidates }
+    }
+
+    fn model(self) -> IndexModel {
+        let partial_filter = doc! {
+            "$and": [
+                { "opponents.player_id": { "$gt": 0 } },
+                self.candidate_filter(),
+            ],
+        };
+
+        // A descending receiver key keeps hints for the existing ascending index unambiguous.
+        IndexModel::builder()
+            .keys(doc! { "metadata.mail_receiver": -1, "metadata.mail_time": -1 })
+            .options(
+                IndexOptions::builder()
+                    .name(self.name().to_owned())
+                    .partial_filter_expression(partial_filter)
+                    .build(),
+            )
+            .build()
+    }
+}
+
 /// Exclude reports that match the internal test client.
 pub fn exclude_test_client_filter() -> Document {
     doc! { "sender.app_id": { "$ne": TEST_CLIENT_APP_ID } }
@@ -117,6 +171,8 @@ impl ReportsStore {
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
                 .build(),
+            ReceiverCombatIndex::Rally.model(),
+            ReceiverCombatIndex::RallyOrGarrison.model(),
             IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "metadata.mail_time": -1 })
                 .build(),

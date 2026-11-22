@@ -35,6 +35,7 @@ export default function ReportsTable({
     loadNextPage,
     loadPreviousPage,
   } = useReportsPage(scope, kind);
+
   const [overviewRow, setOverviewRow] = useState<ReportsListItem | null>(null);
 
   const handleNextPage = async () => {

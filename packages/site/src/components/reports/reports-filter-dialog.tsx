@@ -46,7 +46,7 @@ function parseNumberInput(value: string) {
 
 type ReportsFilterDialogProps = React.ComponentPropsWithoutRef<typeof Button> & {
   lockedPlayerId?: number;
-  /** Hide the rally/garrison fields on pages that already limit the battle kind. */
+  /** Omits role controls when the page supplies a battle kind. */
   hideRallyGarrison?: boolean;
 };
 
@@ -157,30 +157,30 @@ export function ReportsFilterDialog({
   ]);
 
   const handleApply = () => {
-    const nextGarrisonSide = selectionsOverlap(localRallySide, localGarrisonSide)
-      ? "none"
-      : localGarrisonSide;
-    const resolvedPlayerId = hasLockedPlayerId ? lockedPlayerId : parseNumberInput(localPlayerId);
-    setPlayerId(
-      typeof resolvedPlayerId === "number" && Number.isFinite(resolvedPlayerId)
-        ? resolvedPlayerId
-        : undefined
-    );
+    if (!hasLockedPlayerId) {
+      setPlayerId(parseNumberInput(localPlayerId));
+    }
+
     setType(localType === "" ? undefined : localType);
     setSubtype(localSubtype === "" ? undefined : localSubtype);
+
     setSenderPrimaryCommanderId(parseNumberInput(localSenderPrimaryCommanderId));
     setSenderSecondaryCommanderId(parseNumberInput(localSenderSecondaryCommanderId));
     setOpponentPrimaryCommanderId(parseNumberInput(localOpponentPrimaryCommanderId));
     setOpponentSecondaryCommanderId(parseNumberInput(localOpponentSecondaryCommanderId));
-    setRallySide(localRallySide);
-    setGarrisonSide(nextGarrisonSide);
-    setGarrisonBuildingType(
-      nextGarrisonSide === "none"
-        ? undefined
-        : localGarrisonBuildingType === ""
-          ? undefined
-          : localGarrisonBuildingType
-    );
+
+    if (!hideRallyGarrison) {
+      const nextGarrisonSide = selectionsOverlap(localRallySide, localGarrisonSide)
+        ? "none"
+        : localGarrisonSide;
+
+      setRallySide(localRallySide);
+      setGarrisonSide(nextGarrisonSide);
+      setGarrisonBuildingType(
+        nextGarrisonSide === "none" ? undefined : localGarrisonBuildingType || undefined
+      );
+    }
+
     setIsOpen(false);
   };
 

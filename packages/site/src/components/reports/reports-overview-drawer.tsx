@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -10,7 +11,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Subheading } from "@/components/ui/heading";
-import { accountReportsSource } from "@/lib/account-reports-source";
+import { buildBattleReportHref } from "@/lib/account-reports-source";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportsOverviewSummaryCard from "./reports-overview-summary-card";
 import ReportsOverviewTimelineChart from "./reports-overview-timeline-chart";
@@ -24,19 +25,9 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const reportHref = (() => {
-    if (!report) {
-      return "#";
-    }
-
-    const query = new URLSearchParams(searchParams.toString());
-    const from = accountReportsSource(pathname) ?? "reports";
-    query.set("from", from);
-
-    const queryString = query.toString();
-    const encodedMailId = encodeURIComponent(report.mailId);
-    return queryString ? `/report/${encodedMailId}?${queryString}` : `/report/${encodedMailId}`;
-  })();
+  const reportHref = report
+    ? buildBattleReportHref(report.mailId, pathname, searchParams.toString())
+    : "#";
 
   return (
     <Drawer onClose={onClose} open={report !== null} size="4xl">

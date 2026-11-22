@@ -1,8 +1,9 @@
 import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
+
 import { ReportView } from "@/components/report/report-view";
 import { Link } from "@/components/ui/link";
-import { accountReportsBack } from "@/lib/account-reports-source";
+import { accountReportLinkFrom } from "@/lib/account-reports-source";
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = "Battle Report";
@@ -44,18 +45,14 @@ function buildQueryString(searchParams: SearchParams, ignoreKey: string) {
 export default async function Page({ params, searchParams }: PageProps<"/report/[id]">) {
   const { id } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
-  const fromParam = resolveSearchParam(resolvedSearchParams.from);
-  const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
+
+  const source = resolveSearchParam(resolvedSearchParams.from);
   const arkMatchId =
-    fromParam === "ark" ? resolveSearchParam(resolvedSearchParams.matchId) : undefined;
-  const accountBack =
-    fromParam === "account-rallies" || fromParam === "account-garrisons"
-      ? accountReportsBack[fromParam]
-      : isAccountReports
-        ? accountReportsBack["account-reports"]
-        : undefined;
+    source === "ark" ? resolveSearchParam(resolvedSearchParams.matchId) : undefined;
+  const accountBack = accountReportLinkFrom(source);
+
   const backBase = accountBack?.href ?? "/";
-  const backLabel = accountBack?.label ?? "Explore Battles";
+  const backLabel = accountBack ? `Back to ${accountBack.label} Reports` : "Explore Battles";
   const backQuery = buildQueryString(resolvedSearchParams, "from");
   const backHref = arkMatchId
     ? `/account/ark/${encodeURIComponent(arkMatchId)}?tab=reports`
@@ -63,7 +60,7 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
 
   return (
     <>
-      <div className={arkMatchId ? "mb-8" : "max-lg:hidden mb-8"}>
+      <div className={arkMatchId || accountBack ? "mb-8" : "max-lg:hidden mb-8"}>
         <Link href={backHref} className="inline-flex items-center gap-2 text-sm/6 text-zinc-400">
           <ChevronLeft data-slot="icon" aria-hidden="true" className="size-4 text-zinc-500" />
           {arkMatchId ? "Back to Ark Recap" : backLabel}

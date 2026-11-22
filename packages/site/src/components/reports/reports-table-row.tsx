@@ -2,8 +2,9 @@
 
 import { cn } from "cn";
 import { usePathname, useSearchParams } from "next/navigation";
+
 import { TableRow } from "@/components/ui/table";
-import { accountReportsSource } from "@/lib/account-reports-source";
+import { buildBattleReportHref } from "@/lib/account-reports-source";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportMapCell from "./report-map-cell";
 import ReportsTableCells from "./reports-table-cells";
@@ -28,13 +29,8 @@ function isPreviewableViewport() {
 export default function ReportsTableRow({ report, now, onOpenOverview }: ReportsTableRowProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const query = new URLSearchParams(searchParams.toString());
-  const from = accountReportsSource(pathname) ?? "reports";
-  query.set("from", from);
 
-  const queryString = query.toString();
-  const encodedMailId = encodeURIComponent(report.mailId);
-  const href = queryString ? `/report/${encodedMailId}?${queryString}` : `/report/${encodedMailId}`;
+  const href = buildBattleReportHref(report.mailId, pathname, searchParams.toString());
 
   return (
     <TableRow

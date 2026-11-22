@@ -1,18 +1,30 @@
-export type AccountReportsSource = "account-reports" | "account-rallies" | "account-garrisons";
+export const openFieldReportLink = {
+  source: "account-reports",
+  href: "/account/reports",
+  label: "Open Field",
+} as const;
 
-const sources: Record<string, AccountReportsSource> = {
-  "/account/reports": "account-reports",
-  "/account/rallies": "account-rallies",
-  "/account/garrisons": "account-garrisons",
-};
+export const accountReportLinks = [
+  openFieldReportLink,
+  { source: "account-swarming", href: "/account/swarming", label: "Swarming" },
+  { source: "account-rallies", href: "/account/rallies", label: "Rally" },
+  { source: "account-garrisons", href: "/account/garrisons", label: "Garrison" },
+] as const;
 
-/** The `from` value a report link carries so its back button returns to the right list. */
-export function accountReportsSource(pathname: string): AccountReportsSource | undefined {
-  return sources[pathname];
+/** Preserves the list's filters and pagination in the report link. */
+export function buildBattleReportHref(mailId: string, pathname: string, search: string) {
+  const list = accountReportLinks.find(({ href }) => href === pathname);
+  const query = new URLSearchParams(search);
+  query.set("from", list?.source ?? "reports");
+
+  return `/report/${encodeURIComponent(mailId)}?${query.toString()}`;
 }
 
-export const accountReportsBack: Record<AccountReportsSource, { href: string; label: string }> = {
-  "account-reports": { href: "/account/reports", label: "Back to Open Field" },
-  "account-rallies": { href: "/account/rallies", label: "Back to Rallies" },
-  "account-garrisons": { href: "/account/garrisons", label: "Back to Garrisons" },
-};
+export function accountReportLinkFrom(source: string | undefined) {
+  // Older links use `my-reports` for the account reports list.
+  if (source === "my-reports") {
+    return openFieldReportLink;
+  }
+
+  return accountReportLinks.find((link) => link.source === source);
+}

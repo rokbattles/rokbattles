@@ -121,6 +121,30 @@ async fn load_reports(
 }
 
 fn build_battle_list_find_options(request: &ReportsRequest) -> FindOptions {
+    if let Some((receiver_id, index)) = request.receiver_combat_index() {
+        let receiver = format!("player_{receiver_id}");
+        let direction = request.sort_direction();
+
+        // The hinted index can scan other receivers unless both key bounds are set.
+        let min = doc! {
+            "metadata.mail_receiver": &receiver,
+            "metadata.mail_time": request.after_cursor.map_or(Bson::MaxKey, Bson::Int64),
+        };
+        let max = doc! {
+            "metadata.mail_receiver": &receiver,
+            "metadata.mail_time": request.before_cursor.map_or(Bson::MinKey, Bson::Int64),
+        };
+
+        // Sort by both index keys so MongoDB can scan the index in either direction.
+        return FindOptions::builder()
+            .sort(doc! { "metadata.mail_receiver": direction, "metadata.mail_time": direction })
+            .projection(self::list_mapper::build_battle_list_projection())
+            .hint(Hint::Name(index.name().to_owned()))
+            .min(min)
+            .max(max)
+            .build();
+    }
+
     let hint = battle_list_index_hint(request);
 
     // Explicit bounds keep partial-index scans from starting outside the requested page.
@@ -536,6 +560,7 @@ mod tests {
             ("rs", "sender"),
             ("gs", "sender"),
             ("gs", "opponent"),
+            ("kind", "open-field"),
         ] {
             for cursor in ["before", "after"] {
                 let request = parse_reports_request(&FxHashMap::from_iter([
@@ -553,6 +578,52 @@ mod tests {
                 assert_eq!(
                     options.sort,
                     Some(doc! { "metadata.mail_time": if cursor == "before" { 1 } else { -1 } })
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn receiver_combat_tabs_bound_the_partial_index_by_receiver_and_cursor() {
+        for (kind, index) in [
+            ("rally", "receiver_time_rally_pvp"),
+            ("garrison", "receiver_time_rally_or_garrison_pvp"),
+            ("swarming", "receiver_time_rally_or_garrison_pvp"),
+        ] {
+            for (cursor, direction, lower_time, upper_time) in [
+                (None, -1, Bson::MaxKey, Bson::MinKey),
+                (Some("after"), -1, Bson::Int64(456), Bson::MinKey),
+                (Some("before"), 1, Bson::MaxKey, Bson::Int64(456)),
+            ] {
+                let mut params = FxHashMap::from_iter([
+                    ("receiver".to_string(), "123".to_string()),
+                    ("kind".to_string(), kind.to_string()),
+                ]);
+                if let Some(cursor) = cursor {
+                    params.insert(cursor.to_string(), "456".to_string());
+                }
+
+                let request = parse_reports_request(&params).expect("valid receiver query");
+                let options = build_battle_list_find_options(&request);
+
+                assert!(matches!(options.hint, Some(Hint::Name(name)) if name == index));
+                assert_eq!(
+                    options.sort,
+                    Some(
+                        doc! { "metadata.mail_receiver": direction, "metadata.mail_time": direction }
+                    )
+                );
+                assert_eq!(
+                    options.min,
+                    Some(
+                        doc! { "metadata.mail_receiver": "player_123", "metadata.mail_time": lower_time }
+                    )
+                );
+                assert_eq!(
+                    options.max,
+                    Some(
+                        doc! { "metadata.mail_receiver": "player_123", "metadata.mail_time": upper_time }
+                    )
                 );
             }
         }

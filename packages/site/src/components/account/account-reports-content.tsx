@@ -10,15 +10,11 @@ import type { ReportsBattleKind } from "@/lib/reports-query";
 import { GovernorContext } from "@/providers/governor-context";
 
 type AccountReportsContentProps = {
-  title?: string;
-  /** Limits the list to open field battles, or to rallies and garrisons. */
-  kind?: ReportsBattleKind;
+  title: string;
+  kind: ReportsBattleKind;
 };
 
-export function AccountReportsContent({
-  title = "Battle Reports",
-  kind,
-}: AccountReportsContentProps) {
+export function AccountReportsContent({ title, kind }: AccountReportsContentProps) {
   const governorContext = use(GovernorContext);
 
   if (!governorContext) {
@@ -36,10 +32,7 @@ export function AccountReportsContent({
       <Heading>{title}</Heading>
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Live feed (UTC)</Subheading>
-        <ReportsFilterDialog
-          lockedPlayerId={activeGovernor.governorId}
-          hideRallyGarrison={kind !== undefined}
-        >
+        <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId} hideRallyGarrison>
           <Funnel data-slot="icon" aria-hidden="true" />
           Filter
         </ReportsFilterDialog>

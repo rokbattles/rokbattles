@@ -5,7 +5,7 @@ import type {
   ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
-export type ReportsBattleKind = "openfield" | "rally" | "garrison";
+export type ReportsBattleKind = "open-field" | "swarming" | "rally" | "garrison";
 
 export type ReportsQueryParams = {
   after?: string;
@@ -47,14 +47,17 @@ export function buildReportsQueryParams({
   } else if (after) {
     params.set("after", after);
   }
+
   if (typeof playerId === "number" && Number.isFinite(playerId)) {
     params.set("pid", String(playerId));
   }
   if (typeof receiverId === "number" && Number.isFinite(receiverId)) {
     params.set("receiver", String(receiverId));
   }
+
   if (type) params.set("type", type);
   if (subtype && (type === "kvk" || type === "ark")) params.set("subtype", subtype);
+
   if (typeof senderPrimaryCommanderId === "number" && Number.isFinite(senderPrimaryCommanderId)) {
     params.set("spc", String(senderPrimaryCommanderId));
   }
@@ -76,21 +79,20 @@ export function buildReportsQueryParams({
   ) {
     params.set("osc", String(opponentSecondaryCommanderId));
   }
-  // The rally and garrison pages are the same as filtering to either side.
-  const effectiveRallySide = kind === "rally" ? "both" : rallySide;
-  const effectiveGarrisonSide = kind === "garrison" ? "both" : garrisonSide;
-  if (effectiveRallySide !== "none") {
-    params.set("rs", effectiveRallySide);
-  }
-  if (effectiveGarrisonSide !== "none") {
-    params.set("gs", effectiveGarrisonSide);
-    if (garrisonBuildingType) {
-      params.set("gb", garrisonBuildingType);
-    }
-  }
 
-  if (kind === "openfield") {
-    params.set("of", "1");
+  if (kind) {
+    params.set("kind", kind);
+  } else {
+    if (rallySide !== "none") {
+      params.set("rs", rallySide);
+    }
+
+    if (garrisonSide !== "none") {
+      params.set("gs", garrisonSide);
+      if (garrisonBuildingType) {
+        params.set("gb", garrisonBuildingType);
+      }
+    }
   }
 
   const query = params.toString();

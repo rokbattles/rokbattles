@@ -53,7 +53,7 @@ export function useReportsPage(
     garrisonBuildingType: filterGarrisonBuildingType,
   } = context;
 
-  // Pages limited to one battle kind ignore the detailed rally/garrison filters.
+  // Ignore hidden role filters so stale query parameters cannot reset pagination.
   const rallySide = kind ? "none" : filterRallySide;
   const garrisonSide = kind ? "none" : filterGarrisonSide;
   const garrisonBuildingType = kind ? undefined : filterGarrisonBuildingType;
@@ -66,8 +66,10 @@ export function useReportsPage(
   const [error, setError] = useState<string | null>(null);
   const [nextAfter, setNextAfter] = useState<string | null>(null);
   const [previousBefore, setPreviousBefore] = useState<string | null>(null);
+
   const [afterParam, setAfterParam] = useQueryState("after", parseAsString);
   const [beforeParam, setBeforeParam] = useQueryState("before", parseAsString);
+
   const previousFilterSignatureRef = useRef<string | null>(null);
   const requestIdRef = useRef(0);
 
