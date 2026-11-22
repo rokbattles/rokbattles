@@ -56,13 +56,6 @@ type SidebarCategoryLabel =
   | "Developer Program"
   | "Admin";
 
-const fullWidthRoutes = new Set([
-  "/combat-lab",
-  "/combat-lab/rankings",
-  "/combat-lab/presoc",
-  "/combat-lab/presoc/rankings",
-]);
-
 const myDataLinks = [
   { label: "Pairings", href: "/account/pairings", icon: Scale },
   { label: "Loot", href: "/account/loot", icon: Gift },
@@ -173,7 +166,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
 
   return (
     <SidebarLayout
-      fullWidth={fullWidthRoutes.has(pathname)}
       navbar={<Navbar />}
       sidebar={
         <Sidebar aria-label="Main navigation">

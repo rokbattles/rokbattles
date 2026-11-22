@@ -87,7 +87,7 @@ export function ArkTeamScores({ participants }: ArkTeamScoresProps): ReactElemen
         <>
           <Table
             dense
-            className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)] lg:[&_table]:w-full lg:[&_table]:table-fixed lg:[&_table]:min-w-240"
+            className="[--gutter:var(--page-gutter)] lg:[&_table]:w-full lg:[&_table]:table-fixed lg:[&_table]:min-w-240"
           >
             <TableHead>
               <TableRow>

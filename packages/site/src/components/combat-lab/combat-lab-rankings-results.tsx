@@ -68,7 +68,7 @@ export function CombatLabRankingsFrame({
       <CombatLabHeader active="rankings">
         {lastUpdated ? <Text className="mt-4 !text-sm/6 !text-zinc-400">{lastUpdated}</Text> : null}
       </CombatLabHeader>
-      <div className="mx-auto max-w-7xl px-4 pt-7 sm:px-6 sm:pt-10 lg:px-8">{children}</div>
+      <div className="pt-7 sm:pt-10">{children}</div>
     </div>
   );
 }
