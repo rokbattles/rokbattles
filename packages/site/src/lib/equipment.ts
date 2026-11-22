@@ -85,20 +85,65 @@ export function toRomanNumeral(value: number | undefined) {
 
 export type EquipmentRarity = "normal" | "advanced" | "elite" | "epic" | "legendary";
 
-const EQUIPMENT_RARITIES = new Set<string>(["normal", "advanced", "elite", "epic", "legendary"]);
+const EQUIPMENT_RARITIES = ["normal", "advanced", "elite", "epic", "legendary"] as const;
+
+const EQUIPMENT_QUALITY_COLORS: Record<EquipmentRarity, string> = {
+  normal: "#cdcdcd",
+  advanced: "#6abf40",
+  elite: "#4aa8ea",
+  epic: "#e765ff",
+  legendary: "#ffae00",
+};
+
+const EQUIPMENT_SLOT_ICON_NUMBERS: Record<number, string> = {
+  1: "03",
+  2: "01",
+  3: "02",
+  4: "04",
+  5: "05",
+  6: "08",
+  7: "06",
+  8: "07",
+};
+
+const EQUIPMENT_TALENT_ICON_NUMBERS: Record<EquipmentTroopType, number> = {
+  infantry: 1,
+  archer: 2,
+  cavalry: 3,
+  integration: 4,
+  leadership: 5,
+  engineering: 16,
+};
 
 export function getEquipmentRarity(id: number | null | undefined): EquipmentRarity | undefined {
   const rarity = getEquipmentEntry(id)?.rarity;
-  return typeof rarity === "string" && EQUIPMENT_RARITIES.has(rarity)
-    ? (rarity as EquipmentRarity)
+
+  return EQUIPMENT_RARITIES.find((quality) => quality === rarity);
+}
+
+export function getEquipmentQualityColor(rarity?: EquipmentRarity): string | undefined {
+  return rarity ? EQUIPMENT_QUALITY_COLORS[rarity] : undefined;
+}
+
+export function getEquipmentSlotSpriteUrl(slot: number): string | undefined {
+  const icon = EQUIPMENT_SLOT_ICON_NUMBERS[slot];
+
+  return icon ? getGameSpriteUrl(`img_EquipSlotIcon${icon}.png`) : undefined;
+}
+
+export function getEquipmentTalentSpriteUrl(troopType?: EquipmentTroopType): string | undefined {
+  return troopType
+    ? getGameSpriteUrl(`img_iconNewHeroTypeS${EQUIPMENT_TALENT_ICON_NUMBERS[troopType]}.png`)
     : undefined;
 }
 
-/** The gold frame drawn behind legendary gear. */
+/** The gold frame drawn behind awakened gear. */
 export const AWAKEN_FRAME_SPRITE_URL = getGameSpriteUrl("img_AwakenFrame.png");
 
-/** The gold nameplate under legendary gear. It has no number: the tier is drawn on top of it. */
+/** The gold nameplate beneath awakened gear, with a separate sprite for the tier number. */
 export const AWAKEN_NAMEPLATE_SPRITE_URL = getGameSpriteUrl("img_AwakenNameplate1.png");
+
+export const EQUIPMENT_QUALITY_GLOW_SPRITE_URL = getGameSpriteUrl("img_EquipSlotQualityGlow.png");
 
 /** The iconic tier number (1 to 5) that is centered on the gold diamond of the nameplate. */
 export function getIconicTierSpriteUrl(tier: number | undefined): string | undefined {
