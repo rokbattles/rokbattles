@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { PairingLoadoutComparison } from "@/components/my-pairings/pairing-loadout-comparison";
@@ -52,14 +51,6 @@ export function PairingDetailContent({
 
   return (
     <div className="relative min-w-0 max-w-full space-y-6 overflow-x-clip">
-      <Link
-        href={`/account/pairings?${query}`}
-        prefetch={false}
-        className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white"
-      >
-        <ArrowLeft className="size-3.5" aria-hidden="true" />
-        Pairings
-      </Link>
       <h1>
         <PairingIdentity primary={primary} secondary={secondary} large />
       </h1>
