@@ -8,7 +8,7 @@ export default async function Page() {
   const apps = await getAuthorizedApps();
 
   return (
-    <SettingsPage backHref="/account/settings">
+    <SettingsPage>
       <SettingsSection
         title="Authorized Apps"
         description="These include third-party services you’ve given permission to access your ROK Battles account. You can review what each app can do and revoke access anytime."

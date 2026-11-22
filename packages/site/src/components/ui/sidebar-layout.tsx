@@ -9,12 +9,12 @@ import { MobileSidebar } from "./mobile-sidebar";
 import { SidebarContext } from "./sidebar-context";
 
 export function SidebarLayout({
-  navbar,
+  breadcrumbs,
   sidebar,
   children,
   fullWidth = false,
 }: React.PropsWithChildren<{
-  navbar: React.ReactNode;
+  breadcrumbs: React.ReactNode;
   sidebar: React.ReactNode;
   fullWidth?: boolean;
 }>) {
@@ -35,27 +35,29 @@ export function SidebarLayout({
         {sidebar}
       </MobileSidebar>
 
-      {/* Navbar on mobile */}
-      <header className="flex items-center px-4 lg:hidden">
-        <div className="py-2.5">
-          <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
-            <Menu data-slot="icon" aria-hidden="true" />
-          </NavbarItem>
-        </div>
-        <div className="min-w-0 flex-1">{navbar}</div>
-      </header>
-
       {/* Content */}
-      <main
+      <div
         className={cn(
           "flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2",
           collapsed ? "lg:pl-16" : "lg:pl-60"
         )}
       >
-        <div className="grow p-6 lg:rounded-lg lg:p-10 lg:shadow-xs lg:ring-1 lg:bg-zinc-900 lg:ring-white/10">
-          <div className={cn("mx-auto w-full", !fullWidth && "max-w-6xl")}>{children}</div>
+        <div className="flex min-w-0 grow flex-col lg:rounded-lg lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10">
+          <header className="flex min-h-14 items-center gap-3 border-white/10 border-b bg-zinc-950/40 px-4 py-2 lg:rounded-t-lg lg:gap-4 lg:px-6">
+            <NavbarItem
+              className="shrink-0 lg:hidden"
+              onClick={() => setShowSidebar(true)}
+              aria-label="Open navigation"
+            >
+              <Menu data-slot="icon" aria-hidden="true" />
+            </NavbarItem>
+            <div className="min-w-0 flex-1">{breadcrumbs}</div>
+          </header>
+          <main className="min-w-0 grow p-6 lg:p-10">
+            <div className={cn("mx-auto w-full", !fullWidth && "max-w-6xl")}>{children}</div>
+          </main>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

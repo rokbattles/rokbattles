@@ -4,7 +4,7 @@ import { SettingsSection } from "@/components/(app)/account/settings/settings-se
 
 export default function Page() {
   return (
-    <SettingsPage backHref="/account/settings">
+    <SettingsPage>
       <SettingsSection
         title="Logged-in Devices"
         description="These are all the devices that are currently logged in with your ROK Battles account. Log out of devices that you don’t recognize."

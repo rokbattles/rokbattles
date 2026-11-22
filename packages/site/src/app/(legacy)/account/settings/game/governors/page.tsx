@@ -6,7 +6,7 @@ export default async function Page() {
   const user = await requireCurrentUser();
 
   return (
-    <SettingsPage backHref="/account/settings/game" backLabel="Game">
+    <SettingsPage>
       <AccountBindsContent initialUser={user} />
     </SettingsPage>
   );
