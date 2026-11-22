@@ -8,9 +8,9 @@ export function CommunityMetrics() {
       <GridMarkers />
       <dl className="grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-3">
         {[
-          { value: "1.9K+", label: "Users" },
-          { value: "75M+", label: "Battle reports" },
-          { value: "400K+", label: "Governors seen" },
+          { value: "2.5K+", label: "Users" },
+          { value: "100M+", label: "Battle reports" },
+          { value: "500K+", label: "Governors seen" },
         ].map(({ value, label }) => (
           <div key={value} className={cn(card, "flex flex-col-reverse gap-3")}>
             <dt className={cn(bodyText, "text-zinc-400")}>{label}</dt>
