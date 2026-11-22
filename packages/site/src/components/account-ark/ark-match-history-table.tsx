@@ -9,7 +9,7 @@ type ArkMatchHistoryTableProps = { rows: ArkMatchRecord[] };
 
 export function ArkMatchHistoryTable({ rows }: ArkMatchHistoryTableProps): ReactElement {
   return (
-    <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+    <Table dense className="[--gutter:var(--page-gutter)]">
       <TableHead>
         <TableRow>
           <TableHeader className="w-40">Date</TableHeader>

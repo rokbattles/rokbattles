@@ -40,7 +40,7 @@ export function ArkMatchDetailPairingsSection({
       ) : (
         <Table
           dense
-          className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)] lg:[&_table]:w-full lg:[&_table]:table-fixed lg:[&_table]:min-w-280"
+          className="[--gutter:var(--page-gutter)] lg:[&_table]:w-full lg:[&_table]:table-fixed lg:[&_table]:min-w-280"
         >
           <TableHead>
             <TableRow>

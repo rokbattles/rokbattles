@@ -18,7 +18,7 @@ type LootBreakdownTableProps = {
 
 export function LootBreakdownTable({ rows }: LootBreakdownTableProps) {
   return (
-    <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+    <Table dense className="[--gutter:var(--page-gutter)]">
       <TableHead>
         <TableRow>
           <TableHeader>Name</TableHeader>

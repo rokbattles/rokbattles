@@ -12,11 +12,9 @@ export function SidebarLayout({
   navbar,
   sidebar,
   children,
-  fullWidth = false,
 }: React.PropsWithChildren<{
   navbar: React.ReactNode;
   sidebar: React.ReactNode;
-  fullWidth?: boolean;
 }>) {
   const [showSidebar, setShowSidebar] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -48,12 +46,12 @@ export function SidebarLayout({
       {/* Content */}
       <main
         className={cn(
-          "flex flex-1 flex-col pb-2 lg:min-w-0 lg:pt-2 lg:pr-2",
+          "flex min-w-0 flex-1 flex-col pb-2 lg:pt-2 lg:pr-2",
           collapsed ? "lg:pl-16" : "lg:pl-60"
         )}
       >
-        <div className="grow p-6 lg:rounded-lg lg:p-10 lg:shadow-xs lg:ring-1 lg:bg-zinc-900 lg:ring-white/10">
-          <div className={cn("mx-auto w-full", !fullWidth && "max-w-6xl")}>{children}</div>
+        <div className="min-w-0 grow p-(--page-gutter) [--page-gutter:1rem] lg:rounded-lg lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10 lg:[--page-gutter:1.5rem]">
+          {children}
         </div>
       </main>
     </div>
