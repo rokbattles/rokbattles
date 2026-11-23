@@ -1218,3 +1218,449 @@ rarities:
   75421012: legendary
   75421021: legendary
   75421031: legendary
+
+classes:
+  73101:
+    sprite: "img_icon_Armament_107.png"
+  73102:
+    sprite: "img_icon_Armament_105.png"
+  73103:
+    sprite: "img_icon_Armament_106.png"
+  73104:
+    sprite: "img_icon_Armament_103.png"
+  73105:
+    sprite: "img_icon_Armament_104.png"
+  73106:
+    sprite: "img_icon_Armament_101.png"
+  73107:
+    sprite: "img_icon_Armament_102.png"
+  73108:
+    sprite: "img_icon_Armament_109.png"
+  73109:
+    sprite: "img_icon_Armament_110.png"
+  73110:
+    sprite: "img_icon_Armament_111.png"
+  73113:
+    sprite: "img_icon_Armament_108.png"
+  73114:
+    sprite: "img_icon_Armament_114.png"
+  73116:
+    sprite: "img_icon_Armament_116.png"
+  73117:
+    sprite: "img_icon_Armament_117.png"
+  73119:
+    sprite: "img_icon_Armament_119.png"
+    level: 2
+  73120:
+    sprite: "img_icon_Armament_120.png"
+    level: 2
+  73121:
+    sprite: "img_icon_Armament_121.png"
+    level: 2
+  73201:
+    sprite: "img_icon_Armament_307.png"
+  73202:
+    sprite: "img_icon_Armament_305.png"
+  73203:
+    sprite: "img_icon_Armament_306.png"
+  73204:
+    sprite: "img_icon_Armament_303.png"
+  73205:
+    sprite: "img_icon_Armament_304.png"
+  73206:
+    sprite: "img_icon_Armament_301.png"
+  73207:
+    sprite: "img_icon_Armament_302.png"
+  73208:
+    sprite: "img_icon_Armament_309.png"
+  73209:
+    sprite: "img_icon_Armament_310.png"
+  73210:
+    sprite: "img_icon_Armament_311.png"
+  73213:
+    sprite: "img_icon_Armament_308.png"
+  73214:
+    sprite: "img_icon_Armament_314.png"
+  73216:
+    sprite: "img_icon_Armament_316.png"
+  73217:
+    sprite: "img_icon_Armament_317.png"
+  73219:
+    sprite: "img_icon_Armament_219.png"
+    level: 2
+  73220:
+    sprite: "img_icon_Armament_220.png"
+    level: 2
+  73221:
+    sprite: "img_icon_Armament_221.png"
+    level: 2
+  73301:
+    sprite: "img_icon_Armament_207.png"
+  73302:
+    sprite: "img_icon_Armament_205.png"
+  73303:
+    sprite: "img_icon_Armament_206.png"
+  73304:
+    sprite: "img_icon_Armament_203.png"
+  73305:
+    sprite: "img_icon_Armament_204.png"
+  73306:
+    sprite: "img_icon_Armament_201.png"
+  73307:
+    sprite: "img_icon_Armament_202.png"
+  73308:
+    sprite: "img_icon_Armament_209.png"
+  73309:
+    sprite: "img_icon_Armament_210.png"
+  73310:
+    sprite: "img_icon_Armament_211.png"
+  73313:
+    sprite: "img_icon_Armament_208.png"
+  73314:
+    sprite: "img_icon_Armament_214.png"
+  73316:
+    sprite: "img_icon_Armament_216.png"
+  73317:
+    sprite: "img_icon_Armament_217.png"
+  73319:
+    sprite: "img_icon_Armament_419.png"
+    level: 2
+  73320:
+    sprite: "img_icon_Armament_320.png"
+    level: 2
+  73321:
+    sprite: "img_icon_Armament_321.png"
+    level: 2
+  73401:
+    sprite: "img_icon_Armament_407.png"
+  73402:
+    sprite: "img_icon_Armament_405.png"
+  73403:
+    sprite: "img_icon_Armament_406.png"
+  73404:
+    sprite: "img_icon_Armament_403.png"
+  73405:
+    sprite: "img_icon_Armament_404.png"
+  73406:
+    sprite: "img_icon_Armament_401.png"
+  73407:
+    sprite: "img_icon_Armament_402.png"
+  73408:
+    sprite: "img_icon_Armament_409.png"
+  73409:
+    sprite: "img_icon_Armament_410.png"
+  73410:
+    sprite: "img_icon_Armament_411.png"
+  73413:
+    sprite: "img_icon_Armament_408.png"
+  73414:
+    sprite: "img_icon_Armament_414.png"
+  73416:
+    sprite: "img_icon_Armament_416.png"
+  73417:
+    sprite: "img_icon_Armament_417.png"
+  73419:
+    sprite: "img_icon_Armament_319.png"
+    level: 2
+  73420:
+    sprite: "img_icon_Armament_420.png"
+    level: 2
+  73421:
+    sprite: "img_icon_Armament_421.png"
+    level: 2
+  74101:
+    sprite: "img_icon_Armament_107.png"
+  74102:
+    sprite: "img_icon_Armament_105.png"
+  74103:
+    sprite: "img_icon_Armament_106.png"
+  74104:
+    sprite: "img_icon_Armament_103.png"
+  74105:
+    sprite: "img_icon_Armament_104.png"
+  74106:
+    sprite: "img_icon_Armament_101.png"
+  74107:
+    sprite: "img_icon_Armament_102.png"
+  74108:
+    sprite: "img_icon_Armament_109.png"
+  74109:
+    sprite: "img_icon_Armament_110.png"
+  74110:
+    sprite: "img_icon_Armament_111.png"
+  74113:
+    sprite: "img_icon_Armament_108.png"
+  74114:
+    sprite: "img_icon_Armament_114.png"
+  74116:
+    sprite: "img_icon_Armament_116.png"
+  74117:
+    sprite: "img_icon_Armament_117.png"
+  74119:
+    sprite: "img_icon_Armament_119.png"
+    level: 2
+  74120:
+    sprite: "img_icon_Armament_120.png"
+    level: 2
+  74121:
+    sprite: "img_icon_Armament_121.png"
+    level: 2
+  74201:
+    sprite: "img_icon_Armament_307.png"
+  74202:
+    sprite: "img_icon_Armament_305.png"
+  74203:
+    sprite: "img_icon_Armament_306.png"
+  74204:
+    sprite: "img_icon_Armament_303.png"
+  74205:
+    sprite: "img_icon_Armament_304.png"
+  74206:
+    sprite: "img_icon_Armament_301.png"
+  74207:
+    sprite: "img_icon_Armament_302.png"
+  74208:
+    sprite: "img_icon_Armament_309.png"
+  74209:
+    sprite: "img_icon_Armament_310.png"
+  74210:
+    sprite: "img_icon_Armament_311.png"
+  74213:
+    sprite: "img_icon_Armament_308.png"
+  74214:
+    sprite: "img_icon_Armament_314.png"
+  74216:
+    sprite: "img_icon_Armament_316.png"
+  74217:
+    sprite: "img_icon_Armament_317.png"
+  74219:
+    sprite: "img_icon_Armament_219.png"
+    level: 2
+  74220:
+    sprite: "img_icon_Armament_220.png"
+    level: 2
+  74221:
+    sprite: "img_icon_Armament_221.png"
+    level: 2
+  74301:
+    sprite: "img_icon_Armament_207.png"
+  74302:
+    sprite: "img_icon_Armament_205.png"
+  74303:
+    sprite: "img_icon_Armament_206.png"
+  74304:
+    sprite: "img_icon_Armament_203.png"
+  74305:
+    sprite: "img_icon_Armament_204.png"
+  74306:
+    sprite: "img_icon_Armament_201.png"
+  74307:
+    sprite: "img_icon_Armament_202.png"
+  74308:
+    sprite: "img_icon_Armament_209.png"
+  74309:
+    sprite: "img_icon_Armament_210.png"
+  74310:
+    sprite: "img_icon_Armament_211.png"
+  74313:
+    sprite: "img_icon_Armament_208.png"
+  74314:
+    sprite: "img_icon_Armament_214.png"
+  74316:
+    sprite: "img_icon_Armament_216.png"
+  74317:
+    sprite: "img_icon_Armament_217.png"
+  74319:
+    sprite: "img_icon_Armament_419.png"
+    level: 2
+  74320:
+    sprite: "img_icon_Armament_320.png"
+    level: 2
+  74321:
+    sprite: "img_icon_Armament_321.png"
+    level: 2
+  74401:
+    sprite: "img_icon_Armament_407.png"
+  74402:
+    sprite: "img_icon_Armament_405.png"
+  74403:
+    sprite: "img_icon_Armament_406.png"
+  74404:
+    sprite: "img_icon_Armament_403.png"
+  74405:
+    sprite: "img_icon_Armament_404.png"
+  74406:
+    sprite: "img_icon_Armament_401.png"
+  74407:
+    sprite: "img_icon_Armament_402.png"
+  74408:
+    sprite: "img_icon_Armament_409.png"
+  74409:
+    sprite: "img_icon_Armament_410.png"
+  74410:
+    sprite: "img_icon_Armament_411.png"
+  74413:
+    sprite: "img_icon_Armament_408.png"
+  74414:
+    sprite: "img_icon_Armament_414.png"
+  74416:
+    sprite: "img_icon_Armament_416.png"
+  74417:
+    sprite: "img_icon_Armament_417.png"
+  74419:
+    sprite: "img_icon_Armament_319.png"
+    level: 2
+  74420:
+    sprite: "img_icon_Armament_420.png"
+    level: 2
+  74421:
+    sprite: "img_icon_Armament_421.png"
+    level: 2
+  75101:
+    sprite: "img_icon_Armament_107.png"
+  75102:
+    sprite: "img_icon_Armament_105.png"
+  75103:
+    sprite: "img_icon_Armament_106.png"
+  75104:
+    sprite: "img_icon_Armament_103.png"
+  75105:
+    sprite: "img_icon_Armament_104.png"
+  75106:
+    sprite: "img_icon_Armament_101.png"
+  75107:
+    sprite: "img_icon_Armament_102.png"
+  75108:
+    sprite: "img_icon_Armament_109.png"
+  75109:
+    sprite: "img_icon_Armament_110.png"
+  75110:
+    sprite: "img_icon_Armament_111.png"
+  75113:
+    sprite: "img_icon_Armament_108.png"
+  75114:
+    sprite: "img_icon_Armament_114.png"
+  75116:
+    sprite: "img_icon_Armament_116.png"
+  75117:
+    sprite: "img_icon_Armament_117.png"
+  75119:
+    sprite: "img_icon_Armament_119.png"
+    level: 2
+  75120:
+    sprite: "img_icon_Armament_120.png"
+    level: 2
+  75121:
+    sprite: "img_icon_Armament_121.png"
+    level: 2
+  75201:
+    sprite: "img_icon_Armament_307.png"
+  75202:
+    sprite: "img_icon_Armament_305.png"
+  75203:
+    sprite: "img_icon_Armament_306.png"
+  75204:
+    sprite: "img_icon_Armament_303.png"
+  75205:
+    sprite: "img_icon_Armament_304.png"
+  75206:
+    sprite: "img_icon_Armament_301.png"
+  75207:
+    sprite: "img_icon_Armament_302.png"
+  75208:
+    sprite: "img_icon_Armament_309.png"
+  75209:
+    sprite: "img_icon_Armament_310.png"
+  75210:
+    sprite: "img_icon_Armament_311.png"
+  75213:
+    sprite: "img_icon_Armament_308.png"
+  75214:
+    sprite: "img_icon_Armament_314.png"
+  75216:
+    sprite: "img_icon_Armament_316.png"
+  75217:
+    sprite: "img_icon_Armament_317.png"
+  75219:
+    sprite: "img_icon_Armament_219.png"
+    level: 2
+  75220:
+    sprite: "img_icon_Armament_220.png"
+    level: 2
+  75221:
+    sprite: "img_icon_Armament_221.png"
+    level: 2
+  75301:
+    sprite: "img_icon_Armament_207.png"
+  75302:
+    sprite: "img_icon_Armament_205.png"
+  75303:
+    sprite: "img_icon_Armament_206.png"
+  75304:
+    sprite: "img_icon_Armament_203.png"
+  75305:
+    sprite: "img_icon_Armament_204.png"
+  75306:
+    sprite: "img_icon_Armament_201.png"
+  75307:
+    sprite: "img_icon_Armament_202.png"
+  75308:
+    sprite: "img_icon_Armament_209.png"
+  75309:
+    sprite: "img_icon_Armament_210.png"
+  75310:
+    sprite: "img_icon_Armament_211.png"
+  75313:
+    sprite: "img_icon_Armament_208.png"
+  75314:
+    sprite: "img_icon_Armament_214.png"
+  75316:
+    sprite: "img_icon_Armament_216.png"
+  75317:
+    sprite: "img_icon_Armament_217.png"
+  75319:
+    sprite: "img_icon_Armament_419.png"
+    level: 2
+  75320:
+    sprite: "img_icon_Armament_320.png"
+    level: 2
+  75321:
+    sprite: "img_icon_Armament_321.png"
+    level: 2
+  75401:
+    sprite: "img_icon_Armament_407.png"
+  75402:
+    sprite: "img_icon_Armament_405.png"
+  75403:
+    sprite: "img_icon_Armament_406.png"
+  75404:
+    sprite: "img_icon_Armament_403.png"
+  75405:
+    sprite: "img_icon_Armament_404.png"
+  75406:
+    sprite: "img_icon_Armament_401.png"
+  75407:
+    sprite: "img_icon_Armament_402.png"
+  75408:
+    sprite: "img_icon_Armament_409.png"
+  75409:
+    sprite: "img_icon_Armament_410.png"
+  75410:
+    sprite: "img_icon_Armament_411.png"
+  75413:
+    sprite: "img_icon_Armament_408.png"
+  75414:
+    sprite: "img_icon_Armament_414.png"
+  75416:
+    sprite: "img_icon_Armament_416.png"
+  75417:
+    sprite: "img_icon_Armament_417.png"
+  75419:
+    sprite: "img_icon_Armament_319.png"
+    level: 2
+  75420:
+    sprite: "img_icon_Armament_420.png"
+    level: 2
+  75421:
+    sprite: "img_icon_Armament_421.png"
+    level: 2

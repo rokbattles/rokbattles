@@ -32,19 +32,6 @@ function toOptionalNumber(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
 
-function parseAffixIds(value: string | null | undefined): number[] {
-  if (!value) {
-    return [];
-  }
-
-  const matches = value.match(/-?\d+/g);
-  if (!matches) {
-    return [];
-  }
-
-  return matches.map((part) => Number(part)).filter((id) => Number.isFinite(id) && id > 0);
-}
-
 function parseBuffPairs(value: string | null | undefined): Array<{ id: number; value: number }> {
   if (!value) {
     return [];
@@ -78,40 +65,24 @@ function parseBuffPairs(value: string | null | undefined): Array<{ id: number; v
   return pairs;
 }
 
-function buildArmamentFields(player: BattlePlayer): {
-  inscriptions?: string;
-  armamentBuffs?: string;
-} {
-  const inscriptionSet = new Set<number>();
+function buildArmamentBuffs(player: BattlePlayer): string | undefined {
   const buffTotals = new Map<number, number>();
   const commanders = [player.commanders.primary, player.commanders.secondary];
 
   for (const commander of commanders) {
-    const armaments = commander.armaments ?? [];
-
-    for (const armament of armaments) {
-      const affixIds = parseAffixIds(armament.affix);
-      for (const inscriptionId of affixIds) {
-        inscriptionSet.add(inscriptionId);
-      }
-
-      const buffs = parseBuffPairs(armament.buffs);
-      for (const buff of buffs) {
-        buffTotals.set(buff.id, (buffTotals.get(buff.id) ?? 0) + buff.value);
+    for (const armament of commander.armaments ?? []) {
+      for (const { id, value } of parseBuffPairs(armament.buffs)) {
+        buffTotals.set(id, (buffTotals.get(id) ?? 0) + value);
       }
     }
   }
 
-  const inscriptions = Array.from(inscriptionSet).sort((a, b) => a - b);
   const armamentBuffs = Array.from(buffTotals.entries())
     .sort((a, b) => a[0] - b[0])
     .map(([id, value]) => `${id}_${value}`)
     .join(";");
 
-  return {
-    inscriptions: inscriptions.length > 0 ? inscriptions.join(";") : undefined,
-    armamentBuffs: armamentBuffs.length > 0 ? armamentBuffs : undefined,
-  };
+  return armamentBuffs || undefined;
 }
 
 function mapSupportSkill(skill: BattleSupportSkill) {
@@ -135,7 +106,7 @@ function mapPlayerToParticipant(
   npc?: { type: number | null; bType: number | null } | null,
   stratagems?: readonly BattleStratagem[]
 ): RawParticipantInfo {
-  const armamentFields = buildArmamentFields(player);
+  const { primary, secondary } = player.commanders;
 
   return {
     player_id: toOptionalNumber(player.playerId),
@@ -154,21 +125,21 @@ function mapPlayerToParticipant(
     tracking_key: player.trackingKey ?? undefined,
 
     primary_commander: {
-      id: player.commanders.primary.id ?? undefined,
-      awakened: player.commanders.primary.awakened ?? undefined,
-      skins: player.commanders.primary.skins,
-      level: player.commanders.primary.level ?? undefined,
-      skills: [...(player.commanders.primary.skills ?? [])],
-      relics: [...(player.commanders.primary.relics ?? [])],
+      id: primary.id ?? undefined,
+      awakened: primary.awakened ?? undefined,
+      skins: primary.skins,
+      level: primary.level ?? undefined,
+      skills: [...(primary.skills ?? [])],
+      relics: [...(primary.relics ?? [])],
     },
 
     secondary_commander: {
-      id: player.commanders.secondary.id ?? undefined,
-      awakened: player.commanders.secondary.awakened ?? undefined,
-      skins: player.commanders.secondary.skins,
-      level: player.commanders.secondary.level ?? undefined,
-      skills: [...(player.commanders.secondary.skills ?? [])],
-      relics: [...(player.commanders.secondary.relics ?? [])],
+      id: secondary.id ?? undefined,
+      awakened: secondary.awakened ?? undefined,
+      skins: secondary.skins,
+      level: secondary.level ?? undefined,
+      skills: [...(secondary.skills ?? [])],
+      relics: [...(secondary.relics ?? [])],
     },
 
     support_skills: {
@@ -176,11 +147,11 @@ function mapPlayerToParticipant(
       skills: [...(player.supportSkills?.skills ?? [])].map(mapSupportSkill),
     },
     auxiliary_skills: [...(player.auxiliarySkills ?? [])].map(mapAuxiliarySkill),
-    formation: player.commanders.primary.formation ?? undefined,
-    equipment: player.commanders.primary.equipment ?? undefined,
-    equipment_2: player.commanders.secondary.equipment ?? undefined,
-    armament_buffs: armamentFields.armamentBuffs,
-    inscriptions: armamentFields.inscriptions,
+    formation: primary.formation ?? undefined,
+    equipment: primary.equipment ?? undefined,
+    equipment_2: secondary.equipment ?? undefined,
+    armaments: primary.armaments,
+    armament_buffs: buildArmamentBuffs(player),
     stratagems: stratagems && stratagems.length > 0 ? stratagems : undefined,
     supreme_strife_talents: player.supremeStrife?.talents,
   };

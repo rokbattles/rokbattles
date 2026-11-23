@@ -100,6 +100,8 @@ export type BattleCommanderSkill = {
 };
 
 export type BattleCommanderArmament = {
+  id: number | null;
+  configuration: number | null;
   affix: string | null;
   buffs: string | null;
 };

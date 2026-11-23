@@ -1,9 +1,10 @@
 "use client";
 
+import { EquipmentDiamond } from "@/components/equipment-diamond";
 import { ReportArmamentSection } from "@/components/report/report-armament-section";
 import { ReportArtifactSection } from "@/components/report/report-artifact-section";
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
-import { ReportEquipmentSection } from "@/components/report/report-equipment-section";
+import { ReportFormationSection } from "@/components/report/report-formation-section";
 import { ReportRelicSection } from "@/components/report/report-relic-section";
 import { ReportStratagemSection } from "@/components/report/report-stratagem-section";
 import { ReportSupportSkills } from "@/components/report/report-support-skills";
@@ -12,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
 import { getInitials } from "@/lib/avatar";
-import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
+import { parseArmamentBuffs, parseEquipment } from "@/lib/report/parsers";
 import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/raw-report";
 
 const ARTIFACT_IDS = new Set([20201, 20202, 20203, 20401, 20402]);
@@ -30,25 +31,23 @@ export function ReportParticipantCard({
   const allianceTag = participant?.alliance_tag?.trim();
   const playerId = participant?.player_id;
 
+  const primaryCommander = participant?.primary_commander;
+  const secondaryCommander = participant?.secondary_commander;
+  const showPrimary = hasCommander(primaryCommander);
+  const showSecondary = hasCommander(secondaryCommander);
+
   const equipmentTokens = parseEquipment(participant?.equipment ?? null);
   const artifactTokens = showArtifacts
     ? parseEquipment(participant?.equipment_2 ?? null).filter((token) => ARTIFACT_IDS.has(token.id))
     : [];
-  const relics = [
-    ...(participant?.primary_commander?.relics ?? []),
-    ...(participant?.secondary_commander?.relics ?? []),
-  ];
-  const inscriptionIds = parseSemicolonNumberList(participant?.inscriptions ?? null);
+  const relics = [...(primaryCommander?.relics ?? []), ...(secondaryCommander?.relics ?? [])];
+
+  const primaryFormation = participant?.formation;
+  const armaments = participant?.armaments;
   const armamentBuffs = parseArmamentBuffs(participant?.armament_buffs ?? null);
 
-  const primaryCommander = participant?.primary_commander;
-  const secondaryCommander = participant?.secondary_commander;
-  const primaryFormation = participant?.formation;
-  const showPrimary = hasCommander(primaryCommander);
-  const showSecondary = hasCommander(secondaryCommander);
-
   return (
-    <div className="grid gap-5 lg:row-span-8 lg:grid-rows-subgrid">
+    <div className="grid min-w-0 gap-5 lg:row-span-8 lg:grid-rows-subgrid">
       <div className="flex items-start gap-3">
         <GameAvatar
           avatarUrl={participant?.avatar_url ?? null}
@@ -74,9 +73,7 @@ export function ReportParticipantCard({
           <div className="space-y-2">
             <Subheading>Commanders</Subheading>
             <div className="space-y-2">
-              {showPrimary ? (
-                <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />
-              ) : null}
+              {showPrimary ? <ReportCommanderRow commander={primaryCommander} /> : null}
               {showSecondary ? <ReportCommanderRow commander={secondaryCommander} /> : null}
               <ReportSupportSkills
                 supportSkills={participant?.support_skills}
@@ -86,8 +83,12 @@ export function ReportParticipantCard({
           </div>
         ) : null}
       </div>
-      <div className="contents lg:block">
-        <ReportEquipmentSection tokens={equipmentTokens} commanderId={primaryCommander?.id} />
+      <div className="@container space-y-2">
+        <Subheading>Loadout</Subheading>
+        <div className="grid items-start gap-5 @min-[26rem]:grid-cols-[minmax(9.5rem,2fr)_minmax(0,3fr)]">
+          <EquipmentDiamond tokens={equipmentTokens} commanderId={primaryCommander?.id} />
+          <ReportFormationSection formation={primaryFormation} armaments={armaments} />
+        </div>
       </div>
       <div className="contents lg:block">
         {showArtifacts ? <ReportArtifactSection tokens={artifactTokens} /> : null}
@@ -96,7 +97,7 @@ export function ReportParticipantCard({
         <ReportRelicSection relics={relics} />
       </div>
       <div className="contents lg:block">
-        <ReportArmamentSection buffs={armamentBuffs} inscriptions={inscriptionIds} />
+        <ReportArmamentSection buffs={armamentBuffs} />
       </div>
       <div className="contents lg:block">
         <ReportStratagemSection stratagems={participant?.stratagems} />

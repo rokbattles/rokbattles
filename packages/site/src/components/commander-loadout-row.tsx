@@ -13,7 +13,6 @@ type CommanderLoadoutRowProps = {
   skinId?: number | null;
   level?: number | null;
   skills?: readonly CommanderSkillLevel[] | null;
-  formationLabel?: string | null;
 };
 
 export function CommanderLoadoutRow({
@@ -22,11 +21,11 @@ export function CommanderLoadoutRow({
   skinId,
   level,
   skills,
-  formationLabel,
 }: CommanderLoadoutRowProps) {
   const commanderName = getCommanderName(id ?? null);
   const commanderLabel = commanderName ?? id ?? "Unknown";
   const commanderAlt = `${commanderLabel.toString()} icon`;
+
   const skillDisplays = getCommanderSkillDisplays(id, skills, awakened);
   const levelLabel = typeof level === "number" && Number.isFinite(level) ? level : null;
 
@@ -43,10 +42,11 @@ export function CommanderLoadoutRow({
         />
         <div className="min-w-0">
           <Strong className="block truncate text-sm">{commanderLabel}</Strong>
-          <div className="mt-1 flex flex-wrap items-center gap-1.5">
-            {formationLabel ? <Badge>{formationLabel}</Badge> : null}
-            {levelLabel != null ? <Badge>{`Lvl ${levelLabel.toString()}`}</Badge> : null}
-          </div>
+          {levelLabel != null ? (
+            <div className="mt-1">
+              <Badge>{`Lvl ${levelLabel.toString()}`}</Badge>
+            </div>
+          ) : null}
         </div>
       </div>
       {skillDisplays.length > 0 ? (

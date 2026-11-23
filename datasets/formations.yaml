@@ -3,47 +3,68 @@ formations:
 
   1:
     name: "Arch Formation"
+    sprite: "img_FormationIcon_01.png"
 
   2:
     name: "Wedge Formation"
+    sprite: "img_FormationIcon_02.png"
 
   3:
     name: "V Formation"
+    sprite: "img_FormationIcon_06.png"
 
   4:
     name: "Echelon Formation"
+    sprite: "img_FormationIcon_04.png"
 
   5:
     name: "Hollow Square Formation"
+    sprite: "img_FormationIcon_03.png"
 
   6:
     name: "Line Formation"
+    sprite: "img_FormationIcon_07.png"
 
   7:
     name: "Triple Line Formation"
+    sprite: "img_FormationIcon_05.png"
 
   8:
     name: "Testudo Formation"
+    sprite: "img_FormationIcon_09.png"
 
   9:
     name: "Circle Formation"
+    sprite: "img_FormationIcon_10.png"
 
   10:
     name: "Staggered Formation"
+    sprite: "img_FormationIcon_11.png"
 
   13:
     name: "Delta Formation"
+    sprite: "img_FormationIcon_08.png"
 
   14:
     name: "Tercio Formation"
+    sprite: "img_FormationIcon_14.png"
 
   16:
     name: "Double Line Formation"
+    sprite: "img_FormationIcon_16.png"
 
   17:
     name: "Pincer Formation"
+    sprite: "img_FormationIcon_17.png"
 
-  # Deprecated as of 2026-04-29 at 11:00 UTC
-  # Will be kept in our dataset for historical purposes
   19:
     name: "Wedge Formation Ⅱ"
+    sprite: "img_FormationIcon_02.png"
+
+  20:
+    name: "Pincer Formation Ⅱ"
+    sprite: "img_FormationIcon_17.png"
+
+  21:
+    name: "Delta Formation Ⅱ"
+    sprite: "img_FormationIcon_08.png"
