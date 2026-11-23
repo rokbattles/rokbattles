@@ -3,30 +3,48 @@ armaments:
     name: "Gold Gathering Speed"
     percent: true
     max_roll: 0.075
+    icon:
+      sprite: "img_iconNewHeroTypeL9.png"
+      color: "#d9b800"
 
   3001:
     name: "Infantry Attack"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL1.png"
+      color: "#0a88df"
 
   3002:
     name: "Cavalry Attack"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL3.png"
+      color: "#03a90a"
 
   3003:
     name: "Archer Attack"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL2.png"
+      color: "#e44033"
 
   3004:
     name: "Siege Unit Attack"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   3008:
     name: "Field Troop Attack"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   3112:
     name: "Archer Damage"
@@ -36,193 +54,325 @@ armaments:
     name: "Infantry Defense"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL1.png"
+      color: "#0a88df"
 
   4002:
     name: "Cavalry Defense"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL3.png"
+      color: "#03a90a"
 
   4003:
     name: "Archer Defense"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL2.png"
+      color: "#e44033"
 
   4004:
     name: "Siege Unit Defense"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   5001:
     name: "Infantry Health"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL1.png"
+      color: "#0a88df"
 
   5002:
     name: "Cavalry Health"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL3.png"
+      color: "#03a90a"
 
   5003:
     name: "Archer Health"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL2.png"
+      color: "#e44033"
 
   5004:
     name: "Siege Unit Health"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   5501:
     name: "Infantry Base Attack"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL1_1.png"
+      color: "#0a88df"
 
   5502:
     name: "Cavalry Base Attack"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL3_1.png"
+      color: "#03a90a"
 
   5503:
     name: "Archer Base Attack"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL2_1.png"
+      color: "#e44033"
 
   5504:
     name: "Siege Unit Base Attack"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL6_1.png"
+      color: "#b54eec"
 
   5511:
     name: "Infantry Base Defense"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL1_1.png"
+      color: "#0a88df"
 
   5512:
     name: "Cavalry Base Defense"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL3_1.png"
+      color: "#03a90a"
 
   5513:
     name: "Archer Base Defense"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL2_1.png"
+      color: "#e44033"
 
   5514:
     name: "Siege Unit Base Defense"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL6_1.png"
+      color: "#b54eec"
 
   5521:
     name: "Infantry Base Health"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL1_1.png"
+      color: "#0a88df"
 
   5522:
     name: "Cavalry Base Health"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL3_1.png"
+      color: "#03a90a"
 
   5523:
     name: "Archer Base Health"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL2_1.png"
+      color: "#e44033"
 
   5524:
     name: "Siege Unit Base Health"
     percent: false
+    icon:
+      sprite: "img_iconNewHeroTypeL6_1.png"
+      color: "#b54eec"
 
   6001:
     name: "March Speed (Infantry)"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL1.png"
+      color: "#0a88df"
 
   6002:
     name: "March Speed (Cavalry)"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL3.png"
+      color: "#03a90a"
 
   6003:
     name: "March Speed (Archers)"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL2.png"
+      color: "#e44033"
 
   6004:
     name: "March Speed (Siege Units)"
     percent: true
     max_roll: 0.035
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   8000:
     name: "Troop Load"
     percent: true
     max_roll: 0.07
+    icon:
+      sprite: "img_iconNewHeroTypeL9.png"
+      color: "#d9b800"
 
   10002:
     name: "All Damage"
     percent: true
     max_roll: 0.02
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10006:
     name: "Normal Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10007:
     name: "Skill Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10008:
     name: "Counterattack Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10016:
     name: "Damage to Barbarians"
     percent: true
     max_roll: 0.07
+    icon:
+      sprite: "img_iconNewHeroTypeL8.png"
+      color: "#d9b800"
 
   10020:
     name: "Additional Damage Bonus"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10060:
     name: "Skill/Combo Attack/Smite Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10063:
     name: "Reduction to Received Skill/Combo Attack/Smite Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10064:
     name: "Ranged Skill/Ranged Combo Attack/Ranged Smite Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10067:
     name: "Reduction to Received Ranged Skill/Ranged Combo Attack/Ranged Smite Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10101:
     name: "Damage Reduction vs Barbarians"
     percent: true
     max_roll: 0.07
+    icon:
+      sprite: "img_iconNewHeroTypeL8.png"
+      color: "#d9b800"
 
   10103:
     name: "Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10104:
     name: "Healing Effects Received"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10109:
     name: "Normal Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10110:
     name: "Skill Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10111:
     name: "Counterattack Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   10300:
     name: "Infantry Damage to Cavalry"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL1.png"
+      color: "#0a88df"
 
   10302:
     name: "Archer Damage to Infantry"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL2.png"
+      color: "#e44033"
 
   10304:
     name: "Cavalry Damage to Archers"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL3.png"
+      color: "#03a90a"
 
   10317:
     name: "Cavalry Damage Taken by Archers"
@@ -231,6 +381,9 @@ armaments:
   12017:
     name: "Rallied Army Attack"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL5.png"
+      color: "#d6721a"
 
   12052:
     name: "Rallied Army Damage"
@@ -239,70 +392,121 @@ armaments:
   12066:
     name: "Damage to Rallied Armies/Garrisons"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15025:
     name: "Ranged Normal Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   15028:
     name: "Ranged Normal Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   15029:
     name: "Damage to Ranged Mode Troops"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   15032:
     name: "Ranged Skill Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   15033:
     name: "Ranged Skill Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL6.png"
+      color: "#b54eec"
 
   15063:
     name: "Smite Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15070:
     name: "Ranged Counterattack Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15073:
     name: "Ranged Counterattack Damage Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15075:
     name: "Ranged Smite Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15085:
     name: "Ranged Additional Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15089:
     name: "Enemy Attack Ignored"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15090:
     name: "Enemy Defense Ignored"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15091:
     name: "Enemy Health Ignored"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   15092:
     name: "Damage to Troops on the Map"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   17400:
     name: "Combo Attack Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   17401:
     name: "Ranged Combo Attack Damage"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20001:
     name: "Normal Damage Boost"
@@ -331,50 +535,86 @@ armaments:
   20039:
     name: "Smite Damage Boost"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20042:
     name: "Smite Damage Resistance"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20062:
     name: "Combo Attack Damage Boost"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20064:
     name: "Combo Attack Damage Resistance"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20066:
     name: "Damage From Cavalry Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20067:
     name: "Damage From Archers Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20068:
     name: "Damage From Infantry Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL9.png"
+      color: "#d6721a"
 
   20069:
     name: "Damage From Siege Units Reduction"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20070:
     name: "Damage Bonus vs Cavalry"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL9.png"
+      color: "#d6721a"
 
   20071:
     name: "Damage Bonus vs Archers"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20072:
     name: "Damage Bonus vs Infantry"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   20073:
     name: "Damage Bonus vs Siege Units"
     percent: true
+    icon:
+      sprite: "img_iconNewHeroTypeL11.png"
+      color: "#d6721a"
 
   30029:
     name: "Damage Reduction vs Poisoned Troops (Per Stack)"
