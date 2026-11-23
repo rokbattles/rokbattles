@@ -392,7 +392,13 @@ fn optional_armaments_field(
             .ok_or(ExtractError::InvalidFieldType { field, expected: "object" })?;
         let affix = require_string_field(value, "Affix")?;
         let buffs = require_string_field(value, "Buffs")?;
-        entries.push(json!({ "id": id, "affix": affix, "buffs": buffs }));
+        let configuration = value
+            .get("Id")
+            .and_then(Value::as_str)
+            .and_then(|id| id.split('_').next()?.parse::<u32>().ok());
+        entries.push(
+            json!({ "id": id, "configuration": configuration, "affix": affix, "buffs": buffs }),
+        );
     }
 
     // Numeric sorting avoids placing an armament key such as "10" before "2".
@@ -1019,7 +1025,7 @@ mod tests {
         player.insert("HClt".to_string(), json!([10001, 2]));
         player.insert(
             "HWBs".to_string(),
-            json!({ "1": { "Affix": "-1", "Buffs": "buffs-1", "Id": "ignored" } }),
+            json!({ "1": { "Affix": "-1", "Buffs": "buffs-1", "Id": "73302000_212" } }),
         );
         player.insert("HId2".to_string(), json!(502));
         player.insert("HLv2".to_string(), json!(12));
@@ -1043,7 +1049,7 @@ mod tests {
                     "skills": [{ "id": 111, "level": 3 }],
                     "relics": [{ "id": 10001 }],
                     "skins": null,
-                    "armaments": [{ "id": 1, "affix": "-1", "buffs": "buffs-1" }]
+                    "armaments": [{ "id": 1, "configuration": 73302000, "affix": "-1", "buffs": "buffs-1" }]
                 },
                 "secondary": {
                     "id": 502,
@@ -1058,6 +1064,26 @@ mod tests {
                     "armaments": null
                 }
             }))
+        );
+    }
+
+    #[test]
+    fn retains_armaments_without_a_parseable_configuration() {
+        let player = json!({
+            "HWBs": {
+                "1": { "Affix": "-1", "Buffs": "buffs-1" },
+                "2": { "Affix": "-1", "Buffs": "buffs-2", "Id": "invalid_212" },
+                "3": { "Affix": "-1", "Buffs": "buffs-3", "Id": null }
+            }
+        });
+        let armaments = optional_armaments_field(player.as_object().unwrap(), "HWBs").unwrap();
+        assert_eq!(
+            armaments,
+            json!([
+                { "id": 1, "configuration": null, "affix": "-1", "buffs": "buffs-1" },
+                { "id": 2, "configuration": null, "affix": "-1", "buffs": "buffs-2" },
+                { "id": 3, "configuration": null, "affix": "-1", "buffs": "buffs-3" }
+            ])
         );
     }
 
