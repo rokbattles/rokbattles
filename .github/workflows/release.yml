@@ -21,37 +21,13 @@ jobs:
             args: "--target x86_64-unknown-linux-gnu --bundles deb appimage"
           - platform: "ubuntu-24.04-arm"
             args: "--target aarch64-unknown-linux-gnu --bundles deb appimage"
-          - platform: "windows-latest"
-            args: "--target x86_64-pc-windows-msvc --bundles nsis"
-          - platform: "windows-11-arm"
-            args: "--target aarch64-pc-windows-msvc --bundles nsis"
 
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
-        with:
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: 26
-          cache: "pnpm"
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
-        with:
-          toolchain: stable
-
-      - name: Cache Rust build
-        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/prepare-desktop-release
 
       - name: Install Linux system dependencies
         if: matrix.platform == 'ubuntu-24.04' || matrix.platform == 'ubuntu-24.04-arm'
@@ -113,3 +89,68 @@ jobs:
           RELEASE_TAG: ${{ steps.tauri.outputs.appVersion }}
           FLATPAK_BUNDLE: ${{ steps.flatpak.outputs.bundle }}
         run: gh release upload "$RELEASE_TAG" "$FLATPAK_BUNDLE" --clobber
+
+  publish-windows:
+    permissions:
+      contents: write
+    concurrency:
+      group: certum-windows-signing
+      queue: max
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            target: x86_64-pc-windows-msvc
+          - platform: windows-11-arm
+            target: aarch64-pc-windows-msvc
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/actions/prepare-desktop-release
+
+      - name: Install Certum signing client
+        shell: pwsh
+        run: |
+          $installDir = Join-Path $env:RUNNER_TEMP 'ssign-cli'
+          # ssign v0.1.11, built from pinned source for each runner architecture.
+          cargo install --locked --git https://github.com/Le-Syl21/ssign --rev 367bf7d3da14d5041d5e47f855ae2397b8028e33 --root $installDir ssign
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Join-Path $installDir 'bin' | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+
+      - name: Build, sign and upload Windows release assets
+        uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CERTUM_EMAIL: ${{ secrets.CERTUM_EMAIL }}
+          CERTUM_OTP: ${{ secrets.CERTUM_OTP }}
+          CERTUM_CERT_THUMBPRINT: ${{ secrets.CERTUM_CERT_THUMBPRINT }}
+          XDG_RUNTIME_DIR: ${{ runner.temp }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: __VERSION__
+          releaseName: "ROK Battles v__VERSION__"
+          releaseBody: See the assets to download this version and install.
+          releaseDraft: true
+          prerelease: false
+          retryAttempts: 3
+          projectPath: crates/apps/rokbattles-desktop
+          tauriScript: ../../../packages/desktop-client/node_modules/.bin/tauri
+          args: >-
+            --target ${{ matrix.target }} --bundles nsis
+            --config '{"bundle":{"windows":{"signCommand":{"cmd":"pwsh","args":[
+            "-NoProfile","-NonInteractive","-ExecutionPolicy","Bypass",
+            "-File","windows/sign-certum.ps1","%1"]}}}}'
+
+      - name: Remove cached SimplySign session
+        if: always()
+        shell: pwsh
+        run: |
+          $session = Join-Path $env:RUNNER_TEMP 'ssign/session.json'
+          if (Test-Path -LiteralPath $session) {
+            Remove-Item -LiteralPath $session -Force
+          }
