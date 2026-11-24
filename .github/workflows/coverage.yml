@@ -35,24 +35,24 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@02cb101ec7c40f2c49e1d9714d64511d8e1b74de # v1
+        uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # v1
         with:
           toolchain: stable
           components: llvm-tools-preview
 
       - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2.87.21
+        uses: taiki-e/install-action@fe3acb53a98b62c772db35de75ce0e4595e7ca8c # v2.90.8
         with:
           tool: cargo-llvm-cov
 
       - name: Cache Rust build
-        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
 
       - name: Generate workspace coverage
         run: cargo llvm-cov --workspace --lcov --output-path lcov.info
 
       - name: Report coverage
-        uses: getsentry/codecov-action@a006c445d3aa57b4d347da1986c79cd06faa7a30 # 0.4.2
+        uses: getsentry/codecov-action@b3db4e382bd9859c913a96093a3d369b67f59177 # 0.4.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ./lcov.info
