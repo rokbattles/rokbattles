@@ -54,15 +54,13 @@ export function parseEquipment(raw: string | null | undefined): EquipmentToken[]
   return result.sort((a, b) => a.slot - b.slot);
 }
 
-export function parseSemicolonNumberList(raw: string | null | undefined): number[] {
-  if (!raw) {
-    return [];
-  }
-
-  return raw
-    .split(";")
-    .map((value) => Number(value))
-    .filter((value) => Number.isFinite(value) && value !== -1);
+export function parseArmamentInscriptions(raw: string | null | undefined): number[] {
+  return (
+    raw
+      ?.match(/-?\d+/g)
+      ?.map(Number)
+      .filter((id) => Number.isSafeInteger(id) && id > 0) ?? []
+  );
 }
 
 export type ArmamentBuff = {

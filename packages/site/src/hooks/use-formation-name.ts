@@ -6,15 +6,14 @@ const formationMap = formationsData.formations;
 
 type FormationIdKey = keyof typeof formationMap;
 
-export function getFormationName(id: number | null | undefined) {
+export function getFormationInfo(id: number | null | undefined) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }
 
-  const formation = formationMap[String(id) as FormationIdKey];
-  if (!formation) {
-    return undefined;
-  }
+  return formationMap[String(id) as FormationIdKey];
+}
 
-  return formation.name;
+export function getFormationName(id: number | null | undefined) {
+  return getFormationInfo(id)?.name;
 }

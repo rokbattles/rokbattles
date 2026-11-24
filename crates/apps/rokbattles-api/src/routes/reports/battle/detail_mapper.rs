@@ -76,6 +76,8 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.commanders.primary.relics.id",
         "sender.commanders.primary.skills.id",
         "sender.commanders.primary.skills.level",
+        "sender.commanders.primary.armaments.id",
+        "sender.commanders.primary.armaments.configuration",
         "sender.commanders.primary.armaments.affix",
         "sender.commanders.primary.armaments.buffs",
         "sender.commanders.secondary.id",
@@ -141,6 +143,8 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.commanders.primary.relics.id",
         "opponents.commanders.primary.skills.id",
         "opponents.commanders.primary.skills.level",
+        "opponents.commanders.primary.armaments.id",
+        "opponents.commanders.primary.armaments.configuration",
         "opponents.commanders.primary.armaments.affix",
         "opponents.commanders.primary.armaments.buffs",
         "opponents.commanders.secondary.id",
@@ -328,6 +332,8 @@ fn map_detail_armaments(document: &Document) -> Vec<BattleReportArmament> {
         .iter()
         .filter_map(Bson::as_document)
         .map(|armament| BattleReportArmament {
+            id: nested_i64_exact(armament, &["id"]),
+            configuration: nested_i64_exact(armament, &["configuration"]),
             affix: nested_string(armament, &["affix"]),
             buffs: nested_string(armament, &["buffs"]),
         })
@@ -531,9 +537,13 @@ mod tests {
         for field in [
             "metadata.gs_id",
             "sender.kingdom_id",
+            "sender.commanders.primary.armaments.id",
+            "sender.commanders.primary.armaments.configuration",
             "sender.supreme_strife.battle_id",
             "sender.supreme_strife.team_id",
             "opponents.kingdom_id",
+            "opponents.commanders.primary.armaments.id",
+            "opponents.commanders.primary.armaments.configuration",
         ] {
             assert_eq!(projection.get_i32(field), Ok(1), "{field}");
         }
@@ -684,7 +694,7 @@ mod tests {
                             { "id": 101_i64, "level": 5_i64 },
                         ],
                         "armaments": [
-                            { "affix": "1_2", "buffs": "100_3" },
+                            { "id": 1_i32, "configuration": 73101000_i32, "affix": "1_2", "buffs": "100_3" },
                         ],
                     },
                     "secondary": {
@@ -719,6 +729,13 @@ mod tests {
                     "start_tick": 60_i64,
                     "attack": { "x": 1_i64, "y": 2_i64 },
                     "npc": { "type": 5_i64, "b_type": 8_i64 },
+                    "commanders": {
+                        "primary": {
+                            "armaments": [
+                                { "id": 3_i64, "configuration": 75320011_i64, "affix": "304", "buffs": "3001_0.017" },
+                            ],
+                        },
+                    },
                     "support_skills": {
                         "enable": false,
                         "skills": [],
@@ -749,12 +766,18 @@ mod tests {
         assert_eq!(mapped.sender.commanders.primary.skills.len(), 1);
         assert_eq!(mapped.sender.commanders.primary.skills[0].id, 101);
         assert_eq!(mapped.sender.commanders.primary.armaments.len(), 1);
+        assert_eq!(mapped.sender.commanders.primary.armaments[0].id, Some(1));
+        assert_eq!(mapped.sender.commanders.primary.armaments[0].configuration, Some(73101000));
         assert_eq!(mapped.sender.support_skills.enable, Some(true));
         assert_eq!(mapped.sender.support_skills.skills.len(), 1);
         assert_eq!(mapped.sender.support_skills.skills[0].skill_id, 101);
         assert_eq!(mapped.sender.auxiliary_skills[0].skill_id, 202);
         assert_eq!(mapped.summary.sender.kill_points, Some(100));
         assert_eq!(mapped.opponents.len(), 1);
+        let opponent_armament = &mapped.opponents[0].commanders.primary.armaments[0];
+        assert_eq!(opponent_armament.id, Some(3));
+        assert_eq!(opponent_armament.configuration, Some(75320011));
+        assert_eq!(opponent_armament.affix.as_deref(), Some("304"));
         assert_eq!(mapped.opponents[0].npc.r#type, Some(5));
         assert_eq!(mapped.opponents[0].support_skills.enable, Some(false));
         assert_eq!(mapped.opponents[0].auxiliary_skills[0].skill_id, 303);

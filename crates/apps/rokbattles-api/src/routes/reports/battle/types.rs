@@ -184,6 +184,8 @@ pub(crate) struct BattleReportCommanderSkill {
 #[derive(Debug, Serialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct BattleReportArmament {
+    pub id: Option<i64>,
+    pub configuration: Option<i64>,
     pub affix: Option<String>,
     pub buffs: Option<String>,
 }

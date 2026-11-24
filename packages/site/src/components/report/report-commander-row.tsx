@@ -1,19 +1,13 @@
 "use client";
 
 import { CommanderLoadoutRow } from "@/components/commander-loadout-row";
-import { getFormationName } from "@/hooks/use-formation-name";
 import type { RawCommanderInfo } from "@/lib/types/raw-report";
 
 type ReportCommanderRowProps = {
   commander?: RawCommanderInfo;
-  formation?: number | null;
 };
 
-export function ReportCommanderRow({ commander, formation }: ReportCommanderRowProps) {
-  const formationName = getFormationName(formation ?? null);
-  const formationLabel =
-    typeof formation === "number" ? (formationName ?? `Formation ${formation.toString()}`) : null;
-
+export function ReportCommanderRow({ commander }: ReportCommanderRowProps) {
   return (
     <CommanderLoadoutRow
       id={commander?.id}
@@ -21,7 +15,6 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
       skinId={commander?.skins?.["22"]}
       level={commander?.level}
       skills={commander?.skills}
-      formationLabel={formationLabel}
     />
   );
 }

@@ -1,4 +1,4 @@
-import type { BattleStratagem } from "@/lib/types/battle";
+import type { BattleCommanderArmament, BattleStratagem } from "@/lib/types/battle";
 
 export interface RawReportMetadata {
   email_id?: string;
@@ -63,8 +63,8 @@ export interface RawParticipantInfo {
   equipment?: string;
   equipment_2?: string;
   formation?: number;
+  armaments?: readonly BattleCommanderArmament[];
   armament_buffs?: string;
-  inscriptions?: string;
   stratagems?: readonly BattleStratagem[];
   supreme_strife_talents?: readonly number[];
 }
