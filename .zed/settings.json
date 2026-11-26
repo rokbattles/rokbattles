@@ -8,5 +8,15 @@
     "language_server": {
       "name": "biome"
     }
+  },
+  "languages": {
+    "TypeScript": {
+      "tab_size": 2,
+      "hard_tabs": false
+    },
+    "TSX": {
+      "tab_size": 2,
+      "hard_tabs": false
+    }
   }
 }
