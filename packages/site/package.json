@@ -18,6 +18,7 @@
     "@tanstack/react-virtual": "^3.14.26",
     "cn": "^0.5.2",
     "lucide-react": "^1.77.0",
+    "mongodb": "^7.9.1",
     "motion": "^14.14.0",
     "next": "^16.4.6",
     "nuqs": "^2.10.3",
@@ -25,6 +26,7 @@
     "react-dom": "^19.3.1",
     "react-markdown": "^10.1.0",
     "recharts": "^3.11.0",
+    "stripe": "^23.2.0",
     "write-excel-file": "^4.1.1"
   },
   "devDependencies": {
