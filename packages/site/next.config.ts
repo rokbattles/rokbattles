@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 
 const withMDX = createMDX({ extension: /\.mdx?$/ });
 
+const plugins = [withMDX];
 const isProdEnv = process.env.NODE_ENV === "production";
 
 const imageSources = [
@@ -160,4 +161,4 @@ const config: NextConfig = {
   },
 };
 
-export default withMDX(config);
+module.exports = plugins.reduce((acc, next) => next(acc), config);
