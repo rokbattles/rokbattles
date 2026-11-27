@@ -33,17 +33,6 @@ async fn main() -> Result<(), ProcessorError> {
         )
         .init();
 
-    let _sentry_guard = config.sentry_dsn.as_deref().map(|dsn| {
-        sentry::init((
-            dsn,
-            sentry::ClientOptions {
-                release: sentry::release_name!(),
-                send_default_pii: false,
-                ..Default::default()
-            },
-        ))
-    });
-
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
     let db_name = client_options.default_database.clone().ok_or(ProcessorError::MissingDatabase)?;
     let client = mongodb::Client::with_options(client_options)?;

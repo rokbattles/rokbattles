@@ -6,7 +6,6 @@ use std::env;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
     pub mongo_uri: String,
-    pub sentry_dsn: Option<String>,
 }
 
 /// Configuration errors caught before the jobs start.
@@ -27,9 +26,8 @@ impl Config {
         F: Fn(&str) -> Option<String>,
     {
         let mongo_uri = required(&lookup, "MONGODB_URI")?;
-        let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
 
-        Ok(Self { mongo_uri, sentry_dsn })
+        Ok(Self { mongo_uri })
     }
 }
 
@@ -59,17 +57,6 @@ mod tests {
         .expect("config");
 
         assert_eq!(cfg.mongo_uri, "mongodb://localhost:27017/rokbattles");
-    }
-
-    #[test]
-    fn loads_optional_sentry_dsn() {
-        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("SENTRY_DSN", "https://example@sentry.io/123"),
-        ])))
-        .expect("config");
-
-        assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
     }
 
     #[test]

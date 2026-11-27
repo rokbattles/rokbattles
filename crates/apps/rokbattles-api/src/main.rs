@@ -34,17 +34,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .init();
 
-    let _sentry_guard = config.sentry_dsn.as_deref().map(|dsn| {
-        sentry::init((
-            dsn,
-            sentry::ClientOptions {
-                release: sentry::release_name!(),
-                send_default_pii: false,
-                ..Default::default()
-            },
-        ))
-    });
-
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
     let database_name = client_options.default_database.clone().ok_or_else(|| {
         std::io::Error::new(
