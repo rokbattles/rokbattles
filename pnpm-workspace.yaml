@@ -11,6 +11,7 @@ allowBuilds:
   workerd: true
 
 overrides:
+  "@tailwindcss/typography>postcss-selector-parser": "6.1.5"
   "next>sharp": "-"
 
 shellEmulator: true
