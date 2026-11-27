@@ -167,13 +167,11 @@ fn read_app_uid(player: &Map<String, Value>) -> Result<Option<String>, ExtractEr
             let trimmed = text.trim();
             if trimmed.is_empty() { Ok(None) } else { Ok(Some(trimmed.to_string())) }
         }
-        Some(Value::Number(number)) => number.as_u64().map_or_else(
-            || {
-                Err(ExtractError::InvalidFieldType {
-                    field: "AppUid",
-                    expected: "string or unsigned integer",
-                })
-            },
+        Some(Value::Number(number)) => number.as_u64().map_or(
+            Err(ExtractError::InvalidFieldType {
+                field: "AppUid",
+                expected: "string or unsigned integer",
+            }),
             |value| Ok(Some(value.to_string())),
         ),
         _ => Err(ExtractError::InvalidFieldType {
