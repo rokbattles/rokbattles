@@ -13,7 +13,6 @@ pub struct Config {
     pub discord_client_id: String,
     pub discord_client_secret: String,
     pub discord_redirect_uri: String,
-    pub sentry_dsn: Option<String>,
     pub pk_token: Option<String>,
     pub kdmt_token: Option<String>,
     pub turnstile_secret_key: Option<String>,
@@ -47,7 +46,6 @@ impl Config {
         let rate_limit_mode = required(&lookup, "RATE_LIMIT_MODE")?.parse().map_err(|_error| {
             ConfigError::Invalid { key: "RATE_LIMIT_MODE", expected: "local or cloudflare" }
         })?;
-        let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let pk_token = lookup("PK_TOKEN").filter(|value| !value.trim().is_empty());
         let kdmt_token = lookup("KDMT_TOKEN").filter(|value| !value.trim().is_empty());
         let turnstile_secret_key =
@@ -67,7 +65,6 @@ impl Config {
             discord_client_id,
             discord_client_secret,
             discord_redirect_uri,
-            sentry_dsn,
             pk_token,
             kdmt_token,
             turnstile_secret_key,
@@ -109,26 +106,10 @@ mod tests {
         assert_eq!(cfg.discord_client_id, "discord-client-id");
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
         assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
-        assert_eq!(cfg.sentry_dsn, None);
         assert_eq!(cfg.pk_token, None);
         assert_eq!(cfg.kdmt_token, None);
         assert_eq!(cfg.turnstile_secret_key, None);
         assert!(cfg.turnstile_hostnames.is_empty());
-    }
-
-    #[test]
-    fn loads_optional_sentry_dsn() {
-        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
-            ("RATE_LIMIT_MODE", "local"),
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("DISCORD_CLIENT_ID", "discord-client-id"),
-            ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
-            ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
-            ("SENTRY_DSN", "https://example@sentry.io/123"),
-        ])))
-        .expect("config");
-
-        assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
     }
 
     #[test]

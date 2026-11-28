@@ -16,7 +16,6 @@ mongodb.workspace = true
 rokbattles-api = { path = "../rokbattles-api" }
 rokbattles-bson = { path = "../../common/rokbattles-bson" }
 serde = { workspace = true, features = ["derive"] }
-sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 thiserror.workspace = true
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "signal", "sync"] }
 tokio-cron-scheduler.workspace = true

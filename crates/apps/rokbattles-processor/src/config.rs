@@ -6,7 +6,6 @@ use std::{env, num::NonZeroUsize, time::Duration};
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
     pub mongo_uri: String,
-    pub sentry_dsn: Option<String>,
     pub batch_size: i64,
     pub concurrency: usize,
     pub cpu_concurrency: NonZeroUsize,
@@ -33,7 +32,6 @@ impl Config {
         F: Fn(&str) -> Option<String>,
     {
         let mongo_uri = required(&lookup, "MONGODB_URI")?;
-        let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let batch_size = parse_i64("PROCESSOR_BATCH_SIZE", lookup("PROCESSOR_BATCH_SIZE"), 500)?;
         let concurrency = parse_usize("PROCESSOR_CONCURRENCY", lookup("PROCESSOR_CONCURRENCY"), 8)?;
         let cpu_concurrency = parse_cpu_concurrency(lookup("PROCESSOR_CPU_CONCURRENCY"))?;
@@ -42,7 +40,7 @@ impl Config {
             lookup("PROCESSOR_IDLE_SLEEP_SECS"),
             15,
         )?;
-        Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, cpu_concurrency, idle_sleep })
+        Ok(Self { mongo_uri, batch_size, concurrency, cpu_concurrency, idle_sleep })
     }
 }
 
@@ -130,24 +128,12 @@ mod tests {
             cfg,
             Config {
                 mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
-                sentry_dsn: None,
                 batch_size: 500,
                 concurrency: 8,
                 cpu_concurrency: NonZeroUsize::new(default_cpu_concurrency()).unwrap(),
                 idle_sleep: Duration::from_secs(15),
             }
         );
-    }
-
-    #[test]
-    fn loads_optional_sentry_dsn() {
-        let cfg = Config::from_lookup(lookup(FxHashMap::from_iter([
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("SENTRY_DSN", "https://example@sentry.io/123"),
-        ])))
-        .expect("config");
-
-        assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
     }
 
     #[test]

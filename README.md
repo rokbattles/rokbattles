@@ -33,7 +33,3 @@ Versions previously released under the MIT License or Apache License, Version 2.
 ### Your contributions
 
 Unless explicitly agreed otherwise in writing, any contribution intentionally submitted for inclusion in this repository is licensed under the GNU Affero General Public License, version 3 only, without any additional terms or conditions.
-
----
-
-[![Sentry](./.github/assets/sentry-wordmark-dark-400x119.svg)](https://sentry.io/welcome/)
