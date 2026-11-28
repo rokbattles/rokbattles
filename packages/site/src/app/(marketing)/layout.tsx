@@ -6,6 +6,11 @@ import { MarketingFooter } from "@/components/(marketing)/footer";
 import { MarketingHeader } from "@/components/(marketing)/header";
 import { frame } from "@/components/(marketing)/ui/layout";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",

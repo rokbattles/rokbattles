@@ -5,6 +5,11 @@ import { getOverlayCommanders } from "@/lib/(app)/overlay-commanders";
 import { overlaySampleBattles } from "@/lib/(app)/overlay-samples";
 import type { OverlayPreferences } from "@/lib/(app)/types/overlay";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export default async function Page({
   params,
 }: {

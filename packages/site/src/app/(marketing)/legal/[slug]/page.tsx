@@ -9,6 +9,11 @@ import PrivacyPolicy from "@/content/legal/privacy-policy.md";
 import TermsOfService from "@/content/legal/terms-of-service.md";
 import { legalDocuments } from "@/content/metadata";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 const documents = {
   "cookie-policy": CookiePolicy,
   "privacy-policy": PrivacyPolicy,

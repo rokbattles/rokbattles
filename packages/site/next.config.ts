@@ -69,20 +69,24 @@ const contentSecurityPolicy = [
 
 const config: NextConfig = {
   agentRules: true,
-  poweredByHeader: false,
+  cacheComponents: true,
   compiler: {
     reactRemoveProperties: true,
     removeConsole: isProdEnv,
   },
   compress: true,
   experimental: {
+    turbopackRustReactCompiler: true,
     typedEnv: true,
   },
   images: {
     unoptimized: true,
   },
   output: "standalone",
+  partialPrefetching: true,
+  poweredByHeader: false,
   productionBrowserSourceMaps: false,
+  reactCompiler: true,
   reactStrictMode: !isProdEnv,
   async redirects() {
     return [
@@ -94,11 +98,6 @@ const config: NextConfig = {
       {
         source: "/docs/installation",
         destination: "/docs/installation/windows",
-        permanent: false,
-      },
-      {
-        source: "/combat-lab/new",
-        destination: "/combat-lab",
         permanent: false,
       },
       {

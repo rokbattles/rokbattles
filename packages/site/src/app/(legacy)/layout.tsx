@@ -10,6 +10,11 @@ import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { DiscordEmbed } from "@/components/discord-embed";
 import { CookieConsentProvider } from "@/providers/cookie-consent-context";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",

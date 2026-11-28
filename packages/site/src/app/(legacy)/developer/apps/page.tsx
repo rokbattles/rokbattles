@@ -5,6 +5,11 @@ import { Link } from "@/components/ui/link";
 import { Text } from "@/components/ui/text";
 import { getDeveloperApps } from "@/lib/(app)/get-developer-apps";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export const metadata: Metadata = { title: "Developer Apps" };
 
 export default async function Page() {

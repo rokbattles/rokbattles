@@ -2,6 +2,11 @@ import { LoggedInDevices } from "@/components/(app)/account/settings/logged-in-d
 import { SettingsPage } from "@/components/(app)/account/settings/settings-page";
 import { SettingsSection } from "@/components/(app)/account/settings/settings-section";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+export const instant = false;
+
 export default function Page() {
   return (
     <SettingsPage>
